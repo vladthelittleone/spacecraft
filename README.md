@@ -1,8 +1,14 @@
 # SpaceCraft
 
+<img src="http://vignette2.wikia.nocookie.net/war-among-the-stars/images/6/69/Spacecraft_2_by_ixt_drawing_evolved-d5q1swj.jpg/revision/latest?cb=20130626055821" width="600" height="400"></img>
+
 <h4>Этап - 0</h4>
 
-1. Выбрать платформу на которой будем писать gui? Будет ли это web или desktop на первом этапе? (Рассмотреть libgdx)
+1. Выбрать платформу на которой будем писать gui? Будет ли это web или desktop на первом этапе? (Рассмотреть libgdx) 
+<br> <strong>Почему LibGDX?</strong> 
+<br> a. Нужно выполнять код пользователя для различных языков. 
+<br> b. Нужна высокая производительность (все объекты веба будут грузится в браузер). 
+<br> c. libGDX олсо поддерживает WebGL, что так же является профитом
 2. Встроенный редактор или используем внешний источник, например github.
 3. Проанализировать обучающие ресуры - lingualeo, codecademy, javarush, codecombat.
 4. Первый язык программирования?

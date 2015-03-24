@@ -2,7 +2,7 @@
 
 ![alt text](http://vignette2.wikia.nocookie.net/war-among-the-stars/images/6/69/Spacecraft_2_by_ixt_drawing_evolved-d5q1swj.jpg/revision/latest?cb=20130626055821 "Logo Title Text 1")
 
-<h4>Этап - 0</h4>
+# Этап - 0
 
 1. Выбрать платформу на которой будем писать gui? Будет ли это web или desktop на первом этапе? 
 
@@ -66,7 +66,10 @@
  > * На форумах (FTL) посоны делают спрайты в [PaintNet](http://www.getpaint.net/index.html)
 
 9. Какого типа игра? Как Eve-Online или как World of tanks?
-<h4>Заметки<h4/>
+
+
+# Заметки
+
 
 1. Пользователь может покупать/продовать библиотеки для кораблей.
 2. Покупка/продажа кораблей, внутренняя валюта, экономика аля eve online.

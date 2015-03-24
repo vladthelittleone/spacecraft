@@ -62,7 +62,7 @@
  > * [Part2Art](http://sourceforge.net/projects/part2art/) - 2D редактор спрайтов
  > * [Пак спрайтов](http://millionthvector.blogspot.ru/p/free-sprites.html)
  > * [Редактор спрайтов](http://www.piskelapp.com/)
- > * На форумах посоны делают спрайты в [PaintNet](http://www.getpaint.net/index.html)
+ > * На форумах (FTL) посоны делают спрайты в [PaintNet](http://www.getpaint.net/index.html)
 
 <h4>Заметки<h4/>
 

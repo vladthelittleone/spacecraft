@@ -5,4 +5,4 @@
 ## Информация
 
 * Сейчас проект на стадии [step-zero](https://github.com/vladthelittleone/spacecraft/milestones/step-zero)
-* [Заметки](https://github.com/vladthelittleone/spacecraft/issues/1)
+* [Futures](https://github.com/vladthelittleone/spacecraft/issues/1)

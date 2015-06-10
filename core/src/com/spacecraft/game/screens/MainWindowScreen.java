@@ -3,11 +3,13 @@ package com.spacecraft.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
@@ -18,13 +20,21 @@ public class MainWindowScreen extends ScreenAdapter
 {
     private static final String SKIN_PATH = "skins/uiskin.json";
 
-    private Stage stage;
-    private Table table;
+    private final Stage stage;
+    private final Table table;
+
+    private final TextArea codeArea;
+
+    private final Skin skin;
 
     public MainWindowScreen()
     {
+        skin = new Skin(Gdx.files.internal(SKIN_PATH));
+
         stage = new Stage(new ScreenViewport());
         table = new Table();
+
+        codeArea = new TextArea("", skin);
 
         // Заполняем весь рут таблицей
         table.setFillParent(true);
@@ -40,18 +50,51 @@ public class MainWindowScreen extends ScreenAdapter
 
     private void createTableContent()
     {
-        Skin skin = new Skin(Gdx.files.internal(SKIN_PATH));
+        table.add().expandX();
+        table.add().expandX();
+        table.add(getButtonGroup()).expandX().fill();
 
-        Label nameLabel = new Label("Name:", skin);
-        TextField nameText = new TextField("", skin);
-        Label addressLabel = new Label("Address:", skin);
-        TextField addressText = new TextField("", skin);
-
-        table.add(nameLabel);
-        table.add(nameText).width(100);
         table.row();
-        table.add(addressLabel);
-        table.add(addressText).width(100);
+
+        table.add().expand();
+        table.add().expand();
+        table.add(codeArea).expand().fill();
+    }
+
+    private Table getButtonGroup()
+    {
+        final Table buttonsTable = new Table();
+
+        final TextButton codeButton = new TextButton("{}", skin);
+        final TextButton runButton = new TextButton(">", skin);
+        final TextButton stopButton = new TextButton("||", skin);
+
+        codeButton.addListener(new ClickListener()
+        {
+            private boolean view = true;
+
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                view = !view;
+                codeArea.setVisible(view);
+            }
+        });
+
+        runButton.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                System.out.println(codeArea.getText());
+            }
+        });
+
+        buttonsTable.add(codeButton).expand().fill();
+        buttonsTable.add(runButton).expand().fill();
+        buttonsTable.add(stopButton).expand().fill();
+
+        return buttonsTable;
     }
 
     @Override

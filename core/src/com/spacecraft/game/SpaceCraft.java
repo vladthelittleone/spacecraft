@@ -2,6 +2,7 @@ package com.spacecraft.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.spacecraft.game.screens.MainWindowScreen;
 
 public class SpaceCraft extends Game
 {
@@ -12,6 +13,8 @@ public class SpaceCraft extends Game
     {
         // Создание всех игровых сервисов, объектов.
         fps = new FPSLogger();
+
+        setScreen(new MainWindowScreen());
     }
 
     @Override

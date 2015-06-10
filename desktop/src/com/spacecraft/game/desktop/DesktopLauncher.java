@@ -21,8 +21,10 @@ public class DesktopLauncher
         cfg.height = 768;
 
         cfg.vSyncEnabled = true;
-        cfg.useGL30 = true;
         cfg.resizable = false;
+
+//        Включаем GL30 и выше
+//        cfg.useGL30 = true;
 
         return cfg;
     }

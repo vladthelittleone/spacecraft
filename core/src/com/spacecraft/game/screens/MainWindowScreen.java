@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 public class MainWindowScreen extends ScreenAdapter
 {
+    private static final float FADE_DURATION = 0.5f;
     private static final String SKIN_PATH = "skins/uiskin.json";
 
     private final Stage stage;
@@ -77,7 +79,15 @@ public class MainWindowScreen extends ScreenAdapter
             public void clicked(InputEvent event, float x, float y)
             {
                 view = !view;
-                codeArea.setVisible(view);
+
+                if (view)
+                {
+                    codeArea.addAction(Actions.fadeIn(FADE_DURATION));
+                }
+                else
+                {
+                    codeArea.addAction(Actions.fadeOut(FADE_DURATION));
+                }
             }
         });
 

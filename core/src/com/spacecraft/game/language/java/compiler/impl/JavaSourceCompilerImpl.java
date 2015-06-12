@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler.impl;
+package com.spacecraft.game.language.java.compiler.impl;
 
 import com.google.common.io.Files;
-import com.spacecraft.game.compiler.JavaSourceCompiler;
-import com.spacecraft.game.compiler.registry.JavaFileObjectRegistry;
-import com.spacecraft.game.compiler.registry.impl.JavaFileObjectRegistryImpl;
-import com.spacecraft.game.compiler.util.ClassPathUtil;
-import com.spacecraft.game.compiler.util.URIUtil;
+import com.spacecraft.game.language.java.compiler.JavaSourceCompiler;
+import com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry;
+import com.spacecraft.game.language.java.compiler.registry.impl.JavaFileObjectRegistryImpl;
+import com.spacecraft.game.language.java.compiler.util.ClassPathUtil;
+import com.spacecraft.game.language.java.compiler.util.URIUtil;
 
 import javax.tools.*;
 import java.io.File;
@@ -60,7 +60,6 @@ import java.util.logging.Logger;
  *
  * @author Adrian Witas
  */
-
 public class JavaSourceCompilerImpl implements JavaSourceCompiler
 {
     private final Logger logger = Logger.getLogger(JavaSourceCompilerImpl.class
@@ -75,7 +74,7 @@ public class JavaSourceCompilerImpl implements JavaSourceCompiler
     public ClassLoader compile(CompilationUnit compilationUnit,
                                String... options)
     {
-        return compile(this.getClass().getClassLoader(), compilationUnit,
+        return compile(getClass().getClassLoader(), compilationUnit,
                 options);
     }
 
@@ -105,6 +104,15 @@ public class JavaSourceCompilerImpl implements JavaSourceCompiler
             }
         }
         return resultingClassLoader;
+    }
+
+    @Override
+    public ClassLoader compile(CompilationUnit compilationUnit,
+                               DiagnosticCollector<JavaFileObject> diagnosticsCollector,
+                               String... options)
+    {
+        return compile(getClass().getClassLoader(), compilationUnit,
+                diagnosticsCollector, options);
     }
 
     @Override
@@ -336,5 +344,4 @@ public class JavaSourceCompilerImpl implements JavaSourceCompiler
             return outputClassDirectory;
         }
     }
-
 }

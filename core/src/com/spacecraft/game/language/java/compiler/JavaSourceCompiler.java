@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler;
+package com.spacecraft.game.language.java.compiler;
 
-import com.spacecraft.game.compiler.registry.JavaFileObjectRegistry;
+import com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry;
 
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
@@ -90,7 +90,6 @@ import java.util.List;
  *
  * @author Adrian Witas
  */
-
 public interface JavaSourceCompiler
 {
     /**
@@ -135,7 +134,22 @@ public interface JavaSourceCompiler
     /**
      * Compiles given compilation unit with the supplier compiler options and
      * returns class loader for the compiled sources. Allows the manual handling
-     * of compilation errors/warnings using a {@link javax.tools.DiagnosticCollector}.
+     * of compilation errors/warnings using a {@link DiagnosticCollector}.
+     *
+     * @param compilationUnit      compilation unit
+     * @param compilerOptions      compiler options
+     * @param diagnosticsCollector The diagnostics collector which collects the results for this
+     *                             compilation.
+     * @return class loader for the compiled classes
+     */
+    ClassLoader compile(CompilationUnit compilationUnit,
+                        DiagnosticCollector<JavaFileObject> diagnosticsCollector,
+                        String... compilerOptions);
+
+    /**
+     * Compiles given compilation unit with the supplier compiler options and
+     * returns class loader for the compiled sources. Allows the manual handling
+     * of compilation errors/warnings using a {@link DiagnosticCollector}.
      *
      * @param parentClassLoader    parent class loader for the new class loader created for this
      *                             compilation
@@ -171,7 +185,7 @@ public interface JavaSourceCompiler
          * <p>
          * <b>Note</b> that if at least one entry is added, the current jvm
          * class path entries are not included. You can retrieve current jvm
-         * class path entries from {@link com.spacecraft.game.compiler.util.ClassPathUtil#getClassPathEntries()}
+         * class path entries from {@link com.spacecraft.game.language.java.compiler.util.ClassPathUtil#getClassPathEntries()}
          * <p/>
          * </p>
          *
@@ -190,5 +204,4 @@ public interface JavaSourceCompiler
         File getOutputClassDirectory();
 
     }
-
 }

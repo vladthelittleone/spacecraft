@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler.impl;
+package com.spacecraft.game.language.java.compiler.impl;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
-import com.spacecraft.game.compiler.registry.JavaFileObjectRegistry;
-import com.spacecraft.game.compiler.util.URIUtil;
+import com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry;
+import com.spacecraft.game.language.java.compiler.util.URIUtil;
 
 import javax.tools.JavaFileObject;
 import javax.tools.StandardLocation;
@@ -40,7 +40,7 @@ import java.util.jar.JarFile;
  * This implementation uses the following mechanism to lookup requested class.
  * <ul>
  * <li>java object registry:
- * {@link com.spacecraft.game.compiler.registry.JavaFileObjectRegistry}
+ * {@link com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry}
  * </li>
  * <li>jar files class path entries</li>
  * <li>directory class path entries</li>
@@ -48,13 +48,12 @@ import java.util.jar.JarFile;
  * Note that to be able find use {@link SimpleClassLoader#findResource(String)}
  * or {@link SimpleClassLoader#findResources(String)} for registry resources
  * (classes compiled in memory), please use
- * {@link JavaSourceCompilerImpl#persistCompiledClasses(com.spacecraft.game.compiler.JavaSourceCompiler.CompilationUnit)}
+ * {@link JavaSourceCompilerImpl#persistCompiledClasses(com.spacecraft.game.language.java.compiler.JavaSourceCompiler.CompilationUnit)}
  * to persist compiled classes.
  * </p>
  *
  * @author Adrian Witas
  */
-
 public class SimpleClassLoader extends ClassLoader
 {
     private final List<JarFile> jarFiles = new ArrayList<>();
@@ -179,7 +178,6 @@ public class SimpleClassLoader extends ClassLoader
     }
 
     protected Class<?> findClassInJarFile(String qualifiedClassName)
-            throws ClassNotFoundException
     {
         URI classUri = URIUtil.buildUri(StandardLocation.CLASS_OUTPUT,
                 qualifiedClassName);
@@ -211,7 +209,7 @@ public class SimpleClassLoader extends ClassLoader
     protected Enumeration<URL> findResources(String resource)
             throws IOException
     {
-        List<URL> result = new ArrayList<URL>(Collections.list(super
+        List<URL> result = new ArrayList<>(Collections.list(super
                 .findResources(resource)));
         findResourcesInJarFiles(result, resource);
         findResourcesInJavaFileObjectRegistry(result, resource);
@@ -247,5 +245,4 @@ public class SimpleClassLoader extends ClassLoader
             }
         }
     }
-
 }

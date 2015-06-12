@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler.impl;
+package com.spacecraft.game.language.java.compiler.impl;
 
 import javax.tools.SimpleJavaFileObject;
 import java.net.URI;

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler.registry.impl;
+package com.spacecraft.game.language.java.compiler.registry.impl;
 
-import com.spacecraft.game.compiler.registry.JavaFileObjectRegistry;
+import com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry;
 
 import javax.tools.JavaFileObject;
 import java.net.URI;

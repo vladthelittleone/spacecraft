@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler.impl;
+package com.spacecraft.game.language.java.compiler.impl;
 
-import com.spacecraft.game.compiler.registry.JavaFileObjectRegistry;
-import com.spacecraft.game.compiler.util.URIUtil;
+import com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry;
+import com.spacecraft.game.language.java.compiler.util.URIUtil;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * This implementation uses {@link com.spacecraft.game.compiler.registry.JavaFileObjectRegistry}
+ * This implementation uses {@link com.spacecraft.game.language.java.compiler.registry.JavaFileObjectRegistry}
  * to both retrieve and persist java files.
  *
  * @author Adrian Witas

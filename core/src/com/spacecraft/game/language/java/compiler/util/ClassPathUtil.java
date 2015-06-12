@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.spacecraft.game.compiler.util;
+package com.spacecraft.game.language.java.compiler.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,19 +24,16 @@ import java.util.Collections;
  *
  * @author Adrian Witas
  */
-public class ClassPathUtil
-{
+public class ClassPathUtil {
 
     private static final String OS = System.getProperty("os.name")
             .toLowerCase();
 
-    public static boolean isWindows()
-    {
+    public static boolean isWindows() {
         return OS.contains("win");
     }
 
-    public static String getClassPathSeparator()
-    {
+    public static String getClassPathSeparator() {
         return isWindows() ? ";" : ":";
     }
 
@@ -46,10 +43,9 @@ public class ClassPathUtil
      *
      * @return class path entries.
      */
-    public static Collection<String> getClassPathEntries()
-    {
+    public static Collection<String> getClassPathEntries() {
         String classPath = System.getProperty("java.class.path", "");
-        Collection<String> result = new ArrayList<String>();
+        Collection<String> result = new ArrayList<>();
         Collections.addAll(result, classPath.split(getClassPathSeparator()));
         return result;
     }

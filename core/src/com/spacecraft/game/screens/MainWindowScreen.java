@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.spacecraft.game.compiler.JavaSourceCompiler;
+import com.spacecraft.game.compiler.impl.JavaSourceCompilerImpl;
+
+import java.lang.reflect.Method;
 
 /**
  * @author Skurishin Vladislav
@@ -96,7 +100,41 @@ public class MainWindowScreen extends ScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                System.out.println(codeArea.getText());
+//                 Пример программы:
+//
+//                 package com.test.foo;
+//
+//                 public class Foo {
+//
+//                      public Foo() {
+//                          System.out.println("Hello World constructed!");
+//                      }
+//
+//                      public void message(String str) {
+//                          System.out.println(str);
+//                      }
+//                 }
+
+                JavaSourceCompiler javaSourceCompiler = new JavaSourceCompilerImpl();
+                JavaSourceCompiler.CompilationUnit compilationUnit = javaSourceCompiler
+                        .createCompilationUnit();
+
+                compilationUnit.addJavaSource("com.test.foo.Foo", codeArea.getText());
+                ClassLoader classLoader = javaSourceCompiler.compile(compilationUnit);
+
+                try
+                {
+                    Class<?> clazz = classLoader.loadClass("com.test.foo.Foo");
+                    Object foo = clazz.newInstance();
+                    Method main = clazz.getMethod("message", String.class);
+                    String args = "Hello world!";
+                    main.invoke(foo, args);
+                    javaSourceCompiler.persistCompiledClasses(compilationUnit);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         });
 

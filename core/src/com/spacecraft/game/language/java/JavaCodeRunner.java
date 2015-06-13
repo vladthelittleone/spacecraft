@@ -1,6 +1,7 @@
 package com.spacecraft.game.language.java;
 
 import com.spacecraft.game.language.CodeRunner;
+import com.spacecraft.game.language.RunResult;
 import com.spacecraft.game.language.java.compiler.JavaSourceCompiler;
 import com.spacecraft.game.language.java.compiler.impl.JavaSourceCompilerImpl;
 
@@ -8,6 +9,7 @@ import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Класс запуска java-кода. Является синглтоном.
@@ -48,7 +50,7 @@ public class JavaCodeRunner implements CodeRunner
     }
 
     @Override
-    public void run(String code)
+    public List<RunResult> run(String code)
     {
         DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<>();
         JavaSourceCompiler.CompilationUnit compilationUnit = JAVA_SOURCE_COMPILER
@@ -66,6 +68,8 @@ public class JavaCodeRunner implements CodeRunner
             System.out.println(diagnostic.getColumnNumber());
             System.out.println(diagnostic.getPosition());
             System.out.println(diagnostic.getSource());
+            System.out.println(diagnostic.getStartPosition());
+            System.out.println(diagnostic.getEndPosition());
         }
 
         try
@@ -83,6 +87,8 @@ public class JavaCodeRunner implements CodeRunner
         {
             e.printStackTrace();
         }
+
+        return null;
     }
 
     public static String template()

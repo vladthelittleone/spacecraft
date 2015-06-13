@@ -1,5 +1,7 @@
 package com.spacecraft.game.language;
 
+import java.util.List;
+
 /**
  * Интерфейс запуска кода для языка заданной реализации.
  *
@@ -11,5 +13,5 @@ public interface CodeRunner
     /**
      * Запуск кода.
      */
-    void run(String code);
+    List<RunResult> run(String code);
 }

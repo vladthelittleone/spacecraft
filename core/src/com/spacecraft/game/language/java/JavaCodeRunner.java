@@ -1,5 +1,6 @@
 package com.spacecraft.game.language.java;
 
+import com.google.common.collect.Lists;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.RunResult;
 import com.spacecraft.game.language.java.compiler.JavaSourceCompiler;
@@ -8,6 +9,7 @@ import com.spacecraft.game.language.java.compiler.impl.JavaSourceCompilerImpl;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -52,7 +54,9 @@ public class JavaCodeRunner implements CodeRunner
     @Override
     public List<RunResult> run(String code)
     {
+        List<RunResult> javaRunResults = Lists.newArrayList();
         DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<>();
+
         JavaSourceCompiler.CompilationUnit compilationUnit = JAVA_SOURCE_COMPILER
                 .createCompilationUnit();
         compilationUnit.addJavaSource(CLASS_NAME, code);
@@ -61,15 +65,7 @@ public class JavaCodeRunner implements CodeRunner
 
         for (Diagnostic<?> diagnostic : diagnosticsCollector.getDiagnostics())
         {
-            System.out.println(diagnostic.getKind());
-            System.out.println(diagnostic.getCode());
-            System.out.println(diagnostic.getLineNumber());
-            System.out.println(diagnostic.getMessage(null));
-            System.out.println(diagnostic.getColumnNumber());
-            System.out.println(diagnostic.getPosition());
-            System.out.println(diagnostic.getSource());
-            System.out.println(diagnostic.getStartPosition());
-            System.out.println(diagnostic.getEndPosition());
+            System.err.println(diagnostic.toString());
         }
 
         try
@@ -83,12 +79,37 @@ public class JavaCodeRunner implements CodeRunner
 //            Сохранение класса в файловой системе, а не в памяти.
 //            JAVA_SOURCE_COMPILER.persistCompiledClasses(compilationUnit);
         }
-        catch (Exception e)
+        catch (NoSuchMethodException e)
         {
-            e.printStackTrace();
+            javaRunResults.add(JavaRunResultBuilder.canNotFindMethodError("run()"));
+        }
+        catch (IllegalAccessException | InvocationTargetException e)
+        {
+            javaRunResults.add(JavaRunResultBuilder.haveNotAccessToInvokeError());
+        }
+        catch (ClassNotFoundException | InstantiationException e)
+        {
+            javaRunResults.add(JavaRunResultBuilder.canNotFindClassError(CLASS_NAME));
         }
 
-        return null;
+        if (javaRunResults.isEmpty())
+        {
+            javaRunResults.addAll(list(diagnosticsCollector.getDiagnostics()));
+        }
+
+        return javaRunResults;
+    }
+
+    private static List<RunResult> list(List<Diagnostic<? extends JavaFileObject>> diagnostics)
+    {
+        List<RunResult> results = Lists.newArrayList();
+
+        for (Diagnostic<?> d : diagnostics)
+        {
+            results.add(new JavaRunResult(d));
+        }
+
+        return results;
     }
 
     public static String template()

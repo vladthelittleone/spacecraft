@@ -98,7 +98,6 @@ public class MainWindowScreen extends ScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-//                 Пример программы:
                 CodeRunner javaCodeRunner = JavaCodeRunner.instance();
                 javaCodeRunner.run(codeArea.getText());
             }

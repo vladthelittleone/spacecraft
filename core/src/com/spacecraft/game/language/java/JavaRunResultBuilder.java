@@ -2,6 +2,7 @@ package com.spacecraft.game.language.java;
 
 import javax.tools.Diagnostic;
 
+import static com.spacecraft.game.language.RunResult.EMPTY_CODE;
 import static com.spacecraft.game.language.RunResult.NO_POS;
 import static java.lang.String.format;
 
@@ -16,9 +17,14 @@ public class JavaRunResultBuilder
         return new JavaRunResult(diagnostic);
     }
 
+    public static JavaRunResult build(Diagnostic.Kind kind, String message, String code)
+    {
+        return new JavaRunResult(kind, message, code, true, NO_POS, NO_POS, NO_POS, NO_POS, NO_POS);
+    }
+
     public static JavaRunResult build(Diagnostic.Kind kind, String message)
     {
-        return new JavaRunResult(kind, message, true, NO_POS, NO_POS, NO_POS, NO_POS, NO_POS);
+        return new JavaRunResult(kind, message, EMPTY_CODE, true, NO_POS, NO_POS, NO_POS, NO_POS, NO_POS);
     }
 
     public static JavaRunResult errorRunResult(String message)

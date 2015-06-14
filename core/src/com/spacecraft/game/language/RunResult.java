@@ -10,9 +10,13 @@ public interface RunResult
 {
     public final static long NO_POS = -1;
 
+    public static final String EMPTY_CODE = "";
+
     Diagnostic.Kind getKind();
 
     String getMessage();
+
+    String getCode();
 
     boolean isOnRunError();
 

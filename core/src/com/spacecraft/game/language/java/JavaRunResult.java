@@ -13,6 +13,7 @@ public class JavaRunResult implements RunResult
 {
     private final Kind kind;
     private final String message;
+    private final String code;
     private final boolean onRunError;
     private final long position;
     private final long columnNumber;
@@ -22,7 +23,7 @@ public class JavaRunResult implements RunResult
 
     protected JavaRunResult(Kind kind,
                             String message,
-                            boolean onRunError,
+                            String code, boolean onRunError,
                             long position,
                             long columnNumber,
                             long lineNumber,
@@ -31,6 +32,7 @@ public class JavaRunResult implements RunResult
     {
         this.kind = kind;
         this.message = message;
+        this.code = code;
         this.onRunError = onRunError;
         this.position = position;
         this.columnNumber = columnNumber;
@@ -42,12 +44,13 @@ public class JavaRunResult implements RunResult
     protected JavaRunResult(Diagnostic<?> diagnostic)
     {
         this.kind = diagnostic.getKind();
+        this.message = diagnostic.getMessage(null);
+        this.code = diagnostic.getCode();
         this.position = diagnostic.getPosition();
         this.columnNumber = diagnostic.getColumnNumber();
         this.lineNumber = diagnostic.getLineNumber();
         this.startPosition = diagnostic.getStartPosition();
         this.endPosition = diagnostic.getEndPosition();
-        this.message = diagnostic.getMessage(null);
         this.onRunError = false;
     }
 
@@ -55,6 +58,12 @@ public class JavaRunResult implements RunResult
     public Kind getKind()
     {
         return kind;
+    }
+
+    @Override
+    public String getCode()
+    {
+        return code;
     }
 
     @Override

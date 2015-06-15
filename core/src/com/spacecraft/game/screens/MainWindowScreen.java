@@ -41,7 +41,7 @@ public class MainWindowScreen extends ScreenAdapter
     {
         batch = new SpriteBatch();
 
-        spaceCraft = new SpaceCraft("images/spaceCraft.png",50);
+        spaceCraft = new SpaceCraft();
 
         skin = new Skin(Gdx.files.internal(SKIN_PATH));
 

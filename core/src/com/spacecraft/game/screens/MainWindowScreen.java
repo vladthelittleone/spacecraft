@@ -3,6 +3,7 @@ package com.spacecraft.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
+import com.spacecraft.game.unit.SpaceCraft;
 
 /**
  * @author Skurishin Vladislav
@@ -27,12 +29,20 @@ public class MainWindowScreen extends ScreenAdapter
     private final Stage stage;
     private final Table table;
 
+    private final SpriteBatch batch;
+
     private final TextArea codeArea;
 
     private final Skin skin;
 
+    private SpaceCraft spaceCraft;
+
     public MainWindowScreen()
     {
+        batch = new SpriteBatch();
+
+        spaceCraft = new SpaceCraft("images/spaceCraft.png",50);
+
         skin = new Skin(Gdx.files.internal(SKIN_PATH));
 
         stage = new Stage(new ScreenViewport());
@@ -124,6 +134,9 @@ public class MainWindowScreen extends ScreenAdapter
          */
         stage.act(delta);
         stage.draw();
+
+        spaceCraft.update(delta);
+        spaceCraft.draw(batch);
     }
 
     /**

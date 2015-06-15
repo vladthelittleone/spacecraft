@@ -10,6 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 public interface Unit
 {
      void moveTo(float x, float y);
+
      void moveTo(Vector2 vector);
+
      void draw(SpriteBatch batch);
+
+     void update(float delta);
 }

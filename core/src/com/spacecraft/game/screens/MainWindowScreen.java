@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.spacecraft.game.language.CodeRunner;
+import com.spacecraft.game.language.java.JavaCodeRunner;
 
 /**
  * @author Skurishin Vladislav
@@ -36,7 +38,7 @@ public class MainWindowScreen extends ScreenAdapter
         stage = new Stage(new ScreenViewport());
         table = new Table();
 
-        codeArea = new TextArea("", skin);
+        codeArea = new TextArea(JavaCodeRunner.template(), skin);
 
         // Заполняем весь рут таблицей
         table.setFillParent(true);
@@ -96,7 +98,8 @@ public class MainWindowScreen extends ScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                System.out.println(codeArea.getText());
+                CodeRunner javaCodeRunner = JavaCodeRunner.instance();
+                javaCodeRunner.run(codeArea.getText());
             }
         });
 

@@ -7,6 +7,10 @@ import static com.spacecraft.game.language.RunResult.NO_POS;
 import static java.lang.String.format;
 
 /**
+ * Билдер для {@link com.spacecraft.game.language.java.JavaRunResult}. Создан для удобства получения
+ * нужных результатов.
+ *
+ * @see com.spacecraft.game.language.java.JavaCodeRunner
  * @author Skurishin Vladislav
  * @since 15.06.15
  */
@@ -37,6 +41,7 @@ public class JavaRunResultBuilder
         return errorRunResult(format("Can't find %s method", method));
     }
 
+    // TODO https://github.com/libgdx/libgdx/wiki/Internationalization-and-Localization
     public static JavaRunResult haveNotAccessToInvokeError()
     {
         return errorRunResult("You haven't access to invoke some methods");

@@ -11,7 +11,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SpaceCraft implements Unit
 {
-    private final Texture texture = new Texture(Gdx.files.internal("images/spaceCraft.png"));
+    private String SpaceCraftTexturePath = "";
+    private final Texture texture = new Texture(Gdx.files.internal(SpaceCraftTexturePath));
     private final TextureRegion region = new TextureRegion(texture, 10, 15);
 
     // Текущие координаты корабля и новые координаты корабля
@@ -27,14 +28,14 @@ public class SpaceCraft implements Unit
     public void moveTo(float x, float y)
     {
         newPosition.add(x, y);
-        deltaPosition.add( x - position.x, y  - position.y);
+        deltaPosition.set(newPosition).sub(position).nor();
     }
 
     @Override
     public void moveTo(Vector2 vector)
     {
         newPosition.add(vector);
-        deltaPosition.add( vector.x - position.x, vector.y - position.y);
+        deltaPosition.set(vector).sub(position).nor();
     }
 
     @Override
@@ -43,17 +44,30 @@ public class SpaceCraft implements Unit
         batch.draw(region, position.x, position.y);
     }
 
-
-
     @Override
     public void update(float delta)
     {
         float deltaVelocity = velocity * delta;
 
-        if ((position.x != newPosition.x) && (position.y != newPosition.y))
+        if (!(position.equals(newPosition)))
         {
             changePosition(deltaVelocity);
         }
+    }
+
+    private void changePosition(float deltaVelocity)
+    {
+        position.mulAdd(deltaPosition, deltaVelocity);
+    }
+
+    public String getSpaceCraftTexturePath()
+    {
+        return SpaceCraftTexturePath;
+    }
+
+    public void setSpaceCraftTexturePath(String spaceCraftTexturePath)
+    {
+        SpaceCraftTexturePath = spaceCraftTexturePath;
     }
 
     public float getVelocity()
@@ -64,13 +78,5 @@ public class SpaceCraft implements Unit
     public void setVelocity(float velocity)
     {
         this.velocity = velocity;
-    }
-
-    private void changePosition(float deltaVelocity)
-    {
-        float x = position.x + deltaPosition.x * deltaVelocity;
-        float y = position.y + deltaPosition.y * deltaVelocity;
-
-        position.add(x, y);
     }
 }

@@ -10,27 +10,27 @@ import com.badlogic.gdx.math.Vector2;
 public interface Unit
 {
      /**
-      * Set new coordinate
-      * @param x
-      * @param y
+      * —оздание новой координаты дл€ движени€
+      * @param x координата  по оси х
+      * @param y координата по оси у
       */
      void moveTo(float x, float y);
 
      /**
-      * Set new coordinate
-      * @param vector
+      * —оздание новой координаты дл€ движени€
+      * @param vector вектор координат
       */
      void moveTo(Vector2 vector);
 
      /**
-      *   Drawing of the ship in the current coordinates
-      * @param batch
+      * ќтрисовка коробл€ в текущих координатах
+      * @param batch объект отвечающий за отрисовку всего на сцене
       */
      void draw(SpriteBatch batch);
 
      /**
-      * Update curret coordinate of  time
-      * @param delta
+      * ќбновление координат в зависимости от времени обновлени€ последнего кадра
+      * @param delta врем€ обновлени€ кадра
       */
      void update(float delta);
 }

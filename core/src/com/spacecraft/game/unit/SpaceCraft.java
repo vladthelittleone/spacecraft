@@ -58,8 +58,8 @@ public class SpaceCraft implements Unit
     }
 
     /**
-     * Change current position
-     * @param deltaVelocity
+     * Изменение текущих координат
+     * @param deltaVelocity длина пройденного пути с момента обновления последнего кадра
      */
     private void changePosition(float deltaVelocity)
     {

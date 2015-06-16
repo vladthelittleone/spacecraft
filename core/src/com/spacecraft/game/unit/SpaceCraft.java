@@ -1,6 +1,7 @@
 package com.spacecraft.game.unit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,8 +12,9 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SpaceCraft implements Unit
 {
-    private String SpaceCraftTexturePath = "";
-    private final Texture texture = new Texture(Gdx.files.internal(SpaceCraftTexturePath));
+    private final FileHandle SPACE_CRAFT_INTERNAL = Gdx.files.internal("images/spaceCraft.png");
+
+    private final Texture texture = new Texture(SPACE_CRAFT_INTERNAL);
     private final TextureRegion region = new TextureRegion(texture, 10, 15);
 
     // Текущие координаты корабля и новые координаты корабля
@@ -21,20 +23,20 @@ public class SpaceCraft implements Unit
     private final Vector2 deltaPosition = new Vector2();
 
     //Скорость корабля
-    private  float velocity = 0;
+    private float velocity = 100;
 
 
     @Override
     public void moveTo(float x, float y)
     {
-        newPosition.add(x, y);
+        newPosition.set(x, y);
         deltaPosition.set(newPosition).sub(position).nor();
     }
 
     @Override
     public void moveTo(Vector2 vector)
     {
-        newPosition.add(vector);
+        newPosition.set(vector);
         deltaPosition.set(vector).sub(position).nor();
     }
 
@@ -55,28 +57,22 @@ public class SpaceCraft implements Unit
         }
     }
 
+    /**
+     * Change current position
+     * @param deltaVelocity
+     */
     private void changePosition(float deltaVelocity)
     {
         position.mulAdd(deltaPosition, deltaVelocity);
     }
 
-    public String getSpaceCraftTexturePath()
+    public Vector2 getPosition()
     {
-        return SpaceCraftTexturePath;
-    }
-
-    public void setSpaceCraftTexturePath(String spaceCraftTexturePath)
-    {
-        SpaceCraftTexturePath = spaceCraftTexturePath;
+        return position;
     }
 
     public float getVelocity()
     {
         return velocity;
-    }
-
-    public void setVelocity(float velocity)
-    {
-        this.velocity = velocity;
     }
 }

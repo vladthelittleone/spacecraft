@@ -9,11 +9,28 @@ import com.badlogic.gdx.math.Vector2;
  */
 public interface Unit
 {
+     /**
+      * Set new coordinate
+      * @param x
+      * @param y
+      */
      void moveTo(float x, float y);
 
+     /**
+      * Set new coordinate
+      * @param vector
+      */
      void moveTo(Vector2 vector);
 
+     /**
+      *   Drawing of the ship in the current coordinates
+      * @param batch
+      */
      void draw(SpriteBatch batch);
 
+     /**
+      * Update curret coordinate of  time
+      * @param delta
+      */
      void update(float delta);
 }

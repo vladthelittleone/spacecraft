@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
 import com.spacecraft.game.unit.SpaceCraft;
+import com.spacecraft.game.unit.Unit;
 
 /**
  * @author Skurishin Vladislav
@@ -35,7 +36,7 @@ public class MainWindowScreen extends ScreenAdapter
 
     private final Skin skin;
 
-    private SpaceCraft spaceCraft;
+    private Unit spaceCraft;
 
     public MainWindowScreen()
     {

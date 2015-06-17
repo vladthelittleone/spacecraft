@@ -9,7 +9,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new SpaceCraftGame(), config);
+        return new IOSApplication(new SCGame(), config);
     }
 
     public static void main(String[] argv) {

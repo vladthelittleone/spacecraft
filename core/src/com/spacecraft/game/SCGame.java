@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.spacecraft.game.screens.MainWindowScreen;
 
-public class SpaceCraftGame extends Game
+public class SCGame extends Game
 {
     private FPSLogger fps;
 

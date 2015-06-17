@@ -3,7 +3,7 @@ package com.spacecraft.game.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.spacecraft.game.SpaceCraftGame;
+import com.spacecraft.game.SCGame;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -14,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener getApplicationListener () {
-                return new SpaceCraftGame();
+                return new SCGame();
         }
 }

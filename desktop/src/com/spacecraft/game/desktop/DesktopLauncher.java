@@ -2,13 +2,13 @@ package com.spacecraft.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.spacecraft.game.SpaceCraftGame;
+import com.spacecraft.game.SCGame;
 
 public class DesktopLauncher
 {
     public static void main(String[] arg)
     {
-        new LwjglApplication(new SpaceCraftGame(), getConfiguration());
+        new LwjglApplication(new SCGame(), getConfiguration());
     }
 
     private static LwjglApplicationConfiguration getConfiguration()

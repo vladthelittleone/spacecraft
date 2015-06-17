@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Created by vaimer on 14.06.2015.
+ * @author Makovchik Ivan
+ * @since 14.06.15
  */
 public class SpaceCraft implements Unit
 {
-    private final FileHandle SPACE_CRAFT_INTERNAL = Gdx.files.internal("images/spaceCraft.png");
+    private final FileHandle SPACE_CRAFT_INTERNAL = Gdx.files.internal("sprites/spaceCraft.png");
 
     private final Texture texture = new Texture(SPACE_CRAFT_INTERNAL);
     private final TextureRegion region = new TextureRegion(texture, 10, 15);

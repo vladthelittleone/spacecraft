@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.spacecraft.game.GameMenager;
+import com.spacecraft.game.GameManager;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
 import com.spacecraft.game.unit.SpaceCraft;
@@ -39,13 +39,13 @@ public class MainWindowScreen extends ScreenAdapter
 
     private Unit spaceCraft;
 
-    //?????Есть вопрос
-    public GameMenager menager;
+
+    public static GameManager manager;
 
     public MainWindowScreen()
     {
-        menager.initialize();
-        menager.assetMenager();
+        manager.initialize();
+        manager.assetMenager();
 
         batch = new SpriteBatch();
 

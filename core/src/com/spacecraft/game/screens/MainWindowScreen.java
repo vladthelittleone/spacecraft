@@ -40,12 +40,11 @@ public class MainWindowScreen extends ScreenAdapter
     private Unit spaceCraft;
 
 
-    public static GameManager manager;
+    public static GameManager manager = new GameManager();
 
     public MainWindowScreen()
     {
         manager.initialize();
-        manager.assetMenager();
 
         batch = new SpriteBatch();
 

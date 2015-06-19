@@ -9,38 +9,16 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public final class GameManager
 {
-    private final static AssetManager manager = new AssetManager();
+    private  static AssetManager manager;
 
-    private static volatile GameManager instance;
-
-    private GameManager()
+    public static void initialize()
     {
+        manager = new AssetManager();
     }
 
-    public static GameManager initialize()
+    public static AssetManager assetManager()
     {
-        GameManager localInstance = instance;
-
-        if (localInstance == null)
-        {
-            synchronized (GameManager.class)
-            {
-                localInstance = instance;
-
-                if (localInstance == null)
-                {
-                    instance = localInstance = new GameManager();
-                }
-            }
-        }
-
         manager.load("sprites/spaceCraft.png",Texture.class);
-
-        return localInstance;
-    }
-
-    public final static AssetManager assetMenager()
-    {
         return manager;
     }
 }

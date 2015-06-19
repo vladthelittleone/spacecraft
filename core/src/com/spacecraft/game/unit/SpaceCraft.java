@@ -1,11 +1,13 @@
 package com.spacecraft.game.unit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.spacecraft.game.GameManager;
 
 /**
  * @author Makovchik Ivan
@@ -13,7 +15,9 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SpaceCraft implements Unit
 {
-    private final FileHandle SPACE_CRAFT_INTERNAL = Gdx.files.internal("sprites/spaceCraft.png");
+    AssetManager manager = GameManager.assetManager();
+
+    private final FileHandle SPACE_CRAFT_INTERNAL = manager.get("sprites/spaceCraft.png");
 
     private final Texture texture = new Texture(SPACE_CRAFT_INTERNAL);
     private final TextureRegion region = new TextureRegion(texture, 10, 15);

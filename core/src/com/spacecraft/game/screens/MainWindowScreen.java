@@ -2,6 +2,7 @@ package com.spacecraft.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
 import com.spacecraft.game.unit.SpaceCraft;
 import com.spacecraft.game.unit.Unit;
+import static com.spacecraft.game.GameManager.*;
 
 /**
  * @author Skurishin Vladislav
@@ -25,8 +28,7 @@ import com.spacecraft.game.unit.Unit;
 public class MainWindowScreen extends ScreenAdapter
 {
     private static final float FADE_DURATION = 0.5f;
-    private static final String SKIN_PATH = "skins/uiskin.json";
-
+    private final FileHandle SKIN = assetManager().get(SKIN_PATH, FileHandle.class);
     private final Stage stage;
     private final Table table;
 
@@ -44,7 +46,7 @@ public class MainWindowScreen extends ScreenAdapter
 
         spaceCraft = new SpaceCraft();
 
-        skin = new Skin(Gdx.files.internal(SKIN_PATH));
+        skin = new Skin(SKIN);
 
         stage = new Stage(new ScreenViewport());
         table = new Table();

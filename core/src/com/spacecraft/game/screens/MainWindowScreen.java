@@ -27,10 +27,10 @@ public class MainWindowScreen extends ScreenAdapter
     private static final float FADE_DURATION = 0.5f;
     private static final String SKIN_PATH = "skins/uiskin.json";
 
+    private static final SpriteBatch batch = new SpriteBatch();
+
     private final Stage stage;
     private final Table table;
-
-    private final SpriteBatch batch;
 
     private final TextArea codeArea;
 
@@ -40,8 +40,6 @@ public class MainWindowScreen extends ScreenAdapter
 
     public MainWindowScreen()
     {
-        batch = new SpriteBatch();
-
         spaceCraft = new SpaceCraft();
 
         skin = new Skin(Gdx.files.internal(SKIN_PATH));
@@ -136,8 +134,29 @@ public class MainWindowScreen extends ScreenAdapter
         stage.act(delta);
         stage.draw();
 
+        draw();
+        update(delta);
+    }
+
+    /**
+     * Обновление всех объектво сцены
+     * @param delta время межу текущим и предыдущим кадром в секундах.
+     */
+    private void update(float delta)
+    {
         spaceCraft.update(delta);
+    }
+
+    /**
+     * Отрисовка всех обхектов сцены.
+     */
+    private void draw()
+    {
+        batch.begin();
+
         spaceCraft.draw(batch);
+
+        batch.end();
     }
 
     /**

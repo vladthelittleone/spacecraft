@@ -2,7 +2,6 @@ package com.spacecraft.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,7 +17,9 @@ import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
 import com.spacecraft.game.unit.SpaceCraft;
 import com.spacecraft.game.unit.Unit;
-import static com.spacecraft.game.GameManager.*;
+
+import static com.spacecraft.game.GameManager.SKIN_PATH;
+import static com.spacecraft.game.GameManager.assetManager;
 
 /**
  * @author Skurishin Vladislav
@@ -44,7 +45,7 @@ public class MainWindowScreen extends ScreenAdapter
 
         spaceCraft = new SpaceCraft();
 
-        skin = new Skin(assetManager().get(SKIN_PATH, FileHandle.class));
+        skin = assetManager().get(SKIN_PATH, Skin.class);
 
         stage = new Stage(new ScreenViewport());
         table = new Table();

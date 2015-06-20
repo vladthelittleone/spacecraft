@@ -2,7 +2,7 @@ package com.spacecraft.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
  * @author Makovchik Ivan
@@ -18,7 +18,7 @@ public class GameManager
     public static void initialize()
     {
         manager.load(SPACE_CRAFT_SPRITE_PATH, Texture.class);
-        manager.load(SKIN_PATH, Json.class);
+        manager.load(SKIN_PATH, Skin.class);
 
         manager.finishLoading();
     }

@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
@@ -47,7 +46,7 @@ public class MainWindowScreen extends ScreenAdapter
 
         spaceCraft = new SpaceCraft();
 
-        skin = new Skin(SKIN);
+        skin = new Skin(Gdx.files.internal(SKIN_PATH));
 
         stage = new Stage(new ScreenViewport());
         table = new Table();
@@ -139,8 +138,29 @@ public class MainWindowScreen extends ScreenAdapter
         stage.act(delta);
         stage.draw();
 
+        draw();
+        update(delta);
+    }
+
+    /**
+     * Обновление всех объектво сцены
+     * @param delta время межу текущим и предыдущим кадром в секундах.
+     */
+    private void update(float delta)
+    {
         spaceCraft.update(delta);
+    }
+
+    /**
+     * Отрисовка всех обхектов сцены.
+     */
+    private void draw()
+    {
+        batch.begin();
+
         spaceCraft.draw(batch);
+
+        batch.end();
     }
 
     /**

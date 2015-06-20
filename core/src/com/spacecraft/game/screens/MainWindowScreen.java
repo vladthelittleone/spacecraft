@@ -27,7 +27,6 @@ import static com.spacecraft.game.GameManager.*;
 public class MainWindowScreen extends ScreenAdapter
 {
     private static final float FADE_DURATION = 0.5f;
-    private final FileHandle SKIN = assetManager().get(SKIN_PATH, FileHandle.class);
     private final Stage stage;
     private final Table table;
 
@@ -45,7 +44,7 @@ public class MainWindowScreen extends ScreenAdapter
 
         spaceCraft = new SpaceCraft();
 
-        skin = new Skin(SKIN);
+        skin = new Skin(assetManager().get(SKIN_PATH, FileHandle.class));
 
         stage = new Stage(new ScreenViewport());
         table = new Table();

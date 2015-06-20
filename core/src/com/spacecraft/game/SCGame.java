@@ -11,9 +11,11 @@ public class SCGame extends Game
     @Override
     public void create()
     {
+        // Инициализируем менедеры
+        GameManager.initialize();
+
         // Создание всех игровых сервисов, объектов.
         fps = new FPSLogger();
-
         setScreen(new MainWindowScreen());
     }
 

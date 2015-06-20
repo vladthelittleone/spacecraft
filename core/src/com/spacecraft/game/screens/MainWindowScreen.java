@@ -18,6 +18,9 @@ import com.spacecraft.game.language.java.JavaCodeRunner;
 import com.spacecraft.game.unit.SpaceCraft;
 import com.spacecraft.game.unit.Unit;
 
+import static com.spacecraft.game.GameManager.SKIN_PATH;
+import static com.spacecraft.game.GameManager.assetManager;
+
 /**
  * @author Skurishin Vladislav
  * @since 09.06.15
@@ -25,8 +28,6 @@ import com.spacecraft.game.unit.Unit;
 public class MainWindowScreen extends ScreenAdapter
 {
     private static final float FADE_DURATION = 0.5f;
-    private static final String SKIN_PATH = "skins/uiskin.json";
-
     private final Stage stage;
     private final Table table;
 
@@ -44,7 +45,7 @@ public class MainWindowScreen extends ScreenAdapter
 
         spaceCraft = new SpaceCraft();
 
-        skin = new Skin(Gdx.files.internal(SKIN_PATH));
+        skin = assetManager().get(SKIN_PATH, Skin.class);
 
         stage = new Stage(new ScreenViewport());
         table = new Table();
@@ -136,8 +137,29 @@ public class MainWindowScreen extends ScreenAdapter
         stage.act(delta);
         stage.draw();
 
+        draw();
+        update(delta);
+    }
+
+    /**
+     * Обновление всех объектво сцены
+     * @param delta время межу текущим и предыдущим кадром в секундах.
+     */
+    private void update(float delta)
+    {
         spaceCraft.update(delta);
+    }
+
+    /**
+     * Отрисовка всех обхектов сцены.
+     */
+    private void draw()
+    {
+        batch.begin();
+
         spaceCraft.draw(batch);
+
+        batch.end();
     }
 
     /**

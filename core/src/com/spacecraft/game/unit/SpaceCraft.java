@@ -1,11 +1,11 @@
 package com.spacecraft.game.unit;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
+import static com.spacecraft.game.GameManager.*;
 
 /**
  * @author Makovchik Ivan
@@ -13,9 +13,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SpaceCraft implements Unit
 {
-    private final FileHandle SPACE_CRAFT_INTERNAL = Gdx.files.internal("sprites/spaceCraft.png");
-
-    private final Texture texture = new Texture(SPACE_CRAFT_INTERNAL);
+    private final Texture texture = assetManager().get(SPACE_CRAFT_SPRITE_PATH, Texture.class);
     private final TextureRegion region = new TextureRegion(texture, 10, 15);
 
     // Текущие координаты корабля и новые координаты корабля

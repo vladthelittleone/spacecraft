@@ -1,16 +1,22 @@
 package com.spacecraft.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.spacecraft.game.screens.MainWindowScreen;
 
 public class SCGame extends Game
 {
     private FPSLogger fps;
 
+    public static OrthographicCamera camera;
+
     @Override
     public void create()
     {
+        createCamera();
+
         // Инициализируем менедеры
         GameManager.initialize();
 
@@ -24,5 +30,15 @@ public class SCGame extends Game
     {
         super.render();
         fps.log();
+    }
+
+    private void createCamera()
+    {
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+
+        camera = new OrthographicCamera(30f, 30f * (h / w));
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
     }
 }

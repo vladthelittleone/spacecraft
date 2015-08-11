@@ -1,11 +1,12 @@
 package com.spacecraft.game.unit;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.spacecraft.game.GameManager.*;
+import static com.spacecraft.game.GameManager.SPACE_CRAFT_SPRITE_PATH;
+import static com.spacecraft.game.GameManager.assetManager;
 
 /**
  * @author Makovchik Ivan
@@ -13,8 +14,9 @@ import static com.spacecraft.game.GameManager.*;
  */
 public class SpaceCraft implements Unit
 {
-    private final Texture texture = assetManager().get(SPACE_CRAFT_SPRITE_PATH, Texture.class);
-    private final TextureRegion region = new TextureRegion(texture, 10, 15);
+    private final float SCALE = 0.1f;
+
+    private final Sprite sprite = new Sprite(assetManager().get(SPACE_CRAFT_SPRITE_PATH, Texture.class));
 
     // Текущие координаты корабля и новые координаты корабля
     private final Vector2 position = new Vector2(0, 0);
@@ -22,8 +24,12 @@ public class SpaceCraft implements Unit
     private final Vector2 deltaPosition = new Vector2();
 
     //Скорость корабля
-    private float velocity = 100;
+    private float velocity = 1;
 
+    public SpaceCraft()
+    {
+        sprite.setScale(SCALE);
+    }
 
     @Override
     public void moveTo(float x, float y)
@@ -42,7 +48,8 @@ public class SpaceCraft implements Unit
     @Override
     public void draw(SpriteBatch batch)
     {
-        batch.draw(region, position.x, position.y);
+        sprite.setPosition(position.x, position.y);
+        sprite.draw(batch);
     }
 
     @Override

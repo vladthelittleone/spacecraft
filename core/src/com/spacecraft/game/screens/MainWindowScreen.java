@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.spacecraft.game.SCGame;
 import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.java.JavaCodeRunner;
 import com.spacecraft.game.unit.SpaceCraft;
@@ -28,6 +29,7 @@ import static com.spacecraft.game.GameManager.assetManager;
 public class MainWindowScreen extends ScreenAdapter
 {
     private static final float FADE_DURATION = 0.5f;
+
     private final Stage stage;
     private final Table table;
 
@@ -111,7 +113,7 @@ public class MainWindowScreen extends ScreenAdapter
             public void clicked(InputEvent event, float x, float y)
             {
                 CodeRunner javaCodeRunner = JavaCodeRunner.instance();
-                javaCodeRunner.run(codeArea.getText());
+                javaCodeRunner.run(codeArea.getText(), spaceCraft);
             }
         });
 
@@ -125,10 +127,15 @@ public class MainWindowScreen extends ScreenAdapter
     @Override
     public void render(float delta)
     {
+        SCGame.camera.update();
+
         /**
          * Очистка буфера цвета.
          */
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        update(delta);
+        draw();
 
         /**
          * Вызов у всех актеров метода {@link com.badlogic.gdx.scenes.scene2d.Actor#act(float)},
@@ -136,13 +143,11 @@ public class MainWindowScreen extends ScreenAdapter
          */
         stage.act(delta);
         stage.draw();
-
-        draw();
-        update(delta);
     }
 
     /**
      * Обновление всех объектво сцены
+     *
      * @param delta время межу текущим и предыдущим кадром в секундах.
      */
     private void update(float delta)
@@ -155,6 +160,8 @@ public class MainWindowScreen extends ScreenAdapter
      */
     private void draw()
     {
+        batch.setProjectionMatrix(SCGame.camera.combined);
+
         batch.begin();
 
         spaceCraft.draw(batch);
@@ -169,12 +176,18 @@ public class MainWindowScreen extends ScreenAdapter
     public void resize(int width, int height)
     {
         // Обновляем специфичный для stage viewport.
+//        SCGame.viewport.update(width, height, true);
         stage.getViewport().update(width, height, true);
+
+        SCGame.camera.viewportWidth = 1000f;
+        SCGame.camera.viewportHeight = 1000f * height / width;
     }
 
     @Override
     public void dispose()
     {
         stage.dispose();
+        batch.dispose();
+        skin.dispose();
     }
 }

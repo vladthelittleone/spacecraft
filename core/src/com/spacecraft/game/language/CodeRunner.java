@@ -1,5 +1,7 @@
 package com.spacecraft.game.language;
 
+import com.spacecraft.game.unit.Unit;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,8 @@ public interface CodeRunner
      * Запуск кода.
      *
      * @param code - выполняемый код.
+     * @param unit - передаваймый в метод run() параметр.
      * @see com.spacecraft.game.language.RunResult
      */
-    List<RunResult> run(String code);
+    List<RunResult> run(String code, Unit unit);
 }

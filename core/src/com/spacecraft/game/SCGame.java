@@ -37,7 +37,7 @@ public class SCGame extends Game
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(30f, 30f * (h / w));
+        camera = new OrthographicCamera(1000f, 1000f * (h / w));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
     }

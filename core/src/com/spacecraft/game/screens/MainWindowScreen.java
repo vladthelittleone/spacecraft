@@ -45,7 +45,7 @@ public class MainWindowScreen extends ScreenAdapter
     {
         batch = new SpriteBatch();
 
-        spaceCraft = new SpaceCraft();
+        spaceCraft = new SpaceCraft(0, 0);
 
         skin = assetManager().get(SKIN_PATH, Skin.class);
 
@@ -127,12 +127,13 @@ public class MainWindowScreen extends ScreenAdapter
     @Override
     public void render(float delta)
     {
-        SCGame.camera.update();
-
         /**
          * Очистка буфера цвета.
          */
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        SCGame.camera.update();
 
         update(delta);
         draw();
@@ -167,20 +168,6 @@ public class MainWindowScreen extends ScreenAdapter
         spaceCraft.draw(batch);
 
         batch.end();
-    }
-
-    /**
-     * Формально метод не нужен по причине {@code cfg.resizable = false} - отключения ресайза.
-     */
-    @Override
-    public void resize(int width, int height)
-    {
-        // Обновляем специфичный для stage viewport.
-//        SCGame.viewport.update(width, height, true);
-        stage.getViewport().update(width, height, true);
-
-        SCGame.camera.viewportWidth = 1000f;
-        SCGame.camera.viewportHeight = 1000f * height / width;
     }
 
     @Override

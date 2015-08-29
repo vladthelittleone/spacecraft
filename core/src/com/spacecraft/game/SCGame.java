@@ -4,11 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.spacecraft.game.screens.MainWindowScreen;
 
 public class SCGame extends Game
 {
-    private FPSLogger fps;
+    private static FPSLogger fps;
+
+    private Viewport viewport;
 
     public static OrthographicCamera camera;
 
@@ -37,8 +40,7 @@ public class SCGame extends Game
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(1000f, 1000f * (h / w));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, w, h);
     }
 }

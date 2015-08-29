@@ -23,6 +23,14 @@ public class GameManager
         manager.finishLoading();
     }
 
+    public static Texture spaceCraftTexture()
+    {
+        Texture texture = assetManager().get(SPACE_CRAFT_SPRITE_PATH, Texture.class);
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        return texture;
+    }
+
     public static AssetManager assetManager()
     {
         return manager;

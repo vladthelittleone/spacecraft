@@ -45,7 +45,7 @@ public class MainWindowScreen extends ScreenAdapter
     {
         batch = new SpriteBatch();
 
-        spaceCraft = new SpaceCraft(0, 0);
+        spaceCraft = new SpaceCraft(SCGame.camera.position.x, SCGame.camera.position.y);
 
         skin = assetManager().get(SKIN_PATH, Skin.class);
 
@@ -127,13 +127,15 @@ public class MainWindowScreen extends ScreenAdapter
     @Override
     public void render(float delta)
     {
+        SCGame.camera.update();
+
+        batch.setProjectionMatrix(SCGame.camera.combined);
+
         /**
          * Очистка буфера цвета.
          */
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        SCGame.camera.update();
 
         update(delta);
         draw();
@@ -161,8 +163,6 @@ public class MainWindowScreen extends ScreenAdapter
      */
     private void draw()
     {
-        batch.setProjectionMatrix(SCGame.camera.combined);
-
         batch.begin();
 
         spaceCraft.draw(batch);

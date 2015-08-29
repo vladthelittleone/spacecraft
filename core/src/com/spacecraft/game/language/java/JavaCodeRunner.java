@@ -127,7 +127,7 @@ public class JavaCodeRunner implements CodeRunner
                 .append("\n\n")
                 .append("   public void run(Unit unit) {")
                 .append("\n")
-                .append("       System.out.println(\"Hello World\");")
+                .append("       unit.moveTo(50,50);")
                 .append("\n")
                 .append("   }")
                 .append("\n\n")

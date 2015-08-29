@@ -1,12 +1,10 @@
 package com.spacecraft.game.unit;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-
-import static com.spacecraft.game.GameManager.SPACE_CRAFT_SPRITE_PATH;
-import static com.spacecraft.game.GameManager.assetManager;
+import com.spacecraft.game.GameManager;
 
 /**
  * @author Makovchik Ivan
@@ -16,7 +14,7 @@ public class SpaceCraft implements Unit
 {
     private final float SCALE = 1.0f;
 
-    private final Sprite sprite = new Sprite(assetManager().get(SPACE_CRAFT_SPRITE_PATH, Texture.class));
+    private final Sprite sprite = new Sprite(GameManager.spaceCraftTexture());
 
     // Новые координаты корабля
     private final Vector2 newPosition = new Vector2();
@@ -31,10 +29,10 @@ public class SpaceCraft implements Unit
     private final Vector2 direction = new Vector2();
 
     // Скорость корабля
-    private float velocity = 8f;
+    private float velocity = 20f;
 
     // Скорость поворота
-    private float rotationSpeed = 3f;
+    private float rotationSpeed = 5f;
 
     public SpaceCraft(Vector2 position, Vector2 direction)
     {
@@ -89,12 +87,13 @@ public class SpaceCraft implements Unit
      */
     private boolean rotateShip(float delta)
     {
+        // Векторное произведение. + против, - по часовой.
         float crs = direction.crs(newDirection);
 
         // Если корабль не повернул в нужном направление, то выполняем поворот.
         if (crs != 0)
         {
-            // Проверка компланарности векторов (с помощью векторного умножения)
+            // Проверка компланарности векторов (с помощью векторного произведение)
             if (crs > 0)
             {
                 rotate(1, delta);
@@ -112,10 +111,10 @@ public class SpaceCraft implements Unit
 
     private void rotate(float rotateDirection, float delta)
     {
-        float d = newDirection.angle() - direction.angle();
+        float d = newDirection.angle(direction);
         float s = rotationSpeed * delta;
 
-        if (d > s)
+        if (Math.abs(d) > s)
         {
             direction.rotate(rotateDirection * s).nor();
         }
@@ -132,7 +131,14 @@ public class SpaceCraft implements Unit
      */
     private void changePosition(float deltaVelocity)
     {
-        position.mulAdd(direction, deltaVelocity);
+        if (velocity > newPosition.dst(position))
+        {
+            position.set(newPosition);
+        }
+        else
+        {
+            position.mulAdd(direction, deltaVelocity);
+        }
     }
 
     private void initialization(float x, float y, float dx, float dy)

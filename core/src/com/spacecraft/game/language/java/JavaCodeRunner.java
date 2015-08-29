@@ -5,6 +5,7 @@ import com.spacecraft.game.language.CodeRunner;
 import com.spacecraft.game.language.RunResult;
 import com.spacecraft.game.language.java.compiler.JavaSourceCompiler;
 import com.spacecraft.game.language.java.compiler.impl.JavaSourceCompilerImpl;
+import com.spacecraft.game.unit.Unit;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
@@ -52,7 +53,7 @@ public class JavaCodeRunner implements CodeRunner
     }
 
     @Override
-    public List<RunResult> run(String code)
+    public List<RunResult> run(String code, Unit unit)
     {
         List<RunResult> javaRunResults = Lists.newArrayList();
         DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<>();
@@ -72,9 +73,8 @@ public class JavaCodeRunner implements CodeRunner
         {
             Class<?> clazz = classLoader.loadClass(CLASS_NAME);
             Object foo = clazz.newInstance();
-            Method run = clazz.getMethod("run", String.class);
-            String args = "Hello world!";
-            run.invoke(foo, args);
+            Method run = clazz.getMethod("run", Unit.class);
+            run.invoke(foo, unit);
 
 //            Сохранение класса в файловой системе, а не в памяти.
 //            JAVA_SOURCE_COMPILER.persistCompiledClasses(compilationUnit);
@@ -117,15 +117,17 @@ public class JavaCodeRunner implements CodeRunner
         return new StringBuilder()
                 .append("package com.my.sources;")
                 .append("\n\n")
+                .append("import com.spacecraft.game.unit.Unit;")
+                .append("\n\n")
                 .append("public class Module {")
                 .append("\n\n")
                 .append("   public Module() {")
                 .append("\n\n")
                 .append("   }")
                 .append("\n\n")
-                .append("   public void run(String str) {")
+                .append("   public void run(Unit unit) {")
                 .append("\n")
-                .append("       System.out.println(str);")
+                .append("       unit.moveTo(50,50);")
                 .append("\n")
                 .append("   }")
                 .append("\n\n")

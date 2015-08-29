@@ -134,7 +134,7 @@ public interface JavaSourceCompiler
     /**
      * Compiles given compilation unit with the supplier compiler options and
      * returns class loader for the compiled sources. Allows the manual handling
-     * of compilation errors/warnings using a {@link DiagnosticCollector}.
+     * of compilation errors/warnings using a {@link javax.tools.DiagnosticCollector}.
      *
      * @param compilationUnit      compilation unit
      * @param compilerOptions      compiler options
@@ -149,7 +149,7 @@ public interface JavaSourceCompiler
     /**
      * Compiles given compilation unit with the supplier compiler options and
      * returns class loader for the compiled sources. Allows the manual handling
-     * of compilation errors/warnings using a {@link DiagnosticCollector}.
+     * of compilation errors/warnings using a {@link javax.tools.DiagnosticCollector}.
      *
      * @param parentClassLoader    parent class loader for the new class loader created for this
      *                             compilation

@@ -1,4 +1,4 @@
-# spacecraft
+# SpaceCraft
 
 Сроки:
 

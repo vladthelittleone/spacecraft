@@ -19,6 +19,15 @@
     height: 25px;
 }
 
+#infBox{
+    position: fixed;
+    top: 95%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 25px;
+}
+
 canvas {
     margin-top: 25px;
 }

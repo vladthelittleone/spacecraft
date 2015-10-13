@@ -37,6 +37,7 @@ angular.module('spacecraft')
                 var that = {};
                 var sprite;
                 var health = scope.health = 100;
+                scope.$apply();
 
                 sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceCraft');
 
@@ -48,6 +49,7 @@ angular.module('spacecraft')
                 that.regenHealth = function ()
                 {
                     health += 5;
+                    scope.$apply();
                 };
 
                 that.getUserAPI = function ()

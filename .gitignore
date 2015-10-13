@@ -1,0 +1,26 @@
+## Android Studio and Intellij and Android in general
+android/libs/armeabi/
+android/libs/armeabi-v7a/
+android/libs/x86/
+android/gen/
+.idea/
+*.ipr
+*.iws
+*.iml
+out/
+com_crashlytics_export_strings.xml
+
+## OS Specific
+.DS_Store
+
+## Phaser
+
+*.log
+
+## AngularJS
+
+*/node_modules
+*/dist
+*/.tmp
+*/.sass-cache
+*/bower_components

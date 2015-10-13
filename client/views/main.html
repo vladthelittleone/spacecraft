@@ -1,0 +1,35 @@
+<div ui-ace="{
+  useWrapMode : true,
+  showGutter: true,
+  theme:'tomorrow_night',
+  mode: 'javascript',
+  firstLineNumber: 1,
+  onLoad: aceLoaded,
+  onChange: aceChanged
+}" ng-class="{'bounceOutUp' : hideEditor, 'bounceInDown' : !hideEditor}"></div>
+
+<div id="toolbar">
+
+    <div class="box">
+        <img class="logo" src="resources/assets/logo3.png">
+    </div>
+
+    <div class="box">
+        <button type="button" ng-click="toggleEditorOpen()">
+            <span class="glyphicon"
+                  ng-class="{'glyphicon-chevron-down' : hideEditor, 'glyphicon-chevron-up' : !hideEditor}">
+            </span>
+        </button>
+        <button type="button" ng-click="toggleCodeRun()">
+            <span class="glyphicon"
+                  ng-class="{'glyphicon-stop red' : isCodeRunning, 'glyphicon-play green' : !isCodeRunning}">
+            </span>
+        </button>
+    </div>
+
+</div>
+
+<div game-canvas
+     code="code"
+     is-running="isCodeRunning"></div>
+

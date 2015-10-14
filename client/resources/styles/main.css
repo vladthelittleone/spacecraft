@@ -19,7 +19,7 @@
     height: 25px;
 }
 
-#infBox{
+#infBox {
     position: fixed;
     top: 95%;
     bottom: 0;
@@ -55,7 +55,7 @@ canvas {
     color: #DE5151;
 }
 
-.green{
+.green {
     color: #39C139;
 }
 

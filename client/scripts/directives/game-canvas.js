@@ -109,14 +109,12 @@ angular.module('spacecraft')
 
                         if (beam)
                         {
-                            var craftRotation = sprite.rotation - 90 * (Math.PI / 180);
-
-                            beam.reset(sprite.body.x, sprite.body.y);
+                            beam.reset(sprite.x, sprite.y);
 
                             if (!x || !y)
                             {
-                                beam.rotation = craftRotation;
-                                game.physics.arcade.velocityFromRotation(craftRotation, 400, beam.body.velocity);
+                                beam.rotation = sprite.rotation;
+                                game.physics.arcade.velocityFromRotation(sprite.rotation, 400, beam.body.velocity);
                             }
                             else
                             {
@@ -147,11 +145,17 @@ angular.module('spacecraft')
                 // Создаем спрайт
                 var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+                sprite.anchor.set(0.5);
+
                 // Подключаем физику тел к кораблю
-                game.physics.p2.enable(sprite);
+                game.physics.enable(sprite, Phaser.Physics.ARCADE);
+
+                sprite.body.drag.set(0.2);
+                sprite.body.maxVelocity.set(200);
+                sprite.body.collideWorldBounds = true;
 
                 // Поварачиваем корабль на init-угол
-                !spec.angle || (sprite.body.angle = spec.angle);
+                !spec.angle || (sprite.angle = spec.angle);
 
                 that.weapon = Weapon({
                     sprite: sprite,
@@ -228,34 +232,14 @@ angular.module('spacecraft')
                 {
                     var api = {};
 
-                    api.rotateLeft = function ()
-                    {
-                        sprite.body.rotateLeft(1);
-                    };
-
-                    api.rotateRight = function ()
-                    {
-                        sprite.body.rotateRight(1);
-                    };
-
-                    api.setZeroRotation = function ()
-                    {
-                        sprite.setZeroRotation();
-                    };
-
                     api.fire = function (x, y)
                     {
                         weapon.fire(x, y);
                     };
 
-                    api.thrust = function ()
+                    api.moveTo = function (x, y)
                     {
-                        sprite.body.thrust(10);
-                    };
-
-                    api.reverse = function ()
-                    {
-                        sprite.body.reverse(10);
+                        sprite.rotation = game.physics.arcade.moveToXY(sprite, x, y, 400);
                     };
 
                     api.getHealth = function ()
@@ -311,9 +295,8 @@ angular.module('spacecraft')
                 game.scale.pageAlignVertically = true;
                 game.scale.pageAlignHorizontally = true;
 
-                game.physics.startSystem(Phaser.Physics.P2JS);
-
-                game.physics.p2.restitution = 0.1;
+                //  We need arcade physics
+                game.physics.startSystem(Phaser.Physics.ARCADE);
 
                 spaceCraft = UserSpaceCraft({
                     x: game.world.centerX,
@@ -321,9 +304,6 @@ angular.module('spacecraft')
                     spriteName: 'spaceCraft',
                     health: 100
                 });
-
-                game.camera.follow(spaceCraft.sprite);
-                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
 
                 for (var i = 0; i < 20; i++)
                 {
@@ -336,6 +316,9 @@ angular.module('spacecraft')
                     world.push(e.getUserAPI());
                 }
 
+                game.camera.follow(spaceCraft.sprite);
+                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
+                game.camera.focusOn(spaceCraft.sprite);
 
                 cursors = game.input.keyboard.createCursorKeys();
             }

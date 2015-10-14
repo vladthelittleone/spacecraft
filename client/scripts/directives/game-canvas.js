@@ -37,11 +37,22 @@ angular.module('spacecraft')
             {
                 var that = {},
                     enemies = spec.enemies || [],
+                    enemiesApi = [],
                     bounds = spec.bounds;
+
+                enemies.forEach(function(enemy) {
+                    enemiesApi.push(enemy.getUserAPI());
+                });
 
                 that.push = function (enemy)
                 {
+                    enemiesApi.push(enemy.getUserAPI());
                     enemies.push(enemy);
+                };
+
+                that.getEnemies = function ()
+                {
+                    return enemies;
                 };
 
                 that.getUserAPI = function ()
@@ -50,7 +61,7 @@ angular.module('spacecraft')
 
                     api.getEnemies = function ()
                     {
-                        return enemies;
+                        return enemiesApi;
                     };
 
                     api.getBounds = function ()
@@ -93,6 +104,7 @@ angular.module('spacecraft')
 
                 var beamHitPlayer = function (enemy, beam)
                 {
+                    enemy.kill();
                     beam.kill();
                 };
 
@@ -133,11 +145,11 @@ angular.module('spacecraft')
 
                 that.update = function ()
                 {
-                    var enemies = world.getUserAPI.getEnemies();
+                    var enemies = world.getEnemies();
 
                     enemies.forEach(function(enemy, i, arr)
                     {
-                        game.physics.arcade.overlap(beams, enemy, beamHitPlayer, null, this);
+                        game.physics.arcade.overlap(beams, enemy.sprite, beamHitPlayer, null, this);
                     });
                 };
 
@@ -328,7 +340,7 @@ angular.module('spacecraft')
                         angle: game.rnd.angle()
                     });
 
-                    world.push(e.getUserAPI());
+                    world.push(e);
                 }
 
                 game.camera.follow(spaceCraft.sprite);
@@ -340,6 +352,8 @@ angular.module('spacecraft')
 
             function update()
             {
+                spaceCraft.weapon.update();
+
                 runUserScript();
             }
 

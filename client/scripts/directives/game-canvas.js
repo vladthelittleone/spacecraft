@@ -15,7 +15,20 @@ angular.module('spacecraft')
                 cursors,
                 isRunning,
                 userCode,
-                userObject;
+                userObject,
+                enemies = [];
+
+            // Build the game object
+            //var height  = parseInt(element.css('height'), 10),
+            //    width   = parseInt(element.css('width'), 10);
+
+            var game = new Phaser.Game(window.innerWidth, window.innerWidth, Phaser.CANVAS, 'game', {
+                init: init,
+                preload: preload,
+                create: create,
+                update: update,
+                render: render
+            });
 
             var Weapon = function (spec)
             {
@@ -86,9 +99,18 @@ angular.module('spacecraft')
              */
             var SpaceCraft = function (spec)
             {
-                var that = {};
-                var sprite = game.add.sprite(spec.x, spec.y, spec.spriteName);
-                var health = scope.health = spec.health;
+                var that = {},
+                    // Если не заданы x, y проставляем рандомные значения мира
+                    sprite = game.add.sprite(spec.x || game.world.randomX, spec.y || game.world.randomY, spec.spriteName),
+                    health = scope.health = spec.health;
+
+                // Подключаем физику тел к кораблю
+                game.physics.p2.enable(sprite);
+
+                // Поварачиваем корабль на init-угол
+                !spec.angle || (sprite.body.angle = spec.angle);
+
+                // Сообщаем angualrJS об изменениях
                 scope.$apply();
 
                 var weapon = Weapon({
@@ -98,6 +120,7 @@ angular.module('spacecraft')
                     spriteName: 'greenBeam'
                 });
 
+                // Переносим на верхний слой, перед лазерами.
                 sprite.bringToTop();
 
                 that.sprite = function ()
@@ -156,18 +179,6 @@ angular.module('spacecraft')
                 return that;
             };
 
-            // Build the game object
-            //var height  = parseInt(element.css('height'), 10),
-            //    width   = parseInt(element.css('width'), 10);
-
-            var game = new Phaser.Game(window.innerWidth, window.innerWidth, Phaser.CANVAS, 'game', {
-                init: init,
-                preload: preload,
-                create: create,
-                update: update,
-                render: render
-            });
-
             function runUserScript()
             {
                 if (isRunning)
@@ -187,6 +198,8 @@ angular.module('spacecraft')
                 game.load.image('greenBeam', 'resources/assets/greenBeam.png');
                 game.load.image('starField', 'resources/assets/starField.png');
                 game.load.image('spaceCraft', 'resources/assets/spaceCraft.png');
+                game.load.image('spaceCraft1', 'resources/assets/spaceCraft1.png');
+                game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
             }
 
             function create()
@@ -197,6 +210,10 @@ angular.module('spacecraft')
                 game.scale.pageAlignVertically = true;
                 game.scale.pageAlignHorizontally = true;
 
+                game.physics.startSystem(Phaser.Physics.P2JS);
+
+                game.physics.p2.restitution = 0.1;
+
                 spaceCraft = SpaceCraft({
                     x: game.world.centerX,
                     y: game.world.centerY,
@@ -204,12 +221,17 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                game.physics.startSystem(Phaser.Physics.P2JS);
-
-                game.physics.p2.enable(spaceCraft.sprite());
-
                 game.camera.follow(spaceCraft.sprite());
-                game.camera.deadzone = new Phaser.Rectangle(100, 100, 500, 500);
+                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
+
+                for (var i = 0; i < 20; i++)
+                {
+                    enemies.push(SpaceCraft({
+                        spriteName: 'spaceCraft' + (Math.floor(Math.random() * (2 - 1 + 1)) + 1),
+                        health: 100,
+                        angle: game.rnd.angle()
+                    }));
+                }
 
                 cursors = game.input.keyboard.createCursorKeys();
             }

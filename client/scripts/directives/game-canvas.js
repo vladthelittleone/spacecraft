@@ -41,12 +41,20 @@ angular.module('spacecraft')
                 beams.setAll('outOfBoundsKill', true);
                 beams.setAll('checkWorldBounds', true);
 
+                that.getDamage = function ()
+                {
+                    return damage;
+                };
+
+                that.getFireRate = function ()
+                {
+                    return fireRate;
+                };
+
                 that.fire = function (x, y)
                 {
-                    console.log(x, y);
                     if (game.time.now > fireTime)
                     {
-                        console.log(fireRate);
                         var beam = beams.getFirstExists(false);
 
                         if (beam)
@@ -79,7 +87,7 @@ angular.module('spacecraft')
             var SpaceCraft = function (spec)
             {
                 var that = {};
-                var sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceCraft');
+                var sprite = game.add.sprite(spec.x, spec.y, spec.spriteName);
 
                 var weapon = Weapon({
                     sprite: sprite,
@@ -89,7 +97,6 @@ angular.module('spacecraft')
                 });
 
                 sprite.bringToTop();
-                sprite.scale.setTo(0.5);
 
                 that.sprite = function ()
                 {
@@ -177,7 +184,11 @@ angular.module('spacecraft')
                 game.scale.pageAlignVertically = true;
                 game.scale.pageAlignHorizontally = true;
 
-                spaceCraft = SpaceCraft();
+                spaceCraft = SpaceCraft({
+                    x: game.world.centerX,
+                    y: game.world.centerY,
+                    spriteName: 'spaceCraft'
+                });
 
                 game.physics.startSystem(Phaser.Physics.P2JS);
 

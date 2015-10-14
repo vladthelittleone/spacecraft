@@ -91,6 +91,11 @@ angular.module('spacecraft')
                 beams.setAll('outOfBoundsKill', true);
                 beams.setAll('checkWorldBounds', true);
 
+                var beamHitPlayer = function (enemy, beam)
+                {
+                    beam.kill();
+                };
+
                 that.getDamage = function ()
                 {
                     return damage;
@@ -128,12 +133,14 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.update = function (world)
+                that.update = function ()
                 {
-                    forEach(enemy ,i, world.getUserAPI.getEnemies())
+                    var enemies = world.getUserAPI.getEnemies();
+
+                    enemies.forEach(function(enemy, i, arr)
                     {
-                        game.physics.arcade.overlap(beams, enemy, bulletHitPlayer, null, this);
-                    }
+                        game.physics.arcade.overlap(beams, enemy, beamHitPlayer, null, this);
+                    });
                 };
 
                 return that;
@@ -167,11 +174,6 @@ angular.module('spacecraft')
                     fireRate: 500,
                     spriteName: 'greenBeam'
                 });
-
-                that.bulletHitPlayer = function (beams)
-                {
-                    beams.kill();
-                };
 
                 // Переносим на верхний слой, перед лазерами.
                 sprite.bringToTop();

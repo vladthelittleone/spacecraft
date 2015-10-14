@@ -25,7 +25,7 @@ angular.module('spacecraft.main', [])
             editorRenderer;
 
         $scope.code = "return { \n\t" +
-                        "run : function(spaceCraft) \n\t" +
+                        "run : function(spaceCraft, world) \n\t" +
                         "{  \n\t\tspaceCraft.thrust();  \n\t}  " +
                         "\n};";
 

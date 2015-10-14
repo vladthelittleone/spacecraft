@@ -12,11 +12,11 @@ angular.module('spacecraft')
         var linkFn = function (scope, element, attrs)
         {
             var spaceCraft,
+                world,
                 cursors,
                 isRunning,
                 userCode,
-                userObject,
-                enemies = [];
+                userObject;
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
@@ -30,6 +30,43 @@ angular.module('spacecraft')
                 render: render
             });
 
+            /**
+             * @constructor
+             */
+            var World = function (spec)
+            {
+                var that = {},
+                    enemies = spec.enemies || [],
+                    bounds = spec.bounds;
+
+                that.push = function (enemy)
+                {
+                    enemies.push(enemy);
+                };
+
+                that.getUserAPI = function ()
+                {
+                    var api = {};
+
+                    api.getEnemies = function ()
+                    {
+                        return enemies;
+                    };
+
+                    api.getBounds = function ()
+                    {
+                        return bounds;
+                    };
+
+                    return api;
+                };
+
+                return that;
+            };
+
+            /**
+             * @constructor
+             */
             var Weapon = function (spec)
             {
                 var that = {},
@@ -99,10 +136,16 @@ angular.module('spacecraft')
              */
             var SpaceCraft = function (spec)
             {
-                var that = {},
-                    // Если не заданы x, y проставляем рандомные значения мира
-                    sprite = game.add.sprite(spec.x || game.world.randomX, spec.y || game.world.randomY, spec.spriteName),
-                    health = scope.health = spec.health;
+                var that = {};
+
+                that.health = scope.health = spec.health;
+
+                // Если не заданы x, y проставляем рандомные значения мира
+                var x = that.x = spec.x || game.world.randomX;
+                var y = that.y = spec.y || game.world.randomY;
+
+                // Создаем спрайт
+                var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
                 // Подключаем физику тел к кораблю
                 game.physics.p2.enable(sprite);
@@ -110,10 +153,7 @@ angular.module('spacecraft')
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);
 
-                // Сообщаем angualrJS об изменениях
-                scope.$apply();
-
-                var weapon = Weapon({
+                that.weapon = Weapon({
                     sprite: sprite,
                     damage: 50,
                     fireRate: 500,
@@ -123,14 +163,64 @@ angular.module('spacecraft')
                 // Переносим на верхний слой, перед лазерами.
                 sprite.bringToTop();
 
-                that.sprite = function ()
-                {
-                    return sprite;
-                };
+                // Сообщаем angualrJS об изменениях
+                scope.$apply();
+
+                return that;
+            };
+
+            /**
+             * @constructor
+             */
+            var EnemySpaceCraft = function (spec)
+            {
+                var that = SpaceCraft(spec);
+                var sprite = that.sprite;
+                var weapon = that.weapon;
 
                 that.regeneration = function ()
                 {
-                    health += 5;
+                    that.health += 5;
+                    scope.$apply();
+                };
+
+                that.getUserAPI = function ()
+                {
+                    var api = {};
+
+                    api.getX = function ()
+                    {
+                        return that.x;
+                    };
+
+                    api.getY = function ()
+                    {
+                        return that.y;
+                    };
+
+                    api.getHealth = function ()
+                    {
+                        return that.health;
+                    };
+
+                    return api;
+                };
+
+                return that;
+            };
+
+            /**
+             * @constructor
+             */
+            var UserSpaceCraft = function (spec)
+            {
+                var that = SpaceCraft(spec);
+                var sprite = that.sprite;
+                var weapon = that.weapon;
+
+                that.regeneration = function ()
+                {
+                    that.health += 5;
                     scope.$apply();
                 };
 
@@ -150,7 +240,7 @@ angular.module('spacecraft')
 
                     api.setZeroRotation = function ()
                     {
-                        sprite.body.setZeroRotation();
+                        sprite.setZeroRotation();
                     };
 
                     api.fire = function (x, y)
@@ -170,7 +260,7 @@ angular.module('spacecraft')
 
                     api.getHealth = function ()
                     {
-                        return health;
+                        return that.health;
                     };
 
                     return api;
@@ -183,7 +273,7 @@ angular.module('spacecraft')
             {
                 if (isRunning)
                 {
-                    userObject.run(spaceCraft.getUserAPI());
+                    userObject.run(spaceCraft.getUserAPI(), world.getUserAPI());
                 }
             }
 
@@ -204,8 +294,19 @@ angular.module('spacecraft')
 
             function create()
             {
+                var bounds = {
+                    x: 0,
+                    y: 0,
+                    width: 1920,
+                    height: 1920
+                };
+
+                world = World({
+                    bounds: bounds
+                });
+
                 game.add.tileSprite(0, 0, 1920, 1920, 'starField');
-                game.world.setBounds(0, 0, 1920, 1920);
+                game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
 
                 game.scale.pageAlignVertically = true;
                 game.scale.pageAlignHorizontally = true;
@@ -214,24 +315,27 @@ angular.module('spacecraft')
 
                 game.physics.p2.restitution = 0.1;
 
-                spaceCraft = SpaceCraft({
+                spaceCraft = UserSpaceCraft({
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
                     health: 100
                 });
 
-                game.camera.follow(spaceCraft.sprite());
+                game.camera.follow(spaceCraft.sprite);
                 game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
 
                 for (var i = 0; i < 20; i++)
                 {
-                    enemies.push(SpaceCraft({
-                        spriteName: 'spaceCraft' + (Math.floor(Math.random() * (2 - 1 + 1)) + 1),
+                    var e = EnemySpaceCraft({
+                        spriteName: 'spaceCraft' + (Math.floor(Math.random() * 2) + 1),
                         health: 100,
                         angle: game.rnd.angle()
-                    }));
+                    });
+
+                    world.push(e.getUserAPI());
                 }
+
 
                 cursors = game.input.keyboard.createCursorKeys();
             }
@@ -249,7 +353,7 @@ angular.module('spacecraft')
                 game.context.fillRect(zone.x, zone.y, zone.width, zone.height);
 
                 game.debug.cameraInfo(game.camera, 32, 32);
-                game.debug.spriteCoords(spaceCraft.sprite(), 32, 500);
+                game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
             }
 
             scope.$watch('code', function (n)

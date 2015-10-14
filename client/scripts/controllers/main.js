@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name spacecraft.controller:MainCtrl
+ * @name spacecraft.controller:MainController
  * @description
- * # MainCtrl
+ * # MainController
  * Controller of the spacecraft
  */
 angular.module('spacecraft.main', [])

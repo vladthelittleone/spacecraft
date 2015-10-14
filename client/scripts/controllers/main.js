@@ -18,6 +18,7 @@ angular.module('spacecraft.main', [])
                 controller: 'MainController as ctrl'
             });
     }])
+
     .controller('MainController', ['$scope', function ($scope)
     {
         var editorSession,

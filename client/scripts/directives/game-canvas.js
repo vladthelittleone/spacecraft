@@ -36,12 +36,20 @@ angular.module('spacecraft')
             {
                 var that = {};
                 var sprite;
+                var health = scope.health = 100;
+                scope.$apply();
 
                 sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceCraft');
 
                 that.sprite = function ()
                 {
                     return sprite;
+                };
+
+                that.regeneration = function ()
+                {
+                    health += 5;
+                    scope.$apply();
                 };
 
                 that.getUserAPI = function ()
@@ -71,6 +79,11 @@ angular.module('spacecraft')
                     api.reverse = function ()
                     {
                         sprite.body.reverse(10);
+                    };
+
+                    api.getHealth = function ()
+                    {
+                        return health;
                     };
 
                     return api;
@@ -155,7 +168,8 @@ angular.module('spacecraft')
                 code: '=',
                 isRunning: '='
             },
-            template: '<div id="gameCanvas"></div>',
+            templateUrl: 'views/game.html',
             link: linkFn
         };
+
     }]);

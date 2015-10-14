@@ -46,7 +46,7 @@ angular.module('spacecraft')
                     return sprite;
                 };
 
-                that.regenHealth = function ()
+                that.regeneration = function ()
                 {
                     health += 5;
                     scope.$apply();

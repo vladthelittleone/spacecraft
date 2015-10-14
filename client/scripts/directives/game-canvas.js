@@ -168,10 +168,10 @@ angular.module('spacecraft')
                     spriteName: 'greenBeam'
                 });
 
-                that.bulletHitPlayer(beams)
+                that.bulletHitPlayer = function (beams)
                 {
                     beams.kill();
-                }
+                };
 
                 // Переносим на верхний слой, перед лазерами.
                 sprite.bringToTop();

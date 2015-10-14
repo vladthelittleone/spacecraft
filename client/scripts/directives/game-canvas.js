@@ -97,8 +97,6 @@ angular.module('spacecraft')
 
                 beams.setAll('anchor.x', 0.5);
                 beams.setAll('anchor.y', 0.5);
-                beams.setAll('scale.x', 0.1);
-                beams.setAll('scale.y', 0.1);
                 beams.setAll('outOfBoundsKill', true);
                 beams.setAll('checkWorldBounds', true);
 

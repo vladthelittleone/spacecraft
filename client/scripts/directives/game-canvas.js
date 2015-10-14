@@ -128,6 +128,14 @@ angular.module('spacecraft')
                     }
                 };
 
+                that.update = function (world)
+                {
+                    forEach(enemy ,i, world.getUserAPI.getEnemies())
+                    {
+                        game.physics.arcade.overlap(beams, enemy, bulletHitPlayer, null, this);
+                    }
+                };
+
                 return that;
             };
 
@@ -159,6 +167,11 @@ angular.module('spacecraft')
                     fireRate: 500,
                     spriteName: 'greenBeam'
                 });
+
+                that.bulletHitPlayer(beams)
+                {
+                    beams.kill();
+                }
 
                 // Переносим на верхний слой, перед лазерами.
                 sprite.bringToTop();

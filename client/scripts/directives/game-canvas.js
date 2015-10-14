@@ -88,6 +88,8 @@ angular.module('spacecraft')
             {
                 var that = {};
                 var sprite = game.add.sprite(spec.x, spec.y, spec.spriteName);
+                var health = scope.health = spec.health;
+                scope.$apply();
 
                 var weapon = Weapon({
                     sprite: sprite,
@@ -101,6 +103,12 @@ angular.module('spacecraft')
                 that.sprite = function ()
                 {
                     return sprite;
+                };
+
+                that.regeneration = function ()
+                {
+                    health += 5;
+                    scope.$apply();
                 };
 
                 that.getUserAPI = function ()
@@ -135,6 +143,11 @@ angular.module('spacecraft')
                     api.reverse = function ()
                     {
                         sprite.body.reverse(10);
+                    };
+
+                    api.getHealth = function ()
+                    {
+                        return health;
                     };
 
                     return api;
@@ -187,7 +200,8 @@ angular.module('spacecraft')
                 spaceCraft = SpaceCraft({
                     x: game.world.centerX,
                     y: game.world.centerY,
-                    spriteName: 'spaceCraft'
+                    spriteName: 'spaceCraft',
+                    health: 100
                 });
 
                 game.physics.startSystem(Phaser.Physics.P2JS);
@@ -237,7 +251,8 @@ angular.module('spacecraft')
                 code: '=',
                 isRunning: '='
             },
-            template: '<div id="gameCanvas"></div>',
+            templateUrl: 'views/game.html',
             link: linkFn
         };
+
     }]);

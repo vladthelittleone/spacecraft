@@ -102,7 +102,6 @@ angular.module('spacecraft')
 
                 var beamHit = function (enemy, beam)
                 {
-                    enemy.hit(5);
                     beam.kill();
                 };
 
@@ -147,7 +146,10 @@ angular.module('spacecraft')
 
                     enemies.forEach(function(enemy, i, arr)
                     {
-                        game.physics.arcade.overlap(beams, enemy[i].sprite, beamHit, null, this);
+                       if( game.physics.arcade.overlap(beams, enemy.sprite, beamHit, null, this))
+                       {
+                           enemy.hit(5);
+                       }
                     });
                 };
 

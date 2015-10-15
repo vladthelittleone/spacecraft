@@ -7,10 +7,8 @@
  * # gameCanvas
  */
 angular.module('spacecraft')
-    .directive('gameCanvas', ['$injector', function ($injector)
-    {
-        var linkFn = function (scope, element, attrs)
-        {
+    .directive('gameCanvas', ['$injector', function ($injector) {
+        var linkFn = function (scope, element, attrs) {
             var spaceCraft,
                 world,
                 cursors,
@@ -33,39 +31,33 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var World = function (spec)
-            {
+            var World = function (spec) {
                 var that = {},
                     enemies = spec.enemies || [],
                     enemiesApi = [],
                     bounds = spec.bounds;
 
-                enemies.forEach(function(enemy) {
+                enemies.forEach(function (enemy) {
                     enemiesApi.push(enemy.getUserAPI());
                 });
 
-                that.push = function (enemy)
-                {
+                that.push = function (enemy) {
                     enemiesApi.push(enemy.getUserAPI());
                     enemies.push(enemy);
                 };
 
-                that.getEnemies = function ()
-                {
+                that.getEnemies = function () {
                     return enemies;
                 };
 
-                that.getUserAPI = function ()
-                {
+                that.getUserAPI = function () {
                     var api = {};
 
-                    api.getEnemies = function ()
-                    {
+                    api.getEnemies = function () {
                         return enemiesApi;
                     };
 
-                    api.getBounds = function ()
-                    {
+                    api.getBounds = function () {
                         return bounds;
                     };
 
@@ -78,8 +70,7 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var Weapon = function (spec)
-            {
+            var Weapon = function (spec) {
                 var that = {},
                     sprite = spec.sprite,
                     damage = spec.damage,
@@ -100,38 +91,30 @@ angular.module('spacecraft')
                 beams.setAll('outOfBoundsKill', true);
                 beams.setAll('checkWorldBounds', true);
 
-                var beamHit = function (enemy, beam)
-                {
+                var beamHit = function (enemy, beam) {
                     beam.kill();
                 };
 
-                that.getDamage = function ()
-                {
+                that.getDamage = function () {
                     return damage;
                 };
 
-                that.getFireRate = function ()
-                {
+                that.getFireRate = function () {
                     return fireRate;
                 };
 
-                that.fire = function (x, y)
-                {
-                    if (game.time.now > fireTime)
-                    {
+                that.fire = function (x, y) {
+                    if (game.time.now > fireTime) {
                         var beam = beams.getFirstExists(false);
 
-                        if (beam)
-                        {
+                        if (beam) {
                             beam.reset(sprite.x, sprite.y);
 
-                            if (!x || !y)
-                            {
+                            if (!x || !y) {
                                 beam.rotation = sprite.rotation;
                                 game.physics.arcade.velocityFromRotation(sprite.rotation, 400, beam.body.velocity);
                             }
-                            else
-                            {
+                            else {
                                 beam.rotation = game.physics.arcade.moveToXY(beam, x, y, 400);
                             }
 
@@ -140,16 +123,13 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.update = function ()
-                {
+                that.update = function () {
                     var enemies = world.getEnemies();
 
-                    enemies.forEach(function(enemy, i, arr)
-                    {
-                       if( game.physics.arcade.overlap(beams, enemy.sprite, beamHit, null, this))
-                       {
-                           enemy.hit(5);
-                       }
+                    enemies.forEach(function (enemy, i, arr) {
+                        if (game.physics.arcade.overlap(beams, enemy.sprite, beamHit, null, this)) {
+                            enemy.hit(5);
+                        }
                     });
                 };
 
@@ -159,8 +139,7 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var SpaceCraft = function (spec)
-            {
+            var SpaceCraft = function (spec) {
                 var that = {};
 
                 that.health = scope.health = spec.health;
@@ -184,9 +163,12 @@ angular.module('spacecraft')
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.angle = spec.angle);
 
-                that.hit = function (damage)
-                {
+                that.hit = function (damage) {
                     that.health -= damage;
+
+                    if (that.health <= 0) {
+                      sprite.kill();
+                    }
                 };
 
                 that.weapon = Weapon({
@@ -208,34 +190,28 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var EnemySpaceCraft = function (spec)
-            {
+            var EnemySpaceCraft = function (spec) {
                 var that = SpaceCraft(spec);
                 var sprite = that.sprite;
                 var weapon = that.weapon;
 
-                that.regeneration = function ()
-                {
+                that.regeneration = function () {
                     that.health += 5;
                     scope.$apply();
                 };
 
-                that.getUserAPI = function ()
-                {
+                that.getUserAPI = function () {
                     var api = {};
 
-                    api.getX = function ()
-                    {
+                    api.getX = function () {
                         return that.x;
                     };
 
-                    api.getY = function ()
-                    {
+                    api.getY = function () {
                         return that.y;
                     };
 
-                    api.getHealth = function ()
-                    {
+                    api.getHealth = function () {
                         return that.health;
                     };
 
@@ -248,34 +224,28 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var UserSpaceCraft = function (spec)
-            {
+            var UserSpaceCraft = function (spec) {
                 var that = SpaceCraft(spec);
                 var sprite = that.sprite;
                 var weapon = that.weapon;
 
-                that.regeneration = function ()
-                {
+                that.regeneration = function () {
                     that.health += 5;
                     scope.$apply();
                 };
 
-                that.getUserAPI = function ()
-                {
+                that.getUserAPI = function () {
                     var api = {};
 
-                    api.fire = function (x, y)
-                    {
+                    api.fire = function (x, y) {
                         weapon.fire(x, y);
                     };
 
-                    api.moveTo = function (x, y)
-                    {
+                    api.moveTo = function (x, y) {
                         sprite.rotation = game.physics.arcade.moveToXY(sprite, x, y, 400);
                     };
 
-                    api.getHealth = function ()
-                    {
+                    api.getHealth = function () {
                         return that.health;
                     };
 
@@ -285,21 +255,17 @@ angular.module('spacecraft')
                 return that;
             };
 
-            function runUserScript()
-            {
-                if (isRunning)
-                {
+            function runUserScript() {
+                if (isRunning) {
                     userObject.run(spaceCraft.getUserAPI(), world.getUserAPI());
                 }
             }
 
-            function init()
-            {
+            function init() {
                 game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
             }
 
-            function preload()
-            {
+            function preload() {
                 game.load.image('redBeam', 'resources/assets/redBeam.png');
                 game.load.image('greenBeam', 'resources/assets/greenBeam.png');
                 game.load.image('starField', 'resources/assets/starField.png');
@@ -308,8 +274,7 @@ angular.module('spacecraft')
                 game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
             }
 
-            function create()
-            {
+            function create() {
                 var bounds = {
                     x: 0,
                     y: 0,
@@ -337,8 +302,7 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                for (var i = 0; i < 20; i++)
-                {
+                for (var i = 0; i < 20; i++) {
                     var e = EnemySpaceCraft({
                         spriteName: 'spaceCraft' + (Math.floor(Math.random() * 2) + 1),
                         health: 100,
@@ -355,15 +319,13 @@ angular.module('spacecraft')
                 cursors = game.input.keyboard.createCursorKeys();
             }
 
-            function update()
-            {
+            function update() {
                 spaceCraft.weapon.update();
 
                 runUserScript();
             }
 
-            function render()
-            {
+            function render() {
                 var zone = game.camera.deadzone;
 
                 game.context.fillStyle = 'rgba(255,255,255,0.1)';
@@ -373,17 +335,14 @@ angular.module('spacecraft')
                 game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
             }
 
-            scope.$watch('code', function (n)
-            {
+            scope.$watch('code', function (n) {
                 userCode = n;
             });
 
-            scope.$watch('isRunning', function (n)
-            {
+            scope.$watch('isRunning', function (n) {
                 isRunning = n;
 
-                if (n)
-                {
+                if (n) {
                     userObject = new Function(userCode)();
                 }
             });

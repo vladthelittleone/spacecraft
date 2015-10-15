@@ -26,7 +26,7 @@ angular.module('spacecraft.main', [])
 
         $scope.code = "return { \n\t" +
                         "run : function(spaceCraft, world) \n\t" +
-                        "{  \n\t\tspaceCraft.thrust();  \n\t}  " +
+                        "{  \n\t\tspaceCraft.fire();  \n\t}  " +
                         "\n};";
 
         $scope.isCodeRunning = false;

@@ -40,7 +40,8 @@ angular.module('spacecraft')
                     enemiesApi = [],
                     bounds = spec.bounds;
 
-                enemies.forEach(function(enemy) {
+                enemies.forEach(function (enemy)
+                {
                     enemiesApi.push(enemy.getUserAPI());
                 });
 
@@ -53,6 +54,13 @@ angular.module('spacecraft')
                 that.getEnemies = function ()
                 {
                     return enemies;
+                };
+
+                that.getAllUnits = function ()
+                {
+                    var spaceCrafts = enemies.slice();
+                    spaceCrafts.push(spaceCraft);
+                    return spaceCrafts;
                 };
 
                 that.getUserAPI = function ()
@@ -142,14 +150,16 @@ angular.module('spacecraft')
 
                 that.update = function ()
                 {
-                    var enemies = world.getEnemies();
-
-                    enemies.forEach(function(enemy, i, arr)
+                    var units = world.getAllUnits();
+                    units.forEach(function (u, i, arr)
                     {
-                       if( game.physics.arcade.overlap(beams, enemy.sprite, beamHit, null, this))
-                       {
-                           enemy.hit(5);
-                       }
+                        if (sprite !== u.sprite)
+                        {
+                            if (game.physics.arcade.overlap(beams, u.sprite, beamHit, null, this))
+                            {
+                                u.hit(5);
+                            }
+                        }
                     });
                 };
 
@@ -187,6 +197,11 @@ angular.module('spacecraft')
                 that.hit = function (damage)
                 {
                     that.health -= damage;
+
+                    if (that.health <= 0)
+                    {
+                        sprite.kill();
+                    }
                 };
 
                 that.weapon = Weapon({
@@ -357,7 +372,12 @@ angular.module('spacecraft')
 
             function update()
             {
-                spaceCraft.weapon.update();
+                var units = world.getAllUnits();
+
+                units.forEach(function (u, i, arr)
+                {
+                    u.weapon.update();
+                });
 
                 runUserScript();
             }
@@ -365,6 +385,8 @@ angular.module('spacecraft')
             function render()
             {
                 var zone = game.camera.deadzone;
+
+                var units = world.getAllUnits();
 
                 game.context.fillStyle = 'rgba(255,255,255,0.1)';
                 game.context.fillRect(zone.x, zone.y, zone.width, zone.height);

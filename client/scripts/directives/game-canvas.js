@@ -100,9 +100,8 @@ angular.module('spacecraft')
                 beams.setAll('outOfBoundsKill', true);
                 beams.setAll('checkWorldBounds', true);
 
-                var beamHitPlayer = function (enemy, beam)
+                var beamHit = function (enemy, beam)
                 {
-                    enemy.kill();
                     beam.kill();
                 };
 
@@ -147,7 +146,10 @@ angular.module('spacecraft')
 
                     enemies.forEach(function(enemy, i, arr)
                     {
-                        game.physics.arcade.overlap(beams, enemy.sprite, beamHitPlayer, null, this);
+                       if( game.physics.arcade.overlap(beams, enemy.sprite, beamHit, null, this))
+                       {
+                           enemy.hit(5);
+                       }
                     });
                 };
 
@@ -181,6 +183,11 @@ angular.module('spacecraft')
 
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.angle = spec.angle);
+
+                that.hit = function (damage)
+                {
+                    that.health -= damage;
+                };
 
                 that.weapon = Weapon({
                     sprite: sprite,

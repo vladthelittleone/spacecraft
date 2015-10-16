@@ -157,7 +157,7 @@ angular.module('spacecraft')
                         {
                             if (game.physics.arcade.overlap(beams, u.sprite, beamHit, null, this))
                             {
-                                u.hit(5);
+                                u.hit(damage);
                             }
                         }
                     });

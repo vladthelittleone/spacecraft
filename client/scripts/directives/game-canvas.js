@@ -12,6 +12,7 @@ angular.module('spacecraft')
         var linkFn = function (scope, element, attrs)
         {
             var spaceCraft,
+                starField,
                 world,
                 cursors,
                 isRunning,
@@ -22,8 +23,7 @@ angular.module('spacecraft')
             //var height  = parseInt(element.css('height'), 10),
             //    width   = parseInt(element.css('width'), 10);
 
-            var game = new Phaser.Game(window.innerWidth, window.innerWidth, Phaser.CANVAS, 'game', {
-                init: init,
+            var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
                 create: create,
                 update: update,
@@ -95,18 +95,16 @@ angular.module('spacecraft')
                     spriteName = spec.spriteName,
                     fireTime = 0;
 
-                //  Our bullet group
+                //  Our beam group
                 var beams = game.add.group();
-
-                beams.enableBody = true;
-                beams.physicsBodyType = Phaser.Physics.ARCADE;
-
-                beams.createMultiple(30, spriteName, 0, false);
 
                 beams.setAll('anchor.x', 0.5);
                 beams.setAll('anchor.y', 0.5);
                 beams.setAll('outOfBoundsKill', true);
                 beams.setAll('checkWorldBounds', true);
+
+                beams.enableBody = true;
+                beams.physicsBodyType = Phaser.Physics.P2JS;
 
                 var beamHit = function (enemy, beam)
                 {
@@ -127,21 +125,28 @@ angular.module('spacecraft')
                 {
                     if (game.time.now > fireTime)
                     {
-                        var beam = beams.getFirstExists(false);
+                        var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
+
+                        beam.body.collideWorldBounds = false;
+
+                        var dx = x - beam.x;
+                        var dy = y - beam.y;
 
                         if (beam)
                         {
-                            beam.reset(sprite.x, sprite.y);
-
                             if (!x || !y)
                             {
-                                beam.rotation = sprite.rotation;
-                                game.physics.arcade.velocityFromRotation(sprite.rotation, 400, beam.body.velocity);
+                                beam.body.rotation = sprite.body.rotation - (Math.PI / 2);
                             }
                             else
                             {
-                                beam.rotation = game.physics.arcade.moveToXY(beam, x, y, 400);
+                                beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
                             }
+
+                            var angle = beam.body.rotation;
+
+                            beam.body.velocity.x = 400 * Math.cos(angle);
+                            beam.body.velocity.y = 400 * Math.sin(angle);
 
                             fireTime = game.time.now + fireRate;
                         }
@@ -151,12 +156,14 @@ angular.module('spacecraft')
                 that.update = function ()
                 {
                     var units = world.getAllUnits();
+
                     units.forEach(function (u, i, arr)
                     {
                         if (sprite !== u.sprite)
                         {
-                            if (game.physics.arcade.overlap(beams, u.sprite, beamHit, null, this))
+                            if (u.sprite.body.collides(beams, beamHit, null, this))
                             {
+                                console.log(i);
                                 u.hit(5);
                             }
                         }
@@ -182,17 +189,22 @@ angular.module('spacecraft')
                 // Создаем спрайт
                 var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
-                sprite.anchor.set(0.5);
+                sprite.anchor.x = 0.5;
+                sprite.anchor.y = 0.5;
+                sprite.checkWorldBounds = true;
+
+                var collisionGroup = game.physics.p2.createCollisionGroup();
+                game.physics.p2.updateBoundsCollisionGroup();
 
                 // Подключаем физику тел к кораблю
-                game.physics.enable(sprite, Phaser.Physics.ARCADE);
+                game.physics.p2.enable(sprite);
 
-                sprite.body.drag.set(0.2);
-                sprite.body.maxVelocity.set(200);
-                sprite.body.collideWorldBounds = true;
+                //  Set the ships collision group
+                sprite.body.setCollisionGroup(collisionGroup);
+                sprite.body.collides(collisionGroup);
 
                 // Поварачиваем корабль на init-угол
-                !spec.angle || (sprite.angle = spec.angle);
+                !spec.angle || (sprite.body.angle = spec.angle);
 
                 that.hit = function (damage)
                 {
@@ -226,8 +238,6 @@ angular.module('spacecraft')
             var EnemySpaceCraft = function (spec)
             {
                 var that = SpaceCraft(spec);
-                var sprite = that.sprite;
-                var weapon = that.weapon;
 
                 that.regeneration = function ()
                 {
@@ -284,9 +294,24 @@ angular.module('spacecraft')
                         weapon.fire(x, y);
                     };
 
-                    api.moveTo = function (x, y)
+                    api.rotateLeft = function ()
                     {
-                        sprite.rotation = game.physics.arcade.moveToXY(sprite, x, y, 400);
+                        sprite.body.rotateLeft(10);
+                    };
+
+                    api.rotateRight = function ()
+                    {
+                        sprite.body.rotateRight(10);
+                    };
+
+                    api.thrust = function ()
+                    {
+                        sprite.body.thrust(10);
+                    };
+
+                    api.reverse = function ()
+                    {
+                        sprite.body.reverse(10);
                     };
 
                     api.getHealth = function ()
@@ -306,11 +331,6 @@ angular.module('spacecraft')
                 {
                     userObject.run(spaceCraft.getUserAPI(), world.getUserAPI());
                 }
-            }
-
-            function init()
-            {
-                game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
             }
 
             function preload()
@@ -336,14 +356,18 @@ angular.module('spacecraft')
                     bounds: bounds
                 });
 
-                game.add.tileSprite(0, 0, 1920, 1920, 'starField');
+                game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
                 game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
 
                 game.scale.pageAlignVertically = true;
                 game.scale.pageAlignHorizontally = true;
 
-                //  We need arcade physics
-                game.physics.startSystem(Phaser.Physics.ARCADE);
+                //  Enable P2
+                game.physics.startSystem(Phaser.Physics.P2JS);
+
+                //  Turn on impact events for the world, without this we get no collision callbacks
+                game.physics.p2.setImpactEvents(true);
+                game.physics.p2.restitution = 0.8;
 
                 spaceCraft = UserSpaceCraft({
                     x: game.world.centerX,
@@ -385,8 +409,6 @@ angular.module('spacecraft')
             function render()
             {
                 var zone = game.camera.deadzone;
-
-                var units = world.getAllUnits();
 
                 game.context.fillStyle = 'rgba(255,255,255,0.1)';
                 game.context.fillRect(zone.x, zone.y, zone.width, zone.height);

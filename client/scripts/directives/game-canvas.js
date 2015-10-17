@@ -164,9 +164,13 @@ angular.module('spacecraft')
                         {
                             var beamHit = function (unit, beam)
                             {
-                                beam.sprite.kill();
-                                beam.destroy();
-                                u.hit(damage);
+                                // TODO fix it!!
+                                if (beam.sprite)
+                                {
+                                    beam.sprite.kill();
+                                    beam.destroy();
+                                    u.hit(damage);
+                                }
                             };
 
                             u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);

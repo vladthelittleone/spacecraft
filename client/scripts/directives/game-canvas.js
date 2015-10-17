@@ -17,6 +17,7 @@ angular.module('spacecraft')
                 cursors,
                 isRunning,
                 userCode,
+                collisionGroup,
                 userObject;
 
             // Build the game object
@@ -93,6 +94,7 @@ angular.module('spacecraft')
                     damage = spec.damage,
                     fireRate = spec.fireRate,
                     spriteName = spec.spriteName,
+                    beamsCollisionGroup = game.physics.p2.createCollisionGroup(),
                     fireTime = 0;
 
                 //  Our beam group
@@ -105,11 +107,6 @@ angular.module('spacecraft')
 
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
-
-                var beamHit = function (enemy, beam)
-                {
-                    beam.kill();
-                };
 
                 that.getDamage = function ()
                 {
@@ -128,6 +125,10 @@ angular.module('spacecraft')
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
 
                         beam.body.collideWorldBounds = false;
+
+                        //  Tell the panda to use the pandaCollisionGroup
+                        beam.body.setCollisionGroup(beamsCollisionGroup);
+                        beam.body.collides(collisionGroup);
 
                         var dx = x - beam.x;
                         var dy = y - beam.y;
@@ -161,11 +162,14 @@ angular.module('spacecraft')
                     {
                         if (sprite !== u.sprite)
                         {
-                            if (u.sprite.body.collides(beams, beamHit, null, this))
+                            var beamHit = function (unit, beam)
                             {
-                                console.log(i);
-                                u.hit(5);
-                            }
+                                beam.sprite.kill();
+                                beam.destroy();
+                                u.hit(damage);
+                            };
+
+                            u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
                         }
                     });
                 };
@@ -193,15 +197,12 @@ angular.module('spacecraft')
                 sprite.anchor.y = 0.5;
                 sprite.checkWorldBounds = true;
 
-                var collisionGroup = game.physics.p2.createCollisionGroup();
-                game.physics.p2.updateBoundsCollisionGroup();
-
                 // Подключаем физику тел к кораблю
-                game.physics.p2.enable(sprite);
+                game.physics.p2.enable(sprite, true);
 
                 //  Set the ships collision group
                 sprite.body.setCollisionGroup(collisionGroup);
-                sprite.body.collides(collisionGroup);
+                sprite.body.static = true;
 
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);
@@ -209,9 +210,13 @@ angular.module('spacecraft')
                 that.hit = function (damage)
                 {
                     that.health -= damage;
-
                     if (that.health <= 0)
                     {
+                        var index = world.getEnemies().indexOf(this);
+                        if (index > -1) {
+                            world.getEnemies().splice(index, 1);
+                        }
+                        sprite.body.destroy();
                         sprite.kill();
                     }
                 };
@@ -368,6 +373,9 @@ angular.module('spacecraft')
                 //  Turn on impact events for the world, without this we get no collision callbacks
                 game.physics.p2.setImpactEvents(true);
                 game.physics.p2.restitution = 0.8;
+
+                collisionGroup = game.physics.p2.createCollisionGroup();
+                game.physics.p2.updateBoundsCollisionGroup();
 
                 spaceCraft = UserSpaceCraft({
                     x: game.world.centerX,

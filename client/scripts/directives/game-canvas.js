@@ -206,6 +206,8 @@ angular.module('spacecraft')
 
                 //  Set the ships collision group
                 sprite.body.setCollisionGroup(collisionGroup);
+
+                // TODO fix it.
                 sprite.body.static = true;
 
                 // Поварачиваем корабль на init-угол

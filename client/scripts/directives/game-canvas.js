@@ -263,6 +263,15 @@ angular.module('spacecraft')
                         world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
+
+                        // 100 и 100 взяты с потолка, смещение нужно тк по не известной мне причине
+                        // при рорисовке спрайта со взрывом, отображается немного ниже и правее чем сам корабль
+                        var boomSprite = game.add.sprite(x - 100, y - 100, 'explosionSpaceCraft');
+                        // массив это то какие кадры использовать
+                        boomSprite.animations.add('boom', [0]);
+                        // 0.5 это количество кадров в секунду, тк в спрайте один кадр, то показыватся анимация будет около 2 секунд, надеюсь
+                        boomSprite.play('boom', 0.5, false, true);
+
                     }
                 };
 
@@ -392,6 +401,8 @@ angular.module('spacecraft')
                 game.load.image('spaceCraft', 'resources/assets/spaceCraft.png');
                 game.load.image('spaceCraft1', 'resources/assets/spaceCraft1.png');
                 game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
+                //game.load.image('explosionSpaceCraft', 'resources/assets/explosionSpaceCraft.png');
+                game.load.spritesheet('explosionSpaceCraft', 'resources/assets/explosionSpaceCraft.png', 128, 128);
             }
 
             function create()

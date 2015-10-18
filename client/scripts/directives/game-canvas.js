@@ -93,12 +93,14 @@ angular.module('spacecraft')
                     sprite = spec.sprite,
                     damage = spec.damage,
                     fireRate = spec.fireRate,
+                    fireRange = spec.fireRange,
                     spriteName = spec.spriteName,
                     beamsCollisionGroup = game.physics.p2.createCollisionGroup(),
                     fireTime = 0;
 
                 //  Our beam group
                 var beams = game.add.group();
+                var beamsMassiv = [];
 
                 beams.setAll('anchor.x', 0.5);
                 beams.setAll('anchor.y', 0.5);
@@ -123,6 +125,8 @@ angular.module('spacecraft')
                     if (game.time.now > fireTime)
                     {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
+
+                        baemsMassiv.push(beam);
 
                         beam.body.collideWorldBounds = false;
 
@@ -236,6 +240,7 @@ angular.module('spacecraft')
                     sprite: sprite,
                     damage: 50,
                     fireRate: 500,
+                    fireRange: 300,
                     spriteName: 'greenBeam'
                 });
 

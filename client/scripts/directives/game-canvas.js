@@ -168,9 +168,9 @@ angular.module('spacecraft')
 
                     beamsArray.forEach(function (b, j, arr1)
                     {
-                        var calculation = Math.pow(b.x - sprite.x, 2) + Math.pow(b.y - sprite.y, 2);
-
-                        if (Math.sqrt(calculation) <= fireRange)
+                        var beamPoit = new Phaser.Point(b.x, b.y);
+                        var spritePoint = new Phaser.Point(sprite.x, sprite.y);
+                        if (Phaser.Point.distance(spritePoint, beamPoit) <= fireRange)
                         {
                             units.forEach(function (u, i, arr)
                             {
@@ -191,7 +191,7 @@ angular.module('spacecraft')
                                         }
                                     };
 
-                                    u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
+                                    u.sprite.body.collides(b, beamHit, null, this);
                                 }
                             });
                         }

@@ -100,7 +100,7 @@ angular.module('spacecraft')
 
                 //  Our beam group
                 var beams = game.add.group();
-                var beamsMassiv = [];
+                var beamsArray = [];
 
                 beams.setAll('anchor.x', 0.5);
                 beams.setAll('anchor.y', 0.5);
@@ -126,7 +126,7 @@ angular.module('spacecraft')
                     {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
 
-                        baemsMassiv.push(beam);
+                        beamsArray.push(beam);
 
                         beam.body.collideWorldBounds = false;
 
@@ -166,26 +166,34 @@ angular.module('spacecraft')
                 {
                     var units = world.getAllUnits();
 
-                    units.forEach(function (u, i, arr)
+                    beamsArray.forEach(function (b, j, arr1)
                     {
-                        if (sprite !== u.sprite)
-                        {
-                            var beamHit = function (unit, beam)
-                            {
-                                /**
-                                 * TODO
-                                 * Странная проверка, так как мы удаляем body,
-                                 * но все равно вызывается beamHit
-                                 */
-                                if (beam.sprite)
-                                {
-                                    beam.sprite.kill();
-                                    beam.destroy();
-                                    u.hit(damage);
-                                }
-                            };
+                        var calculation = Math.pow(b.x - sprite.x, 2) + Math.pow(b.y - sprite.y, 2);
 
-                            u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
+                        if (Math.sqrt(calculation) <= fireRange)
+                        {
+                            units.forEach(function (u, i, arr)
+                            {
+                                if (sprite !== u.sprite)
+                                {
+                                    var beamHit = function (unit, beam)
+                                    {
+                                        /**
+                                         * TODO
+                                         * Странная проверка, так как мы удаляем body,
+                                         * но все равно вызывается beamHit
+                                         */
+                                        if (beam.sprite)
+                                        {
+                                            beam.sprite.kill();
+                                            beam.destroy();
+                                            u.hit(damage);
+                                        }
+                                    };
+
+                                    u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
+                                }
+                            });
                         }
                     });
                 };
@@ -228,7 +236,8 @@ angular.module('spacecraft')
                     if (that.health <= 0)
                     {
                         var index = world.getEnemies().indexOf(this);
-                        if (index > -1) {
+                        if (index > -1)
+                        {
                             world.getEnemies().splice(index, 1);
                         }
                         sprite.body.destroy();

@@ -268,7 +268,7 @@ angular.module('spacecraft')
 
                 that.weapon = Weapon({
                     sprite: sprite,
-                    damage: 50,
+                    damage: 10,
                     fireRate: 500,
                     fireRange: 300,
                     spriteName: 'greenBeam'

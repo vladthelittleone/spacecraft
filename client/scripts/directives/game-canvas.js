@@ -45,6 +45,16 @@ angular.module('spacecraft')
                 render: render
             });
 
+            var Bonus = function (spec)
+            {
+
+                var that = {},
+                    sprite = spec.sprite,
+                    imotion = spec.imotion,
+                    x = spec.x,
+                    y = spec.y;
+
+            };
             /**
              * @constructor
              */
@@ -55,10 +65,17 @@ angular.module('spacecraft')
                     enemiesApi = [],
                     bounds = spec.bounds;
 
+                var bonusArray = [];
+
                 enemies.forEach(function (enemy)
                 {
                     enemiesApi.push(enemy.api);
                 });
+
+                that.getBonus = function ()
+                {
+                    return bonusArray;
+                };
 
                 that.push = function (enemy)
                 {
@@ -266,9 +283,20 @@ angular.module('spacecraft')
                     that.health -= damage;
                     if (that.health <= 0)
                     {
+                        var xN = x;
+                        var yN = y;
                         world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
+
+                        var b = Bonus({
+                            sprite: 'bonus1',
+                            imotion: 10,
+                            x: xN,
+                            y: yN
+                        });
+
+                        world.bonusArray.push(b);
                     }
                 };
 
@@ -379,6 +407,8 @@ angular.module('spacecraft')
                 game.load.image('spaceCraft', 'resources/assets/spaceCraft.png');
                 game.load.image('spaceCraft1', 'resources/assets/spaceCraft1.png');
                 game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
+                game.load.image('bonus1', 'resources/assets/bonus1.png');
+                game.load.image('bonus2', 'resources/assets/bonus2.png');
             }
 
             function create()

@@ -24,6 +24,20 @@ angular.module('spacecraft')
             //var height  = parseInt(element.css('height'), 10),
             //    width   = parseInt(element.css('width'), 10);
 
+            Array.prototype.removeElement = function (element)
+            {
+                var index = this.indexOf(element);
+                this.removeElementByIndex(index)
+            };
+
+            Array.prototype.removeElementByIndex = function (index)
+            {
+                if (index > -1)
+                {
+                    this.splice(index, 1);
+                }
+            };
+
             var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
                 create: create,
@@ -93,12 +107,16 @@ angular.module('spacecraft')
                     sprite = spec.sprite,
                     damage = spec.damage,
                     fireRate = spec.fireRate,
+                    fireRange = spec.fireRange,
                     spriteName = spec.spriteName,
                     beamsCollisionGroup = game.physics.p2.createCollisionGroup(),
                     fireTime = 0;
 
                 //  Our beam group
                 var beams = game.add.group();
+
+                // Массив выпущенных снарядов
+                var beamsArray = [];
 
                 beams.setAll('anchor.x', 0.5);
                 beams.setAll('anchor.y', 0.5);
@@ -123,6 +141,9 @@ angular.module('spacecraft')
                     if (game.time.now > fireTime)
                     {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
+
+                        // Добавляем выпущенный снаряд в массив снарядов
+                        beamsArray.push(beam);
 
                         beam.body.collideWorldBounds = false;
 
@@ -162,7 +183,23 @@ angular.module('spacecraft')
                 {
                     var units = world.getAllUnits();
 
-                    units.forEach(function (u, i, arr)
+                    // Проходимся по всем снарядам выпущенным кораблем
+                    beamsArray.forEach(function (b, i)
+                    {
+                        // Проверка вышел ли  снаряд за range ружия
+                        if (Phaser.Point.distance(sprite, b) > fireRange)
+                        {
+                            if (b)
+                            {
+                                // Уничтожаем спрайт снаряда и удоляем его из массива снарядов
+                                b.kill();
+                                b.body.destroy();
+                                beamsArray.removeElementByIndex(i);
+                            }
+                        }
+                    });
+
+                    units.forEach(function (u)
                     {
                         if (sprite !== u.sprite)
                         {
@@ -223,10 +260,7 @@ angular.module('spacecraft')
                     that.health -= damage;
                     if (that.health <= 0)
                     {
-                        var index = world.getEnemies().indexOf(this);
-                        if (index > -1) {
-                            world.getEnemies().splice(index, 1);
-                        }
+                        world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
                     }
@@ -236,6 +270,7 @@ angular.module('spacecraft')
                     sprite: sprite,
                     damage: 50,
                     fireRate: 500,
+                    fireRange: 300,
                     spriteName: 'greenBeam'
                 });
 

@@ -126,7 +126,11 @@ angular.module('spacecraft')
 
                         beam.body.collideWorldBounds = false;
 
-                        //  Tell the panda to use the pandaCollisionGroup
+                        // Устанавливаем маленькую массу,
+                        // что б при столкновении с пулей
+                        // кораблик не взаимодействовал с ней.
+                        beam.body.mass = 0.00001;
+
                         beam.body.setCollisionGroup(beamsCollisionGroup);
                         beam.body.collides(collisionGroup);
 
@@ -164,7 +168,11 @@ angular.module('spacecraft')
                         {
                             var beamHit = function (unit, beam)
                             {
-                                // TODO fix it!!
+                                /**
+                                 * TODO
+                                 * Странная проверка, так как мы удаляем body,
+                                 * но все равно вызывается beamHit
+                                 */
                                 if (beam.sprite)
                                 {
                                     beam.sprite.kill();
@@ -206,9 +214,6 @@ angular.module('spacecraft')
 
                 //  Set the ships collision group
                 sprite.body.setCollisionGroup(collisionGroup);
-
-                // TODO fix it.
-                sprite.body.static = true;
 
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);

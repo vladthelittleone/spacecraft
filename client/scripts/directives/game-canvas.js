@@ -189,11 +189,11 @@ angular.module('spacecraft')
                         // Проверка вышел ли  снаряд за range ружия
                         if (Phaser.Point.distance(sprite, b) > fireRange)
                         {
-                            if (b)
+                            if (b.body)
                             {
                                 // Уничтожаем спрайт снаряда и удоляем его из массива снарядов
-                                b.kill();
                                 b.body.destroy();
+                                b.destroy();
                                 beamsArray.removeElementByIndex(i);
                             }
                         }
@@ -212,7 +212,7 @@ angular.module('spacecraft')
                                  */
                                 if (beam.sprite)
                                 {
-                                    beam.sprite.kill();
+                                    beam.sprite.destroy();
                                     beam.destroy();
                                     u.hit(damage);
                                 }
@@ -342,12 +342,12 @@ angular.module('spacecraft')
 
                 that.api.rotateLeft = function ()
                 {
-                    sprite.body.rotateLeft(10);
+                    sprite.body.rotateLeft(1);
                 };
 
                 that.api.rotateRight = function ()
                 {
-                    sprite.body.rotateRight(10);
+                    sprite.body.rotateRight(1);
                 };
 
                 that.api.thrust = function ()

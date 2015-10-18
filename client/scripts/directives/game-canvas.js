@@ -57,12 +57,12 @@ angular.module('spacecraft')
 
                 enemies.forEach(function (enemy)
                 {
-                    enemiesApi.push(enemy.getUserAPI());
+                    enemiesApi.push(enemy.api);
                 });
 
                 that.push = function (enemy)
                 {
-                    enemiesApi.push(enemy.getUserAPI());
+                    enemiesApi.push(enemy.api);
                     enemies.push(enemy);
                 };
 
@@ -78,21 +78,16 @@ angular.module('spacecraft')
                     return spaceCrafts;
                 };
 
-                that.getUserAPI = function ()
+                that.api = {};
+
+                that.api.getEnemies = function ()
                 {
-                    var api = {};
+                    return enemiesApi;
+                };
 
-                    api.getEnemies = function ()
-                    {
-                        return enemiesApi;
-                    };
-
-                    api.getBounds = function ()
-                    {
-                        return bounds;
-                    };
-
-                    return api;
+                that.api.getBounds = function ()
+                {
+                    return bounds;
                 };
 
                 return that;
@@ -134,6 +129,11 @@ angular.module('spacecraft')
                 that.getFireRate = function ()
                 {
                     return fireRate;
+                };
+
+                that.getFireRange = function ()
+                {
+                    return fireRange;
                 };
 
                 that.fire = function (x, y)
@@ -255,6 +255,12 @@ angular.module('spacecraft')
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);
 
+                that.regeneration = function ()
+                {
+                    that.health += 5;
+                    scope.$apply();
+                };
+
                 that.hit = function (damage)
                 {
                     that.health -= damage;
@@ -280,6 +286,23 @@ angular.module('spacecraft')
                 // Сообщаем angualrJS об изменениях
                 scope.$apply();
 
+                that.api = {};
+
+                that.api.getHealth = function ()
+                {
+                    return that.health;
+                };
+
+                that.api.getX = function ()
+                {
+                    return that.x;
+                };
+
+                that.api.getY = function ()
+                {
+                    return that.y;
+                };
+
                 return that;
             };
 
@@ -290,33 +313,9 @@ angular.module('spacecraft')
             {
                 var that = SpaceCraft(spec);
 
-                that.regeneration = function ()
-                {
-                    that.health += 5;
-                    scope.$apply();
-                };
-
-                that.getUserAPI = function ()
-                {
-                    var api = {};
-
-                    api.getX = function ()
-                    {
-                        return that.x;
-                    };
-
-                    api.getY = function ()
-                    {
-                        return that.y;
-                    };
-
-                    api.getHealth = function ()
-                    {
-                        return that.health;
-                    };
-
-                    return api;
-                };
+                /**
+                 * Future changes
+                 */
 
                 return that;
             };
@@ -336,41 +335,29 @@ angular.module('spacecraft')
                     scope.$apply();
                 };
 
-                that.getUserAPI = function ()
+                that.api.fire = function (x, y)
                 {
-                    var api = {};
+                    weapon.fire(x, y);
+                };
 
-                    api.fire = function (x, y)
-                    {
-                        weapon.fire(x, y);
-                    };
+                that.api.rotateLeft = function ()
+                {
+                    sprite.body.rotateLeft(10);
+                };
 
-                    api.rotateLeft = function ()
-                    {
-                        sprite.body.rotateLeft(10);
-                    };
+                that.api.rotateRight = function ()
+                {
+                    sprite.body.rotateRight(10);
+                };
 
-                    api.rotateRight = function ()
-                    {
-                        sprite.body.rotateRight(10);
-                    };
+                that.api.thrust = function ()
+                {
+                    sprite.body.thrust(10);
+                };
 
-                    api.thrust = function ()
-                    {
-                        sprite.body.thrust(10);
-                    };
-
-                    api.reverse = function ()
-                    {
-                        sprite.body.reverse(10);
-                    };
-
-                    api.getHealth = function ()
-                    {
-                        return that.health;
-                    };
-
-                    return api;
+                that.api.reverse = function ()
+                {
+                    sprite.body.reverse(10);
                 };
 
                 return that;
@@ -380,7 +367,7 @@ angular.module('spacecraft')
             {
                 if (isRunning)
                 {
-                    userObject.run(spaceCraft.getUserAPI(), world.getUserAPI());
+                    userObject.run(spaceCraft.api, world.api);
                 }
             }
 
@@ -496,4 +483,5 @@ angular.module('spacecraft')
             link: linkFn
         };
 
-    }]);
+    }])
+;

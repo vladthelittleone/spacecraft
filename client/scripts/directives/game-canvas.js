@@ -350,14 +350,14 @@ angular.module('spacecraft')
                     sprite.body.rotateRight(1);
                 };
 
-                that.api.thrust = function ()
+                that.api.moveForward = function ()
                 {
-                    sprite.body.thrust(10);
+                    sprite.body.moveForward(20);
                 };
 
-                that.api.reverse = function ()
+                that.api.moveBackward = function ()
                 {
-                    sprite.body.reverse(10);
+                    sprite.body.moveBackward(20);
                 };
 
                 return that;

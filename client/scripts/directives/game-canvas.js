@@ -24,6 +24,20 @@ angular.module('spacecraft')
             //var height  = parseInt(element.css('height'), 10),
             //    width   = parseInt(element.css('width'), 10);
 
+            Array.prototype.removeElement = function (element)
+            {
+                var index = this.indexOf(element);
+                this.removeElementByIndex(index)
+            };
+
+            Array.prototype.removeElementByIndex = function (index)
+            {
+                if (index > -1)
+                {
+                    this.splice(index, 1);
+                }
+            };
+
             var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
                 create: create,
@@ -166,34 +180,41 @@ angular.module('spacecraft')
                 {
                     var units = world.getAllUnits();
 
-                    beamsArray.forEach(function (b, j, arr1)
+                    beamsArray.forEach(function (b, i)
                     {
-                        var beamPoit = new Phaser.Point(b.x, b.y);
-                        var spritePoint = new Phaser.Point(sprite.x, sprite.y);
-                        if (Phaser.Point.distance(spritePoint, beamPoit) <= fireRange)
-                        {
-                            units.forEach(function (u, i, arr)
-                            {
-                                if (sprite !== u.sprite)
-                                {
-                                    var beamHit = function (unit, beam)
-                                    {
-                                        /**
-                                         * TODO
-                                         * Странная проверка, так как мы удаляем body,
-                                         * но все равно вызывается beamHit
-                                         */
-                                        if (beam.sprite)
-                                        {
-                                            beam.sprite.kill();
-                                            beam.destroy();
-                                            u.hit(damage);
-                                        }
-                                    };
+                        console.log(Phaser.Point.distance(sprite, b));
 
-                                    u.sprite.body.collides(b, beamHit, null, this);
+                        if (Phaser.Point.distance(sprite, b) > fireRange)
+                        {
+                            if (b)
+                            {
+                                b.kill();
+                                b.body.destroy();
+                                beamsArray.removeElementByIndex(i);
+                            }
+                        }
+                    });
+
+                    units.forEach(function (u)
+                    {
+                        if (sprite !== u.sprite)
+                        {
+                            var beamHit = function (unit, beam)
+                            {
+                                /**
+                                 * TODO
+                                 * Странная проверка, так как мы удаляем body,
+                                 * но все равно вызывается beamHit
+                                 */
+                                if (beam.sprite)
+                                {
+                                    beam.sprite.kill();
+                                    beam.destroy();
+                                    u.hit(damage);
                                 }
-                            });
+                            };
+
+                            u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
                         }
                     });
                 };
@@ -235,11 +256,7 @@ angular.module('spacecraft')
                     that.health -= damage;
                     if (that.health <= 0)
                     {
-                        var index = world.getEnemies().indexOf(this);
-                        if (index > -1)
-                        {
-                            world.getEnemies().splice(index, 1);
-                        }
+                        world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
                     }

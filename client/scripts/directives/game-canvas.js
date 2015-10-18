@@ -114,6 +114,8 @@ angular.module('spacecraft')
 
                 //  Our beam group
                 var beams = game.add.group();
+
+                // Массив выпущенных снарядов
                 var beamsArray = [];
 
                 beams.setAll('anchor.x', 0.5);
@@ -140,6 +142,7 @@ angular.module('spacecraft')
                     {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
 
+                        // Добавляем выпущенный снаряд в массив снарядов
                         beamsArray.push(beam);
 
                         beam.body.collideWorldBounds = false;
@@ -180,14 +183,15 @@ angular.module('spacecraft')
                 {
                     var units = world.getAllUnits();
 
+                    // Проходимся по всем снарядам выпущенным кораблем
                     beamsArray.forEach(function (b, i)
                     {
-                        console.log(Phaser.Point.distance(sprite, b));
-
+                        // Проверка вышел ли  снаряд за range ружия
                         if (Phaser.Point.distance(sprite, b) > fireRange)
                         {
                             if (b)
                             {
+                                // Уничтожаем спрайт снаряда и удоляем его из массива снарядов
                                 b.kill();
                                 b.body.destroy();
                                 beamsArray.removeElementByIndex(i);

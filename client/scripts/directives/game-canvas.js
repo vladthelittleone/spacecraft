@@ -62,20 +62,59 @@ angular.module('spacecraft')
 
             /**
              * @constructor
+             * Класс бонусов выпадающих после
+             * Уничтожения корабля
+             */
+            var Bonus = function (spec)
+            {
+                var that = {};
+                var x = that.x = spec.x;
+                var y = that.y = spec.y;
+
+                // Добавляем спрайт бонуса
+                var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
+
+                // Подключаем физику тел к бонусу
+                game.physics.p2.enable(sprite, true);
+
+                // Поварачиваем бонус на init-угол
+                !spec.angle || (sprite.body.angle = spec.angle);
+
+                sprite.anchor.x = 0.5;
+                sprite.anchor.y = 0.5;
+                sprite.scale.setTo(0.5);
+                sprite.checkWorldBounds = true;
+
+                return that;
+            };
+            /**
+             * @constructor
              */
             var World = function (spec)
             {
                 var that = {},
                     enemies = spec.enemies || [],
                     enemiesApi = [],
-                    bounds = spec.bounds;
+                    bounds = spec.bounds,
+                    bonusArray = [];
 
                 enemies.forEach(function (enemy)
                 {
                     enemiesApi.push(enemy.api);
                 });
 
-                that.push = function (enemy)
+                // Положить в массив бонусов
+                that.pushBonus = function (bonus){
+                    bonusArray.push(bonus);
+                };
+
+                // Получить массив бонусов
+                that.getBonus = function ()
+                {
+                    return bonusArray;
+                };
+
+                that.pushEnemy = function (enemy)
                 {
                     enemiesApi.push(enemy.api);
                     enemies.push(enemy);
@@ -295,6 +334,14 @@ angular.module('spacecraft')
                     that.health -= damage;
                     if (that.health <= 0)
                     {
+                        // Создание нового бонуса и занесение его в bonusArray
+                        world.pushBonus(Bonus({
+                            sprite: 'bonus1',
+                            x: sprite.body.x,
+                            y: sprite.body.y,
+                            angle: game.rnd.angle()
+                        }));
+
                         world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
@@ -465,6 +512,8 @@ angular.module('spacecraft')
                 game.load.image('spaceCraft1', 'resources/assets/spaceCraft1.png');
                 game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
+                game.load.image('bonus1', 'resources/assets/bonus1.png');
+                game.load.image('bonus2', 'resources/assets/bonus2.png');
             }
 
             function create()

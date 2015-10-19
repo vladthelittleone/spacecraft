@@ -93,10 +93,11 @@ angular.module('spacecraft')
             var HealthBonus = function (spec)
             {
                 var that = Bonus(spec);
+                var health = spec.health;
 
-                that.useBonus = function ()
+                that.useBonus = function (spaceCraft)
                 {
-                    spaceCraft.regeneration();
+                    this.addHealth(health);
                 };
 
                 return that;
@@ -105,10 +106,11 @@ angular.module('spacecraft')
             var DamageBonus = function (spec)
             {
                 var that = Bonus(spec);
+                var damage = spec.damage;
 
-                that.useBonus = function ()
+                that.useBonus = function (spaceCraft)
                 {
-                    spaceCraft.weapon.addDamage();
+                    this.weapon.addDamage(damage);
                 };
             };
             /**
@@ -201,9 +203,9 @@ angular.module('spacecraft')
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
 
-                that.addDamage = function ()
+                that.addDamage = function (add)
                 {
-                    damage += 5;
+                    damage += add;
                 };
 
                 that.update = function ()
@@ -381,6 +383,12 @@ angular.module('spacecraft')
 
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);
+
+                that.addHealth = function (add)
+                {
+                    that.health += add;
+                    scope.$apply();
+                };
 
                 that.regeneration = function ()
                 {

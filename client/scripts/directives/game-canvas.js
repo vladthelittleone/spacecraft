@@ -176,67 +176,6 @@ angular.module('spacecraft')
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
 
-                that.getDamage = function ()
-                {
-                    return damage;
-                };
-
-                that.getFireRate = function ()
-                {
-                    return fireRate;
-                };
-
-                that.getFireRange = function ()
-                {
-                    return fireRange;
-                };
-
-                that.fire = function (x, y)
-                {
-                    // Проверка делэя. Не стреляем каждый фрэйм.
-                    if (game.time.now > fireTime)
-                    {
-                        var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
-
-                        // Добавляем выпущенный снаряд в массив снарядов
-                        beamsArray.push(beam);
-
-                        beam.body.collideWorldBounds = false;
-
-                        // Устанавливаем маленькую массу,
-                        // что б при столкновении с пулей
-                        // кораблик не взаимодействовал с ней.
-                        beam.body.mass = 0.00001;
-
-                        beam.body.setCollisionGroup(beamsCollisionGroup);
-                        beam.body.collides(collisionGroup);
-
-                        var dx = x - beam.x;
-                        var dy = y - beam.y;
-
-                        if (beam)
-                        {
-                            if (!x || !y)
-                            {
-                                // Поворот пули по направлению корабля
-                                beam.body.rotation = sprite.body.rotation - (Math.PI / 2);
-                            }
-                            else
-                            {
-                                // Поворот пули по x, y
-                                beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
-                            }
-
-                            var angle = beam.body.rotation;
-
-                            beam.body.velocity.x = velocity * Math.cos(angle);
-                            beam.body.velocity.y = velocity * Math.sin(angle);
-
-                            fireTime = game.time.now + fireRate;
-                        }
-                    }
-                };
-
                 that.update = function ()
                 {
                     var units = world.getAllUnits();
@@ -285,6 +224,95 @@ angular.module('spacecraft')
                             u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
                         }
                     });
+                };
+
+                that.api = {};
+
+                that.api.getDamage = function ()
+                {
+                    return damage;
+                };
+
+                that.api.getFireRate = function ()
+                {
+                    return fireRate;
+                };
+
+                that.api.getFireRange = function ()
+                {
+                    return fireRange;
+                };
+
+                that.api.inRange = function (another)
+                {
+                    var p = new Phaser.Point(another.getX(), another.getY());
+
+                    if (Phaser.Point.distance(sprite, p) < fireRange)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+
+                that.api.fire = function (x, y)
+                {
+                    // Проверка делэя. Не стреляем каждый фрэйм.
+                    if (game.time.now > fireTime)
+                    {
+                        var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
+
+                        // Добавляем выпущенный снаряд в массив снарядов
+                        beamsArray.push(beam);
+
+                        beam.body.collideWorldBounds = false;
+
+                        // Устанавливаем маленькую массу,
+                        // что б при столкновении с пулей
+                        // кораблик не взаимодействовал с ней.
+                        beam.body.mass = 0.00001;
+
+                        beam.body.setCollisionGroup(beamsCollisionGroup);
+                        beam.body.collides(collisionGroup);
+
+                        var dx = x - beam.x;
+                        var dy = y - beam.y;
+
+                        if (beam)
+                        {
+                            if (!x || !y)
+                            {
+                                // Поворот пули по направлению корабля
+                                beam.body.rotation = sprite.body.rotation - (Math.PI / 2);
+                            }
+                            else
+                            {
+                                // Поворот пули по x, y
+                                beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
+                            }
+
+                            var angle = beam.body.rotation;
+
+                            beam.body.velocity.x = velocity * Math.cos(angle);
+                            beam.body.velocity.y = velocity * Math.sin(angle);
+
+                            fireTime = game.time.now + fireRate;
+                        }
+                    }
+                };
+
+                that.api.enemiesInRange = function ()
+                {
+                    var a = [];
+
+                    world.getEnemies().forEach(function (e) {
+                        if (Phaser.Point.distance(sprite, e.sprite) < fireRange)
+                        {
+                            a.push(e.api);
+                        }
+                    });
+
+                    return a;
                 };
 
                 return that;
@@ -376,6 +404,8 @@ angular.module('spacecraft')
 
                 that.api = {};
 
+                that.api.weapon = that.weapon.api;
+
                 that.api.getHealth = function ()
                 {
                     return that.health;
@@ -434,11 +464,6 @@ angular.module('spacecraft')
                 {
                     that.health += 5;
                     scope.$apply();
-                };
-
-                that.api.fire = function (x, y)
-                {
-                    weapon.fire(x, y);
                 };
 
                 that.api.rotateLeft = function ()

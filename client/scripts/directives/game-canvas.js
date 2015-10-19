@@ -41,7 +41,8 @@ angular.module('spacecraft')
             /**
              * Returns a random number between min (inclusive) and max (exclusive)
              */
-            function randomArbitrary(min, max) {
+            function randomArbitrary(min, max)
+            {
                 return Math.random() * (max - min) + min;
             }
 
@@ -49,7 +50,8 @@ angular.module('spacecraft')
              * Returns a random integer between min (inclusive) and max (inclusive)
              * Using Math.round() will give you a non-uniform distribution!
              */
-            function randomInt(min, max) {
+            function randomInt(min, max)
+            {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
@@ -87,6 +89,28 @@ angular.module('spacecraft')
 
                 return that;
             };
+
+            var HealthBonus = function (spec)
+            {
+                var that = Bonus(spec);
+
+                that.useBonus = function ()
+                {
+                    spaceCraft.regeneration();
+                };
+
+                return that;
+            };
+
+            var DamageBonus = function (spec)
+            {
+                var that = Bonus(spec);
+
+                that.useBonus = function ()
+                {
+                    spaceCraft.weapon.addDamage();
+                };
+            };
             /**
              * @constructor
              */
@@ -104,7 +128,8 @@ angular.module('spacecraft')
                 });
 
                 // Положить в массив бонусов
-                that.pushBonus = function (bonus){
+                that.pushBonus = function (bonus)
+                {
                     bonusArray.push(bonus);
                 };
 
@@ -175,6 +200,11 @@ angular.module('spacecraft')
 
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
+
+                that.addDamage = function ()
+                {
+                    damage += 5;
+                };
 
                 that.update = function ()
                 {
@@ -305,7 +335,8 @@ angular.module('spacecraft')
                 {
                     var a = [];
 
-                    world.getEnemies().forEach(function (e) {
+                    world.getEnemies().forEach(function (e)
+                    {
                         if (Phaser.Point.distance(sprite, e.sprite) < fireRange)
                         {
                             a.push(e.api);

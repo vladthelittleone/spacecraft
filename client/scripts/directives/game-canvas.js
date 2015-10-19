@@ -190,22 +190,86 @@ angular.module('spacecraft')
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
 
-                that.getDamage = function ()
+                that.update = function ()
+                {
+                    var units = world.getAllUnits();
+
+                    // Проходимся по всем снарядам выпущенным кораблем
+                    beamsArray.forEach(function (b, i)
+                    {
+                        // Проверка вышел ли  снаряд за range ружия
+                        if (Phaser.Point.distance(sprite, b) > fireRange)
+                        {
+                            if (b.body)
+                            {
+                                // Уничтожаем спрайт снаряда и удаляем его из массива снарядов
+                                b.body.destroy();
+                                b.destroy();
+                                beamsArray.removeElementByIndex(i);
+                            }
+                        }
+                    });
+
+                    units.forEach(function (u)
+                    {
+                        // Не наносим урон себе
+                        if (sprite !== u.sprite)
+                        {
+                            // Callback при коллизии пули с кораблем
+                            var beamHit = function (unit, beam)
+                            {
+                                /**
+                                 * Уничтожаем пулю
+                                 *
+                                 * TODO
+                                 * Странная проверка, так как мы удаляем body,
+                                 * но все равно вызывается beamHit
+                                 */
+                                if (beam.sprite)
+                                {
+                                    beam.sprite.destroy();
+                                    beam.destroy();
+
+                                    // Наносим урон
+                                    u.hit(damage);
+                                }
+                            };
+
+                            u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
+                        }
+                    });
+                };
+
+                that.api = {};
+
+                that.api.getDamage = function ()
                 {
                     return damage;
                 };
 
-                that.getFireRate = function ()
+                that.api.getFireRate = function ()
                 {
                     return fireRate;
                 };
 
-                that.getFireRange = function ()
+                that.api.getFireRange = function ()
                 {
                     return fireRange;
                 };
 
-                that.fire = function (x, y)
+                that.api.inRange = function (another)
+                {
+                    var p = new Phaser.Point(another.getX(), another.getY());
+
+                    if (Phaser.Point.distance(sprite, p) < fireRange)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+
+                that.api.fire = function (x, y)
                 {
                     // Првоерка на объект.
                     // Если есть x, y то это объект,
@@ -260,54 +324,18 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.update = function ()
+                that.api.enemiesInRange = function ()
                 {
-                    var units = world.getAllUnits();
+                    var a = [];
 
-                    // Проходимся по всем снарядам выпущенным кораблем
-                    beamsArray.forEach(function (b, i)
-                    {
-                        // Проверка вышел ли  снаряд за range ружия
-                        if (Phaser.Point.distance(sprite, b) > fireRange)
+                    world.getEnemies().forEach(function (e) {
+                        if (Phaser.Point.distance(sprite, e.sprite) < fireRange)
                         {
-                            if (b.body)
-                            {
-                                // Уничтожаем спрайт снаряда и удаляем его из массива снарядов
-                                b.body.destroy();
-                                b.destroy();
-                                beamsArray.removeElementByIndex(i);
-                            }
+                            a.push(e.api);
                         }
                     });
 
-                    units.forEach(function (u)
-                    {
-                        // Не наносим урон себе
-                        if (sprite !== u.sprite)
-                        {
-                            // Callback при коллизии пули с кораблем
-                            var beamHit = function (unit, beam)
-                            {
-                                /**
-                                 * Уничтожаем пулю
-                                 *
-                                 * TODO
-                                 * Странная проверка, так как мы удаляем body,
-                                 * но все равно вызывается beamHit
-                                 */
-                                if (beam.sprite)
-                                {
-                                    beam.sprite.destroy();
-                                    beam.destroy();
-
-                                    // Наносим урон
-                                    u.hit(damage);
-                                }
-                            };
-
-                            u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
-                        }
-                    });
+                    return a;
                 };
 
                 return that;
@@ -399,6 +427,8 @@ angular.module('spacecraft')
 
                 that.api = {};
 
+                that.api.weapon = that.weapon.api;
+
                 that.api.getHealth = function ()
                 {
                     return that.health;
@@ -457,11 +487,6 @@ angular.module('spacecraft')
                 {
                     that.health += 5;
                     scope.$apply();
-                };
-
-                that.api.fire = function (x, y)
-                {
-                    weapon.fire(x, y);
                 };
 
                 that.api.rotateLeft = function ()

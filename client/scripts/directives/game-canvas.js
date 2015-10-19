@@ -224,7 +224,7 @@ angular.module('spacecraft')
                             else
                             {
                                 // Поворот пули по x, y
-                                beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
+                                beam.body.rotation = Math.atan2(dy, dx);
                             }
 
                             var angle = beam.body.rotation;

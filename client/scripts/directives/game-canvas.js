@@ -38,6 +38,21 @@ angular.module('spacecraft')
                 }
             };
 
+            /**
+             * Returns a random number between min (inclusive) and max (exclusive)
+             */
+            function randomArbitrary(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            /**
+             * Returns a random integer between min (inclusive) and max (inclusive)
+             * Using Math.round() will give you a non-uniform distribution!
+             */
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
             var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
                 create: create,
@@ -45,12 +60,18 @@ angular.module('spacecraft')
                 render: render
             });
 
+            /**
+             * @constructor
+             * Класс бонусов выпадающих после
+             * Уничтожения корабля
+             */
             var Bonus = function (spec)
             {
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
 
+                // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
 
                 // Подключаем физику тел к бонусу
@@ -82,10 +103,12 @@ angular.module('spacecraft')
                     enemiesApi.push(enemy.api);
                 });
 
+                // Положить в массив бонусов
                 that.pushBonus = function (bonus){
                     bonusArray.push(bonus);
                 };
 
+                // Получить массив бонусов
                 that.getBonus = function ()
                 {
                     return bonusArray;
@@ -135,6 +158,7 @@ angular.module('spacecraft')
                     fireRate = spec.fireRate,
                     fireRange = spec.fireRange,
                     spriteName = spec.spriteName,
+                    velocity = spec.velocity,
                     beamsCollisionGroup = game.physics.p2.createCollisionGroup(),
                     fireTime = 0;
 
@@ -169,6 +193,7 @@ angular.module('spacecraft')
 
                 that.fire = function (x, y)
                 {
+                    // Проверка делэя. Не стреляем каждый фрэйм.
                     if (game.time.now > fireTime)
                     {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
@@ -193,17 +218,19 @@ angular.module('spacecraft')
                         {
                             if (!x || !y)
                             {
+                                // Поворот пули по направлению корабля
                                 beam.body.rotation = sprite.body.rotation - (Math.PI / 2);
                             }
                             else
                             {
+                                // Поворот пули по x, y
                                 beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
                             }
 
                             var angle = beam.body.rotation;
 
-                            beam.body.velocity.x = 400 * Math.cos(angle);
-                            beam.body.velocity.y = 400 * Math.sin(angle);
+                            beam.body.velocity.x = velocity * Math.cos(angle);
+                            beam.body.velocity.y = velocity * Math.sin(angle);
 
                             fireTime = game.time.now + fireRate;
                         }
@@ -220,11 +247,11 @@ angular.module('spacecraft')
                         // Проверка вышел ли  снаряд за range ружия
                         if (Phaser.Point.distance(sprite, b) > fireRange)
                         {
-                            if (b)
+                            if (b.body)
                             {
-                                // Уничтожаем спрайт снаряда и удоляем его из массива снарядов
-                                b.kill();
+                                // Уничтожаем спрайт снаряда и удаляем его из массива снарядов
                                 b.body.destroy();
+                                b.destroy();
                                 beamsArray.removeElementByIndex(i);
                             }
                         }
@@ -232,19 +259,25 @@ angular.module('spacecraft')
 
                     units.forEach(function (u)
                     {
+                        // Не наносим урон себе
                         if (sprite !== u.sprite)
                         {
+                            // Callback при коллизии пули с кораблем
                             var beamHit = function (unit, beam)
                             {
                                 /**
+                                 * Уничтожаем пулю
+                                 *
                                  * TODO
                                  * Странная проверка, так как мы удаляем body,
                                  * но все равно вызывается beamHit
                                  */
                                 if (beam.sprite)
                                 {
-                                    beam.sprite.kill();
+                                    beam.sprite.destroy();
                                     beam.destroy();
+
+                                    // Наносим урон
                                     u.hit(damage);
                                 }
                             };
@@ -267,20 +300,24 @@ angular.module('spacecraft')
                 that.health = scope.health = spec.health;
 
                 // Если не заданы x, y проставляем рандомные значения мира
-                var x = that.x = spec.x || game.world.randomX;
-                var y = that.y = spec.y || game.world.randomY;
+                // Координаты корабля (спрайта)
+                var x = spec.x || game.world.randomX;
+                var y = spec.y || game.world.randomY;
 
                 // Создаем спрайт
                 var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+                // Центрирование
                 sprite.anchor.x = 0.5;
                 sprite.anchor.y = 0.5;
+
+                // Включаем проверку на коллизии с границей
                 sprite.checkWorldBounds = true;
 
                 // Подключаем физику тел к кораблю
                 game.physics.p2.enable(sprite, true);
 
-                //  Set the ships collision group
+                //  Добавляем группу коллизий
                 sprite.body.setCollisionGroup(collisionGroup);
 
                 // Поварачиваем корабль на init-угол
@@ -297,6 +334,7 @@ angular.module('spacecraft')
                     that.health -= damage;
                     if (that.health <= 0)
                     {
+                        // Создание нового бонуса и занесение его в bonusArray
                         world.pushBonus(Bonus({
                             sprite: 'bonus1',
                             x: sprite.body.x,
@@ -307,6 +345,17 @@ angular.module('spacecraft')
                         world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
+
+                        var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
+
+                        boomSprite.anchor.x = 0.5;
+                        boomSprite.anchor.y = 0.5;
+
+                        // массив это то какие кадры использовать и в какой последовательности
+                        boomSprite.animations.add('boom', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+                        // вторая констатна это количество кадров в секунду при воспроизвелении анимации
+                        boomSprite.play('boom', 16, false, true);
                     }
                 };
 
@@ -315,6 +364,7 @@ angular.module('spacecraft')
                     damage: 10,
                     fireRate: 500,
                     fireRange: 300,
+                    velocity: 400,
                     spriteName: 'greenBeam'
                 });
 
@@ -333,12 +383,25 @@ angular.module('spacecraft')
 
                 that.api.getX = function ()
                 {
-                    return that.x;
+                    return sprite.x;
                 };
 
                 that.api.getY = function ()
                 {
-                    return that.y;
+                    return sprite.y;
+                };
+
+                that.api.getAngle = function ()
+                {
+                    return sprite.body.angle;
+                };
+
+                that.api.angleBetween = function (another)
+                {
+                    // Угол линии от точки к точке в пространстве.
+                    var a = Phaser.Math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY());
+
+                    return that.api.getAngle() - Phaser.Math.radToDeg(a);
                 };
 
                 return that;
@@ -380,22 +443,53 @@ angular.module('spacecraft')
 
                 that.api.rotateLeft = function ()
                 {
-                    sprite.body.rotateLeft(10);
+                    sprite.body.rotateLeft(1);
                 };
 
                 that.api.rotateRight = function ()
                 {
-                    sprite.body.rotateRight(10);
+                    sprite.body.rotateRight(1);
                 };
 
-                that.api.thrust = function ()
+                /**
+                 * Поворот к объекту.
+                 *
+                 * @param another - объект
+                 * @returns {boolean} true/false - совершил поворот / не совершил
+                 */
+                that.api.rotateTo = function (another)
                 {
-                    sprite.body.thrust(10);
+                    var api = that.api;
+                    var angle = api.angleBetween(another);
+
+                    // Угол меньше 20 - не делаем поворот
+                    if (Math.abs(angle) > 20)
+                    {
+                        if (angle > 0)
+                        {
+                            api.rotateLeft();
+                        }
+                        else
+                        {
+                            api.rotateRight();
+                        }
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 };
 
-                that.api.reverse = function ()
+                that.api.moveForward = function ()
                 {
-                    sprite.body.reverse(10);
+                    sprite.body.moveForward(20);
+                };
+
+                that.api.moveBackward = function ()
+                {
+                    sprite.body.moveBackward(20);
                 };
 
                 return that;
@@ -417,6 +511,7 @@ angular.module('spacecraft')
                 game.load.image('spaceCraft', 'resources/assets/spaceCraft.png');
                 game.load.image('spaceCraft1', 'resources/assets/spaceCraft1.png');
                 game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
+                game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
                 game.load.image('bonus1', 'resources/assets/bonus1.png');
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
             }
@@ -457,15 +552,15 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                for (var i = 0; i < 100; i++)
+                for (var i = 0; i < 60; i++)
                 {
                     var e = EnemySpaceCraft({
-                        spriteName: 'spaceCraft' + (Math.floor(Math.random() * 2) + 1),
+                        spriteName: 'spaceCraft' + randomInt(1, 2),
                         health: 100,
                         angle: game.rnd.angle()
                     });
 
-                    world.pushEnemy(e);
+                    world.push(e);
                 }
 
                 game.camera.follow(spaceCraft.sprite);

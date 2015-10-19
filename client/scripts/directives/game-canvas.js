@@ -47,18 +47,24 @@ angular.module('spacecraft')
 
             var Bonus = function (spec)
             {
-
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
-                var angle = that.angle = spec.angle;
 
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
 
+                // Подключаем физику тел к бонусу
+                game.physics.p2.enable(sprite, true);
+
+                // Поварачиваем бонус на init-угол
+                !spec.angle || (sprite.body.angle = spec.angle);
+
                 sprite.anchor.x = 0.5;
                 sprite.anchor.y = 0.5;
+                sprite.scale.setTo(0.5);
                 sprite.checkWorldBounds = true;
 
+                return that;
             };
             /**
              * @constructor
@@ -68,9 +74,8 @@ angular.module('spacecraft')
                 var that = {},
                     enemies = spec.enemies || [],
                     enemiesApi = [],
-                    bounds = spec.bounds;
-
-                var bonusArray = [];
+                    bounds = spec.bounds,
+                    bonusArray = [];
 
                 enemies.forEach(function (enemy)
                 {
@@ -86,7 +91,7 @@ angular.module('spacecraft')
                     return bonusArray;
                 };
 
-                that.push = function (enemy)
+                that.pushEnemy = function (enemy)
                 {
                     enemiesApi.push(enemy.api);
                     enemies.push(enemy);
@@ -292,20 +297,16 @@ angular.module('spacecraft')
                     that.health -= damage;
                     if (that.health <= 0)
                     {
-                        var xN = x;
-                        var yN = y;
+                        world.pushBonus(Bonus({
+                            sprite: 'bonus1',
+                            x: sprite.body.x,
+                            y: sprite.body.y,
+                            angle: game.rnd.angle()
+                        }));
+
                         world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
-
-                        var b = Bonus({
-                            sprite: 'bonus1',
-                            x: xN,
-                            y: yN,
-                            angle: 40
-                        });
-
-                       // world.getBonus().pushBonus(b);
                     }
                 };
 
@@ -456,7 +457,7 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 100; i++)
                 {
                     var e = EnemySpaceCraft({
                         spriteName: 'spaceCraft' + (Math.floor(Math.random() * 2) + 1),
@@ -464,7 +465,7 @@ angular.module('spacecraft')
                         angle: game.rnd.angle()
                     });
 
-                    world.push(e);
+                    world.pushEnemy(e);
                 }
 
                 game.camera.follow(spaceCraft.sprite);

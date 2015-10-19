@@ -119,6 +119,7 @@ angular.module('spacecraft')
                     fireRate = spec.fireRate,
                     fireRange = spec.fireRange,
                     spriteName = spec.spriteName,
+                    velocity = spec.velocity,
                     beamsCollisionGroup = game.physics.p2.createCollisionGroup(),
                     fireTime = 0;
 
@@ -153,6 +154,7 @@ angular.module('spacecraft')
 
                 that.fire = function (x, y)
                 {
+                    // Проверка делэя. Не стреляем каждый фрэйм.
                     if (game.time.now > fireTime)
                     {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
@@ -177,17 +179,19 @@ angular.module('spacecraft')
                         {
                             if (!x || !y)
                             {
+                                // Поворот пули по направлению корабля
                                 beam.body.rotation = sprite.body.rotation - (Math.PI / 2);
                             }
                             else
                             {
+                                // Поворот пули по x, y
                                 beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
                             }
 
                             var angle = beam.body.rotation;
 
-                            beam.body.velocity.x = 400 * Math.cos(angle);
-                            beam.body.velocity.y = 400 * Math.sin(angle);
+                            beam.body.velocity.x = velocity * Math.cos(angle);
+                            beam.body.velocity.y = velocity * Math.sin(angle);
 
                             fireTime = game.time.now + fireRate;
                         }
@@ -206,7 +210,7 @@ angular.module('spacecraft')
                         {
                             if (b.body)
                             {
-                                // Уничтожаем спрайт снаряда и удоляем его из массива снарядов
+                                // Уничтожаем спрайт снаряда и удаляем его из массива снарядов
                                 b.body.destroy();
                                 b.destroy();
                                 beamsArray.removeElementByIndex(i);
@@ -216,11 +220,15 @@ angular.module('spacecraft')
 
                     units.forEach(function (u)
                     {
+                        // Не наносим урон себе
                         if (sprite !== u.sprite)
                         {
+                            // Callback при коллизии пули с кораблем
                             var beamHit = function (unit, beam)
                             {
                                 /**
+                                 * Уничтожаем пулю
+                                 *
                                  * TODO
                                  * Странная проверка, так как мы удаляем body,
                                  * но все равно вызывается beamHit
@@ -229,6 +237,8 @@ angular.module('spacecraft')
                                 {
                                     beam.sprite.destroy();
                                     beam.destroy();
+
+                                    // Наносим урон
                                     u.hit(damage);
                                 }
                             };
@@ -251,20 +261,24 @@ angular.module('spacecraft')
                 that.health = scope.health = spec.health;
 
                 // Если не заданы x, y проставляем рандомные значения мира
-                var x = that.x = spec.x || game.world.randomX;
-                var y = that.y = spec.y || game.world.randomY;
+                // Координаты корабля (спрайта)
+                var x = spec.x || game.world.randomX;
+                var y = spec.y || game.world.randomY;
 
                 // Создаем спрайт
                 var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+                // Центрирование
                 sprite.anchor.x = 0.5;
                 sprite.anchor.y = 0.5;
+
+                // Включаем проверку на коллизии с границей
                 sprite.checkWorldBounds = true;
 
                 // Подключаем физику тел к кораблю
                 game.physics.p2.enable(sprite, true);
 
-                //  Set the ships collision group
+                //  Добавляем группу коллизий
                 sprite.body.setCollisionGroup(collisionGroup);
 
                 // Поварачиваем корабль на init-угол
@@ -292,6 +306,7 @@ angular.module('spacecraft')
                     damage: 10,
                     fireRate: 500,
                     fireRange: 300,
+                    velocity: 400,
                     spriteName: 'greenBeam'
                 });
 
@@ -310,12 +325,25 @@ angular.module('spacecraft')
 
                 that.api.getX = function ()
                 {
-                    return that.x;
+                    return sprite.x;
                 };
 
                 that.api.getY = function ()
                 {
-                    return that.y;
+                    return sprite.y;
+                };
+
+                that.api.getAngle = function ()
+                {
+                    return sprite.body.angle;
+                };
+
+                that.api.angleBetween = function (another)
+                {
+                    // Угол линии от точки к точке в пространстве.
+                    var a = Phaser.Math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY());
+
+                    return that.api.getAngle() - Phaser.Math.radToDeg(a);
                 };
 
                 return that;
@@ -363,6 +391,37 @@ angular.module('spacecraft')
                 that.api.rotateRight = function ()
                 {
                     sprite.body.rotateRight(1);
+                };
+
+                /**
+                 * Поворот к объекту.
+                 *
+                 * @param another - объект
+                 * @returns {boolean} true/false - совершил поворот / не совершил
+                 */
+                that.api.rotateTo = function (another)
+                {
+                    var api = that.api;
+                    var angle = api.angleBetween(another);
+
+                    // Угол меньше 20 - не делаем поворот
+                    if (Math.abs(angle) > 20)
+                    {
+                        if (angle > 0)
+                        {
+                            api.rotateLeft();
+                        }
+                        else
+                        {
+                            api.rotateRight();
+                        }
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 };
 
                 that.api.moveForward = function ()

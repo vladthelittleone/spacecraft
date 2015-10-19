@@ -38,6 +38,21 @@ angular.module('spacecraft')
                 }
             };
 
+            /**
+             * Returns a random number between min (inclusive) and max (exclusive)
+             */
+            function randomArbitrary(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            /**
+             * Returns a random integer between min (inclusive) and max (inclusive)
+             * Using Math.round() will give you a non-uniform distribution!
+             */
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
             var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
                 create: create,
@@ -420,7 +435,7 @@ angular.module('spacecraft')
                 for (var i = 0; i < 20; i++)
                 {
                     var e = EnemySpaceCraft({
-                        spriteName: 'spaceCraft' + (Math.floor(Math.random() * 2) + 1),
+                        spriteName: 'spaceCraft' + randomInt(1, 2),
                         health: 100,
                         angle: game.rnd.angle()
                     });

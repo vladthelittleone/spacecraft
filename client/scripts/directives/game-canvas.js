@@ -298,6 +298,17 @@ angular.module('spacecraft')
                         world.getEnemies().removeElement(this);
                         sprite.body.destroy();
                         sprite.kill();
+
+                        var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
+
+                        boomSprite.anchor.x = 0.5;
+                        boomSprite.anchor.y = 0.5;
+
+                        // массив это то какие кадры использовать и в какой последовательности
+                        boomSprite.animations.add('boom', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+                        // вторая констатна это количество кадров в секунду при воспроизвелении анимации
+                        boomSprite.play('boom', 16, false, true);
                     }
                 };
 
@@ -453,6 +464,7 @@ angular.module('spacecraft')
                 game.load.image('spaceCraft', 'resources/assets/spaceCraft.png');
                 game.load.image('spaceCraft1', 'resources/assets/spaceCraft1.png');
                 game.load.image('spaceCraft2', 'resources/assets/spaceCraft2.png');
+                game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
             }
 
             function create()
@@ -491,7 +503,7 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 60; i++)
                 {
                     var e = EnemySpaceCraft({
                         spriteName: 'spaceCraft' + randomInt(1, 2),

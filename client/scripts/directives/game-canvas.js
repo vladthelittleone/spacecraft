@@ -48,11 +48,16 @@ angular.module('spacecraft')
             var Bonus = function (spec)
             {
 
-                var that = {},
-                    sprite = spec.sprite,
-                    imotion = spec.imotion,
-                    x = spec.x,
-                    y = spec.y;
+                var that = {};
+                var x = that.x = spec.x;
+                var y = that.y = spec.y;
+                var angle = that.angle = spec.angle;
+
+                var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
+
+                sprite.anchor.x = 0.5;
+                sprite.anchor.y = 0.5;
+                sprite.checkWorldBounds = true;
 
             };
             /**
@@ -71,6 +76,10 @@ angular.module('spacecraft')
                 {
                     enemiesApi.push(enemy.api);
                 });
+
+                that.pushBonus = function (bonus){
+                    bonusArray.push(bonus);
+                };
 
                 that.getBonus = function ()
                 {
@@ -291,12 +300,12 @@ angular.module('spacecraft')
 
                         var b = Bonus({
                             sprite: 'bonus1',
-                            imotion: 10,
                             x: xN,
-                            y: yN
+                            y: yN,
+                            angle: 40
                         });
 
-                        world.bonusArray.push(b);
+                       // world.getBonus().pushBonus(b);
                     }
                 };
 

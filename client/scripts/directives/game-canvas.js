@@ -560,7 +560,7 @@ angular.module('spacecraft')
                         angle: game.rnd.angle()
                     });
 
-                    world.push(e);
+                    world.pushEnemy(e);
                 }
 
                 game.camera.follow(spaceCraft.sprite);

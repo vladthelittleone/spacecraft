@@ -457,6 +457,13 @@ angular.module('spacecraft')
                     return that.api.getAngle() - Phaser.Math.radToDeg(a);
                 };
 
+                that.api.distance = function (another)
+                {
+                    var p = new Phaser.Point(another.getX(), another.getY());
+
+                    return Phaser.Point.distance(sprite, p);
+                };
+
                 return that;
             };
 

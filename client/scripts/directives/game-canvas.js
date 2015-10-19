@@ -108,12 +108,6 @@ angular.module('spacecraft')
                     bonusArray.push(bonus);
                 };
 
-                // Получить массив бонусов
-                that.getBonus = function ()
-                {
-                    return bonusArray;
-                };
-
                 that.pushEnemy = function (enemy)
                 {
                     enemiesApi.push(enemy.api);
@@ -134,14 +128,34 @@ angular.module('spacecraft')
 
                 that.api = {};
 
-                that.api.getEnemies = function ()
+                that.api.getEnemies = function (callback)
                 {
+                    if (callback)
+                    {
+                        enemiesApi.forEach(function (e, i, arr) {
+                            callback(e, i, arr);
+                        })
+                    }
+
                     return enemiesApi;
                 };
 
                 that.api.getBounds = function ()
                 {
                     return bounds;
+                };
+
+                // Получить массив бонусов
+                that.api.getBonuses = function (callback)
+                {
+                    if (callback)
+                    {
+                        bonusArray.forEach(function (e, i, arr) {
+                            callback(e, i, arr);
+                        })
+                    }
+
+                    return bonusArray;
                 };
 
                 return that;
@@ -193,6 +207,15 @@ angular.module('spacecraft')
 
                 that.fire = function (x, y)
                 {
+                    // Првоерка на объект.
+                    // Если есть x, y то это объект,
+                    // например корабль
+                    if (x.x && x.y)
+                    {
+                        x = x.x;
+                        y = x.y;
+                    }
+
                     // Проверка делэя. Не стреляем каждый фрэйм.
                     if (game.time.now > fireTime)
                     {

@@ -354,7 +354,7 @@ angular.module('spacecraft')
 
                         if (beam)
                         {
-                            if (!x || !y)
+                            if (!x && !y)
                             {
                                 // Поворот пули по направлению корабля
                                 beam.body.rotation = sprite.body.rotation - (Math.PI / 2);

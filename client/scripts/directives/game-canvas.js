@@ -70,7 +70,7 @@ angular.module('spacecraft')
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
-                var type;
+                var type = spec.type;
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);

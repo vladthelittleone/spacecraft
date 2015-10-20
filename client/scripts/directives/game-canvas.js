@@ -116,6 +116,8 @@ angular.module('spacecraft')
                 var that = Bonus(spec);
                 var health = spec.health;
 
+                that.type = 'health';
+
                 that.useBonus = function (spaceCraft)
                 {
                     this.addHealth(health);
@@ -128,6 +130,7 @@ angular.module('spacecraft')
             {
                 var that = Bonus(spec);
                 var damage = spec.damage;
+                that.type = 'damage';
 
                 that.useBonus = function (spaceCraft)
                 {

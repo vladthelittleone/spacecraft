@@ -73,6 +73,7 @@ angular.module('spacecraft')
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
                 var type = spec.type;
+                var bonusCollisionGroup = game.physics.p2.createCollisionGroup();
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
@@ -87,6 +88,11 @@ angular.module('spacecraft')
                 sprite.anchor.y = 0.5;
                 sprite.scale.setTo(0.5);
                 sprite.checkWorldBounds = true;
+
+                that.body.mass = 0.00001;
+
+                that.body.setCollisionGroup(bonusCollisionGroup);
+                that.body.collides(collisionGroup);
 
                 that.getX = function()
                 {

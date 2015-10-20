@@ -72,6 +72,7 @@ angular.module('spacecraft')
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
+                var type = spec.type;
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
@@ -86,6 +87,26 @@ angular.module('spacecraft')
                 sprite.anchor.y = 0.5;
                 sprite.scale.setTo(0.5);
                 sprite.checkWorldBounds = true;
+
+                that.getX = function()
+                {
+                    return sprite.x;
+                };
+
+                that.getY = function()
+                {
+                    return sprite.y;
+                };
+
+                that.getType = function()
+                {
+                  return type;
+                };
+
+                that.api = {};
+                that.api.getY = that.getY;
+                that.api.getX = that.getX;
+                that.api.getType = that.getType;
 
                 return that;
             };

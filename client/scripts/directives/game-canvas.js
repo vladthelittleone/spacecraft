@@ -112,6 +112,8 @@ angular.module('spacecraft')
                 {
                     this.weapon.addDamage(damage);
                 };
+
+                return that;
             };
             /**
              * @constructor

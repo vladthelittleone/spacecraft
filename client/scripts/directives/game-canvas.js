@@ -85,6 +85,16 @@ angular.module('spacecraft')
                 sprite.scale.setTo(0.5);
                 sprite.checkWorldBounds = true;
 
+                that.getX = function()
+                {
+                    return sprite.x;
+                };
+
+                that.getY = function()
+                {
+                    return sprite.y;
+                };
+
                 return that;
             };
             /**

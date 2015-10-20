@@ -115,6 +115,7 @@ angular.module('spacecraft')
 
                 return that;
             };
+            
             /**
              * @constructor
              */
@@ -137,16 +138,16 @@ angular.module('spacecraft')
                     bonusArray.push(bonus);
                 };
 
-                // Получить массив бонусов
-                that.getBonus = function ()
-                {
-                    return bonusArray;
-                };
-
                 that.pushEnemy = function (enemy)
                 {
                     enemiesApi.push(enemy.api);
                     enemies.push(enemy);
+                };
+
+                that.removeEnemy = function (enemy)
+                {
+                    enemies.removeElement(enemy);
+                    enemiesApi.removeElement(enemy.api);
                 };
 
                 that.getEnemies = function ()
@@ -163,14 +164,34 @@ angular.module('spacecraft')
 
                 that.api = {};
 
-                that.api.getEnemies = function ()
+                that.api.getEnemies = function (callback)
                 {
+                    if (callback)
+                    {
+                        enemiesApi.forEach(function (e, i, arr) {
+                            callback(e, i, arr);
+                        })
+                    }
+
                     return enemiesApi;
                 };
 
                 that.api.getBounds = function ()
                 {
                     return bounds;
+                };
+
+                // Получить массив бонусов
+                that.api.getBonuses = function (callback)
+                {
+                    if (callback)
+                    {
+                        bonusArray.forEach(function (e, i, arr) {
+                            callback(e, i, arr);
+                        })
+                    }
+
+                    return bonusArray;
                 };
 
                 return that;
@@ -260,24 +281,22 @@ angular.module('spacecraft')
                     });
                 };
 
-                that.api = {};
-
-                that.api.getDamage = function ()
+                that.getDamage = function ()
                 {
                     return damage;
                 };
 
-                that.api.getFireRate = function ()
+                that.getFireRate = function ()
                 {
                     return fireRate;
                 };
 
-                that.api.getFireRange = function ()
+                that.getFireRange = function ()
                 {
                     return fireRange;
                 };
 
-                that.api.inRange = function (another)
+                that.inRange = function (another)
                 {
                     var p = new Phaser.Point(another.getX(), another.getY());
 
@@ -289,8 +308,20 @@ angular.module('spacecraft')
                     return false;
                 };
 
-                that.api.fire = function (x, y)
+                that.fire = function (obj1, obj2)
                 {
+                    var x = obj1,
+                        y = obj2;
+
+                    // Првоерка на объект.
+                    // Если есть x, y то это объект,
+                    // например корабль
+                    if ((typeof obj1.getX === 'function') && (typeof obj1.getY === 'function'))
+                    {
+                        x = obj1.getX();
+                        y = obj1.getY();
+                    }
+
                     // Проверка делэя. Не стреляем каждый фрэйм.
                     if (game.time.now > fireTime)
                     {
@@ -322,7 +353,7 @@ angular.module('spacecraft')
                             else
                             {
                                 // Поворот пули по x, y
-                                beam.body.rotation = Math.atan2(dy, dx) + (Math.PI / 2);
+                                beam.body.rotation = Math.atan2(dy, dx);
                             }
 
                             var angle = beam.body.rotation;
@@ -335,7 +366,7 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.api.enemiesInRange = function ()
+                that.enemiesInRange = function ()
                 {
                     var a = [];
 
@@ -349,6 +380,14 @@ angular.module('spacecraft')
 
                     return a;
                 };
+
+                that.api = {};
+                that.api.getDamage = that.getDamage;
+                that.api.getFireRate = that.getFireRate;
+                that.api.getFireRange = that.getFireRange;
+                that.api.inRange = that.inRange;
+                that.api.fire = that.fire;
+                that.api.enemiesInRange = that.enemiesInRange;
 
                 return that;
             };
@@ -392,10 +431,69 @@ angular.module('spacecraft')
                     scope.$apply();
                 };
 
+                that.weapon = Weapon({
+                    sprite: sprite,
+                    damage: 10,
+                    fireRate: 500,
+                    fireRange: 300,
+                    velocity: 400,
+                    spriteName: 'greenBeam'
+                });
+
                 that.regeneration = function ()
                 {
                     that.health += 5;
                     scope.$apply();
+                };
+
+                that.rotateLeft = function ()
+                {
+                    sprite.body.rotateLeft(1);
+                };
+
+                that.rotateRight = function ()
+                {
+                    sprite.body.rotateRight(1);
+                };
+
+                /**
+                 * Поворот к объекту.
+                 *
+                 * @param another - объект
+                 * @returns {boolean} true/false - совершил поворот / не совершил
+                 */
+                that.rotateTo = function (another)
+                {
+                    var angle = that.angleBetween(another);
+
+                    // Угол меньше 20 - не делаем поворот
+                    if (Math.abs(angle) > 20)
+                    {
+                        if (angle > 0)
+                        {
+                            that.rotateLeft();
+                        }
+                        else
+                        {
+                            that.rotateRight();
+                        }
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                };
+
+                that.moveForward = function ()
+                {
+                    sprite.body.moveForward(20);
+                };
+
+                that.moveBackward = function ()
+                {
+                    sprite.body.moveBackward(20);
                 };
 
                 that.hit = function (damage)
@@ -411,7 +509,7 @@ angular.module('spacecraft')
                             angle: game.rnd.angle()
                         }));
 
-                        world.getEnemies().removeElement(this);
+                        world.removeEnemy(this);
                         sprite.body.destroy();
                         sprite.kill();
 
@@ -428,14 +526,40 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.weapon = Weapon({
-                    sprite: sprite,
-                    damage: 10,
-                    fireRate: 500,
-                    fireRange: 300,
-                    velocity: 400,
-                    spriteName: 'greenBeam'
-                });
+                that.getHealth = function ()
+                {
+                    return that.health;
+                };
+
+                that.getX = function ()
+                {
+                    return sprite.x;
+                };
+
+                that.getY = function ()
+                {
+                    return sprite.y;
+                };
+
+                that.getAngle = function ()
+                {
+                    return sprite.body.angle;
+                };
+
+                that.angleBetween = function (another)
+                {
+                    // Угол линии от точки к точке в пространстве.
+                    var a = Phaser.Math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY());
+
+                    return that.api.getAngle() - Phaser.Math.radToDeg(a);
+                };
+
+                that.distance = function (another)
+                {
+                    var p = new Phaser.Point(another.getX(), another.getY());
+
+                    return Phaser.Point.distance(sprite, p);
+                };
 
                 // Переносим на верхний слой, перед лазерами.
                 sprite.bringToTop();
@@ -444,36 +568,13 @@ angular.module('spacecraft')
                 scope.$apply();
 
                 that.api = {};
-
-                that.api.weapon = that.weapon.api;
-
-                that.api.getHealth = function ()
-                {
-                    return that.health;
-                };
-
-                that.api.getX = function ()
-                {
-                    return sprite.x;
-                };
-
-                that.api.getY = function ()
-                {
-                    return sprite.y;
-                };
-
-                that.api.getAngle = function ()
-                {
-                    return sprite.body.angle;
-                };
-
-                that.api.angleBetween = function (another)
-                {
-                    // Угол линии от точки к точке в пространстве.
-                    var a = Phaser.Math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY());
-
-                    return that.api.getAngle() - Phaser.Math.radToDeg(a);
-                };
+                that.api.weapon = that.weapon;
+                that.api.getHealth = that.getHealth;
+                that.api.getX = that.getX;
+                that.api.getY = that.getY;
+                that.api.getAngle = that.getAngle;
+                that.api.angleBetween = that.angleBetween;
+                that.api.distance = that.distance;
 
                 return that;
             };
@@ -483,11 +584,67 @@ angular.module('spacecraft')
              */
             var EnemySpaceCraft = function (spec)
             {
-                var that = SpaceCraft(spec);
+                var that = SpaceCraft(spec),
+                    enemiesInRange = function ()
+                    {
+                        var a = [];
 
-                /**
-                 * Future changes
-                 */
+                        world.getAllUnits().forEach(function (u)
+                        {
+                            if (u !== that)
+                            {
+                                if (Phaser.Point.distance(that.sprite, u.sprite) < that.weapon.fireRange)
+                                {
+                                    a.push(u.api);
+                                }
+                            }
+                        });
+
+                        return a;
+                    };
+
+                that.update = function ()
+                {
+                    var enemy = enemiesInRange()[0];
+
+                    that.weapon.update();
+
+                    if (enemy)
+                    {
+                        that.weapon.fire(enemy);
+                    }
+                    else
+                    {
+                        var min = Number.MAX_VALUE;
+
+                        world.getAllUnits().forEach(function(e)
+                        {
+                            if (e !== that)
+                            {
+                                var distance = that.distance(e);
+
+                                if (distance < min)
+                                {
+                                    min = distance;
+                                    enemy = e;
+                                }
+                            }
+                        });
+
+                        if (enemy)
+                        {
+                            if(that.rotateTo(enemy))
+                            {
+                                that.moveForward();
+                            }
+
+                            if (that.weapon.inRange(enemy))
+                            {
+                                that.weapon.fire(enemy);
+                            }
+                        }
+                    }
+                };
 
                 return that;
             };
@@ -507,56 +664,11 @@ angular.module('spacecraft')
                     scope.$apply();
                 };
 
-                that.api.rotateLeft = function ()
-                {
-                    sprite.body.rotateLeft(1);
-                };
-
-                that.api.rotateRight = function ()
-                {
-                    sprite.body.rotateRight(1);
-                };
-
-                /**
-                 * Поворот к объекту.
-                 *
-                 * @param another - объект
-                 * @returns {boolean} true/false - совершил поворот / не совершил
-                 */
-                that.api.rotateTo = function (another)
-                {
-                    var api = that.api;
-                    var angle = api.angleBetween(another);
-
-                    // Угол меньше 20 - не делаем поворот
-                    if (Math.abs(angle) > 20)
-                    {
-                        if (angle > 0)
-                        {
-                            api.rotateLeft();
-                        }
-                        else
-                        {
-                            api.rotateRight();
-                        }
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                };
-
-                that.api.moveForward = function ()
-                {
-                    sprite.body.moveForward(20);
-                };
-
-                that.api.moveBackward = function ()
-                {
-                    sprite.body.moveBackward(20);
-                };
+                that.api.rotateLeft = that.rotateLeft;
+                that.api.rotateRight = that.rotateRight;
+                that.api.rotateTo = that.rotateTo;
+                that.api.moveForward = that.moveForward;
+                that.api.moveBackward = that.moveBackward;
 
                 return that;
             };
@@ -638,12 +750,14 @@ angular.module('spacecraft')
 
             function update()
             {
-                var units = world.getAllUnits();
+                var enemies = world.getEnemies();
 
-                units.forEach(function (u, i, arr)
+                enemies.forEach(function (e)
                 {
-                    u.weapon.update();
+                    e.update();
                 });
+
+                spaceCraft.weapon.update();
 
                 runUserScript();
             }

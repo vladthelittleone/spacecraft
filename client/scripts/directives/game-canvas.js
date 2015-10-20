@@ -17,8 +17,7 @@ angular.module('spacecraft')
                 userCode,
                 collisionGroup,
                 userObject,
-                idGeneratorSpaceCraft = 0,
-                idGeneratorBonus = 0;
+                idGenerator = 0;
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
@@ -71,7 +70,7 @@ angular.module('spacecraft')
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
-                sprite.name = idGeneratorBonus + 1;
+                sprite.name = (++idGenerator).toString();
 
                 // Подключаем физику тел к бонусу
                 game.physics.p2.enable(sprite, true);
@@ -99,6 +98,25 @@ angular.module('spacecraft')
 
                 that.getType = function () {
                     return type;
+                };
+
+                that.update = function () {
+                    var bonus = world.api.getBonuses();
+
+                    bonus.forEach(function (b) {
+                        b.sprite.body.collides(bonusCollisionGroup, bonusTake, null, this);
+                    });
+
+                };
+
+                var bonusTake = function(spaceCraft,bonus)
+                {
+                    if (bonus.sprite) {
+                        bonus.sprite.destroy();
+                        bonus.destroy();
+
+                        bonus.name.addHealth(spaceCraft.name);
+                    }
                 };
 
                 that.api = {};
@@ -387,7 +405,7 @@ angular.module('spacecraft')
                 // Создаем спрайт
                 var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
-                sprite.name = idGeneratorSpaceCraft + 1;
+                sprite.name = (++idGenerator).toString();
 
                 // Центрирование
                 sprite.anchor.x = 0.5;
@@ -418,25 +436,6 @@ angular.module('spacecraft')
                     velocity: 400,
                     spriteName: 'greenBeam'
                 });
-
-                that.update = function () {
-                    var bonus = world.api.getBonuses();
-                    bonus.forEach(function (b) {
-
-                        var bonusTake = function(spaceCraft,bonus)
-                        {
-                            if (b.sprite) {
-                                b.sprite.destroy();
-                                b.destroy();
-
-                                b.name.addHealth(spaceCraft);
-                            }
-                        };
-
-                        b.sprite.body.collides(bonusCollisionGroup, bonusTake, null, this);
-                    });
-
-                };
 
                 that.getId = function () {
                     return sprite.name;

@@ -278,15 +278,6 @@ angular.module('spacecraft')
                     var x = obj1,
                         y = obj2;
 
-                    // Првоерка на объект.
-                    // Если есть x, y то это объект,
-                    // например корабль
-                    if ((typeof obj1.getX === 'function') && (typeof obj1.getY === 'function'))
-                    {
-                        x = obj1.getX();
-                        y = obj1.getY();
-                    }
-
                     // Проверка делэя. Не стреляем каждый фрэйм.
                     if (game.time.now > fireTime)
                     {
@@ -305,9 +296,6 @@ angular.module('spacecraft')
                         beam.body.setCollisionGroup(beamsCollisionGroup);
                         beam.body.collides(collisionGroup);
 
-                        var dx = x - beam.x;
-                        var dy = y - beam.y;
-
                         if (beam)
                         {
                             if (!x || !y)
@@ -317,8 +305,17 @@ angular.module('spacecraft')
                             }
                             else
                             {
+                                // Првоерка на объект.
+                                // Если есть x, y то это объект,
+                                // например корабль
+                                if ((typeof obj1.getX === 'function') && (typeof obj1.getY === 'function'))
+                                {
+                                    x = obj1.getX();
+                                    y = obj1.getY();
+                                }
+
                                 // Поворот пули по x, y
-                                beam.body.rotation = Math.atan2(dy, dx);
+                                beam.body.rotation = Math.atan2(y - beam.y, x - beam.x);
                             }
 
                             var angle = beam.body.rotation;

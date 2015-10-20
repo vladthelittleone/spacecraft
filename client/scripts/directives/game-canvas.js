@@ -41,7 +41,8 @@ angular.module('spacecraft')
             /**
              * Returns a random number between min (inclusive) and max (exclusive)
              */
-            function randomArbitrary(min, max) {
+            function randomArbitrary(min, max)
+            {
                 return Math.random() * (max - min) + min;
             }
 
@@ -49,7 +50,8 @@ angular.module('spacecraft')
              * Returns a random integer between min (inclusive) and max (inclusive)
              * Using Math.round() will give you a non-uniform distribution!
              */
-            function randomInt(min, max) {
+            function randomInt(min, max)
+            {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
@@ -70,6 +72,7 @@ angular.module('spacecraft')
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
+                var type = spec.type;
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
@@ -85,8 +88,55 @@ angular.module('spacecraft')
                 sprite.scale.setTo(0.5);
                 sprite.checkWorldBounds = true;
 
+                that.getX = function()
+                {
+                    return sprite.x;
+                };
+
+                that.getY = function()
+                {
+                    return sprite.y;
+                };
+
+                that.getType = function()
+                {
+                  return type;
+                };
+
+                that.api = {};
+                that.api.getY = that.getY;
+                that.api.getX = that.getX;
+                that.api.getType = that.getType;
+
                 return that;
             };
+
+            var HealthBonus = function (spec)
+            {
+                var that = Bonus(spec);
+                var health = spec.health;
+
+                that.useBonus = function (spaceCraft)
+                {
+                    this.addHealth(health);
+                };
+
+                return that;
+            };
+
+            var DamageBonus = function (spec)
+            {
+                var that = Bonus(spec);
+                var damage = spec.damage;
+
+                that.useBonus = function (spaceCraft)
+                {
+                    this.weapon.addDamage(damage);
+                };
+
+                return that;
+            };
+            
             /**
              * @constructor
              */
@@ -104,7 +154,8 @@ angular.module('spacecraft')
                 });
 
                 // Положить в массив бонусов
-                that.pushBonus = function (bonus){
+                that.pushBonus = function (bonus)
+                {
                     bonusArray.push(bonus);
                 };
 
@@ -195,6 +246,11 @@ angular.module('spacecraft')
 
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
+
+                that.addDamage = function (add)
+                {
+                    damage += add;
+                };
 
                 that.update = function ()
                 {
@@ -361,7 +417,7 @@ angular.module('spacecraft')
             {
                 var that = {};
 
-                that.health = scope.health = spec.health;
+                var maxHealth = that.health = scope.health = spec.health;
 
                 // Если не заданы x, y проставляем рандомные значения мира
                 // Координаты корабля (спрайта)
@@ -386,6 +442,12 @@ angular.module('spacecraft')
 
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);
+
+                that.addHealth = function (add)
+                {
+                    that.health += add;
+                    scope.$apply();
+                };
 
                 that.weapon = Weapon({
                     sprite: sprite,
@@ -465,10 +527,6 @@ angular.module('spacecraft')
                             angle: game.rnd.angle()
                         }));
 
-                        world.removeEnemy(this);
-                        sprite.body.destroy();
-                        sprite.kill();
-
                         var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
 
                         boomSprite.anchor.x = 0.5;
@@ -479,6 +537,9 @@ angular.module('spacecraft')
 
                         // вторая констатна это количество кадров в секунду при воспроизвелении анимации
                         boomSprite.play('boom', 16, false, true);
+
+                        sprite.reset(game.world.randomX, game.world.randomY);
+                        that.health = maxHealth;
                     }
                 };
 

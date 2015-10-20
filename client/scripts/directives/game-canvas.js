@@ -489,11 +489,11 @@ angular.module('spacecraft')
                     {
                         if (angle > 0)
                         {
-                            that.rotateLeft();
+                            that.rotateRight();
                         }
                         else
                         {
-                            that.rotateRight();
+                            that.rotateLeft();
                         }
 
                         return true;
@@ -565,10 +565,29 @@ angular.module('spacecraft')
 
                 that.angleBetween = function (another)
                 {
-                    // Угол линии от точки к точке в пространстве.
-                    var a = Phaser.Math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY());
+                    var math = Phaser.Math;
 
-                    return that.api.getAngle() - Phaser.Math.radToDeg(a);
+                    // Угол линии от точки к точке в пространстве.
+                    var a1 = math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY()) + (Math.PI / 2);
+                    var a2 = math.degToRad(that.api.getAngle());
+
+                    a1 = math.normalizeAngle(a1);
+                    a2 = math.normalizeAngle(a2);
+
+                    a1 = math.radToDeg(a1);
+                    a2 = math.radToDeg(a2);
+
+                    var m1 = (360 - a1) + a2;
+                    var m2 = a1 - a2;
+
+                    if (m1 < m2)
+                    {
+                        return -m1;
+                    }
+                    else
+                    {
+                        return m2;
+                    }
                 };
 
                 that.distance = function (another)
@@ -747,9 +766,11 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 1; i++)
                 {
                     var e = EnemySpaceCraft({
+                        x: game.world.centerX + 500,
+                        y: game.world.centerY + 0,
                         spriteName: 'spaceCraft' + randomInt(1, 2),
                         health: 100,
                         angle: game.rnd.angle()

@@ -95,6 +95,10 @@ angular.module('spacecraft')
                     return sprite.y;
                 };
 
+                that.api = {};
+                that.api.getY = that.getY;
+                that.api.getX = that.getX;
+
                 return that;
             };
             /**

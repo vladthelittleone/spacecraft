@@ -7,10 +7,8 @@
  * # gameCanvas
  */
 angular.module('spacecraft')
-    .directive('gameCanvas', ['$injector', function ($injector)
-    {
-        var linkFn = function (scope, element, attrs)
-        {
+    .directive('gameCanvas', ['$injector', function ($injector) {
+        var linkFn = function (scope, element, attrs) {
             var spaceCraft,
                 starField,
                 world,
@@ -18,22 +16,21 @@ angular.module('spacecraft')
                 isRunning,
                 userCode,
                 collisionGroup,
-                userObject;
+                userObject,
+                idGeneratorSpaceCraft = 0,
+                idGeneratorBonus = 0;
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
             //    width   = parseInt(element.css('width'), 10);
 
-            Array.prototype.removeElement = function (element)
-            {
+            Array.prototype.removeElement = function (element) {
                 var index = this.indexOf(element);
                 this.removeElementByIndex(index)
             };
 
-            Array.prototype.removeElementByIndex = function (index)
-            {
-                if (index > -1)
-                {
+            Array.prototype.removeElementByIndex = function (index) {
+                if (index > -1) {
                     this.splice(index, 1);
                 }
             };
@@ -41,8 +38,7 @@ angular.module('spacecraft')
             /**
              * Returns a random number between min (inclusive) and max (exclusive)
              */
-            function randomArbitrary(min, max)
-            {
+            function randomArbitrary(min, max) {
                 return Math.random() * (max - min) + min;
             }
 
@@ -50,8 +46,7 @@ angular.module('spacecraft')
              * Returns a random integer between min (inclusive) and max (inclusive)
              * Using Math.round() will give you a non-uniform distribution!
              */
-            function randomInt(min, max)
-            {
+            function randomInt(min, max) {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
@@ -67,8 +62,7 @@ angular.module('spacecraft')
              * Класс бонусов выпадающих после
              * Уничтожения корабля
              */
-            var Bonus = function (spec)
-            {
+            var Bonus = function (spec) {
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
@@ -77,6 +71,7 @@ angular.module('spacecraft')
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
+                sprite.name = idGeneratorBonus + 1;
 
                 // Подключаем физику тел к бонусу
                 game.physics.p2.enable(sprite, true);
@@ -94,19 +89,16 @@ angular.module('spacecraft')
                 that.body.setCollisionGroup(bonusCollisionGroup);
                 that.body.collides(collisionGroup);
 
-                that.getX = function()
-                {
+                that.getX = function () {
                     return sprite.x;
                 };
 
-                that.getY = function()
-                {
+                that.getY = function () {
                     return sprite.y;
                 };
 
-                that.getType = function()
-                {
-                  return type;
+                that.getType = function () {
+                    return type;
                 };
 
                 that.api = {};
@@ -117,73 +109,62 @@ angular.module('spacecraft')
                 return that;
             };
 
-            var HealthBonus = function (spec)
-            {
+            var HealthBonus = function (spec) {
                 var that = Bonus(spec);
                 var health = spec.health;
 
-                that.useBonus = function (spaceCraft)
-                {
+                that.useBonus = function (spaceCraft) {
                     this.addHealth(health);
                 };
 
                 return that;
             };
 
-            var DamageBonus = function (spec)
-            {
+            var DamageBonus = function (spec) {
                 var that = Bonus(spec);
                 var damage = spec.damage;
 
-                that.useBonus = function (spaceCraft)
-                {
+                that.useBonus = function (spaceCraft) {
                     this.weapon.addDamage(damage);
                 };
 
                 return that;
             };
-            
+
             /**
              * @constructor
              */
-            var World = function (spec)
-            {
+            var World = function (spec) {
                 var that = {},
                     enemies = spec.enemies || [],
                     enemiesApi = [],
                     bounds = spec.bounds,
                     bonusArray = [];
 
-                enemies.forEach(function (enemy)
-                {
+                enemies.forEach(function (enemy) {
                     enemiesApi.push(enemy.api);
                 });
 
                 // Положить в массив бонусов
-                that.pushBonus = function (bonus)
-                {
+                that.pushBonus = function (bonus) {
                     bonusArray.push(bonus);
                 };
 
-                that.pushEnemy = function (enemy)
-                {
+                that.pushEnemy = function (enemy) {
                     enemiesApi.push(enemy.api);
                     enemies.push(enemy);
                 };
 
-                that.removeEnemy = function (enemy)
-                {
+                that.removeEnemy = function (enemy) {
                     enemies.removeElement(enemy);
                     enemiesApi.removeElement(enemy.api);
                 };
 
-                that.getEnemies = function ()
-                {
+                that.getEnemies = function () {
                     return enemies;
                 };
 
-                that.getAllUnits = function ()
-                {
+                that.getAllUnits = function () {
                     var spaceCrafts = enemies.slice();
                     spaceCrafts.push(spaceCraft);
                     return spaceCrafts;
@@ -191,10 +172,8 @@ angular.module('spacecraft')
 
                 that.api = {};
 
-                that.api.getEnemies = function (callback)
-                {
-                    if (callback)
-                    {
+                that.api.getEnemies = function (callback) {
+                    if (callback) {
                         enemiesApi.forEach(function (e, i, arr) {
                             callback(e, i, arr);
                         })
@@ -203,16 +182,13 @@ angular.module('spacecraft')
                     return enemiesApi;
                 };
 
-                that.api.getBounds = function ()
-                {
+                that.api.getBounds = function () {
                     return bounds;
                 };
 
                 // Получить массив бонусов
-                that.api.getBonuses = function (callback)
-                {
-                    if (callback)
-                    {
+                that.api.getBonuses = function (callback) {
+                    if (callback) {
                         bonusArray.forEach(function (e, i, arr) {
                             callback(e, i, arr);
                         })
@@ -227,8 +203,7 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var Weapon = function (spec)
-            {
+            var Weapon = function (spec) {
                 var that = {},
                     sprite = spec.sprite,
                     damage = spec.damage,
@@ -253,23 +228,18 @@ angular.module('spacecraft')
                 beams.enableBody = true;
                 beams.physicsBodyType = Phaser.Physics.P2JS;
 
-                that.addDamage = function (add)
-                {
+                that.addDamage = function (add) {
                     damage += add;
                 };
 
-                that.update = function ()
-                {
+                that.update = function () {
                     var units = world.getAllUnits();
 
                     // Проходимся по всем снарядам выпущенным кораблем
-                    beamsArray.forEach(function (b, i)
-                    {
+                    beamsArray.forEach(function (b, i) {
                         // Проверка вышел ли  снаряд за range ружия
-                        if (Phaser.Point.distance(sprite, b) > fireRange)
-                        {
-                            if (b.body)
-                            {
+                        if (Phaser.Point.distance(sprite, b) > fireRange) {
+                            if (b.body) {
                                 // Уничтожаем спрайт снаряда и удаляем его из массива снарядов
                                 b.body.destroy();
                                 b.destroy();
@@ -278,14 +248,11 @@ angular.module('spacecraft')
                         }
                     });
 
-                    units.forEach(function (u)
-                    {
+                    units.forEach(function (u) {
                         // Не наносим урон себе
-                        if (sprite !== u.sprite)
-                        {
+                        if (sprite !== u.sprite) {
                             // Callback при коллизии пули с кораблем
-                            var beamHit = function (unit, beam)
-                            {
+                            var beamHit = function (unit, beam) {
                                 /**
                                  * Уничтожаем пулю
                                  *
@@ -293,8 +260,7 @@ angular.module('spacecraft')
                                  * Странная проверка, так как мы удаляем body,
                                  * но все равно вызывается beamHit
                                  */
-                                if (beam.sprite)
-                                {
+                                if (beam.sprite) {
                                     beam.sprite.destroy();
                                     beam.destroy();
 
@@ -308,50 +274,42 @@ angular.module('spacecraft')
                     });
                 };
 
-                that.getDamage = function ()
-                {
+                that.getDamage = function () {
                     return damage;
                 };
 
-                that.getFireRate = function ()
-                {
+                that.getFireRate = function () {
                     return fireRate;
                 };
 
-                that.getFireRange = function ()
-                {
+                that.getFireRange = function () {
                     return fireRange;
                 };
 
-                that.inRange = function (another)
-                {
+                that.inRange = function (another) {
                     var p = new Phaser.Point(another.getX(), another.getY());
 
-                    if (Phaser.Point.distance(sprite, p) < fireRange)
-                    {
+                    if (Phaser.Point.distance(sprite, p) < fireRange) {
                         return true;
                     }
 
                     return false;
                 };
 
-                that.fire = function (obj1, obj2)
-                {
+                that.fire = function (obj1, obj2) {
                     var x = obj1,
                         y = obj2;
 
                     // Првоерка на объект.
                     // Если есть x, y то это объект,
                     // например корабль
-                    if ((typeof obj1.getX === 'function') && (typeof obj1.getY === 'function'))
-                    {
+                    if ((typeof obj1.getX === 'function') && (typeof obj1.getY === 'function')) {
                         x = obj1.getX();
                         y = obj1.getY();
                     }
 
                     // Проверка делэя. Не стреляем каждый фрэйм.
-                    if (game.time.now > fireTime)
-                    {
+                    if (game.time.now > fireTime) {
                         var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
 
                         // Добавляем выпущенный снаряд в массив снарядов
@@ -370,15 +328,12 @@ angular.module('spacecraft')
                         var dx = x - beam.x;
                         var dy = y - beam.y;
 
-                        if (beam)
-                        {
-                            if (!x || !y)
-                            {
+                        if (beam) {
+                            if (!x || !y) {
                                 // Поворот пули по направлению корабля
                                 beam.body.rotation = sprite.body.rotation - (Math.PI / 2);
                             }
-                            else
-                            {
+                            else {
                                 // Поворот пули по x, y
                                 beam.body.rotation = Math.atan2(dy, dx);
                             }
@@ -393,14 +348,11 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.enemiesInRange = function ()
-                {
+                that.enemiesInRange = function () {
                     var a = [];
 
-                    world.getEnemies().forEach(function (e)
-                    {
-                        if (Phaser.Point.distance(sprite, e.sprite) < fireRange)
-                        {
+                    world.getEnemies().forEach(function (e) {
+                        if (Phaser.Point.distance(sprite, e.sprite) < fireRange) {
                             a.push(e.api);
                         }
                     });
@@ -422,8 +374,7 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var SpaceCraft = function (spec)
-            {
+            var SpaceCraft = function (spec) {
                 var that = {};
 
                 that.health = scope.health = spec.health;
@@ -435,6 +386,8 @@ angular.module('spacecraft')
 
                 // Создаем спрайт
                 var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
+
+                sprite.name = idGeneratorSpaceCraft + 1;
 
                 // Центрирование
                 sprite.anchor.x = 0.5;
@@ -452,8 +405,7 @@ angular.module('spacecraft')
                 // Поварачиваем корабль на init-угол
                 !spec.angle || (sprite.body.angle = spec.angle);
 
-                that.addHealth = function (add)
-                {
+                that.addHealth = function (add) {
                     that.health += add;
                     scope.$apply();
                 };
@@ -467,19 +419,39 @@ angular.module('spacecraft')
                     spriteName: 'greenBeam'
                 });
 
-                that.regeneration = function ()
-                {
+                that.update = function () {
+                    var bonus = world.api.getBonuses();
+                    bonus.forEach(function (b) {
+
+                        var bonusTake = function(spaceCraft,bonus)
+                        {
+                            if (b.sprite) {
+                                b.sprite.destroy();
+                                b.destroy();
+
+                                b.name.addHealth(spaceCraft);
+                            }
+                        };
+
+                        b.sprite.body.collides(bonusCollisionGroup, bonusTake, null, this);
+                    });
+
+                };
+
+                that.getId = function () {
+                    return sprite.name;
+                };
+
+                that.regeneration = function () {
                     that.health += 5;
                     scope.$apply();
                 };
 
-                that.rotateLeft = function ()
-                {
+                that.rotateLeft = function () {
                     sprite.body.rotateLeft(1);
                 };
 
-                that.rotateRight = function ()
-                {
+                that.rotateRight = function () {
                     sprite.body.rotateRight(1);
                 };
 
@@ -489,45 +461,36 @@ angular.module('spacecraft')
                  * @param another - объект
                  * @returns {boolean} true/false - совершил поворот / не совершил
                  */
-                that.rotateTo = function (another)
-                {
+                that.rotateTo = function (another) {
                     var angle = that.angleBetween(another);
 
                     // Угол меньше 20 - не делаем поворот
-                    if (Math.abs(angle) > 20)
-                    {
-                        if (angle > 0)
-                        {
+                    if (Math.abs(angle) > 20) {
+                        if (angle > 0) {
                             that.rotateLeft();
                         }
-                        else
-                        {
+                        else {
                             that.rotateRight();
                         }
 
                         return true;
                     }
-                    else
-                    {
+                    else {
                         return false;
                     }
                 };
 
-                that.moveForward = function ()
-                {
+                that.moveForward = function () {
                     sprite.body.moveForward(20);
                 };
 
-                that.moveBackward = function ()
-                {
+                that.moveBackward = function () {
                     sprite.body.moveBackward(20);
                 };
 
-                that.hit = function (damage)
-                {
+                that.hit = function (damage) {
                     that.health -= damage;
-                    if (that.health <= 0)
-                    {
+                    if (that.health <= 0) {
                         // Создание нового бонуса и занесение его в bonusArray
                         world.pushBonus(Bonus({
                             sprite: 'bonus1',
@@ -553,36 +516,30 @@ angular.module('spacecraft')
                     }
                 };
 
-                that.getHealth = function ()
-                {
+                that.getHealth = function () {
                     return that.health;
                 };
 
-                that.getX = function ()
-                {
+                that.getX = function () {
                     return sprite.x;
                 };
 
-                that.getY = function ()
-                {
+                that.getY = function () {
                     return sprite.y;
                 };
 
-                that.getAngle = function ()
-                {
+                that.getAngle = function () {
                     return sprite.body.angle;
                 };
 
-                that.angleBetween = function (another)
-                {
+                that.angleBetween = function (another) {
                     // Угол линии от точки к точке в пространстве.
                     var a = Phaser.Math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY());
 
                     return that.api.getAngle() - Phaser.Math.radToDeg(a);
                 };
 
-                that.distance = function (another)
-                {
+                that.distance = function (another) {
                     var p = new Phaser.Point(another.getX(), another.getY());
 
                     return Phaser.Point.distance(sprite, p);
@@ -609,19 +566,14 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var EnemySpaceCraft = function (spec)
-            {
+            var EnemySpaceCraft = function (spec) {
                 var that = SpaceCraft(spec),
-                    enemiesInRange = function ()
-                    {
+                    enemiesInRange = function () {
                         var a = [];
 
-                        world.getAllUnits().forEach(function (u)
-                        {
-                            if (u !== that)
-                            {
-                                if (Phaser.Point.distance(that.sprite, u.sprite) < that.weapon.fireRange)
-                                {
+                        world.getAllUnits().forEach(function (u) {
+                            if (u !== that) {
+                                if (Phaser.Point.distance(that.sprite, u.sprite) < that.weapon.fireRange) {
                                     a.push(u.api);
                                 }
                             }
@@ -630,43 +582,34 @@ angular.module('spacecraft')
                         return a;
                     };
 
-                that.update = function ()
-                {
+                that.update = function () {
                     var enemy = enemiesInRange()[0];
 
                     that.weapon.update();
 
-                    if (enemy)
-                    {
+                    if (enemy) {
                         that.weapon.fire(enemy);
                     }
-                    else
-                    {
+                    else {
                         var min = Number.MAX_VALUE;
 
-                        world.getAllUnits().forEach(function(e)
-                        {
-                            if (e !== that)
-                            {
+                        world.getAllUnits().forEach(function (e) {
+                            if (e !== that) {
                                 var distance = that.distance(e);
 
-                                if (distance < min)
-                                {
+                                if (distance < min) {
                                     min = distance;
                                     enemy = e;
                                 }
                             }
                         });
 
-                        if (enemy)
-                        {
-                            if(that.rotateTo(enemy))
-                            {
+                        if (enemy) {
+                            if (that.rotateTo(enemy)) {
                                 that.moveForward();
                             }
 
-                            if (that.weapon.inRange(enemy))
-                            {
+                            if (that.weapon.inRange(enemy)) {
                                 that.weapon.fire(enemy);
                             }
                         }
@@ -679,14 +622,12 @@ angular.module('spacecraft')
             /**
              * @constructor
              */
-            var UserSpaceCraft = function (spec)
-            {
+            var UserSpaceCraft = function (spec) {
                 var that = SpaceCraft(spec);
                 var sprite = that.sprite;
                 var weapon = that.weapon;
 
-                that.regeneration = function ()
-                {
+                that.regeneration = function () {
                     that.health += 5;
                     scope.$apply();
                 };
@@ -700,16 +641,13 @@ angular.module('spacecraft')
                 return that;
             };
 
-            function runUserScript()
-            {
-                if (isRunning)
-                {
+            function runUserScript() {
+                if (isRunning) {
                     userObject.run(spaceCraft.api, world.api);
                 }
             }
 
-            function preload()
-            {
+            function preload() {
                 game.load.image('redBeam', 'resources/assets/redBeam.png');
                 game.load.image('greenBeam', 'resources/assets/greenBeam.png');
                 game.load.image('starField', 'resources/assets/starField.png');
@@ -721,8 +659,7 @@ angular.module('spacecraft')
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
             }
 
-            function create()
-            {
+            function create() {
                 var bounds = {
                     x: 0,
                     y: 0,
@@ -757,8 +694,7 @@ angular.module('spacecraft')
                     health: 100
                 });
 
-                for (var i = 0; i < 20; i++)
-                {
+                for (var i = 0; i < 20; i++) {
                     var e = EnemySpaceCraft({
                         spriteName: 'spaceCraft' + randomInt(1, 2),
                         health: 100,
@@ -775,12 +711,10 @@ angular.module('spacecraft')
                 cursors = game.input.keyboard.createCursorKeys();
             }
 
-            function update()
-            {
+            function update() {
                 var enemies = world.getEnemies();
 
-                enemies.forEach(function (e)
-                {
+                enemies.forEach(function (e) {
                     e.update();
                 });
 
@@ -789,8 +723,7 @@ angular.module('spacecraft')
                 runUserScript();
             }
 
-            function render()
-            {
+            function render() {
                 var zone = game.camera.deadzone;
 
                 game.context.fillStyle = 'rgba(255,255,255,0.1)';
@@ -800,17 +733,14 @@ angular.module('spacecraft')
                 game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
             }
 
-            scope.$watch('code', function (n)
-            {
+            scope.$watch('code', function (n) {
                 userCode = n;
             });
 
-            scope.$watch('isRunning', function (n)
-            {
+            scope.$watch('isRunning', function (n) {
                 isRunning = n;
 
-                if (n)
-                {
+                if (n) {
                     userObject = new Function(userCode)();
                 }
             });

@@ -67,12 +67,12 @@ angular.module('spacecraft')
              * Класс бонусов выпадающих после
              * Уничтожения корабля
              */
-            var Bonus = function (spec)
+            var Bonus = function (spec, type)
             {
                 var that = {};
                 var x = that.x = spec.x;
                 var y = that.y = spec.y;
-                var type = spec.type;
+                var type = type;
 
                 // Добавляем спрайт бонуса
                 var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
@@ -113,7 +113,7 @@ angular.module('spacecraft')
 
             var HealthBonus = function (spec)
             {
-                var that = Bonus(spec);
+                var that = Bonus(spec, 'health');
                 var health = spec.health;
 
                 that.useBonus = function (spaceCraft)
@@ -126,7 +126,7 @@ angular.module('spacecraft')
 
             var DamageBonus = function (spec)
             {
-                var that = Bonus(spec);
+                var that = Bonus(spec, 'damage');
                 var damage = spec.damage;
 
                 that.useBonus = function (spaceCraft)

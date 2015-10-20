@@ -420,7 +420,7 @@ angular.module('spacecraft')
             {
                 var that = {};
 
-                that.health = scope.health = spec.health;
+                var maxHealth = that.health = scope.health = spec.health;
 
                 // Если не заданы x, y проставляем рандомные значения мира
                 // Координаты корабля (спрайта)
@@ -530,10 +530,6 @@ angular.module('spacecraft')
                             angle: game.rnd.angle()
                         }));
 
-                        world.removeEnemy(this);
-                        sprite.body.destroy();
-                        sprite.kill();
-
                         var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
 
                         boomSprite.anchor.x = 0.5;
@@ -544,6 +540,9 @@ angular.module('spacecraft')
 
                         // вторая констатна это количество кадров в секунду при воспроизвелении анимации
                         boomSprite.play('boom', 16, false, true);
+
+                        sprite.reset(game.world.randomX, game.world.randomY);
+                        that.health = maxHealth;
                     }
                 };
 

@@ -91,10 +91,10 @@ angular.module('spacecraft')
                 sprite.scale.setTo(0.5);
                 sprite.checkWorldBounds = true;
 
-                that.body.mass = 0.00001;
+                sprite.body.mass = 0.00001;
 
-                that.body.setCollisionGroup(bonusCollisionGroup);
-                that.body.collides(collisionGroup);
+                sprite.body.setCollisionGroup(bonusCollisionGroup);
+                sprite.body.collides(collisionGroup);
 
                 that.getX = function ()
                 {
@@ -113,7 +113,7 @@ angular.module('spacecraft')
 
                 that.update = function ()
                 {
-                    b.sprite.body.collides(bonusCollisionGroup, bonusTake, null, this);
+                    this.sprite.body.collides(collisionGroup, bonusTake, null, this);
                 };
 
                 var bonusTake = function (spaceCraft, bonus)
@@ -128,7 +128,7 @@ angular.module('spacecraft')
                         {
                             if (u.getId() === spaceCraft.name)
                             {
-                                bonus.name.addHealth(u);
+                                bonus.useBonus(u);
                             }
                         });
                     }

@@ -113,7 +113,7 @@ angular.module('spacecraft')
 
                 that.update = function ()
                 {
-                    this.sprite.body.collides(collisionGroup, bonusTake, null, this);
+                    sprite.body.collides(collisionGroup, bonusTake);
                 };
 
                 var bonusTake = function (spaceCraft, bonus)
@@ -788,14 +788,16 @@ angular.module('spacecraft')
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
-                    health: 100
+                    health: 1000
                 });
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 2; i++)
                 {
                     var e = EnemySpaceCraft({
                         spriteName: 'spaceCraft' + randomInt(1, 2),
                         health: 100,
+                        x: game.world.centerX,
+                        y: game.world.centerY -200,
                         angle: game.rnd.angle()
                     });
 
@@ -833,7 +835,7 @@ angular.module('spacecraft')
             {
                 var zone = game.camera.deadzone;
 
-                game.context.fillStyle = 'rgba(255,2 55,255,0.1)';
+                game.context.fillStyle = 'rgba(255,255,255,0.1)';
                 game.context.fillRect(zone.x, zone.y, zone.width, zone.height);
 
                 game.debug.cameraInfo(game.camera, 32, 32);

@@ -47,6 +47,8 @@ var Bonus = function (spec)
 
 var HealthBonus = function (spec)
 {
+    spec.type = "health";
+
     var that = Bonus(spec);
     var health = spec.health;
 
@@ -60,6 +62,8 @@ var HealthBonus = function (spec)
 
 var DamageBonus = function (spec)
 {
+    spec.type = "damage";
+
     var that = Bonus(spec);
     var damage = spec.damage;
 

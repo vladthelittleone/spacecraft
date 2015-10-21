@@ -83,6 +83,7 @@ var SpaceCraftApi = function (spaceCraft)
     api.rotateTo = spaceCraft.rotateTo;
     api.moveForward = spaceCraft.moveForward;
     api.moveBackward = spaceCraft.moveBackward;
+    api.getId = spaceCraft.getId;
 
     return api;
 };
@@ -122,6 +123,7 @@ var EnemyApi = function (spaceCraft)
     api.getAngle = spaceCraft.getAngle;
     api.angleBetween = spaceCraft.angleBetween;
     api.distance = spaceCraft.distance;
+    api.getId = spaceCraft.getId;
 
     return api;
 };

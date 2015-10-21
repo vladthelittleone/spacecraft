@@ -80,11 +80,15 @@ angular.module('spacecraft')
 
                 SCG.scope = scope;
                 SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
+                SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
                 game.physics.p2.updateBoundsCollisionGroup();
 
                 scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
                     id: sequence.next(),
-                    strategy: function (s) { s.weapon.update(); },
+                    strategy: function (s)
+                    {
+                        s.weapon.update();
+                    },
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
@@ -117,16 +121,20 @@ angular.module('spacecraft')
 
             function update()
             {
-                var spaceCrafts = world.getSpaceCrafts();
-
-                spaceCrafts.forEach(function (e)
+                world.getSpaceCrafts().forEach(function (e)
                 {
                     e.update();
                 });
 
+                // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
+                world.getBonuses().forEach(function (b)
+                {
+                    b.update();
+                });
+
                 runUserScript();
 
-                scope.$apply(function()
+                scope.$apply(function ()
                 {
                     scope.spaceCraft = spaceCraft;
                 });

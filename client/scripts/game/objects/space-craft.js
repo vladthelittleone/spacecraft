@@ -15,7 +15,6 @@ var SpaceCraft = function (spec)
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
     var strategy = spec.strategy;
-    var id = spec.id;
 
     // Если не заданы x, y проставляем рандомные значения мира
     // Координаты корабля (спрайта)
@@ -24,6 +23,7 @@ var SpaceCraft = function (spec)
 
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
+    var id = sprite.name = spec.id;
 
     // Центрирование
     sprite.anchor.x = 0.5;
@@ -37,6 +37,7 @@ var SpaceCraft = function (spec)
 
     //  Добавляем группу коллизий
     sprite.body.setCollisionGroup(SCG.spaceCraftCollisionGroup);
+    sprite.body.collides(SCG.bonusCollisionGroup);
 
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);

@@ -25,9 +25,29 @@ var World = function (spec)
         spaceCrafts.removeElement(spaceCraft);
     };
 
+    that.removeBonus = function (bonus)
+    {
+        bonusArray.removeElement(bonus);
+    };
+
     that.getBounds = function ()
     {
         return bounds;
+    };
+
+    that.getSpaceCraft = function (id)
+    {
+        var result;
+
+        spaceCrafts.forEach(function (u)
+        {
+            if (u.getId() === id)
+            {
+                result =  u;
+            }
+        });
+
+        return result;
     };
 
     that.getSpaceCrafts = function (id)

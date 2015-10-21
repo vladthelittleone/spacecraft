@@ -27,8 +27,12 @@ var Bonus = function (spec)
     sprite.scale.setTo(0.5);
     sprite.checkWorldBounds = true;
 
+    // Устанавливаем маленькую массу,
+    // что б при столкновении с бонусом
+    // кораблик не взаимодействовал с ней.
     sprite.body.mass = 0.00001;
 
+    // Устанавливаем группу колизий
     sprite.body.setCollisionGroup(SCG.bonusCollisionGroup);
 
     that.getX = function()
@@ -48,6 +52,7 @@ var Bonus = function (spec)
 
     that.update = function ()
     {
+        // Произошла коллизия бонуса с кораблем
         sprite.body.collides(SCG.spaceCraftCollisionGroup, bonusTake, this);
     };
 
@@ -56,6 +61,8 @@ var Bonus = function (spec)
         if (bonus.sprite)
         {
             SCG.world.getSpaceCraft(spaceCraft.sprite.name).addHealth(100);
+
+            // Удоляем бонус
             SCG.world.removeBonus(this);
             bonus.sprite.destroy();
             bonus.destroy();

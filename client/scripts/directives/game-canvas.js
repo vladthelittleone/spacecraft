@@ -126,6 +126,7 @@ angular.module('spacecraft')
                     e.update();
                 });
 
+                // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
                 world.getBonuses().forEach(function (b)
                 {
                     b.update();

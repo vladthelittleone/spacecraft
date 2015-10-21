@@ -25,28 +25,28 @@ var World = function (spec)
         spaceCrafts.removeElement(spaceCraft);
     };
 
-    that.getEnemies = function (id)
-    {
-        var enemies = [];
-
-        spaceCrafts.forEach(function (e)
-        {
-            if (e.getId() !== id)
-            {
-                enemies.push(e);
-            }
-        });
-
-        return enemies;
-    };
-
     that.getBounds = function ()
     {
         return bounds;
     };
 
-    that.getSpaceCrafts = function ()
+    that.getSpaceCrafts = function (id)
     {
+        if (id)
+        {
+            var a = [];
+
+            spaceCrafts.forEach(function (e)
+            {
+                if (e.getId() !== id)
+                {
+                    a.push(e);
+                }
+            });
+
+            return a;
+        }
+
         return spaceCrafts;
     };
 

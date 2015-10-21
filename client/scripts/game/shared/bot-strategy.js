@@ -1,19 +1,6 @@
-botStrategy = function (spaceCraft, world)
+botStrategy = function (spaceCraft)
 {
-    var a = [];
-
-    world.getSpaceCrafts().forEach(function (u)
-    {
-        if (u !== spaceCraft)
-        {
-            if (Phaser.Point.distance(spaceCraft.sprite, u.sprite) < spaceCraft.weapon.fireRange)
-            {
-                a.push(u.api);
-            }
-        }
-    });
-
-    var enemy = a[0];
+    var enemy =  spaceCraft.weapon.enemiesInRange(spaceCraft.getId())[0];
 
     spaceCraft.weapon.update();
 
@@ -25,7 +12,7 @@ botStrategy = function (spaceCraft, world)
     {
         var min = Number.MAX_VALUE;
 
-        world.getSpaceCrafts().forEach(function(e)
+         SCG.world.getSpaceCrafts().forEach(function(e)
         {
             if (e !== spaceCraft)
             {

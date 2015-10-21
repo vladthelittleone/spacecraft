@@ -32,3 +32,16 @@ function randomInt(min, max)
 {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+var seq = function ()
+{
+    var that = {},
+        i = 1;
+
+    that.next = function ()
+    {
+        return i++;
+    };
+
+    return that;
+};

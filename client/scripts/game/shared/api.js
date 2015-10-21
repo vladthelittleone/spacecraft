@@ -1,22 +1,6 @@
 /**
  * Created by vladthelittleone on 21.10.15.
  */
-/**
- * @constructor
- */
-var WeaponApi = function (weapon)
-{
-    var api = {};
-
-    api.getDamage = weapon.getDamage;
-    api.getFireRate = weapon.getFireRate;
-    api.getFireRange = weapon.getFireRange;
-    api.inRange = weapon.inRange;
-    api.fire = weapon.fire;
-    api.enemiesInRange = weapon.enemiesInRange;
-
-    return api;
-};
 
 /**
  * @constructor
@@ -31,15 +15,16 @@ var WorldApi = function (world, id)
     {
         var enemiesApi = [];
 
-        if (callback)
+        world.getSpaceCrafts(id).forEach(function (e, i, arr)
         {
-            world.getEnemies(id).forEach(function (e, i, arr)
+            var api = EnemyApi(e);
+            enemiesApi.push(api);
+
+            if (callback)
             {
-                var api = SpaceCraftApi(e);
-                enemiesApi.push(api);
                 callback(api, i, arr);
-            })
-        }
+            }
+        });
 
         return enemiesApi;
     };
@@ -61,6 +46,8 @@ var WorldApi = function (world, id)
 
         return bonusesApi;
     };
+
+    return api;
 };
 
 /**
@@ -96,6 +83,59 @@ var SpaceCraftApi = function (spaceCraft)
     api.rotateTo = spaceCraft.rotateTo;
     api.moveForward = spaceCraft.moveForward;
     api.moveBackward = spaceCraft.moveBackward;
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var WeaponApi = function (weapon)
+{
+    var api = {};
+
+    api.getDamage = weapon.getDamage;
+    api.getFireRate = weapon.getFireRate;
+    api.getFireRange = weapon.getFireRange;
+    api.inRange = weapon.inRange;
+    api.fire = weapon.fire;
+
+    api.enemiesInRange = function (callback)
+    {
+        return weapon.enemiesInRange(SCG.spaceCraft.getId(), callback);
+    };
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var EnemyApi = function (spaceCraft)
+{
+    var api = {};
+
+    api.weapon = EnemyWeaponApi(spaceCraft.weapon);
+    api.getHealth = spaceCraft.getHealth;
+    api.getX = spaceCraft.getX;
+    api.getY = spaceCraft.getY;
+    api.getAngle = spaceCraft.getAngle;
+    api.angleBetween = spaceCraft.angleBetween;
+    api.distance = spaceCraft.distance;
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var EnemyWeaponApi = function (weapon)
+{
+    var api = {};
+
+    api.getDamage = weapon.getDamage;
+    api.getFireRate = weapon.getFireRate;
+    api.getFireRange = weapon.getFireRange;
 
     return api;
 };

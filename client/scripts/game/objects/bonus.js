@@ -8,7 +8,7 @@ var Bonus = function (spec)
 {
     var that = {};
 
-    var game = SCGame.game;
+    var game = SCG.game;
     var x = that.x = spec.x;
     var y = that.y = spec.y;
     var type = spec.type;

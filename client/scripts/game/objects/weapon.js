@@ -13,13 +13,11 @@ var Weapon = function (spec)
         velocity = spec.velocity,
         fireTime = 0;
 
-    var game = SCGame.game;
-
     // Объявляем группу коллизий.
-    var beamsCollisionGroup = game.physics.p2.createCollisionGroup();
+    var beamsCollisionGroup = SCG.game.physics.p2.createCollisionGroup();
 
     //  Группа пуль.
-    var beams = game.add.group();
+    var beams = SCG.game.add.group();
 
     // Массив выпущенных снарядов
     var beamsArray = [];
@@ -39,7 +37,7 @@ var Weapon = function (spec)
 
     that.update = function ()
     {
-        var units = world.getSpaceCrafts();
+        var units = SCG.world.getSpaceCrafts();
 
         // Проходимся по всем снарядам выпущенным кораблем
         beamsArray.forEach(function (b, i)
@@ -82,7 +80,7 @@ var Weapon = function (spec)
                     }
                 };
 
-                u.sprite.body.collides(beamsCollisionGroup, beamHit, null, this);
+                u.sprite.body.collides(beamsCollisionGroup, beamHit);
             }
         });
     };
@@ -115,7 +113,7 @@ var Weapon = function (spec)
             y = obj2;
 
         // Проверка делэя. Не стреляем каждый фрэйм.
-        if (game.time.now > fireTime)
+        if (SCG.game.time.now > fireTime)
         {
             var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
 
@@ -130,7 +128,7 @@ var Weapon = function (spec)
             beam.body.mass = 0.00001;
 
             beam.body.setCollisionGroup(beamsCollisionGroup);
-            beam.body.collides(collisionGroup);
+            beam.body.collides(SCG.spaceCraftCollisionGroup);
 
             if (beam)
             {
@@ -159,22 +157,30 @@ var Weapon = function (spec)
                 beam.body.velocity.x = velocity * Math.cos(angle);
                 beam.body.velocity.y = velocity * Math.sin(angle);
 
-                fireTime = game.time.now + fireRate;
+                fireTime = SCG.game.time.now + fireRate;
             }
         }
     };
 
-    that.enemiesInRange = function ()
+    that.enemiesInRange = function (id, callback)
     {
         var a = [];
 
-        world.getEnemies().forEach(function (e)
+        SCG.world.getSpaceCrafts(id).forEach(function (e)
         {
             if (Phaser.Point.distance(sprite, e.sprite) < fireRange)
             {
-                a.push(e.api);
+                a.push(SpaceCraftApi(e));
             }
         });
+
+        if (callback)
+        {
+            a.forEach(function (e, i, arr)
+            {
+                callback(e, i, arr);
+            })
+        }
 
         return a;
     };

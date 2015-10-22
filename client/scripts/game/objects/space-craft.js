@@ -84,7 +84,7 @@ var SpaceCraft = function (spec)
         {
             value = maxValue;
         }
-        else
+        else if(maxValue != value)
         {
             value += 5;
         }

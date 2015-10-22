@@ -33,7 +33,7 @@ var SpaceCraft = function (spec)
     sprite.checkWorldBounds = true;
 
     // Подключаем физику тел к кораблю
-    game.physics.p2.enable(sprite, true);
+    game.physics.p2.enable(sprite);
 
     //  Добавляем группу коллизий
     sprite.body.setCollisionGroup(SCG.spaceCraftCollisionGroup);
@@ -59,6 +59,11 @@ var SpaceCraft = function (spec)
     that.addHealth = function (add)
     {
         that.health += add;
+
+        if (maxHealth < that.health)
+        {
+            maxHealth = that.health;
+        }
     };
 
     that.update = function ()
@@ -127,9 +132,14 @@ var SpaceCraft = function (spec)
 
         if (that.health <= 0)
         {
+            var bonusType = generateBonus({
+                health: 10,
+                damage: 10
+            });
+
             // Создание нового бонуса и занесение его в bonusArray
             SCG.world.pushBonus(Bonus({
-                sprite: 'bonus1',
+                bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,
                 angle: game.rnd.angle()

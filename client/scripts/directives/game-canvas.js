@@ -17,7 +17,7 @@ angular.module('spacecraft')
                 isRunning,
                 userCode,
                 userObject,
-                sequence = seq();
+                sequence = utils.seq();
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
@@ -103,7 +103,7 @@ angular.module('spacecraft')
                     var e = SpaceCraft({
                         id: sequence.next(),
                         strategy: botStrategy,
-                        spriteName: 'spaceCraft' + randomInt(1, 2),
+                        spriteName: 'spaceCraft' + utils.randomInt(1, 2),
                         health: 100,
                         angle: game.rnd.angle()
                     });

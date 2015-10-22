@@ -68,12 +68,12 @@ var SpaceCraft = function (spec)
         strategy(that);
     };
 
-    that.regeneration = function ()
+    that.healthRegeneration = function ()
     {
         regeneration(maxHealth, that.health);
     };
 
-    that.regenerationShield = function() {
+    that.shieldRegeneration = function() {
         regeneration(maxShield, shield);
         shieldIsAlive = true;
     }

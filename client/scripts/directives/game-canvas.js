@@ -92,7 +92,7 @@ angular.module('spacecraft')
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
-                    health: 100
+                    health: 200
                 });
 
                 // Добавляем наш корабль в мир
@@ -104,7 +104,7 @@ angular.module('spacecraft')
                         id: sequence.next(),
                         strategy: botStrategy,
                         spriteName: 'spaceCraft' + utils.randomInt(1, 2),
-                        health: 100,
+                        health: 200,
                         angle: game.rnd.angle()
                     });
 

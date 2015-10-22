@@ -11,6 +11,8 @@ var SpaceCraft = function (spec)
     var game = SCG.game;
     
     var maxHealth = that.health = spec.health;
+    var shield = maxShield = spec.shield;
+    var shieldIsAlive = true;
 
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
@@ -71,6 +73,11 @@ var SpaceCraft = function (spec)
         that.health += 5;
     };
 
+    that.regenerationShield = function() {
+        shield = maxShield;
+        shieldIsAlive = true;
+    }
+
     that.rotateLeft = function ()
     {
         sprite.body.rotateLeft(1);
@@ -123,7 +130,19 @@ var SpaceCraft = function (spec)
 
     that.hit = function (damage)
     {
-        that.health -= damage;
+        if(shieldIsAlive)
+        {
+            shield -= damage;
+            if(shield <= 0)
+            {
+                shieldIsAlive = false;
+                that.health += shield;
+            }
+        }
+        else
+        {
+            that.health -= damage;
+        }
 
         if (that.health <= 0)
         {

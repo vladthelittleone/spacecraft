@@ -19,9 +19,17 @@ body {
     height: 25px;
 }
 
-#infBox {
+.damage {
     position: fixed;
-    top: 95%;
+    bottom: 25px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.health {
+    position: fixed;
     bottom: 0;
     right: 0;
     left: 0;

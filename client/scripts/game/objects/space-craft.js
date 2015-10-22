@@ -70,12 +70,24 @@ var SpaceCraft = function (spec)
 
     that.regeneration = function ()
     {
-        that.health += 5;
+        regeneration(maxHealth, that.health);
     };
 
     that.regenerationShield = function() {
-        shield = maxShield;
+        regeneration(maxShield, shield);
         shieldIsAlive = true;
+    }
+
+    function regeneration(maxValue, value)
+    {
+        if((maxValue - value) <= 5)
+        {
+            value = maxValue;
+        }
+        else
+        {
+            value += 5;
+        }
     }
 
     that.rotateLeft = function ()
@@ -137,6 +149,7 @@ var SpaceCraft = function (spec)
             {
                 shieldIsAlive = false;
                 that.health += shield;
+                shield = 0;
             }
         }
         else

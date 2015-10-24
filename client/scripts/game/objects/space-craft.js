@@ -45,7 +45,7 @@ var SpaceCraft = function (spec)
     !spec.angle || (sprite.body.angle = spec.angle);
 
     that.weapon = Weapon({
-        spaceCraft: this,
+        spaceCraft: that,
         damage: 10,
         fireRate: 500,
         fireRange: 300,
@@ -61,11 +61,7 @@ var SpaceCraft = function (spec)
     that.addHealth = function (add)
     {
         that.health += add;
-
-        if (maxHealth < that.health)
-        {
-            maxHealth = that.health;
-        }
+        maxHealth =+ that.health;
     };
 
     that.update = function ()
@@ -217,6 +213,29 @@ var SpaceCraft = function (spec)
         var p = new Phaser.Point(another.getX(), another.getY());
 
         return Phaser.Point.distance(sprite, p);
+    };
+
+    that.bonusInRange = function (range, callback)
+    {
+        var a = [];
+
+        SCG.world.getBonuses().forEach(function (e)
+        {
+            if (Phaser.Point.distance(sprite, e.sprite) < range)
+            {
+                a.push(BonusApi(e));
+            }
+        });
+
+        if (callback)
+        {
+            a.forEach(function (e, i, arr)
+            {
+                callback(e, i, arr);
+            })
+        }
+
+        return a;
     };
 
     // Переносим на верхний слой, перед лазерами.

@@ -58,8 +58,8 @@ angular.module('spacecraft')
                 var bounds = {
                     x: 0,
                     y: 0,
-                    width: 1920,
-                    height: 1920
+                    width: 3000,
+                    height: 3000
                 };
 
                 game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');

@@ -12,7 +12,6 @@ var SpaceCraft = function (spec)
     
     var maxHealth = that.health = spec.health;
     var shield = maxShield = spec.shield;
-    var shieldIsAlive = true;
 
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
@@ -75,7 +74,6 @@ var SpaceCraft = function (spec)
 
     that.shieldRegeneration = function() {
         regeneration(maxShield, shield);
-        shieldIsAlive = true;
     }
 
     function regeneration(maxValue, value)
@@ -142,15 +140,18 @@ var SpaceCraft = function (spec)
 
     that.hit = function (damage)
     {
-        if(shieldIsAlive)
+        if(shield > 0)
         {
             shield -= damage;
+
+            // если щит сломался, то в нем окажется отрицательное значение,
+            // которое прибавлем к текущему здоровью
             if(shield <= 0)
             {
-                shieldIsAlive = false;
                 that.health += shield;
                 shield = 0;
             }
+
         }
         else
         {

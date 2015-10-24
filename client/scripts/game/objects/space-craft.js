@@ -12,6 +12,8 @@ var SpaceCraft = function (spec)
     
     var maxHealth = that.health = spec.health;
 
+    var statistic = that.statistic = Statistic();
+
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
     var strategy = spec.strategy;
@@ -43,7 +45,7 @@ var SpaceCraft = function (spec)
     !spec.angle || (sprite.body.angle = spec.angle);
 
     that.weapon = Weapon({
-        sprite: sprite,
+        spaceCraft: this,
         damage: 10,
         fireRate: 500,
         fireRange: 300,
@@ -126,7 +128,7 @@ var SpaceCraft = function (spec)
         sprite.body.moveBackward(20);
     };
 
-    that.hit = function (damage)
+    that.hit = function (damage,damageCraft)
     {
         that.health -= damage;
 
@@ -155,6 +157,8 @@ var SpaceCraft = function (spec)
 
             // вторая констатна это количество кадров в секунду при воспроизвелении анимации
             boomSprite.play('boom', 16, false, true);
+
+            damageCraft.statistic.addKillEnemy();
 
             sprite.reset(game.world.randomX, game.world.randomY);
             that.health = maxHealth;

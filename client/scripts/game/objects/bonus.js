@@ -71,6 +71,8 @@ var Bonus = function (spec)
             SCG.world.removeBonus(this);
             bonus.sprite.destroy();
             bonus.destroy();
+
+            s.statistic.addBonus();
         }
     };
 

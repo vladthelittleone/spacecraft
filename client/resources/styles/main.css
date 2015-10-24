@@ -67,6 +67,28 @@ canvas {
     color: #39C139;
 }
 
+.containerLeadBoard{
+    background-color: #000000;
+    opacity: 0.3;
+    filter: alpha(Opacity=30);
+    width: 100%;
+    height: 100%;
+}
+
+.leadBord{
+    background-color: #25282C;
+    color: #C5C8C6;
+    margin: 0 auto;
+    text-align: center;
+
+    width: 40%;
+    height: 40%;
+}
+
+.leadBord p {
+    margin: 0 auto;
+}
+
 #toolbar button:hover {
     text-decoration: none;
 }

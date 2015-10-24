@@ -58,8 +58,8 @@ angular.module('spacecraft')
                 var bounds = {
                     x: 0,
                     y: 0,
-                    width: 3000,
-                    height: 3000
+                    width: 1920,
+                    height: 1920
                 };
 
                 game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
@@ -98,7 +98,7 @@ angular.module('spacecraft')
                 // Добавляем наш корабль в мир
                 world.pushSpaceCraft(spaceCraft);
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 15; i++)
                 {
                     var e = SpaceCraft({
                         id: sequence.next(),

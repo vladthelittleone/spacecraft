@@ -138,7 +138,7 @@ var SpaceCraft = function (spec)
             });
 
             // Создание нового бонуса и занесение его в bonusArray
-            SCG.world.pushBonus(Bonus({
+            utils.random() && SCG.world.pushBonus(Bonus({
                 bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,

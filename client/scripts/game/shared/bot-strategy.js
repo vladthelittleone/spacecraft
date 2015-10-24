@@ -1,20 +1,43 @@
 botStrategy = function (spaceCraft)
 {
     var enemy =  spaceCraft.weapon.enemiesInRange(spaceCraft.getId())[0];
+    var bonus;
+
+    var eMin = Number.MAX_VALUE;
+    var bMin = Number.MAX_VALUE;
 
     spaceCraft.weapon.update();
+
+    function bonusGenerate()
+    {
+        SCG.world.getBonuses().forEach(function (b)
+        {
+            var distance = spaceCraft.distance(b);
+
+            if (distance < bMin)
+            {
+                bMin = distance;
+                bonus = b;
+            }
+        });
+    }
 
     if (enemy)
     {
         spaceCraft.weapon.fire(enemy);
+
+        bonusGenerate();
+
+        if (bonus)
+        {
+            if (!spaceCraft.rotateTo(bonus))
+            {
+                spaceCraft.moveForward();
+            }
+        }
     }
     else
     {
-        var bonus = {};
-
-        var eMin = Number.MAX_VALUE;
-        var bMin = Number.MAX_VALUE;
-
         SCG.world.getSpaceCrafts().forEach(function(e)
         {
             if (e !== spaceCraft)
@@ -29,20 +52,11 @@ botStrategy = function (spaceCraft)
             }
         });
 
-        SCG.world.getBonuses().forEach(function(b)
-        {
-            var distance = spaceCraft.distance(b);
-
-            if (distance < bMin)
-            {
-                bMin = distance;
-                bonus = b;
-            }
-        });
+        bonusGenerate();
 
         if (bMin < eMin)
         {
-            if(spaceCraft.rotateTo(bonus))
+            if (spaceCraft.rotateTo(bonus))
             {
                 spaceCraft.moveForward();
             }

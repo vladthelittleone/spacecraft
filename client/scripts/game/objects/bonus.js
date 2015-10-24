@@ -36,6 +36,23 @@ var Bonus = function (spec)
     // Устанавливаем группу колизий
     sprite.body.setCollisionGroup(SCG.bonusCollisionGroup);
 
+    var bonusTake = function (bonus, spaceCraft)
+    {
+        if (bonus.sprite)
+        {
+            var s = SCG.world.getSpaceCraft(spaceCraft.sprite.name);
+
+            bonusType.useBonus(s);
+
+            // Удоляем бонус
+            SCG.world.removeBonus(this);
+            bonus.sprite.destroy();
+            bonus.destroy();
+
+            s.statistic.addBonus();
+        }
+    };
+
     that.getX = function()
     {
         return sprite.x;
@@ -71,8 +88,6 @@ var Bonus = function (spec)
             SCG.world.removeBonus(this);
             bonus.sprite.destroy();
             bonus.destroy();
-
-            s.statistic.addBonus();
         }
     };
 

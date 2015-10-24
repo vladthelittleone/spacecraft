@@ -1,41 +1,79 @@
 botStrategy = function (spaceCraft)
 {
     var enemy =  spaceCraft.weapon.enemiesInRange(spaceCraft.getId())[0];
+    var bonus;
+
+    var eMin = Number.MAX_VALUE;
+    var bMin = Number.MAX_VALUE;
 
     spaceCraft.weapon.update();
+
+    function bonusGenerate()
+    {
+        SCG.world.getBonuses().forEach(function (b)
+        {
+            var distance = spaceCraft.distance(b);
+
+            if (distance < bMin)
+            {
+                bMin = distance;
+                bonus = b;
+            }
+        });
+    }
 
     if (enemy)
     {
         spaceCraft.weapon.fire(enemy);
+
+        bonusGenerate();
+
+        if (bonus)
+        {
+            if (!spaceCraft.rotateTo(bonus))
+            {
+                spaceCraft.moveForward();
+            }
+        }
     }
     else
     {
-        var min = Number.MAX_VALUE;
-
-         SCG.world.getSpaceCrafts().forEach(function(e)
+        SCG.world.getSpaceCrafts().forEach(function(e)
         {
             if (e !== spaceCraft)
             {
                 var distance = spaceCraft.distance(e);
 
-                if (distance < min)
+                if (distance < eMin)
                 {
-                    min = distance;
+                    eMin = distance;
                     enemy = e;
                 }
             }
         });
 
-        if (enemy)
+        bonusGenerate();
+
+        if (bMin < eMin)
         {
-            if(spaceCraft.rotateTo(enemy))
+            if (spaceCraft.rotateTo(bonus))
             {
                 spaceCraft.moveForward();
             }
-
-            if (spaceCraft.weapon.inRange(enemy))
+        }
+        else
+        {
+            if (enemy)
             {
-                spaceCraft.weapon.fire(enemy);
+                if(spaceCraft.rotateTo(enemy))
+                {
+                    spaceCraft.moveForward();
+                }
+
+                if (spaceCraft.weapon.inRange(enemy))
+                {
+                    spaceCraft.weapon.fire(enemy);
+                }
             }
         }
     }

@@ -77,13 +77,10 @@ var Weapon = function (spec)
                         beam.destroy();
 
                         // Наносим урон
-                        u.hit(damage);
+                        u.hit(damage,spaceCraft);
                         spaceCraft.statistic.addAcceptDamage();
                         u.statistic.addTakenDamage(damage);
 
-                        if(u.getHealth() - damage <= 0){
-                            spaceCraft.statistic.addKillEnemy();
-                        }
                     }
                 };
 

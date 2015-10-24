@@ -128,7 +128,7 @@ var SpaceCraft = function (spec)
         sprite.body.moveBackward(20);
     };
 
-    that.hit = function (damage)
+    that.hit = function (damage,damageCraft)
     {
         that.health -= damage;
 
@@ -157,6 +157,8 @@ var SpaceCraft = function (spec)
 
             // вторая констатна это количество кадров в секунду при воспроизвелении анимации
             boomSprite.play('boom', 16, false, true);
+
+            damageCraft.statistic.addKillEnemy();
 
             sprite.reset(game.world.randomX, game.world.randomY);
             that.health = maxHealth;

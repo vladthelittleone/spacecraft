@@ -10,7 +10,7 @@ botStrategy = function (spaceCraft)
 
     function bonusGenerate()
     {
-        SCG.world.getBonuses().forEach(function (b)
+        spaceCraft.bonusInRange(spaceCraft.weapon.getFireRange()).forEach(function (b)
         {
             var distance = spaceCraft.distance(b);
 
@@ -30,10 +30,8 @@ botStrategy = function (spaceCraft)
 
         if (bonus)
         {
-            if (!spaceCraft.rotateTo(bonus))
-            {
-                spaceCraft.moveForward();
-            }
+            spaceCraft.rotateTo(bonus);
+            spaceCraft.moveForward();
         }
     }
     else
@@ -56,19 +54,15 @@ botStrategy = function (spaceCraft)
 
         if (bMin < eMin)
         {
-            if (spaceCraft.rotateTo(bonus))
-            {
-                spaceCraft.moveForward();
-            }
+            spaceCraft.rotateTo(bonus);
+            spaceCraft.moveForward();
         }
         else
         {
             if (enemy)
             {
-                if(spaceCraft.rotateTo(enemy))
-                {
-                    spaceCraft.moveForward();
-                }
+                spaceCraft.rotateTo(enemy);
+                spaceCraft.moveForward();
 
                 if (spaceCraft.weapon.inRange(enemy))
                 {

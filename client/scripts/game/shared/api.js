@@ -34,15 +34,15 @@ var WorldApi = function (world, id)
     {
         var bonusesApi = [];
 
-        if (callback)
+        world.getBonuses().forEach(function (e, i, arr)
         {
-            world.getBonuses().forEach(function (e, i, arr)
+            var api = BonusApi(e);
+            bonusesApi.push(api);
+            if (callback)
             {
-                var api = BonusApi(e);
-                bonusesApi.push(api);
                 callback(api, i, arr);
-            })
-        }
+            }
+        });
 
         return bonusesApi;
     };
@@ -84,6 +84,7 @@ var SpaceCraftApi = function (spaceCraft)
     api.moveForward = spaceCraft.moveForward;
     api.moveBackward = spaceCraft.moveBackward;
     api.getId = spaceCraft.getId;
+    api.bonusInRange = spaceCraft.bonusInRange;
 
     return api;
 };

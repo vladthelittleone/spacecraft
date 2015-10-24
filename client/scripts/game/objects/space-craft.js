@@ -12,6 +12,8 @@ var SpaceCraft = function (spec)
     
     var maxHealth = that.health = spec.health;
 
+    var statistic = that.statistic = Statistic();
+
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
     var strategy = spec.strategy;
@@ -43,7 +45,7 @@ var SpaceCraft = function (spec)
     !spec.angle || (sprite.body.angle = spec.angle);
 
     that.weapon = Weapon({
-        sprite: sprite,
+        spaceCraft: this,
         damage: 10,
         fireRate: 500,
         fireRange: 300,

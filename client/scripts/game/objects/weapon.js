@@ -5,7 +5,8 @@
 var Weapon = function (spec)
 {
     var that = {},
-        sprite = spec.sprite,
+        spaceCraft = spec.spaceCraft,
+        sprite = spaceCraft.sprite,
         damage = spec.damage,
         fireRate = spec.fireRate,
         fireRange = spec.fireRange,
@@ -77,6 +78,8 @@ var Weapon = function (spec)
 
                         // Наносим урон
                         u.hit(damage);
+                        spaceCraft.statistic.addAcceptDamage();
+                        u.statistic.addTakenDamage(damage);
                     }
                 };
 

@@ -13,6 +13,8 @@ var SpaceCraft = function (spec)
     var maxHealth = that.health = spec.health;
     var shield = maxShield = spec.shield;
 
+    var statistic = that.statistic = Statistic();
+
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
     var strategy = spec.strategy;
@@ -34,7 +36,7 @@ var SpaceCraft = function (spec)
     sprite.checkWorldBounds = true;
 
     // Подключаем физику тел к кораблю
-    game.physics.p2.enable(sprite, true);
+    game.physics.p2.enable(sprite);
 
     //  Добавляем группу коллизий
     sprite.body.setCollisionGroup(SCG.spaceCraftCollisionGroup);
@@ -44,7 +46,7 @@ var SpaceCraft = function (spec)
     !spec.angle || (sprite.body.angle = spec.angle);
 
     that.weapon = Weapon({
-        sprite: sprite,
+        spaceCraft: that,
         damage: 10,
         fireRate: 500,
         fireRange: 300,
@@ -60,6 +62,7 @@ var SpaceCraft = function (spec)
     that.addHealth = function (add)
     {
         that.health += add;
+        maxHealth =+ that.health;
     };
 
     that.update = function ()
@@ -138,7 +141,7 @@ var SpaceCraft = function (spec)
         sprite.body.moveBackward(20);
     };
 
-    that.hit = function (damage)
+    that.hit = function (damage,damageCraft)
     {
         if(shield > 0)
         {
@@ -160,9 +163,14 @@ var SpaceCraft = function (spec)
 
         if (that.health <= 0)
         {
+            var bonusType = generateBonus({
+                health: 10,
+                damage: 10
+            });
+
             // Создание нового бонуса и занесение его в bonusArray
-            SCG.world.pushBonus(Bonus({
-                sprite: 'bonus1',
+            utils.random() && SCG.world.pushBonus(Bonus({
+                bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,
                 angle: game.rnd.angle()
@@ -178,6 +186,8 @@ var SpaceCraft = function (spec)
 
             // вторая констатна это количество кадров в секунду при воспроизвелении анимации
             boomSprite.play('boom', 16, false, true);
+
+            damageCraft.statistic.addKillEnemy();
 
             sprite.reset(game.world.randomX, game.world.randomY);
             that.health = maxHealth;
@@ -236,6 +246,29 @@ var SpaceCraft = function (spec)
         var p = new Phaser.Point(another.getX(), another.getY());
 
         return Phaser.Point.distance(sprite, p);
+    };
+
+    that.bonusInRange = function (range, callback)
+    {
+        var a = [];
+
+        SCG.world.getBonuses().forEach(function (e)
+        {
+            if (Phaser.Point.distance(sprite, e.sprite) < range)
+            {
+                a.push(BonusApi(e));
+            }
+        });
+
+        if (callback)
+        {
+            a.forEach(function (e, i, arr)
+            {
+                callback(e, i, arr);
+            })
+        }
+
+        return a;
     };
 
     // Переносим на верхний слой, перед лазерами.

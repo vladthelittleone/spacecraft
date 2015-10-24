@@ -1,6 +1,11 @@
 <div id="gameCanvas"></div>
 
-<div id="infBox">
-    <span class="glyphicon glyphicon glyphicon-heart red"></span>
+<div class="health">
+    <span class="glyphicon glyphicon-heart red"></span>
     <span class="red">{{spaceCraft.getHealth()}}</span>
+</div>
+
+<div class="damage">
+    <span class="glyphicon glyphicon-screenshot green"></span>
+    <span class="green">{{spaceCraft.weapon.getDamage()}}</span>
 </div>

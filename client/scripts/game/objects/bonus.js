@@ -11,13 +11,14 @@ var Bonus = function (spec)
     var game = SCG.game;
     var x = that.x = spec.x;
     var y = that.y = spec.y;
-    var type = spec.type;
+    var bonusType = spec.bonusType;
+    var rotateDirection = utils.randomOf(-1, 1);
 
     // Добавляем спрайт бонуса
-    var sprite = that.sprite = game.add.sprite(x, y, spec.sprite);
+    var sprite = that.sprite = game.add.sprite(x, y, bonusType.spriteName);
 
     // Подключаем физику тел к бонусу
-    game.physics.p2.enable(sprite, true);
+    game.physics.p2.enable(sprite);
 
     // Поварачиваем бонус на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
@@ -35,6 +36,23 @@ var Bonus = function (spec)
     // Устанавливаем группу колизий
     sprite.body.setCollisionGroup(SCG.bonusCollisionGroup);
 
+    var bonusTake = function (bonus, spaceCraft)
+    {
+        if (bonus.sprite)
+        {
+            var s = SCG.world.getSpaceCraft(spaceCraft.sprite.name);
+
+            bonusType.useBonus(s);
+
+            // Удоляем бонус
+            SCG.world.removeBonus(this);
+            bonus.sprite.destroy();
+            bonus.destroy();
+
+            s.statistic.addBonus();
+        }
+    };
+
     that.getX = function()
     {
         return sprite.x;
@@ -47,20 +65,24 @@ var Bonus = function (spec)
 
     that.getType = function()
     {
-        return type;
+        return bonusType.name;
     };
 
     that.update = function ()
     {
         // Произошла коллизия бонуса с кораблем
         sprite.body.collides(SCG.spaceCraftCollisionGroup, bonusTake, this);
+        sprite.body.rotateLeft(rotateDirection);
+        sprite.body.moveForward(1);
     };
 
     var bonusTake = function (bonus, spaceCraft)
     {
         if (bonus.sprite)
         {
-            SCG.world.getSpaceCraft(spaceCraft.sprite.name).addHealth(100);
+            var s = SCG.world.getSpaceCraft(spaceCraft.sprite.name);
+
+            bonusType.useBonus(s);
 
             // Удоляем бонус
             SCG.world.removeBonus(this);
@@ -74,10 +96,11 @@ var Bonus = function (spec)
 
 var HealthBonus = function (spec)
 {
-    spec.type = "health";
-
-    var that = Bonus(spec);
+    var that = {};
     var health = spec.health;
+
+    that.spriteName = 'bonus1';
+    that.name = "health";
 
     that.useBonus = function (spaceCraft)
     {
@@ -89,10 +112,11 @@ var HealthBonus = function (spec)
 
 var DamageBonus = function (spec)
 {
-    spec.type = "damage";
-
-    var that = Bonus(spec);
+    var that = {};
     var damage = spec.damage;
+
+    that.spriteName = 'bonus2';
+    that.name = "damage";
 
     that.useBonus = function (spaceCraft)
     {
@@ -100,4 +124,9 @@ var DamageBonus = function (spec)
     };
 
     return that;
+};
+
+var generateBonus = function (spec)
+{
+    return utils.random() ? HealthBonus({health: spec.health}) : DamageBonus({damage: spec.damage});
 };

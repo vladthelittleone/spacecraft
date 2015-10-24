@@ -17,7 +17,7 @@ angular.module('spacecraft')
                 isRunning,
                 userCode,
                 userObject,
-                sequence = seq();
+                sequence = utils.seq();
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
@@ -92,19 +92,19 @@ angular.module('spacecraft')
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
-                    health: 100
+                    health: 200
                 });
 
                 // Добавляем наш корабль в мир
                 world.pushSpaceCraft(spaceCraft);
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 15; i++)
                 {
                     var e = SpaceCraft({
                         id: sequence.next(),
                         strategy: botStrategy,
-                        spriteName: 'spaceCraft' + randomInt(1, 2),
-                        health: 100,
+                        spriteName: 'spaceCraft' + utils.randomInt(1, 2),
+                        health: 200,
                         angle: game.rnd.angle(),
                         shield: 20
                     });

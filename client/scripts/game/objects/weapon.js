@@ -80,6 +80,10 @@ var Weapon = function (spec)
                         u.hit(damage);
                         spaceCraft.statistic.addAcceptDamage();
                         u.statistic.addTakenDamage(damage);
+
+                        if(u.getHealth() - damage <= 0){
+                            spaceCraft.statistic.addKillEnemy();
+                        }
                     }
                 };
 

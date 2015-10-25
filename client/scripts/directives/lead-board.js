@@ -5,16 +5,19 @@
 angular.module('spacecraft')
     .directive('leadBoard', ['$injector', function ($injector)
     {
-        var linkLB = function (scope)
+        var link = function (scope)
         {
+            var spaceCraft;
 
+            spaceCraft = scope.spaceCraft;
         };
 
         return {
             scope: {
+                spaceCraft: '='
             },
             templateUrl: 'views/leadBoard.html',
-            link: linkLB
+            link: link
         };
     }])
 ;

@@ -2,9 +2,22 @@
 </div>
 
 <div class="leadBord">
-    <!--<p>Убитых кораблей: {{spaceCraft.statistic.getKillEnemy()}}</p>-->
-    <!--<p>Нанесено урона: {{spaceCraft.statistic.getAcceptDamage()}}</p>-->
-    <!--<p>Получено урона: {{spaceCraft.statistic.getTakenDamage()}}</p>-->
-    <!--<p>Собранно бонусов: {{spaceCraft.statistic.getTakenBonus()}}</p>-->
-    <!--<p>Количество набранных очков: {{spaceCraft.statistic.getTotalScore()}}</p>-->
+    <div class="containerStatistic">
+    <table>
+        <tr>
+            <td>Убитых кораблей</td>
+            <td>Нанесено урона</td>
+            <td>Получено урона</td>
+            <td>Собранно бонусов</td>
+            <td>Количество набранных очков</td>
+        </tr>
+        <tr>
+            <td>{{spaceCraft.statistic.getKillEnemy()}}</td>
+            <td>{{spaceCraft.statistic.getAcceptDamage()}}</td>
+            <td>{{spaceCraft.statistic.getTakenDamage()}}</td>
+            <td>{{spaceCraft.statistic.getTakenBonus()}}</td>
+            <td>{{spaceCraft.statistic.getTotalScore()}}</td>
+        </tr>
+    </table>
+    </div>
 </div>

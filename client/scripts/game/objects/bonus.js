@@ -99,7 +99,7 @@ var HealthBonus = function (spec)
     var that = {};
     var health = spec.health;
 
-    that.spriteName = 'bonus1';
+    that.spriteName = 'bonus2';
     that.name = "health";
 
     that.useBonus = function (spaceCraft)
@@ -115,7 +115,7 @@ var DamageBonus = function (spec)
     var that = {};
     var damage = spec.damage;
 
-    that.spriteName = 'bonus2';
+    that.spriteName = 'bonus1';
     that.name = "damage";
 
     that.useBonus = function (spaceCraft)
@@ -126,7 +126,30 @@ var DamageBonus = function (spec)
     return that;
 };
 
+var ShieldBonus = function (spec)
+{
+    var that = {};
+    var shield = spec.shield;
+
+    that.spriteName = 'bonus3';
+    that.name = "shield";
+
+    that.useBonus = function (spaceCraft)
+    {
+        spaceCraft.addShield(shield);
+    };
+
+    return that;
+};
+
 var generateBonus = function (spec)
 {
-    return utils.random() ? HealthBonus({health: spec.health}) : DamageBonus({damage: spec.damage});
+    var bonus = utils.randomInt(1, 3);
+
+    switch (bonus)
+    {
+        case 1: return HealthBonus({health: spec.health});
+        case 2: return DamageBonus({damage: spec.damage});
+        case 3: return ShieldBonus({shield: spec.shield});
+    }
 };

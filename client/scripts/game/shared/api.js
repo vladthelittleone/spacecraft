@@ -73,6 +73,7 @@ var SpaceCraftApi = function (spaceCraft)
 
     api.weapon = WeaponApi(spaceCraft.weapon);
     api.getHealth = spaceCraft.getHealth;
+    api.getShield = spaceCraft.getShield;
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
     api.getAngle = spaceCraft.getAngle;
@@ -119,6 +120,7 @@ var EnemyApi = function (spaceCraft)
 
     api.weapon = EnemyWeaponApi(spaceCraft.weapon);
     api.getHealth = spaceCraft.getHealth;
+    api.getShield = spaceCraft.getShield;
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
     api.getAngle = spaceCraft.getAngle;

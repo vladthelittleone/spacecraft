@@ -65,11 +65,19 @@ var SpaceCraft = function (spec)
     that.addHealth = function (add)
     {
         health += add;
-        maxHealth =+ health;
+        maxHealth += add;
+    };
+
+    that.addShield = function (add)
+    {
+        shield += add;
+        maxShield += add;
     };
 
     that.update = function ()
     {
+        that.healthRegeneration();
+        that.shieldRegeneration();
         strategy(that);
     };
 
@@ -85,9 +93,12 @@ var SpaceCraft = function (spec)
 
     function regeneration(maxValue, value)
     {
-        if((maxValue - value) > regen)
+        var deltaTime = game.time.elapsed / 1000;
+        var deltaRegen = regen * deltaTime;
+
+        if((maxValue - value) > deltaRegen)
         {
-            return (value + regen);
+            return (value + deltaRegen);
         }
         else
         {
@@ -169,7 +180,8 @@ var SpaceCraft = function (spec)
         {
             var bonusType = generateBonus({
                 health: 10,
-                damage: 10
+                damage: 10,
+                shield: 10
             });
 
             // Создание нового бонуса и занесение его в bonusArray
@@ -195,12 +207,18 @@ var SpaceCraft = function (spec)
 
             sprite.reset(game.world.randomX, game.world.randomY);
             health = maxHealth;
+            shield = maxShield;
         }
     };
 
     that.getHealth = function ()
     {
-        return health;
+        return Math.floor(health);
+    };
+
+    that.getShield = function ()
+    {
+        return Math.floor(shield);
     };
 
     that.getX = function ()

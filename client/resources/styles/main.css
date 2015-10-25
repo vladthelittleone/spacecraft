@@ -37,6 +37,15 @@ body {
     margin-left: 10px;
 }
 
+.shield {
+    position: fixed;
+    bottom: 50px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
 canvas {
     margin-top: 25px;
 }
@@ -65,6 +74,10 @@ canvas {
 
 .green {
     color: #39C139;
+}
+
+.blue {
+    color: #3b83c1;
 }
 
 #toolbar button:hover {

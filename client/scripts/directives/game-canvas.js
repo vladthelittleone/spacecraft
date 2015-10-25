@@ -49,6 +49,7 @@ angular.module('spacecraft')
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
                 game.load.image('bonus1', 'resources/assets/bonus1.png');
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
+                game.load.image('bonus3', 'resources/assets/bonus3.png');
             }
 
             function create()
@@ -92,13 +93,14 @@ angular.module('spacecraft')
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
-                    health: 200
+                    health: 200,
+                    shield: 100
                 });
 
                 // Добавляем наш корабль в мир
                 world.pushSpaceCraft(spaceCraft);
 
-                for (var i = 0; i < 15; i++)
+                for (var i = 0; i < 20; i++)
                 {
                     var e = SpaceCraft({
                         id: sequence.next(),
@@ -106,7 +108,7 @@ angular.module('spacecraft')
                         spriteName: 'spaceCraft' + utils.randomInt(1, 2),
                         health: 200,
                         angle: game.rnd.angle(),
-                        shield: 20
+                        shield: 100
                     });
 
                     // Добавляем корабль противника в мир

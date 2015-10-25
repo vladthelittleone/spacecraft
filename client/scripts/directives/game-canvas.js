@@ -105,7 +105,8 @@ angular.module('spacecraft')
                         strategy: botStrategy,
                         spriteName: 'spaceCraft' + utils.randomInt(1, 2),
                         health: 200,
-                        angle: game.rnd.angle()
+                        angle: game.rnd.angle(),
+                        shield: 20
                     });
 
                     // Добавляем корабль противника в мир

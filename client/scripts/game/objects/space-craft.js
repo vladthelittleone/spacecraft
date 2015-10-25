@@ -11,6 +11,7 @@ var SpaceCraft = function (spec)
     var game = SCG.game;
     
     var maxHealth = that.health = spec.health;
+    var shield = maxShield = spec.shield;
 
     var statistic = that.statistic = Statistic();
 
@@ -69,10 +70,26 @@ var SpaceCraft = function (spec)
         strategy(that);
     };
 
-    that.regeneration = function ()
+    that.healthRegeneration = function ()
     {
-        that.health += 5;
+        regeneration(maxHealth, that.health);
     };
+
+    that.shieldRegeneration = function() {
+        regeneration(maxShield, shield);
+    }
+
+    function regeneration(maxValue, value)
+    {
+        if((maxValue - value) <= 5)
+        {
+            value = maxValue;
+        }
+        else if(maxValue != value)
+        {
+            value += 5;
+        }
+    }
 
     that.rotateLeft = function ()
     {
@@ -126,7 +143,23 @@ var SpaceCraft = function (spec)
 
     that.hit = function (damage,damageCraft)
     {
-        that.health -= damage;
+        if(shield > 0)
+        {
+            shield -= damage;
+
+            // если щит сломался, то в нем окажется отрицательное значение,
+            // которое прибавлем к текущему здоровью
+            if(shield <= 0)
+            {
+                that.health += shield;
+                shield = 0;
+            }
+
+        }
+        else
+        {
+            that.health -= damage;
+        }
 
         if (that.health <= 0)
         {

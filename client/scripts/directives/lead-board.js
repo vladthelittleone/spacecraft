@@ -9,7 +9,10 @@ angular.module('spacecraft')
         {
             var spaceCraft;
 
-            spaceCraft = scope.spaceCraft;
+            scope.$watch('spaceCraft', function (n)
+            {
+                spaceCraft = n;
+            });
         };
 
         return {

@@ -9,7 +9,7 @@ var SpaceCraft = function (spec)
     var that = {};
 
     var game = SCG.game;
-    
+
     var maxHealth = that.health = spec.health;
 
     var statistic = that.statistic = Statistic();
@@ -63,7 +63,7 @@ var SpaceCraft = function (spec)
     that.addHealth = function (add)
     {
         that.health += add;
-        maxHealth =+ that.health;
+        maxHealth = +that.health;
     };
 
     that.update = function ()
@@ -126,8 +126,9 @@ var SpaceCraft = function (spec)
         sprite.body.moveBackward(20);
     };
 
-    that.changeStatus = function () {
-      live = false;
+    that.changeStatus = function ()
+    {
+        live = false;
     };
 
     that.isLive = function ()
@@ -135,7 +136,7 @@ var SpaceCraft = function (spec)
         return live;
     };
 
-    that.hit = function (damage,damageCraft)
+    that.hit = function (damage, damageCraft)
     {
         that.health -= damage;
 
@@ -164,13 +165,20 @@ var SpaceCraft = function (spec)
 
             // вторая констатна это количество кадров в секунду при воспроизвелении анимации
             boomSprite.play('boom', 16, false, true);
-            statistic.calculateTotalScore();
             live = false;
 
             damageCraft.statistic.addKillEnemy();
 
-            sprite.reset(game.world.randomX, game.world.randomY);
-            that.health = maxHealth;
+            if (SCG.spaceCraft.getId() === that.getId())
+            {
+                statistic.calculateTotalScore();
+                sprite.destroy();
+                SCG.world.removeSpaceCraft(that);
+            } else
+            {
+                sprite.reset(game.world.randomX, game.world.randomY);
+                that.health = maxHealth;
+            }
         }
     };
 

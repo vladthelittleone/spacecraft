@@ -10,6 +10,13 @@
     <span class="green">{{spaceCraft.weapon.getDamage()}}</span>
 </div>
 
+<div class="shield">
+    <span class="glyphicon glyphicon-flash blue"></span>
+    <span class="blue">{{spaceCraft.getShield()}}</span>
+</div>
+
+</div>
+
 <div lead-board
         ng-hide="!spaceCraft || spaceCraft.isAlive()"
         space-craft="spaceCraft">

@@ -1,6 +1,6 @@
 botStrategy = function (spaceCraft)
 {
-    var enemy =  spaceCraft.weapon.enemiesInRange(spaceCraft.getId())[0];
+    var enemy =  spaceCraft.weapon.enemiesInRange()[0];
     var bonus;
 
     var eMin = Number.MAX_VALUE;

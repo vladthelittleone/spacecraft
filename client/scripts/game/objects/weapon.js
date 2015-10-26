@@ -38,7 +38,7 @@ var Weapon = function (spec)
 
     that.update = function ()
     {
-        var units = SCG.world.getSpaceCrafts();
+        var units = SCG.world.getSpaceCrafts(spaceCraft.getId());
 
         // Проходимся по всем снарядам выпущенным кораблем
         beamsArray.forEach(function (b, i)
@@ -58,34 +58,30 @@ var Weapon = function (spec)
 
         units.forEach(function (u)
         {
-            // Не наносим урон себе
-            if (sprite !== u.sprite)
+            // Callback при коллизии пули с кораблем
+            var beamHit = function (unit, beam)
             {
-                // Callback при коллизии пули с кораблем
-                var beamHit = function (unit, beam)
+                /**
+                 * Уничтожаем пулю
+                 *
+                 * TODO
+                 * Странная проверка, так как мы удаляем body,
+                 * но все равно вызывается beamHit
+                 */
+                if (beam.sprite)
                 {
-                    /**
-                     * Уничтожаем пулю
-                     *
-                     * TODO
-                     * Странная проверка, так как мы удаляем body,
-                     * но все равно вызывается beamHit
-                     */
-                    if (beam.sprite)
-                    {
-                        beam.sprite.destroy();
-                        beam.destroy();
+                    beam.sprite.destroy();
+                    beam.destroy();
 
-                        // Наносим урон
-                        u.hit(damage,spaceCraft);
-                        spaceCraft.statistic.addAcceptDamage();
-                        u.statistic.addTakenDamage(damage);
+                    // Наносим урон
+                    u.hit(damage,spaceCraft);
+                    spaceCraft.statistic.addAcceptDamage();
+                    u.statistic.addTakenDamage(damage);
 
-                    }
-                };
+                }
+            };
 
-                u.sprite.body.collides(beamsCollisionGroup, beamHit);
-            }
+            u.sprite.body.collides(beamsCollisionGroup, beamHit);
         });
     };
 
@@ -106,9 +102,7 @@ var Weapon = function (spec)
 
     that.inRange = function (another)
     {
-        var p = new Phaser.Point(another.getX(), another.getY());
-
-        return Phaser.Point.distance(sprite, p) < fireRange;
+        return spaceCraft.distance(another) < fireRange;
     };
 
     that.fire = function (obj1, obj2)
@@ -166,11 +160,11 @@ var Weapon = function (spec)
         }
     };
 
-    that.enemiesInRange = function (id, callback)
+    that.enemiesInRange = function (callback)
     {
         var a = [];
 
-        SCG.world.getSpaceCrafts(id).forEach(function (e)
+        SCG.world.getSpaceCrafts(spaceCraft.getId()).forEach(function (e)
         {
             if (Phaser.Point.distance(sprite, e.sprite) < fireRange)
             {

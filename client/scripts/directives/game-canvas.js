@@ -50,6 +50,7 @@ angular.module('spacecraft')
                 game.load.image('bonus1', 'resources/assets/bonus1.png');
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
                 game.load.image('bonus3', 'resources/assets/bonus3.png');
+                game.load.image('rocket', 'resources/assets/rocket.png');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
             }
 
@@ -180,5 +181,4 @@ angular.module('spacecraft')
             link: linkFn
         };
 
-    }])
-;
+    }]);

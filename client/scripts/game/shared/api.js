@@ -71,6 +71,10 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
+    api.skills = {
+        rocket: RocketSkillApi(spaceCraft.skills.rocket)
+    };
+
     api.weapon = WeaponApi(spaceCraft.weapon);
     api.getHealth = spaceCraft.getHealth;
     api.getShield = spaceCraft.getShield;
@@ -102,11 +106,7 @@ var WeaponApi = function (weapon)
     api.getFireRange = weapon.getFireRange;
     api.inRange = weapon.inRange;
     api.fire = weapon.fire;
-
-    api.enemiesInRange = function (callback)
-    {
-        return weapon.enemiesInRange(SCG.spaceCraft.getId(), callback);
-    };
+    api.enemiesInRange = weapon.enemiesInRange;
 
     return api;
 };
@@ -141,6 +141,23 @@ var EnemyWeaponApi = function (weapon)
     api.getDamage = weapon.getDamage;
     api.getFireRate = weapon.getFireRate;
     api.getFireRange = weapon.getFireRange;
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var RocketSkillApi = function (rocketSkill)
+{
+    var api = {};
+
+    api.getFireRate = rocketSkill.getFireRate;
+    api.enemiesInRange = rocketSkill.enemiesInRange;
+    api.inRange = rocketSkill.inRange;
+    api.getFireRange = rocketSkill.getFireRange;
+    api.getCost = rocketSkill.getCost;
+    api.fire = rocketSkill.fire;
 
     return api;
 };

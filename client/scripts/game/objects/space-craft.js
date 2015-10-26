@@ -48,6 +48,17 @@ var SpaceCraft = function (spec)
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
+    var skills = that.skills = {
+        rocket: RocketSkill({
+            spriteName: "rocket",
+            fireRate: 30000,
+            spaceCraft: that,
+            speed: 50,
+            fireRange: 500,
+            cost: 0.5
+        })
+    };
+
     that.weapon = Weapon({
         spaceCraft: that,
         damage: 10,
@@ -76,6 +87,7 @@ var SpaceCraft = function (spec)
 
     that.update = function ()
     {
+        that.skills.rocket.update();
         that.healthRegeneration();
         that.shieldRegeneration();
         strategy(that);
@@ -154,6 +166,11 @@ var SpaceCraft = function (spec)
     that.moveBackward = function ()
     {
         sprite.body.moveBackward(20);
+    };
+
+    that.removeShield = function (delta)
+    {
+        shield -= delta;
     };
 
     that.hit = function (damage, damageCraft)

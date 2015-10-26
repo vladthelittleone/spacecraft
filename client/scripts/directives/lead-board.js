@@ -19,7 +19,7 @@ angular.module('spacecraft')
             scope: {
                 spaceCraft: '='
             },
-            templateUrl: 'views/leadBoard.html',
+            templateUrl: 'views/leadboard.html',
             link: link
         };
     }])

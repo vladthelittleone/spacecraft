@@ -174,7 +174,8 @@ var SpaceCraft = function (spec)
                 statistic.calculateTotalScore();
                 sprite.destroy();
                 SCG.world.removeSpaceCraft(that);
-            } else
+            }
+            else
             {
                 sprite.reset(game.world.randomX, game.world.randomY);
                 that.health = maxHealth;

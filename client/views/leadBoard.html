@@ -1,37 +1,43 @@
+
 <div class="containerLeadBoard">
-</div>
+    <ul class="leadBoard">
+        <li class="leadBoardTitle">
 
-<div class="leadBord">
-    <div class="containerStatistic">
-        <table>
+            <span>
+                Взгляните на свой результат
+            </span>
+
+            <i class="glyphicon glyphicon-repeat"></i>
+        </li>
+
+        <li class="leadBoardDescription">
+            <table>
             <tr>
-                <td>Убитых кораблей</td>
-                <td>Нанесено урона</td>
-                <td>Получено урона</td>
-                <td>Собранно бонусов</td>
-                <td>Количество набранных очков</td>
+            <td>Убитых кораблей</td>
+            <td>Нанесено урона</td>
+            <td>Получено урона</td>
+            <td>Собранно бонусов</td>
+            <td>Количество набранных очков</td>
             </tr>
             <tr>
-                <td>{{spaceCraft.statistic.getKillEnemy()}}</td>
-                <td>{{spaceCraft.statistic.getAcceptDamage()}}</td>
-                <td>{{spaceCraft.statistic.getTakenDamage()}}</td>
-                <td>{{spaceCraft.statistic.getTakenBonus()}}</td>
-                <td>{{spaceCraft.statistic.getTotalScore()}}</td>
+            <td>{{spaceCraft.statistic.getKillEnemy()}}</td>
+            <td>{{spaceCraft.statistic.getAcceptDamage()}}</td>
+            <td>{{spaceCraft.statistic.getTakenDamage()}}</td>
+            <td>{{spaceCraft.statistic.getTakenBonus()}}</td>
+            <td>{{spaceCraft.statistic.getTotalScore()}}</td>
             </tr>
-        </table>
-    </div>
-    <div class="containerButtons">
-        <a class="glyphicon glyphicon-repeat"></a>
-        <a class="glyphicon glyphicon-remove"></a>
-    </div>
+            </table>
+        </li>
 
-    <div class="socialLink">
-    <a href="https://twitter.com/home?status=http%3A//spacecraft.launchrock.com/
-    %0A%D0%AF%20%D0%BD%D0%B0%D0%B1%D1%80%D0%B0%D0%BB%20%7B%7BspaceCraft.statistic.getTotalScore()%7D%7D.">
-        <img src="resources/assets/social network/twitter.png"/>
-    </a>
-        <a href="http://vk.com/share.php?url=http://spacecraft.launchrock.com/" target="_blank">
+        <li class="leadBoardSocial">
+            <div>Расскажи друзьям о своих результатах:</div>
+            <a href="https://twitter.com/home?status=http%3A//spacecraft.launchrock.com/
+            %0A%D0%AF%20%D0%BD%D0%B0%D0%B1%D1%80%D0%B0%D0%BB%20%7B%7BspaceCraft.statistic.getTotalScore()%7D%7D.">
+            <img src="resources/assets/social network/twitter.png"/>
+            </a>
+            <a href="http://vk.com/share.php?url=http://spacecraft.launchrock.com/&title=/&description=" target="_blank">
             <img src="resources/assets/social network/vk.png" /></a>
-    </div>
+        </li>
+    </ul>
 </div>
 

@@ -27,7 +27,7 @@ var SpaceCraft = function (spec)
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
     var id = sprite.name = spec.id;
 
-    var live = true;
+    var isAlive = true;
 
     // Центрирование
     sprite.anchor.x = 0.5;
@@ -128,12 +128,12 @@ var SpaceCraft = function (spec)
 
     that.changeStatus = function ()
     {
-        live = false;
+        that.live = false;
     };
 
-    that.isLive = function ()
+    that.isAlive = function ()
     {
-        return live;
+        return isAlive;
     };
 
     that.hit = function (damage, damageCraft)
@@ -165,22 +165,24 @@ var SpaceCraft = function (spec)
 
             // вторая констатна это количество кадров в секунду при воспроизвелении анимации
             boomSprite.play('boom', 16, false, true);
-            live = false;
-
             damageCraft.statistic.addKillEnemy();
+
+            isAlive = false;
 
             if (SCG.spaceCraft.getId() === that.getId())
             {
                 statistic.calculateTotalScore();
-                sprite.destroy();
-                SCG.world.removeSpaceCraft(that);
             }
-            else
-            {
-                sprite.reset(game.world.randomX, game.world.randomY);
-                that.health = maxHealth;
-            }
+
+            sprite.reset(game.world.randomX, game.world.randomY);
+            that.health = maxHealth;
         }
+    };
+
+    that.resetGame = function ()
+    {
+        SCG.game.paused = false;
+        isAlive = true;
     };
 
     that.getHealth = function ()

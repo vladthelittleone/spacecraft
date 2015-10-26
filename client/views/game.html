@@ -11,7 +11,7 @@
 </div>
 
 <div lead-board
-        ng-hide="spaceCraft.isLive()"
+        ng-hide="!spaceCraft || spaceCraft.isLive()"
         space-craft="spaceCraft">
 </div>
 

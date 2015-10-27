@@ -8,7 +8,7 @@ var Statistic = function ()
         takenBonus = 0,
         killEnemy = 0,
         takenDamage = 0,
-        acceptDamege = 0,
+        acceptDamage = 0,
         totalScore ;
 
     that.addBonus = function ()
@@ -28,12 +28,12 @@ var Statistic = function ()
 
     that.addAcceptDamage = function (damage)
     {
-        acceptDamege += damage;
+        acceptDamage += damage;
     };
 
     that.calculateTotalScore = function ()
     {
-        totalScore = takenBonus * 2 + killEnemy * 10 - takenDamage + acceptDamege * 2;
+        totalScore = takenBonus * 2 + killEnemy * 10 - takenDamage + acceptDamage * 2;
         if (totalScore < 0)
         {
             totalScore = 0;
@@ -57,7 +57,7 @@ var Statistic = function ()
 
     that.getAcceptDamage = function ()
     {
-        return acceptDamege;
+        return acceptDamage;
     };
 
     that.getTakenBonus = function ()
@@ -66,4 +66,4 @@ var Statistic = function ()
     };
 
     return that;
-}
+};

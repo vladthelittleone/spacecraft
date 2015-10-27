@@ -78,7 +78,7 @@ var Weapon = function (spec)
 
                         // Наносим урон
                         u.hit(damage,spaceCraft);
-                        spaceCraft.statistic.addAcceptDamage();
+                        spaceCraft.statistic.addAcceptDamage(damage);
                         u.statistic.addTakenDamage(damage);
 
                     }

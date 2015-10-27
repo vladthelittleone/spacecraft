@@ -34,6 +34,10 @@ var Statistic = function ()
     that.calculateTotalScore = function ()
     {
         totalScore = takenBonus * 2 + killEnemy * 10 - takenDamage + acceptDamege * 2;
+        if (totalScore < 0)
+        {
+            totalScore = 0;
+        }
     };
 
     that.getTotalScore = function ()

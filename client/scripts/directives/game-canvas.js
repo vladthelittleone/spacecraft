@@ -125,23 +125,31 @@ angular.module('spacecraft')
 
             function update()
             {
-                world.getSpaceCrafts().forEach(function (e)
-                {
-                    e.update();
-                });
-
-                // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
-                world.getBonuses().forEach(function (b)
-                {
-                    b.update();
-                });
-
-                runUserScript();
-
                 scope.$apply(function ()
                 {
                     scope.spaceCraft = spaceCraft;
+
+                    if (!spaceCraft.isAlive())
+                    {
+                        SCG.game.paused = true;
+                    }
                 });
+
+                if(!SCG.game.paused)
+                {
+                    world.getSpaceCrafts().forEach(function (e)
+                    {
+                        e.update();
+                    });
+
+                    // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
+                    world.getBonuses().forEach(function (b)
+                    {
+                        b.update();
+                    });
+
+                    runUserScript();
+                }
             }
 
             function render()

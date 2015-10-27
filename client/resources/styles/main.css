@@ -80,6 +80,14 @@ canvas {
     color: #3b83c1;
 }
 
+.yellow {
+    color: #f8ef83;
+}
+
+.orange {
+    color: #f88e36;
+}
+
 .containerLeadBoard {
     position: fixed;
     top: 0;
@@ -99,6 +107,7 @@ canvas {
 {
     margin: auto;
     text-align: center;
+    padding-top: 10px;
 }
 
 .leadBoard {
@@ -185,8 +194,8 @@ canvas {
 }
 
 .leadBoardSocial div {
-    padding: 10px;
     float: left;
+    padding: 13px;
 }
 
 #toolbar button:hover {

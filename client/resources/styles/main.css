@@ -208,6 +208,24 @@ canvas {
     top: 74%;
 }
 
+.tutorial
+{
+    position: fixed;
+    top: 25px;
+    right: 50%;
+    bottom: 0;
+    left: 0;
+
+    background: #1D1F21;
+    color: #C5C8C6;
+
+    text-align: center;
+}
+
+.tutorial table{
+    margin: auto;
+}
+
 .ace_editor {
     position: fixed;
     top: 25px;

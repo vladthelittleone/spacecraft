@@ -31,6 +31,7 @@ angular.module('spacecraft.main', [])
 
         $scope.isCodeRunning = false;
         $scope.hideEditor = false;
+        $scope.hideTutorial = false;
 
         $scope.aceLoaded = function (editor)
         {
@@ -55,5 +56,10 @@ angular.module('spacecraft.main', [])
         $scope.toggleCodeRun = function ()
         {
             $scope.isCodeRunning = !$scope.isCodeRunning;
+        };
+
+        $scope.toggleTutorialOpen = function ()
+        {
+            $scope.hideTutorial = !$scope.hideTutorial;
         };
     }]);

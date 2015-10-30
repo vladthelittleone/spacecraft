@@ -25,6 +25,11 @@
                   ng-class="{'glyphicon-stop red' : isCodeRunning, 'glyphicon-play green' : !isCodeRunning}">
             </span>
         </button>
+
+        <button type="button" ng-click="toggleTutorialOpen()">
+            <span class="glyphicon glyphicon-question-sign blue">
+            </span>
+        </button>
     </div>
 
 </div>
@@ -34,22 +39,30 @@
      is-running="isCodeRunning">
 </div>
 
-<div class="toturial"
-     ui-ace="{
-  useWrapMode : true,
-  showGutter: true,
-  theme:'tomorrow_night',
-  mode: 'javascript',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"
-     ng-class="{'bounceOutUp' : hideEditor, 'bounceInDown' : !hideEditor}">
+<div class="tutorial"
+     ng-class="{'bounceInUp' : hideTutorial, 'bounceOutDown' : !hideTutorial}">
     <h3>Доступные функции</h3>
     <table>
         <tr>
-            <td></td>
-            <td></td>
+            <td>Название(использование)</td>
+            <td>Определение</td>
+        </tr>
+        <tr>
+            <td>world.getEnemies()</td>
+            <td>Функция возвращает массив всех врагов в мире</td>
+        </tr>
+        <tr>
+            <td>world.getBonuses()</td>
+            <td>Функция возвращает массив всех бонусов в мире</td>
+        </tr>
+        <tr>
+            <td>bonus.getY</td>
+            <td>Функция возвращает координату бонуса по оси y</td>
+        </tr>
+        <tr>
+            <td>bonus.getX</td>
+            <td>Функция возвращает координату бонуса по оси x</td>
         </tr>
     </table>
 </div>
+

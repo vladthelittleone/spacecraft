@@ -34,4 +34,22 @@
      is-running="isCodeRunning">
 </div>
 
-
+<div class="toturial"
+     ui-ace="{
+  useWrapMode : true,
+  showGutter: true,
+  theme:'tomorrow_night',
+  mode: 'javascript',
+  firstLineNumber: 1,
+  onLoad: aceLoaded,
+  onChange: aceChanged
+}"
+     ng-class="{'bounceOutUp' : hideEditor, 'bounceInDown' : !hideEditor}">
+    <h3>Доступные функции</h3>
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>

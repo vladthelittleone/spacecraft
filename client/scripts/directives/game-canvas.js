@@ -50,7 +50,8 @@ angular.module('spacecraft')
                 game.load.image('bonus1', 'resources/assets/bonus1.png');
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
                 game.load.image('bonus3', 'resources/assets/bonus3.png');
-                game.load.image('rocket', 'resources/assets/rocket.png');
+                game.load.image('shield', 'resources/assets/shield.png');
+                game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
             }
 
@@ -88,10 +89,6 @@ angular.module('spacecraft')
 
                 scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
                     id: sequence.next(),
-                    strategy: function (s)
-                    {
-                        s.weapon.update();
-                    },
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',

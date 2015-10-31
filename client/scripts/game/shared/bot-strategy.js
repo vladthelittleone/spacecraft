@@ -6,8 +6,6 @@ botStrategy = function (spaceCraft)
     var eMin = Number.MAX_VALUE;
     var bMin = Number.MAX_VALUE;
 
-    spaceCraft.weapon.update();
-
     function bonusGenerate()
     {
         spaceCraft.bonusInRange(spaceCraft.weapon.getFireRange()).forEach(function (b)

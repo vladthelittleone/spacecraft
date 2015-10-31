@@ -71,10 +71,7 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
-    api.skills = {
-        rocket: RocketSkillApi(spaceCraft.skills.rocket)
-    };
-
+    api.robot = RobotApi(spaceCraft.robot);
     api.weapon = WeaponApi(spaceCraft.weapon);
     api.getHealth = spaceCraft.getHealth;
     api.getShield = spaceCraft.getShield;
@@ -148,16 +145,16 @@ var EnemyWeaponApi = function (weapon)
 /**
  * @constructor
  */
-var RocketSkillApi = function (rocketSkill)
+var RobotApi = function (bot)
 {
     var api = {};
 
-    api.getFireRate = rocketSkill.getFireRate;
-    api.enemiesInRange = rocketSkill.enemiesInRange;
-    api.inRange = rocketSkill.inRange;
-    api.getFireRange = rocketSkill.getFireRange;
-    api.getCost = rocketSkill.getCost;
-    api.fire = rocketSkill.fire;
+    api.enemiesInRange = bot.enemiesInRange;
+    api.inRange = bot.inRange;
+    api.drop = bot.drop;
+    api.getCoolDown = bot.getCoolDown;
+    api.getFireRange = bot.getDetectionRange;
+    api.getCost = bot.getCost;
 
     return api;
 };

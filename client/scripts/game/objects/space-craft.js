@@ -29,11 +29,16 @@ var SpaceCraft = function (spec)
 
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
+    var shieldSprite = game.make.sprite(0, 0, 'shield');
+
     var id = sprite.name = spec.id;
 
     // Центрирование
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
+
+    shieldSprite.anchor.x = 0.5;
+    shieldSprite.anchor.y = 0.5;
 
     // Включаем проверку на коллизии с границей
     sprite.checkWorldBounds = true;
@@ -48,16 +53,16 @@ var SpaceCraft = function (spec)
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
-    var skills = that.skills = {
-        rocket: RocketSkill({
-            spriteName: "rocket",
-            fireRate: 30000,
+    sprite.addChild(shieldSprite);
+
+    var robot = that.robot = Robot({
+            atlasName: "bots",
+            coolDown: 30000,
             spaceCraft: that,
-            speed: 50,
-            fireRange: 500,
+            speed: 15,
+            detectionRange: 200,
             cost: 0.5
-        })
-    };
+    });
 
     that.weapon = Weapon({
         spaceCraft: that,
@@ -87,10 +92,12 @@ var SpaceCraft = function (spec)
 
     that.update = function ()
     {
-        that.skills.rocket.update();
+        that.robot.update();
+        that.weapon.update();
         that.healthRegeneration();
         that.shieldRegeneration();
-        strategy(that);
+
+        strategy && strategy(that);
     };
 
     that.healthRegeneration = function ()
@@ -100,7 +107,11 @@ var SpaceCraft = function (spec)
 
     that.shieldRegeneration = function()
     {
-        shield = regeneration(maxShield, shield);
+        if (health >= maxHealth)
+        {
+            shieldSprite.visible = true;
+            shield = regeneration(maxShield, shield);
+        }
     };
 
     function regeneration(maxValue, value)
@@ -183,10 +194,10 @@ var SpaceCraft = function (spec)
             // которое прибавлем к текущему здоровью
             if(shield <= 0)
             {
+                shieldSprite.visible = false;
                 health += shield;
                 shield = 0;
             }
-
         }
         else
         {

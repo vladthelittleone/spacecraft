@@ -218,10 +218,17 @@ canvas {
 
     background: #1D1F21;
     color: #C5C8C6;
+}
 
+.tutorial h3
+{
     text-align: center;
 }
 
+.tutorial span:hover
+{
+    cursor: hand;
+}
 .tutorial table{
     margin: auto;
 }

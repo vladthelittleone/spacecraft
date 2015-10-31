@@ -62,4 +62,17 @@ angular.module('spacecraft.main', [])
         {
             $scope.hideTutorial = !$scope.hideTutorial;
         };
+
+        $scope.colaps = function (id)
+        {
+            if(document.getElementById(id).style.display != "none")
+            {
+                document.getElementById(id).style.display = 'none';
+            }
+            else
+            {
+                document.getElementById(id).style.display = '';
+            }
+        };
+
     }]);

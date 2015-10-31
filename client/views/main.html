@@ -42,27 +42,83 @@
 <div class="tutorial"
      ng-class="{'bounceInUp' : hideTutorial, 'bounceOutDown' : !hideTutorial}">
     <h3>Доступные функции</h3>
-    <table>
-        <tr>
-            <td>Название(использование)</td>
-            <td>Определение</td>
-        </tr>
-        <tr>
-            <td>world.getEnemies()</td>
-            <td>Функция возвращает массив всех врагов в мире</td>
-        </tr>
-        <tr>
-            <td>world.getBonuses()</td>
-            <td>Функция возвращает массив всех бонусов в мире</td>
-        </tr>
-        <tr>
-            <td>bonus.getY</td>
-            <td>Функция возвращает координату бонуса по оси y</td>
-        </tr>
-        <tr>
-            <td>bonus.getX</td>
-            <td>Функция возвращает координату бонуса по оси x</td>
-        </tr>
-    </table>
+    <span class="world" ng-click="colaps('world')">World</span>
+
+    <div id="world" style="display: none;">
+        <ul>
+            <li>world.getEnemies() - Функция возвращает массив всех врагов в мире.</li>
+            <li>world.getBonuses() - Функция возвращает массив всех бонусов в мире.</li>
+        </ul>
+    </div>
+    <br>
+    <span class="bonus" ng-click="colaps('bonus')">Bonus</span>
+
+    <div id="bonus" style="display: none;">
+        <ul>
+            <li>bonus.getY() - Функция возвращает координату бонуса по оси y.</li>
+            <li>bonus.getX() - Функция возвращает координату бонуса по оси x.</li>
+            <li>bonus.getType() - Функция возвращает тип бонуса(всего 3 типа бонусов: здоровье, оружие, щиты).</li>
+        </ul>
+    </div>
+    <br>
+    <span class="spaceCraft" ng-click="colaps('spaceCraft')">SpaceCraft</span>
+
+    <div id="spaceCraft" style="display: none;">
+        <ul>
+            <li>spaceCraft.weapon - Обращение к оружию, для выполнения действий с оружием.</li>
+            <li>spaceCraft.getHealth() - Функция возвращает уровень здоровья вашего корабля в данный момент.</li>
+            <li>spaceCraft.getShield() - Функция возвращает уровень щитов вашего корабля в данный момент.</li>
+            <li>spaceCraft.getX() - Функция возвращает координату корабля по оси х.</li>
+            <li>spaceCraft.getY() - Функция возвращает координату корабля по оси y.</li>
+            <li>spaceCraft.getAngle() -</li>
+            <li>spaceCraft.angleBetween() -</li>
+            <li>spaceCraft.distance -</li>
+            <li>spaceCraft.rotateLeft() - Поворот влево корабля.</li>
+            <li>spaceCraft.rotateRight() - Поворот вправо корабля.</li>
+            <li>spaceCraft.rotateTo() - Поворот корабля к выбранному объекту.</li>
+            <li>spaceCraft.moveForward() - Движение корабля вперед.</li>
+            <li>spaceCraft.moveBackward() - Движение корабля назад.</li>
+            <li>spaceCraft.getId() - Функция вовращает Id вашего корабля.</li>
+            <li>spaceCraft.bonusInRange() - Функция вовращает массив бонусов рядом с вами.</li>
+        </ul>
+    </div>
+    <br>
+    <span class="weapon" ng-click="colaps('weapon')">Weapon</span>
+
+    <div id="weapon" style="display: none;">
+        <ui>
+            <li>weapon.getDamage() - Функция возвращает урон, наносимый кораблем.</li>
+            <li>weapon.getFireRate() - Функция возвращает скорострельность оружия. </li>
+            <li>weapon.getFireRange() - Фуникция возвращает радиус стрельбы.</li>
+            <li>weapon.inRange() - </li>
+            <li>weapon.fire() - </li>
+        </ui>
+    </div>
+    <br>
+    <span class="enemy" ng-click="colaps('enemy')">Enemy</span>
+
+    <div id="enemy" style="display: none;">
+        <ui>
+            <li>enemy.weapon - Обращение к оружию, для выполнения действий с оружием.</li>
+            <li>enemy.getHealth() - Функция возвращает уровень здоровья вражеского корабля в данный момент.</li>
+            <li>enemy.getShield() - Функция возвращает уровень щитов вражеского корабля в данный момент.</li>
+            <li>enemy.getX() - Функция возвращает координату корабля по оси х.</li>
+            <li>enemy.getY() - Функция возвращает координату корабля по оси y.</li>
+            <li>enemy.getAngle() - </li>
+            <li>enemy.angleBetween() - </li>
+            <li>enemy.distance - </li>
+            <li>enemy.getId() - Функция вовращает Id вашего корабля.</li>
+        </ui>
+    </div>
+    <br>
+    <span class="enemyWeapon" ng-click="colaps('enemyWeapon')">EnemyWeapon</span>
+
+    <div id="enemyWeapon" style="display: none;">
+        <ui>
+            <li>enemyWeapon.getDamage() - Функция возвращает урон, наносимый кораблем.</li>
+            <li>enemyWeapon.getFireRate() - Функция возвращает скорострельность оружия.</li>
+            <li>enemyWeapon.getFireRange() - Фуникция возвращает радиус стрельбы.</li>
+        </ui>
+    </div>
 </div>
 

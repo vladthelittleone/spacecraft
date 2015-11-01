@@ -17,36 +17,6 @@ var Weapon = function (spec)
     // Объявляем группу коллизий.
     var beamsCollisionGroup = SCG.game.physics.p2.createCollisionGroup();
 
-    var units = SCG.world.getSpaceCrafts(spaceCraft.getId());
-
-    units.forEach(function (u)
-    {
-        // Callback при коллизии пули с кораблем
-        var beamHit = function (unit, beam)
-        {
-            /**
-             * Уничтожаем пулю
-             *
-             * TODO
-             * Странная проверка, так как мы удаляем body,
-             * но все равно вызывается beamHit
-             */
-            if (beam.sprite)
-            {
-                beam.sprite.destroy();
-                beam.destroy();
-
-                // Наносим урон
-                u.hit(damage,spaceCraft);
-                spaceCraft.statistic.addAcceptDamage();
-                u.statistic.addTakenDamage(damage);
-
-            }
-        };
-
-        u.sprite.body.collides(beamsCollisionGroup, beamHit);
-    });
-
     //  Группа пуль.
     var beams = SCG.game.add.group();
 
@@ -82,6 +52,36 @@ var Weapon = function (spec)
                     beamsArray.removeElementByIndex(i);
                 }
             }
+        });
+
+        var units = SCG.world.getSpaceCrafts(spaceCraft.getId());
+
+        units.forEach(function (u)
+        {
+            // Callback при коллизии пули с кораблем
+            var beamHit = function (unit, beam)
+            {
+                /**
+                 * Уничтожаем пулю
+                 *
+                 * TODO
+                 * Странная проверка, так как мы удаляем body,
+                 * но все равно вызывается beamHit
+                 */
+                if (beam.sprite)
+                {
+                    beam.sprite.destroy();
+                    beam.destroy();
+
+                    // Наносим урон
+                    u.hit(damage,spaceCraft);
+                    spaceCraft.statistic.addAcceptDamage();
+                    u.statistic.addTakenDamage(damage);
+
+                }
+            };
+
+            u.sprite.body.collides(beamsCollisionGroup, beamHit);
         });
     };
 

@@ -9,16 +9,14 @@ var WorldApi = function (world, id)
 {
     var api = {};
 
-    api.getBounds = world.getBounds;
-
-    api.getEnemies = function (callback)
+    function get(callback, func, api)
     {
-        var enemiesApi = [];
+        var a = [];
 
-        world.getSpaceCrafts(id).forEach(function (e, i, arr)
+        func(id).forEach(function (e, i, arr)
         {
-            var api = EnemyApi(e);
-            enemiesApi.push(api);
+            var api = api(e);
+            a.push(api);
 
             if (callback)
             {
@@ -26,25 +24,25 @@ var WorldApi = function (world, id)
             }
         });
 
-        return enemiesApi;
+        return a;
+    }
+
+    api.getBounds = world.getBounds;
+
+    api.getRobots = function (callback)
+    {
+        return get(callback, world.getRobots,  RobotApi);
+    };
+
+    api.getEnemies = function (callback)
+    {
+        return get(callback, world.getSpaceCrafts, EnemyApi);
     };
 
     // Получить массив бонусов
     api.getBonuses = function (callback)
     {
-        var bonusesApi = [];
-
-        world.getBonuses().forEach(function (e, i, arr)
-        {
-            var api = BonusApi(e);
-            bonusesApi.push(api);
-            if (callback)
-            {
-                callback(api, i, arr);
-            }
-        });
-
-        return bonusesApi;
+        return get(callback, world.getBonuses, BonusApi);
     };
 
     return api;
@@ -73,6 +71,7 @@ var SpaceCraftApi = function (spaceCraft)
 
     api.robot = RobotApi(spaceCraft.robot);
     api.weapon = WeaponApi(spaceCraft.weapon);
+
     api.getHealth = spaceCraft.getHealth;
     api.getShield = spaceCraft.getShield;
     api.getX = spaceCraft.getX;
@@ -86,7 +85,6 @@ var SpaceCraftApi = function (spaceCraft)
     api.moveForward = spaceCraft.moveForward;
     api.moveBackward = spaceCraft.moveBackward;
     api.getId = spaceCraft.getId;
-    api.bonusInRange = spaceCraft.bonusInRange;
 
     return api;
 };

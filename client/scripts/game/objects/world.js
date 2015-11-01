@@ -24,7 +24,7 @@ var World = function (spec)
 
     that.get = function (id)
     {
-        var result = null;
+        var result;
 
         objects.forEach(function(e)
         {
@@ -35,6 +35,11 @@ var World = function (spec)
         });
 
         return result;
+    };
+
+    that.getObjects = function ()
+    {
+        return objects;
     };
 
     that.getSpaceCraft = function (id)
@@ -69,6 +74,37 @@ var World = function (spec)
 
         return spaceCrafts;
     };
+
+    that.getRobot = function (id)
+    {
+        var result;
+
+        that.getRobots().forEach(function (o)
+        {
+            if (o.getId() === id)
+            {
+                result = o;
+            }
+        });
+
+        return result;
+    };
+
+    that.getRobots = function (id)
+    {
+        var result;
+
+        objects.forEach(function (o)
+        {
+            if (o.getType() === that.robotType)
+            {
+                result = o;
+            }
+        });
+
+        return result;
+    };
+
 
     that.getBounds = function ()
     {

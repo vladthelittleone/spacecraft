@@ -23,58 +23,7 @@ var Robot = function (spec)
     var robots = SCG.game.add.group();
 
     // Объявляем группу коллизий.
-    //var robotCollisionGroup = SCG.game.physics.p2.createCollisionGroup();
-
-    var units = SCG.world.getSpaceCrafts(spaceCraft.getId());
-
-    units.forEach(function (u)
-    {
-        // Callback при коллизии пули с кораблем
-        var botBoom = function (enemy, bot)
-        {
-            var s = SCG.world.getSpaceCraft(enemy.sprite.name);
-
-            if (s.getId() === spaceCraft.getId())
-            {
-                return;
-            }
-
-            /**
-             * Уничтожаем пулю
-             *
-             * TODO
-             * Странная проверка, так как мы удаляем body,
-             * но все равно вызывается beamHit
-             */
-            if (bot.sprite)
-            {
-                var damage = 1.5 * shieldTaken;
-
-                var boomSprite = SCG.game.add.sprite(bot.sprite.x, bot.sprite.y, 'explosion');
-
-                boomSprite.anchor.x = 0.5;
-                boomSprite.anchor.y = 0.5;
-
-                // массив это то какие кадры использовать и в какой последовательности
-                boomSprite.animations.add('boom', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-
-                // вторая констатна это количество кадров в секунду при воспроизвелении анимации
-                boomSprite.play('boom', 16, false, true);
-
-                bot.sprite.destroy();
-                bot.destroy();
-
-                bot.sprite = null;
-
-                // Наносим урон
-                s.hit(damage, spaceCraft);
-                spaceCraft.statistic.addAcceptDamage(damage);
-                s.statistic.addTakenDamage(damage);
-            }
-        };
-
-        //u.sprite.body.collides(robotCollisionGroup, botBoom);
-    });
+    var robotCollisionGroup;
 
     function accelerateToObject(enemy)
     {
@@ -158,6 +107,60 @@ var Robot = function (spec)
             {
                 accelerateToObject(enemy);
             }
+        }
+
+        if (robotCollisionGroup)
+        {
+            var units = SCG.world.getSpaceCrafts(spaceCraft.getId());
+
+            units.forEach(function (u)
+            {
+                // Callback при коллизии пули с кораблем
+                var botBoom = function (enemy, bot)
+                {
+                    var s = SCG.world.getSpaceCraft(enemy.sprite.name);
+
+                    if (s.getId() === spaceCraft.getId())
+                    {
+                        return;
+                    }
+
+                    /**
+                     * Уничтожаем пулю
+                     *
+                     * TODO
+                     * Странная проверка, так как мы удаляем body,
+                     * но все равно вызывается beamHit
+                     */
+                    if (bot.sprite)
+                    {
+                        var damage = 1.5 * shieldTaken;
+
+                        var boomSprite = SCG.game.add.sprite(bot.sprite.x, bot.sprite.y, 'explosion');
+
+                        boomSprite.anchor.x = 0.5;
+                        boomSprite.anchor.y = 0.5;
+
+                        // массив это то какие кадры использовать и в какой последовательности
+                        boomSprite.animations.add('boom', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+                        // вторая констатна это количество кадров в секунду при воспроизвелении анимации
+                        boomSprite.play('boom', 16, false, true);
+
+                        bot.sprite.destroy();
+                        bot.destroy();
+
+                        bot.sprite = null;
+
+                        // Наносим урон
+                        s.hit(damage, spaceCraft);
+                        spaceCraft.statistic.addAcceptDamage(damage);
+                        s.statistic.addTakenDamage(damage);
+                    }
+                };
+
+                u.sprite.body.collides(robotCollisionGroup, botBoom);
+            });
         }
     };
 

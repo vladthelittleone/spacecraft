@@ -319,29 +319,6 @@ var SpaceCraft = function (spec)
         return Phaser.Point.distance(sprite, p);
     };
 
-    that.bonusInRange = function (range, callback)
-    {
-        var a = [];
-
-        SCG.world.getBonuses().forEach(function (e)
-        {
-            if (Phaser.Point.distance(sprite, e.sprite) < range)
-            {
-                a.push(BonusApi(e));
-            }
-        });
-
-        if (callback)
-        {
-            a.forEach(function (e, i, arr)
-            {
-                callback(e, i, arr);
-            })
-        }
-
-        return a;
-    };
-
     // Переносим на верхний слой, перед лазерами.
     sprite.bringToTop();
 

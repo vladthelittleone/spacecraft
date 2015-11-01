@@ -1,15 +1,6 @@
 /**
  * Created by vladthelittleone on 21.10.15.
  */
-var SCG =
-{
-    game: {},
-    spaceCraft: {},
-    world: {},
-    spaceCraftCollisionGroup: {},
-    bonusCollisionGroup: {}
-};
-
 var utils =
 {
     /**
@@ -51,6 +42,38 @@ var utils =
 
         return that;
     }
+};
+
+var GameObject = function (spec)
+{
+    var that = {};
+
+    var id = SCG.seq.next();
+    var parentId = spec.parentId || {};
+    var type = spec.type;
+
+    that.getId = function ()
+    {
+        return id;
+    };
+
+    that.getType = function ()
+    {
+        return type;
+    };
+
+    return that;
+};
+
+var SCG =
+{
+    game: {},
+    spaceCraft: {},
+    world: {},
+    spaceCraftCollisionGroup: {},
+    bonusCollisionGroup: {},
+    robotsCollisionGroup: {},
+    seq: utils.seq()
 };
 
 Array.prototype.removeElement = function (element)

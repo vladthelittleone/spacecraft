@@ -6,7 +6,9 @@
  */
 var SpaceCraft = function (spec)
 {
-    var that = {};
+    var that = GameObject({
+        type: SCG.world.spaceCraftType
+    });
 
     var game = SCG.game;
 
@@ -31,7 +33,9 @@ var SpaceCraft = function (spec)
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
     var shieldSprite = game.make.sprite(0, 0, 'shield');
 
-    var id = sprite.name = spec.id;
+    sprite.name = that.getId();
+
+    var isAlive = true;
 
     // Центрирование
     sprite.anchor.x = 0.5;
@@ -55,15 +59,6 @@ var SpaceCraft = function (spec)
 
     sprite.addChild(shieldSprite);
 
-    var robot = that.robot = Robot({
-            atlasName: "bots",
-            coolDown: 30000,
-            spaceCraft: that,
-            speed: 15,
-            detectionRange: 200,
-            cost: 0.5
-    });
-
     that.weapon = Weapon({
         spaceCraft: that,
         damage: 10,
@@ -73,10 +68,14 @@ var SpaceCraft = function (spec)
         spriteName: 'greenBeam'
     });
 
-    that.getId = function ()
-    {
-        return id;
-    };
+    var robot = that.robot = Robot({
+        atlasName: "bots",
+        coolDown: 20000,
+        spaceCraft: that,
+        velocity: 15,
+        detectionRange: 200,
+        cost: 0.5
+    });
 
     that.addHealth = function (add)
     {
@@ -179,11 +178,21 @@ var SpaceCraft = function (spec)
         sprite.body.moveBackward(20);
     };
 
+    that.changeStatus = function ()
+    {
+        that.live = false;
+    };
+
+    that.isAlive = function ()
+    {
+        return isAlive;
+    };
+
     that.removeShield = function (delta)
     {
         shield -= delta;
     };
-
+    
     that.hit = function (damage, damageCraft)
     {
         if(shield > 0)
@@ -213,7 +222,7 @@ var SpaceCraft = function (spec)
             });
 
             // Создание нового бонуса и занесение его в bonusArray
-            utils.random() && SCG.world.pushBonus(Bonus({
+            utils.random() && SCG.world.push(Bonus({
                 bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,
@@ -230,13 +239,25 @@ var SpaceCraft = function (spec)
 
             // вторая констатна это количество кадров в секунду при воспроизвелении анимации
             boomSprite.play('boom', 16, false, true);
-
             damageCraft.statistic.addKillEnemy();
+
+            isAlive = false;
+
+            if (SCG.spaceCraft.getId() === that.getId())
+            {
+                statistic.calculateTotalScore();
+            }
 
             sprite.reset(game.world.randomX, game.world.randomY);
             health = maxHealth;
             shield = maxShield;
         }
+    };
+
+    that.resetGame = function ()
+    {
+        SCG.game.paused = false;
+        isAlive = true;
     };
 
     that.getHealth = function ()
@@ -323,6 +344,9 @@ var SpaceCraft = function (spec)
 
     // Переносим на верхний слой, перед лазерами.
     sprite.bringToTop();
+
+    // Добавляем наш корабль в мир
+    SCG.world.push(that);
 
     return that;
 };

@@ -1,0 +1,50 @@
+
+<div class="containerLeadBoard">
+    <ul class="leadBoard">
+        <li class="leadBoardTitle">
+
+            <span>
+                Взгляните на свой результат
+            </span>
+
+            <i class="glyphicon glyphicon-repeat" ng-click="spaceCraft.resetGame()"></i>
+        </li>
+
+        <li class="leadBoardDescription">
+            <table>
+            <tr>
+                <td><span class="glyphicon glyphicon-remove-circle red"></span></td>
+                <td><span class="glyphicon glyphicon-screenshot green"></span></td>
+                <td><span class="glyphicon glyphicon-star yellow"></span></td>
+                <td><span class="glyphicon glyphicon-record blue"></span></td>
+                <td><span class="glyphicon glyphicon-flag orange"></span></td>
+            </tr>
+            <tr>
+            <td>Убитых кораблей</td>
+            <td>Нанесено урона</td>
+            <td>Получено урона</td>
+            <td>Собранно бонусов</td>
+            <td>Количество набранных очков</td>
+            </tr>
+            <tr>
+            <td>{{spaceCraft.statistic.getKillEnemy()}}</td>
+            <td>{{spaceCraft.statistic.getAcceptDamage()}}</td>
+            <td>{{spaceCraft.statistic.getTakenDamage()}}</td>
+            <td>{{spaceCraft.statistic.getTakenBonus()}}</td>
+            <td>{{spaceCraft.statistic.getTotalScore()}}</td>
+            </tr>
+            </table>
+        </li>
+
+        <li class="leadBoardSocial">
+            <div>Расскажи друзьям о своих результатах:</div>
+            <a ng-href="https://twitter.com/home?status=%D0%9C%D0%BE%D0%B9%20%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%20%D0%BD%D0%B0%20SpaceCraft%3A%20{{spaceCraft.statistic.getTotalScore()}}%20%D0%BE%D1%87%D0%BA%D0%BE%D0%B2%0Aspacecraft.launchrock.com%0A%23SpaceCraft" target="_blank">
+                <img src="resources/assets/social network/twitter.png"/>
+            </a>
+            <a ng-href="http://vk.com/share.php?url=http://spacecraft.launchrock.com&description=Мой результат: {{spaceCraft.statistic.getTotalScore()}} очков" target="_blank">
+                <img src="resources/assets/social network/vk.png" />
+            </a>
+        </li>
+    </ul>
+</div>
+

@@ -80,8 +80,132 @@ canvas {
     color: #3b83c1;
 }
 
+.yellow {
+    color: #f8ef83;
+}
+
+.orange {
+    color: #f88e36;
+}
+
+.containerLeadBoard {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1000;
+    overflow-y: auto;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.leadBoard table,
+.leadBoard td
+{
+    margin: auto;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.leadBoard {
+    position: relative;
+    width: 60%;
+    list-style: none;
+    padding: 0;
+    font-size: 1.1em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    margin: auto auto 0;
+}
+
+.leadBoard .leadBoardTitle i {
+    color: #2e3435;
+    position: absolute;
+    right: -25px;
+    vertical-align: middle;
+    background: white;
+    width: 25px;
+    cursor: pointer;
+    line-height: 30px;
+    top: 7px;
+}
+
+.leadBoard .leadBoardTitle span {
+    line-height: 46px;
+    font-size: 40px;
+    font-weight: normal;
+    color: #2e3435;
+    font-family: Arial, sans-serif;
+}
+
+.leadBoardTitle {
+    min-height: 46px;
+    font-weight: 500;
+    background: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 20px;
+    border: 1px solid rgba(37, 40, 44, 0.1);
+    border-bottom: 0;
+}
+
+.leadBoardDescription {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    background: rgb(255, 255, 255);
+    min-height: 46px;
+    color: rgb(80, 80, 80);
+    text-align: left;
+    border: 1px solid rgba(37, 40, 44, 0.1);
+    padding: 0 25px 20px;
+}
+
+.eventContentHeading {
+    line-height: 25px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    background: #f7f7f7;
+    opacity: 0.8;
+}
+
+.leadBoardSocial {
+    min-height: 46px;
+    font-family: Arial, sans-serif;
+    letter-spacing: 1px;
+    color: rgb(80, 80, 80);
+    text-align: left;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgba(37, 40, 44, 0.1);
+    border-top: 0;
+}
+
+.leadBoardSocial a {
+    float: right;
+    padding: 7px;
+}
+
+.leadBoardSocial div {
+    float: left;
+    padding: 13px;
+}
+
 #toolbar button:hover {
     text-decoration: none;
+}
+
+.containerButtons {
+    position: fixed;
+    left: 74%;
+    top: 74%;
 }
 
 .ace_editor {

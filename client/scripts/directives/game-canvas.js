@@ -16,8 +16,7 @@ angular.module('spacecraft')
                 cursors,
                 isRunning,
                 userCode,
-                userObject,
-                sequence = utils.seq();
+                userObject;
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
@@ -85,10 +84,12 @@ angular.module('spacecraft')
                 SCG.scope = scope;
                 SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
+                SCG.robotsCollisionGroup = game.physics.p2.createCollisionGroup();
+                SCG.beamsCollisionGroup = game.physics.p2.createCollisionGroup();
+
                 game.physics.p2.updateBoundsCollisionGroup();
 
                 scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
-                    id: sequence.next(),
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
@@ -96,22 +97,15 @@ angular.module('spacecraft')
                     shield: 100
                 });
 
-                // Добавляем наш корабль в мир
-                world.pushSpaceCraft(spaceCraft);
-
                 for (var i = 0; i < 20; i++)
                 {
-                    var e = SpaceCraft({
-                        id: sequence.next(),
+                    SpaceCraft({
                         strategy: botStrategy,
                         spriteName: 'spaceCraft' + utils.randomInt(1, 3),
                         health: 200,
                         angle: game.rnd.angle(),
                         shield: 100
                     });
-
-                    // Добавляем корабль противника в мир
-                    world.pushSpaceCraft(e);
                 }
 
                 game.camera.follow(spaceCraft.sprite);
@@ -123,23 +117,21 @@ angular.module('spacecraft')
 
             function update()
             {
-                world.getSpaceCrafts().forEach(function (e)
-                {
-                    e.update();
-                });
-
-                // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
-                world.getBonuses().forEach(function (b)
-                {
-                    b.update();
-                });
-
-                runUserScript();
-
                 scope.$apply(function ()
                 {
                     scope.spaceCraft = spaceCraft;
+
+                    if (!spaceCraft.isAlive())
+                    {
+                        SCG.game.paused = true;
+                    }
                 });
+
+                if(!SCG.game.paused)
+                {
+                    SCG.world.update();
+                    runUserScript();
+                }
             }
 
             function render()

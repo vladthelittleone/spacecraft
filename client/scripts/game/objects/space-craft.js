@@ -6,7 +6,9 @@
  */
 var SpaceCraft = function (spec)
 {
-    var that = {};
+    var that = GameObject({
+        type: SCG.world.spaceCraftType
+    });
 
     var game = SCG.game;
 
@@ -29,13 +31,18 @@ var SpaceCraft = function (spec)
 
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
-    var id = sprite.name = spec.id;
+    var shieldSprite = game.make.sprite(0, 0, 'shield');
+
+    sprite.name = that.getId();
 
     var isAlive = true;
 
     // Центрирование
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
+
+    shieldSprite.anchor.x = 0.5;
+    shieldSprite.anchor.y = 0.5;
 
     // Включаем проверку на коллизии с границей
     sprite.checkWorldBounds = true;
@@ -50,6 +57,8 @@ var SpaceCraft = function (spec)
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
+    sprite.addChild(shieldSprite);
+
     that.weapon = Weapon({
         spaceCraft: that,
         damage: 10,
@@ -59,10 +68,14 @@ var SpaceCraft = function (spec)
         spriteName: 'greenBeam'
     });
 
-    that.getId = function ()
-    {
-        return id;
-    };
+    var robot = that.robot = Robot({
+        atlasName: "bots",
+        coolDown: 20000,
+        spaceCraft: that,
+        velocity: 15,
+        detectionRange: 200,
+        cost: 0.5
+    });
 
     that.addHealth = function (add)
     {
@@ -78,9 +91,12 @@ var SpaceCraft = function (spec)
 
     that.update = function ()
     {
+        that.robot.update();
+        that.weapon.update();
         that.healthRegeneration();
         that.shieldRegeneration();
-        strategy(that);
+
+        strategy && strategy(that);
     };
 
     that.healthRegeneration = function ()
@@ -90,7 +106,11 @@ var SpaceCraft = function (spec)
 
     that.shieldRegeneration = function()
     {
-        shield = regeneration(maxShield, shield);
+        if (health >= maxHealth)
+        {
+            shieldSprite.visible = true;
+            shield = regeneration(maxShield, shield);
+        }
     };
 
     function regeneration(maxValue, value)
@@ -167,6 +187,11 @@ var SpaceCraft = function (spec)
     {
         return isAlive;
     };
+
+    that.removeShield = function (delta)
+    {
+        shield -= delta;
+    };
     
     that.hit = function (damage, damageCraft)
     {
@@ -178,10 +203,10 @@ var SpaceCraft = function (spec)
             // которое прибавлем к текущему здоровью
             if(shield <= 0)
             {
+                shieldSprite.visible = false;
                 health += shield;
                 shield = 0;
             }
-
         }
         else
         {
@@ -197,7 +222,7 @@ var SpaceCraft = function (spec)
             });
 
             // Создание нового бонуса и занесение его в bonusArray
-            utils.random() && SCG.world.pushBonus(Bonus({
+            utils.random() && SCG.world.push(Bonus({
                 bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,
@@ -294,31 +319,11 @@ var SpaceCraft = function (spec)
         return Phaser.Point.distance(sprite, p);
     };
 
-    that.bonusInRange = function (range, callback)
-    {
-        var a = [];
-
-        SCG.world.getBonuses().forEach(function (e)
-        {
-            if (Phaser.Point.distance(sprite, e.sprite) < range)
-            {
-                a.push(BonusApi(e));
-            }
-        });
-
-        if (callback)
-        {
-            a.forEach(function (e, i, arr)
-            {
-                callback(e, i, arr);
-            })
-        }
-
-        return a;
-    };
-
     // Переносим на верхний слой, перед лазерами.
     sprite.bringToTop();
+
+    // Добавляем наш корабль в мир
+    SCG.world.push(that);
 
     return that;
 };

@@ -87,15 +87,13 @@ angular.module('spacecraft')
 
                 SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
-                SCG.beamsCollisionGroup = game.physics.p2.createCollisionGroup();
-
                 game.physics.p2.updateBoundsCollisionGroup();
 
                 scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
-                    health: 200,
+                    health: 10000,
                     shield: 100
                 });
 

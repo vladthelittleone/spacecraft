@@ -222,6 +222,7 @@ canvas {
 }
 
 .tutorial {
+    overflow-y: auto;
     position: fixed;
     top: 25px;
     right: 50%;
@@ -229,6 +230,11 @@ canvas {
     left: 0;
     background: #1D1F21;
     color: #C5C8C6;
+}
+
+.tutorial h3,
+.tutorial h5 {
+    text-align: center;
 }
 
 .tutorial ul {
@@ -258,12 +264,8 @@ canvas {
     font-style: normal;
 }
 
-.tutorial h3 {
-    text-align: center;
-}
-
-.tutorial span:hover {
-    cursor: hand;
+.objects li:hover {
+    cursor: pointer;
 }
 
 .ace_editor {

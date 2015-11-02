@@ -212,12 +212,12 @@ var SpaceCraft = function (spec)
             });
 
             // Создание нового бонуса и занесение его в bonusArray
-            utils.random() && SCG.world.push(Bonus({
+            utils.random() && Bonus({
                 bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,
                 angle: game.rnd.angle()
-            }));
+            });
 
             var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
 
@@ -313,7 +313,7 @@ var SpaceCraft = function (spec)
     sprite.bringToTop();
 
     // Добавляем наш корабль в мир
-    SCG.world.push(that);
+    SCG.world.pushObject(that);
 
     return that;
 };

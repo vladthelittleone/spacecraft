@@ -52,7 +52,8 @@ var BonusApi = function (bonus)
 
     api.getY = bonus.getY;
     api.getX = bonus.getX;
-    api.getType = bonus.getType;
+    api.getId = bonus.getId;
+    api.getType = bonus.getBonusType;
 
     return api;
 };

@@ -10,14 +10,13 @@ var World = function (spec)
 
     that.spaceCraftType = 0;
     that.bonusType = 1;
-    that.robotType = 2;
 
-    that.push = function (obj)
+    that.pushObject = function (obj)
     {
         objects.push(obj);
     };
 
-    that.remove = function (obj)
+    that.removeObject = function (obj)
     {
         objects.removeElement(obj);
     };
@@ -75,37 +74,6 @@ var World = function (spec)
         return spaceCrafts;
     };
 
-    that.getRobot = function (id)
-    {
-        var result;
-
-        that.getRobots().forEach(function (o)
-        {
-            if (o.getId() === id)
-            {
-                result = o;
-            }
-        });
-
-        return result;
-    };
-
-    that.getRobots = function (id)
-    {
-        var result;
-
-        objects.forEach(function (o)
-        {
-            if (o.getType() === that.robotType)
-            {
-                result = o;
-            }
-        });
-
-        return result;
-    };
-
-
     that.getBounds = function ()
     {
         return bounds;
@@ -137,7 +105,7 @@ var World = function (spec)
     that.update = function ()
     {
         // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
-        that.getBonuses().forEach(function (b)
+        that.getBonuses(function (b)
         {
             b.update();
         });

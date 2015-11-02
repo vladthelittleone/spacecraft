@@ -68,15 +68,6 @@ var SpaceCraft = function (spec)
         spriteName: 'greenBeam'
     });
 
-    var robot = that.robot = Robot({
-        atlasName: "bots",
-        coolDown: 20000,
-        spaceCraft: that,
-        velocity: 15,
-        detectionRange: 200,
-        cost: 0.5
-    });
-
     that.addHealth = function (add)
     {
         health += add;
@@ -91,7 +82,6 @@ var SpaceCraft = function (spec)
 
     that.update = function ()
     {
-        that.robot.update();
         that.weapon.update();
         that.healthRegeneration();
         that.shieldRegeneration();
@@ -222,12 +212,12 @@ var SpaceCraft = function (spec)
             });
 
             // Создание нового бонуса и занесение его в bonusArray
-            utils.random() && SCG.world.push(Bonus({
+            utils.random() && Bonus({
                 bonusType: bonusType,
                 x: sprite.body.x,
                 y: sprite.body.y,
                 angle: game.rnd.angle()
-            }));
+            });
 
             var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
 
@@ -246,6 +236,7 @@ var SpaceCraft = function (spec)
             if (SCG.spaceCraft.getId() === that.getId())
             {
                 statistic.calculateTotalScore();
+                SCG.stop();
             }
 
             sprite.reset(game.world.randomX, game.world.randomY);
@@ -254,9 +245,8 @@ var SpaceCraft = function (spec)
         }
     };
 
-    that.resetGame = function ()
+    that.reset = function ()
     {
-        SCG.game.paused = false;
         isAlive = true;
     };
 
@@ -323,7 +313,7 @@ var SpaceCraft = function (spec)
     sprite.bringToTop();
 
     // Добавляем наш корабль в мир
-    SCG.world.push(that);
+    SCG.world.pushObject(that);
 
     return that;
 };

@@ -48,7 +48,8 @@ var Bonus = function (spec)
             bonusType.useBonus(s);
 
             // Удаляем бонус
-            SCG.world.removeBonus(this);
+            SCG.world.removeObject(that);
+
             bonus.sprite.destroy();
             bonus.destroy();
 
@@ -66,7 +67,7 @@ var Bonus = function (spec)
         return sprite.y;
     };
 
-    that.getType = function()
+    that.getBonusType = function()
     {
         return bonusType.name;
     };
@@ -79,7 +80,7 @@ var Bonus = function (spec)
         sprite.body.moveForward(1);
     };
 
-    SCG.world.push(that);
+    SCG.world.pushObject(that);
 
     return that;
 };

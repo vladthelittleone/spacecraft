@@ -47,11 +47,6 @@ botStrategy = function (spaceCraft)
     {
         spaceCraft.weapon.fire(enemy);
 
-        if (enemy.getShield() < 10)
-        {
-            spaceCraft.robot.drop();
-        }
-
         bonusGenerate();
 
         if (bonus)

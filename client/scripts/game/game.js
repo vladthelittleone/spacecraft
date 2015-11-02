@@ -72,7 +72,7 @@ var SCG =
     world: {},
     spaceCraftCollisionGroup: {},
     bonusCollisionGroup: {},
-    robotsCollisionGroup: {},
+    stop: function () {},
     seq: utils.seq()
 };
 

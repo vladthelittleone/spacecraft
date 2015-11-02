@@ -31,6 +31,17 @@ angular.module('spacecraft.main', [])
 
         $scope.isCodeRunning = false;
         $scope.hideEditor = false;
+        $scope.hideTutorial = false;
+
+        $scope.functionTutorial = {};
+        $scope.functionTutorialOpen = false;
+
+        $scope.openFunctionTutorial = function (v)
+        {
+            console.log(v);
+            $scope.functionTutorial = tutorial[v];
+            $scope.functionTutorialOpen = true;
+        };
 
         $scope.aceLoaded = function (editor)
         {
@@ -56,4 +67,29 @@ angular.module('spacecraft.main', [])
         {
             $scope.isCodeRunning = !$scope.isCodeRunning;
         };
+
+        $scope.toggleTutorialOpen = function ()
+        {
+            if ($scope.functionTutorialOpen)
+            {
+                $scope.functionTutorialOpen = false;
+            }
+            else
+            {
+                $scope.hideTutorial = !$scope.hideTutorial;
+            }
+        };
+
+        $scope.colaps = function (id)
+        {
+            if(document.getElementById(id).style.display != "none")
+            {
+                document.getElementById(id).style.display = 'none';
+            }
+            else
+            {
+                document.getElementById(id).style.display = '';
+            }
+        };
+
     }]);

@@ -93,7 +93,7 @@ angular.module('spacecraft')
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
-                    health: 10000,
+                    health: 200,
                     shield: 100
                 });
 

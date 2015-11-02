@@ -8,6 +8,7 @@ angular.module('spacecraft')
         var link = function (scope)
         {
             var spaceCraft;
+            VK.Widgets.Group("vk_groups", {mode: 1, width: "auto", height: "100", color1: 'FFFFFF', color2: '2E3435', color3: '5B7FA6'}, 105816682);
 
             scope.$watch('spaceCraft', function (n)
             {

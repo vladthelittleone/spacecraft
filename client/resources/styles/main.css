@@ -198,6 +198,18 @@ canvas {
     padding: 13px;
 }
 
+.leadBoardSubscribe {
+    background: rgb(255, 255, 255);
+    border-right: 1px solid rgba(37, 40, 44, 0.1);
+    border-left: 1px solid rgba(37, 40, 44, 0.1);
+    border-top: 0;
+    border-bottom: 2px solid rgba(37, 40, 44, 0.1);
+}
+
+.leadBoardSubscribe div {
+    margin: auto;
+}
+
 #toolbar button:hover {
     text-decoration: none;
 }

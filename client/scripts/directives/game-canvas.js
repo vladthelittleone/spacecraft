@@ -55,7 +55,6 @@ angular.module('spacecraft')
 
             function create()
             {
-
                 // Границы мира
                 var bounds = {
                     x: 0,
@@ -80,7 +79,11 @@ angular.module('spacecraft')
                 // Создаем объект мира
                 world = SCG.world = World({bounds: bounds});
 
-                SCG.scope = scope;
+                SCG.stop = function ()
+                {
+                    scope.isRunning = false;
+                };
+
                 SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
                 game.physics.p2.updateBoundsCollisionGroup();
@@ -121,6 +124,28 @@ angular.module('spacecraft')
                 game.camera.focusOn(spaceCraft.sprite);
 
                 cursors = game.input.keyboard.createCursorKeys();
+
+                scope.$watch('code', function (n)
+                {
+                    userCode = n;
+                });
+
+                scope.$watch('isRunning', function (n)
+                {
+                    isRunning = n;
+
+                    if (SCG.game)
+                    {
+                        SCG.game.paused = !isRunning;
+                    }
+
+                    if (n)
+                    {
+                        userObject = new Function(userCode)();
+                    }
+                });
+
+                SCG.game.paused = true;
             }
 
             function update()
@@ -162,21 +187,6 @@ angular.module('spacecraft')
                 game.debug.cameraInfo(game.camera, 32, 32);
                 game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
             }
-
-            scope.$watch('code', function (n)
-            {
-                userCode = n;
-            });
-
-            scope.$watch('isRunning', function (n)
-            {
-                isRunning = n;
-
-                if (n)
-                {
-                    userObject = new Function(userCode)();
-                }
-            });
         };
 
         return {

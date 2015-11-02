@@ -221,6 +221,7 @@ var SpaceCraft = function (spec)
             if (SCG.spaceCraft.getId() === that.getId())
             {
                 statistic.calculateTotalScore();
+                SCG.stop();
             }
 
             sprite.reset(game.world.randomX, game.world.randomY);
@@ -229,9 +230,8 @@ var SpaceCraft = function (spec)
         }
     };
 
-    that.resetGame = function ()
+    that.reset = function ()
     {
-        SCG.game.paused = false;
         isAlive = true;
     };
 

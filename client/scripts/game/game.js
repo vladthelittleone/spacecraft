@@ -6,6 +6,7 @@ var SCG =
     game: {},
     spaceCraft: {},
     world: {},
+    stop: function () {},
     spaceCraftCollisionGroup: {},
     bonusCollisionGroup: {}
 };

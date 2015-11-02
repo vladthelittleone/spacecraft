@@ -68,15 +68,6 @@ var SpaceCraft = function (spec)
         spriteName: 'greenBeam'
     });
 
-    var robot = that.robot = Robot({
-        atlasName: "bots",
-        coolDown: 20000,
-        spaceCraft: that,
-        velocity: 15,
-        detectionRange: 200,
-        cost: 0.5
-    });
-
     that.addHealth = function (add)
     {
         health += add;
@@ -91,7 +82,6 @@ var SpaceCraft = function (spec)
 
     that.update = function ()
     {
-        that.robot.update();
         that.weapon.update();
         that.healthRegeneration();
         that.shieldRegeneration();

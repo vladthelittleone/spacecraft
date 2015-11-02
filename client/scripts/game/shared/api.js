@@ -29,11 +29,6 @@ var WorldApi = function (world, id)
 
     api.getBounds = world.getBounds;
 
-    api.getRobots = function (callback)
-    {
-        return get(callback, world.getRobots,  RobotApi);
-    };
-
     api.getEnemies = function (callback)
     {
         return get(callback, world.getSpaceCrafts, EnemyApi);
@@ -69,7 +64,6 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
-    api.robot = RobotApi(spaceCraft.robot);
     api.weapon = WeaponApi(spaceCraft.weapon);
 
     api.getHealth = spaceCraft.getHealth;
@@ -136,23 +130,6 @@ var EnemyWeaponApi = function (weapon)
     api.getDamage = weapon.getDamage;
     api.getFireRate = weapon.getFireRate;
     api.getFireRange = weapon.getFireRange;
-
-    return api;
-};
-
-/**
- * @constructor
- */
-var RobotApi = function (bot)
-{
-    var api = {};
-
-    api.enemiesInRange = bot.enemiesInRange;
-    api.inRange = bot.inRange;
-    api.drop = bot.drop;
-    api.getCoolDown = bot.getCoolDown;
-    api.getFireRange = bot.getDetectionRange;
-    api.getCost = bot.getCost;
 
     return api;
 };

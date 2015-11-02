@@ -10,7 +10,6 @@ var World = function (spec)
 
     that.spaceCraftType = 0;
     that.bonusType = 1;
-    that.robotType = 2;
 
     that.push = function (obj)
     {
@@ -74,37 +73,6 @@ var World = function (spec)
 
         return spaceCrafts;
     };
-
-    that.getRobot = function (id)
-    {
-        var result;
-
-        that.getRobots().forEach(function (o)
-        {
-            if (o.getId() === id)
-            {
-                result = o;
-            }
-        });
-
-        return result;
-    };
-
-    that.getRobots = function (id)
-    {
-        var result;
-
-        objects.forEach(function (o)
-        {
-            if (o.getType() === that.robotType)
-            {
-                result = o;
-            }
-        });
-
-        return result;
-    };
-
 
     that.getBounds = function ()
     {

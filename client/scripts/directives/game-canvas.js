@@ -87,7 +87,6 @@ angular.module('spacecraft')
 
                 SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
-                SCG.robotsCollisionGroup = game.physics.p2.createCollisionGroup();
                 SCG.beamsCollisionGroup = game.physics.p2.createCollisionGroup();
 
                 game.physics.p2.updateBoundsCollisionGroup();

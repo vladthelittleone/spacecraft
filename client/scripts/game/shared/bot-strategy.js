@@ -1,16 +1,37 @@
 botStrategy = function (spaceCraft)
 {
-    var enemy =  spaceCraft.weapon.enemiesInRange(spaceCraft.getId())[0];
+    var enemy =  spaceCraft.weapon.enemiesInRange()[0];
     var bonus;
 
     var eMin = Number.MAX_VALUE;
     var bMin = Number.MAX_VALUE;
 
-    spaceCraft.weapon.update();
+    function bonusInRange (range, callback)
+    {
+        var a = [];
+
+        SCG.world.getBonuses().forEach(function (e)
+        {
+            if (Phaser.Point.distance(spaceCraft.sprite, e.sprite) < range)
+            {
+                a.push(BonusApi(e));
+            }
+        });
+
+        if (callback)
+        {
+            a.forEach(function (e, i, arr)
+            {
+                callback(e, i, arr);
+            });
+        }
+
+        return a;
+    }
 
     function bonusGenerate()
     {
-        spaceCraft.bonusInRange(spaceCraft.weapon.getFireRange()).forEach(function (b)
+        bonusInRange(spaceCraft.weapon.getFireRange()).forEach(function (b)
         {
             var distance = spaceCraft.distance(b);
 

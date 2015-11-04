@@ -9,11 +9,9 @@
 }" ng-class="{'bounceOutUp' : hideEditor, 'bounceInDown' : !hideEditor}"></div>
 
 <div id="toolbar">
-
     <div class="box">
         <img class="logo" src="resources/assets/logo3.png">
     </div>
-
     <div class="box">
         <button type="button" ng-click="toggleEditorOpen()">
             <span class="glyphicon"
@@ -26,7 +24,6 @@
             </span>
         </button>
     </div>
-
 </div>
 
 <div game-canvas
@@ -34,4 +31,38 @@
      is-running="isCodeRunning">
 </div>
 
+<div class="tutorial" ng-class="{'bounceOutLeft' : hideTutorial || isCodeRunning, 'bounceInLeft' : !hideTutorial}">
+    <div class="objects" ng-show="!functionTutorialOpen">
+        <h3>Доступные объекты управления</h3>
+        <h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>
+        <ul>
+            <li ng-click="openFunctionTutorial('world')"><p><em>World</em>Объект, отвечающий за информацию о мире, его объектах.</p></li>
+            <li ng-click="openFunctionTutorial('spaceCraft')"><p><em>SpaceCraft</em>Объект управления космическим кораблем</p></li>
+            <li ng-click="openFunctionTutorial('weapon')"><p><em>Weapon</em>Объект управления оружием космического корабля</p></li>
+            <li ng-click="openFunctionTutorial('bonus')"><p><em>Bonus</em>Объект обломков уничтоженного корабля (Бонус)</p></li>
+            <li ng-click="openFunctionTutorial('enemy')"><p><em>Enemy</em>Объект, отвечающий за информацию о вражеском корабле</p></li>
+            <li ng-click="openFunctionTutorial('enemyWeapon')"><p><em>EnemyWeapon</em>Объект, отвечающий за информацию о оружии вражеского корабля</p></li>
+        </ul>
+    </div>
+    <div ng-show="functionTutorialOpen">
+        <h3>{{functionTutorial.title}}</h3>
+        <h5>{{functionTutorial.description}}</h5>
+        <ul>
+            <li ng-repeat="obj in functionTutorial.functions">
+                <p>
+                    <em>{{obj.name}}</em>
+                    <span ng-repeat="str in obj.description">{{str}}<br></span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="leftToolbar">
+    <button type="button" ng-click="toggleTutorialOpen()">
+                <span class="glyphicon"
+                      ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
+                </span>
+    </button>
+</div>
 

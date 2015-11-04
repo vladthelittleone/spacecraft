@@ -208,6 +208,66 @@ canvas {
     top: 74%;
 }
 
+.leftToolbar button {
+    left: 0;
+    top: 50px;
+    padding: 0;
+    position: fixed;
+    border: 0;
+    width: 25px;
+    background: #25282C;
+    color: #fff;
+    height: 25px;
+    outline: 0;
+}
+
+.tutorial {
+    overflow-y: auto;
+    position: fixed;
+    top: 25px;
+    right: 50%;
+    bottom: 0;
+    left: 0;
+    background: #1D1F21;
+    color: #C5C8C6;
+}
+
+.tutorial h3,
+.tutorial h5 {
+    text-align: center;
+}
+
+.tutorial ul {
+    list-style-type: square;
+}
+
+.tutorial ul {
+    font-style:italic;
+    font-family:Georgia, Times, serif;
+    font-size:24px;
+    color:#39C139;
+}
+
+.tutorial ul li p {
+    margin: 0;
+    padding:8px;
+    font-family: Arial, serif;
+    font-size:13px;
+    color:#C5C8C6;
+    border-left: 1px solid #999;
+    font-style: normal;
+}
+
+.tutorial ul li p em {
+    display: block;
+    font-size: 1.4em;
+    font-style: normal;
+}
+
+.objects li:hover {
+    cursor: pointer;
+}
+
 .ace_editor {
     position: fixed;
     top: 25px;
@@ -221,6 +281,15 @@ canvas {
     width: 110px;
     margin-left: 50px;
     display: inline-block;
+}
+
+.bounceInUp {
+    -webkit-animation-name: bounceInUp;
+    animation-name: bounceInUp;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
 .bounceInDown {
@@ -244,6 +313,24 @@ canvas {
 .bounceOutDown {
     -webkit-animation-name: bounceOutDown;
     animation-name: bounceOutDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.bounceInLeft {
+    -webkit-animation-name: bounceInLeft;
+    animation-name: bounceInLeft;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.bounceOutLeft {
+    -webkit-animation-name: bounceOutLeft;
+    animation-name: bounceOutLeft;
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
     -webkit-animation-fill-mode: both;
@@ -322,13 +409,37 @@ canvas {
     }
 }
 
-.bounceInUp {
-    -webkit-animation-name: bounceInUp;
-    animation-name: bounceInUp;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+@-webkit-keyframes bounceInLeft {
+    0% {
+        -webkit-transform: translateX(-2000px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+    }
 }
 
+@keyframes bounceInLeft {
+    0% {
+        transform: translateX(-2000px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
 
+@-webkit-keyframes bounceOutLeft {
+    0% {
+        -webkit-transform: translateX(0);
+    }
+    100% {
+        -webkit-transform: translateX(-2000px);
+    }
+}
+@keyframes bounceOutLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-2000px);
+    }
+}

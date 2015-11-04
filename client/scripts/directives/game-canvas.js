@@ -16,8 +16,7 @@ angular.module('spacecraft')
                 cursors,
                 isRunning,
                 userCode,
-                userObject,
-                sequence = utils.seq();
+                userObject;
 
             // Build the game object
             //var height  = parseInt(element.css('height'), 10),
@@ -58,12 +57,13 @@ angular.module('spacecraft')
                 game.load.image('bonus1', 'resources/assets/bonus1.png');
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
                 game.load.image('bonus3', 'resources/assets/bonus3.png');
+                game.load.image('shield', 'resources/assets/shield.png');
+                game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
             }
 
             function create()
             {
-
                 // Границы мира
                 var bounds = {
                     x: 0,
@@ -88,17 +88,16 @@ angular.module('spacecraft')
                 // Создаем объект мира
                 world = SCG.world = World({bounds: bounds});
 
-                SCG.scope = scope;
+                SCG.stop = function ()
+                {
+                    scope.isRunning = false;
+                };
+
                 SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
                 game.physics.p2.updateBoundsCollisionGroup();
 
                 scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
-                    id: sequence.next(),
-                    strategy: function (s)
-                    {
-                        s.weapon.update();
-                    },
                     x: game.world.centerX,
                     y: game.world.centerY,
                     spriteName: 'spaceCraft',
@@ -106,22 +105,15 @@ angular.module('spacecraft')
                     shield: 100
                 });
 
-                // Добавляем наш корабль в мир
-                world.pushSpaceCraft(spaceCraft);
-
                 for (var i = 0; i < 20; i++)
                 {
-                    var e = SpaceCraft({
-                        id: sequence.next(),
+                    SpaceCraft({
                         strategy: botStrategy,
                         spriteName: 'spaceCraft' + utils.randomInt(1, 3),
                         health: 200,
                         angle: game.rnd.angle(),
                         shield: 100
                     });
-
-                    // Добавляем корабль противника в мир
-                    world.pushSpaceCraft(e);
                 }
 
                 game.camera.follow(spaceCraft.sprite);
@@ -129,6 +121,28 @@ angular.module('spacecraft')
                 game.camera.focusOn(spaceCraft.sprite);
 
                 cursors = game.input.keyboard.createCursorKeys();
+
+                scope.$watch('code', function (n)
+                {
+                    userCode = n;
+                });
+
+                scope.$watch('isRunning', function (n)
+                {
+                    isRunning = n;
+
+                    if (SCG.game)
+                    {
+                        SCG.game.paused = !isRunning;
+                    }
+
+                    if (n)
+                    {
+                        userObject = new Function(userCode)();
+                    }
+                });
+
+                SCG.game.paused = true;
             }
 
             function update()
@@ -145,17 +159,7 @@ angular.module('spacecraft')
 
                 if(!SCG.game.paused)
                 {
-                    world.getSpaceCrafts().forEach(function (e)
-                    {
-                        e.update();
-                    });
-
-                    // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
-                    world.getBonuses().forEach(function (b)
-                    {
-                        b.update();
-                    });
-
+                    SCG.world.update();
                     runUserScript();
                 }
             }
@@ -170,21 +174,6 @@ angular.module('spacecraft')
                 game.debug.cameraInfo(game.camera, 32, 32);
                 game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
             }
-
-            scope.$watch('code', function (n)
-            {
-                userCode = n;
-            });
-
-            scope.$watch('isRunning', function (n)
-            {
-                isRunning = n;
-
-                if (n)
-                {
-                    userObject = new Function(userCode)();
-                }
-            });
         };
 
         return {
@@ -196,5 +185,4 @@ angular.module('spacecraft')
             link: linkFn
         };
 
-    }])
-;
+    }]);

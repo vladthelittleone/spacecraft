@@ -6,7 +6,9 @@
  */
 var Bonus = function (spec)
 {
-    var that = {};
+    var that = GameObject({
+        type: SCG.world.bonusType
+    });
 
     var game = SCG.game;
     var x = that.x = spec.x;
@@ -16,6 +18,7 @@ var Bonus = function (spec)
 
     // Добавляем спрайт бонуса
     var sprite = that.sprite = game.add.sprite(x, y, bonusType.spriteName);
+    sprite.name = that.getId();
 
     // Подключаем физику тел к бонусу
     game.physics.p2.enable(sprite);
@@ -44,8 +47,9 @@ var Bonus = function (spec)
 
             bonusType.useBonus(s);
 
-            // Удоляем бонус
-            SCG.world.removeBonus(this);
+            // Удаляем бонус
+            SCG.world.removeObject(that);
+
             bonus.sprite.destroy();
             bonus.destroy();
 
@@ -63,7 +67,7 @@ var Bonus = function (spec)
         return sprite.y;
     };
 
-    that.getType = function()
+    that.getBonusType = function()
     {
         return bonusType.name;
     };
@@ -76,20 +80,7 @@ var Bonus = function (spec)
         sprite.body.moveForward(1);
     };
 
-    var bonusTake = function (bonus, spaceCraft)
-    {
-        if (bonus.sprite)
-        {
-            var s = SCG.world.getSpaceCraft(spaceCraft.sprite.name);
-
-            bonusType.useBonus(s);
-
-            // Удоляем бонус
-            SCG.world.removeBonus(this);
-            bonus.sprite.destroy();
-            bonus.destroy();
-        }
-    };
+    SCG.world.pushObject(that);
 
     return that;
 };

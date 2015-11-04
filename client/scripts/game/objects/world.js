@@ -5,45 +5,54 @@
 var World = function (spec)
 {
     var that = {},
-        spaceCrafts = spec.spaceCrafts || [],
         bounds = spec.bounds,
-        bonusArray = [];
+        objects = [];
 
-    // Положить в массив бонусов
-    that.pushBonus = function (bonus)
+    that.spaceCraftType = 0;
+    that.bonusType = 1;
+
+    that.pushObject = function (obj)
     {
-        bonusArray.push(bonus);
+        objects.push(obj);
     };
 
-    that.pushSpaceCraft = function (spaceCraft)
+    that.removeObject = function (obj)
     {
-        spaceCrafts.push(spaceCraft);
+        objects.removeElement(obj);
     };
 
-    that.removeSpaceCraft = function (spaceCraft)
+    that.get = function (id)
     {
-        spaceCrafts.removeElement(spaceCraft);
+        var result;
+
+        objects.forEach(function(e)
+        {
+           if (e.getId() === id)
+           {
+               result = e;
+           }
+        });
+
+        return result;
     };
 
-    that.removeBonus = function (bonus)
+    that.getObjects = function ()
     {
-        bonusArray.removeElement(bonus);
-    };
-
-    that.getBounds = function ()
-    {
-        return bounds;
+        return objects;
     };
 
     that.getSpaceCraft = function (id)
     {
         var result;
 
-        spaceCrafts.forEach(function (u)
+        objects.forEach(function (o)
         {
-            if (u.getId() === id)
+            if (o.getType() === that.spaceCraftType)
             {
-                result =  u;
+                if (o.getId() === id)
+                {
+                    result = o;
+                }
             }
         });
 
@@ -52,35 +61,59 @@ var World = function (spec)
 
     that.getSpaceCrafts = function (id)
     {
-        if (id)
+        var spaceCrafts = [];
+
+        objects.forEach(function (e)
         {
-            var a = [];
-
-            spaceCrafts.forEach(function (e)
+            if (e.getType() === that.spaceCraftType && e.getId() !== id)
             {
-                if (e.getId() !== id)
-                {
-                    a.push(e);
-                }
-            });
-
-            return a;
-        }
+                spaceCrafts.push(e);
+            }
+        });
 
         return spaceCrafts;
+    };
+
+    that.getBounds = function ()
+    {
+        return bounds;
     };
 
     // Получить массив бонусов
     that.getBonuses = function (callback)
     {
+        var bonuses = [];
+
+        objects.forEach(function (e)
+        {
+            if (e.getType() === that.bonusType)
+            {
+                bonuses.push(e);
+            }
+        });
+
         if (callback)
         {
-            bonusArray.forEach(function (e, i, arr) {
+            bonuses.forEach(function (e, i, arr) {
                 callback(e, i, arr);
             })
         }
 
-        return bonusArray;
+        return bonuses;
+    };
+
+    that.update = function ()
+    {
+        // Проходимся по всем бонусом смотрим были ли коллизии с кораблем
+        that.getBonuses(function (b)
+        {
+            b.update();
+        });
+
+        that.getSpaceCrafts().forEach(function (e)
+        {
+            e.update();
+        });
     };
 
     return that;

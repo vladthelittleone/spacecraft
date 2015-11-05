@@ -9,6 +9,8 @@ angular.module('spacecraft')
         {
             var spaceCraft;
 
+            VK.Widgets.Subscribe("vk_subscribe", {mode: 1}, -105816682);
+
             scope.$watch('spaceCraft', function (n)
             {
                 spaceCraft = n;

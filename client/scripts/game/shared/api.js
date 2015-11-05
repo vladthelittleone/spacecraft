@@ -15,12 +15,12 @@ var WorldApi = function (world, id)
 
         func(id).forEach(function (e, i, arr)
         {
-            var api = api(e);
-            a.push(api);
+            var apiElement = api(e);
+            a.push(apiElement);
 
             if (callback)
             {
-                callback(api, i, arr);
+                callback(apiElement, i, arr);
             }
         });
 

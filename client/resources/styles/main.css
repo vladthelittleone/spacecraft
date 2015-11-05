@@ -322,8 +322,8 @@ canvas {
 .bounceInUp {
     -webkit-animation-name: bounceInUp;
     animation-name: bounceInUp;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0s;
+    animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -331,8 +331,8 @@ canvas {
 .bounceInDown {
     -webkit-animation-name: bounceInDown;
     animation-name: bounceInDown;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0s;
+    animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -340,8 +340,8 @@ canvas {
 .bounceOutUp {
     -webkit-animation-name: bounceOutUp;
     animation-name: bounceOutUp;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0s;
+    animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -349,8 +349,8 @@ canvas {
 .bounceOutDown {
     -webkit-animation-name: bounceOutDown;
     animation-name: bounceOutDown;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0s;
+    animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -358,8 +358,8 @@ canvas {
 .bounceInLeft {
     -webkit-animation-name: bounceInLeft;
     animation-name: bounceInLeft;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0s;
+    animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -367,8 +367,8 @@ canvas {
 .bounceOutLeft {
     -webkit-animation-name: bounceOutLeft;
     animation-name: bounceOutLeft;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: 0s;
+    animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }

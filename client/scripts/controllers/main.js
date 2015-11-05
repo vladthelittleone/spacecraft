@@ -31,7 +31,7 @@ angular.module('spacecraft.main', [])
 
         $scope.isCodeRunning = false;
         $scope.hideEditor = false;
-        $scope.hideTutorial = false;
+        $scope.hideTutorial = true;
 
         $scope.functionTutorial = {};
         $scope.functionTutorialOpen = false;

@@ -36,12 +36,18 @@
         <h3>Доступные объекты управления</h3>
         <h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>
         <ul>
-            <li ng-click="openFunctionTutorial('world')"><p><em>World</em>Объект, отвечающий за информацию о мире, его объектах.</p></li>
-            <li ng-click="openFunctionTutorial('spaceCraft')"><p><em>SpaceCraft</em>Объект управления космическим кораблем</p></li>
-            <li ng-click="openFunctionTutorial('weapon')"><p><em>Weapon</em>Объект управления оружием космического корабля</p></li>
-            <li ng-click="openFunctionTutorial('bonus')"><p><em>Bonus</em>Объект обломков уничтоженного корабля (Бонус)</p></li>
-            <li ng-click="openFunctionTutorial('enemy')"><p><em>Enemy</em>Объект, отвечающий за информацию о вражеском корабле</p></li>
-            <li ng-click="openFunctionTutorial('enemyWeapon')"><p><em>EnemyWeapon</em>Объект, отвечающий за информацию о оружии вражеского корабля</p></li>
+            <li ng-click="openFunctionTutorial('world')"><p><em>World</em>Объект, отвечающий за информацию о мире, его
+                объектах.</p></li>
+            <li ng-click="openFunctionTutorial('spaceCraft')"><p><em>SpaceCraft</em>Объект управления космическим
+                кораблем</p></li>
+            <li ng-click="openFunctionTutorial('weapon')"><p><em>Weapon</em>Объект управления оружием космического
+                корабля</p></li>
+            <li ng-click="openFunctionTutorial('bonus')"><p><em>Bonus</em>Объект обломков уничтоженного корабля (Бонус)
+            </p></li>
+            <li ng-click="openFunctionTutorial('enemy')"><p><em>Enemy</em>Объект, отвечающий за информацию о вражеском
+                корабле</p></li>
+            <li ng-click="openFunctionTutorial('enemyWeapon')"><p><em>EnemyWeapon</em>Объект, отвечающий за информацию о
+                оружии вражеского корабля</p></li>
         </ul>
     </div>
     <div ng-show="functionTutorialOpen">
@@ -58,11 +64,18 @@
     </div>
 </div>
 
+
 <div class="leftToolbar">
-    <button type="button" ng-click="toggleTutorialOpen()">
+    <button type="button" ng-click="toggleTutorialOpen()" class="tutorialButton">
                 <span class="glyphicon"
                       ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
                 </span>
     </button>
+    <a href="https://vk.com/im?media=&sel=99703334">
+        <button type="button" class="feedbackButton">
+                <span class="glyphicon glyphicon-comment">
+                </span>
+        </button>
+    </a>
 </div>
 

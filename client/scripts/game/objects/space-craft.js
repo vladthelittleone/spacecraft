@@ -234,10 +234,10 @@ var SpaceCraft = function (spec)
             isAlive = false;
 
             if (SCG.spaceCraft.getId() === that.getId())
-            {
-                statistic.calculateTotalScore();
-                SCG.stop();
-            }
+        {
+            statistic.calculateTotalScore();
+            SCG.stop();
+        }
 
             sprite.reset(game.world.randomX, game.world.randomY);
             health = maxHealth;

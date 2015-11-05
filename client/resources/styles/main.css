@@ -59,8 +59,14 @@ canvas {
     border: 0;
     outline: none;
     float: right;
-    padding-top: 5px;
+    padding-top: 3px;
     margin-right: 10px;
+}
+
+#toolbar button:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #7B7B7B;
 }
 
 #toolbar .box {
@@ -211,10 +217,6 @@ canvas {
     margin: auto;
 }
 
-#toolbar button:hover {
-    text-decoration: none;
-}
-
 .containerButtons {
     position: fixed;
     left: 74%;
@@ -249,8 +251,8 @@ canvas {
     position: fixed;
     border: 0;
     width: 25px;
-    background: #fff;
-    color: #25282C;
+    background: #7B7B7B;
+    color: #fff;
     height: 25px;
     outline: 0;
 }

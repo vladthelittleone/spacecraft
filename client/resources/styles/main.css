@@ -209,8 +209,16 @@ canvas {
 }
 
 .leftToolbar .tutorialButton {
-    left: 0;
     top: 50px;
+}
+
+.leftToolbar .feedbackButton {
+    top: 75px;
+}
+
+.leftToolbar .feedbackButton,
+.leftToolbar .tutorialButton {
+    left: 0;
     padding: 0;
     position: fixed;
     border: 0;
@@ -221,18 +229,19 @@ canvas {
     outline: 0;
 }
 
-.leftToolbar .feedBackButton{
+.leftToolbar .feedbackButton:hover,
+.leftToolbar .tutorialButton:hover {
     left: 0;
-    top: 75px;
     padding: 0;
     position: fixed;
     border: 0;
     width: 25px;
-    background: #25282C;
-    color: #fff;
+    background: #fff;
+    color: #25282C;
     height: 25px;
     outline: 0;
 }
+
 .tutorial {
     overflow-y: auto;
     position: fixed;

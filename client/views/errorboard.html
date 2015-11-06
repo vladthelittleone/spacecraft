@@ -1,0 +1,13 @@
+<div class="rightToolbar">
+    <button type="button" ng-click="spaceCraft.errorListOpen()">
+                <span class="glyphicon"
+                      ng-class="{'glyphicon-question-sign': isErrorListOpen, 'glyphicon-chevron-left': !isErrorListOpen}">
+                </span>
+    </button>
+</div>
+
+<div class="errorboard">
+    Похоже, Вы допустили ошибку:<br>
+    {{spaceCraft.getError()}}
+    <br>Проверьте и исправте свой код, и попробуте еще раз.
+</div>

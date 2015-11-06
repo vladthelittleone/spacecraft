@@ -483,7 +483,7 @@ canvas {
 .errorboard {
     overflow-y: auto;
     position: fixed;
-    top: 50%;
+    top: 75%;
     right: 0%;
     bottom: 0;
     left: 50%;
@@ -493,20 +493,9 @@ canvas {
     font-size: 20px;
 }
 
-.tutorial {
-    overflow-y: auto;
-    position: fixed;
-    top: 25px;
-    right: 50%;
-    bottom: 0;
-    left: 0;
-    background: #1D1F21;
-    color: #C5C8C6;
-}
-
 .rightToolbar button {
      right: 0;
-     top: 45%;
+     top: 70%;
      padding: 0;
      position: fixed;
      border: 0;

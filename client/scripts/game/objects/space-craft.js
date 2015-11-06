@@ -245,11 +245,6 @@ var SpaceCraft = function (spec)
         }
     };
 
-    that.reset = function ()
-    {
-        isAlive = true;
-    };
-
     that.getHealth = function ()
     {
         return Math.floor(health);

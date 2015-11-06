@@ -15,6 +15,11 @@ angular.module('spacecraft')
             {
                 spaceCraft = n;
             });
+
+            scope.reload = function ()
+            {
+                window.location.reload(true);
+            };
         };
 
         return {

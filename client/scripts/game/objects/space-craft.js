@@ -19,8 +19,6 @@ var SpaceCraft = function (spec)
     var regen = spec.regen || 1;
 
     var statistic = that.statistic = Statistic();
-    var error = "No error";
-    var isErrorFound = false;
 
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
@@ -309,27 +307,6 @@ var SpaceCraft = function (spec)
         var p = new Phaser.Point(another.getX(), another.getY());
 
         return Phaser.Point.distance(sprite, p);
-    };
-
-    that.getError = function()
-    {
-        return error;
-    };
-
-    that.setError = function(err)
-    {
-        error = err;
-        isErrorFound = true;
-    };
-
-    that.isErrorFound = function()
-    {
-        return isErrorFound;
-    };
-
-    that.errorListOpen = function()
-    {
-        isErrorFound = !isErrorFound;
     };
 
     // Переносим на верхний слой, перед лазерами.

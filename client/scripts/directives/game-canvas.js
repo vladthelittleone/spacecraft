@@ -39,7 +39,7 @@ angular.module('spacecraft')
                     }
                     catch(err)
                     {
-                        spaceCraft.setError(err.toString());
+                        scope.error = err.toString();
                         scope.isRunning = false;
                     }
                 }

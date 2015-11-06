@@ -3,17 +3,22 @@ angular.module('spacecraft')
     {
         var link = function (scope)
         {
-            var spaceCraft;
+            var error;
 
-            scope.$watch('spaceCraft', function (n)
+            scope.$watch('error', function (n)
             {
-                spaceCraft = n;
+                error = n;
             });
+
+            scope.closeErrorList = function()
+            {
+                scope.error = false;
+            };
         };
 
         return {
             scope: {
-                spaceCraft: '='
+                error: '='
             },
             templateUrl: 'views/errorboard.html',
             link: link

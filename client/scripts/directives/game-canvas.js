@@ -33,7 +33,15 @@ angular.module('spacecraft')
             {
                 if (isRunning)
                 {
-                    userObject.run(SpaceCraftApi(spaceCraft), WorldApi(world, spaceCraft.getId()));
+                    try
+                    {
+                        userObject.run(SpaceCraftApi(spaceCraft), WorldApi(world, spaceCraft.getId()));
+                    }
+                    catch(err)
+                    {
+                        scope.error = err.toString();
+                        scope.isRunning = false;
+                    }
                 }
             }
 

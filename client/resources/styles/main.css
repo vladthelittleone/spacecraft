@@ -479,3 +479,48 @@ canvas {
         transform: translateX(-2000px);
     }
 }
+
+.error-board {
+    overflow-y: auto;
+    position: fixed;
+    top: 85%;
+    right: 0;
+    border-left: 41px solid #25282C;
+    bottom: 0;
+    left: 50%;
+    background: #1D1F21;
+    color: #C5C8C6;
+}
+
+.error-board .close-button {
+    border: 0;
+    width: 100%;
+    background: #25282C;
+    color: #fff;
+    height: 25px;
+    outline: 0;
+}
+
+.close-button  button {
+    color: #ffffff;
+    background: #25282C;
+    height: 25px;
+    width: 25px;
+    text-decoration: none;
+    border: 0;
+    outline: none;
+    float: right;
+    padding-top: 3px;
+    margin-right: 10px;
+}
+
+.close-button  button:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #7B7B7B;
+}
+
+.error-board .error-msg {
+    padding-top: 5px;
+    padding-left: 5px;
+}

@@ -31,10 +31,11 @@ angular.module('spacecraft.main', [])
 
         $scope.isCodeRunning = false;
         $scope.hideEditor = false;
-        $scope.hideTutorial = false;
+        $scope.hideTutorial = true;
 
         $scope.functionTutorial = {};
         $scope.functionTutorialOpen = false;
+        $scope.functionFeedBackOpen = false;
 
         $scope.openFunctionTutorial = function (v)
         {
@@ -78,6 +79,11 @@ angular.module('spacecraft.main', [])
             {
                 $scope.hideTutorial = !$scope.hideTutorial;
             }
+        };
+
+        $scope.openFeedBack = function ()
+        {
+            $scope.functionFeedBackOpen = !$scope.functionFeedBackOpen;
         };
 
         $scope.colaps = function (id)

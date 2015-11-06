@@ -19,6 +19,9 @@ var SpaceCraft = function (spec)
     var regen = spec.regen || 1;
 
     var statistic = that.statistic = Statistic();
+    var modulesManager = ModulesManager({
+        energyPoints: 2
+    });
 
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
@@ -61,9 +64,7 @@ var SpaceCraft = function (spec)
 
     that.weapon = Weapon({
         spaceCraft: that,
-        damage: 10,
-        fireRate: 500,
-        fireRange: 300,
+        modulesManager: modulesManager,
         velocity: 400,
         spriteName: 'greenBeam'
     });

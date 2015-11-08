@@ -1,5 +1,60 @@
 <div id="gameCanvas"></div>
 
+
+<div class="free-points">
+    <span class="glyphicon glyphicon-flash green"></span>
+    <div class="points-block">
+        <span   ng-repeat="i in getNumber(spaceCraft.modulesManager.getMaxPoints())"
+                class="point"
+                ng-class="{'point-full': spaceCraft.modulesManager.getFreePoints() > i}"></span>
+    </div>
+</div>
+
+<div class="regen-points">
+    <span class="glyphicon glyphicon-wrench green"></span>
+    <div class="points-block">
+        <span   ng-repeat="i in getNumber(spaceCraft.regenerationModule.getMax())"
+                class="point"
+                ng-class="{'point-full': spaceCraft.regenerationModule.getEnergyPoints() > i}"></span>
+    </div>
+</div>
+
+<div class="move-speed-points">
+    <span class="glyphicon glyphicon-forward green"></span>
+    <div class="points-block">
+        <span   ng-repeat="i in getNumber(spaceCraft.moveSpeedModule.getMax())"
+                class="point"
+                ng-class="{'point-full': spaceCraft.moveSpeedModule.getEnergyPoints() > i}"></span>
+    </div>
+</div>
+
+<div class="rate-points">
+    <span class="glyphicon glyphicon-refresh green"></span>
+    <div class="points-block">
+        <span   ng-repeat="i in getNumber(spaceCraft.weapon.rateModule.getMax())"
+                class="point"
+                ng-class="{'point-full': spaceCraft.weapon.rateModule.getEnergyPoints() > i}"></span>
+    </div>
+</div>
+
+<div class="range-points">
+    <span class="glyphicon glyphicon-record green"></span>
+    <div class="points-block">
+        <span   ng-repeat="i in getNumber(spaceCraft.weapon.rangeModule.getMax())"
+                class="point"
+                ng-class="{'point-full': spaceCraft.weapon.rangeModule.getEnergyPoints() > i}"></span>
+    </div>
+</div>
+
+<div class="damage-points">
+    <span class="glyphicon glyphicon-screenshot green"></span>
+    <div class="points-block">
+        <span   ng-repeat="i in getNumber(spaceCraft.weapon.dmgModule.getMax())"
+                class="point"
+                ng-class="{'point-full': spaceCraft.weapon.dmgModule.getEnergyPoints() > i}"></span>
+    </div>
+</div>
+
 <div class="health">
     <span class="glyphicon glyphicon-heart red"></span>
     <span class="red">{{spaceCraft.getHealth()}}</span>
@@ -11,7 +66,7 @@
 </div>
 
 <div class="shield">
-    <span class="glyphicon glyphicon-flash blue"></span>
+    <span class="glyphicon glyphicon-adjust blue"></span>
     <span class="blue">{{spaceCraft.getShield()}}</span>
 </div>
 

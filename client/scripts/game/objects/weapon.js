@@ -22,23 +22,25 @@ var Weapon = function (spec)
 
 
     // Модули
-
     var rangeModule = that.rangeModule = RangeModule({
         modulesManager: spec.modulesManager,
         fireRange: 150,
-        energyPoints: 2
+        energyPoints: 2,
+        max: 3
     });
 
     var rateModule = that.rateModule = RateModule({
         modulesManager: spec.modulesManager,
-        fireRate: 130,
-        entryPoints: 2
+        fireRate: 1000,
+        energyPoints: 2,
+        max: 3
     });
 
     var dmgModule = that.dmgModule = DamageModule({
         modulesManager: spec.modulesManager,
         damage: 5,
-        entryPoints: 2
+        energyPoints: 2,
+        max: 3
     });
 
 
@@ -128,6 +130,14 @@ var Weapon = function (spec)
     {
         var x = obj1,
             y = obj2;
+
+        // Если урон или скорострельность, диапозон равен нулю, не стреляем.
+        if (!rateModule.getFireRate() ||
+            !rangeModule.getFireRange() ||
+            !dmgModule.getDamage())
+        {
+            return;
+        }
 
         // Проверка делэя. Не стреляем каждый фрэйм.
         if (SCG.game.time.now > fireTime)

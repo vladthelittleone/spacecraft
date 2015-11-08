@@ -16,11 +16,10 @@ var SpaceCraft = function (spec)
 
     var maxHealth = health = spec.health;
     var maxShield = shield = spec.shield;
-    var regen = spec.regen || 1;
 
     var statistic = that.statistic = Statistic();
-    var modulesManager = ModulesManager({
-        energyPoints: 2
+    var modulesManager = that.modulesManager = ModulesManager({
+        energyPoints: 8
     });
 
     // Стратегия, которая будет использоваться
@@ -61,6 +60,20 @@ var SpaceCraft = function (spec)
     !spec.angle || (sprite.body.angle = spec.angle);
 
     sprite.addChild(shieldSprite);
+
+    var regenerationModule = that.regenerationModule = RegenerationModule({
+        modulesManager: modulesManager,
+        regen: 4,
+        energyPoints: 1,
+        max: 3
+    });
+
+    var moveSpeedModule = that.moveSpeedModule = MoveSpeedModule({
+        modulesManager: modulesManager,
+        moveSpeed: 20,
+        energyPoints: 1,
+        max: 3
+    });
 
     that.weapon = Weapon({
         spaceCraft: that,
@@ -107,7 +120,7 @@ var SpaceCraft = function (spec)
     function regeneration(maxValue, value)
     {
         var deltaTime = game.time.elapsed / 1000;
-        var deltaRegen = regen * deltaTime;
+        var deltaRegen = regenerationModule.getRegeneration() * deltaTime;
 
         if((maxValue - value) > deltaRegen)
         {
@@ -121,12 +134,12 @@ var SpaceCraft = function (spec)
 
     that.rotateLeft = function ()
     {
-        sprite.body.rotateLeft(1);
+        sprite.body.rotateLeft(moveSpeedModule.getEnergyPoints());
     };
 
     that.rotateRight = function ()
     {
-        sprite.body.rotateRight(1);
+        sprite.body.rotateRight(moveSpeedModule.getEnergyPoints());
     };
 
     /**
@@ -161,12 +174,12 @@ var SpaceCraft = function (spec)
 
     that.moveForward = function ()
     {
-        sprite.body.moveForward(20);
+        sprite.body.moveForward(moveSpeedModule.getMoveSpeed());
     };
 
     that.moveBackward = function ()
     {
-        sprite.body.moveBackward(20);
+        sprite.body.moveBackward(moveSpeedModule.getMoveSpeed() / 2);
     };
 
     that.changeStatus = function ()

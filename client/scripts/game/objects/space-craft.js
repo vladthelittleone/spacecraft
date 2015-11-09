@@ -238,8 +238,11 @@ var SpaceCraft = function (spec)
             statistic.calculateTotalScore();
             SCG.stop();
         }
-            sprite.reset((game.world.randomX )% (world.getBounds().height - 320) + 200,
-                (game.world.randomY ) % (world.getBounds().width - 320) + 200);
+
+            var modX = (game.world.randomX )% (world.getBounds().height - 320) + 200;
+            var modY = (game.world.randomY ) % (world.getBounds().width - 320) + 200;
+
+            sprite.reset(modX,modY);
             health = maxHealth;
             shield = maxShield;
         }

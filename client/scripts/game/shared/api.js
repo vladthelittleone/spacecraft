@@ -65,7 +65,7 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
-    api.weapon = WeaponApi(spaceCraft.weapon);
+    api.weapon = api.w = WeaponApi(spaceCraft.weapon);
 
     api.getHealth = spaceCraft.getHealth;
     api.getShield = spaceCraft.getShield;
@@ -80,6 +80,35 @@ var SpaceCraftApi = function (spaceCraft)
     api.moveForward = spaceCraft.moveForward;
     api.moveBackward = spaceCraft.moveBackward;
     api.getId = spaceCraft.getId;
+
+    var modules = api.modules = api.m = {
+        rate: ModuleApi(spaceCraft.weapon.rateModule),
+        range: ModuleApi(spaceCraft.weapon.rangeModule),
+        damage: ModuleApi(spaceCraft.weapon.dmgModule),
+        regen: ModuleApi(spaceCraft.regenerationModule),
+        moveSpeed: ModuleApi(spaceCraft.moveSpeedModule)
+    };
+
+    api.incRegen = modules.regen.inc;
+    api.incDamage = modules.damage.inc;
+    api.incRange = modules.range.inc;
+    api.incRate = modules.rate.inc;
+    api.incMoveSpeed = modules.moveSpeed.inc;
+
+    api.decRegen = modules.regen.dec;
+    api.decMoveSpeed = modules.moveSpeed.dec;
+    api.decRate = modules.rate.dec;
+    api.decRange = modules.range.dec;
+    api.decDamage = modules.damage.dec;
+
+    api.getRegenEnergy = modules.regen.getEnergyPoints;
+    api.getMoveSpeedEnergy = modules.moveSpeed.getEnergyPoints;
+    api.getRateEnergy = modules.rate.getEnergyPoints;
+    api.getRangeEnergy = modules.range.getEnergyPoints;
+    api.getDamageEnergy = modules.damage.getEnergyPoints;
+
+    api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
+    api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
 
     return api;
 };
@@ -97,6 +126,21 @@ var WeaponApi = function (weapon)
     api.inRange = weapon.inRange;
     api.fire = weapon.fire;
     api.enemiesInRange = weapon.enemiesInRange;
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var ModuleApi = function (module)
+{
+    var api = {};
+
+    api.inc = module.inc;
+    api.dec = module.dec;
+    api.getEnergyPoints = module.getEnergyPoints;
+    api.getMax = module.getMax;
 
     return api;
 };

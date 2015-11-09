@@ -19,6 +19,78 @@ body {
     height: 25px;
 }
 
+.point {
+    display: inline-block;
+    height: 60%;
+    width: 5px;
+    border: 1px solid #338c33;
+    margin-left: 2px;
+}
+
+.point-full {
+    background: #39C139;
+}
+
+.points-block {
+    padding-top: 2px;
+    display: inline-block;
+    height: 100%;
+}
+
+.damage-points {
+    position: fixed;
+    bottom: 100px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.range-points {
+    position: fixed;
+    bottom: 125px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.rate-points {
+    position: fixed;
+    bottom: 150px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.move-speed-points {
+    position: fixed;
+    bottom: 175px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.regen-points {
+    position: fixed;
+    bottom: 200px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.free-points {
+    position: fixed;
+    bottom: 225px;
+    right: 0;
+    left: 0;
+    height: 25px;
+    margin-left: 10px;
+}
+
 .damage {
     position: fixed;
     bottom: 25px;

@@ -16,9 +16,11 @@ var SpaceCraft = function (spec)
 
     var maxHealth = health = spec.health;
     var maxShield = shield = spec.shield;
-    var regen = spec.regen || 1;
 
     var statistic = that.statistic = Statistic();
+    var modulesManager = that.modulesManager = ModulesManager({
+        energyPoints: 12
+    });
 
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
@@ -59,11 +61,21 @@ var SpaceCraft = function (spec)
 
     sprite.addChild(shieldSprite);
 
+    var regenerationModule = that.regenerationModule = RegenerationModule({
+        modulesManager: modulesManager,
+        values: [2, 4, 6, 8],
+        energyPoints: 2
+    });
+
+    var moveSpeedModule = that.moveSpeedModule = MoveSpeedModule({
+        modulesManager: modulesManager,
+        values: [10, 20, 30, 40],
+        energyPoints: 2
+    });
+
     that.weapon = Weapon({
         spaceCraft: that,
-        damage: 10,
-        fireRate: 500,
-        fireRange: 300,
+        modulesManager: modulesManager,
         velocity: 400,
         spriteName: 'greenBeam'
     });
@@ -106,7 +118,7 @@ var SpaceCraft = function (spec)
     function regeneration(maxValue, value)
     {
         var deltaTime = game.time.elapsed / 1000;
-        var deltaRegen = regen * deltaTime;
+        var deltaRegen = regenerationModule.getRegeneration() * deltaTime;
 
         if((maxValue - value) > deltaRegen)
         {
@@ -120,12 +132,12 @@ var SpaceCraft = function (spec)
 
     that.rotateLeft = function ()
     {
-        sprite.body.rotateLeft(1);
+        sprite.body.rotateLeft(moveSpeedModule.getEnergyPoints());
     };
 
     that.rotateRight = function ()
     {
-        sprite.body.rotateRight(1);
+        sprite.body.rotateRight(moveSpeedModule.getEnergyPoints());
     };
 
     /**
@@ -160,12 +172,12 @@ var SpaceCraft = function (spec)
 
     that.moveForward = function ()
     {
-        sprite.body.moveForward(20);
+        sprite.body.moveForward(moveSpeedModule.getMoveSpeed());
     };
 
     that.moveBackward = function ()
     {
-        sprite.body.moveBackward(20);
+        sprite.body.moveBackward(moveSpeedModule.getMoveSpeed() / 2);
     };
 
     that.changeStatus = function ()

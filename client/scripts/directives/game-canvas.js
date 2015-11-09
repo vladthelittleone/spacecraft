@@ -97,12 +97,15 @@ angular.module('spacecraft')
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
                 game.physics.p2.updateBoundsCollisionGroup();
 
-                scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
-                    x: game.world.centerX,
-                    y: game.world.centerY,
-                    spriteName: 'spaceCraft',
-                    health: 200,
-                    shield: 100
+                scope.$apply(function ()
+                {
+                    scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
+                        x: game.world.centerX,
+                        y: game.world.centerY,
+                        spriteName: 'spaceCraft',
+                        health: 200,
+                        shield: 100
+                    });
                 });
 
                 for (var i = 0; i < 20; i++)
@@ -173,6 +176,18 @@ angular.module('spacecraft')
 
                 game.debug.cameraInfo(game.camera, 32, 32);
                 game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
+            }
+
+            scope.getNumber = function(num)
+            {
+                var arr = [];
+
+                for (var i = 0; i < num; i++)
+                {
+                    arr.push(i);
+                }
+
+                return arr;
             }
         };
 

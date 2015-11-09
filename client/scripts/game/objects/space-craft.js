@@ -29,7 +29,6 @@ var SpaceCraft = function (spec)
     var x = spec.x || game.world.randomX;
     var y = spec.y || game.world.randomY;
 
-    console.log("x = " + x + "y =  "+ y);
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
     var shieldSprite = game.make.sprite(0, 0, 'shield');

@@ -6,9 +6,11 @@ var Module = function (spec)
     var that = {};
 
     var manager = spec.modulesManager;
-    var max = spec.max;
 
     var energyPoints = manager.getPoints(spec.energyPoints) || 0;
+
+    var values = that.values = spec.values;
+    var max = values.length;
 
     that.inc = function (i)
     {
@@ -68,11 +70,16 @@ var RateModule = function (spec)
 {
     var that = Module(spec);
 
-    var fireRate = spec.fireRate;
-
     that.getFireRate = function ()
     {
-        return fireRate / that.getEnergyPoints();
+        var i = that.getEnergyPoints() - 1;
+
+        if (i === -1)
+        {
+            return 0;
+        }
+
+        return that.values[i];
     };
 
     return that;
@@ -82,11 +89,16 @@ var RangeModule = function (spec)
 {
     var that = Module(spec);
 
-    var fireRange = spec.fireRange;
-
     that.getFireRange = function ()
     {
-        return fireRange * that.getEnergyPoints();
+        var i = that.getEnergyPoints() - 1;
+
+        if (i === -1)
+        {
+            return 0;
+        }
+
+        return that.values[i];
     };
 
     return that;
@@ -96,16 +108,24 @@ var DamageModule = function (spec)
 {
     var that = Module(spec);
 
-    var damage = spec.damage;
-
     that.getDamage = function ()
     {
-        return damage * that.getEnergyPoints();
+        var i = that.getEnergyPoints() - 1;
+
+        if (i === -1)
+        {
+            return 0;
+        }
+
+        return that.values[i];
     };
 
     that.addDamage = function (add)
     {
-        damage += add;
+        that.values.forEach(function (e, i, a)
+        {
+            a[i] = e + add;
+        });
     };
 
     return that;
@@ -115,11 +135,16 @@ var RegenerationModule = function (spec)
 {
     var that = Module(spec);
 
-    var regen = spec.regen;
-
     that.getRegeneration = function ()
     {
-        return regen * that.getEnergyPoints();
+        var i = that.getEnergyPoints() - 1;
+
+        if (i === -1)
+        {
+            return 0;
+        }
+
+        return that.values[i];
     };
 
     return that;
@@ -129,16 +154,16 @@ var MoveSpeedModule = function (spec)
 {
     var that = Module(spec);
 
-    var moveSpeed = spec.moveSpeed;
-
-    that.getConstantMoveSpeed = function ()
-    {
-        return moveSpeed;
-    };
-
     that.getMoveSpeed = function ()
     {
-        return moveSpeed * that.getEnergyPoints();
+        var i = that.getEnergyPoints() - 1;
+
+        if (i === -1)
+        {
+            return 0;
+        }
+
+        return that.values[i];
     };
 
     return that;

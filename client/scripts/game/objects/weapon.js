@@ -24,23 +24,20 @@ var Weapon = function (spec)
     // Модули
     var rangeModule = that.rangeModule = RangeModule({
         modulesManager: spec.modulesManager,
-        fireRange: 150,
-        energyPoints: 2,
-        max: 3
+        values: [100, 150, 200, 250],
+        energyPoints: 3
     });
 
     var rateModule = that.rateModule = RateModule({
         modulesManager: spec.modulesManager,
-        fireRate: 1000,
-        energyPoints: 2,
-        max: 3
+        values: [650, 600, 550, 500],
+        energyPoints: 3
     });
 
     var dmgModule = that.dmgModule = DamageModule({
         modulesManager: spec.modulesManager,
-        damage: 5,
-        energyPoints: 2,
-        max: 3
+        values: [5, 10, 15, 20],
+        energyPoints: 2
     });
 
 

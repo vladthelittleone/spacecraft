@@ -19,7 +19,7 @@ var SpaceCraft = function (spec)
 
     var statistic = that.statistic = Statistic();
     var modulesManager = that.modulesManager = ModulesManager({
-        energyPoints: 8
+        energyPoints: 12
     });
 
     // Стратегия, которая будет использоваться
@@ -63,16 +63,14 @@ var SpaceCraft = function (spec)
 
     var regenerationModule = that.regenerationModule = RegenerationModule({
         modulesManager: modulesManager,
-        regen: 4,
-        energyPoints: 1,
-        max: 3
+        values: [2, 4, 6, 8],
+        energyPoints: 2
     });
 
     var moveSpeedModule = that.moveSpeedModule = MoveSpeedModule({
         modulesManager: modulesManager,
-        moveSpeed: 20,
-        energyPoints: 1,
-        max: 3
+        values: [10, 20, 30, 40],
+        energyPoints: 2
     });
 
     that.weapon = Weapon({

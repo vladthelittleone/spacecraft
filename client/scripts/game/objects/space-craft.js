@@ -246,12 +246,18 @@ var SpaceCraft = function (spec)
             isAlive = false;
 
             if (SCG.spaceCraft.getId() === that.getId())
-        {
-            statistic.calculateTotalScore();
-            SCG.stop();
-        }
+            {
+                statistic.calculateTotalScore();
+                SCG.stop();
+            }
 
-            sprite.reset(game.world.randomX, game.world.randomY);
+            var modX = SCG.world.getBounds().height - 320;
+            var modY = SCG.world.getBounds().width - 320;
+
+            var nx = game.world.randomX % modX + 200;
+            var ny = game.world.randomY % modY + 200;
+
+            sprite.reset(nx, ny);
             health = maxHealth;
             shield = maxShield;
         }

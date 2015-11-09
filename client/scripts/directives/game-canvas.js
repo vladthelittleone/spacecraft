@@ -110,12 +110,13 @@ angular.module('spacecraft')
 
                 for (var i = 0; i < 20; i++)
                 {
-                    var modX = (game.world.randomX )% (bounds.height  - 320)+ 200;
-                    var modY = (game.world.randomY ) % (bounds.width  - 320) + 200;
+                    var modX = bounds.height - 320;
+                    var modY = bounds.width - 320;
+
                     SpaceCraft({
                         strategy: botStrategy,
-                        x: modX,
-                        y: modY,
+                        x: game.world.randomX % modX + 200,
+                        y: game.world.randomY % modY + 200,
                         spriteName: 'spaceCraft' + utils.randomInt(1, 3),
                         health: 200,
                         angle: game.rnd.angle(),

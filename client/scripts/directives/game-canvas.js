@@ -6,7 +6,7 @@
  * @description
  * # gameCanvas
  */
-angular.module('spacecraft')
+angular.module('spacecraft.gameCanvas', [])
     .directive('gameCanvas', ['$injector', function ($injector)
     {
         var linkFn = function (scope, element, attrs)

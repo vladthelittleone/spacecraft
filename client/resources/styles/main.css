@@ -166,7 +166,7 @@ canvas {
     color: #f88e36;
 }
 
-.containerLeadBoard {
+.containerWhiteBoard {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -180,15 +180,15 @@ canvas {
     padding-bottom: 60px;
 }
 
-.leadBoard table,
-.leadBoard td
+.whiteBoard table,
+.whiteBoard td
 {
     margin: auto;
     text-align: center;
     padding-top: 10px;
 }
 
-.leadBoard {
+.whiteBoard {
     position: relative;
     width: 60%;
     list-style: none;
@@ -200,7 +200,7 @@ canvas {
     margin: auto auto 0;
 }
 
-.leadBoard .leadBoardTitle i {
+.whiteBoard .whiteBoardTitle .firstIcon {
     color: #2e3435;
     position: absolute;
     right: -25px;
@@ -212,7 +212,19 @@ canvas {
     top: 7px;
 }
 
-.leadBoard .leadBoardTitle span {
+.whiteBoard .whiteBoardTitle .secondIcon {
+    color: #2e3435;
+    position: absolute;
+    right: -25px;
+    vertical-align: middle;
+    background: white;
+    width: 25px;
+    cursor: pointer;
+    line-height: 30px;
+    top: 32px;
+}
+
+.whiteBoard .whiteBoardTitle span {
     line-height: 46px;
     font-size: 40px;
     font-weight: normal;
@@ -220,7 +232,7 @@ canvas {
     font-family: Arial, sans-serif;
 }
 
-.leadBoardTitle {
+.whiteBoardTitle {
     min-height: 46px;
     font-weight: 500;
     background: rgb(255, 255, 255);
@@ -231,7 +243,7 @@ canvas {
     border-bottom: 0;
 }
 
-.leadBoardDescription {
+.whiteBoardDescription {
     font-family: Arial, sans-serif;
     font-size: 18px;
     letter-spacing: 1px;
@@ -245,17 +257,7 @@ canvas {
     padding: 0 25px 20px;
 }
 
-.eventContentHeading {
-    line-height: 25px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    background: #f7f7f7;
-    opacity: 0.8;
-}
-
-.leadBoardSocial {
+.whiteBoardSocial {
     min-height: 46px;
     font-family: Arial, sans-serif;
     letter-spacing: 1px;
@@ -266,17 +268,17 @@ canvas {
     border-top: 0;
 }
 
-.leadBoardSocial a {
+.whiteBoardSocial a {
     float: right;
     padding: 7px;
 }
 
-.leadBoardSocial div {
+.whiteBoardSocial div {
     float: left;
     padding: 13px;
 }
 
-.leadBoardSubscribe {
+.whiteBoardSubscribe {
     padding: 13px;
     background: rgb(255, 255, 255);
     border-top: 0;
@@ -285,7 +287,7 @@ canvas {
     border-bottom: 2px solid rgba(37, 40, 44, 0.1);
 }
 
-.leadBoardSubscribe div {
+.whiteBoardSubscribe div {
     margin: auto;
 }
 

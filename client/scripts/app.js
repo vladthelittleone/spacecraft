@@ -11,7 +11,11 @@
 angular.module('spacecraft', [
     'ui.router',
     'ui.ace',
-    'spacecraft.main'
+    'spacecraft.main',
+    'spacecraft.errorBoard',
+    'spacecraft.gameCanvas',
+    'spacecraft.leadBoard',
+    'spacecraft.tipsAndTricks'
 ])
     .config(['$urlRouterProvider', function ($urlRouterProvider)
     {

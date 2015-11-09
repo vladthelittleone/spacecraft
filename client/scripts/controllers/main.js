@@ -19,7 +19,7 @@ angular.module('spacecraft.main', [])
             });
     }])
 
-    .controller('MainController', ['$scope', function ($scope)
+    .controller('MainController', ['$scope', '$storage', function ($scope, $storage)
     {
         var editorSession,
             editorRenderer;
@@ -36,6 +36,8 @@ angular.module('spacecraft.main', [])
         $scope.functionTutorial = {};
         $scope.functionTutorialOpen = false;
         $scope.functionFeedBackOpen = false;
+
+        $storage.initializeStorage($scope.code);
 
         $scope.openFunctionTutorial = function (v)
         {

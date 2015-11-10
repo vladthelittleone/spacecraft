@@ -473,7 +473,6 @@ tutorial =
                         "- getMoveSpeedByPoints(p)- для скорости корабля",
                         "- weapon.getDamageByPoints(p) - для показателя атаки",
                         "- getRegenByPoints(p) - для показателя регенерации"
-
                     ]
                 }
             ]

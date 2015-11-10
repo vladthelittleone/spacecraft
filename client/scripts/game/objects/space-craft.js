@@ -1,6 +1,9 @@
+'use strict';
+
 /**
  * Created by vladthelittleone on 21.10.15.
  */
+
 /**
  * @constructor
  */
@@ -320,6 +323,53 @@ var SpaceCraft = function (spec)
         var p = new Phaser.Point(another.getX(), another.getY());
 
         return Phaser.Point.distance(sprite, p);
+    };
+
+    that.moveTo = function (x, y)
+    {
+        if (x)
+        {
+            x = typeof x.getX === 'function' ? x.getX() : x;
+            y = typeof x.getY === 'function' ? x.getY() : y;
+
+            var point =
+            {
+                getX: function () {
+                    return x;
+                },
+
+                getY: function () {
+                    return y;
+                }
+            };
+            that.rotateTo(point);
+            that.moveForward();
+        }
+        else
+        {
+            that.moveForward();
+        }
+    };
+
+    that.moveToNearestBonus = function()
+    {
+        var bMin = Number.MAX_VALUE;;
+        var bonus;
+
+        SCG.world.bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
+        {
+            // Дистанция до бонуса
+            var distance = spaceCraft.distance(b);
+
+            // Поиск минимальной дистанции
+            if (distance < bMin)
+            {
+                bMin = distance;
+                bonus = b;
+            }
+        });
+
+        that.moveTo(bonus);
     };
 
     // Переносим на верхний слой, перед лазерами.

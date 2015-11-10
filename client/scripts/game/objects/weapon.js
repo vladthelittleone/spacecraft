@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by vladthelittleone on 21.10.15.
  * @constructor
@@ -207,6 +209,25 @@ var Weapon = function (spec)
         }
 
         return a;
+    };
+
+    that.fireNearestEnemy = function()
+    {
+        var enemy;
+        var eMin = Number.MAX_VALUE;
+
+        that.enemiesInRange(function (e)
+        {
+            var distance = spaceCraft.distance(e);
+
+            if (distance < eMin)
+            {
+                eMin = distance;
+                enemy = e;
+            }
+        });
+
+        that.fire(enemy);
     };
 
     return that;

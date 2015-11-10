@@ -15,7 +15,8 @@ angular.module('spacecraft', [
     'spacecraft.errorBoard',
     'spacecraft.gameCanvas',
     'spacecraft.leadBoard',
-    'spacecraft.tipsAndTricks'
+    'spacecraft.tipsAndTricks',
+    'spacecraft.storage'
 ])
     .config(['$urlRouterProvider', function ($urlRouterProvider)
     {

@@ -19,12 +19,12 @@ angular.module('spacecraft.main', [])
             });
     }])
 
-    .controller('MainController', ['$scope', function ($scope)
+    .controller('MainController', ['$scope', '$storage', function ($scope, $storage)
     {
         var editorSession,
             editorRenderer;
 
-        $scope.code = "return { \n\t" +
+        $scope.code = $storage.local.getItem("code") || "return { \n\t" +
                         "run : function(spaceCraft, world) \n\t" +
                         "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
                         "\n};";
@@ -51,11 +51,15 @@ angular.module('spacecraft.main', [])
             editor.$blockScrolling = Infinity;
 
             editorSession.setValue($scope.code);
+
+            $storage.local.setItem("code", $scope.code);
         };
 
         $scope.aceChanged = function ()
         {
             $scope.code = editorSession.getDocument().getValue();
+
+            $storage.local.setItem("code", $scope.code);
         };
 
         $scope.toggleEditorOpen = function ()

@@ -37,13 +37,18 @@ angular.module('spacecraft.tipsAndTricks', [])
                 },
                 {
                     title: "Редактор кода",
-                    description: "<p>Редактор кода находится в правой части.</p>"
+                    description: "<p class='text-indent'>Редактор кода находится в правой части.</p>"
                     + "<div class='img-medium-center'>"
                     + "<img src='resources/assets/images/gamePlay2.png'>"
                     + "</div>"
                     + "<p>Вы можете убрать редактор кода нажав на <i class='glyphicon glyphicon-chevron-up'></i> в верхнем правом углу</p>"
                     + "<p>Для запуска кода нажмите на <i class='glyphicon glyphicon-play green'></i></p>"
                     + "<p>Для остановки кода нажмите на <i class='glyphicon glyphicon-stop red'></i></p>"
+                },
+                {
+                    title: "Отдельное спасибо",
+                    description: "<p xmlns:cc='http://creativecommons.org/ns#' about='http://millionthvector.blogspot.ru/p/free-sprites.html'>За предоставленные спрайты от <a rel='cc:attributionURL' property='cc:attributionName' href='http://millionthvector.blogspot.com/p/free-sprites.html'>MillionthVector</a> / <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a></p>"
+                    + "За иконки от <a href='http://ru.freepik.com'>Freepik</a>"
                 }
             ];
 

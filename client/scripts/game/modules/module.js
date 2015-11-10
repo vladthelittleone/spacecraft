@@ -16,6 +16,15 @@ var Module = function (spec)
 
     that.get = function(index)
     {
+      if(index < 0)
+      {
+          return 0;
+      }
+      else if(index > values.length)
+      {
+          return values[values.length];
+      }
+
       return values[index];
     };
 

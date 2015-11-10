@@ -242,7 +242,7 @@ tutorial =
                     ]
             },
             {
-                name:"fireNearestEnemy()",
+                name: "fireNearestEnemy()",
                 description:
                 [
                     "Выполняет выстрел по ближайшему вражескому кораблю."

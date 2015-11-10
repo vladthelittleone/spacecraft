@@ -339,11 +339,8 @@ var SpaceCraft = function (spec)
                     return y;
                 }
             };
-
-            if (!that.rotateTo(point))
-            {
-                that.moveForward();
-            }
+            that.rotateTo(point);
+            that.moveForward();
         }
         else
         {

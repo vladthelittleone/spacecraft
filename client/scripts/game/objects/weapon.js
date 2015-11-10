@@ -211,5 +211,24 @@ var Weapon = function (spec)
         return a;
     };
 
+    that.fireNearestEnemy = function()
+    {
+        var enemy;
+        var eMin = Number.MAX_VALUE;
+
+        that.enemiesInRange(function (e)
+        {
+            var distance = spaceCraft.distance(e);
+
+            if (distance < eMin)
+            {
+                eMin = distance;
+                enemy = e;
+            }
+        });
+
+        that.fire(enemy);
+    };
+
     return that;
 };

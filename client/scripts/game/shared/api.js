@@ -112,6 +112,9 @@ var SpaceCraftApi = function (spaceCraft)
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
 
+    api.moveTo = spaceCraft.moveTo;
+    api.moveToNearestBonus = spaceCraft.moveToNearestBonus;
+
     return api;
 };
 
@@ -128,6 +131,8 @@ var WeaponApi = function (weapon)
     api.inRange = weapon.inRange;
     api.fire = weapon.fire;
     api.enemiesInRange = weapon.enemiesInRange;
+
+    api.fireNearestEnemy = weapon.fireNearestEnemy;
 
     return api;
 };

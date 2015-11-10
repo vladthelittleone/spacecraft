@@ -37,8 +37,6 @@ angular.module('spacecraft.main', [])
         $scope.functionTutorialOpen = false;
         $scope.functionFeedBackOpen = false;
 
-        $storage.initializeStorage($scope.code);
-
         $scope.openFunctionTutorial = function (v)
         {
             console.log(v);
@@ -54,11 +52,16 @@ angular.module('spacecraft.main', [])
             editor.$blockScrolling = Infinity;
 
             editorSession.setValue($scope.code);
+
+            $storage.local.setItem("code", $scope.code);
         };
 
         $scope.aceChanged = function ()
         {
             $scope.code = editorSession.getDocument().getValue();
+
+            $storage.local.removeItem("code");
+            $storage.local.setItem("code", $scope.code);
         };
 
         $scope.toggleEditorOpen = function ()

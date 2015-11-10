@@ -180,15 +180,15 @@ canvas {
     padding-bottom: 60px;
 }
 
-.whiteBoard table,
-.whiteBoard td
+.white-board table,
+.white-board td
 {
     margin: auto;
     text-align: center;
     padding-top: 10px;
 }
 
-.whiteBoard {
+.white-board {
     position: relative;
     width: 60%;
     list-style: none;
@@ -200,7 +200,7 @@ canvas {
     margin: auto auto 0;
 }
 
-.whiteBoard .whiteBoardTitle .firstIcon {
+.white-board .white-board-title .first-icon {
     color: #2e3435;
     position: absolute;
     right: -25px;
@@ -212,7 +212,7 @@ canvas {
     top: 7px;
 }
 
-.whiteBoard .whiteBoardTitle .secondIcon {
+.white-board .white-board-title .second-icon {
     color: #2e3435;
     position: absolute;
     right: -25px;
@@ -224,7 +224,7 @@ canvas {
     top: 32px;
 }
 
-.whiteBoard .whiteBoardTitle span {
+.white-board .white-board-title span {
     line-height: 46px;
     font-size: 40px;
     font-weight: normal;
@@ -232,7 +232,7 @@ canvas {
     font-family: Arial, sans-serif;
 }
 
-.whiteBoardTitle {
+.white-board-title {
     min-height: 46px;
     font-weight: 500;
     background: rgb(255, 255, 255);
@@ -243,12 +243,12 @@ canvas {
     border-bottom: 0;
 }
 
-.whiteBoardDescription {
+.white-board-description {
     font-family: Arial, sans-serif;
     font-size: 18px;
     letter-spacing: 1px;
     word-wrap: break-word;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
     background: rgb(255, 255, 255);
     min-height: 46px;
     color: rgb(80, 80, 80);
@@ -257,7 +257,16 @@ canvas {
     padding: 0 25px 20px;
 }
 
-.whiteBoardSocial {
+.white-board-description .first-p
+{
+
+}
+
+.white-board-description p {
+    margin: 10px 0 10px 0;
+}
+
+.white-board-social {
     min-height: 46px;
     font-family: Arial, sans-serif;
     letter-spacing: 1px;
@@ -268,17 +277,17 @@ canvas {
     border-top: 0;
 }
 
-.whiteBoardSocial a {
+.white-board-social a {
     float: right;
     padding: 7px;
 }
 
-.whiteBoardSocial div {
+.white-board-social div {
     float: left;
     padding: 13px;
 }
 
-.whiteBoardSubscribe {
+.white-board-subscribe {
     padding: 13px;
     background: rgb(255, 255, 255);
     border-top: 0;
@@ -287,7 +296,7 @@ canvas {
     border-bottom: 2px solid rgba(37, 40, 44, 0.1);
 }
 
-.whiteBoardSubscribe div {
+.white-board-subscribe div {
     margin: auto;
 }
 
@@ -297,16 +306,16 @@ canvas {
     top: 74%;
 }
 
-.leftToolbar .tutorialButton {
+.left-toolbar .tutorialButton {
     top: 50px;
 }
 
-.leftToolbar .feedbackButton {
+.left-toolbar .feedbackButton {
     top: 75px;
 }
 
-.leftToolbar .feedbackButton,
-.leftToolbar .tutorialButton {
+.left-toolbar .feedbackButton,
+.left-toolbar .tutorialButton {
     left: 0;
     padding: 0;
     position: fixed;
@@ -318,8 +327,8 @@ canvas {
     outline: 0;
 }
 
-.leftToolbar .feedbackButton:hover,
-.leftToolbar .tutorialButton:hover {
+.left-toolbar .feedbackButton:hover,
+.left-toolbar .tutorialButton:hover {
     left: 0;
     padding: 0;
     position: fixed;

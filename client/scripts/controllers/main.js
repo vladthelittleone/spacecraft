@@ -39,7 +39,6 @@ angular.module('spacecraft.main', [])
 
         $scope.openFunctionTutorial = function (v)
         {
-            console.log(v);
             $scope.functionTutorial = tutorial[v];
             $scope.functionTutorialOpen = true;
         };

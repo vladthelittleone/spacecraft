@@ -24,7 +24,7 @@ angular.module('spacecraft.main', [])
         var editorSession,
             editorRenderer;
 
-        $scope.code = $storage.getItem("code") || "return { \n\t" +
+        $scope.code = $storage.local.getItem("code") || "return { \n\t" +
                         "run : function(spaceCraft, world) \n\t" +
                         "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
                         "\n};";

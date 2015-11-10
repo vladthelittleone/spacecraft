@@ -113,6 +113,9 @@ var SpaceCraftApi = function (spaceCraft)
     api.moveTo = spaceCraft.moveTo;
     api.moveToNearestBonus = spaceCraft.moveToNearestBonus;
 
+    api.getMoveSpeedByPoints = spaceCraft.getMoveSpeedByPoints;
+    api.getRegenByPoints = spaceCraft.getRegenByPoints;
+
     return api;
 };
 
@@ -131,6 +134,10 @@ var WeaponApi = function (weapon)
     api.enemiesInRange = weapon.enemiesInRange;
 
     api.fireNearestEnemy = weapon.fireNearestEnemy;
+
+    api.getRangeByPoints = weapon.getRangeByPoints;
+    api.getRateByPoints = weapon.getRateByPoints;
+    api.getDamageByPoints = weapon.getDamageByPoints;
 
     return api;
 };

@@ -462,6 +462,19 @@ tutorial =
                         "- getDamageEnergy()",
                         "- К примеру: spaceCraft.getRateEnergy() - возвращает количество потребляймой энергии модулем скорости атаки (Rate)."
                     ]
+                },
+                {
+                    name: "get(...)ByPoints",
+                    description:[
+                        "Функции подсчета значения от энергии модуля.",
+                        "Для упрощения вы можете вызвать у spaceCraft объекта методы:",
+                        "- weapon.getRangeByPoints(p) - для дальности атаки",
+                        "- weapon.getRateByPoints(p) - для скорости атаки",
+                        "- getMoveSpeedByPoints(p)- для скорости корабля",
+                        "- weapon.getDamageByPoints(p) - для показателя атаки",
+                        "- getRegenByPoints(p) - для показателя регенерации"
+
+                    ]
                 }
             ]
     }

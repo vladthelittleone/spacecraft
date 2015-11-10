@@ -322,6 +322,34 @@ var SpaceCraft = function (spec)
         return Phaser.Point.distance(sprite, p);
     };
 
+    that.moveTo = function (x, y)
+    {
+        if (x)
+        {
+            var x = typeof x.getX === 'function' ? x.getX() : x;
+            var y = typeof x.getY === 'function' ? x.getY() : y;
+
+            var point =
+            {
+                getX: function () {
+                    return x;
+                },
+
+                getY: function () {
+                    return y;
+                }
+            };
+
+            if (!that.rotateTo(point)) {
+                that.moveForward();
+            }
+        }
+        else
+        {
+            that.moveForward();
+        }
+    };
+
     // Переносим на верхний слой, перед лазерами.
     sprite.bringToTop();
 

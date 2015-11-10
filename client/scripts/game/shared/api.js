@@ -110,6 +110,8 @@ var SpaceCraftApi = function (spaceCraft)
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
 
+    api.moveTo = spaceCraft.moveTo;
+
     return api;
 };
 

@@ -464,14 +464,14 @@ tutorial =
                     ]
                 },
                 {
-                    name: "get(...)ByPoints",
+                    name: "get()",
                     description:[
                         "Функции подсчета значения от энергии модуля.",
                         "Для упрощения вы можете вызвать у spaceCraft объекта методы:",
-                        "- weapon.getRangeByPoints(p) - для дальности атаки",
-                        "- weapon.getRateByPoints(p) - для скорости атаки",
+                        "- getRangeByPoints(p) - для дальности атаки",
+                        "- getRateByPoints(p) - для скорости атаки",
                         "- getMoveSpeedByPoints(p)- для скорости корабля",
-                        "- weapon.getDamageByPoints(p) - для показателя атаки",
+                        "- getDamageByPoints(p) - для показателя атаки",
                         "- getRegenByPoints(p) - для показателя регенерации"
                     ]
                 }

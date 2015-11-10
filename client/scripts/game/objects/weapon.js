@@ -40,22 +40,6 @@ var Weapon = function (spec)
         energyPoints: 2
     });
 
-    that.getRangeByPoints = function(p)
-    {
-        return rangeModule.get(p);
-    };
-
-    that.getRateByPoints = function(p)
-    {
-        return rateModule.get(p);
-    };
-
-    that.getDamageByPoints = function(p)
-    {
-        return dmgModule.get(p);
-    };
-
-
     beams.setAll('anchor.x', 0.5);
     beams.setAll('anchor.y', 0.5);
     beams.setAll('outOfBoundsKill', true);

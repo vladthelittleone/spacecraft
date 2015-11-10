@@ -80,17 +80,6 @@ var SpaceCraft = function (spec)
         spriteName: 'greenBeam'
     });
 
-    that.getMoveSpeedByPoints = function(p)
-    {
-        return moveSpeedModule.get(p);
-    };
-
-    that.getRegenByPoints = function(p)
-    {
-        return regenerationModule.get(p);
-    };
-
-
     that.addHealth = function (add)
     {
         health += add;

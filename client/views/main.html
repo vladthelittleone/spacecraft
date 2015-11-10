@@ -6,11 +6,13 @@
   firstLineNumber: 1,
   onLoad: aceLoaded,
   onChange: aceChanged
-}" ng-class="{'bounceOutUp' : hideEditor, 'bounceInDown' : !hideEditor}"></div>
+}" ng-class="{'bounce-out-up' : hideEditor, 'bounce-in-down' : !hideEditor}"></div>
 
 <div id="toolbar">
     <div class="box">
-        <img class="logo" src="resources/assets/logo3.png">
+        <a href="http://spacecraft.launchrock.com/">
+            <img class="logo" src="resources/assets/logo3.png">
+        </a>
     </div>
     <div class="box">
         <button type="button" ng-click="toggleEditorOpen()">
@@ -31,7 +33,7 @@
      is-running="isCodeRunning">
 </div>
 
-<div class="tutorial" ng-class="{'bounceOutLeft' : hideTutorial || isCodeRunning, 'bounceInLeft' : !hideTutorial}">
+<div class="tutorial" ng-class="{'bounce-out-left' : hideTutorial || isCodeRunning, 'bounce-in-left' : !hideTutorial}">
     <div class="objects" ng-show="!functionTutorialOpen">
         <h3>Доступные объекты управления</h3>
         <h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>
@@ -72,11 +74,13 @@
                       ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
                 </span>
     </button>
-    <a href="https://vk.com/im?media=&sel=99703334">
+    <a href="https://vk.com/im?media=&sel=99703334" target="_blank">
         <button type="button" class="feedbackButton">
                 <span class="glyphicon glyphicon-comment">
                 </span>
         </button>
     </a>
 </div>
+
+<div tips-and-tricks></div>
 

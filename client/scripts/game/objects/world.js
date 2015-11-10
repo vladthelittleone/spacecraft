@@ -121,17 +121,18 @@ var World = function (spec)
     /**
      * Возвращает бонусы в рендже.
      *
+     * @param sprite - объект-центр от кторого считаем рендж
      * @param range - рендж
      * @param callback - каллбек, который мы используем для каждого бонуса.
      * @returns {Array}
      */
-    that.bonusInRange = function (range, callback)
+    that.bonusInRange = function (sprite, range, callback)
     {
         var a = [];
 
         SCG.world.getBonuses().forEach(function (e)
         {
-            if (Phaser.Point.distance(spaceCraft.sprite, e.sprite) < range)
+            if (Phaser.Point.distance(sprite, e.sprite) < range)
             {
                 a.push(BonusApi(e));
             }

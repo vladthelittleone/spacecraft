@@ -2,9 +2,6 @@
 
 /**
  * Created by vladthelittleone on 21.10.15.
- */
-
-/**
  * @constructor
  */
 var SpaceCraft = function (spec)
@@ -83,6 +80,21 @@ var SpaceCraft = function (spec)
         spriteName: 'greenBeam'
     });
 
+    function regeneration(maxValue, value)
+    {
+        var deltaTime = game.time.elapsed / 1000;
+        var deltaRegen = regenerationModule.getRegeneration() * deltaTime;
+
+        if((maxValue - value) > deltaRegen)
+        {
+            return (value + deltaRegen);
+        }
+        else
+        {
+            return maxValue;
+        }
+    }
+
     that.addHealth = function (add)
     {
         health += add;
@@ -117,21 +129,6 @@ var SpaceCraft = function (spec)
             shield = regeneration(maxShield, shield);
         }
     };
-
-    function regeneration(maxValue, value)
-    {
-        var deltaTime = game.time.elapsed / 1000;
-        var deltaRegen = regenerationModule.getRegeneration() * deltaTime;
-
-        if((maxValue - value) > deltaRegen)
-        {
-            return (value + deltaRegen);
-        }
-        else
-        {
-            return maxValue;
-        }
-    }
 
     that.rotateLeft = function ()
     {
@@ -197,7 +194,7 @@ var SpaceCraft = function (spec)
     {
         shield -= delta;
     };
-    
+
     that.hit = function (damage, damageCraft)
     {
         if(shield > 0)
@@ -234,16 +231,8 @@ var SpaceCraft = function (spec)
                 angle: game.rnd.angle()
             });
 
-            var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
+            Explosion(that.sprite.x, that.sprite.y);
 
-            boomSprite.anchor.x = 0.5;
-            boomSprite.anchor.y = 0.5;
-
-            // массив это то какие кадры использовать и в какой последовательности
-            boomSprite.animations.add('boom', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-
-            // вторая констатна это количество кадров в секунду при воспроизвелении анимации
-            boomSprite.play('boom', 16, false, true);
             damageCraft.statistic.addKillEnemy();
 
             isAlive = false;
@@ -353,13 +342,13 @@ var SpaceCraft = function (spec)
 
     that.moveToNearestBonus = function()
     {
-        var bMin = Number.MAX_VALUE;;
+        var bMin = Number.MAX_VALUE;
         var bonus;
 
-        SCG.world.bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
+        SCG.world.bonusInRange(that.sprite, that.weapon.getFireRange(), function (b)
         {
             // Дистанция до бонуса
-            var distance = spaceCraft.distance(b);
+            var distance = that.distance(b);
 
             // Поиск минимальной дистанции
             if (distance < bMin)

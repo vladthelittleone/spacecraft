@@ -90,6 +90,11 @@ var Weapon = function (spec)
                  */
                 if (beam.sprite)
                 {
+                    if (!utils.randomInt(0, 3))
+                    {
+                        Explosion(beam.sprite.x, beam.sprite.y, 0.3);
+                    }
+
                     beam.sprite.destroy();
                     beam.destroy();
 

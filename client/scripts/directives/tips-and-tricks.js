@@ -12,9 +12,9 @@ angular.module('spacecraft.tipsAndTricks', [])
             var array = [
                 {
                     title: "Приветствуем вас!",
-                    description: "<p class='text-center'>Это краткий экскурс в наш сервис</p>"
+                    description: "<p class='text-indent'>Это краткий экскурс в наш сервис</p>"
                     + "<img src='resources/assets/images/logo.png'>"
-                    + "<p class='text-center'>Мы раскажем вам о рабочем месте капитана, об основных функциях корабля и интерфейсе.</p>"
+                    + "<p>Мы раскажем вам о рабочем месте капитана, об основных функциях корабля и интерфейсе.</p>"
                     + "<p>Для продолжения нажмите <i class='glyphicon glyphicon-chevron-right'></i>.</p>"
                     + "<p>Для возврата на предыдущий слайд нажмите <i class='glyphicon glyphicon-chevron-left'></i>.</p>"
                 },
@@ -34,6 +34,16 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "</a>"
                     + "</div> "
                     + "<p class='text-center'>Будем очень рады вашим отзывам и предложениям :)</p>"
+                },
+                {
+                    title: "Редактор кода",
+                    description: "<p>Редактор кода находится в правой части.</p>"
+                    + "<div class='img-medium-center'>"
+                    + "<img src='resources/assets/images/gamePlay2.png'>"
+                    + "</div>"
+                    + "<p>Вы можете убрать редактор кода нажав на <i class='glyphicon glyphicon-chevron-up'></i> в верхнем правом углу</p>"
+                    + "<p>Для запуска кода нажмите на <i class='glyphicon glyphicon-play green'></i></p>"
+                    + "<p>Для остановки кода нажмите на <i class='glyphicon glyphicon-stop red'></i></p>"
                 }
             ];
 
@@ -44,7 +54,7 @@ angular.module('spacecraft.tipsAndTricks', [])
 
             scope.previous = function ()
             {
-                index = (index - 1) % array.length;
+                index = index ? (index - 1) % array.length : array.length - 1;
             };
 
             scope.getContentTitle = function ()

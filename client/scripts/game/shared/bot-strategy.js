@@ -18,7 +18,7 @@ var botStrategy = function (spaceCraft)
 
     function bonusGenerate()
     {
-        SCG.world.bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
+        SCG.world.bonusInRange(spaceCraft.sprite, spaceCraft.weapon.getFireRange(), function (b)
         {
             // Дистанция до бонуса
             var distance = spaceCraft.distance(b);

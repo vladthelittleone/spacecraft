@@ -59,6 +59,7 @@ angular.module('spacecraft.main', [])
         $scope.aceChanged = function ()
         {
             $scope.code = editorSession.getDocument().getValue();
+
             $storage.local.setItem("code", $scope.code);
         };
 

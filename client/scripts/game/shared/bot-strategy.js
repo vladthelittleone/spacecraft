@@ -1,4 +1,6 @@
-botStrategy = function (spaceCraft)
+'use strict';
+
+var botStrategy = function (spaceCraft)
 {
     /**
      * Враг, к которому мы летим, либо стреляем.

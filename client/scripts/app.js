@@ -11,7 +11,8 @@
 angular.module('spacecraft', [
     'ui.router',
     'ui.ace',
-    'spacecraft.main'
+    'spacecraft.main',
+    'spacecraft.storage'
 ])
     .config(['$urlRouterProvider', function ($urlRouterProvider)
     {

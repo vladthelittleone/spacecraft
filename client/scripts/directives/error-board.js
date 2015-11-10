@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('spacecraft')
     .directive('errorBoard', ['$injector', function ($injector)
     {

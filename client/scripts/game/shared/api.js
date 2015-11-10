@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by vladthelittleone on 21.10.15.
  */
@@ -67,19 +69,25 @@ var SpaceCraftApi = function (spaceCraft)
 
     api.weapon = api.w = WeaponApi(spaceCraft.weapon);
 
+    api.getId = spaceCraft.getId;
+
     api.getHealth = spaceCraft.getHealth;
     api.getShield = spaceCraft.getShield;
+
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
+
     api.getAngle = spaceCraft.getAngle;
     api.angleBetween = spaceCraft.angleBetween;
-    api.distance = spaceCraft.distance;
     api.rotateLeft = spaceCraft.rotateLeft;
     api.rotateRight = spaceCraft.rotateRight;
     api.rotateTo = spaceCraft.rotateTo;
+
+    api.distance = spaceCraft.distance;
     api.moveForward = spaceCraft.moveForward;
     api.moveBackward = spaceCraft.moveBackward;
-    api.getId = spaceCraft.getId;
+    api.moveTo = spaceCraft.moveTo;
+    api.moveToNearestBonus = spaceCraft.moveToNearestBonus;
 
     var modules = api.modules = api.m = {
         rate: ModuleApi(spaceCraft.weapon.rateModule),
@@ -135,7 +143,6 @@ var WeaponApi = function (weapon)
     api.inRange = weapon.inRange;
     api.fire = weapon.fire;
     api.enemiesInRange = weapon.enemiesInRange;
-
     api.fireNearestEnemy = weapon.fireNearestEnemy;
 
     return api;

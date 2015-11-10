@@ -1,9 +1,9 @@
+'use strict';
+
 /**
  * Created by Ivan on 10.11.2015.
  */
-'use strict';
-
-angular.module('spacecraft.storage')
+angular.module('spacecraft.storage', [])
 
 /**
  * Service that responding for web storage.

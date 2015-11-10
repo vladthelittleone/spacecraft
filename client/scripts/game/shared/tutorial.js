@@ -1,8 +1,9 @@
+'use strict';
+
 /**
  * Created by vladthelittleone on 02.11.15.
  */
-
-tutorial =
+var tutorial =
 {
     world:
     {

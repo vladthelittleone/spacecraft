@@ -1,4 +1,6 @@
-botStrategy = function (spaceCraft)
+'use strict';
+
+var botStrategy = function (spaceCraft)
 {
     var enemy =  spaceCraft.weapon.enemiesInRange()[0];
     var bonus;

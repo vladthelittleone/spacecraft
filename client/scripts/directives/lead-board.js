@@ -1,7 +1,8 @@
+'use strict';
+
 /**
  * Created by Ivan on 24.10.2015.
  */
-
 angular.module('spacecraft')
     .directive('leadBoard', ['$injector', function ($injector)
     {

@@ -326,8 +326,8 @@ var SpaceCraft = function (spec)
     {
         if (x)
         {
-            var x = typeof x.getX === 'function' ? x.getX() : x;
-            var y = typeof x.getY === 'function' ? x.getY() : y;
+            x = typeof x.getX === 'function' ? x.getX() : x;
+            y = typeof x.getY === 'function' ? x.getY() : y;
 
             var point =
             {
@@ -340,7 +340,8 @@ var SpaceCraft = function (spec)
                 }
             };
 
-            if (!that.rotateTo(point)) {
+            if (!that.rotateTo(point))
+            {
                 that.moveForward();
             }
         }
@@ -348,6 +349,27 @@ var SpaceCraft = function (spec)
         {
             that.moveForward();
         }
+    };
+
+    that.moveToNearestBonus = function()
+    {
+        var bMin = Number.MAX_VALUE;;
+        var bonus;
+
+        SCG.world.bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
+        {
+            // Дистанция до бонуса
+            var distance = spaceCraft.distance(b);
+
+            // Поиск минимальной дистанции
+            if (distance < bMin)
+            {
+                bMin = distance;
+                bonus = b;
+            }
+        });
+
+        that.moveTo(bonus);
     };
 
     // Переносим на верхний слой, перед лазерами.

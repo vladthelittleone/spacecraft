@@ -13,39 +13,10 @@ botStrategy = function (spaceCraft)
     var eMin = Number.MAX_VALUE;
     var bMin = Number.MAX_VALUE;
 
-    /**
-     * Возвращает бонусы в рендже.
-     *
-     * @param range - рендж
-     * @param callback - каллбек, который мы используем для каждого бонуса.
-     * @returns {Array}
-     */
-    function bonusInRange (range, callback)
-    {
-        var a = [];
-
-        SCG.world.getBonuses().forEach(function (e)
-        {
-            if (Phaser.Point.distance(spaceCraft.sprite, e.sprite) < range)
-            {
-                a.push(BonusApi(e));
-            }
-        });
-
-        if (callback)
-        {
-            a.forEach(function (e, i, arr)
-            {
-                callback(e, i, arr);
-            });
-        }
-
-        return a;
-    }
 
     function bonusGenerate()
     {
-        bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
+        SCG.world.bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
         {
             // Дистанция до бонуса
             var distance = spaceCraft.distance(b);

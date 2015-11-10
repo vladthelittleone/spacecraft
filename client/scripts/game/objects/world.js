@@ -116,5 +116,35 @@ var World = function (spec)
         });
     };
 
+    /**
+     * Возвращает бонусы в рендже.
+     *
+     * @param range - рендж
+     * @param callback - каллбек, который мы используем для каждого бонуса.
+     * @returns {Array}
+     */
+    that.bonusInRange = function (range, callback)
+    {
+        var a = [];
+
+        SCG.world.getBonuses().forEach(function (e)
+        {
+            if (Phaser.Point.distance(spaceCraft.sprite, e.sprite) < range)
+            {
+                a.push(BonusApi(e));
+            }
+        });
+
+        if (callback)
+        {
+            a.forEach(function (e, i, arr)
+            {
+                callback(e, i, arr);
+            });
+        }
+
+        return a;
+    };
+
     return that;
 };

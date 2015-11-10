@@ -16,16 +16,18 @@ var Module = function (spec)
 
     that.get = function(index)
     {
-      if(index < 0)
-      {
-          return 0;
-      }
-      else if(index > values.length)
-      {
-          return values[values.length];
-      }
+        index -= 1;
 
-      return values[index];
+        if(index < 0)
+        {
+            return values[0];
+        }
+        else if(index > values.length)
+        {
+            return values[values.length];
+        }
+
+        return values[index];
     };
 
     that.inc = function (i)

@@ -14,6 +14,22 @@ var Module = function (spec)
     var values = that.values = spec.values;
     var max = values.length;
 
+    that.get = function(index)
+    {
+        index -= 1;
+
+        if(index < 0)
+        {
+            return values[0];
+        }
+        else if(index > values.length)
+        {
+            return values[values.length];
+        }
+
+        return values[index];
+    };
+
     that.inc = function (i)
     {
         var range = max - energyPoints;

@@ -118,6 +118,15 @@ var SpaceCraftApi = function (spaceCraft)
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
 
+    api.moveTo = spaceCraft.moveTo;
+    api.moveToNearestBonus = spaceCraft.moveToNearestBonus;
+
+    api.getMoveSpeedByPoints = modules.moveSpeed.get;
+    api.getRegenByPoints = modules.regen.get;
+    api.getRangeByPoints = modules.range.get;
+    api.getRateByPoints = modules.rate.get;
+    api.getDamageByPoints = modules.damage.get;
+
     return api;
 };
 
@@ -150,6 +159,7 @@ var ModuleApi = function (module)
     api.dec = module.dec;
     api.getEnergyPoints = module.getEnergyPoints;
     api.getMax = module.getMax;
+    api.get = module.get;
 
     return api;
 };

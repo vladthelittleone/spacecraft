@@ -67,14 +67,14 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
-    api.weapon = api.w = WeaponModuleApi(spaceCraft.weapon);
-    api.engine = api.e = EngineModuleApi(spaceCraft.engine);
-    api.defense = api.d = DefenseModuleApi(spaceCraft.defense);
+    api.weapon = api.w = WeaponBlockApi(spaceCraft.weapon);
+    api.engine = api.e = EngineBlockApi(spaceCraft.engine);
+    api.protection = api.p = ProtectionBlockApi(spaceCraft.protection);
 
     api.getId = spaceCraft.getId;
 
-    api.getHealth = api.d.getHealth;
-    api.getShield = api.d.getShield;
+    api.getHealth = api.p.getHealth;
+    api.getShield = api.p.getShield;
 
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
@@ -102,7 +102,7 @@ var SpaceCraftApi = function (spaceCraft)
 /**
  * @constructor
  */
-var EngineModuleApi = function (engine)
+var EngineBlockApi = function (engine)
 {
     var api = {};
 
@@ -127,16 +127,16 @@ var EngineModuleApi = function (engine)
 /**
  * @constructor
  */
-var DefenseModuleApi = function (defense)
+var ProtectionBlockApi = function (protection)
 {
     var api = {};
 
-    api.regeneration = ModuleApi(defense.regeneration);
+    api.regeneration = ModuleApi(protection.regeneration);
 
-    api.getHealth = defense.getHealth;
-    api.getShield = defense.getShield;
+    api.getHealth = protection.getHealth;
+    api.getShield = protection.getShield;
 
-    api.getRegeneration = defense.regeneration.getRegeneration;
+    api.getRegeneration = protection.regeneration.getRegeneration;
 
     api.incRegen = api.regeneration.inc;
     api.decRegen = api.regeneration.dec;
@@ -148,7 +148,7 @@ var DefenseModuleApi = function (defense)
 /**
  * @constructor
  */
-var WeaponModuleApi = function (weapon)
+var WeaponBlockApi = function (weapon)
 {
     var api = {};
 

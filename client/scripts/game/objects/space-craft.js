@@ -50,19 +50,19 @@ var SpaceCraft = function (spec)
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
-    var engine = that.engine = EngineModule({
+    var engine = that.engine = EngineBlock({
         modulesManager: modulesManager,
         spaceCraft: that
     });
 
-    var defense = that.defense = DefenseModule({
+    var protection = that.protection = ProtectionBlock({
         sprite: sprite,
         health: spec.health,
         shield: spec.shield,
         modulesManager: modulesManager
     });
 
-    var weapon = that.weapon = WeaponModule({
+    var weapon = that.weapon = WeaponBlock({
         spaceCraft: that,
         modulesManager: modulesManager,
         velocity: 400,
@@ -72,8 +72,8 @@ var SpaceCraft = function (spec)
     that.update = function ()
     {
         that.weapon.update();
-        defense.healthRegeneration();
-        defense.shieldRegeneration();
+        protection.healthRegeneration();
+        protection.shieldRegeneration();
 
         strategy && strategy(that);
     };
@@ -90,24 +90,24 @@ var SpaceCraft = function (spec)
 
     that.hit = function (damage, damageCraft)
     {
-        if(defense.getShield() > 0)
+        if(protection.getShield() > 0)
         {
-            defense.subShield(damage);
+            protection.subShield(damage);
 
             // если щит сломался, то в нем окажется отрицательное значение,
             // которое прибавлем к текущему здоровью
-            if(defense.getShield() <= 0)
+            if(protection.getShield() <= 0)
             {
-                defense.addHealth(defense.getShield());
-                defense.setShield(0);
+                protection.addHealth(protection.getShield());
+                protection.setShield(0);
             }
         }
         else
         {
-            defense.subHealth(damage);
+            protection.subHealth(damage);
         }
 
-        if (defense.getHealth() <= 0)
+        if (protection.getHealth() <= 0)
         {
             var bonusType = generateBonus({
                 health: 10,
@@ -143,8 +143,8 @@ var SpaceCraft = function (spec)
 
             sprite.reset(nx, ny);
 
-            defense.setHealth(defense.getMaxHealth());
-            defense.setShield(defense.getMaxShield());
+            protection.setHealth(protection.getMaxHealth());
+            protection.setShield(protection.getMaxShield());
         }
     };
 

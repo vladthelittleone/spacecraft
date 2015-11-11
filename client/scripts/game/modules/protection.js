@@ -3,7 +3,7 @@
 /**
  * Created by vladthelittleone on 12.11.15.
  */
-var DefenseModule = function (spec)
+var ProtectionBlock = function (spec)
 {
     var that = {};
 

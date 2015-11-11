@@ -4,7 +4,7 @@
  * Created by vladthelittleone on 21.10.15.
  * @constructor
  */
-var WeaponModule = function (spec)
+var WeaponBlock = function (spec)
 {
     var that = {},
         spaceCraft = spec.spaceCraft,

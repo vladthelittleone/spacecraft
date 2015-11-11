@@ -3,7 +3,7 @@
 /**
  * Created by vladthelittleone on 12.11.15.
  */
-var EngineModule = function (spec)
+var EngineBlock = function (spec)
 {
     var that = {};
     var spaceCraft = spec.spaceCraft;

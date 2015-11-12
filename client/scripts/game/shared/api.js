@@ -15,7 +15,7 @@ var WorldApi = function (world, id)
     {
         var a = [];
 
-        func(id).forEach(function (e, i, arr)
+        func().forEach(function (e, i, arr)
         {
             var apiElement = api(e);
             a.push(apiElement);
@@ -33,7 +33,20 @@ var WorldApi = function (world, id)
 
     api.getEnemies = function (callback)
     {
-        return get(callback, world.getSpaceCrafts, EnemyApi);
+        var enemies = [];
+
+        world.getSpaceCrafts(id).forEach(function (e, i, arr)
+        {
+            var apiElement = EnemyApi(e);
+            enemies.push(apiElement);
+
+            if (callback)
+            {
+                callback(apiElement, i, arr);
+            }
+        });
+
+        return enemies;
     };
 
     // Получить массив бонусов
@@ -75,6 +88,7 @@ var SpaceCraftApi = function (spaceCraft)
 
     api.getHealth = api.p.getHealth;
     api.getShield = api.p.getShield;
+    api.getRegeneration = api.p.getRegeneration;
 
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
@@ -83,8 +97,6 @@ var SpaceCraftApi = function (spaceCraft)
     api.angleBetween = spaceCraft.angleBetween;
     api.distance = spaceCraft.distance;
 
-    api.fire = api.w.fire;
-
     api.rotateLeft = api.e.rotateLeft;
     api.rotateRight = api.e.rotateRight;
     api.rotateTo = api.e.rotateTo;
@@ -92,6 +104,11 @@ var SpaceCraftApi = function (spaceCraft)
     api.moveBackward = api.e.moveBackward;
     api.moveTo = api.e.moveTo;
     api.moveToNearestBonus = api.e.moveToNearestBonus;
+
+    api.inRange = api.w.inRange;
+    api.fire = api.w.fire;
+    api.enemiesInRange = api.w.enemiesInRange;
+    api.fireNearestEnemy = api.w.fireNearestEnemy;
 
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
@@ -116,10 +133,10 @@ var EngineBlockApi = function (engine)
     api.moveTo = engine.moveTo;
     api.moveToNearestBonus = engine.moveToNearestBonus;
 
-    api.incMoveSpeed = api.moveSpeed.inc;
-    api.decMoveSpeed = api.moveSpeed.dec;
-    api.getMoveSpeedEnergy = api.moveSpeed.getEnergyPoints;
-    api.getMoveSpeed = api.moveSpeed.getMoveSpeed;
+    api.incMoveSpeed = engine.incMoveSpeed;
+    api.decMoveSpeed = engine.decMoveSpeed;
+    api.getMoveSpeedEnergy = engine.getMoveSpeedEnergy;
+    api.getMoveSpeed = engine.getMoveSpeed;
 
     return api;
 };
@@ -136,11 +153,10 @@ var ProtectionBlockApi = function (protection)
     api.getHealth = protection.getHealth;
     api.getShield = protection.getShield;
 
-    api.getRegeneration = protection.regeneration.getRegeneration;
-
-    api.incRegen = api.regeneration.inc;
-    api.decRegen = api.regeneration.dec;
-    api.getRegenEnergy = api.regeneration.getEnergyPoints;
+    api.incRegen = protection.incRegen;
+    api.decRegen = protection.decRegen;
+    api.getRegenEnergy = protection.getRegenEnergy;
+    api.getRegeneration = protection.getRegeneration;
 
     return api;
 };
@@ -156,26 +172,26 @@ var WeaponBlockApi = function (weapon)
     api.damage = ModuleApi(weapon.damage);
     api.range = ModuleApi(weapon.range);
 
-    api.getDamage = weapon.damage.getDamage;
-    api.getFireRate = weapon.rate.getFireRate;
-    api.getFireRange = weapon.range.getFireRange;
+    api.getDamage = weapon.getDamage;
+    api.getFireRate = weapon.getFireRate;
+    api.getFireRange = weapon.getFireRange;
 
     api.inRange = weapon.inRange;
     api.fire = weapon.fire;
     api.enemiesInRange = weapon.enemiesInRange;
     api.fireNearestEnemy = weapon.fireNearestEnemy;
 
-    api.incDamage = api.damage.inc;
-    api.incRange = api.range.inc;
-    api.incRate = api.rate.inc;
+    api.incDamage = weapon.incDamage;
+    api.incRange = weapon.incRange;
+    api.incRate = weapon.incRate;
 
-    api.decRate = api.rate.dec;
-    api.decRange = api.range.dec;
-    api.decDamage = api.damage.dec;
+    api.decRate = weapon.decRate;
+    api.decRange = weapon.decRange;
+    api.decDamage = weapon.decDamage;
 
-    api.getRateEnergy = api.rate.getEnergyPoints;
-    api.getRangeEnergy = api.range.getEnergyPoints;
-    api.getDamageEnergy = api.damage.getEnergyPoints;
+    api.getRateEnergy = weapon.getRateEnergy;
+    api.getRangeEnergy = weapon.getRangeEnergy;
+    api.getDamageEnergy = weapon.getDamageEnergy;
 
     return api;
 };
@@ -203,8 +219,9 @@ var EnemyApi = function (spaceCraft)
     var api = {};
 
     api.weapon = EnemyWeaponApi(spaceCraft.weapon);
-    api.getHealth = spaceCraft.getHealth;
-    api.getShield = spaceCraft.getShield;
+    api.getHealth = spaceCraft.protection.getHealth;
+    api.getShield = spaceCraft.protection.getShield;
+    api.getRegeneration = spaceCraft.protection.getRegeneration;
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
     api.getAngle = spaceCraft.getAngle;

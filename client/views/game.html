@@ -1,7 +1,7 @@
 <div id="game-canvas"></div>
 
 
-<div class="free-points">
+<div class="points-bar free-points">
     <span class="glyphicon glyphicon-flash green"></span>
     <div class="points-block">
         <span   ng-repeat="i in getNumber(spaceCraft.modulesManager.getMaxPoints())"
@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div class="regen-points">
+<div class="points-bar regen-points">
     <span class="glyphicon glyphicon-wrench green"></span>
     <div class="points-block">
         <span   ng-repeat="i in getNumber(spaceCraft.protection.regeneration.getMax())"
@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div class="move-speed-points">
+<div class="points-bar move-speed-points">
     <span class="glyphicon glyphicon-forward green"></span>
     <div class="points-block">
         <span   ng-repeat="i in getNumber(spaceCraft.engine.moveSpeed.getMax())"
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="rate-points">
+<div class="points-bar rate-points">
     <span class="glyphicon glyphicon-refresh green"></span>
     <div class="points-block">
         <span   ng-repeat="i in getNumber(spaceCraft.weapon.rate.getMax())"
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="range-points">
+<div class="points-bar range-points">
     <span class="glyphicon glyphicon-record green"></span>
     <div class="points-block">
         <span   ng-repeat="i in getNumber(spaceCraft.weapon.range.getMax())"
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div class="damage-points">
+<div class="points-bar damage-points">
     <span class="glyphicon glyphicon-screenshot green"></span>
     <div class="points-block">
         <span   ng-repeat="i in getNumber(spaceCraft.weapon.damage.getMax())"

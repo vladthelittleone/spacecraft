@@ -114,7 +114,7 @@ var tutorial =
         ]
     },
     engineBlock: {
-        title: "EngineBlock",
+        title: "Engine Block",
         description: "Блок, отвечающий за двигатели корабля",
         functions: [
             {

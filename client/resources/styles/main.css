@@ -37,13 +37,17 @@ body {
     height: 100%;
 }
 
-.damage-points {
+.points-bar {
     position: fixed;
-    bottom: 100px;
+    width: 30%;
     right: 0;
     left: 0;
     height: 25px;
     margin-left: 10px;
+}
+
+.damage-points {
+    bottom: 100px;
 }
 
 .img-small-center {
@@ -67,48 +71,24 @@ body {
 }
 
 .range-points {
-    position: fixed;
     bottom: 125px;
-    right: 0;
-    left: 0;
-    height: 25px;
-    margin-left: 10px;
 }
 
+
 .rate-points {
-    position: fixed;
     bottom: 150px;
-    right: 0;
-    left: 0;
-    height: 25px;
-    margin-left: 10px;
 }
 
 .move-speed-points {
-    position: fixed;
     bottom: 175px;
-    right: 0;
-    left: 0;
-    height: 25px;
-    margin-left: 10px;
 }
 
 .regen-points {
-    position: fixed;
     bottom: 200px;
-    right: 0;
-    left: 0;
-    height: 25px;
-    margin-left: 10px;
 }
 
 .free-points {
-    position: fixed;
     bottom: 225px;
-    right: 0;
-    left: 0;
-    height: 25px;
-    margin-left: 10px;
 }
 
 .damage {

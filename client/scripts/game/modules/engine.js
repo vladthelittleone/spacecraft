@@ -15,6 +15,11 @@ var EngineBlock = function (spec)
         energyPoints: 2
     });
 
+    that.incMoveSpeed = moveSpeed.inc;
+    that.decMoveSpeed = moveSpeed.dec;
+    that.getMoveSpeedEnergy = moveSpeed.getEnergyPoints;
+    that.getMoveSpeed = moveSpeed.getMoveSpeed;
+
     that.rotateLeft = function ()
     {
         sprite.body.rotateLeft(moveSpeed.getEnergyPoints());
@@ -65,12 +70,21 @@ var EngineBlock = function (spec)
         sprite.body.moveBackward(moveSpeed.getMoveSpeed() / 2);
     };
 
-    that.moveTo = function (x, y)
+    that.moveTo = function (obj1, obj2)
     {
-        if (x)
+        var x = obj1,
+            y = obj2;
+
+        if (obj1)
         {
-            x = typeof x.getX === 'function' ? x.getX() : x;
-            y = typeof x.getY === 'function' ? x.getY() : y;
+            // Проверка на объект.
+            // Если есть x, y то это объект,
+            // например корабль
+            if ((typeof obj1.getX === 'function') && (typeof obj1.getY === 'function'))
+            {
+                x = obj1.getX();
+                y = obj1.getY();
+            }
 
             var point =
             {
@@ -82,6 +96,7 @@ var EngineBlock = function (spec)
                     return y;
                 }
             };
+
             that.rotateTo(point);
             that.moveForward();
         }

@@ -26,6 +26,11 @@ var ProtectionBlock = function (spec)
         energyPoints: 2
     });
 
+    that.incRegen = regenerationModule.inc;
+    that.decRegen = regenerationModule.dec;
+    that.getRegenEnergy = regenerationModule.getEnergyPoints;
+    that.getRegeneration = regenerationModule.getRegeneration;
+
     function regeneration(maxValue, value)
     {
         var deltaTime = SCG.game.time.elapsed / 1000;

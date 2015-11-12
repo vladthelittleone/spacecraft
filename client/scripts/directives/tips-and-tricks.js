@@ -55,20 +55,11 @@ angular.module('spacecraft.tipsAndTricks', [])
                 },
                 {
                     title: "Отзывы и предложения",
-                    description: "<p>Хотите оставить отзыв или предложение?</p>"
+                    description: "<p>Хотите оставить отзыв или предложение? Нашли баг или ошибку?</p>"
                     + "<div class='img-small-center'>"
                     + "<img src='resources/assets/images/spacecraft2.png'>"
                     + "</div> "
-                    + "<p>Нажмите <i class='glyphicon glyphicon-comment'></i>.</p>"
-                    + "<p>Либо отпишитесь в обсуждениях <a href='https://vk.com/spacecrafter'>группы в вконтакте</a>.</p>"
-                },
-                {
-                    title: "Отзывы и предложения",
-                    description: "<p>Хотите оставить отзыв или предложение?</p>"
-                    + "<div class='img-small-center'>"
-                    + "<img src='resources/assets/images/spacecraft2.png'>"
-                    + "</div> "
-                    + "<p>Нажмите <i class='glyphicon glyphicon-comment'></i>.</p>"
+                    + "<p>Нажмите <i class='glyphicon glyphicon-comment'></i> в левом верхнем углу.</p>"
                     + "<p>Либо отпишитесь в обсуждениях <a href='https://vk.com/spacecrafter'>группы в вконтакте</a>.</p>"
                 },
                 {
@@ -90,33 +81,64 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p>Информацию о них вы можете посмотреть в документации, нажав <i class='glyphicon glyphicon-question-sign'></i>.</p>"
                 },
                 {
+                    title: "Объект spaceCraft",
+                    description: "<p>С помощью данного объекта вы можете:</p>"
+                    + "<p>1. <b>Получать</b> координаты, угол корабля относительно мира, угол и дистанцию относительно других объектов.</p>"
+                    + "<p>2. <b>Управлять</b> двигателями корабля: поварачивать и увеличивать скорость.</p>"
+                    + "<p>3. <b>Атаковать</b> врага, получать информацию о врага в радиусе атаки.</p>"
+                    + "<p>4. <b>Переопределять</b> энергию между модулями.</p>"
+                    + "<div class='img-huge-center'>"
+                    + "<img src='resources/assets/images/code3.png'>"
+                    + "</div>"
+                    + "<p>Смотрите документацию по объекту <b>SpaceCraft</b>.</p>"
+                },
+                {
+                    title: "Объект world",
+                    description: "<p>С помощью данного объекта вы можете:</p>"
+                    + "<p>1. <b>Получать</b> информацию о бонусах (их координаты и тип).</p>"
+                    + "<p>2. <b>Получать</b> информацию о врагах.</p>"
+                    + "<p>3. <b>Получать</b> информацию о границах мира.</p>"
+                    + "<div class='img-huge-center'>"
+                    + "<img src='resources/assets/images/code3.png'>"
+                    + "</div>"
+                    + "<p>Смотрите документацию по объекту <b>World</b>.</p>"
+                },
+                {
                     title: "Параметры корабля",
-                    description: "<p>Вы можете получить текущие параметра корабля с помощью методов:</p>"
+                    description: "<div class='img-small-center'>"
+                    + "<img src='resources/assets/images/tblue1.png'>"
+                    + "</div> "
+                    + "<p>Вы можете получить текущие параметра корабля с помощью методов:</p>"
                     + "<p><i class='glyphicon glyphicon-heart red'></i> <b>getHealth()</b> - получить текущее здоровье корабля.</p>"
                     + "<p><i class='glyphicon glyphicon-screenshot green'></i> <b>getDamage()</b> - получить текущий урон оружия корабля. </p>"
                     + "<p><i class='glyphicon glyphicon-adjust blue'></i> <b>getShield()</b> - получить текущие щиты корабля.</p>"
                     + "<p>Информацию о них вы можете посмотреть в документации, нажав <i class='glyphicon glyphicon-question-sign'></i>.</p>"
                 },
                 {
-                    title: "Параметры корабля",
-                    description: "<p>Вы можете получить текущие параметра корабля с помощью методов:</p>"
-                    + "<p><i class='glyphicon glyphicon-heart red'></i> <b>getHealth()</b> - получить текущее здоровье корабля.</p>"
-                    + "<p><i class='glyphicon glyphicon-screenshot green'></i> <b>getDamage()</b> - получить текущий урон оружия корабля. </p>"
-                    + "<p><i class='glyphicon glyphicon-adjust blue'></i> <b>getShield()</b> - получить текущие щиты корабля.</p>"
-                    + "<p>Информацию о них вы можете посмотреть в документации, нажав <i class='glyphicon glyphicon-question-sign'></i>.</p>"
+                    title: "Блоки корабля",
+                    description: "<p>Корабль состоит из 3 основных блоков:</p>"
+                    + "<p>1. <b>WeaponBlock</b> - блок управления оружием космического корабля.</p>"
+                    + "<p>2. <b>ProtectionBlock</b> - блок управления защитными системами корабля.</p>"
+                    + "<p>3. <b>EngineBlock</b> - блок, отвечающий за двигатели корабля.</p>"
+                    + "<p>У каждого блока есть свои подмодули, энергию которых можно изменять.</p>"
                 },
                 {
-                    title: "Параметры корабля",
-                    description: "<p>Вы можете получить текущие параметра корабля с помощью методов:</p>"
-                    + "<p><i class='glyphicon glyphicon-heart red'></i> <b>getHealth()</b> - получить текущее здоровье корабля.</p>"
-                    + "<p><i class='glyphicon glyphicon-screenshot green'></i> <b>getDamage()</b> - получить текущий урон оружия корабля. </p>"
-                    + "<p><i class='glyphicon glyphicon-adjust blue'></i> <b>getShield()</b> - получить текущие щиты корабля.</p>"
-                    + "<p>Информацию о них вы можете посмотреть в документации, нажав <i class='glyphicon glyphicon-question-sign'></i>.</p>"
+                    title: "Модули корабля",
+                    description: "<p>Каждый блок содержит свои модули между которыми вы можете распределять энергию.</p>"
+                    + "<div class='img-small-center'>"
+                    + "<img src='resources/assets/images/bar1.png'>"
+                    + "</div>"
+                    + "<p>Чем выше количество энергии тем выше параметры модуля.</p>"
+                    + "<p><b>WeaponBlock</b> содержит три модуля: <i class='glyphicon glyphicon-screenshot green'></i> <b>damage</b>, <i class='glyphicon glyphicon-refresh green'></i> <b>rate</b>, <i class='glyphicon glyphicon-record green'></i> <b>range</b>.</p>"
+                    + "<p><b>ProtectionBlock</b> содержит один модуль: <i class='glyphicon glyphicon-wrench green'></i> <b>regen</b>.</p>"
+                    + "<p><b>EngineBlock</b> содержит один модуль: <i class='glyphicon glyphicon-forward green'></i> <b>moveSpeed</b>.</p>"
+                    + "<p><i class='glyphicon glyphicon-flash green'></i>  показывает количество неиспользуемой энергии.</p>"
                 },
                 {
                     title: "Отдельное спасибо",
                     description: "<p xmlns:cc='http://creativecommons.org/ns#' about='http://millionthvector.blogspot.ru/p/free-sprites.html'>За предоставленные спрайты от <a rel='cc:attributionURL' property='cc:attributionName' href='http://millionthvector.blogspot.com/p/free-sprites.html'>MillionthVector</a> / <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a></p>"
-                    + "За иконки от <a href='http://ru.freepik.com'>Freepik</a>"
+                    + "<p>За иконки от <a href='http://ru.freepik.com'>Freepik</a></p>"
+                    + "<p>Нашим друзьям за их поддержку, комментарии и советы</p>"
                 }
             ];
 

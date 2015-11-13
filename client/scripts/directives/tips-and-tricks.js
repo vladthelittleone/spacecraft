@@ -2,12 +2,25 @@
  * Created by vladthelittleone on 10.11.15.
  */
 angular.module('spacecraft.tipsAndTricks', [])
-    .directive('tipsAndTricks', ['$sce', function ($sce)
+    .directive('tipsAndTricks', ['$sce', '$storage', function ($sce, $storage)
     {
         var link = function (scope)
         {
-            var index = 0;
-            var open = false;
+            var object = scope.object;
+
+            scope.showTrick = false;
+            scope.hideTrick = false;
+
+            var enjoyHint = new EnjoyHint({
+                onEnd: function ()
+                {
+                    scope.$apply(function ()
+                    {
+                        scope.showTrick = true;
+                        scope.hideTrick = false;
+                    });
+                }
+            });
 
             var array = [
                 {
@@ -17,9 +30,10 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p>Мы раскажем вам о рабочем месте капитана, об основных функциях корабля и интерфейсе.</p>"
                     + "<p>Для продолжения нажмите <i class='glyphicon glyphicon-chevron-right'></i>.</p>"
                     + "<p>Для возврата на предыдущий слайд нажмите <i class='glyphicon glyphicon-chevron-left'></i>.</p>"
+                    + "<p>Для получения дополнительной информации нажмите <i class='glyphicon glyphicon-info-sign'></i>.</p>"
                 },
                 {
-                    title: "Предесловие от авторов",
+                    title: "Предисловие от авторов",
                     description: "<p>Цели, которые мы преследуем, создавая этот проект, интерактивное обучение людей, которым интересно программирование, и создание игровой площадки для более опытных it-специалистов.</p>"
                     + "<div class='img-medium-center'>"
                     + "<img src='resources/assets/images/gamePlay1.png'>"
@@ -43,7 +57,18 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "</div>"
                     + "<p>Вы можете убрать редактор кода нажав на <i class='glyphicon glyphicon-chevron-up'></i> в верхнем правом углу</p>"
                     + "<p>Для запуска кода нажмите на <i class='glyphicon glyphicon-play green'></i></p>"
-                    + "<p>Для остановки кода нажмите на <i class='glyphicon glyphicon-stop red'></i></p>"
+                    + "<p>Для остановки кода нажмите на <i class='glyphicon glyphicon-stop red'></i></p>",
+                    hint: [
+                        {
+                            'next .glyphicon-play .green': "Нажмите <i class='glyphicon glyphicon-play green'></i> для запуска кода, а <i class='glyphicon glyphicon-stop red'></i> для вызова паузы",
+                            'nextButton': {text: "Дальше"},
+                            'showSkip': false
+                        },
+                        {
+                            'next .glyphicon-chevron-up': "Нажмите <i class='glyphicon glyphicon-chevron-down'></i>  для вызова редактора кода, а <i class='glyphicon glyphicon-chevron-up'></i> для закрытия",
+                            'nextButton': {text: "Дальше"},
+                            'showSkip': false
+                        }]
                 },
                 {
                     title: "Документация",
@@ -51,7 +76,13 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<div class='img-medium-center'>"
                     + "<img src='resources/assets/images/gamePlay3.png'>"
                     + "</div>"
-                    + "<p>Нажмите на <i class='glyphicon glyphicon-question-sign'></i> для получения документации.</p>"
+                    + "<p>Нажмите на <i class='glyphicon glyphicon-question-sign'></i> для получения документации.</p>",
+                    hint: [
+                        {
+                            'next .glyphicon-question-sign': "Нажмите <i class='glyphicon glyphicon-question-sign'></i> для вызова окна документации",
+                            'nextButton': {text: "Дальше"},
+                            'showSkip': false
+                        }]
                 },
                 {
                     title: "Отзывы и предложения",
@@ -60,7 +91,13 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<img src='resources/assets/images/spacecraft2.png'>"
                     + "</div> "
                     + "<p>Нажмите <i class='glyphicon glyphicon-comment'></i> в левом верхнем углу.</p>"
-                    + "<p>Либо отпишитесь в обсуждениях <a href='https://vk.com/spacecrafter'>группы в вконтакте</a>.</p>"
+                    + "<p>Либо отпишитесь в обсуждениях <a href='https://vk.com/spacecrafter'>группы в вконтакте</a>.</p>",
+                    hint: [
+                        {
+                            'next .glyphicon-comment': "Нажмите <i class='glyphicon glyphicon-comment'></i> для отправки отзывов, предложений или информации о багах",
+                            'nextButton': {text: "Дальше"},
+                            'showSkip': false
+                        }]
                 },
                 {
                     title: "Пример кода",
@@ -112,7 +149,14 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p><i class='glyphicon glyphicon-heart red'></i> <b>getHealth()</b> - получить текущее здоровье корабля.</p>"
                     + "<p><i class='glyphicon glyphicon-screenshot green'></i> <b>getDamage()</b> - получить текущий урон оружия корабля. </p>"
                     + "<p><i class='glyphicon glyphicon-adjust blue'></i> <b>getShield()</b> - получить текущие щиты корабля.</p>"
-                    + "<p>Информацию о них вы можете посмотреть в документации, нажав <i class='glyphicon glyphicon-question-sign'></i>.</p>"
+                    + "<p>Информацию о них вы можете посмотреть в документации, нажав <i class='glyphicon glyphicon-question-sign'></i>.</p>",
+                    hint: [
+                        {
+                            'next .params-hint': "Параметры корабля",
+                            'nextButton': {text: "Дальше"},
+                            'showSkip': false
+                        }]
+
                 },
                 {
                     title: "Блоки корабля",
@@ -132,7 +176,38 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p><b>WeaponBlock</b> содержит три модуля: <i class='glyphicon glyphicon-screenshot green'></i> <b>damage</b>, <i class='glyphicon glyphicon-refresh green'></i> <b>rate</b>, <i class='glyphicon glyphicon-record green'></i> <b>range</b>.</p>"
                     + "<p><b>ProtectionBlock</b> содержит один модуль: <i class='glyphicon glyphicon-wrench green'></i> <b>regen</b>.</p>"
                     + "<p><b>EngineBlock</b> содержит один модуль: <i class='glyphicon glyphicon-forward green'></i> <b>moveSpeed</b>.</p>"
-                    + "<p><i class='glyphicon glyphicon-flash green'></i>  показывает количество неиспользуемой энергии.</p>"
+                    + "<p><i class='glyphicon glyphicon-flash green'></i>  показывает количество неиспользуемой энергии.</p>",
+                    hint: [
+                        {
+                            'next .points-hint': "Индикаторы энергии",
+                            'nextButton': {text: "Дальше"},
+                            'showSkip': false
+                        }]
+                },
+                {
+                    title: "Бонусы",
+                    description: "<p>Из каждого корабля выпадают бонусы.</p>"
+                    + "<div class='img-small-center'>"
+                    + "<img src='resources/assets/images/glowtube.png'>"
+                    + "</div>"
+                    + "<p>Если вы подлетите к нему, то автоматически заберете бонус.</p>"
+                    + "<p>Всего существует 3 типа бонуса:</p>"
+                    + "<p>1. <b>health</b> - добовляет здоровье</p>"
+                    + "<p>2. <b>damage</b> - добавляет урон</p>"
+                    + "<p>3. <b>shield</b> - добавляет щиты</p>"
+                    + "<p>См. документацию по <b>Bonus</b>.</p>"
+                },
+                {
+                    title: "Будущие изменения",
+                    description: "<p>В текущий момент мы работаем над:</p>"
+                    + "<div class='img-small-center'>"
+                    + "<img src='resources/assets/images/saturn6.png'>"
+                    + "</div>"
+                    + "<p>1. Полноценным мультиплеером</p>"
+                    + "<p>2. Первыми уроками по прогаммированию</p>"
+                    + "<p>3. Сохранением статистики текущей мини-игры</p>"
+                    + "<p>4. Авторизацией пользователей</p>"
+                    + "<p><b>Будем рады услышать ваши предложения!</b></p>"
                 },
                 {
                     title: "Отдельное спасибо",
@@ -142,35 +217,59 @@ angular.module('spacecraft.tipsAndTricks', [])
                 }
             ];
 
+            var index = $storage.local.getItem("tipsAndTricks") ? utils.randomInt(0, array.length - 1) : 0;
+
+            scope.t = array[index];
+
             scope.next = function ()
             {
                 index = (index + 1) % array.length;
+                scope.t = array[index];
             };
 
             scope.previous = function ()
             {
                 index = index ? (index - 1) % array.length : array.length - 1;
+                scope.t = array[index];
             };
 
             scope.getContentTitle = function ()
             {
-                return $sce.trustAsHtml(array[index].title);
+                return $sce.trustAsHtml(scope.t.title);
+            };
+
+            scope.showHint = function ()
+            {
+                scope.showTrick = false;
+                scope.hideTrick = true;
+
+                if (scope.t.hint)
+                {
+                    enjoyHint.set(scope.t.hint);
+                    enjoyHint.run();
+                }
+            };
+
+            scope.closeTricks = function ()
+            {
+                scope.object.hide = true;
+                $storage.local.setItem("tipsAndTricks", true);
             };
 
             scope.getContentDescription = function ()
             {
-                return $sce.trustAsHtml(array[index].description);
+                return $sce.trustAsHtml(scope.t.description);
             };
 
-            scope.$watch('open', function (o)
+            scope.$watch('object', function (o)
             {
-                open = o;
+                object = o;
             });
         };
 
         return {
             scope: {
-                open: '='
+                object: '='
             },
             templateUrl: 'views/tips-and-tricks.html',
             link: link

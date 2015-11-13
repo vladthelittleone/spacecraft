@@ -4,7 +4,12 @@ body {
 }
 
 #game-canvas {
-    margin-top: 25px;
+    position: fixed;
+    top: 25px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
 }
 
 #toolbar {
@@ -17,6 +22,31 @@ body {
     display: inline-flex;
     width: 100%;
     height: 25px;
+}
+
+.kineticjs-content {
+    -webkit-animation-duration: 0.75s;
+    animation-duration: 0.75s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: rotate-in-down-left;
+    animation-name: rotate-in-down-left;
+}
+
+.enjoyhint_close_btn {
+    visibility: hidden;
+}
+
+.enjoyhint_skip_btn,
+.enjoyhint_next_btn {
+    border: 2px solid #39C139;
+    color: #39C139;
+}
+
+.enjoyhint_skip_btn:hover,
+.enjoyhint_next_btn:hover {
+    color: rgba(255, 255, 255, 1);
+    background: #39C139;
 }
 
 .point {
@@ -46,34 +76,23 @@ body {
     margin-left: 10px;
 }
 
+.points-hint {
+    position: fixed;
+    width: 100px;
+    right: 0;
+    left: 0;
+    height: 150px;
+    bottom: 100px;
+    margin-left: 10px;
+}
+
 .damage-points {
     bottom: 100px;
-}
-
-.img-small-center {
-    width: 30%;
-    margin: auto;
-}
-
-.img-medium-center {
-    width: 50%;
-    margin: auto;
-}
-
-.img-huge-center {
-    width: 100%;
-    margin: auto;
-}
-
-
-.text-indent {
-    text-indent: 1.2em;
 }
 
 .range-points {
     bottom: 125px;
 }
-
 
 .rate-points {
     bottom: 150px;
@@ -91,9 +110,20 @@ body {
     bottom: 225px;
 }
 
+.params-hint {
+    position: fixed;
+    bottom: 0;
+    width: 50px;
+    right: 0;
+    left: 0;
+    height: 75px;
+    margin-left: 10px;
+}
+
 .damage {
     position: fixed;
     bottom: 25px;
+    width: 30%;
     right: 0;
     left: 0;
     height: 25px;
@@ -103,6 +133,7 @@ body {
 .health {
     position: fixed;
     bottom: 0;
+    width: 30%;
     right: 0;
     left: 0;
     height: 25px;
@@ -112,6 +143,7 @@ body {
 .shield {
     position: fixed;
     bottom: 50px;
+    width: 30%;
     right: 0;
     left: 0;
     height: 25px;
@@ -181,8 +213,7 @@ canvas {
 }
 
 .white-board table,
-.white-board td
-{
+.white-board td {
     margin: auto;
     text-align: center;
     padding-top: 10px;
@@ -201,30 +232,22 @@ canvas {
 }
 
 .white-board .white-board-title .first-icon {
-    color: #2e3435;
-    position: absolute;
-    right: -25px;
-    vertical-align: middle;
-    background: white;
-    width: 25px;
-    cursor: pointer;
-    line-height: 30px;
     top: 7px;
 }
 
 .white-board .white-board-title .second-icon {
-    color: #2e3435;
-    position: absolute;
-    right: -25px;
-    vertical-align: middle;
-    background: white;
-    width: 25px;
-    cursor: pointer;
-    line-height: 30px;
     top: 50px;
 }
 
 .white-board .white-board-title .third-icon {
+    top: 75px;
+}
+
+.white-board .white-board-title .fourth-icon {
+    top: 118px;
+}
+
+.white-board .white-board-title i {
     color: #2e3435;
     position: absolute;
     right: -25px;
@@ -233,7 +256,6 @@ canvas {
     width: 25px;
     cursor: pointer;
     line-height: 30px;
-    top: 75px;
 }
 
 .white-board .white-board-title span {
@@ -273,8 +295,7 @@ canvas {
     width: 100%;
 }
 
-.white-board-description .first-p
-{
+.white-board-description .first-p {
     text-indent: 1.5em;
 }
 
@@ -322,16 +343,21 @@ canvas {
     top: 74%;
 }
 
-.left-toolbar .tutorialButton {
+.left-toolbar .tutorial-button {
     top: 50px;
 }
 
-.left-toolbar .feedbackButton {
+.left-toolbar .feedback-button {
     top: 75px;
 }
 
-.left-toolbar .feedbackButton,
-.left-toolbar .tutorialButton {
+.left-toolbar .tips-button {
+    top: 100px;
+}
+
+.left-toolbar .feedback-button,
+.left-toolbar .tutorial-button,
+.left-toolbar .tips-button {
     left: 0;
     padding: 0;
     position: fixed;
@@ -343,8 +369,8 @@ canvas {
     outline: 0;
 }
 
-.left-toolbar .feedbackButton:hover,
-.left-toolbar .tutorialButton:hover {
+.left-toolbar .feedback-button:hover,
+.left-toolbar .tutorial-button:hover {
     left: 0;
     padding: 0;
     position: fixed;
@@ -377,18 +403,18 @@ canvas {
 }
 
 .tutorial ul {
-    font-style:italic;
-    font-family:Georgia, Times, serif;
-    font-size:24px;
-    color:#39C139;
+    font-style: italic;
+    font-family: Georgia, Times, serif;
+    font-size: 24px;
+    color: #39C139;
 }
 
 .tutorial ul li p {
     margin: 0;
-    padding:8px;
+    padding: 8px;
     font-family: Arial, serif;
-    font-size:13px;
-    color:#C5C8C6;
+    font-size: 13px;
+    color: #C5C8C6;
     border-left: 1px solid #999;
     font-style: normal;
 }
@@ -436,13 +462,22 @@ canvas {
     animation-fill-mode: both;
 }
 
-.bounce-out-up {
-    -webkit-animation-name: bounceOutUp;
-    animation-name: bounceOutUp;
-    -webkit-animation-duration: 0s;
-    animation-duration: 0s;
+.bounce-in-down-5 {
+    -webkit-animation-name: bounceInDown;
+    animation-name: bounceInDown;
+    -webkit-animation-duration: 5s;
+    animation-duration: 5s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
+}
+
+.rotate-out-down-left {
+    -webkit-animation-duration: 0.25s;
+    animation-duration: 0.25s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: rotate-out-down-left;
+    animation-name: rotate-out-down-left;
 }
 
 .bounce-out-down {
@@ -452,6 +487,15 @@ canvas {
     animation-duration: 0s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
+}
+
+.rotate-in-down-left {
+    -webkit-animation-duration: 0.25s;
+    animation-duration: 0.25s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: rotate-in-down-left;
+    animation-name: rotate-in-down-left;
 }
 
 .bounce-in-left {
@@ -570,12 +614,65 @@ canvas {
         -webkit-transform: translateX(-2000px);
     }
 }
+
 @keyframes bounceOutLeft {
     0% {
         transform: translateX(0);
     }
     100% {
         transform: translateX(-2000px);
+    }
+}
+
+@-webkit-keyframes rotate-in-down-left {
+    0% {
+        -webkit-transform-origin: left bottom;
+        -webkit-transform: rotate(-90deg);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform-origin: left bottom;
+        -webkit-transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes rotate-in-down-left {
+    0% {
+        transform-origin: left bottom;
+        transform: rotate(-90deg);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: left bottom;
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes rotate-out-down-left {
+    0% {
+        -webkit-transform-origin: left bottom;
+        -webkit-transform: rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform-origin: left bottom;
+        -webkit-transform: rotate(90deg);
+        opacity: 1;
+    }
+}
+
+@keyframes rotate-out-down-left {
+    0% {
+        transform-origin: left bottom;
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: left bottom;
+        transform: rotate(90deg);
+        opacity: 1;
     }
 }
 
@@ -600,7 +697,7 @@ canvas {
     outline: 0;
 }
 
-.close-button  button {
+.close-button button {
     color: #ffffff;
     background: #25282C;
     height: 25px;
@@ -613,7 +710,7 @@ canvas {
     margin-right: 10px;
 }
 
-.close-button  button:hover {
+.close-button button:hover {
     color: #fff;
     text-decoration: none;
     background: #7B7B7B;
@@ -622,4 +719,23 @@ canvas {
 .error-board .error-msg {
     padding-top: 5px;
     padding-left: 5px;
+}
+
+.img-small-center {
+    width: 30%;
+    margin: auto;
+}
+
+.img-medium-center {
+    width: 50%;
+    margin: auto;
+}
+
+.img-huge-center {
+    width: 100%;
+    margin: auto;
+}
+
+.text-indent {
+    text-indent: 1.2em;
 }

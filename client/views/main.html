@@ -73,18 +73,23 @@
 
 
 <div class="left-toolbar">
-    <button type="button" ng-click="toggleTutorialOpen()" class="tutorialButton">
+    <button type="button" ng-click="toggleTutorialOpen()" class="tutorial-button">
                 <span class="glyphicon"
                       ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
                 </span>
     </button>
-    <a href="https://vk.com/im?media=&sel=99703334" target="_blank">
-        <button type="button" class="feedbackButton">
+    <a href="https://vk.com/im?media=&sel=99703334" target="_blank" class="feedback-button">
+        <button type="button" class="feedback-button">
                 <span class="glyphicon glyphicon-comment">
                 </span>
         </button>
     </a>
+    <button type="button" ng-click="toggleTipsAndTricks()" class="tips-button">
+                <span class="glyphicon glyphicon-info-sign"></span>
+    </button>
 </div>
 
-<div tips-and-tricks></div>
+<div tips-and-tricks
+     ng-hide = "tipsAndTricks.hide"
+     object="tipsAndTricks"></div>
 

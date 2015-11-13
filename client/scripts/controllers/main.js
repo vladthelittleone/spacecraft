@@ -33,6 +33,11 @@ angular.module('spacecraft.main', [])
         $scope.hideEditor = false;
         $scope.hideTutorial = true;
 
+        $scope.tipsAndTricks =
+        {
+            hide: $storage.local.getItem("tipsAndTricks") || false
+        };
+
         $scope.functionTutorial = {};
         $scope.functionTutorialOpen = false;
         $scope.functionFeedBackOpen = false;
@@ -89,4 +94,8 @@ angular.module('spacecraft.main', [])
             $scope.functionFeedBackOpen = !$scope.functionFeedBackOpen;
         };
 
+        $scope.toggleTipsAndTricks = function ()
+        {
+            $scope.tipsAndTricks.hide = !$scope.tipsAndTricks.hide;
+        };
     }]);

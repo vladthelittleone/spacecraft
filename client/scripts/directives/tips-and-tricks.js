@@ -11,17 +11,6 @@ angular.module('spacecraft.tipsAndTricks', [])
             scope.showTrick = false;
             scope.hideTrick = false;
 
-            var enjoyHint = new EnjoyHint({
-                onEnd: function ()
-                {
-                    scope.$apply(function ()
-                    {
-                        scope.showTrick = true;
-                        scope.hideTrick = false;
-                    });
-                }
-            });
-
             var array = [
                 {
                     title: "Приветствуем вас!",
@@ -252,6 +241,17 @@ angular.module('spacecraft.tipsAndTricks', [])
 
             scope.showHint = function ()
             {
+                var enjoyHint = new EnjoyHint({
+                    onEnd: function ()
+                    {
+                        scope.$apply(function ()
+                        {
+                            scope.showTrick = true;
+                            scope.hideTrick = false;
+                        });
+                    }
+                });
+
                 scope.showTrick = false;
                 scope.hideTrick = true;
 

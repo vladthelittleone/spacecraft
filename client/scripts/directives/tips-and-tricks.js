@@ -38,6 +38,8 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<div class='img-medium-center'>"
                     + "<img src='resources/assets/images/gamePlay1.png'>"
                     + "</div> "
+                    + "<p>Изначально мы решили не делать ставку на обучающий материал и сделали мини-игру. Связано это с тем, что большинство наших друзей, которым мы покажем сервис, уже разбирается в программировании.</p>"
+                    + "<p>Но обучение это основная цель на следующих стадиях!</p>"
                 },
                 {
                     title: "Текущая стадия",
@@ -46,8 +48,18 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<a href='https://vk.com/spacecrafter' target='_blank'>"
                     + "<img src='resources/assets/images/astronaut6.png'>"
                     + "</a>"
-                    + "</div> "
+                    + "</div>"
+                    + "<p class='text-center'><a href='https://vk.com/spacecrafter'>Группа в ВКонтакте</a></p>"
                     + "<p class='text-center'>Будем очень рады вашим отзывам и предложениям :)</p>"
+                },
+                {
+                    title: "Мини-игра",
+                    description: "<p>Какая же основная задача этой игры?</p>"
+                    + "<div class='img-medium-center'>"
+                    + "<img src='resources/assets/images/gamePlay4.png'>"
+                    + "</div> "
+                    + "<p>Вам нужно уничтожить <b>как можно больше врагов</b> на карте, изменяя энергию блоков корабля, движение, цель для атаки в зависимости от ситуации и т.д.</p>"
+                    + "<p>Запрограммируй свой корабль и стань лучшим!</p>"
                 },
                 {
                     title: "Редактор кода",

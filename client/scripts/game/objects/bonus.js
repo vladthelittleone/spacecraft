@@ -97,7 +97,7 @@ var HealthBonus = function (spec)
 
     that.useBonus = function (spaceCraft)
     {
-        spaceCraft.addHealth(health);
+        spaceCraft.protection.addHealth(health);
     };
 
     return that;
@@ -129,7 +129,7 @@ var ShieldBonus = function (spec)
 
     that.useBonus = function (spaceCraft)
     {
-        spaceCraft.addShield(shield);
+        spaceCraft.protection.addShield(shield);
     };
 
     return that;

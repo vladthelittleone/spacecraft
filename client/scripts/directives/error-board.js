@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('spacecraft')
+angular.module('spacecraft.errorBoard', [])
     .directive('errorBoard', ['$injector', function ($injector)
     {
         var link = function (scope)

@@ -4,7 +4,7 @@
  * Created by vladthelittleone on 21.10.15.
  * @constructor
  */
-var Weapon = function (spec)
+var WeaponBlock = function (spec)
 {
     var that = {},
         spaceCraft = spec.spaceCraft,
@@ -24,19 +24,19 @@ var Weapon = function (spec)
 
 
     // Модули
-    var rangeModule = that.rangeModule = RangeModule({
+    var range = that.range = RangeModule({
         modulesManager: spec.modulesManager,
         values: [100, 150, 200, 250],
         energyPoints: 3
     });
 
-    var rateModule = that.rateModule = RateModule({
+    var rate = that.rate = RateModule({
         modulesManager: spec.modulesManager,
         values: [650, 600, 550, 500],
         energyPoints: 3
     });
 
-    var dmgModule = that.dmgModule = DamageModule({
+    var damage = that.damage = DamageModule({
         modulesManager: spec.modulesManager,
         values: [5, 10, 15, 20],
         energyPoints: 2
@@ -50,10 +50,23 @@ var Weapon = function (spec)
     beams.enableBody = true;
     beams.physicsBodyType = Phaser.Physics.P2JS;
 
-    that.addDamage = function (add)
-    {
-        dmgModule.addDamage(add);
-    };
+    that.incDamage = damage.inc;
+    that.incRange = range.inc;
+    that.incRate = rate.inc;
+
+    that.decRate = rate.dec;
+    that.decRange = range.dec;
+    that.decDamage = damage.dec;
+
+    that.getRateEnergy = rate.getEnergyPoints;
+    that.getRangeEnergy = range.getEnergyPoints;
+    that.getDamageEnergy = damage.getEnergyPoints;
+
+    that.getFireRate = rate.getFireRate;
+    that.getFireRange = range.getFireRange;
+    that.getDamage = damage.getDamage;
+
+    that.addDamage = damage.addDamage;
 
     that.update = function ()
     {
@@ -61,7 +74,7 @@ var Weapon = function (spec)
         beamsArray.forEach(function (b, i)
         {
             // Проверка вышел ли  снаряд за range ружия
-            if (Phaser.Point.distance(sprite, b) > rangeModule.getFireRange())
+            if (Phaser.Point.distance(sprite, b) > range.getFireRange())
             {
                 if (b.body)
                 {
@@ -89,13 +102,18 @@ var Weapon = function (spec)
                  */
                 if (beam.sprite)
                 {
+                    if (!utils.randomInt(0, 3))
+                    {
+                        Explosion(beam.sprite.x, beam.sprite.y, 0.3);
+                    }
+
                     beam.sprite.destroy();
                     beam.destroy();
 
                     // Наносим урон
-                    u.hit(dmgModule.getDamage(), spaceCraft);
+                    u.hit(damage.getDamage(), spaceCraft);
                     spaceCraft.statistic.addAcceptDamage(spaceCraft.weapon.getDamage());
-                    u.statistic.addTakenDamage(dmgModule.getDamage());
+                    u.statistic.addTakenDamage(damage.getDamage());
 
                 }
             };
@@ -104,24 +122,9 @@ var Weapon = function (spec)
         });
     };
 
-    that.getDamage = function ()
-    {
-        return dmgModule.getDamage();
-    };
-
-    that.getFireRate = function ()
-    {
-        return rateModule.getFireRate();
-    };
-
-    that.getFireRange = function ()
-    {
-        return rangeModule.getFireRange();
-    };
-
     that.inRange = function (another)
     {
-        return spaceCraft.distance(another) < rangeModule.getFireRange();
+        return spaceCraft.distance(another) < range.getFireRange();
     };
 
     that.fire = function (obj1, obj2)
@@ -130,9 +133,9 @@ var Weapon = function (spec)
             y = obj2;
 
         // Если урон или скорострельность, диапозон равен нулю, не стреляем.
-        if (!rateModule.getFireRate() ||
-            !rangeModule.getFireRange() ||
-            !dmgModule.getDamage())
+        if (!rate.getFireRate() ||
+            !range.getFireRange() ||
+            !damage.getDamage())
         {
             return;
         }
@@ -182,7 +185,7 @@ var Weapon = function (spec)
                 beam.body.velocity.x = velocity * Math.cos(angle);
                 beam.body.velocity.y = velocity * Math.sin(angle);
 
-                fireTime = SCG.game.time.now + rateModule.getFireRate();
+                fireTime = SCG.game.time.now + rate.getFireRate();
             }
         }
     };
@@ -193,7 +196,7 @@ var Weapon = function (spec)
 
         SCG.world.getSpaceCrafts(spaceCraft.getId()).forEach(function (e)
         {
-            if (Phaser.Point.distance(sprite, e.sprite) < rangeModule.getFireRange())
+            if (Phaser.Point.distance(sprite, e.sprite) < range.getFireRange())
             {
                 a.push(SpaceCraftApi(e));
             }

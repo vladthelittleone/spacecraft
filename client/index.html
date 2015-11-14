@@ -4,31 +4,39 @@
     <meta charset="utf-8">
     <title>SpaceCraft</title>
 
+
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/ace-builds/src-min/ace.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-ace/ui-ace.min.js"></script>
     <script type="text/javascript" src="bower_components/phaser/build/phaser.min.js"></script>
+    <script type="text/javascript" src="bower_components/enjoyhint/enjoyhint.min.js"></script>
 
     <script type="text/javascript" src="scripts/game/game.js"></script>
 
     <script type="text/javascript" src="scripts/game/modules/module.js"></script>
     <script type="text/javascript" src="scripts/game/modules/modules-manager.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/weapon.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/engine.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/protection.js"></script>
 
-    <script type="text/javascript" src="scripts/game/shared/tutorial.js"></script>
     <script type="text/javascript" src="scripts/game/objects/space-craft.js"></script>
+    <script type="text/javascript" src="scripts/game/objects/explosion.js"></script>
     <script type="text/javascript" src="scripts/game/objects/world.js"></script>
-    <script type="text/javascript" src="scripts/game/objects/weapon.js"></script>
     <script type="text/javascript" src="scripts/game/objects/bonus.js"></script>
     <script type="text/javascript" src="scripts/game/objects/statistic.js"></script>
 
+    <script type="text/javascript" src="scripts/game/shared/tutorial.js"></script>
     <script type="text/javascript" src="scripts/game/shared/api.js"></script>
     <script type="text/javascript" src="scripts/game/shared/bot-strategy.js"></script>
+    <script type="text/javascript" src="scripts/game/shared/hint-sequence.js"></script>
 
     <script type="text/javascript" src="scripts/controllers/storage.js"></script>
     <script type="text/javascript" src="scripts/controllers/main.js"></script>
     <script type="text/javascript" src="scripts/app.js"></script>
     <script type="text/javascript" src="scripts/directives/game-canvas.js"></script>
+    <script type="text/javascript" src="scripts/directives/tips-and-tricks.js"></script>
     <script type="text/javascript" src="scripts/directives/lead-board.js"></script>
     <script type="text/javascript" src="scripts/directives/error-board.js"></script>
 
@@ -40,6 +48,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="shortcut icon" href="resources/favicon.ico">
 
+    <link href="bower_components/enjoyhint/enjoyhint.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/styles/main.css">
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' type='text/css' media='all'>
 </head>

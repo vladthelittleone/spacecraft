@@ -2,9 +2,6 @@
 
 /**
  * Created by vladthelittleone on 21.10.15.
- */
-
-/**
  * @constructor
  */
 var SpaceCraft = function (spec)
@@ -14,11 +11,6 @@ var SpaceCraft = function (spec)
     });
 
     var game = SCG.game;
-
-    var shield, health;
-
-    var maxHealth = health = spec.health;
-    var maxShield = shield = spec.shield;
 
     var statistic = that.statistic = Statistic();
     var modulesManager = that.modulesManager = ModulesManager({
@@ -36,7 +28,6 @@ var SpaceCraft = function (spec)
 
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
-    var shieldSprite = game.make.sprite(0, 0, 'shield');
 
     sprite.name = that.getId();
 
@@ -45,9 +36,6 @@ var SpaceCraft = function (spec)
     // Центрирование
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
-
-    shieldSprite.anchor.x = 0.5;
-    shieldSprite.anchor.y = 0.5;
 
     // Включаем проверку на коллизии с границей
     sprite.checkWorldBounds = true;
@@ -62,125 +50,32 @@ var SpaceCraft = function (spec)
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
-    sprite.addChild(shieldSprite);
-
-    var regenerationModule = that.regenerationModule = RegenerationModule({
+    var engine = that.engine = EngineBlock({
         modulesManager: modulesManager,
-        values: [2, 4, 6, 8],
-        energyPoints: 2
+        spaceCraft: that
     });
 
-    var moveSpeedModule = that.moveSpeedModule = MoveSpeedModule({
-        modulesManager: modulesManager,
-        values: [10, 20, 30, 40],
-        energyPoints: 2
+    var protection = that.protection = ProtectionBlock({
+        sprite: sprite,
+        health: spec.health,
+        shield: spec.shield,
+        modulesManager: modulesManager
     });
 
-    that.weapon = Weapon({
+    var weapon = that.weapon = WeaponBlock({
         spaceCraft: that,
         modulesManager: modulesManager,
         velocity: 400,
         spriteName: 'greenBeam'
     });
 
-    that.addHealth = function (add)
-    {
-        health += add;
-        maxHealth += add;
-    };
-
-    that.addShield = function (add)
-    {
-        shield += add;
-        maxShield += add;
-    };
-
     that.update = function ()
     {
         that.weapon.update();
-        that.healthRegeneration();
-        that.shieldRegeneration();
+        protection.healthRegeneration();
+        protection.shieldRegeneration();
 
         strategy && strategy(that);
-    };
-
-    that.healthRegeneration = function ()
-    {
-        health = regeneration(maxHealth, health);
-    };
-
-    that.shieldRegeneration = function()
-    {
-        if (health >= maxHealth)
-        {
-            shieldSprite.visible = true;
-            shield = regeneration(maxShield, shield);
-        }
-    };
-
-    function regeneration(maxValue, value)
-    {
-        var deltaTime = game.time.elapsed / 1000;
-        var deltaRegen = regenerationModule.getRegeneration() * deltaTime;
-
-        if((maxValue - value) > deltaRegen)
-        {
-            return (value + deltaRegen);
-        }
-        else
-        {
-            return maxValue;
-        }
-    }
-
-    that.rotateLeft = function ()
-    {
-        sprite.body.rotateLeft(moveSpeedModule.getEnergyPoints());
-    };
-
-    that.rotateRight = function ()
-    {
-        sprite.body.rotateRight(moveSpeedModule.getEnergyPoints());
-    };
-
-    /**
-     * Поворот к объекту.
-     *
-     * @param another - объект
-     * @returns {boolean} true/false - совершил поворот / не совершил
-     */
-    that.rotateTo = function (another)
-    {
-        var angle = that.angleBetween(another);
-
-        // Угол меньше 20 - не делаем поворот
-        if (Math.abs(angle) > 20)
-        {
-            if (angle > 0)
-            {
-                that.rotateRight();
-            }
-            else
-            {
-                that.rotateLeft();
-            }
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    };
-
-    that.moveForward = function ()
-    {
-        sprite.body.moveForward(moveSpeedModule.getMoveSpeed());
-    };
-
-    that.moveBackward = function ()
-    {
-        sprite.body.moveBackward(moveSpeedModule.getMoveSpeed() / 2);
     };
 
     that.changeStatus = function ()
@@ -193,32 +88,26 @@ var SpaceCraft = function (spec)
         return isAlive;
     };
 
-    that.removeShield = function (delta)
-    {
-        shield -= delta;
-    };
-    
     that.hit = function (damage, damageCraft)
     {
-        if(shield > 0)
+        if(protection.getShield() > 0)
         {
-            shield -= damage;
+            protection.subShield(damage);
 
             // если щит сломался, то в нем окажется отрицательное значение,
             // которое прибавлем к текущему здоровью
-            if(shield <= 0)
+            if(protection.getShield() <= 0)
             {
-                shieldSprite.visible = false;
-                health += shield;
-                shield = 0;
+                protection.addHealth(protection.getShield());
+                protection.setShield(0);
             }
         }
         else
         {
-            health -= damage;
+            protection.subHealth(damage);
         }
 
-        if (health <= 0)
+        if (protection.getHealth() <= 0)
         {
             var bonusType = generateBonus({
                 health: 10,
@@ -234,16 +123,8 @@ var SpaceCraft = function (spec)
                 angle: game.rnd.angle()
             });
 
-            var boomSprite = game.add.sprite(that.sprite.x, that.sprite.y, 'explosion');
+            Explosion(that.sprite.x, that.sprite.y);
 
-            boomSprite.anchor.x = 0.5;
-            boomSprite.anchor.y = 0.5;
-
-            // массив это то какие кадры использовать и в какой последовательности
-            boomSprite.animations.add('boom', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-
-            // вторая констатна это количество кадров в секунду при воспроизвелении анимации
-            boomSprite.play('boom', 16, false, true);
             damageCraft.statistic.addKillEnemy();
 
             isAlive = false;
@@ -261,19 +142,10 @@ var SpaceCraft = function (spec)
             var ny = game.world.randomY % modY + 200;
 
             sprite.reset(nx, ny);
-            health = maxHealth;
-            shield = maxShield;
+
+            protection.setHealth(protection.getMaxHealth());
+            protection.setShield(protection.getMaxShield());
         }
-    };
-
-    that.getHealth = function ()
-    {
-        return Math.floor(health);
-    };
-
-    that.getShield = function ()
-    {
-        return Math.floor(shield);
     };
 
     that.getX = function ()
@@ -323,53 +195,6 @@ var SpaceCraft = function (spec)
         var p = new Phaser.Point(another.getX(), another.getY());
 
         return Phaser.Point.distance(sprite, p);
-    };
-
-    that.moveTo = function (x, y)
-    {
-        if (x)
-        {
-            x = typeof x.getX === 'function' ? x.getX() : x;
-            y = typeof x.getY === 'function' ? x.getY() : y;
-
-            var point =
-            {
-                getX: function () {
-                    return x;
-                },
-
-                getY: function () {
-                    return y;
-                }
-            };
-            that.rotateTo(point);
-            that.moveForward();
-        }
-        else
-        {
-            that.moveForward();
-        }
-    };
-
-    that.moveToNearestBonus = function()
-    {
-        var bMin = Number.MAX_VALUE;;
-        var bonus;
-
-        SCG.world.bonusInRange(spaceCraft.weapon.getFireRange(), function (b)
-        {
-            // Дистанция до бонуса
-            var distance = spaceCraft.distance(b);
-
-            // Поиск минимальной дистанции
-            if (distance < bMin)
-            {
-                bMin = distance;
-                bonus = b;
-            }
-        });
-
-        that.moveTo(bonus);
     };
 
     // Переносим на верхний слой, перед лазерами.

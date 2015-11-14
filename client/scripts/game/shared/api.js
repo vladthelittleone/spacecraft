@@ -15,7 +15,7 @@ var WorldApi = function (world, id)
     {
         var a = [];
 
-        func(id).forEach(function (e, i, arr)
+        func().forEach(function (e, i, arr)
         {
             var apiElement = api(e);
             a.push(apiElement);
@@ -33,7 +33,20 @@ var WorldApi = function (world, id)
 
     api.getEnemies = function (callback)
     {
-        return get(callback, world.getSpaceCrafts, EnemyApi);
+        var enemies = [];
+
+        world.getSpaceCrafts(id).forEach(function (e, i, arr)
+        {
+            var apiElement = EnemyApi(e);
+            enemies.push(apiElement);
+
+            if (callback)
+            {
+                callback(apiElement, i, arr);
+            }
+        });
+
+        return enemies;
     };
 
     // Получить массив бонусов
@@ -67,53 +80,35 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
-    api.weapon = api.w = WeaponApi(spaceCraft.weapon);
+    api.weapon = api.w = WeaponBlockApi(spaceCraft.weapon);
+    api.engine = api.e = EngineBlockApi(spaceCraft.engine);
+    api.protection = api.p = ProtectionBlockApi(spaceCraft.protection);
 
     api.getId = spaceCraft.getId;
 
-    api.getHealth = spaceCraft.getHealth;
-    api.getShield = spaceCraft.getShield;
+    api.getHealth = api.p.getHealth;
+    api.getShield = api.p.getShield;
+    api.getRegeneration = api.p.getRegeneration;
 
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
 
     api.getAngle = spaceCraft.getAngle;
     api.angleBetween = spaceCraft.angleBetween;
-    api.rotateLeft = spaceCraft.rotateLeft;
-    api.rotateRight = spaceCraft.rotateRight;
-    api.rotateTo = spaceCraft.rotateTo;
-
     api.distance = spaceCraft.distance;
-    api.moveForward = spaceCraft.moveForward;
-    api.moveBackward = spaceCraft.moveBackward;
-    api.moveTo = spaceCraft.moveTo;
-    api.moveToNearestBonus = spaceCraft.moveToNearestBonus;
 
-    var modules = api.modules = api.m = {
-        rate: ModuleApi(spaceCraft.weapon.rateModule),
-        range: ModuleApi(spaceCraft.weapon.rangeModule),
-        damage: ModuleApi(spaceCraft.weapon.dmgModule),
-        regen: ModuleApi(spaceCraft.regenerationModule),
-        moveSpeed: ModuleApi(spaceCraft.moveSpeedModule)
-    };
+    api.rotateLeft = api.e.rotateLeft;
+    api.rotateRight = api.e.rotateRight;
+    api.rotateTo = api.e.rotateTo;
+    api.moveForward = api.e.moveForward;
+    api.moveBackward = api.e.moveBackward;
+    api.moveTo = api.e.moveTo;
+    api.moveToNearestBonus = api.e.moveToNearestBonus;
 
-    api.incRegen = modules.regen.inc;
-    api.incDamage = modules.damage.inc;
-    api.incRange = modules.range.inc;
-    api.incRate = modules.rate.inc;
-    api.incMoveSpeed = modules.moveSpeed.inc;
-
-    api.decRegen = modules.regen.dec;
-    api.decMoveSpeed = modules.moveSpeed.dec;
-    api.decRate = modules.rate.dec;
-    api.decRange = modules.range.dec;
-    api.decDamage = modules.damage.dec;
-
-    api.getRegenEnergy = modules.regen.getEnergyPoints;
-    api.getMoveSpeedEnergy = modules.moveSpeed.getEnergyPoints;
-    api.getRateEnergy = modules.rate.getEnergyPoints;
-    api.getRangeEnergy = modules.range.getEnergyPoints;
-    api.getDamageEnergy = modules.damage.getEnergyPoints;
+    api.inRange = api.w.inRange;
+    api.fire = api.w.fire;
+    api.enemiesInRange = api.w.enemiesInRange;
+    api.fireNearestEnemy = api.w.fireNearestEnemy;
 
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
@@ -133,17 +128,79 @@ var SpaceCraftApi = function (spaceCraft)
 /**
  * @constructor
  */
-var WeaponApi = function (weapon)
+var EngineBlockApi = function (engine)
 {
     var api = {};
+
+    api.moveSpeed = ModuleApi(engine.moveSpeed);
+
+    api.rotateLeft = engine.rotateLeft;
+    api.rotateRight = engine.rotateLeft;
+    api.rotateTo = engine.rotateTo;
+    api.moveForward = engine.moveForward;
+    api.moveBackward = engine.moveBackward;
+    api.moveTo = engine.moveTo;
+    api.moveToNearestBonus = engine.moveToNearestBonus;
+
+    api.incMoveSpeed = engine.incMoveSpeed;
+    api.decMoveSpeed = engine.decMoveSpeed;
+    api.getMoveSpeedEnergy = engine.getMoveSpeedEnergy;
+    api.getMoveSpeed = engine.getMoveSpeed;
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var ProtectionBlockApi = function (protection)
+{
+    var api = {};
+
+    api.regeneration = ModuleApi(protection.regeneration);
+
+    api.getHealth = protection.getHealth;
+    api.getShield = protection.getShield;
+
+    api.incRegen = protection.incRegen;
+    api.decRegen = protection.decRegen;
+    api.getRegenEnergy = protection.getRegenEnergy;
+    api.getRegeneration = protection.getRegeneration;
+
+    return api;
+};
+
+/**
+ * @constructor
+ */
+var WeaponBlockApi = function (weapon)
+{
+    var api = {};
+
+    api.rate = ModuleApi(weapon.rate);
+    api.damage = ModuleApi(weapon.damage);
+    api.range = ModuleApi(weapon.range);
 
     api.getDamage = weapon.getDamage;
     api.getFireRate = weapon.getFireRate;
     api.getFireRange = weapon.getFireRange;
+
     api.inRange = weapon.inRange;
     api.fire = weapon.fire;
     api.enemiesInRange = weapon.enemiesInRange;
     api.fireNearestEnemy = weapon.fireNearestEnemy;
+
+    api.incDamage = weapon.incDamage;
+    api.incRange = weapon.incRange;
+    api.incRate = weapon.incRate;
+
+    api.decRate = weapon.decRate;
+    api.decRange = weapon.decRange;
+    api.decDamage = weapon.decDamage;
+
+    api.getRateEnergy = weapon.getRateEnergy;
+    api.getRangeEnergy = weapon.getRangeEnergy;
+    api.getDamageEnergy = weapon.getDamageEnergy;
 
     return api;
 };
@@ -172,8 +229,9 @@ var EnemyApi = function (spaceCraft)
     var api = {};
 
     api.weapon = EnemyWeaponApi(spaceCraft.weapon);
-    api.getHealth = spaceCraft.getHealth;
-    api.getShield = spaceCraft.getShield;
+    api.getHealth = spaceCraft.protection.getHealth;
+    api.getShield = spaceCraft.protection.getShield;
+    api.getRegeneration = spaceCraft.protection.getRegeneration;
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
     api.getAngle = spaceCraft.getAngle;

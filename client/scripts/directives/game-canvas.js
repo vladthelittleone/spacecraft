@@ -6,7 +6,7 @@
  * @description
  * # gameCanvas
  */
-angular.module('spacecraft')
+angular.module('spacecraft.gameCanvas', [])
     .directive('gameCanvas', ['$injector', function ($injector)
     {
         var linkFn = function (scope, element, attrs)
@@ -25,8 +25,7 @@ angular.module('spacecraft')
             var game = SCG.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
                 create: create,
-                update: update,
-                render: render
+                update: update
             });
 
             function runUserScript()
@@ -172,16 +171,16 @@ angular.module('spacecraft')
                 }
             }
 
-            function render()
-            {
-                var zone = game.camera.deadzone;
-
-                game.context.fillStyle = 'rgba(255,255,255,0.1)';
-                game.context.fillRect(zone.x, zone.y, zone.width, zone.height);
-
-                game.debug.cameraInfo(game.camera, 32, 32);
-                game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
-            }
+            //function render()
+            //{
+            //    var zone = game.camera.deadzone;
+            //
+            //    game.context.fillStyle = 'rgba(255,255,255,0.1)';
+            //    game.context.fillRect(zone.x, zone.y, zone.width, zone.height);
+            //
+            //    game.debug.cameraInfo(game.camera, 32, 32);
+            //    game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
+            //}
 
             scope.getNumber = function(num)
             {

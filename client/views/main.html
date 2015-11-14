@@ -6,7 +6,7 @@
   firstLineNumber: 1,
   onLoad: aceLoaded,
   onChange: aceChanged
-}" ng-class="{'bounce-out-up' : hideEditor, 'bounce-in-down' : !hideEditor}"></div>
+}" ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}"></div>
 
 <div id="toolbar">
     <div class="box">
@@ -33,7 +33,7 @@
      is-running="isCodeRunning">
 </div>
 
-<div class="tutorial" ng-class="{'bounce-out-left' : hideTutorial || isCodeRunning, 'bounce-in-left' : !hideTutorial}">
+<div class="tutorial" ng-class="{'hidden' : hideTutorial || isCodeRunning, 'visible' : !hideTutorial}">
     <div class="objects" ng-show="!functionTutorialOpen">
         <h3>Доступные объекты управления</h3>
         <h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>

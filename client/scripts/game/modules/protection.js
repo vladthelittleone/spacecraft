@@ -30,6 +30,7 @@ var ProtectionBlock = function (spec)
     that.decRegen = regenerationModule.dec;
     that.getRegenEnergy = regenerationModule.getEnergyPoints;
     that.getRegeneration = regenerationModule.getRegeneration;
+    that.getRegenerationByPoints = regenerationModule.get;
 
     function regeneration(maxValue, value)
     {

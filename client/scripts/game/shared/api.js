@@ -113,14 +113,14 @@ var SpaceCraftApi = function (spaceCraft)
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
 
-    api.moveTo = spaceCraft.moveTo;
-    api.moveToNearestBonus = spaceCraft.moveToNearestBonus;
+    api.moveTo = api.e.moveTo;
+    api.moveToNearestBonus = api.e.moveToNearestBonus;
 
-    api.getMoveSpeedByPoints = modules.moveSpeed.get;
-    api.getRegenByPoints = modules.regen.get;
-    api.getRangeByPoints = modules.range.get;
-    api.getRateByPoints = modules.rate.get;
-    api.getDamageByPoints = modules.damage.get;
+    api.getMoveSpeedByPoints = api.e.getMoveSpeedByPoints;
+    api.getRegenByPoints = api.p.getRegenByPoints;
+    api.getRangeByPoints = api.w.getRangeByPoints;
+    api.getRateByPoints = api.w.getRateByPoints;
+    api.getDamageByPoints = api.w.getDamageByPoints;
 
     return api;
 };
@@ -146,6 +146,7 @@ var EngineBlockApi = function (engine)
     api.decMoveSpeed = engine.decMoveSpeed;
     api.getMoveSpeedEnergy = engine.getMoveSpeedEnergy;
     api.getMoveSpeed = engine.getMoveSpeed;
+    api.getMoveSpeedByPoints = engine.getMoveSpeedByPoints;
 
     return api;
 };
@@ -166,6 +167,7 @@ var ProtectionBlockApi = function (protection)
     api.decRegen = protection.decRegen;
     api.getRegenEnergy = protection.getRegenEnergy;
     api.getRegeneration = protection.getRegeneration;
+    api.getRegenByPoints = protection.getRegenByPoints;
 
     return api;
 };
@@ -201,6 +203,10 @@ var WeaponBlockApi = function (weapon)
     api.getRateEnergy = weapon.getRateEnergy;
     api.getRangeEnergy = weapon.getRangeEnergy;
     api.getDamageEnergy = weapon.getDamageEnergy;
+
+    api.getRangeByPoints = weapon.getRangeByPoints;
+    api.getRateByPoints = weapon.getRateByPoints;
+    api.getDamageByPoints = weapon.getDamageByPoints;
 
     return api;
 };

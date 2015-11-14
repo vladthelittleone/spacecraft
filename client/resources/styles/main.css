@@ -444,31 +444,12 @@ canvas {
     display: inline-block;
 }
 
-.bounce-in-up {
-    -webkit-animation-name: bounceInUp;
-    animation-name: bounceInUp;
-    -webkit-animation-duration: 0s;
-    animation-duration: 0s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+.hidden {
+    visibility: hidden;
 }
 
-.bounce-in-down {
-    -webkit-animation-name: bounceInDown;
-    animation-name: bounceInDown;
-    -webkit-animation-duration: 0s;
-    animation-duration: 0s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
-.bounce-in-down-5 {
-    -webkit-animation-name: bounceInDown;
-    animation-name: bounceInDown;
-    -webkit-animation-duration: 5s;
-    animation-duration: 5s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+.visible {
+    visibility: visible;
 }
 
 .rotate-out-down-left {
@@ -480,15 +461,6 @@ canvas {
     animation-name: rotate-out-down-left;
 }
 
-.bounce-out-down {
-    -webkit-animation-name: bounceOutDown;
-    animation-name: bounceOutDown;
-    -webkit-animation-duration: 0s;
-    animation-duration: 0s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
 .rotate-in-down-left {
     -webkit-animation-duration: 0.25s;
     animation-duration: 0.25s;
@@ -496,132 +468,6 @@ canvas {
     animation-fill-mode: both;
     -webkit-animation-name: rotate-in-down-left;
     animation-name: rotate-in-down-left;
-}
-
-.bounce-in-left {
-    -webkit-animation-name: bounceInLeft;
-    animation-name: bounceInLeft;
-    -webkit-animation-duration: 0s;
-    animation-duration: 0s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
-.bounce-out-left {
-    -webkit-animation-name: bounceOutLeft;
-    animation-name: bounceOutLeft;
-    -webkit-animation-duration: 0s;
-    animation-duration: 0s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
-@-webkit-keyframes bounceInDown {
-    0% {
-        -webkit-transform: translateY(-2000px);
-    }
-    100% {
-        -webkit-transform: translateY(0);
-    }
-}
-
-@keyframes bounceInDown {
-    0% {
-        transform: translateY(-2000px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@-webkit-keyframes bounceOutUp {
-    0% {
-        -webkit-transform: translateY(0);
-    }
-    100% {
-        -webkit-transform: translateY(-2000px);
-    }
-}
-
-@keyframes bounceOutUp {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-2000px);
-    }
-}
-
-@-webkit-keyframes bounceOutDown {
-    0% {
-        -webkit-transform: translateY(0);
-    }
-    100% {
-        -webkit-transform: translateY(2000px);
-    }
-}
-
-@keyframes bounceOutDown {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(2000px);
-    }
-}
-
-@-webkit-keyframes bounceInUp {
-    0% {
-        -webkit-transform: translateY(2000px);
-    }
-    100% {
-        -webkit-transform: translateY(0);
-    }
-}
-
-@keyframes bounceInUp {
-    0% {
-        transform: translateY(2000px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@-webkit-keyframes bounceInLeft {
-    0% {
-        -webkit-transform: translateX(-2000px);
-    }
-    100% {
-        -webkit-transform: translateX(0);
-    }
-}
-
-@keyframes bounceInLeft {
-    0% {
-        transform: translateX(-2000px);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
-
-@-webkit-keyframes bounceOutLeft {
-    0% {
-        -webkit-transform: translateX(0);
-    }
-    100% {
-        -webkit-transform: translateX(-2000px);
-    }
-}
-
-@keyframes bounceOutLeft {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-2000px);
-    }
 }
 
 @-webkit-keyframes rotate-in-down-left {

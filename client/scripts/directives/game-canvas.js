@@ -107,7 +107,7 @@ angular.module('spacecraft.gameCanvas', [])
                     });
                 });
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i < 14; i++)
                 {
                     var modX = bounds.height - 320;
                     var modY = bounds.width - 320;

@@ -19,6 +19,7 @@ var EngineBlock = function (spec)
     that.decMoveSpeed = moveSpeed.dec;
     that.getMoveSpeedEnergy = moveSpeed.getEnergyPoints;
     that.getMoveSpeed = moveSpeed.getMoveSpeed;
+    that.getMoveSpeedByPoints = moveSpeed.get;
 
     that.rotateLeft = function ()
     {

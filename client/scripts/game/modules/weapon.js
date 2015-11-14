@@ -66,6 +66,10 @@ var WeaponBlock = function (spec)
     that.getFireRange = range.getFireRange;
     that.getDamage = damage.getDamage;
 
+    that.getFireRateByPoints = rate.get;
+    that.getFireRangeByPoints = range.get;
+    that.getDamageByPoints = damage.get;
+
     that.addDamage = damage.addDamage;
 
     that.update = function ()

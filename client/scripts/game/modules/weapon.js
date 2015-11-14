@@ -42,7 +42,6 @@ var WeaponBlock = function (spec)
         energyPoints: 2
     });
 
-
     beams.setAll('anchor.x', 0.5);
     beams.setAll('anchor.y', 0.5);
     beams.setAll('outOfBoundsKill', true);

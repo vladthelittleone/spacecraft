@@ -57,6 +57,57 @@ angular.module('spacecraft.main', [])
 
             editorSession.setValue($scope.code);
 
+            var langTools = ace.require("ace/ext/language_tools");
+
+            editor.setOptions(
+            {
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: true
+            });
+
+            var doc = " bla bla bla bla\n bla bla bla bla bla bla";
+
+            var rhymeCompleter = {
+                getCompletions: function (edx, session, pos, prefix, callback) {
+                    var str = editor.session.getLine(editor.getCursorPosition().row);
+
+                    var reSpaceCraft = new RegExp(" *spaceCraft.");
+                    var reWorld = new RegExp(" *world.");
+
+                    if (reSpaceCraft.test(str))
+                    {
+                        callback(null,  [
+                                {"value" : "weapon" + doc, snippet: "weapon", "meta": "spaceCraft", type: "snippet"},
+                                {"name" : "engine", "value" : "engine", "meta": "spaceCraft"},
+                                {"name" : "protection", "value" : "protection", "meta": "spaceCraft"},
+                                {"name" : "getId", "value" : "getId", "meta": "spaceCraft"},
+                                {"name" : "getHealth", "value" : "getHealth", "meta": "spaceCraft"},
+                                {"name" : "getRegeneration", "value" : "getRegeneration", "meta": "spaceCraft"},
+                                {"name" : "getX", "value" : "getX", "meta": "spaceCraft"},
+                                {"name" : "getY", "value" : "getY", "meta": "spaceCraft"},
+                                {"name" : "getAngle", "value" : "getAngle", "meta": "spaceCraft"},
+                                {"name" : "angleBetween", "value" : "angleBetween", "meta": "spaceCraft"},
+                            ]
+                        );
+                    }
+                    else if (reWorld.test(str))
+                    {
+                        callback(null,  [
+                                {"name" : "rate", "value" : "rate", "meta": "world"},
+                                {"name" : "damage", "value" : "damage", "meta": "world"},
+                                {"name" : "range", "value" : "range", "meta": "world"}
+                            ]
+                        );
+
+                    }
+
+                }
+            };
+
+            langTools.addCompleter(rhymeCompleter);
+
+
             $storage.local.setItem("code", $scope.code);
         };
 

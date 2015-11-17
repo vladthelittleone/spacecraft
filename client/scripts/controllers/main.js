@@ -62,11 +62,9 @@ angular.module('spacecraft.main', [])
             editor.setOptions(
             {
                 enableBasicAutocompletion: true,
-                enableSnippets: true,
+                enableSnippets: false,
                 enableLiveAutocompletion: true
             });
-
-            var doc = " bla bla bla bla\n bla bla bla bla bla bla";
 
             var rhymeCompleter = {
                 getCompletions: function (edx, session, pos, prefix, callback) {
@@ -78,7 +76,7 @@ angular.module('spacecraft.main', [])
                     if (reSpaceCraft.test(str))
                     {
                         callback(null,  [
-                                {"value" : "weapon" + doc, snippet: "weapon", "meta": "spaceCraft", type: "snippet"},
+                                {"value" : "weapon", "meta": "spaceCraft", type: "snippet"},
                                 {"name" : "engine", "value" : "engine", "meta": "spaceCraft"},
                                 {"name" : "protection", "value" : "protection", "meta": "spaceCraft"},
                                 {"name" : "getId", "value" : "getId", "meta": "spaceCraft"},

@@ -135,7 +135,7 @@ var EngineBlockApi = function (engine)
     api.moveSpeed = ModuleApi(engine.moveSpeed);
 
     api.rotateLeft = engine.rotateLeft;
-    api.rotateRight = engine.rotateLeft;
+    api.rotateRight = engine.rotateRight;
     api.rotateTo = engine.rotateTo;
     api.moveForward = engine.moveForward;
     api.moveBackward = engine.moveBackward;

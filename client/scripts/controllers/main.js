@@ -67,39 +67,57 @@ angular.module('spacecraft.main', [])
             });
 
             var rhymeCompleter = {
-                getCompletions: function (edx, session, pos, prefix, callback) {
+                getCompletions: function (edx, session, pos, prefix, callback)
+                {
                     var str = editor.session.getLine(editor.getCursorPosition().row);
 
-                    var reSpaceCraft = new RegExp(" *spaceCraft.");
-                    var reWorld = new RegExp(" *world.");
+                    var reSpaceCraftPrefix = new RegExp(" *spaceCraft.\W*");
+                    var reWeapon = new RegExp("\W*weapon.$");
+                    var reEngine = new RegExp("\W*engine.$");
+                    var reProtection = new RegExp("\W*protection.$");
+                    var reGetEnemies = new RegExp("\W*getEnemies(\W*)");
+                    var reGetBonuses = new RegExp("\W*getBonuses(\W*).");
 
-                    if (reSpaceCraft.test(str))
+                    var reWorldPrefix = new RegExp(" *world.\W*");
+
+                    var functionsName = [];
+
+                    if (reSpaceCraftPrefix.test(str))
                     {
-                        callback(null,  [
-                                {"value" : "weapon", "meta": "spaceCraft", type: "snippet"},
-                                {"name" : "engine", "value" : "engine", "meta": "spaceCraft"},
-                                {"name" : "protection", "value" : "protection", "meta": "spaceCraft"},
-                                {"name" : "getId", "value" : "getId", "meta": "spaceCraft"},
-                                {"name" : "getHealth", "value" : "getHealth", "meta": "spaceCraft"},
-                                {"name" : "getRegeneration", "value" : "getRegeneration", "meta": "spaceCraft"},
-                                {"name" : "getX", "value" : "getX", "meta": "spaceCraft"},
-                                {"name" : "getY", "value" : "getY", "meta": "spaceCraft"},
-                                {"name" : "getAngle", "value" : "getAngle", "meta": "spaceCraft"},
-                                {"name" : "angleBetween", "value" : "angleBetween", "meta": "spaceCraft"},
-                            ]
-                        );
+                        if (reWeapon.test(str))
+                        {
+                            functionsName = getMethodsFrom("weaponBlock", functionsName);
+                        }
+                        else if (reEngine.test(str))
+                        {
+                            functionsName = getMethodsFrom("engineBlock", functionsName);
+                        }
+                        else if (reProtection.test(str))
+                        {
+                            functionsName = getMethodsFrom("protectionBlock", functionsName);
+                        }
+                        else
+                        {
+                            functionsName = getMethodsFrom("spaceCraft", functionsName);
+                        }
                     }
-                    else if (reWorld.test(str))
+                    else if (reWorldPrefix.test(str))
                     {
-                        callback(null,  [
-                                {"name" : "rate", "value" : "rate", "meta": "world"},
-                                {"name" : "damage", "value" : "damage", "meta": "world"},
-                                {"name" : "range", "value" : "range", "meta": "world"}
-                            ]
-                        );
-
+                        if (reGetEnemies.test(str))
+                        {
+                            functionsName = getMethodsFrom("enemy", functionsName);
+                        }
+                        else if (reGetBonuses.test(str))
+                        {
+                            functionsName = getMethodsFrom("bonus", functionsName);
+                        }
+                        else
+                        {
+                            functionsName = getMethodsFrom("world", functionsName);
+                        }
                     }
 
+                    callback(null, functionsName);
                 }
             };
 
@@ -108,6 +126,23 @@ angular.module('spacecraft.main', [])
 
             $storage.local.setItem("code", $scope.code);
         };
+
+        function getMethodsFrom(name, array)
+        {
+            var functionsFrom = tutorial[name].functions;
+
+            functionsFrom.forEach(function(value)
+            {
+                array.push(createAutoCompleteElement(value.name, name));
+            });
+
+            return array;
+        }
+
+        function createAutoCompleteElement(value, meta)
+        {
+            return {"value" : value, "meta" : meta};
+        }
 
         $scope.aceChanged = function ()
         {

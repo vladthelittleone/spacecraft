@@ -105,12 +105,12 @@ var ProtectionBlock = function (spec)
 
     that.subShield = function (dec)
     {
+        shield -= dec;
+
         if(shield <= 0)
         {
             shieldSprite.visible = false;
         }
-
-        shield -= dec;
     };
 
     that.addShield = function (dec)

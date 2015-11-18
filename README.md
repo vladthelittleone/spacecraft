@@ -14,5 +14,7 @@
 * Перед слиянием в мастер вашей ветки создается pull request
 
 ## Запуск
+* Устанавливаем [bower](http://bower.io)
+* Заходим в папку client и выполняем команду bower install (устанавливает все зависимости)
 * Качаем [http-server](https://www.npmjs.com/package/http-server)
 * Запускаем командой https-server /ваш-путь/spacecraft/client

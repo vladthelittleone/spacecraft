@@ -59,7 +59,7 @@ angular.module('spacecraft.gameCanvas', [])
                 game.load.image('shield', 'resources/assets/shield.png');
                 game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
-                game.load.spritesheet('large', 'resources/assets/sprites meteor/large1.tps', 320, 240);
+                game.load.spritesheet('large', 'resources/assets/spritesMeteor/large1.png', 320, 240);
             }
 
             function create()

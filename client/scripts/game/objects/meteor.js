@@ -12,7 +12,7 @@ var Meteor = function (spec){
     var velocityX = utils.randomInt(-2,2);
     var velocityY = utils.randomInt(-2,2);
 
-    // Добавляем спрайт метеора
+    // Р”РѕР±Р°РІР»СЏРµРј СЃРїСЂР°Р№С‚ РјРµС‚РµРѕСЂР°
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
     game.physics.p2.enable(sprite);
@@ -31,7 +31,7 @@ var Meteor = function (spec){
 
 //that.update = function ()
 //{
-//    // Произошла коллизия бонуса с кораблем
+//    // РџСЂРѕРёР·РѕС€Р»Р° РєРѕР»Р»РёР·РёСЏ Р±РѕРЅСѓСЃР° СЃ РєРѕСЂР°Р±Р»РµРј
 //    sprite.body.x = that.x + velo
 //    sprite.body.rotateLeft(rotateDirection);
 //    sprite.body.moveForward(1);

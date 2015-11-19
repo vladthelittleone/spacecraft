@@ -59,58 +59,33 @@ angular.module('spacecraft.main', [])
 
             var langTools = ace.require("ace/ext/language_tools");
 
-            var rhymeCompleter = {
+            var spaceCraftCompleter = {
                 getCompletions: function (edx, session, pos, prefix, callback)
                 {
                     var str = editor.session.getLine(editor.getCursorPosition().row);
 
-                    var reSpaceCraftPrefix = new RegExp(" *spaceCraft.\W*");
-                    var reWeapon = new RegExp("\W*weapon.$");
-                    var reEngine = new RegExp("\W*engine.$");
-                    var reProtection = new RegExp("\W*protection.$");
-                    var reGetEnemies = new RegExp("\W*getEnemies(\W*)");
-                    var reGetBonuses = new RegExp("\W*getBonuses(\W*).");
-
-                    var reWorldPrefix = new RegExp(" *world.\W*");
-
                     var functionsName = [];
 
-                    if (reSpaceCraftPrefix.test(str))
+                    var check = [
+                        {regExp: " *spaceCraft.weapon.$", name: "weaponBlock"},
+                        {regExp: " *spaceCraft.engine.$", name: "engineBlock"},
+                        {regExp: " *spaceCraft.protection.$", name: "protectionBlock"},
+                        {regExp: " *world.getEnemies(\W*)", name: "enemy"},
+                        {regExp: " *spaceCraft.", name: "spaceCraft"},
+                        {regExp: " *world.", name: "world"}
+                    ];
+
+                    check.forEach(function(value)
                     {
-                        if (reWeapon.test(str))
-                        {
-                            functionsName = getMethodsFrom("weaponBlock", functionsName);
-                        }
-                        else if (reEngine.test(str))
-                        {
-                            functionsName = getMethodsFrom("engineBlock", functionsName);
-                        }
-                        else if (reProtection.test(str))
-                        {
-                            functionsName = getMethodsFrom("protectionBlock", functionsName);
-                        }
-                        else
-                        {
-                            functionsName = getMethodsFrom("spaceCraft", functionsName);
-                        }
-                    }
-                    else if (reWorldPrefix.test(str))
+                        functionsName = test(str, new RegExp(value.regExp), value.name, functionsName);
+                    });
+
+                    if (functionsName.length === 0)
                     {
-                        if (reGetEnemies.test(str))
-                        {
-                            functionsName = getMethodsFrom("enemy", functionsName);
-                        }
-                        else if (reGetBonuses.test(str))
-                        {
-                            functionsName = getMethodsFrom("bonus", functionsName);
-                        }
-                        else
-                        {
-                            functionsName = getMethodsFrom("world", functionsName);
-                        }
-                    }
-                    else
-                    {
+                        check.forEach(function(value){
+                           functionsName = getMethodsFrom(value.name, functionsName);
+                        });
+
                         functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
                         functionsName.push(createAutoCompleteElement("world", "local"));
                     }
@@ -119,7 +94,7 @@ angular.module('spacecraft.main', [])
                 }
             };
 
-            editor.completers = [rhymeCompleter];
+            editor.completers = [spaceCraftCompleter];
 
             editor.setOptions(
                 {
@@ -127,11 +102,21 @@ angular.module('spacecraft.main', [])
                     enableBasicAutocompletion: true
                 });
 
-            langTools.addCompleter(rhymeCompleter);
+            langTools.addCompleter(spaceCraftCompleter);
 
 
             $storage.local.setItem("code", $scope.code);
         };
+
+        function test(string, regExp, name, array)
+        {
+            if (regExp.test(string))
+            {
+                array = getMethodsFrom(name, array);
+            }
+
+            return array;
+        }
 
         function getMethodsFrom(name, array)
         {

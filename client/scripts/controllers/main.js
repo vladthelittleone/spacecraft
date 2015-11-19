@@ -59,13 +59,6 @@ angular.module('spacecraft.main', [])
 
             var langTools = ace.require("ace/ext/language_tools");
 
-            editor.setOptions(
-            {
-                enableBasicAutocompletion: true,
-                enableSnippets: false,
-                enableLiveAutocompletion: true
-            });
-
             var rhymeCompleter = {
                 getCompletions: function (edx, session, pos, prefix, callback)
                 {
@@ -116,10 +109,23 @@ angular.module('spacecraft.main', [])
                             functionsName = getMethodsFrom("world", functionsName);
                         }
                     }
+                    else
+                    {
+                        functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
+                        functionsName.push(createAutoCompleteElement("world", "local"));
+                    }
 
                     callback(null, functionsName);
                 }
             };
+
+            editor.completers = [rhymeCompleter];
+
+            editor.setOptions(
+                {
+                    enableSnippets: false,
+                    enableBasicAutocompletion: true
+                });
 
             langTools.addCompleter(rhymeCompleter);
 

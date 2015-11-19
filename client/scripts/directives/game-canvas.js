@@ -59,6 +59,7 @@ angular.module('spacecraft.gameCanvas', [])
                 game.load.image('shield', 'resources/assets/shield.png');
                 game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
+                game.load.spritesheet('large', 'resources/assets/sprites meteor/large1.tps', 320, 240);
             }
 
             function create()
@@ -120,6 +121,16 @@ angular.module('spacecraft.gameCanvas', [])
                         health: 200,
                         angle: game.rnd.angle(),
                         shield: 100
+                    });
+                }
+
+                for (var j = 0; j < 50; j++)
+                {
+                    Meteor({
+                        x: game.world.randomX,
+                        y: game.world.randomY,
+                        spriteName: 'large'
+
                     });
                 }
 

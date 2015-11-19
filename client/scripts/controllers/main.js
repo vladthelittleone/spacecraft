@@ -77,13 +77,13 @@ angular.module('spacecraft.main', [])
 
                     check.forEach(function(value)
                     {
-                        functionsName = test(str, new RegExp(value.regExp), value.name, functionsName);
+                        functionsName = functionsName.concat(test(str, new RegExp(value.regExp), value.name));
                     });
 
                     if (functionsName.length === 0)
                     {
                         check.forEach(function(value){
-                           functionsName = getMethodsFrom(value.name, functionsName);
+                           functionsName = functionsName.concat(getMethodsFrom(value.name));
                         });
 
                         functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
@@ -108,23 +108,25 @@ angular.module('spacecraft.main', [])
             $storage.local.setItem("code", $scope.code);
         };
 
-        function test(string, regExp, name, array)
+        function test(string, regExp, name)
         {
             if (regExp.test(string))
             {
-                array = getMethodsFrom(name, array);
+                return getMethodsFrom(name);
             }
 
-            return array;
+            return [];
         }
 
-        function getMethodsFrom(name, array)
+        function getMethodsFrom(name)
         {
+            var array = [];
+
             var functionsFrom = tutorial[name].functions;
 
             functionsFrom.forEach(function(value)
             {
-                array.push(createAutoCompleteElement(value.name, name));
+                array = array.concat(createAutoCompleteElement(value.name, name));
             });
 
             return array;

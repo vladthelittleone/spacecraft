@@ -59,7 +59,7 @@ angular.module('spacecraft.gameCanvas', [])
                 game.load.image('shield', 'resources/assets/shield.png');
                 game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
-                game.load.spritesheet('meteor', 'resources/assets/meteor/large1.png', 320, 240);
+                game.load.atlasJSONHash('meteor', 'resources/assets/meteor/meteor.png', 'resources/assets/meteor/meteor.json');
             }
 
             function create()
@@ -104,6 +104,7 @@ angular.module('spacecraft.gameCanvas', [])
                         y: game.world.randomY,
                         spriteName: 'meteor'
                     });
+
                 }
 
                 scope.$apply(function ()

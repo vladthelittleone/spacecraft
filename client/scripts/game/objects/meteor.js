@@ -13,6 +13,9 @@ var Meteor = function (spec){
     // Добавляем спрайт метеора
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+    sprite.animations.add('run');
+    sprite.animations.play('run',5,true);
+
     that.getX = function()
     {
         return sprite.x;

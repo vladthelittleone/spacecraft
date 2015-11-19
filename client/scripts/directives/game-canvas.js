@@ -59,7 +59,7 @@ angular.module('spacecraft.gameCanvas', [])
                 game.load.image('shield', 'resources/assets/shield.png');
                 game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
-                game.load.spritesheet('large', 'resources/assets/spritesMeteor/large1.png', 320, 240);
+                game.load.spritesheet('meteor', 'resources/assets/meteor/large1.png', 320, 240);
             }
 
             function create()
@@ -97,6 +97,15 @@ angular.module('spacecraft.gameCanvas', [])
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
                 game.physics.p2.updateBoundsCollisionGroup();
 
+                for (var j = 0; j < 5; j++)
+                {
+                    Meteor({
+                        x: game.world.randomX,
+                        y: game.world.randomY,
+                        spriteName: 'meteor'
+                    });
+                }
+
                 scope.$apply(function ()
                 {
                     scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
@@ -121,16 +130,6 @@ angular.module('spacecraft.gameCanvas', [])
                         health: 200,
                         angle: game.rnd.angle(),
                         shield: 100
-                    });
-                }
-
-                for (var j = 0; j < 50; j++)
-                {
-                    Meteor({
-                        x: game.world.randomX,
-                        y: game.world.randomY,
-                        spriteName: 'large'
-
                     });
                 }
 

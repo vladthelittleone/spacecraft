@@ -91,7 +91,7 @@ angular.module('spacecraft.main', [])
                         check.forEach(function(value){
                            functionsName = functionsName.concat(getMethodsFrom(value.name));
                         });
-                        // todo bonus, module, enemy.weapon
+
                         functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
                         functionsName.push(createAutoCompleteElement("world", "local"));
                         functionsName.push(createAutoCompleteElement("bonus", "user"));

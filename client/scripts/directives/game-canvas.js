@@ -13,6 +13,7 @@ angular.module('spacecraft.gameCanvas', [])
         {
             var spaceCraft,
                 world,
+                decorations,
                 cursors,
                 isRunning,
                 userCode,
@@ -57,9 +58,15 @@ angular.module('spacecraft.gameCanvas', [])
                 game.load.image('bonus2', 'resources/assets/bonus2.png');
                 game.load.image('bonus3', 'resources/assets/bonus3.png');
                 game.load.image('shield', 'resources/assets/shield.png');
+                game.load.image('meteor1', 'resources/assets/meteor/meteor1.png');
+                game.load.image('meteor2', 'resources/assets/meteor/meteor2.png');
+                game.load.image('meteor3', 'resources/assets/meteor/meteor3.png');
+                game.load.image('meteor4', 'resources/assets/meteor/meteor4.png');
+                game.load.image('meteor5', 'resources/assets/meteor/meteor5.png');
+                game.load.image('meteor6', 'resources/assets/meteor/meteor6.png');
+                game.load.image('meteor7', 'resources/assets/meteor/meteor7.png');
                 game.load.atlasJSONHash('bots', 'resources/assets/bots.png', 'resources/assets/bots.json');
                 game.load.spritesheet('explosion', 'resources/assets/explosion.png', 128, 128);
-                game.load.atlasJSONHash('meteor', 'resources/assets/meteor/meteor.png', 'resources/assets/meteor/meteor.json');
             }
 
             function create()
@@ -97,16 +104,6 @@ angular.module('spacecraft.gameCanvas', [])
                 SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
                 game.physics.p2.updateBoundsCollisionGroup();
 
-                for (var j = 0; j < 5; j++)
-                {
-                    Meteor({
-                        x: game.world.randomX,
-                        y: game.world.randomY,
-                        spriteName: 'meteor'
-                    });
-
-                }
-
                 scope.$apply(function ()
                 {
                     scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
@@ -118,21 +115,13 @@ angular.module('spacecraft.gameCanvas', [])
                     });
                 });
 
-                for (var i = 0; i < 14; i++)
-                {
-                    var modX = bounds.height - 320;
-                    var modY = bounds.width - 320;
-
-                    SpaceCraft({
-                        strategy: botStrategy,
-                        x: game.world.randomX % modX + 200,
-                        y: game.world.randomY % modY + 200,
-                        spriteName: 'spaceCraft' + utils.randomInt(1, 3),
-                        health: 200,
-                        angle: game.rnd.angle(),
-                        shield: 100
-                    });
-                }
+                world.decorations.createMeteors({ count: 2 });
+                world.createBots({
+                    count: 14,
+                    strategy: botStrategy,
+                    health: 200,
+                    shield: 100
+                });
 
                 game.camera.follow(spaceCraft.sprite);
                 game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);

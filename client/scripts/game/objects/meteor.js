@@ -13,8 +13,20 @@ var Meteor = function (spec){
     // Добавляем спрайт метеора
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
-    sprite.animations.add('run');
-    sprite.animations.play('run',5,true);
+    // Подключаем физику тел к бонусу
+    game.physics.p2.enable(sprite);
+
+    // Поварачиваем бонус на init-угол
+    !spec.angle || (sprite.body.angle = spec.angle);
+    spec.scale && sprite.scale.setTo(spec.scale);
+
+    // Объявляем группу коллизий.
+    var meteorCollisionGroup = game.physics.p2.createCollisionGroup();
+
+    // Устанавливаем группу колизий
+    sprite.body.setCollisionGroup(meteorCollisionGroup);
+
+    sprite.body.collideWorldBounds = false;
 
     that.getX = function()
     {
@@ -25,4 +37,11 @@ var Meteor = function (spec){
     {
         return sprite.y;
     };
+
+    that.update = function ()
+    {
+        sprite.body.rotateLeft(0.5);
+    };
+
+    return that;
 };

@@ -30,7 +30,7 @@ var Bonus = function (spec)
 
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
-    sprite.scale.setTo(0.5);
+    sprite.scale.setTo(0.65);
     sprite.checkWorldBounds = true;
 
     // Устанавливаем маленькую массу,

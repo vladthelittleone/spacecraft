@@ -71,8 +71,14 @@ angular.module('spacecraft.main', [])
                         {regExp: " *spaceCraft.engine.$", name: "engineBlock"},
                         {regExp: " *spaceCraft.protection.$", name: "protectionBlock"},
                         {regExp: " *world.getEnemies(\W*)", name: "enemy"},
-                        {regExp: " *spaceCraft.", name: "spaceCraft"},
-                        {regExp: " *world.", name: "world"}
+                        {regExp: " *spaceCraft.$", name: "spaceCraft"},
+                        {regExp: " *world.$", name: "world"},
+                        {regExp: " *enemy.weapon.$", name: "enemyWeapon"},
+                        {regExp: " *spaceCraft.engine.moveSpeed.$", name: "module"},
+                        {regExp: " *spaceCraft.weapon.rate.$", name: "module"},
+                        {regExp: " *spaceCraft.weapon.range.$", name: "module"},
+                        {regExp: " *spaceCraft.weapon.damage.$", name: "module"},
+                        {regExp: " *spaceCraft.protection.regeneration.$", name: "module"}
                     ];
 
                     check.forEach(function(value)
@@ -85,9 +91,11 @@ angular.module('spacecraft.main', [])
                         check.forEach(function(value){
                            functionsName = functionsName.concat(getMethodsFrom(value.name));
                         });
-
+                        // todo bonus, module, enemy.weapon
                         functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
                         functionsName.push(createAutoCompleteElement("world", "local"));
+                        functionsName.push(createAutoCompleteElement("bonus", "user"));
+                        functionsName.push(createAutoCompleteElement("enemy", "user"));
                     }
 
                     callback(null, functionsName);

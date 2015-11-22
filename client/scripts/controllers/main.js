@@ -57,8 +57,93 @@ angular.module('spacecraft.main', [])
 
             editorSession.setValue($scope.code);
 
+            var langTools = ace.require("ace/ext/language_tools");
+
+            var spaceCraftCompleter = {
+                getCompletions: function (edx, session, pos, prefix, callback)
+                {
+                    var str = editor.session.getLine(editor.getCursorPosition().row);
+
+                    var functionsName = [];
+
+                    var check = [
+                        {regExp: " *spaceCraft.weapon.$", name: "weaponBlock"},
+                        {regExp: " *spaceCraft.engine.$", name: "engineBlock"},
+                        {regExp: " *spaceCraft.protection.$", name: "protectionBlock"},
+                        {regExp: " *world.getEnemies(\W*)", name: "enemy"},
+                        {regExp: " *spaceCraft.$", name: "spaceCraft"},
+                        {regExp: " *world.$", name: "world"},
+                        {regExp: " *enemy.weapon.$", name: "enemyWeapon"},
+                        {regExp: " *spaceCraft.engine.moveSpeed.$", name: "module"},
+                        {regExp: " *spaceCraft.weapon.rate.$", name: "module"},
+                        {regExp: " *spaceCraft.weapon.range.$", name: "module"},
+                        {regExp: " *spaceCraft.weapon.damage.$", name: "module"},
+                        {regExp: " *spaceCraft.protection.regeneration.$", name: "module"}
+                    ];
+
+                    check.forEach(function(value)
+                    {
+                        functionsName = functionsName.concat(test(str, new RegExp(value.regExp), value.name));
+                    });
+
+                    if (functionsName.length === 0)
+                    {
+                        check.forEach(function(value){
+                           functionsName = functionsName.concat(getMethodsFrom(value.name));
+                        });
+
+                        functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
+                        functionsName.push(createAutoCompleteElement("world", "local"));
+                        functionsName.push(createAutoCompleteElement("bonus", "user"));
+                        functionsName.push(createAutoCompleteElement("enemy", "user"));
+                    }
+
+                    callback(null, functionsName);
+                }
+            };
+
+            editor.completers = [spaceCraftCompleter];
+
+            editor.setOptions(
+                {
+                    enableSnippets: false,
+                    enableBasicAutocompletion: true
+                });
+
+            langTools.addCompleter(spaceCraftCompleter);
+
+
             $storage.local.setItem("code", $scope.code);
         };
+
+        function test(string, regExp, name)
+        {
+            if (regExp.test(string))
+            {
+                return getMethodsFrom(name);
+            }
+
+            return [];
+        }
+
+        function getMethodsFrom(name)
+        {
+            var array = [];
+
+            var functionsFrom = tutorial[name].functions;
+
+            functionsFrom.forEach(function(value)
+            {
+                array = array.concat(createAutoCompleteElement(value.name, name));
+            });
+
+            return array;
+        }
+
+        function createAutoCompleteElement(value, meta)
+        {
+            return {"value" : value, "meta" : meta};
+        }
 
         $scope.aceChanged = function ()
         {

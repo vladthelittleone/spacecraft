@@ -109,6 +109,13 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p>Параметр i сохраняет свое значение для каждого вызова run().</p>"
                 },
                 {
+                    title: "Горячие клавишы",
+                    description: "<p>Есть несколько горячих клавиш, о которых нужно знать:</p>"
+                    + "<p><b>SPACE + CTRL</b>, нажатая в редакторе кода, вызовет автодополнение кода.</p>"
+                    + "<p><b>Стрелочками</b> вы можете управлять камерой.</p>"
+                    + "<p><b>SPACE</b> вернет камеру к наблюдению за космическим кораблем.</p>"
+                },
+                {
                     title: "Метод run(spaceCraft, world)",
                     description: "<p>В метод <b>run(spaceCraft, world)</b> передаются два параметра spaceCraft и world:</p>"
                     + "<div class='img-huge-center'>"

@@ -29,6 +29,8 @@ angular.module('spacecraft.gameCanvas', [])
                 update: update
             });
 
+            var toSpaceCraft;
+
             function runUserScript()
             {
                 if (isRunning)
@@ -123,9 +125,7 @@ angular.module('spacecraft.gameCanvas', [])
                     shield: 100
                 });
 
-                game.camera.follow(spaceCraft.sprite);
-                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
-                game.camera.focusOn(spaceCraft.sprite);
+                followFor(spaceCraft.sprite);
 
                 cursors = game.input.keyboard.createCursorKeys();
 
@@ -150,6 +150,15 @@ angular.module('spacecraft.gameCanvas', [])
                 });
 
                 SCG.game.paused = true;
+
+                toSpaceCraft = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            }
+
+            function followFor(object)
+            {
+                game.camera.follow(object);
+                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
+                game.camera.focusOn(object);
             }
 
             function update()
@@ -168,6 +177,32 @@ angular.module('spacecraft.gameCanvas', [])
                 {
                     SCG.world.update();
                     runUserScript();
+                }
+
+                if (cursors.up.isDown)
+                {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.y -= 4;
+                }
+                else if (cursors.down.isDown)
+                {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.y += 4;
+                }
+
+                if (cursors.left.isDown)
+                {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.x -= 4;
+                }
+                else if (cursors.right.isDown)
+                {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.x += 4;
+                }
+                else if(toSpaceCraft.isDown)
+                {
+                    followFor(spaceCraft.sprite);
                 }
             }
 

@@ -67,35 +67,37 @@ angular.module('spacecraft.main', [])
                     var functionsName = [];
 
                     var check = [
-                        {regExp: " *spaceCraft.weapon.$", name: "weaponBlock"},
-                        {regExp: " *spaceCraft.engine.$", name: "engineBlock"},
-                        {regExp: " *spaceCraft.protection.$", name: "protectionBlock"},
-                        {regExp: " *world.getEnemies(\W*)", name: "enemy"},
-                        {regExp: " *spaceCraft.$", name: "spaceCraft"},
-                        {regExp: " *world.$", name: "world"},
-                        {regExp: " *enemy.weapon.$", name: "enemyWeapon"},
-                        {regExp: " *spaceCraft.engine.moveSpeed.$", name: "module"},
-                        {regExp: " *spaceCraft.weapon.rate.$", name: "module"},
-                        {regExp: " *spaceCraft.weapon.range.$", name: "module"},
-                        {regExp: " *spaceCraft.weapon.damage.$", name: "module"},
-                        {regExp: " *spaceCraft.protection.regeneration.$", name: "module"}
+                        {regExps: [" *spaceCraft.weapon.$"], name: "weaponBlock"},
+                        {regExps: [" *spaceCraft.engine.$"], name: "engineBlock"},
+                        {regExps: [" *spaceCraft.protection.$"], name: "protectionBlock"},
+                        {regExps: [" *spaceCraft.$"], name: "spaceCraft"},
+                        {regExps: [" *world.$"], name: "world"},
+                        {regExps: [" *enemy.$"], name: "enemy"},
+                        {regExps: [" *bonus.$"], name: "bonus"},
+                        {regExps: [" *enemy.weapon.$"], name: "enemyWeapon"},
+                        {regExps: [
+                            " *spaceCraft.engine.moveSpeed.$",
+                            " *spaceCraft.weapon.rate.$",
+                            " *spaceCraft.weapon.range.$",
+                            " *spaceCraft.weapon.damage.$",
+                            " *spaceCraft.protection.regeneration.$"
+                        ], name: "module"}
                     ];
 
                     check.forEach(function(value)
                     {
-                        functionsName = functionsName.concat(test(str, new RegExp(value.regExp), value.name));
+                        functionsName = functionsName.concat(test(str, value));
                     });
 
                     if (functionsName.length === 0)
                     {
-                        check.forEach(function(value){
+                        check.forEach(function(value)
+                        {
                            functionsName = functionsName.concat(getMethodsFrom(value.name));
                         });
 
                         functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
                         functionsName.push(createAutoCompleteElement("world", "local"));
-                        functionsName.push(createAutoCompleteElement("bonus", "user"));
-                        functionsName.push(createAutoCompleteElement("enemy", "user"));
                     }
 
                     callback(null, functionsName);
@@ -105,10 +107,10 @@ angular.module('spacecraft.main', [])
             editor.completers = [spaceCraftCompleter];
 
             editor.setOptions(
-                {
-                    enableSnippets: false,
-                    enableBasicAutocompletion: true
-                });
+            {
+                enableSnippets: false,
+                enableBasicAutocompletion: true
+            });
 
             langTools.addCompleter(spaceCraftCompleter);
 
@@ -116,14 +118,22 @@ angular.module('spacecraft.main', [])
             $storage.local.setItem("code", $scope.code);
         };
 
-        function test(string, regExp, name)
+        function test(string, value)
         {
-            if (regExp.test(string))
-            {
-                return getMethodsFrom(name);
-            }
+            var name = value.name;
+            var result = [];
 
-            return [];
+            value.regExps.forEach(function (r)
+            {
+                var regExp = new RegExp(r);
+
+                if (regExp.test(string))
+                {
+                    result = result.concat(getMethodsFrom(name));
+                }
+            });
+
+            return result;
         }
 
         function getMethodsFrom(name)

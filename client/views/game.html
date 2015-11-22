@@ -58,11 +58,6 @@
 
 <div class="params-hint"></div>
 
-<div class="health">
-    <span class="glyphicon glyphicon-heart red"></span>
-    <span class="red">{{spaceCraft.protection.getHealth()}}</span>
-</div>
-
 <div class="damage">
     <span class="glyphicon glyphicon-screenshot green"></span>
     <span class="green">{{spaceCraft.weapon.getDamage()}}</span>
@@ -70,9 +65,13 @@
 
 <div class="shield">
     <span class="glyphicon glyphicon-adjust blue"></span>
-    <span class="blue">{{spaceCraft.protection.getShield()}}</span>
+    <span class="blue">{{spaceCraft.protection.getShield()}} / {{spaceCraft.protection.getMaxShield()}}</span>
 </div>
 
+<div class="health">
+    <span class="glyphicon glyphicon-heart red"></span>
+    <span class="red">{{spaceCraft.protection.getHealth()}} / {{spaceCraft.protection.getMaxHealth()}}</span>
+</div>
 <div lead-board
         ng-hide="!spaceCraft || spaceCraft.isAlive()"
         space-craft="spaceCraft">

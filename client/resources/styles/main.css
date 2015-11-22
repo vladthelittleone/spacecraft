@@ -122,7 +122,7 @@ body {
 
 .damage {
     position: fixed;
-    bottom: 25px;
+    bottom: 50px;
     width: 30%;
     right: 0;
     left: 0;
@@ -142,7 +142,7 @@ body {
 
 .shield {
     position: fixed;
-    bottom: 50px;
+    bottom: 25px;
     width: 30%;
     right: 0;
     left: 0;

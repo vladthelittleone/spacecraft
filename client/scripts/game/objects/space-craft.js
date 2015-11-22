@@ -98,7 +98,7 @@ var SpaceCraft = function (spec)
             // которое прибавлем к текущему здоровью
             if(protection.getShield() <= 0)
             {
-                protection.addHealth(protection.getShield());
+                protection.subHealth(protection.getShield());
                 protection.setShield(0);
             }
         }

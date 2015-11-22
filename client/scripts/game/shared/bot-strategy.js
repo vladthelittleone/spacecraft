@@ -2,10 +2,24 @@
 
 var botStrategy = function (spaceCraft)
 {
+    var bounds = SCG.world.getBounds();
+
+    var tryMoveForward = spaceCraft.engine.moveForward;
+
+    if (spaceCraft.getX() - 100 < bounds.x
+        || spaceCraft.getY() < bounds.y
+        || spaceCraft.getX() + 100 > bounds.x + bounds.width
+        || spaceCraft.getY() + 100 > bounds.y + bounds.height)
+    {
+        tryMoveForward = spaceCraft.engine.rotateLeft;
+    }
+
+
     /**
      * Враг, к которому мы летим, либо стреляем.
      */
-    var enemy =  spaceCraft.weapon.enemiesInRange()[0];
+    var eArr =  spaceCraft.weapon.enemiesInRange();
+    var enemy = eArr[utils.randomArbitrary(0, eArr.length)];
 
     /**
      * Бонус, к которому мы летим.
@@ -46,7 +60,7 @@ var botStrategy = function (spaceCraft)
         {
             // Поварачиваемся к нему и плывем
             spaceCraft.engine.rotateTo(bonus);
-            spaceCraft.engine.moveForward();
+            tryMoveForward();
         }
     }
     else
@@ -74,14 +88,14 @@ var botStrategy = function (spaceCraft)
         if (bMin < eMin)
         {
             spaceCraft.engine.rotateTo(bonus);
-            spaceCraft.engine.moveForward();
+            tryMoveForward();
         }
         else
         {
             if (enemy)
             {
                 spaceCraft.engine.rotateTo(enemy);
-                spaceCraft.engine.moveForward();
+                tryMoveForward();
 
                 if (spaceCraft.weapon.inRange(enemy))
                 {

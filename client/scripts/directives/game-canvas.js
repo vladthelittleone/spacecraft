@@ -13,7 +13,6 @@ angular.module('spacecraft.gameCanvas', [])
         {
             var spaceCraft,
                 world,
-                decorations,
                 cursors,
                 isRunning,
                 userCode,
@@ -119,7 +118,7 @@ angular.module('spacecraft.gameCanvas', [])
 
                 world.decorations.createMeteors({ count: 2 });
                 world.createBots({
-                    count: 14,
+                    count: 20,
                     strategy: botStrategy,
                     health: 200,
                     shield: 100
@@ -227,7 +226,12 @@ angular.module('spacecraft.gameCanvas', [])
                 }
 
                 return arr;
-            }
+            };
+
+            scope.$on('$destroy', function()
+            {
+                game.destroy(); // Clean up the game when we leave this scope
+            });
         };
 
         return {

@@ -49,14 +49,18 @@ var ProtectionBlock = function (spec)
 
     that.addHealth = function (add)
     {
-        health += add;
-        maxHealth += add;
+        var a = Math.abs(add);
+
+        health += a;
+        maxHealth += a;
     };
 
     that.addShield = function (add)
     {
-        shield += add;
-        maxShield += add;
+        var a = Math.abs(add);
+
+        shield += a;
+        maxShield += a;
     };
 
     that.healthRegeneration = function ()
@@ -68,14 +72,13 @@ var ProtectionBlock = function (spec)
     {
         if (health >= maxHealth)
         {
-            shieldSprite.visible = true;
             shield = regeneration(maxShield, shield);
-        }
-    };
 
-    that.removeShield = function (delta)
-    {
-        shield -= delta;
+            if (shield > 0)
+            {
+                shieldSprite.visible = true;
+            }
+        }
     };
 
     that.getHealth = function ()
@@ -90,22 +93,17 @@ var ProtectionBlock = function (spec)
 
     that.subHealth = function (dec)
     {
-        health -= dec;
-    };
-
-    that.addHealth = function (dec)
-    {
-        health += dec;
+        health -= Math.abs(dec);
     };
 
     that.setHealth = function (h)
     {
-        health = h;
+        health = Math.abs(h);
     };
 
     that.subShield = function (dec)
     {
-        shield -= dec;
+        shield -= Math.abs(dec);
 
         if(shield <= 0)
         {
@@ -113,14 +111,9 @@ var ProtectionBlock = function (spec)
         }
     };
 
-    that.addShield = function (dec)
-    {
-        shield += dec;
-    };
-
     that.setShield = function (s)
     {
-        shield = s;
+        shield = Math.abs(s);
     };
 
     that.getMaxHealth = function ()

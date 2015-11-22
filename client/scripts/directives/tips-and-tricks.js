@@ -56,7 +56,7 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<div class='img-medium-center'>"
                     + "<img src='resources/assets/images/gamePlay2.png'>"
                     + "</div>"
-                    + "<p>Вы можете убрать редактор кода нажав на <i class='glyphicon glyphicon-chevron-up'></i> в верхнем правом углу</p>"
+                    + "<p>Вы можете убрать редактор кода, нажав на <i class='glyphicon glyphicon-chevron-up'></i> в верхнем правом углу</p>"
                     + "<p>Для запуска кода нажмите на <i class='glyphicon glyphicon-play green'></i></p>"
                     + "<p>Для остановки кода нажмите на <i class='glyphicon glyphicon-stop red'></i></p>",
                     hint: [
@@ -200,7 +200,7 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "</div>"
                     + "<p>Если вы подлетите к нему, то автоматически заберете бонус.</p>"
                     + "<p>Всего существует 3 типа бонуса:</p>"
-                    + "<p>1. <b>health</b> - добовляет здоровье</p>"
+                    + "<p>1. <b>health</b> - добавляет здоровье</p>"
                     + "<p>2. <b>damage</b> - добавляет урон</p>"
                     + "<p>3. <b>shield</b> - добавляет щиты</p>"
                     + "<p>См. документацию по <b>Bonus</b>.</p>"

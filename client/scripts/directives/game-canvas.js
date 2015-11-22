@@ -126,9 +126,7 @@ angular.module('spacecraft.gameCanvas', [])
 
                 }
 
-                game.camera.follow(spaceCraft.sprite);
-                //game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
-                game.camera.focusOn(spaceCraft.sprite);
+                followFor(spaceCraft.sprite);
 
                 cursors = game.input.keyboard.createCursorKeys();
 
@@ -155,6 +153,13 @@ angular.module('spacecraft.gameCanvas', [])
                 SCG.game.paused = true;
 
                 toSpaceCraft = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            }
+
+            function followFor(object)
+            {
+                game.camera.follow(object);
+                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
+                game.camera.focusOn(object);
             }
 
             function update()
@@ -195,10 +200,10 @@ angular.module('spacecraft.gameCanvas', [])
                 {
                     game.camera.unfollow(spaceCraft.sprite);
                     game.camera.x += 4;
-                }else if(toSpaceCraft.isDown)
+                }
+                else if(toSpaceCraft.isDown)
                 {
-                    game.camera.follow(spaceCraft.sprite);
-                    game.camera.focusOn(spaceCraft.sprite);
+                    followFor(spaceCraft.sprite);
                 }
             }
 

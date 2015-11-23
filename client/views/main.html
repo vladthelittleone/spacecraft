@@ -38,12 +38,12 @@
     </div>
     <div class="box">
         <button type="button" ng-click="toggleEditorOpen()">
-            <span class="glyphicon"
+            <span class="glyphicon editor-toggle"
                   ng-class="{'glyphicon-chevron-down' : hideEditor, 'glyphicon-chevron-up' : !hideEditor}">
             </span>
         </button>
         <button type="button" ng-click="toggleCodeRun()">
-            <span class="glyphicon"
+            <span class="glyphicon play-toggle"
                   ng-class="{'glyphicon-stop red' : ep.isCodeRunning, 'glyphicon-play green' : !ep.isCodeRunning}">
             </span>
         </button>
@@ -95,13 +95,13 @@
 
 <div class="left-toolbar">
     <button type="button" ng-click="toggleTutorialOpen()" class="tutorial-button">
-                <span class="glyphicon"
+                <span class="glyphicon question-toggle"
                       ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
                 </span>
     </button>
     <a href="https://vk.com/im?media=&sel=-105816682" target="_blank" class="feedback-button">
         <button type="button" class="feedback-button">
-                <span class="glyphicon glyphicon-comment">
+                <span class="glyphicon glyphicon-comment comment-toggle">
                 </span>
         </button>
     </a>

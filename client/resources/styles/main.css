@@ -113,7 +113,7 @@ body {
 .params-hint {
     position: fixed;
     bottom: 0;
-    width: 50px;
+    width: 100px;
     right: 0;
     left: 0;
     height: 75px;

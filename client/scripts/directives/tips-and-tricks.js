@@ -61,12 +61,12 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p>Для остановки кода нажмите на <i class='glyphicon glyphicon-stop red'></i></p>",
                     hint: [
                         {
-                            'next .glyphicon-play .green': "Нажмите <i class='glyphicon glyphicon-play green'></i> для запуска кода, а <i class='glyphicon glyphicon-stop red'></i> для вызова паузы",
+                            'next .play-toggle .green': "Нажмите <i class='glyphicon glyphicon-play green'></i> для запуска кода, а <i class='glyphicon glyphicon-stop red'></i> для вызова паузы",
                             'nextButton': {text: "Дальше"},
                             'showSkip': false
                         },
                         {
-                            'next .glyphicon-chevron-up': "Нажмите <i class='glyphicon glyphicon-chevron-down'></i>  для вызова редактора кода, а <i class='glyphicon glyphicon-chevron-up'></i> для закрытия",
+                            'next .editor-toggle': "Нажмите <i class='glyphicon glyphicon-chevron-down'></i>  для вызова редактора кода, а <i class='glyphicon glyphicon-chevron-up'></i> для закрытия",
                             'nextButton': {text: "Дальше"},
                             'showSkip': false
                         }]
@@ -80,7 +80,7 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p>Нажмите на <i class='glyphicon glyphicon-question-sign'></i> для получения документации.</p>",
                     hint: [
                         {
-                            'next .glyphicon-question-sign': "Нажмите <i class='glyphicon glyphicon-question-sign'></i> для вызова окна документации",
+                            'next .question-toggle': "Нажмите <i class='glyphicon glyphicon-question-sign'></i> для вызова окна документации",
                             'nextButton': {text: "Дальше"},
                             'showSkip': false
                         }]
@@ -95,7 +95,7 @@ angular.module('spacecraft.tipsAndTricks', [])
                     + "<p>Либо отпишитесь в обсуждениях <a href='https://vk.com/spacecrafter'>группы в вконтакте</a>.</p>",
                     hint: [
                         {
-                            'next .glyphicon-comment': "Нажмите <i class='glyphicon glyphicon-comment'></i> для отправки отзывов, предложений или информации о багах",
+                            'next .comment-toggle': "Нажмите <i class='glyphicon glyphicon-comment'></i> для отправки отзывов, предложений или информации о багах",
                             'nextButton': {text: "Дальше"},
                             'showSkip': false
                         }]

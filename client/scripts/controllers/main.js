@@ -26,9 +26,9 @@ angular.module('spacecraft.main', [])
         //===================================
 
         var code = $storage.local.getItem("code") || "return { \n\t" +
-                        "run : function(spaceCraft, world) \n\t" +
-                        "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
-                        "\n};";
+            "run : function(spaceCraft, world) \n\t" +
+            "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
+            "\n};";
 
         $scope.player = null;
         $scope.ep =
@@ -57,14 +57,8 @@ angular.module('spacecraft.main', [])
 
         $scope.toggleTutorialOpen = function ()
         {
-            if ($scope.functionTutorialOpen)
-            {
-                $scope.functionTutorialOpen = false;
-            }
-            else
-            {
-                $scope.hideTutorial = !$scope.hideTutorial;
-            }
+            $scope.functionTutorialOpen = false;
+            $scope.hideTutorial = !$scope.hideTutorial;
         };
 
         //===================================
@@ -131,13 +125,15 @@ angular.module('spacecraft.main', [])
                         {regExps: [" *enemy.$"], name: "enemy"},
                         {regExps: [" *bonus.$"], name: "bonus"},
                         {regExps: [" *enemy.weapon.$"], name: "enemyWeapon"},
-                        {regExps: [
-                            " *spaceCraft.engine.moveSpeed.$",
-                            " *spaceCraft.weapon.rate.$",
-                            " *spaceCraft.weapon.range.$",
-                            " *spaceCraft.weapon.damage.$",
-                            " *spaceCraft.protection.regeneration.$"
-                        ], name: "module"}
+                        {
+                            regExps: [
+                                " *spaceCraft.engine.moveSpeed.$",
+                                " *spaceCraft.weapon.rate.$",
+                                " *spaceCraft.weapon.range.$",
+                                " *spaceCraft.weapon.damage.$",
+                                " *spaceCraft.protection.regeneration.$"
+                            ], name: "module"
+                        }
                     ];
 
                     callback(null, generateAutocomplete(check, str));
@@ -146,10 +142,10 @@ angular.module('spacecraft.main', [])
 
             editor.completers = [spaceCraftCompleter];
             editor.setOptions(
-            {
-                enableSnippets: false,
-                enableBasicAutocompletion: true
-            });
+                {
+                    enableSnippets: false,
+                    enableBasicAutocompletion: true
+                });
 
             langTools.addCompleter(spaceCraftCompleter);
 
@@ -180,7 +176,7 @@ angular.module('spacecraft.main', [])
 
             var functionsFrom = tutorial[name].functions;
 
-            functionsFrom.forEach(function(value)
+            functionsFrom.forEach(function (value)
             {
                 array = array.concat(createAutoCompleteElement(value.name, name));
             });
@@ -190,7 +186,7 @@ angular.module('spacecraft.main', [])
 
         function createAutoCompleteElement(value, meta)
         {
-            return {"value" : value, "meta" : meta};
+            return {"value": value, "meta": meta};
         }
 
         function generateAutocomplete(check, str)

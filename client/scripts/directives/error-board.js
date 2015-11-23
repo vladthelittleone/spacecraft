@@ -5,22 +5,20 @@ angular.module('spacecraft.errorBoard', [])
     {
         var link = function (scope)
         {
-            var error;
-
-            scope.$watch('error', function (n)
+            scope.$watch('editorParams.error', function (n)
             {
-                error = n;
+                scope.error = n;
             });
 
             scope.closeErrorList = function()
             {
-                scope.error = false;
+                scope.editorParams.error = false;
             };
         };
 
         return {
             scope: {
-                error: '='
+                editorParams: '='
             },
             templateUrl: 'views/errorboard.html',
             link: link

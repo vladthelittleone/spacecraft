@@ -21,26 +21,63 @@ angular.module('spacecraft.main', [])
 
     .controller('MainController', ['$scope', '$storage', function ($scope, $storage)
     {
-        var editorSession,
-            editorRenderer;
+        //===================================
+        //============== CODE ===============
+        //===================================
 
-        $scope.code = $storage.local.getItem("code") || "return { \n\t" +
+        var code = $storage.local.getItem("code") || "return { \n\t" +
             "run : function(spaceCraft, world) \n\t" +
             "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
             "\n};";
 
-        $scope.isCodeRunning = false;
+        $scope.player = null;
+        $scope.ep =
+        {
+            isCodeRunning: false,
+            code : code,
+            error: null
+        };
+
+        $scope.toggleCodeRun = function ()
+        {
+            $scope.ep.isCodeRunning = !$scope.ep.isCodeRunning;
+        };
+
+        //===================================
+        //============== HIDE ===============
+        //===================================
+
         $scope.hideEditor = false;
         $scope.hideTutorial = true;
 
-        $scope.tipsAndTricks =
+        $scope.toggleEditorOpen = function ()
         {
-            hide: $storage.local.getItem("tipsAndTricks") || false
+            $scope.hideEditor = !$scope.hideEditor;
         };
+
+        $scope.toggleTutorialOpen = function ()
+        {
+            $scope.functionTutorialOpen = false;
+            $scope.hideTutorial = !$scope.hideTutorial;
+        };
+
+        //===================================
+        //============== TIPS-TRICKS ========
+        //===================================
+
+        $scope.tipsAndTricks = { hide: $storage.local.getItem("tipsAndTricks") || false };
+
+        $scope.toggleTipsAndTricks = function ()
+        {
+            $scope.tipsAndTricks.hide = !$scope.tipsAndTricks.hide;
+        };
+
+        //===================================
+        //============== FUNCTION ===========
+        //===================================
 
         $scope.functionTutorial = {};
         $scope.functionTutorialOpen = false;
-        $scope.functionFeedBackOpen = false;
 
         $scope.openFunctionTutorial = function (v)
         {
@@ -48,23 +85,36 @@ angular.module('spacecraft.main', [])
             $scope.functionTutorialOpen = true;
         };
 
+        //===================================
+        //============== EDITOR =============
+        //===================================
+
+        var editorSession;
+        var editorRenderer;
+
+        $scope.aceChanged = function ()
+        {
+            $scope.ep.code = editorSession.getDocument().getValue();
+
+            $storage.local.setItem("code", $scope.ep.code);
+        };
+
         $scope.aceLoaded = function (editor)
         {
             editorSession = editor.getSession();
             editorRenderer = editor.renderer;
-
             editor.$blockScrolling = Infinity;
-
-            editorSession.setValue($scope.code);
+            editorSession.setValue($scope.ep.code);
 
             var langTools = ace.require("ace/ext/language_tools");
 
-            var spaceCraftCompleter = {
+            // TODO
+            // вынести в сервис
+            var spaceCraftCompleter =
+            {
                 getCompletions: function (edx, session, pos, prefix, callback)
                 {
                     var str = editor.session.getLine(editor.getCursorPosition().row);
-
-                    var functionsName = [];
 
                     var check = [
                         {regExps: [" *spaceCraft.weapon.$"], name: "weaponBlock"},
@@ -86,28 +136,11 @@ angular.module('spacecraft.main', [])
                         }
                     ];
 
-                    check.forEach(function (value)
-                    {
-                        functionsName = functionsName.concat(test(str, value));
-                    });
-
-                    if (functionsName.length === 0)
-                    {
-                        check.forEach(function (value)
-                        {
-                            functionsName = functionsName.concat(getMethodsFrom(value.name));
-                        });
-
-                        functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
-                        functionsName.push(createAutoCompleteElement("world", "local"));
-                    }
-
-                    callback(null, functionsName);
+                    callback(null, generateAutocomplete(check, str));
                 }
             };
 
             editor.completers = [spaceCraftCompleter];
-
             editor.setOptions(
                 {
                     enableSnippets: false,
@@ -116,8 +149,7 @@ angular.module('spacecraft.main', [])
 
             langTools.addCompleter(spaceCraftCompleter);
 
-
-            $storage.local.setItem("code", $scope.code);
+            $storage.local.setItem("code", $scope.ep.code);
         };
 
         function test(string, value)
@@ -157,36 +189,26 @@ angular.module('spacecraft.main', [])
             return {"value": value, "meta": meta};
         }
 
-        $scope.aceChanged = function ()
+        function generateAutocomplete(check, str)
         {
-            $scope.code = editorSession.getDocument().getValue();
+            var functionsName = [];
 
-            $storage.local.setItem("code", $scope.code);
-        };
+            check.forEach(function (value)
+            {
+                functionsName = functionsName.concat(test(str, value));
+            });
 
-        $scope.toggleEditorOpen = function ()
-        {
-            $scope.hideEditor = !$scope.hideEditor;
-        };
+            if (!functionsName.length)
+            {
+                check.forEach(function (value)
+                {
+                    functionsName = functionsName.concat(getMethodsFrom(value.name));
+                });
 
-        $scope.toggleCodeRun = function ()
-        {
-            $scope.isCodeRunning = !$scope.isCodeRunning;
-        };
+                functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
+                functionsName.push(createAutoCompleteElement("world", "local"));
+            }
 
-        $scope.toggleTutorialOpen = function ()
-        {
-            $scope.functionTutorialOpen = false;
-            $scope.hideTutorial = !$scope.hideTutorial;
-        };
-
-        $scope.openFeedBack = function ()
-        {
-            $scope.functionFeedBackOpen = !$scope.functionFeedBackOpen;
-        };
-
-        $scope.toggleTipsAndTricks = function ()
-        {
-            $scope.tipsAndTricks.hide = !$scope.tipsAndTricks.hide;
-        };
+            return functionsName;
+        }
     }]);

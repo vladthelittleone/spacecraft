@@ -8,6 +8,28 @@
   onChange: aceChanged
 }" ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}"></div>
 
+<!-- Директива игры -->
+<div game-canvas
+     editor-params="ep"
+     player="player"></div>
+
+<!-- Директива подсказки -->
+<div tips-and-tricks
+     ng-hide="tipsAndTricks.hide"
+     object="tipsAndTricks"></div>
+
+<!-- Директива результатов -->
+<div lead-board
+     ng-hide="!player || player.isAlive()"
+     player="player">
+</div>
+
+<!-- Директива ошибки -->
+<div error-board
+     ng-show="ep.error"
+     editor-params="ep">
+</div>
+
 <div id="toolbar">
     <div class="box">
         <a href="http://spacecraft.launchrock.com/">
@@ -16,24 +38,19 @@
     </div>
     <div class="box">
         <button type="button" ng-click="toggleEditorOpen()">
-            <span class="glyphicon"
+            <span class="glyphicon editor-toggle"
                   ng-class="{'glyphicon-chevron-down' : hideEditor, 'glyphicon-chevron-up' : !hideEditor}">
             </span>
         </button>
         <button type="button" ng-click="toggleCodeRun()">
-            <span class="glyphicon"
-                  ng-class="{'glyphicon-stop red' : isCodeRunning, 'glyphicon-play green' : !isCodeRunning}">
+            <span class="glyphicon play-toggle"
+                  ng-class="{'glyphicon-stop red' : ep.isCodeRunning, 'glyphicon-play green' : !ep.isCodeRunning}">
             </span>
         </button>
     </div>
 </div>
 
-<div game-canvas
-     code="code"
-     is-running="isCodeRunning">
-</div>
-
-<div class="tutorial" ng-class="{'hidden' : hideTutorial || isCodeRunning, 'visible' : !hideTutorial}">
+<div class="tutorial" ng-class="{'hidden' : hideTutorial || ep.isCodeRunning, 'visible' : !hideTutorial}">
     <div class="objects" ng-show="!functionTutorialOpen">
         <h3>Доступные объекты управления</h3>
         <h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>
@@ -42,11 +59,14 @@
                 объектах.</p></li>
             <li ng-click="openFunctionTutorial('spaceCraft')"><p><em>SpaceCraft</em>Объект управления космическим
                 кораблем</p></li>
-            <li ng-click="openFunctionTutorial('weaponBlock')"><p><em>WeaponBlock</em>Объект управления оружием космического
+            <li ng-click="openFunctionTutorial('weaponBlock')"><p><em>WeaponBlock</em>Объект управления оружием
+                космического
                 корабля</p></li>
-            <li ng-click="openFunctionTutorial('engineBlock')"><p><em>EngineBlock</em>Блок управления двигателями космического
+            <li ng-click="openFunctionTutorial('engineBlock')"><p><em>EngineBlock</em>Блок управления двигателями
+                космического
                 корабля</p></li>
-            <li ng-click="openFunctionTutorial('protectionBlock')"><p><em>ProtectionBlock</em>Блок управления защитными системами космического
+            <li ng-click="openFunctionTutorial('protectionBlock')"><p><em>ProtectionBlock</em>Блок управления защитными
+                системами космического
                 корабля</p></li>
             <li ng-click="openFunctionTutorial('bonus')"><p><em>Bonus</em>Объект обломков уничтоженного корабля (Бонус)
             </p></li>
@@ -54,7 +74,8 @@
                 корабле</p></li>
             <li ng-click="openFunctionTutorial('enemyWeapon')"><p><em>EnemyWeapon</em>Объект, отвечающий за информацию о
                 оружии вражеского корабля</p></li>
-            <li ng-click="openFunctionTutorial('module')"><p><em>Module</em>Объект, отвечающий за информацию о модуле корабля</p></li>
+            <li ng-click="openFunctionTutorial('module')"><p><em>Module</em>Объект, отвечающий за информацию о модуле
+                корабля</p></li>
         </ul>
     </div>
     <div ng-show="functionTutorialOpen">
@@ -74,22 +95,17 @@
 
 <div class="left-toolbar">
     <button type="button" ng-click="toggleTutorialOpen()" class="tutorial-button">
-                <span class="glyphicon"
+                <span class="glyphicon question-toggle"
                       ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
                 </span>
     </button>
     <a href="https://vk.com/im?media=&sel=-105816682" target="_blank" class="feedback-button">
         <button type="button" class="feedback-button">
-                <span class="glyphicon glyphicon-comment">
+                <span class="glyphicon glyphicon-comment comment-toggle">
                 </span>
         </button>
     </a>
     <button type="button" ng-click="toggleTipsAndTricks()" class="tips-button">
-                <span class="glyphicon glyphicon-info-sign"></span>
+        <span class="glyphicon glyphicon-info-sign"></span>
     </button>
 </div>
-
-<div tips-and-tricks
-     ng-hide = "tipsAndTricks.hide"
-     object="tipsAndTricks"></div>
-

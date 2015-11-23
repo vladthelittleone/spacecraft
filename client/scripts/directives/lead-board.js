@@ -9,14 +9,7 @@ angular.module('spacecraft.leadBoard', [])
     {
         var link = function (scope)
         {
-            var spaceCraft;
-
             VK.Widgets.Subscribe("vk_subscribe", {mode: 1}, -105816682);
-
-            scope.$watch('spaceCraft', function (n)
-            {
-                spaceCraft = n;
-            });
 
             scope.reload = function ()
             {
@@ -26,7 +19,7 @@ angular.module('spacecraft.leadBoard', [])
 
         return {
             scope: {
-                spaceCraft: '='
+                player: '='
             },
             templateUrl: 'views/leadboard.html',
             link: link

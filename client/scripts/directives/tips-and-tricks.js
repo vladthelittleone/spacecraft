@@ -164,7 +164,6 @@ angular.module('spacecraft.tipsAndTricks', [])
                             'nextButton': {text: "Дальше"},
                             'showSkip': false
                         }]
-
                 },
                 {
                     title: "Блоки корабля",

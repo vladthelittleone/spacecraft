@@ -6,12 +6,17 @@
  */
 var WeaponBlock = function (spec)
 {
-    var that = {},
-        spaceCraft = spec.spaceCraft,
-        sprite = spaceCraft.sprite,
-        spriteName = spec.spriteName,
-        velocity = spec.velocity,
-        fireTime = 0;
+    var that = {};
+
+    //===================================
+    //============== INIT ===============
+    //===================================
+
+    var spaceCraft = spec.spaceCraft;
+    var sprite = spaceCraft.sprite;
+    var spriteName = spec.spriteName;
+    var velocity = spec.velocity;
+    var fireTime = 0;
 
     // Объявляем группу коллизий.
     var beamsCollisionGroup = SCG.game.physics.p2.createCollisionGroup();
@@ -21,7 +26,6 @@ var WeaponBlock = function (spec)
 
     // Массив выпущенных снарядов
     var beamsArray = [];
-
 
     // Модули
     var range = that.range = RangeModule({
@@ -50,27 +54,59 @@ var WeaponBlock = function (spec)
     beams.enableBody = true;
     beams.physicsBodyType = Phaser.Physics.P2JS;
 
-    that.incDamage = damage.inc;
-    that.incRange = range.inc;
-    that.incRate = rate.inc;
+    //===================================
+    //============== PRIVATE ===============
+    //===================================
 
-    that.decRate = rate.dec;
-    that.decRange = range.dec;
-    that.decDamage = damage.dec;
+    function initApi()
+    {
+        that.incDamage = damage.inc;
+        that.incRange = range.inc;
+        that.incRate = rate.inc;
 
-    that.getRateEnergy = rate.getEnergyPoints;
-    that.getRangeEnergy = range.getEnergyPoints;
-    that.getDamageEnergy = damage.getEnergyPoints;
+        that.decRate = rate.dec;
+        that.decRange = range.dec;
+        that.decDamage = damage.dec;
 
-    that.getFireRate = rate.getFireRate;
-    that.getFireRange = range.getFireRange;
-    that.getDamage = damage.getDamage;
+        that.getRateEnergy = rate.getEnergyPoints;
+        that.getRangeEnergy = range.getEnergyPoints;
+        that.getDamageEnergy = damage.getEnergyPoints;
+        that.getFireRate = rate.getFireRate;
+        that.getFireRange = range.getFireRange;
+        that.getDamage = damage.getDamage;
+        that.getFireRateByPoints = rate.get;
+        that.getFireRangeByPoints = range.get;
+        that.getDamageByPoints = damage.get;
 
-    that.getFireRateByPoints = rate.get;
-    that.getFireRangeByPoints = range.get;
-    that.getDamageByPoints = damage.get;
+        that.addDamage = damage.addDamage;
+    }
 
-    that.addDamage = damage.addDamage;
+    function beamHit(u)
+    {
+        return function (unit, beam)
+        {
+            if (beam.sprite)
+            {
+                if (!utils.randomInt(0, 3))
+                {
+                    Explosion(beam.sprite.x, beam.sprite.y, 0.3);
+                }
+
+                beam.sprite.destroy();
+                beam.destroy();
+
+                // Наносим урон
+                u.hit(damage.getDamage(), spaceCraft);
+                spaceCraft.statistic.addAcceptDamage(spaceCraft.weapon.getDamage());
+                u.statistic.addTakenDamage(damage.getDamage());
+
+            }
+        };
+    }
+
+    //===================================
+    //============== THAT ===============
+    //===================================
 
     that.update = function ()
     {
@@ -95,34 +131,7 @@ var WeaponBlock = function (spec)
         units.forEach(function (u)
         {
             // Callback при коллизии пули с кораблем
-            var beamHit = function (unit, beam)
-            {
-                /**
-                 * Уничтожаем пулю
-                 *
-                 * TODO
-                 * Странная проверка, так как мы удаляем body,
-                 * но все равно вызывается beamHit
-                 */
-                if (beam.sprite)
-                {
-                    if (!utils.randomInt(0, 3))
-                    {
-                        Explosion(beam.sprite.x, beam.sprite.y, 0.3);
-                    }
-
-                    beam.sprite.destroy();
-                    beam.destroy();
-
-                    // Наносим урон
-                    u.hit(damage.getDamage(), spaceCraft);
-                    spaceCraft.statistic.addAcceptDamage(spaceCraft.weapon.getDamage());
-                    u.statistic.addTakenDamage(damage.getDamage());
-
-                }
-            };
-
-            u.sprite.body.collides(beamsCollisionGroup, beamHit);
+            u.sprite.body.collides(beamsCollisionGroup, beamHit(u));
         });
     };
 
@@ -235,6 +244,8 @@ var WeaponBlock = function (spec)
 
         that.fire(enemy);
     };
+
+    initApi();
 
     return that;
 };

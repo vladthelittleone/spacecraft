@@ -197,7 +197,15 @@ angular.module('spacecraft.gameCanvas', [])
 
                     if (n)
                     {
-                        userObject = new Function(userCode)();
+                        try
+                        {
+                            userObject = new Function(userCode)();
+                        }
+                        catch(err)
+                        {
+                            scope.editorParams.error = err.toString();
+                            scope.editorParams.isCodeRunning = false;
+                        }
                     }
                 });
             }

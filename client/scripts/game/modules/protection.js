@@ -7,6 +7,10 @@ var ProtectionBlock = function (spec)
 {
     var that = {};
 
+    //===================================
+    //============== INIT ===============
+    //===================================
+
     var shield, health;
 
     var maxHealth = health = spec.health;
@@ -26,11 +30,9 @@ var ProtectionBlock = function (spec)
         energyPoints: 2
     });
 
-    that.incRegen = regenerationModule.inc;
-    that.decRegen = regenerationModule.dec;
-    that.getRegenEnergy = regenerationModule.getEnergyPoints;
-    that.getRegeneration = regenerationModule.getRegeneration;
-    that.getRegenerationByPoints = regenerationModule.get;
+    //===================================
+    //============== PRIVATE ============
+    //===================================
 
     function regeneration(maxValue, value)
     {
@@ -46,6 +48,19 @@ var ProtectionBlock = function (spec)
             return maxValue;
         }
     }
+
+    function initApi()
+    {
+        that.incRegen = regenerationModule.inc;
+        that.decRegen = regenerationModule.dec;
+        that.getRegenEnergy = regenerationModule.getEnergyPoints;
+        that.getRegeneration = regenerationModule.getRegeneration;
+        that.getRegenerationByPoints = regenerationModule.get;
+    }
+
+    //===================================
+    //============== THAT ===============
+    //===================================
 
     that.addHealth = function (add)
     {
@@ -125,6 +140,8 @@ var ProtectionBlock = function (spec)
     {
         return maxShield;
     };
+
+    initApi();
 
     return that;
 };

@@ -24,19 +24,23 @@ angular.module('spacecraft.main', [])
         var editorSession,
             editorRenderer;
 
-        $scope.code = $storage.local.getItem("code") || "return { \n\t" +
+        var code = $storage.local.getItem("code") || "return { \n\t" +
                         "run : function(spaceCraft, world) \n\t" +
                         "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
                         "\n};";
 
-        $scope.isCodeRunning = false;
+        $scope.player = null;
+        $scope.ep =
+        {
+            isCodeRunning: false,
+            code : code,
+            error: null
+        };
+
         $scope.hideEditor = false;
         $scope.hideTutorial = true;
 
-        $scope.tipsAndTricks =
-        {
-            hide: $storage.local.getItem("tipsAndTricks") || false
-        };
+        $scope.tipsAndTricks = { hide: $storage.local.getItem("tipsAndTricks") || false };
 
         $scope.functionTutorial = {};
         $scope.functionTutorialOpen = false;
@@ -55,11 +59,12 @@ angular.module('spacecraft.main', [])
 
             editor.$blockScrolling = Infinity;
 
-            editorSession.setValue($scope.code);
+            editorSession.setValue($scope.ep.code);
 
             var langTools = ace.require("ace/ext/language_tools");
 
-            var spaceCraftCompleter = {
+            var spaceCraftCompleter =
+            {
                 getCompletions: function (edx, session, pos, prefix, callback)
                 {
                     var str = editor.session.getLine(editor.getCursorPosition().row);
@@ -115,7 +120,7 @@ angular.module('spacecraft.main', [])
             langTools.addCompleter(spaceCraftCompleter);
 
 
-            $storage.local.setItem("code", $scope.code);
+            $storage.local.setItem("code", $scope.ep.code);
         };
 
         function test(string, value)
@@ -157,9 +162,9 @@ angular.module('spacecraft.main', [])
 
         $scope.aceChanged = function ()
         {
-            $scope.code = editorSession.getDocument().getValue();
+            $scope.ep.code = editorSession.getDocument().getValue();
 
-            $storage.local.setItem("code", $scope.code);
+            $storage.local.setItem("code", $scope.ep.code);
         };
 
         $scope.toggleEditorOpen = function ()
@@ -169,7 +174,7 @@ angular.module('spacecraft.main', [])
 
         $scope.toggleCodeRun = function ()
         {
-            $scope.isCodeRunning = !$scope.isCodeRunning;
+            $scope.ep.isCodeRunning = !$scope.ep.isCodeRunning;
         };
 
         $scope.toggleTutorialOpen = function ()

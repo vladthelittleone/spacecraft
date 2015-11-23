@@ -9,18 +9,15 @@
 angular.module('spacecraft.gameCanvas', [])
     .directive('gameCanvas', ['$injector', function ($injector)
     {
-        var linkFn = function (scope, element, attrs)
+        var linkFn = function (scope)
         {
-            var spaceCraft,
-                world,
-                cursors,
-                isRunning,
-                userCode,
-                userObject;
-
-            // Build the game object
-            //var height  = parseInt(element.css('height'), 10),
-            //    width   = parseInt(element.css('width'), 10);
+            var spaceCraft;
+            var world;
+            var cursors;
+            var isRunning;
+            var userCode;
+            var userObject;
+            var toSpaceCraft;
 
             var game = SCG.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game', {
                 preload: preload,
@@ -28,7 +25,9 @@ angular.module('spacecraft.gameCanvas', [])
                 update: update
             });
 
-            var toSpaceCraft;
+            //===================================
+            //============== HELP ===============
+            //===================================
 
             function runUserScript()
             {
@@ -40,11 +39,88 @@ angular.module('spacecraft.gameCanvas', [])
                     }
                     catch(err)
                     {
-                        scope.error = err.toString();
-                        scope.isRunning = false;
+                        scope.editorParams.error = err.toString();
+                        scope.editorParams.isCodeRunning = false;
                     }
                 }
             }
+
+            function followFor(object)
+            {
+                game.camera.follow(object);
+                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
+                game.camera.focusOn(object);
+            }
+
+            function keysControl()
+            {
+                if (cursors.up.isDown) {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.y -= 4;
+                }
+                else if (cursors.down.isDown) {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.y += 4;
+                }
+
+                if (cursors.left.isDown) {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.x -= 4;
+                }
+                else if (cursors.right.isDown) {
+                    game.camera.unfollow(spaceCraft.sprite);
+                    game.camera.x += 4;
+                }
+
+                if (toSpaceCraft.isDown) {
+                    followFor(spaceCraft.sprite);
+                }
+            }
+
+            function gameInit(bounds)
+            {
+                game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
+                game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+
+                game.scale.pageAlignVertically = true;
+                game.scale.pageAlignHorizontally = true;
+
+                //  Enable P2
+                game.physics.startSystem(Phaser.Physics.P2JS);
+
+                //  Turn on impact events for the world, without this we get no collision callbacks
+                game.physics.p2.setImpactEvents(true);
+                game.physics.p2.restitution = 0.8;
+
+                cursors = game.input.keyboard.createCursorKeys();
+                toSpaceCraft = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+                SCG.game.paused = true;
+            }
+
+            function collisionInit()
+            {
+                SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
+                SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
+                game.physics.p2.updateBoundsCollisionGroup();
+            }
+
+            function worldInit(bounds)
+            {
+                // Создаем объект мира
+                world = SCG.world = World({bounds: bounds});
+                world.decorations.createMeteors({count: 2});
+                world.createBots({
+                    count: 20,
+                    strategy: botStrategy,
+                    health: 200,
+                    shield: 100
+                });
+            }
+
+            //===================================
+            //============== CYCLE ==============
+            //===================================
 
             function preload()
             {
@@ -80,32 +156,17 @@ angular.module('spacecraft.gameCanvas', [])
                     height: 1920
                 };
 
-                game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
-                game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+                gameInit(bounds);
 
-                game.scale.pageAlignVertically = true;
-                game.scale.pageAlignHorizontally = true;
+                collisionInit();
 
-                //  Enable P2
-                game.physics.startSystem(Phaser.Physics.P2JS);
-
-                //  Turn on impact events for the world, without this we get no collision callbacks
-                game.physics.p2.setImpactEvents(true);
-                game.physics.p2.restitution = 0.8;
-
-                // Создаем объект мира
-                world = SCG.world = World({bounds: bounds});
+                worldInit(bounds);
 
                 SCG.stop = function ()
                 {
-                    scope.isRunning = false;
+                    scope.editorParams.isCodeRunning = false;
                 };
-
-                SCG.spaceCraftCollisionGroup = game.physics.p2.createCollisionGroup();
-                SCG.bonusCollisionGroup = game.physics.p2.createCollisionGroup();
-                game.physics.p2.updateBoundsCollisionGroup();
-
-                scope.$apply(function ()
+                scope.$apply(function createSpaceCraft()
                 {
                     scope.spaceCraft = spaceCraft = SCG.spaceCraft = SpaceCraft({
                         x: game.world.centerX,
@@ -116,24 +177,15 @@ angular.module('spacecraft.gameCanvas', [])
                     });
                 });
 
-                world.decorations.createMeteors({ count: 2 });
-                world.createBots({
-                    count: 20,
-                    strategy: botStrategy,
-                    health: 200,
-                    shield: 100
-                });
-
                 followFor(spaceCraft.sprite);
 
-                cursors = game.input.keyboard.createCursorKeys();
 
-                scope.$watch('code', function (n)
+                scope.$watch('editorParams.code', function (n)
                 {
                     userCode = n;
                 });
 
-                scope.$watch('isRunning', function (n)
+                scope.$watch('editorParams.isCodeRunning', function (n)
                 {
                     isRunning = n;
 
@@ -147,17 +199,6 @@ angular.module('spacecraft.gameCanvas', [])
                         userObject = new Function(userCode)();
                     }
                 });
-
-                SCG.game.paused = true;
-
-                toSpaceCraft = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            }
-
-            function followFor(object)
-            {
-                game.camera.follow(object);
-                game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
-                game.camera.focusOn(object);
             }
 
             function update()
@@ -165,6 +206,10 @@ angular.module('spacecraft.gameCanvas', [])
                 scope.$apply(function ()
                 {
                     scope.spaceCraft = spaceCraft;
+                    scope.player = {
+                        isAlive: spaceCraft.isAlive,
+                        statistic: spaceCraft.statistic
+                    };
 
                     if (!spaceCraft.isAlive())
                     {
@@ -178,43 +223,12 @@ angular.module('spacecraft.gameCanvas', [])
                     runUserScript();
                 }
 
-                if (cursors.up.isDown)
-                {
-                    game.camera.unfollow(spaceCraft.sprite);
-                    game.camera.y -= 4;
-                }
-                else if (cursors.down.isDown)
-                {
-                    game.camera.unfollow(spaceCraft.sprite);
-                    game.camera.y += 4;
-                }
-
-                if (cursors.left.isDown)
-                {
-                    game.camera.unfollow(spaceCraft.sprite);
-                    game.camera.x -= 4;
-                }
-                else if (cursors.right.isDown)
-                {
-                    game.camera.unfollow(spaceCraft.sprite);
-                    game.camera.x += 4;
-                }
-                else if(toSpaceCraft.isDown)
-                {
-                    followFor(spaceCraft.sprite);
-                }
+                keysControl();
             }
 
-            //function render()
-            //{
-            //    var zone = game.camera.deadzone;
-            //
-            //    game.context.fillStyle = 'rgba(255,255,255,0.1)';
-            //    game.context.fillRect(zone.x, zone.y, zone.width, zone.height);
-            //
-            //    game.debug.cameraInfo(game.camera, 32, 32);
-            //    game.debug.spriteCoords(spaceCraft.sprite, 32, 500);
-            //}
+            //===================================
+            //============== SCOPE ==============
+            //===================================
 
             scope.getNumber = function(num)
             {
@@ -235,9 +249,10 @@ angular.module('spacecraft.gameCanvas', [])
         };
 
         return {
-            scope: {
-                code: '=',
-                isRunning: '='
+            scope:
+            {
+                editorParams: '=',
+                player: "="
             },
             templateUrl: 'views/game.html',
             link: linkFn

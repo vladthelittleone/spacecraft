@@ -37,6 +37,7 @@ angular.module('spacecraft.gameCanvas', [])
                     try
                     {
                         userObject.run(SpaceCraftApi(spaceCraft), WorldApi(world, spaceCraft.getId()));
+                        scope.error = false;
                     }
                     catch(err)
                     {

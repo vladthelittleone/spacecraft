@@ -20,6 +20,6 @@ angular.module('spacecraft', [
 ])
     .config(['$urlRouterProvider', function ($urlRouterProvider)
     {
-        // For any unmatched url, send to ""
-        $urlRouterProvider.otherwise("/");
+        // For any unmatched url, send to ''
+        $urlRouterProvider.otherwise('/');
     }]);

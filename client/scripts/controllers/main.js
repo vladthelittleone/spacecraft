@@ -25,16 +25,16 @@ angular.module('spacecraft.main', [])
         //============== CODE ===============
         //===================================
 
-        var code = $storage.local.getItem("code") || "return { \n\t" +
-            "run : function(spaceCraft, world) \n\t" +
-            "{  \n\t\tspaceCraft.weapon.fire();  \n\t}  " +
-            "\n};";
+        var code = $storage.local.getItem('code') || 'return { \n\t' +
+            'run : function(spaceCraft, world) \n\t' +
+            '{  \n\t\tspaceCraft.weapon.fire();  \n\t}  ' +
+            '\n};';
 
         $scope.player = null;
         $scope.ep =
         {
             isCodeRunning: false,
-            code : code,
+            code: code,
             error: null
         };
 
@@ -65,7 +65,7 @@ angular.module('spacecraft.main', [])
         //============== TIPS-TRICKS ========
         //===================================
 
-        $scope.tipsAndTricks = { hide: $storage.local.getItem("tipsAndTricks") || false };
+        $scope.tipsAndTricks = { hide: $storage.local.getItem('tipsAndTricks') || false };
 
         $scope.toggleTipsAndTricks = function ()
         {
@@ -95,8 +95,7 @@ angular.module('spacecraft.main', [])
         $scope.aceChanged = function ()
         {
             $scope.ep.code = editorSession.getDocument().getValue();
-
-            $storage.local.setItem("code", $scope.ep.code);
+            $storage.local.setItem('code', $scope.ep.code);
         };
 
         $scope.aceLoaded = function (editor)
@@ -106,7 +105,7 @@ angular.module('spacecraft.main', [])
             editor.$blockScrolling = Infinity;
             editorSession.setValue($scope.ep.code);
 
-            var langTools = ace.require("ace/ext/language_tools");
+            var langTools = ace.require('ace/ext/language_tools');
 
             // TODO
             // вынести в сервис
@@ -117,22 +116,22 @@ angular.module('spacecraft.main', [])
                     var str = editor.session.getLine(editor.getCursorPosition().row);
 
                     var check = [
-                        {regExps: [" *spaceCraft.weapon.$"], name: "weaponBlock"},
-                        {regExps: [" *spaceCraft.engine.$"], name: "engineBlock"},
-                        {regExps: [" *spaceCraft.protection.$"], name: "protectionBlock"},
-                        {regExps: [" *spaceCraft.$"], name: "spaceCraft"},
-                        {regExps: [" *world.$"], name: "world"},
-                        {regExps: [" *enemy.$"], name: "enemy"},
-                        {regExps: [" *bonus.$"], name: "bonus"},
-                        {regExps: [" *enemy.weapon.$"], name: "enemyWeapon"},
+                        {regExps: [' *spaceCraft.weapon.$'], name: 'weaponBlock'},
+                        {regExps: [' *spaceCraft.engine.$'], name: 'engineBlock'},
+                        {regExps: [' *spaceCraft.protection.$'], name: 'protectionBlock'},
+                        {regExps: [' *spaceCraft.$'], name: 'spaceCraft'},
+                        {regExps: [' *world.$'], name: 'world'},
+                        {regExps: [' *enemy.$'], name: 'enemy'},
+                        {regExps: [' *bonus.$'], name: 'bonus'},
+                        {regExps: [' *enemy.weapon.$'], name: 'enemyWeapon'},
                         {
                             regExps: [
-                                " *spaceCraft.engine.moveSpeed.$",
-                                " *spaceCraft.weapon.rate.$",
-                                " *spaceCraft.weapon.range.$",
-                                " *spaceCraft.weapon.damage.$",
-                                " *spaceCraft.protection.regeneration.$"
-                            ], name: "module"
+                                ' *spaceCraft.engine.moveSpeed.$',
+                                ' *spaceCraft.weapon.rate.$',
+                                ' *spaceCraft.weapon.range.$',
+                                ' *spaceCraft.weapon.damage.$',
+                                ' *spaceCraft.protection.regeneration.$'
+                            ], name: 'module'
                         }
                     ];
 
@@ -149,7 +148,7 @@ angular.module('spacecraft.main', [])
 
             langTools.addCompleter(spaceCraftCompleter);
 
-            $storage.local.setItem("code", $scope.ep.code);
+            $storage.local.setItem('code', $scope.ep.code);
         };
 
         function test(string, value)
@@ -186,7 +185,7 @@ angular.module('spacecraft.main', [])
 
         function createAutoCompleteElement(value, meta)
         {
-            return {"value": value, "meta": meta};
+            return {value: value, meta: meta};
         }
 
         function generateAutocomplete(check, str)
@@ -205,8 +204,8 @@ angular.module('spacecraft.main', [])
                     functionsName = functionsName.concat(getMethodsFrom(value.name));
                 });
 
-                functionsName.push(createAutoCompleteElement("spaceCraft", "local"));
-                functionsName.push(createAutoCompleteElement("world", "local"));
+                functionsName.push(createAutoCompleteElement('spaceCraft', 'local'));
+                functionsName.push(createAutoCompleteElement('world', 'local'));
             }
 
             return functionsName;

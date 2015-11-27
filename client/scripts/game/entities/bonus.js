@@ -109,7 +109,7 @@ var DamageBonus = function (spec)
     var damage = spec.damage;
 
     that.spriteName = 'bonus1';
-    that.name = "damage";
+    that.name = 'damage';
 
     that.useBonus = function (spaceCraft)
     {
@@ -125,7 +125,7 @@ var ShieldBonus = function (spec)
     var shield = spec.shield;
 
     that.spriteName = 'bonus3';
-    that.name = "shield";
+    that.name = 'shield';
 
     that.useBonus = function (spaceCraft)
     {

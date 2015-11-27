@@ -19,9 +19,9 @@ angular.module('spacecraft.storage', [])
             // Check storage support.
             try {
 
-                type.setItem("storage", "");
+                type.setItem('storage', '');
 
-                type.removeItem("storage");
+                type.removeItem('storage');
 
                 return type;
 

@@ -9,7 +9,7 @@ angular.module('spacecraft.leadBoard', [])
     {
         var link = function (scope)
         {
-            VK.Widgets.Subscribe("vk_subscribe", {mode: 1}, -105816682);
+            VK.Widgets.Subscribe('vk_subscribe', {mode: 1}, -105816682);
 
             scope.reload = function ()
             {

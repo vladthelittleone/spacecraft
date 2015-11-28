@@ -2,18 +2,18 @@
  * Rules applied to whole project (selection color, container sizes,…)
  */
 
-@selection_color: #19bb9b;
-@selection_color_font: #fff;
+$selection_color: #19bb9b;
+$selection_color_font: #fff;
 
 ::-moz-selection {
-  background: @selection_color;
-  color: @selection_color_font;
+  background: $selection_color;
+  color: $selection_color_font;
   text-shadow: none;
 }
 
 ::selection {
-  background: @selection_color;
-  color: @selection_color_font;
+  background: $selection_color;
+  color: $selection_color_font;
   text-shadow: none;
 }
 
@@ -26,8 +26,8 @@
 * {
   margin: 0;
   padding: 0;
-.box-sizing(border-box);
 
+box-sizing: border-box;
 }
 
 body.loading {

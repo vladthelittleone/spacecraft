@@ -2,14 +2,14 @@
  * Definitions for all global font properties
  */
 
-@font_family: 'Helvetica Neue', sans-serif;
-@font_size: 16px;
-@font_color: #010101;
+$font_family: 'Helvetica Neue', sans-serif;
+$font_size: 16px;
+$font_color: #010101;
 
 body {
-  font-family: @font_family;
-  font-size: @font_size;
-  color: @font_color;
+  font-family: $font_family;
+  font-size: $font_size;
+  color: $font_color;
 }
 
 p {

@@ -1,6 +1,4 @@
-/**
- * Created by vladthelittleone on 27.11.15.
- */
+'use strict';
 
 // Dependencies
 var gulp = require('gulp');
@@ -11,10 +9,14 @@ var notify = require('gulp-notify');
 var autoprefixer = require('gulp-autoprefixer');
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
+var uncss = require('gulp-uncss');
 var livereload = require('gulp-livereload');
+var useref = require('gulp-useref');
+var gulpif = require('gulp-if');
+var uglify = require('gulp-uglify');
 
 // Task
-gulp.task('server', function()
+gulp.task('server', function ()
 {
     // listen for changes
     livereload.listen();
@@ -57,18 +59,33 @@ gulp.task('scss', function ()
         .pipe(notify('Scss minification task is done.'));
 });
 
-gulp.task('html', function ()
+gulp.task('views', function ()
 {
     return gulp.src('client/views/*.html')
-        .pipe(gulp.dest('out/'))
-        .pipe(livereload())
+        .pipe(gulp.dest('out/views'))
         .pipe(notify('Html reload is done.'));
 });
 
 gulp.task('watch', function ()
 {
-    gulp.watch('client/resources/styles/*.css', ['css']);
-    gulp.watch('client/views/*.html', ['html']);
+    gulp.watch([
+            'client/views/*.html',
+            'client/*.html',
+            'client/resources/styles/*.css'
+        ],
+        ['views', 'refresh']);
 });
 
-gulp.task('development', ['server', 'watch']);
+gulp.task('refresh', function ()
+{
+    return gulp.src('client/index.html')
+        .pipe(useref())
+        .pipe(gulpif('*.js', uglify()))
+        .pipe(gulpif('*.css', uncss({ html: ['client/views/*.html', 'client/index.html']})))
+        .pipe(gulpif('*.css', minifyCss()))
+        .pipe(livereload())
+        .pipe(gulp.dest('out'))
+        .pipe(notify('Refresh is done.'));
+});
+
+gulp.task('development', ['views', 'refresh', 'server', 'watch']);

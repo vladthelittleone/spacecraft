@@ -19,6 +19,7 @@
 	<meta name="twitter:url" content="http://spacecraftcode.ru/">
 	<meta name="twitter:site" content="SpaceCraft">
 
+	<!-- build:js scripts/spacecraft.min.js -->
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/ace-builds/src-min/ace.js"></script>
     <script type="text/javascript" src="bower_components/ace-builds/src-min/ext-language_tools.js"></script>
@@ -57,16 +58,16 @@
     <script type="text/javascript" src="scripts/directives/error-board.js"></script>
 
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?120"></script>
-
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+	<!-- endbuild -->
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="shortcut icon" href="resources/favicon.ico">
 
-    <link href="bower_components/enjoyhint/enjoyhint.css" rel="stylesheet">
-    <link rel="stylesheet" href="resources/styles/main.css">
+	<!-- build:css css/spacecraft.min.css -->
+    <link rel="stylesheet" href="bower_components/enjoyhint/enjoyhint.css" type='text/css' media='all'>
+    <link rel="stylesheet" href="resources/styles/main.css" type='text/css' media='all'>
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' type='text/css' media='all'>
+	<!-- endbuild -->
 </head>
 <body ng-app="spacecraft">
 <!--[if lte IE 8]>

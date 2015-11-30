@@ -33,6 +33,10 @@ body {
     animation-name: rotate-in-down-left;
 }
 
+.mycont{
+    margin-top: 25px;
+}
+.ui-layout-column
 .enjoyhint_close_btn {
     visibility: hidden;
 }

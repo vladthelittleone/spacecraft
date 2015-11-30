@@ -1,6 +1,7 @@
 /**
  * Created by vladthelittleone on 30.11.15.
  */
+var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 

@@ -5,7 +5,8 @@ var gulp = require('./gulp')([
     'server',
     'watch',
     'bower',
-    'images'
+    'images',
+    'browserify'
 ]);
 
 gulp.task('build', ['packaging', 'bower', 'images']);

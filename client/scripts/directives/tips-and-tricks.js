@@ -278,11 +278,6 @@ angular.module('spacecraft.tipsAndTricks', [])
 			{
 				return $sce.trustAsHtml(scope.t.description);
 			};
-
-			scope.$watch('object', function (o)
-			{
-				object = o;
-			});
 		};
 
 		return {

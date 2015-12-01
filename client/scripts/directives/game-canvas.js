@@ -7,7 +7,7 @@
  * # gameCanvas
  */
 angular.module('spacecraft.gameCanvas', [])
-    .directive('gameCanvas', ['$injector', function ($injector)
+    .directive('gameCanvas', function ()
     {
         var linkFn = function (scope)
         {
@@ -267,4 +267,4 @@ angular.module('spacecraft.gameCanvas', [])
             link: linkFn
         };
 
-    }]);
+    });

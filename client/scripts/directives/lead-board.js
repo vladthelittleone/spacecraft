@@ -5,7 +5,7 @@
  */
 
 angular.module('spacecraft.leadBoard', [])
-    .directive('leadBoard', ['$injector', function ($injector)
+    .directive('leadBoard', function ()
     {
         var link = function (scope)
         {
@@ -21,8 +21,8 @@ angular.module('spacecraft.leadBoard', [])
             scope: {
                 player: '='
             },
-            templateUrl: 'views/leadboard.html',
+            templateUrl: 'views/lead-board.html',
             link: link
         };
-    }])
+    })
 ;

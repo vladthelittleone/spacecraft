@@ -5,11 +5,11 @@
  */
 
 angular.module('spacecraft.leadBoard', [])
-    .directive('leadBoard', ['$injector', function ($injector)
+    .directive('leadBoard', function ()
     {
         var link = function (scope)
         {
-            VK.Widgets.Subscribe("vk_subscribe", {mode: 1}, -105816682);
+            VK.Widgets.Subscribe('vk_subscribe', {mode: 1}, -105816682);
 
             scope.reload = function ()
             {
@@ -21,8 +21,8 @@ angular.module('spacecraft.leadBoard', [])
             scope: {
                 player: '='
             },
-            templateUrl: 'views/leadboard.html',
+            templateUrl: 'views/lead-board.html',
             link: link
         };
-    }])
+    })
 ;

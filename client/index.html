@@ -30,32 +30,42 @@
 
 	<!-- build:js scripts/spacecraft.min.js -->
     <script type="text/javascript" src="scripts/game/game.js"></script>
+	<script type="text/javascript" src="scripts/game/utils.js"></script>
 
-    <script type="text/javascript" src="scripts/game/modules/module.js"></script>
+	<script type="text/javascript" src="scripts/game/states/boot.js"></script>
+	<script type="text/javascript" src="scripts/game/states/menu.js"></script>
+	<script type="text/javascript" src="scripts/game/states/play.js"></script>
+	<script type="text/javascript" src="scripts/game/states/preload.js"></script>
+
+	<script type="text/javascript" src="scripts/game/modules/module.js"></script>
     <script type="text/javascript" src="scripts/game/modules/modules-manager.js"></script>
     <script type="text/javascript" src="scripts/game/modules/weapon.js"></script>
     <script type="text/javascript" src="scripts/game/modules/engine.js"></script>
     <script type="text/javascript" src="scripts/game/modules/protection.js"></script>
 
-    <script type="text/javascript" src="scripts/game/entities/space-craft.js"></script>
-    <script type="text/javascript" src="scripts/game/entities/explosion.js"></script>
-    <script type="text/javascript" src="scripts/game/entities/world.js"></script>
-    <script type="text/javascript" src="scripts/game/entities/bonus.js"></script>
-    <script type="text/javascript" src="scripts/game/entities/statistic.js"></script>
-    <script type="text/javascript" src="scripts/game/entities/decorations.js"></script>
-    <script type="text/javascript" src="scripts/game/entities/meteor.js"></script>
+	<script type="text/javascript" src="scripts/game/world/world.js"></script>
+	<script type="text/javascript" src="scripts/game/world/decorations.js"></script>
+	<script type="text/javascript" src="scripts/game/world/entities-factory.js"></script>
+	<script type="text/javascript" src="scripts/game/world/game-object.js"></script>
+
+	<script type="text/javascript" src="scripts/game/world/entities/space-craft.js"></script>
+    <script type="text/javascript" src="scripts/game/world/entities/explosion.js"></script>
+	<script type="text/javascript" src="scripts/game/world/entities/bonus.js"></script>
+    <script type="text/javascript" src="scripts/game/world/entities/meteor.js"></script>
 
     <script type="text/javascript" src="scripts/game/shared/tutorial.js"></script>
     <script type="text/javascript" src="scripts/game/shared/api.js"></script>
     <script type="text/javascript" src="scripts/game/shared/bot-strategy.js"></script>
+	<script type="text/javascript" src="scripts/game/shared/statistic.js"></script>
 
     <script type="text/javascript" src="scripts/service/storage.js"></script>
     <script type="text/javascript" src="scripts/controllers/main.js"></script>
-    <script type="text/javascript" src="scripts/app.js"></script>
     <script type="text/javascript" src="scripts/directives/game-canvas.js"></script>
     <script type="text/javascript" src="scripts/directives/tips-and-tricks.js"></script>
     <script type="text/javascript" src="scripts/directives/lead-board.js"></script>
     <script type="text/javascript" src="scripts/directives/error-board.js"></script>
+	<script type="text/javascript" src="scripts/app.js"></script>
+
 	<!-- endbuild -->
 
 	<script type="text/javascript" src="//vk.com/js/api/openapi.js?120"></script>

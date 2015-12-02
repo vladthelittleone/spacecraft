@@ -2,9 +2,14 @@
  * Created by vladthelittleone on 10.11.15.
  * @constructor
  */
-var Explosion = function (x, y, scale)
+var Explosion = function (spec)
 {
-    var boomSprite = SCG.game.add.sprite(x, y, 'explosion');
+	var game = spec.game;
+	var x = spec.x;
+	var y = spec.y;
+	var scale = spec.scale;
+
+    var boomSprite = game.add.sprite(x, y, 'explosion');
 
     if (scale)
     {

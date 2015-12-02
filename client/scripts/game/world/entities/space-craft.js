@@ -10,11 +10,12 @@ var SpaceCraft = function (spec)
     //============== INIT ===============
     //===================================
 
-    var that = GameObject({
-        type: SCG.world.spaceCraftType
-    });
+	var game = spec.game;
+	var sc = game.sc;
 
-    var game = SCG.game;
+    var that = sc.world.factory.createGameObject({
+        type: sc.world.spaceCraftType
+    });
 
     var statistic = that.statistic = Statistic();
     var modulesManager = that.modulesManager = ModulesManager({
@@ -48,30 +49,33 @@ var SpaceCraft = function (spec)
     game.physics.p2.enable(sprite);
 
     //  Добавляем группу коллизий
-    sprite.body.setCollisionGroup(SCG.spaceCraftCollisionGroup);
-    sprite.body.collides(SCG.bonusCollisionGroup);
+    sprite.body.setCollisionGroup(sc.collisionGroups.spaceCraft);
+    sprite.body.collides(sc.collisionGroups.bonus);
 
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
     var engine = that.engine = EngineBlock({
         modulesManager: modulesManager,
-        spaceCraft: that
-    });
+        spaceCraft: that,
+		game: game
+	});
 
     var protection = that.protection = ProtectionBlock({
         sprite: sprite,
         health: spec.health,
         shield: spec.shield,
-        modulesManager: modulesManager
+        modulesManager: modulesManager,
+		game: game
     });
 
     var weapon = that.weapon = WeaponBlock({
         spaceCraft: that,
         modulesManager: modulesManager,
         velocity: 400,
-        spriteName: 'greenBeam'
-    });
+        spriteName: 'greenBeam',
+		game: game
+	});
 
     //===================================
     //============== PRIVATE ============
@@ -86,27 +90,30 @@ var SpaceCraft = function (spec)
         });
 
         // Создание нового бонуса и занесение его в bonusArray
-        utils.random() && Bonus({
+        utils.random() && sc.world.factory.createBonus({
             bonusType: bonusType,
             x: sprite.body.x,
             y: sprite.body.y,
             angle: game.rnd.angle()
         });
 
-        Explosion(that.sprite.x, that.sprite.y);
+        sc.world.factory.createExplosion({
+			x: that.sprite.x,
+			y: that.sprite.y
+		});
 
         damageCraft.statistic.addKillEnemy();
 
         isAlive = false;
 
-        if (SCG.spaceCraft.getId() === that.getId())
+        if (sc.scope.spaceCraft.getId() === that.getId())
         {
             statistic.calculateTotalScore();
-            SCG.stop();
+            sc.scope.editorParams.isCodeRunning = false;
         }
 
-        var modX = SCG.world.getBounds().height - 320;
-        var modY = SCG.world.getBounds().width - 320;
+        var modX = sc.world.getBounds().height - 320;
+        var modY = sc.world.getBounds().width - 320;
 
         var nx = game.world.randomX % modX + 200;
         var ny = game.world.randomY % modY + 200;
@@ -127,7 +134,10 @@ var SpaceCraft = function (spec)
         protection.healthRegeneration();
         protection.shieldRegeneration();
 
-        strategy && strategy(that);
+        strategy && strategy({
+			spaceCraft: that,
+			game: game
+		});
     };
 
     that.changeStatus = function ()
@@ -218,7 +228,7 @@ var SpaceCraft = function (spec)
     sprite.bringToTop();
 
     // Добавляем наш корабль в мир
-    SCG.world.pushObject(that);
+    sc.world.pushObject(that);
 
     return that;
 };

@@ -1,8 +1,11 @@
 'use strict';
 
-var botStrategy = function (spaceCraft)
+var botStrategy = function (spec)
 {
-    var bounds = SCG.world.getBounds();
+	var sc = spec.game.sc;
+	var spaceCraft = spec.spaceCraft;
+
+    var bounds = sc.world.getBounds();
 
     var tryMoveForward = spaceCraft.engine.moveForward;
 
@@ -32,7 +35,7 @@ var botStrategy = function (spaceCraft)
 
     function bonusGenerate()
     {
-        SCG.world.bonusInRange(spaceCraft.sprite, spaceCraft.weapon.getFireRange(), function (b)
+        sc.world.bonusInRange(spaceCraft.sprite, spaceCraft.weapon.getFireRange(), function (b)
         {
             // Дистанция до бонуса
             var distance = spaceCraft.distance(b);
@@ -66,7 +69,7 @@ var botStrategy = function (spaceCraft)
     else
     {
         // Если врага в радиусе атакие нет, то ищем ближайшего врага в мире.
-        SCG.world.getSpaceCrafts().forEach(function(e)
+        sc.world.getSpaceCrafts().forEach(function(e)
         {
             if (e !== spaceCraft)
             {

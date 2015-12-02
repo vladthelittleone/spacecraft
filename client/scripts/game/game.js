@@ -3,79 +3,27 @@
 /**
  * Created by vladthelittleone on 21.10.15.
  */
-var utils =
+var SpaceCraftGame = function (spec)
 {
-    /**
-     * Returns a random number between min (inclusive) and max (exclusive)
-     */
-    randomArbitrary: function (min, max)
-    {
-        return Math.random() * (max - min) + min;
-    },
+	var that = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game');
 
-    /**
-     * Returns a random integer between min (inclusive) and max (inclusive)
-     * Using Math.round() will give you a non-uniform distribution!
-     */
-    randomInt: function (min, max)
-    {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    },
+	that.sc = {};
 
-    random: function ()
-    {
-        return this.randomInt(0, 1);
-    },
+	that.sc.scope = spec.scope;
+	that.sc.world = {};
+	that.sc.collisionGroups = {};
+	that.sc.collisionGroups.spaceCraft = {};
+	that.sc.collisionGroups.bonus = {};
+	that.sc.seq = utils.seq();
 
-    randomOf : function (i1, i2)
-    {
-        return this.random() ? i1 : i2;
-    },
+	that.state.add('boot', BootState({game: that}));
+	that.state.add('preload', PreloadState({game: that}));
+	that.state.add('menu', MenuState({game: that}));
+	that.state.add('play', PlayState({game: that}));
 
-    seq : function ()
-    {
-        var that = {},
-            i = 1;
+	that.state.start('boot');
 
-        that.next = function ()
-        {
-            return i++;
-        };
-
-        return that;
-    }
-};
-
-var GameObject = function (spec)
-{
-    var that = {};
-
-    var id = SCG.seq.next();
-    var parentId = spec.parentId || {};
-    var type = spec.type;
-
-    that.getId = function ()
-    {
-        return id;
-    };
-
-    that.getType = function ()
-    {
-        return type;
-    };
-
-    return that;
-};
-
-var SCG =
-{
-    game: {},
-    spaceCraft: {},
-    world: {},
-    spaceCraftCollisionGroup: {},
-    bonusCollisionGroup: {},
-    stop: function () {},
-    seq: utils.seq()
+	return that;
 };
 
 Array.prototype.removeElement = function (element)

@@ -6,6 +6,8 @@
 var EngineBlock = function (spec)
 {
     var that = {};
+
+	var game = spec.game;
     var spaceCraft = spec.spaceCraft;
     var sprite = spaceCraft.sprite;
 
@@ -112,7 +114,7 @@ var EngineBlock = function (spec)
         var bMin = Number.MAX_VALUE;
         var bonus;
 
-        SCG.world.bonusInRange(sprite, spaceCraft.weapon.getFireRange(), function (b)
+        game.sc.world.bonusInRange(sprite, spaceCraft.weapon.getFireRange(), function (b)
         {
             // Дистанция до бонуса
             var distance = spaceCraft.distance(b);

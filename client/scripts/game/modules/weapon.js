@@ -12,6 +12,9 @@ var WeaponBlock = function (spec)
     //============== INIT ===============
     //===================================
 
+	var game = spec.game;
+	var sc = game.sc;
+
     var spaceCraft = spec.spaceCraft;
     var sprite = spaceCraft.sprite;
     var spriteName = spec.spriteName;
@@ -19,10 +22,10 @@ var WeaponBlock = function (spec)
     var fireTime = 0;
 
     // Объявляем группу коллизий.
-    var beamsCollisionGroup = SCG.game.physics.p2.createCollisionGroup();
+    var beamsCollisionGroup = game.physics.p2.createCollisionGroup();
 
     //  Группа пуль.
-    var beams = SCG.game.add.group();
+    var beams = game.add.group();
 
     // Массив выпущенных снарядов
     var beamsArray = [];
@@ -89,7 +92,11 @@ var WeaponBlock = function (spec)
             {
                 if (!utils.randomInt(0, 3))
                 {
-                    Explosion(beam.sprite.x, beam.sprite.y, 0.3);
+                    sc.world.factory.createExplosion({
+						x: beam.sprite.x,
+						y: beam.sprite.y,
+						scale: 0.3
+					});
                 }
 
                 beam.sprite.destroy();
@@ -126,7 +133,7 @@ var WeaponBlock = function (spec)
             }
         });
 
-        var units = SCG.world.getSpaceCrafts(spaceCraft.getId());
+        var units = sc.world.getSpaceCrafts(spaceCraft.getId());
 
         units.forEach(function (u)
         {
@@ -154,7 +161,7 @@ var WeaponBlock = function (spec)
         }
 
         // Проверка делэя. Не стреляем каждый фрэйм.
-        if (SCG.game.time.now > fireTime)
+        if (game.time.now > fireTime)
         {
             var beam = beams.create(sprite.body.x, sprite.body.y, spriteName);
 
@@ -169,7 +176,7 @@ var WeaponBlock = function (spec)
             beam.body.mass = 0.00001;
 
             beam.body.setCollisionGroup(beamsCollisionGroup);
-            beam.body.collides(SCG.spaceCraftCollisionGroup);
+            beam.body.collides(sc.collisionGroups.spaceCraft);
 
             if (beam)
             {
@@ -198,7 +205,7 @@ var WeaponBlock = function (spec)
                 beam.body.velocity.x = velocity * Math.cos(angle);
                 beam.body.velocity.y = velocity * Math.sin(angle);
 
-                fireTime = SCG.game.time.now + rate.getFireRate();
+                fireTime = game.time.now + rate.getFireRate();
             }
         }
     };
@@ -207,7 +214,7 @@ var WeaponBlock = function (spec)
     {
         var a = [];
 
-        SCG.world.getSpaceCrafts(spaceCraft.getId()).forEach(function (e)
+        sc.world.getSpaceCrafts(spaceCraft.getId()).forEach(function (e)
         {
             if (Phaser.Point.distance(sprite, e.sprite) < range.getFireRange())
             {

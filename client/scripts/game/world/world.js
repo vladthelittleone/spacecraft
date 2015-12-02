@@ -6,15 +6,20 @@
  */
 var World = function (spec)
 {
-    var that = {},
-        bounds = spec.bounds,
-        objects = [];
+    var that = {};
+
+	var game = spec.game;
+    var bounds = spec.bounds;
+
+    var objects = [];
 
     that.spaceCraftType = 0;
     that.bonusType = 1;
-    that.decorations = Decorations();
 
-    that.pushObject = function (obj)
+	that.decorations = Decorations();
+	that.factory = EntitiesFactory({game: game, world: that});
+
+	that.pushObject = function (obj)
     {
         objects.push(obj);
     };
@@ -133,7 +138,7 @@ var World = function (spec)
     {
         var a = [];
 
-        SCG.world.getBonuses().forEach(function (e)
+        game.sc.world.getBonuses().forEach(function (e)
         {
             if (Phaser.Point.distance(sprite, e.sprite) < range)
             {
@@ -150,25 +155,6 @@ var World = function (spec)
         }
 
         return a;
-    };
-
-    that.createBots = function (args)
-    {
-        for (var i = 0; i < args.count; i++)
-        {
-            var modX = bounds.height - 320;
-            var modY = bounds.width - 320;
-
-            SpaceCraft({
-                strategy: args.strategy,
-                x: SCG.game.world.randomX % modX + 200,
-                y: SCG.game.world.randomY % modY + 200,
-                spriteName: 'spaceCraft' + utils.randomInt(1, 3),
-                health: args.health,
-                angle: SCG.game.rnd.angle(),
-                shield: args.shield
-            });
-        }
     };
 
     return that;

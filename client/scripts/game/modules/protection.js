@@ -11,12 +11,13 @@ var ProtectionBlock = function (spec)
     //============== INIT ===============
     //===================================
 
+	var game = spec.game;
     var shield, health;
 
     var maxHealth = health = spec.health;
     var maxShield = shield = spec.shield;
 
-    var shieldSprite = SCG.game.make.sprite(0, 0, 'shield');
+    var shieldSprite = game.make.sprite(0, 0, 'shield');
     var sprite = spec.sprite;
 
     shieldSprite.anchor.x = 0.5;
@@ -36,7 +37,7 @@ var ProtectionBlock = function (spec)
 
     function regeneration(maxValue, value)
     {
-        var deltaTime = SCG.game.time.elapsed / 1000;
+        var deltaTime = game.time.elapsed / 1000;
         var deltaRegen = regenerationModule.getRegeneration() * deltaTime;
 
         if((maxValue - value) > deltaRegen)

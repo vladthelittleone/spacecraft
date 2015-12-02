@@ -6,7 +6,7 @@ var Meteor = function (spec){
 
     var that = {};
 
-    var game = SCG.game;
+    var game = spec.game;
     var x = that.x = spec.x;
     var y = that.y = spec.y;
 

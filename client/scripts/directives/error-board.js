@@ -1,15 +1,10 @@
 'use strict';
 
 angular.module('spacecraft.errorBoard', [])
-    .directive('errorBoard', ['$injector', function ($injector)
+    .directive('errorBoard', function ()
     {
         var link = function (scope)
         {
-            scope.$watch('editorParams.error', function (n)
-            {
-                scope.error = n;
-            });
-
             scope.closeErrorList = function()
             {
                 scope.editorParams.error = false;
@@ -20,7 +15,7 @@ angular.module('spacecraft.errorBoard', [])
             scope: {
                 editorParams: '='
             },
-            templateUrl: 'views/errorboard.html',
+            templateUrl: 'views/error-board.html',
             link: link
         };
-    }]);
+    });

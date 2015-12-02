@@ -8,6 +8,7 @@ android/gen/
 *.iws
 *.iml
 out/
+build/
 com_crashlytics_export_strings.xml
 
 ## OS Specific

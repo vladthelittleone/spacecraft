@@ -81,18 +81,15 @@
 
 <!-- Директива подсказки -->
 <div tips-and-tricks
-     ng-hide="tipsAndTricks.hide"
      object="tipsAndTricks"></div>
 
 <!-- Директива результатов -->
 <div lead-board
-     ng-hide="!player || player.isAlive()"
      player="player">
 </div>
 
 <!-- Директива ошибки -->
 <div error-board
-     ng-show="ep.error"
      editor-params="ep">
 </div>
 

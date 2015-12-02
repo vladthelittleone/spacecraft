@@ -1,8 +1,12 @@
-<div ui-layout  class="mycont"
-     ng-class="{'hidden' : hideEditor && (hideTutorial || ep.isCodeRunning), 'visible' : !hideEditor && !hideTutorial}">
-    <div ui-layout="{ flow : 'column' }">
-        <div class="tutorial" ui-layout-container
+<div ng-class="{'hidden' : hideEditor && (hideTutorial || ep.isCodeRunning), 'visible' : !hideEditor && !hideTutorial}">
+    <div ui-layout="{ flow : 'column',  dividerSize: 4}">
+
+        <div class="tutorial"
+             ui-layout-container
+             min-size="30%"
+             max-size="70%"
              ng-class="{'hidden' : hideTutorial || ep.isCodeRunning, 'visible' : !hideTutorial}">
+
             <div class="objects" ng-show="!functionTutorialOpen">
                 <h3>Доступные объекты управления</h3>
                 <h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>
@@ -52,15 +56,20 @@
                 </ul>
             </div>
         </div>
-        <div class="main-editor" ui-layout-container ui-ace="{
-  useWrapMode : true,
-  showGutter: true,
-  theme:'tomorrow_night',
-  mode: 'javascript',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}" ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}"></div>
+
+        <div class="main-editor"
+            ui-layout-container
+            min-size="30%"
+            max-size="70%"
+            ui-ace="{
+                useWrapMode : true,
+                showGutter: true,
+                theme:'tomorrow_night',
+                mode: 'javascript',
+                firstLineNumber: 1,
+                onLoad: aceLoaded,
+                onChange: aceChanged
+            }" ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}"></div>
     </div>
 </div>
 

@@ -11,6 +11,7 @@
 angular.module('spacecraft', [
     'ui.router',
     'ui.ace',
+    'ui.layout',
     'spacecraft.main',
     'spacecraft.errorBoard',
     'spacecraft.gameCanvas',

@@ -27,6 +27,8 @@
 	<script type="text/javascript" src="bower_components/angular-ui-ace/ui-ace.min.js"></script>
 	<script type="text/javascript" src="bower_components/phaser/build/phaser.min.js"></script>
 	<script type="text/javascript" src="bower_components/enjoyhint/enjoyhint.min.js"></script>
+	<script type="text/javascript" src="bower_components/raf/index.js"></script>
+	<script type="text/javascript" src="bower_components/angular-ui-layout/ui-layout.js"></script>
 
 	<!-- build:js scripts/spacecraft.min.js -->
     <script type="text/javascript" src="scripts/game/game.js"></script>
@@ -73,11 +75,12 @@
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="shortcut icon" href="resources/favicon.ico">
 
-	<link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' type='text/css' media='all'>
-	<link rel="stylesheet" href="bower_components/enjoyhint/enjoyhint.css" type='text/css' media='all'>
+    <link href="bower_components/enjoyhint/enjoyhint.css" rel="stylesheet">
+    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' type='text/css' media='all'>
+    <link rel="stylesheet" href="bower_components/angular-ui-layout/ui-layout.css" type="text/css"/>
 
 	<!-- build:css styles/spacecraft.min.css -->
-    <link rel="stylesheet" href="resources/styles/main.css" type='text/css' media='all'>
+	<link rel="stylesheet" href="resources/styles/main.css" type='text/css' media='all'>
 	<!-- endbuild -->
 </head>
 <body ng-app="spacecraft">
@@ -86,7 +89,7 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div ui-view></div>
+<div ui-view ></div>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>

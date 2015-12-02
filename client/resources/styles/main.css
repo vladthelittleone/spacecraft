@@ -33,6 +33,19 @@ body {
     animation-name: rotate-in-down-left;
 }
 
+.ui-splitbar {
+    background-color: #1D1F21;
+}
+
+.ui-splitbar .glyphicon {
+    color: transparent;
+}
+
+.ui-layout-column {
+    margin-top: 25px;
+    z-index: 500;
+}
+
 .enjoyhint_close_btn {
     visibility: hidden;
 }
@@ -150,10 +163,6 @@ body {
     margin-left: 10px;
 }
 
-canvas {
-    margin-top: 25px;
-}
-
 #toolbar button {
     color: #ffffff;
     background: #25282C;
@@ -206,7 +215,7 @@ canvas {
     left: 0;
     margin: auto;
     background: rgba(0, 0, 0, 0.65);
-    z-index: 1000;
+    z-index: 2000;
     overflow-y: auto;
     padding-top: 60px;
     padding-bottom: 60px;
@@ -355,6 +364,14 @@ canvas {
     top: 100px;
 }
 
+.left-toolbar * {
+	z-index: 1000;
+}
+
+.stretch {
+    overflow: hidden;
+}
+
 .left-toolbar .feedback-button,
 .left-toolbar .tutorial-button,
 .left-toolbar .tips-button {
@@ -370,7 +387,8 @@ canvas {
 }
 
 .left-toolbar .feedback-button:hover,
-.left-toolbar .tutorial-button:hover {
+.left-toolbar .tutorial-button:hover,
+.left-toolbar .tips-button:hover{
     left: 0;
     padding: 0;
     position: fixed;
@@ -430,11 +448,8 @@ canvas {
 }
 
 .main-editor {
-    position: fixed;
-    top: 25px;
-    right: 0;
-    bottom: 0;
-    left: 50%;
+    width: 100%;
+    height: 100%;
 }
 
 .logo {

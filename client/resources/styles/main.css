@@ -221,6 +221,21 @@ body {
     padding-bottom: 60px;
 }
 
+.container-white-board-img {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	background-image: url('../assets/space.png');
+	background-size: cover;
+	z-index: 2000;
+	overflow-y: auto;
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
 .white-board table,
 .white-board td {
     margin: auto;
@@ -400,7 +415,7 @@ body {
     outline: 0;
 }
 
-.tutorial {
+.documentation {
     overflow-y: auto;
     position: fixed;
     top: 25px;
@@ -411,23 +426,23 @@ body {
     color: #C5C8C6;
 }
 
-.tutorial h3,
-.tutorial h5 {
+.documentation h3,
+.documentation h5 {
     text-align: center;
 }
 
-.tutorial ul {
+.documentation ul {
     list-style-type: square;
 }
 
-.tutorial ul {
+.documentation ul {
     font-style: italic;
     font-family: Georgia, Times, serif;
     font-size: 24px;
     color: #39C139;
 }
 
-.tutorial ul li p {
+.documentation ul li p {
     margin: 0;
     padding: 8px;
     font-family: Arial, serif;
@@ -437,7 +452,7 @@ body {
     font-style: normal;
 }
 
-.tutorial ul li p em {
+.documentation ul li p em {
     display: block;
     font-size: 1.4em;
     font-style: normal;

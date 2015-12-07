@@ -105,8 +105,8 @@ var PlayState = function (spec)
 				x: game.world.centerX,
 				y: game.world.centerY,
 				spriteName: 'spaceCraft',
-				health: 200,
-				shield: 100
+				health: 10,
+				shield: 10
 			});
 		});
 
@@ -157,13 +157,9 @@ var PlayState = function (spec)
 	{
 		scope.$apply(function ()
 		{
-			scope.player = {
-				isAlive: scope.spaceCraft.isAlive,
-				statistic: scope.spaceCraft.statistic
-			};
-
 			if (!scope.spaceCraft.isAlive())
 			{
+				sc.callers.result(scope.spaceCraft.statistic);
 				game.paused = true;
 			}
 		});

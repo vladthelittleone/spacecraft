@@ -9,10 +9,10 @@ var botStrategy = function (spec)
 
     var tryMoveForward = spaceCraft.engine.moveForward;
 
-    if (spaceCraft.getX() - 100 < bounds.x
-        || spaceCraft.getY() < bounds.y
-        || spaceCraft.getX() + 100 > bounds.x + bounds.width
-        || spaceCraft.getY() + 100 > bounds.y + bounds.height)
+    if (spaceCraft.getX() - 200 < bounds.x
+        || spaceCraft.getY() - 200 < bounds.y
+        || spaceCraft.getX() + 200 > bounds.x + bounds.width
+        || spaceCraft.getY() + 200 > bounds.y + bounds.height)
     {
         tryMoveForward = spaceCraft.engine.rotateLeft;
     }

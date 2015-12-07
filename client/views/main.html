@@ -114,7 +114,7 @@
 </div>
 
 <div class="left-toolbar">
-    <button type="button" ng-click="toggleTutorialOpen()" class="tutorial-button">
+    <button type="button" ng-click="toggleTutorialOpen()" class="tutorial-button" ng-hide = "ep.isCodeRunning" >
                 <span class="glyphicon question-toggle"
                       ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
                 </span>

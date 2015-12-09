@@ -7,11 +7,11 @@ var app = angular.module('spacecraft.errorBoard', []);
 
 app.directive('errorBoard', function ()
 {
-	var link = function (scope)
+	var link = function ($scope)
 	{
-		scope.closeErrorList = function()
+		$scope.closeErrorList = function()
 		{
-			scope.editorParams.error = false;
+			$scope.editorParams.error = false;
 		};
 	};
 

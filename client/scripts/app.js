@@ -20,13 +20,12 @@ var app = angular.module('spacecraft', [
 	'spacecraft.documentation',
 	'spacecraft.tips',
 	'spacecraft.game',
-	'spacecraft.result'
+	'spacecraft.result',
+	'spacecraft.welcome'
 ]);
 
-app.config(['$urlRouterProvider', '$locationProvider', function ($urlRouterProvider, $locationProvider)
+app.config(['$urlRouterProvider', function ($urlRouterProvider)
 {
-	$locationProvider.html5Mode(true);
-
 	// For any unmatched url, send to ''
 	$urlRouterProvider.otherwise('/');
 }]);

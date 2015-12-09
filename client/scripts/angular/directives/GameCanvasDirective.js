@@ -10,7 +10,7 @@ var app = angular.module('spacecraft.gameCanvas', []);
 
 app.directive('gameCanvas', ['statistics', '$state', function (statistics, $state)
 {
-	var linkFn = function (scope)
+	var linkFn = function ($scope)
 	{
 		/**
 		 * Выполняется при уничтожение корабля.
@@ -23,7 +23,7 @@ app.directive('gameCanvas', ['statistics', '$state', function (statistics, $stat
 		};
 
 		var game = SpaceCraftGame({
-			scope: scope,
+			scope: $scope,
 			callers:
 			{
 				result: resultCall
@@ -34,7 +34,7 @@ app.directive('gameCanvas', ['statistics', '$state', function (statistics, $stat
 		//============== SCOPE ==============
 		//===================================
 
-		scope.getNumber = function(num)
+		$scope.getNumber = function(num)
 		{
 			var arr = [];
 
@@ -46,7 +46,7 @@ app.directive('gameCanvas', ['statistics', '$state', function (statistics, $stat
 			return arr;
 		};
 
-		scope.$on('$destroy', function()
+		$scope.$on('$destroy', function()
 		{
 			game.destroy(); // Clean up the game when we leave this scope
 		});

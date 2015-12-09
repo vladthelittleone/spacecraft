@@ -48,7 +48,7 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 	//============== TIPS-TRICKS ========
 	//===================================
 
-	$scope.tipsAndTricks = { hide: $storage.local.getItem('tipsAndTricks') || false };
+	$scope.tipsAndTricks = { hide: $storage.local.getItem('tipsAndTricks') };
 
 	$scope.toggleTipsAndTricks = function ()
 	{

@@ -8,19 +8,24 @@
  *
  * Main module of the application.
  */
-angular.module('spacecraft', [
-    'ui.router',
-    'ui.ace',
-    'ui.layout',
-    'spacecraft.main',
-    'spacecraft.errorBoard',
-    'spacecraft.gameCanvas',
-    'spacecraft.leadBoard',
-    'spacecraft.tipsAndTricks',
-    'spacecraft.storage'
-])
-    .config(['$urlRouterProvider', function ($urlRouterProvider)
-    {
-        // For any unmatched url, send to ''
-        $urlRouterProvider.otherwise('/');
-    }]);
+var app = angular.module('spacecraft', [
+	'ui.router',
+	'ui.ace',
+	'ui.layout',
+	'spacecraft.storage',
+	'spacecraft.autocompleter',
+	'spacecraft.statistics',
+	'spacecraft.errorBoard',
+	'spacecraft.gameCanvas',
+	'spacecraft.documentation',
+	'spacecraft.tips',
+	'spacecraft.game',
+	'spacecraft.result',
+	'spacecraft.welcome'
+]);
+
+app.config(['$urlRouterProvider', function ($urlRouterProvider)
+{
+	// For any unmatched url, send to ''
+	$urlRouterProvider.otherwise('/');
+}]);

@@ -235,38 +235,45 @@ body {
 }
 
 .welcome-background {
-	z-index: 0;
+	padding: 30px 100px;
 	background-image: url('../assets/space.png');
 	background-size: cover;
-	padding: 30px 100px;
 }
 
-.welcome-background > div {
+.welcome-board > div {
 	float: left;
 	padding: 5px;
 }
 
-.welcome-background img {
+.welcome-board .container-inside:hover {
+	box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+}
+
+.welcome-board img {
 	height: 100%;
 	width: 100%;
 }
 
-.welcome-background a {
+.welcome-board a {
 	text-decoration: none;
 }
 
-.welcome-background .container-inside {
-	padding: 2px;
+.welcome-board .container-inside {
 	cursor: pointer;
 	color: #5b5b5b;
 	position: relative;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-	border-radius: 2px;
 	transition: all .15s ease;
-	z-index: 2000;
 	height: 100%;
 	width: 100%;
 	background: rgba(255, 255, 255, 0.95);
+}
+
+.welcome-board {
+	background-color: rgba(250, 248, 242, 0.95);
+	height: 720px;
+	border-radius: 2px;
+	width: 100%;
 }
 
 .container-25 {
@@ -309,7 +316,6 @@ body {
     font-size: 1.1em;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    z-index: 1001;
     margin: auto auto 0;
 }
 
@@ -701,7 +707,6 @@ body {
 
 .welcome-img {
 	height: 250px;
-	border-radius: 2px;
 	background-position: 50% 50%;
 	width: 100%;
 	-webkit-background-size: cover;
@@ -734,7 +739,7 @@ body {
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	z-index: 10000;
+	z-index: 3000;
 	position: fixed;
 	top: 0;
 	left: 0;

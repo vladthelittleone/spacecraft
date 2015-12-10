@@ -238,7 +238,7 @@ body {
 	z-index: 0;
 	background-image: url('../assets/space.png');
 	background-size: cover;
-	padding: 30px;
+	padding: 30px 100px;
 }
 
 .welcome-background > div {
@@ -530,6 +530,7 @@ body {
     width: 110px;
     margin-left: 50px;
     display: inline-block;
+	cursor: pointer;
 }
 
 .hidden {

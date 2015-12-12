@@ -29,6 +29,7 @@ var PreloadState = function (spec)
 		game.load.image('meteor5', 'resources/assets/sprites/meteor/meteor5.png');
 		game.load.image('meteor6', 'resources/assets/sprites/meteor/meteor6.png');
 		game.load.image('meteor7', 'resources/assets/sprites/meteor/meteor7.png');
+		game.load.image('discharge', 'resources/assets/sprites/discharge.png');
 		game.load.atlasJSONHash('bots', 'resources/assets/animations/bots.png', 'resources/assets/animations/bots.json');
 		game.load.spritesheet('explosion', 'resources/assets/animations/explosion.png', 128, 128);
 	};

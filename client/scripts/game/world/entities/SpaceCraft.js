@@ -13,6 +13,8 @@ var SpaceCraft = function (spec)
 	var game = spec.game;
 	var sc = game.sc;
 
+	var isPlayer = spec.isPlayer;
+
     var that = sc.world.factory.createGameObject({
         type: sc.world.spaceCraftType
     });
@@ -66,7 +68,8 @@ var SpaceCraft = function (spec)
         health: spec.health,
         shield: spec.shield,
         modulesManager: modulesManager,
-		game: game
+		game: game,
+		spriteShield:  isPlayer ? 'userShield' : null
     });
 
     var weapon = that.weapon = WeaponBlock({

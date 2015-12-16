@@ -57,8 +57,6 @@ var SpaceCraft = function (spec)
     // Поварачиваем корабль на init-угол
     !spec.angle || (sprite.body.angle = spec.angle);
 
-	discharge();
-
     var engine = that.engine = EngineBlock({
         modulesManager: modulesManager,
         spaceCraft: that,
@@ -70,7 +68,8 @@ var SpaceCraft = function (spec)
         health: spec.health,
         shield: spec.shield,
         modulesManager: modulesManager,
-		game: game
+		game: game,
+		spriteShield:  isPlayer ? 'userShield' : null
     });
 
     var weapon = that.weapon = WeaponBlock({
@@ -84,19 +83,6 @@ var SpaceCraft = function (spec)
     //===================================
     //============== PRIVATE ============
     //===================================
-
-	function discharge()
-	{
-		if(isPlayer)
-		{
-			var dischargeSprite = game.make.sprite(0, 0, 'discharge');
-
-			dischargeSprite.anchor.x = 0.5;
-			dischargeSprite.anchor.y = 0.5;
-
-			sprite.addChild(dischargeSprite);
-		}
-	}
 
     function destroy(damageCraft)
     {

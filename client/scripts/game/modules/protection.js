@@ -17,7 +17,7 @@ var ProtectionBlock = function (spec)
     var maxHealth = health = spec.health;
     var maxShield = shield = spec.shield;
 
-    var shieldSprite = game.make.sprite(0, 0, 'shield');
+    var shieldSprite = game.make.sprite(0, 0, spec.spriteShield || 'shield');
     var sprite = spec.sprite;
 
     shieldSprite.anchor.x = 0.5;

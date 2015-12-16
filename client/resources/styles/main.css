@@ -618,6 +618,7 @@ body {
 }
 
 .error-board {
+	z-index: 500;
     overflow-y: auto;
     position: fixed;
     top: 85%;

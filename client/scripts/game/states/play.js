@@ -107,7 +107,7 @@ var PlayState = function (spec)
 				spriteName: 'spaceCraft',
 				health: 200,
 				shield: 100,
-				isPlayer: true
+				shieldSprite: 'userShield'
 			});
 		});
 

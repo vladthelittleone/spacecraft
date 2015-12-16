@@ -8,6 +8,33 @@ app.directive('tips', ['$sce', '$storage',
 {
 	var link = function ($scope)
 	{
+		function handler(e)
+		{
+			if(e.keyCode === 39)
+			{
+				$scope.next();
+				$scope.$apply();
+			}
+
+			if(e.keyCode === 37)
+			{
+				$scope.previous();
+				$scope.$apply();
+			}
+		}
+
+		function keyHandler()
+		{
+			var $doc = angular.element(document);
+
+			$doc.on('keydown', handler);
+
+			$scope.$on('$destroy', function ()
+			{
+				$doc.off('keydown', handler);
+			});
+		}
+
 		$scope.showTrick = false;
 		$scope.hideTrick = false;
 
@@ -65,6 +92,8 @@ app.directive('tips', ['$sce', '$storage',
 		{
 			return $sce.trustAsHtml($scope.t.description);
 		};
+
+		keyHandler();
 	};
 
 	return {

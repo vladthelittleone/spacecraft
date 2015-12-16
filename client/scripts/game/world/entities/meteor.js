@@ -1,7 +1,6 @@
 /**
  * Created by V-eNo-M on 19.11.2015.
  */
-
 var Meteor = function (spec){
 
     var that = {};
@@ -22,6 +21,7 @@ var Meteor = function (spec){
 
     // Объявляем группу коллизий.
     var meteorCollisionGroup = game.physics.p2.createCollisionGroup();
+	game.physics.p2.updateBoundsCollisionGroup();
 
     // Устанавливаем группу колизий
     sprite.body.setCollisionGroup(meteorCollisionGroup);

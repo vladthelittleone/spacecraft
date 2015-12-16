@@ -12,7 +12,7 @@ body {
     z-index: -1;
 }
 
-#toolbar {
+.toolbar {
     position: fixed;
     top: 0;
     right: 0;
@@ -163,7 +163,7 @@ body {
     margin-left: 10px;
 }
 
-#toolbar button {
+.toolbar button {
     color: #ffffff;
     background: #25282C;
     height: 25px;
@@ -176,13 +176,13 @@ body {
     margin-right: 10px;
 }
 
-#toolbar button:hover {
+.toolbar button:hover {
     color: #fff;
     text-decoration: none;
     background: #7B7B7B;
 }
 
-#toolbar .box {
+.toolbar .box {
     width: 50%;
     margin: 0 auto;
 }
@@ -207,18 +207,98 @@ body {
     color: #f88e36;
 }
 
-.container-white-board {
+.container-white-board,
+.result-background,
+.welcome-background {
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     margin: auto;
-    background: rgba(0, 0, 0, 0.65);
     z-index: 2000;
     overflow-y: auto;
-    padding-top: 60px;
-    padding-bottom: 60px;
+}
+
+.container-white-board
+{
+	background: rgba(0, 0, 0, 0.65);
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+.result-background {
+	background-image: url('../assets/space.png');
+	background-size: cover;
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+.welcome-background {
+	padding: 30px 100px;
+	background-image: url('../assets/space.png');
+	background-size: cover;
+}
+
+.welcome-board > div {
+	float: left;
+	padding: 5px;
+}
+
+.welcome-board .container-inside:hover {
+	box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+}
+
+.welcome-board img {
+	height: 100%;
+	width: 100%;
+}
+
+.welcome-board a {
+	text-decoration: none;
+}
+
+.welcome-board .container-inside {
+	cursor: pointer;
+	color: #5b5b5b;
+	position: relative;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+	transition: all .15s ease;
+	height: 100%;
+	width: 100%;
+	background: rgba(255, 255, 255, 0.95);
+}
+
+.welcome-board {
+	background-color: rgba(250, 248, 242, 0.95);
+	height: 720px;
+	border-radius: 2px;
+	width: 100%;
+}
+
+.container-25 {
+	width: 25%;
+	height: 360px;
+}
+
+.container-75 {
+	width: 75%;
+	height: 360px;
+}
+
+
+.container-100 {
+	width: 100%;
+}
+
+.container-50 {
+	width: 50%;
+	height: 360px;
+}
+
+.container-50 {
+	width: 50%;
+	height: 360px;
 }
 
 .white-board table,
@@ -236,7 +316,6 @@ body {
     font-size: 1.1em;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    z-index: 1001;
     margin: auto auto 0;
 }
 
@@ -400,7 +479,7 @@ body {
     outline: 0;
 }
 
-.tutorial {
+.documentation {
     overflow-y: auto;
     position: fixed;
     top: 25px;
@@ -411,23 +490,23 @@ body {
     color: #C5C8C6;
 }
 
-.tutorial h3,
-.tutorial h5 {
+.documentation h3,
+.documentation h5 {
     text-align: center;
 }
 
-.tutorial ul {
+.documentation ul {
     list-style-type: square;
 }
 
-.tutorial ul {
+.documentation ul {
     font-style: italic;
     font-family: Georgia, Times, serif;
     font-size: 24px;
     color: #39C139;
 }
 
-.tutorial ul li p {
+.documentation ul li p {
     margin: 0;
     padding: 8px;
     font-family: Arial, serif;
@@ -437,7 +516,7 @@ body {
     font-style: normal;
 }
 
-.tutorial ul li p em {
+.documentation ul li p em {
     display: block;
     font-size: 1.4em;
     font-style: normal;
@@ -457,6 +536,7 @@ body {
     width: 110px;
     margin-left: 50px;
     display: inline-block;
+	cursor: pointer;
 }
 
 .hidden {
@@ -538,6 +618,7 @@ body {
 }
 
 .error-board {
+	z-index: 500;
     overflow-y: auto;
     position: fixed;
     top: 85%;
@@ -599,4 +680,76 @@ body {
 
 .text-indent {
     text-indent: 1.2em;
+}
+
+.send-img {
+	background-image: url(../assets/welcome-page/astronaut6.png);
+}
+
+.tips-img {
+	background-image: url(../assets/welcome-page/galaxy2.png);
+}
+
+.learn-img {
+	background-image: url(../assets/welcome-page/rocket56.png);
+}
+
+.game-img {
+	background-image: url(../assets/welcome-page/stars4.png);
+}
+
+.welcome-img-green {
+	background-color: #84bf7c;
+}
+
+.welcome-img-blue {
+	background-color: #5293CC;
+}
+
+.welcome-img {
+	height: 250px;
+	background-position: 50% 50%;
+	width: 100%;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: relative;
+	overflow: hidden;
+}
+
+.welcome-label {
+	margin: 17px 25px 12px;
+	font-size: 12px;
+	font-weight: 300;
+	color: #999999;
+}
+
+.welcome-text {
+	margin: 17px 25px 20px;
+	max-height: 42px;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+
+.welcome-title {
+	margin: 50px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	z-index: 3000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 27px;
+	right: 0;
+	background-color: transparent;
+}
+
+.welcome-title .logo {
+	width: 300px;
+	height: 67px;
 }

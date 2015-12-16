@@ -31,42 +31,58 @@
 	<script type="text/javascript" src="bower_components/angular-ui-layout/ui-layout.js"></script>
 
 	<!-- build:js scripts/spacecraft.min.js -->
-    <script type="text/javascript" src="scripts/game/game.js"></script>
-	<script type="text/javascript" src="scripts/game/utils.js"></script>
+    <script type="text/javascript" src="scripts/game/SpaceCraftGame.js"></script>
+	<script type="text/javascript" src="scripts/game/Utils.js"></script>
 
-	<script type="text/javascript" src="scripts/game/states/boot.js"></script>
-	<script type="text/javascript" src="scripts/game/states/menu.js"></script>
-	<script type="text/javascript" src="scripts/game/states/play.js"></script>
-	<script type="text/javascript" src="scripts/game/states/preload.js"></script>
+	<script type="text/javascript" src="scripts/game/states/Boot.js"></script>
+	<script type="text/javascript" src="scripts/game/states/Menu.js"></script>
+	<script type="text/javascript" src="scripts/game/states/Play.js"></script>
+	<script type="text/javascript" src="scripts/game/states/Preload.js"></script>
 
-	<script type="text/javascript" src="scripts/game/modules/module.js"></script>
-    <script type="text/javascript" src="scripts/game/modules/modules-manager.js"></script>
-    <script type="text/javascript" src="scripts/game/modules/weapon.js"></script>
-    <script type="text/javascript" src="scripts/game/modules/engine.js"></script>
-    <script type="text/javascript" src="scripts/game/modules/protection.js"></script>
+	<script type="text/javascript" src="scripts/game/modules/Module.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/ModulesManager.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/Weapon.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/Engine.js"></script>
+    <script type="text/javascript" src="scripts/game/modules/Protection.js"></script>
 
-	<script type="text/javascript" src="scripts/game/world/world.js"></script>
-	<script type="text/javascript" src="scripts/game/world/decorations.js"></script>
-	<script type="text/javascript" src="scripts/game/world/entities-factory.js"></script>
-	<script type="text/javascript" src="scripts/game/world/game-object.js"></script>
+	<script type="text/javascript" src="scripts/game/world/World.js"></script>
+	<script type="text/javascript" src="scripts/game/world/Decorations.js"></script>
+	<script type="text/javascript" src="scripts/game/world/EntitiesFactory.js"></script>
+	<script type="text/javascript" src="scripts/game/world/GameObject.js"></script>
 
-	<script type="text/javascript" src="scripts/game/world/entities/space-craft.js"></script>
-    <script type="text/javascript" src="scripts/game/world/entities/explosion.js"></script>
-	<script type="text/javascript" src="scripts/game/world/entities/bonus.js"></script>
-    <script type="text/javascript" src="scripts/game/world/entities/meteor.js"></script>
+	<script type="text/javascript" src="scripts/game/world/entities/SpaceCraft.js"></script>
+    <script type="text/javascript" src="scripts/game/world/entities/Explosion.js"></script>
+	<script type="text/javascript" src="scripts/game/world/entities/Bonus.js"></script>
+    <script type="text/javascript" src="scripts/game/world/entities/Meteor.js"></script>
 
-    <script type="text/javascript" src="scripts/game/shared/tutorial.js"></script>
-    <script type="text/javascript" src="scripts/game/shared/api.js"></script>
-    <script type="text/javascript" src="scripts/game/shared/bot-strategy.js"></script>
-	<script type="text/javascript" src="scripts/game/shared/statistic.js"></script>
+    <script type="text/javascript" src="scripts/game/shared/Tutorial.js"></script>
+	<script type="text/javascript" src="scripts/game/shared/Tips.js"></script>
+	<script type="text/javascript" src="scripts/game/shared/Api.js"></script>
+    <script type="text/javascript" src="scripts/game/shared/BotStrategy.js"></script>
+	<script type="text/javascript" src="scripts/game/shared/Statistic.js"></script>
 
-    <script type="text/javascript" src="scripts/service/storage.js"></script>
-    <script type="text/javascript" src="scripts/controllers/main.js"></script>
-    <script type="text/javascript" src="scripts/directives/game-canvas.js"></script>
-    <script type="text/javascript" src="scripts/directives/tips-and-tricks.js"></script>
-    <script type="text/javascript" src="scripts/directives/lead-board.js"></script>
-    <script type="text/javascript" src="scripts/directives/error-board.js"></script>
-	<script type="text/javascript" src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/angular/service/Storage.js"></script>
+	<script type="text/javascript" src="scripts/angular/service/Autocompleter.js"></script>
+	<script type="text/javascript" src="scripts/angular/service/Statistics.js"></script>
+
+	<script type="text/javascript" src="scripts/angular/game/Index.js"></script>
+	<script type="text/javascript" src="scripts/angular/game/Config.js"></script>
+	<script type="text/javascript" src="scripts/angular/game/Controller.js"></script>
+
+	<script type="text/javascript" src="scripts/angular/result/Index.js"></script>
+	<script type="text/javascript" src="scripts/angular/result/Config.js"></script>
+	<script type="text/javascript" src="scripts/angular/result/Controller.js"></script>
+
+	<script type="text/javascript" src="scripts/angular/welcome/Index.js"></script>
+	<script type="text/javascript" src="scripts/angular/welcome/Config.js"></script>
+	<script type="text/javascript" src="scripts/angular/welcome/Controller.js"></script>
+
+	<script type="text/javascript" src="scripts/angular/directives/GameCanvasDirective.js"></script>
+    <script type="text/javascript" src="scripts/angular/directives/ErrorBoardDirective.js"></script>
+	<script type="text/javascript" src="scripts/angular/directives/TipsDirective.js"></script>
+	<script type="text/javascript" src="scripts/angular/directives/DocumentationDirective.js"></script>
+
+	<script type="text/javascript" src="scripts/App.js"></script>
 
 	<!-- endbuild -->
 
@@ -82,6 +98,8 @@
 	<!-- build:css styles/spacecraft.min.css -->
 	<link rel="stylesheet" href="resources/styles/main.css" type='text/css' media='all'>
 	<!-- endbuild -->
+
+	<base href="/">
 </head>
 <body ng-app="spacecraft">
 <!--[if lte IE 8]>

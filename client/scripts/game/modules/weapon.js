@@ -23,6 +23,7 @@ var WeaponBlock = function (spec)
 
     // Объявляем группу коллизий.
     var beamsCollisionGroup = game.physics.p2.createCollisionGroup();
+	game.physics.p2.updateBoundsCollisionGroup();
 
     //  Группа пуль.
     var beams = game.add.group();

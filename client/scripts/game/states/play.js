@@ -158,13 +158,9 @@ var PlayState = function (spec)
 	{
 		scope.$apply(function ()
 		{
-			scope.player = {
-				isAlive: scope.spaceCraft.isAlive,
-				statistic: scope.spaceCraft.statistic
-			};
-
 			if (!scope.spaceCraft.isAlive())
 			{
+				sc.callers.result(scope.spaceCraft.statistic);
 				game.paused = true;
 			}
 		});

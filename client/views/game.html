@@ -1,88 +1,79 @@
-<div id="game-canvas"></div>
+<div ng-class="{'hidden' : hideEditor && (hideTutorial || ep.isCodeRunning), 'visible' : !hideEditor && !hideTutorial}">
+    <div ui-layout="{ flow : 'column',  dividerSize: 4}">
 
-<!-- Выделение для EnjoyHint -->
-<div class="params-hint"></div>
-<div class="points-hint"></div>
+		<!-- Директива докуменации -->
+		<div ui-layout-container min-size="30%" max-size="70%">
+			<documentation
+				ng-class="{'hidden' : hideTutorial || ep.isCodeRunning, 'visible' : !hideTutorial}">
+			</documentation>
+		</div>
 
-<!-- Points bar-->
-
-<div class="points-bar free-points">
-    <span class="glyphicon glyphicon-flash green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.modulesManager.getMaxPoints())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.modulesManager.getFreePoints() > i}">
-        </span>
+        <div class="main-editor"
+            ui-layout-container
+            min-size="30%"
+            max-size="70%"
+            ui-ace="{
+                useWrapMode : true,
+                showGutter: true,
+                theme:'tomorrow_night',
+                mode: 'javascript',
+                firstLineNumber: 1,
+                onLoad: aceLoaded,
+                onChange: aceChanged
+            }" ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}"></div>
     </div>
 </div>
 
-<div class="points-bar regen-points">
-    <span class="glyphicon glyphicon-wrench green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.protection.regeneration.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.protection.regeneration.getEnergyPoints() > i}">
-        </span>
+
+<!-- Директива игры -->
+<div game-canvas
+     editor-params="ep"
+     player="player"></div>
+
+<!-- Директива подсказки -->
+<div tips object="tipsAndTricks"></div>
+
+<!-- Директива ошибки -->
+<div error-board
+     editor-params="ep">
+</div>
+
+<div class="toolbar">
+    <div class="box">
+		<img ui-sref="welcome"
+			 class="logo"
+			 src="resources/assets/logo3.png"/>
+    </div>
+    <div class="box">
+        <button type="button" ng-click="toggleEditorOpen()">
+            <span class="glyphicon editor-toggle"
+                  ng-class="{'glyphicon-chevron-down' : hideEditor, 'glyphicon-chevron-up' : !hideEditor}">
+            </span>
+        </button>
+        <button type="button" ng-click="toggleCodeRun()">
+            <span class="glyphicon play-toggle"
+                  ng-class="{'glyphicon-stop red' : ep.isCodeRunning, 'glyphicon-play green' : !ep.isCodeRunning}">
+            </span>
+        </button>
     </div>
 </div>
 
-<div class="points-bar move-speed-points">
-    <span class="glyphicon glyphicon-forward green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.engine.moveSpeed.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.engine.moveSpeed.getEnergyPoints() > i}">
-        </span>
-    </div>
+<div class="left-toolbar">
+	<button type="button"
+			ng-click="toggleTutorialOpen()"
+			class="tutorial-button"
+			ng-hide = "ep.isCodeRunning" >
+                <span class="glyphicon question-toggle"
+                      ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
+                </span>
+    </button>
+    <a href="https://vk.com/im?media=&sel=-105816682" target="_blank" class="feedback-button">
+        <button type="button" class="feedback-button">
+                <span class="glyphicon glyphicon-comment comment-toggle">
+                </span>
+        </button>
+    </a>
+    <button type="button" ng-click="toggleTipsAndTricks()" class="tips-button">
+        <span class="glyphicon glyphicon-info-sign"></span>
+    </button>
 </div>
-
-<div class="points-bar rate-points">
-    <span class="glyphicon glyphicon-refresh green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.weapon.rate.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.weapon.rate.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
-
-<div class="points-bar range-points">
-    <span class="glyphicon glyphicon-record green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.weapon.range.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.weapon.range.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
-
-<div class="points-bar damage-points">
-    <span class="glyphicon glyphicon-screenshot green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.weapon.damage.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.weapon.damage.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
-
-<!-- Points bar-->
-
-<!-- DSH bar -->
-
-<div class="damage">
-    <span class="glyphicon glyphicon-screenshot green"></span>
-    <span class="green">{{spaceCraft.weapon.getDamage()}}</span>
-</div>
-
-<div class="shield">
-    <span class="glyphicon glyphicon-adjust blue"></span>
-    <span class="blue">{{spaceCraft.protection.getShield()}} / {{spaceCraft.protection.getMaxShield()}}</span>
-</div>
-
-<div class="health">
-    <span class="glyphicon glyphicon-heart red"></span>
-    <span class="red">{{spaceCraft.protection.getHealth()}} / {{spaceCraft.protection.getMaxHealth()}}</span>
-</div>
-
-<!-- DSH bar -->

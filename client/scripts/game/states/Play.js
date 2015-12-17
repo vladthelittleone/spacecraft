@@ -32,7 +32,7 @@ var PlayState = function (spec)
 			}
 			catch (err)
 			{
-				scope.editorParams.error = err.toString();
+				scope.editorParams.error = err;
 				scope.editorParams.isCodeRunning = false;
 			}
 		}

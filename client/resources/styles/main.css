@@ -24,6 +24,18 @@ body {
     height: 25px;
 }
 
+.toolbar-min {
+	position: fixed;
+	top: 0;
+	right: 100px;
+	left: 100px;
+	background-color: #25282C;
+	color: #C5C8C6;
+	bottom: 95%;
+	display: inline-flex;
+	height: 25px;
+}
+
 .kineticjs-content {
     -webkit-animation-duration: 0.75s;
     animation-duration: 0.75s;
@@ -209,7 +221,7 @@ body {
 
 .container-white-board,
 .result-background,
-.welcome-background {
+.pages-background {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -234,31 +246,31 @@ body {
 	padding-bottom: 60px;
 }
 
-.welcome-background {
+.pages-background {
 	padding: 30px 100px;
 	background-image: url('../assets/space.png');
 	background-size: cover;
 }
 
-.welcome-board > div {
+.pages-board > div {
 	float: left;
 	padding: 5px;
 }
 
-.welcome-board .container-inside:hover {
+.pages-board .container-inside:hover {
 	box-shadow: 0 3px 7px rgba(0,0,0,0.2);
 }
 
-.welcome-board img {
+.pages-board img {
 	height: 100%;
 	width: 100%;
 }
 
-.welcome-board a {
+.pages-board a {
 	text-decoration: none;
 }
 
-.welcome-board .container-inside {
+.pages-board .container-inside {
 	cursor: pointer;
 	color: #5b5b5b;
 	position: relative;
@@ -269,11 +281,32 @@ body {
 	background: rgba(255, 255, 255, 0.95);
 }
 
-.welcome-board {
+.pages-board {
 	background-color: rgba(250, 248, 242, 0.95);
-	height: 720px;
-	border-radius: 2px;
+	position: fixed;
+	left: 100px;
+	right: 100px;
+	bottom: 50px;
+	top: 25px;
+	overflow: auto;
+}
+
+.pages-footer {
+	height: 50px;
+	position: fixed;
+	top: auto;
+	left: 100px;
+	right: 100px;
+	background-color: #25282C;
+	bottom: 0;
+}
+
+.pages-footer div {
+	height: 50px;
+	position: relative;
 	width: 100%;
+	padding-left: 100px;
+	padding-right: 100px;
 }
 
 .container-25 {
@@ -618,15 +651,15 @@ body {
 
 .error-board {
 	z-index: 500;
-    overflow-y: auto;
-    position: fixed;
-    top: 85%;
-    right: 0;
-    border-left: 41px solid #25282C;
-    bottom: 0;
-    left: 50%;
-    background: #1D1F21;
-    color: #C5C8C6;
+	overflow-y: auto;
+	position: absolute;
+	top: 85%;
+	width: 100%;
+	height: 100%;
+	border-left: 41px solid #25282C;
+	bottom: 0;
+	background: #1D1F21;
+	color: #C5C8C6;
 }
 
 .error-board .close-button {
@@ -682,30 +715,48 @@ body {
 }
 
 .send-img {
-	background-image: url(../assets/welcome-page/astronaut6.png);
+	background-image: url(../assets/pages/astronaut6.png);
 }
 
 .tips-img {
-	background-image: url(../assets/welcome-page/galaxy2.png);
+	background-image: url(../assets/pages/galaxy2.png);
 }
 
 .learn-img {
-	background-image: url(../assets/welcome-page/rocket56.png);
+	background-image: url(../assets/pages/stars4.png);
+}
+
+.rocket-white-img {
+	background-image: url(../assets/pages/rocket56white.png);
 }
 
 .game-img {
-	background-image: url(../assets/welcome-page/stars4.png);
+	background-image: url(../assets/pages/rocket55.png);
 }
 
-.welcome-img-green {
+.pages-footer-img {
+	position: fixed;
+	bottom: 0;
+	top: auto;
+	left: 125px;
+	height: 70px;
+	z-index: 2000;
+	width: 70px;
+	background-position: 50% 50%;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.pages-img-green {
 	background-color: #84bf7c;
 }
 
-.welcome-img-blue {
+.pages-img-blue {
 	background-color: #5293CC;
 }
 
-.welcome-img {
+.pages-img {
 	height: 250px;
 	background-position: 50% 50%;
 	width: 100%;
@@ -716,14 +767,14 @@ body {
 	overflow: hidden;
 }
 
-.welcome-label {
+.pages-label {
 	margin: 17px 25px 12px;
 	font-size: 12px;
 	font-weight: 300;
 	color: #999999;
 }
 
-.welcome-text {
+.pages-text {
 	margin: 17px 25px 20px;
 	max-height: 42px;
 	overflow: hidden;
@@ -732,7 +783,7 @@ body {
 }
 
 
-.welcome-title {
+.pages-title {
 	margin: 50px;
 	display: flex;
 	flex-direction: row;
@@ -748,7 +799,7 @@ body {
 	background-color: transparent;
 }
 
-.welcome-title .logo {
+.pages-title .logo {
 	width: 300px;
 	height: 67px;
 }

@@ -100,7 +100,7 @@ app.directive('tips', ['$sce', '$storage',
 		scope: {
 			object: '='
 		},
-		templateUrl: 'views/tips.html',
+		templateUrl: 'views/game/tips.html',
 		link: link
 	};
 }]);

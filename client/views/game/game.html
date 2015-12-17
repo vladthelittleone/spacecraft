@@ -11,19 +11,29 @@
 			</documentation>
 		</div>
 
-        <div class="main-editor"
-            ui-layout-container
+        <div ui-layout-container
             min-size="30%"
             max-size="70%"
-            ui-ace="{
-                useWrapMode : true,
-                showGutter: true,
-                theme:'tomorrow_night',
-                mode: 'javascript',
-                firstLineNumber: 1,
-                onLoad: aceLoaded,
-                onChange: aceChanged
-            }" ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}"></div>
+			ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}">
+
+			<div class="main-editor"
+			 	ui-ace="{
+			 	useWrapMode : true,
+				showGutter: true,
+				theme:'tomorrow_night',
+				mode: 'javascript',
+				firstLineNumber: 1,
+				onLoad: aceLoaded,
+				onChange: aceChanged
+				}">
+			</div>
+
+			<!-- Директива ошибки -->
+			<div error-board
+				 editor-params="ep">
+			</div>
+
+		</div>
     </div>
 </div>
 
@@ -35,11 +45,6 @@
 
 <!-- Директива подсказки -->
 <div tips object="tipsAndTricks"></div>
-
-<!-- Директива ошибки -->
-<div error-board
-     editor-params="ep">
-</div>
 
 <div class="toolbar">
     <div class="box">

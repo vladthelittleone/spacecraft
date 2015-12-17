@@ -30,7 +30,7 @@ app.directive('documentation', function ()
 		scope: {
 			hide: '='
 		},
-		templateUrl: 'views/documentation.html',
+		templateUrl: 'views/game/documentation.html',
 		link: link
 	};
 });

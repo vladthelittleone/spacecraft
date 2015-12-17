@@ -1,46 +1,47 @@
-<div class="documentation">
+<div class="documentation"
+	 ng-class="{'hidden' : hide, 'visible' : !hide}">
 
-	<div class="objects" ng-show="!functionTutorialOpen">
+	<div class="objects" ng-show="!functionDocOpen">
 		<h3>Доступные объекты управления</h3>
 		<h5>Объект SpaceCraft и World передаются в функцию run(spaceCraft, world)</h5>
 		<ul>
-			<li ng-click="openFunctionTutorial('world')"><p><em>World</em>Объект, отвечающий за информацию о
+			<li ng-click="openFunctionDoc('world')"><p><em>World</em>Объект, отвечающий за информацию о
 				мире,
 				его
 				объектах.</p></li>
-			<li ng-click="openFunctionTutorial('spaceCraft')"><p><em>SpaceCraft</em>Объект управления
+			<li ng-click="openFunctionDoc('spaceCraft')"><p><em>SpaceCraft</em>Объект управления
 				космическим
 				кораблем</p></li>
-			<li ng-click="openFunctionTutorial('weaponBlock')"><p><em>WeaponBlock</em>Объект управления оружием
+			<li ng-click="openFunctionDoc('weaponBlock')"><p><em>WeaponBlock</em>Объект управления оружием
 				космического
 				корабля</p></li>
-			<li ng-click="openFunctionTutorial('engineBlock')"><p><em>EngineBlock</em>Блок управления
+			<li ng-click="openFunctionDoc('engineBlock')"><p><em>EngineBlock</em>Блок управления
 				двигателями
 				космического
 				корабля</p></li>
-			<li ng-click="openFunctionTutorial('protectionBlock')"><p><em>ProtectionBlock</em>Блок управления
+			<li ng-click="openFunctionDoc('protectionBlock')"><p><em>ProtectionBlock</em>Блок управления
 				защитными
 				системами космического
 				корабля</p></li>
-			<li ng-click="openFunctionTutorial('bonus')"><p><em>Bonus</em>Объект обломков уничтоженного корабля
+			<li ng-click="openFunctionDoc('bonus')"><p><em>Bonus</em>Объект обломков уничтоженного корабля
 				(Бонус)
 			</p></li>
-			<li ng-click="openFunctionTutorial('enemy')"><p><em>Enemy</em>Объект, отвечающий за информацию о
+			<li ng-click="openFunctionDoc('enemy')"><p><em>Enemy</em>Объект, отвечающий за информацию о
 				вражеском
 				корабле</p></li>
-			<li ng-click="openFunctionTutorial('enemyWeapon')"><p><em>EnemyWeapon</em>Объект, отвечающий за
+			<li ng-click="openFunctionDoc('enemyWeapon')"><p><em>EnemyWeapon</em>Объект, отвечающий за
 				информацию о
 				оружии вражеского корабля</p></li>
-			<li ng-click="openFunctionTutorial('module')"><p><em>Module</em>Объект, отвечающий за информацию о
+			<li ng-click="openFunctionDoc('module')"><p><em>Module</em>Объект, отвечающий за информацию о
 				модуле
 				корабля</p></li>
 		</ul>
 	</div>
-	<div ng-show="functionTutorialOpen">
-		<h3>{{functionTutorial.title}}</h3>
-		<h5>{{functionTutorial.description}}</h5>
+	<div ng-show="functionDocOpen">
+		<h3>{{functionDoc.title}}</h3>
+		<h5>{{functionDoc.description}}</h5>
 		<ul>
-			<li ng-repeat="obj in functionTutorial.functions">
+			<li ng-repeat="obj in functionDoc.functions">
 				<p>
 					<em>{{obj.name}}</em>
 					<span ng-repeat="str in obj.description">{{str}}<br></span>

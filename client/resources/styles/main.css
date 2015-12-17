@@ -481,13 +481,12 @@ body {
 
 .documentation {
     overflow-y: auto;
-    position: fixed;
-    top: 25px;
-    right: 50%;
-    bottom: 0;
-    left: 0;
     background: #1D1F21;
     color: #C5C8C6;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	top: 0;
 }
 
 .documentation h3,

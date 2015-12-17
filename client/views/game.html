@@ -1,10 +1,13 @@
-<div ng-class="{'hidden' : hideEditor && (hideTutorial || ep.isCodeRunning), 'visible' : !hideEditor && !hideTutorial}">
+<div ng-class="{'hidden' : hideEditor && (hideDoc || ep.isCodeRunning), 'visible' : !hideEditor && !hideDoc}">
     <div ui-layout="{ flow : 'column',  dividerSize: 4}">
 
 		<!-- Директива докуменации -->
-		<div ui-layout-container min-size="30%" max-size="70%">
+		<div ui-layout-container
+			 min-size="30%"
+			 max-size="70%">
 			<documentation
-				ng-class="{'hidden' : hideTutorial || ep.isCodeRunning, 'visible' : !hideTutorial}">
+				hide="hideDoc"
+				ng-hide="ep.isCodeRunning">
 			</documentation>
 		</div>
 
@@ -60,11 +63,11 @@
 
 <div class="left-toolbar">
 	<button type="button"
-			ng-click="toggleTutorialOpen()"
+			ng-click="toggleDocOpen()"
 			class="tutorial-button"
 			ng-hide = "ep.isCodeRunning" >
                 <span class="glyphicon question-toggle"
-                      ng-class="{'glyphicon-question-sign': hideTutorial, 'glyphicon-chevron-left': !hideTutorial}">
+                      ng-class="{'glyphicon-question-sign': hideDoc, 'glyphicon-chevron-left': !hideDoc}">
                 </span>
     </button>
     <a href="https://vk.com/im?media=&sel=-105816682" target="_blank" class="feedback-button">

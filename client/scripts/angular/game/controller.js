@@ -32,16 +32,16 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 	//===================================
 
 	$scope.hideEditor = false;
-	$scope.hideTutorial = true;
+	$scope.hideDoc = true;
 
 	$scope.toggleEditorOpen = function ()
 	{
 		$scope.hideEditor = !$scope.hideEditor;
 	};
 
-	$scope.toggleTutorialOpen = function ()
+	$scope.toggleDocOpen = function ()
 	{
-		$scope.hideTutorial = !$scope.hideTutorial;
+		$scope.hideDoc = !$scope.hideDoc;
 	};
 
 	//===================================

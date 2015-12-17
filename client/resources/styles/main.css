@@ -819,3 +819,9 @@ body {
 	width: 300px;
 	height: 67px;
 }
+
+.bar {
+	position:absolute;
+	background: rgba(100, 100, 200, 0.5);
+	z-index: 40
+}

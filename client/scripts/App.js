@@ -21,7 +21,9 @@ var app = angular.module('spacecraft', [
 	'spacecraft.tips',
 	'spacecraft.game',
 	'spacecraft.result',
-	'spacecraft.welcome'
+	'spacecraft.welcome',
+	'spacecraft.welcome',
+	'spacecraft.learn'
 ]);
 
 app.config(['$urlRouterProvider', function ($urlRouterProvider)

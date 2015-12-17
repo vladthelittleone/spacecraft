@@ -3,7 +3,7 @@
 /**
  * Created by vladthelittleone on 02.11.15.
  */
-var tutorial =
+var documentation =
 {
     world: {
         title: 'World',

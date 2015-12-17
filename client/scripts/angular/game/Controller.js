@@ -96,25 +96,11 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 	{
 		if ($scope.ep.error != false && $scope.ep.error != null)
 		{
-			// Ищем Номер строки которую нужно выделить,TODO навреное можно сделать проще
-			// но выципить инфу о номере строки из ошибки не выйдет.
-			var strings = $scope.ep.code.split('\n');
-			var foundedStringNumb = 0;
-			var foundString = new RegExp('.*' + $scope.ep.error.message.split(' ')[0] + '.*');
+			var foundedStringNumb = $scope.ep.error.stack.split(':')[3] - 1;
 
-			for (var i = 0; i < strings.length; ++i)
-			{
-				if (foundString.test(strings[i]))
-				{
-					foundedStringNumb = i;
-					break;
-				}
-			}
-			// На тот случай если ошибка останется, а пользователь попробует
-			// снова запустить игру, в отличии от анотации маркер сам не пропадет
-			// и что бы не было маркера на маркере, или маркера в другом месте, удаляем предыдушийй маркер
 			if (markerID != null)
 			{
+				// Удаляем старый маркер, что бы не получилось их много
 				editorSession.removeMarker(markerID);
 			}
 

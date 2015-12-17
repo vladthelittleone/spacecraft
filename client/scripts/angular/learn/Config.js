@@ -7,7 +7,7 @@ app.config(['$stateProvider', function ($stateProvider)
 {
 	// Our first state called `menu`
 	$stateProvider.state('learn', {
-		url: '/',
+		url: '/learn',
 		templateUrl: 'views/main/learn.html',
 		controller: 'LearnController as ctrl'
 	});

@@ -143,7 +143,8 @@ var PlayState = function (spec)
 			{
 				try
 				{
-					userObject = new Function(userCode)();
+					var Class = new Function(userCode);
+					userObject = new Class();
 				}
 				catch (err)
 				{

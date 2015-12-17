@@ -301,6 +301,14 @@ body {
 	bottom: 0;
 }
 
+.pages-footer-text {
+	cursor: default;
+	position: fixed;
+	right: 250px;
+	bottom: 13px;
+	color: white;
+}
+
 .pages-footer div {
 	height: 50px;
 	position: relative;
@@ -734,6 +742,10 @@ body {
 	background-image: url(../assets/pages/rocket55.png);
 }
 
+.js-img {
+	background-image: url(../assets/pages/javascript.png);
+}
+
 .pages-footer-img {
 	position: fixed;
 	bottom: 0;
@@ -754,6 +766,10 @@ body {
 
 .pages-img-blue {
 	background-color: #5293CC;
+}
+
+.pages-img-red {
+	background-color: #712525;
 }
 
 .pages-img {

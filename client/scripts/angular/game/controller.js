@@ -10,10 +10,7 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 	//============== CODE ===============
 	//===================================
 
-	var code = $storage.local.getItem('code') || 'return { \n\t' +
-		'run : function(spaceCraft, world) \n\t' +
-		'{  \n\t\tspaceCraft.weapon.fire();  \n\t}  ' +
-		'\n};';
+	var code = $storage.local.getItem('code') || 'this.run = function(spaceCraft, world)\n{\n\n}\n';
 
 	$scope.ep =
 	{

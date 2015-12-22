@@ -58,7 +58,7 @@ app.directive('gameCanvas', ['statistics', '$state', function (statistics, $stat
 			editorParams: '=',
 			player: '='
 		},
-		templateUrl: 'views/game/game-canvas.html',
+		templateUrl: 'views/directives/game-canvas.html',
 		link: linkFn
 	};
 

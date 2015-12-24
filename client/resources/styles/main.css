@@ -918,6 +918,14 @@ body {
 	background-color: #1D1F21;
 }
 
+.lesson-content-overflow {
+	top: 40px;
+	bottom: 175px;
+	height: initial;
+	width: 100%;
+	position: absolute;
+}
+
 div.thought {
 	position: relative;
 	width: 130px;
@@ -989,4 +997,28 @@ div.helper:after {
 	border-color: #FFFFFF transparent;
 	display: block;
 	width: 0;
+}
+
+.helper .button-block {
+	position: absolute;
+	right: 0;
+	left: 150px;
+	bottom: 0;
+	height: 170px;
+}
+
+.button-block > div {
+	height: 50px;
+	max-width: none;
+	width: 85%;
+	margin: 30px auto 0;
+}
+
+.button-block > div > div {
+	text-align: center;
+	border: 5px solid rgb(11, 10, 12);
+	background-color: #FFFFFF;
+	color: #1D1F21;
+	padding: 10px;
+	text-decoration: none;
 }

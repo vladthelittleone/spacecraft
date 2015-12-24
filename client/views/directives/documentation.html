@@ -1,14 +1,14 @@
 <div class="documentation"
 	 ng-class="{'hidden' : hide, 'visible' : !hide}">
 
-	<div class="objects doc-content" ng-show="!functionDocOpen">
+	<div class="objects content-description" ng-show="!functionDocOpen">
 		<div class="pane-title">
 			<div class="pane-title-inner">
 				Доступные объекты управления
 			</div>
 		</div>
 
-		<div class="doc-overflow">
+		<div class="content-overflow">
 			<ul>
 				<li ng-click="openFunctionDoc('world')"><p><em>World</em>Объект, отвечающий за информацию о
 					мире,
@@ -43,13 +43,13 @@
 			</ul>
 		</div>
 	</div>
-	<div ng-show="functionDocOpen" class="doc-content">
+	<div ng-show="functionDocOpen" class="content-description">
 		<div class="pane-title">
 			<div class="pane-title-inner">
 				{{functionDoc.title}}
 			</div>
 		</div>
-		<div class="doc-overflow">
+		<div class="content-overflow">
 			<ul>
 				<li ng-repeat="obj in functionDoc.functions">
 					<p>

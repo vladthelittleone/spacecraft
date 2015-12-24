@@ -536,6 +536,14 @@ body {
 	border-right: 1px solid rgba(0, 0, 0, 0.45) !important;
 }
 
+.lesson-board {
+	background: #fff;
+	color: #152B39;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+}
+
 .documentation {
 	background: #fff;
 	color: #152B39;
@@ -558,6 +566,7 @@ body {
     font-family: Georgia, Times, serif;
     font-size: 24px;
     color: #152B39;
+	border-bottom: 1px solid #E1E2E2;
 	background-color: #F6F6F6;
 }
 
@@ -738,6 +747,14 @@ body {
     text-indent: 1.2em;
 }
 
+.astrogirl-img {
+	height: 150px;
+	width: 170px;
+	background-image: url(../assets/pages/astro1.png);
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
 .send-img {
 	background-image: url(../assets/pages/astronaut6.png);
 }
@@ -859,13 +876,117 @@ body {
 	width: 80%;
 }
 
-.doc-overflow {
+.content-overflow {
 	height: 100%;
 	overflow-y: auto;
 	padding-bottom: 40px;
 }
 
 
-.doc-content {
+.content-description {
 	height: 100%;
+}
+
+.content-center {
+	max-width: none;
+	width: 85%;
+	margin: 30px auto 0;
+}
+
+.lesson-title {
+	font-size: 30px;
+	font-weight: 500;
+}
+
+.lesson-content {
+	margin-top: 15px;
+	font-size: 15px;
+	line-height: 20px;
+}
+
+.lesson-instructions {
+	font-family: "Courier New", serif;
+	color: white;
+	background-color: #1D1F21;
+	border-bottom: 1px solid #E1E2E2;
+	border-top: 1px solid #E1E2E2;
+	margin-top: 35px;
+	padding-bottom: 20px;
+}
+
+.lesson-instructions .lesson-content {
+	background-color: #1D1F21;
+}
+
+div.thought {
+	position: relative;
+	width: 130px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	background-color: #fff;
+	border: 8px solid #666;
+	-webkit-border-radius: 58px;
+	-moz-border-radius: 58px;
+	border-radius: 58px;
+	-webkit-box-shadow: 2px 2px 4px #888;
+	-moz-box-shadow: 2px 2px 4px #888;
+	box-shadow: 2px 2px 4px #888;
+}
+
+div.thought:before, p.thought:after {
+	left: 10px;
+	top: 70px;
+	width: 40px;
+	height: 40px;
+	background-color: #fff;
+	border: 8px solid #666;
+	-webkit-border-radius: 28px;
+	-moz-border-radius: 28px;
+	border-radius: 28px;
+}
+
+div.thought:after {
+	width: 20px;
+	height: 20px;
+	left: 5px;
+	top: 100px;
+	-webkit-border-radius: 18px;
+	-moz-border-radius: 18px;
+	border-radius: 18px;
+}
+
+div.helper {
+	border-top: 5px solid #1D1F21;
+	position: absolute;
+	bottom: 0;
+	background-color: #152B39;
+	width: 100%;
+}
+
+div.helper .astrogirl-img {
+	margin-top: 20px;
+}
+
+div.helper:before {
+	border-color: #1D1F21 transparent;
+	display: block;
+	width: 0;
+	content: "";
+	position: absolute;
+	left: 40px;
+	border-width: 20px 20px 0;
+	border-style: solid;
+}
+
+div.helper:after {
+	content: "";
+	position: absolute;
+	top: -5px;
+	left: 43px;
+	border-width: 17px 17px 0;
+	border-style: solid;
+	border-color: #FFFFFF transparent;
+	display: block;
+	width: 0;
 }

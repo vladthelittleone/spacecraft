@@ -27,13 +27,17 @@ app.controller('LessonController', ['$scope', '$storage', 'autocompleter',
 	//===================================
 	//============== HIDE ===============
 	//===================================
-
 	$scope.hideLesson = true;
 	$scope.hideEditor = false;
 
 	$scope.toggleEditorOpen = function ()
 	{
 		$scope.hideEditor = !$scope.hideEditor;
+	};
+
+	$scope.toggleLessonOpen = function ()
+	{
+		$scope.hideLesson = !$scope.hideLesson;
 	};
 
 	// TODO

@@ -5,6 +5,7 @@
 		<div ui-layout-container
 			 min-size="30%"
 			 max-size="70%">
+			<lesson-board ng-hide="hideLesson || ep.isCodeRunning"/>
 		</div>
 
         <div ui-layout-container
@@ -61,7 +62,7 @@
 
 <div class="left-toolbar">
 	<button type="button"
-			ng-click="toggleDocOpen()"
+			ng-click="toggleLessonOpen()"
 			class="tutorial-button"
 			ng-hide = "ep.isCodeRunning" >
                 <span class="glyphicon question-toggle"

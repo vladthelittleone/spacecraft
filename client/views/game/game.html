@@ -5,10 +5,7 @@
 		<div ui-layout-container
 			 min-size="30%"
 			 max-size="70%">
-			<documentation
-				hide="hideDoc"
-				ng-hide="ep.isCodeRunning">
-			</documentation>
+			<documentation ng-hide="hideDoc || ep.isCodeRunning"/>
 		</div>
 
         <div ui-layout-container

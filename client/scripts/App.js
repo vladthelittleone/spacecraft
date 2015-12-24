@@ -24,6 +24,7 @@ var app = angular.module('spacecraft', [
 	'spacecraft.welcome',
 	'spacecraft.welcome',
 	'spacecraft.lessons',
+	'spacecraft.lessonBoard',
 	'spacecraft.lesson'
 ]);
 

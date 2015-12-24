@@ -20,5 +20,4 @@ var Explosion = function (spec)
     boomSprite.anchor.y = 0.5;
 
 	return boomSprite;
-
 };

@@ -28,6 +28,10 @@ var BootState = function (spec)
 		game.physics.p2.setImpactEvents(true);
 		game.physics.p2.restitution = 0.8;
 
+		game.sc.animationManager = new AnimationManager({
+			game: game
+		});
+
 		collisionInit();
 
 		game.sc.world = World({

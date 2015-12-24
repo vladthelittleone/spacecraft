@@ -55,7 +55,7 @@ var EntitiesFactory = function (spec)
 	{
 		args.game = game;
 
-		return Explosion(args);
+		return game.sc.animationManager.explosion(args);
 	};
 
 	that.createSpaceCraft = function (args)

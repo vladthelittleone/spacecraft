@@ -14,6 +14,7 @@ var SpaceCraftGame = function (spec)
 		that.sc.collisionGroups.spaceCraft = {};
 		that.sc.collisionGroups.bonus = {};
 		that.sc.seq = utils.seq();
+		that.sc.animationManager = {};
 	}
 
 	function initStates()

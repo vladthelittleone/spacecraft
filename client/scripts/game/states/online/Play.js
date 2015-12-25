@@ -174,6 +174,8 @@ var PlayState = function (spec)
 		}
 
 		keysControl();
+
+		sc.animationManager.update();
 	};
 
 	return that;

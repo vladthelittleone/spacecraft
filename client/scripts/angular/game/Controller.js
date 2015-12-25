@@ -10,10 +10,7 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 	//============== CODE ===============
 	//===================================
 
-	var code = $storage.local.getItem('code') || 'return { \n\t' +
-		'run : function(spaceCraft, world) \n\t' +
-		'{  \n\t\tspaceCraft.weapon.fire();  \n\t}  ' +
-		'\n};';
+	var code = $storage.local.getItem('code') || 'this.run = function(spaceCraft, world)\n{\n\n}\n';
 
 	$scope.ep =
 	{
@@ -32,16 +29,16 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 	//===================================
 
 	$scope.hideEditor = false;
-	$scope.hideTutorial = true;
+	$scope.hideDoc = true;
 
 	$scope.toggleEditorOpen = function ()
 	{
 		$scope.hideEditor = !$scope.hideEditor;
 	};
 
-	$scope.toggleTutorialOpen = function ()
+	$scope.toggleDocOpen = function ()
 	{
-		$scope.hideTutorial = !$scope.hideTutorial;
+		$scope.hideDoc = !$scope.hideDoc;
 	};
 
 	//===================================
@@ -87,4 +84,38 @@ app.controller('GameController', ['$scope', '$storage', 'autocompleter',
 
 		$storage.local.setItem('code', $scope.ep.code);
 	};
+
+	var Range = ace.require('ace/range').Range;
+	var markerID = null;
+
+	$scope.$watch('ep.error', function ()
+	{
+		if ($scope.ep.error != false && $scope.ep.error != null)
+		{
+			var foundedStringNumb = $scope.ep.error.stack.split(':')[3] - 1;
+
+			if (markerID != null)
+			{
+				// Удаляем старый маркер, что бы не получилось их много
+				editorSession.removeMarker(markerID);
+			}
+
+			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
+			markerID = editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
+
+			editorSession.setAnnotations([{
+				row: foundedStringNumb,
+				column: 0,
+				text: $scope.ep.error.toString(),
+				type: "error"
+			}]);
+		}
+		else
+		{
+			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
+			// но но мало ли, что лучше удалять их явно
+			editorSession.clearAnnotations();
+			editorSession.removeMarker(markerID);
+		}
+	});
 }]);

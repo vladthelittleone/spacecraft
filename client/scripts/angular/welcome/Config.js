@@ -8,7 +8,7 @@ app.config(['$stateProvider', function ($stateProvider)
 	// Our first state called `menu`
 	$stateProvider.state('welcome', {
 		url: '/',
-		templateUrl: 'views/welcome.html',
+		templateUrl: 'views/main/welcome.html',
 		controller: 'WelcomeController as ctrl'
 	});
 }]);

@@ -8,7 +8,7 @@ app.config(['$stateProvider', function ($stateProvider)
 	// Our first state called `result`
 	$stateProvider.state('result', {
 		url: '/result',
-		templateUrl: 'views/result.html',
+		templateUrl: 'views/main/result.html',
 		controller: 'ResultController as ctrl'
 	});
 }]);

@@ -61,7 +61,7 @@ app.service('autocompleter', function ()
 	{
 		var array = [];
 
-		var functionsFrom = tutorial[name].functions;
+		var functionsFrom = documentation[name].functions;
 
 		functionsFrom.forEach(function (value)
 		{

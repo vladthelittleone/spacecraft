@@ -11,19 +11,26 @@ app.directive('documentation', function ()
 		//============== FUNCTION ===========
 		//===================================
 
-		$scope.functionTutorial = {};
-		$scope.functionTutorialOpen = false;
+		$scope.functionDoc = {};
+		$scope.functionDocOpen = false;
 
-		$scope.openFunctionTutorial = function (v)
+		$scope.openFunctionDoc = function (v)
 		{
-			$scope.functionTutorial = tutorial[v];
-			$scope.functionTutorialOpen = true;
+			$scope.functionDoc = documentation[v];
+			$scope.functionDocOpen = true;
 		};
+
+		$scope.$watch('hide', function ()
+		{
+			$scope.functionDocOpen = false;
+		})
 	};
 
 	return {
-		scope: {},
-		templateUrl: 'views/documentation.html',
+		scope: {
+			hide: '='
+		},
+		templateUrl: 'views/directives/documentation.html',
 		link: link
 	};
 });

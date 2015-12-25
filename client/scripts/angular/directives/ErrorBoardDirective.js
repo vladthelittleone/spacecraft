@@ -19,7 +19,7 @@ app.directive('errorBoard', function ()
 		scope: {
 			editorParams: '='
 		},
-		templateUrl: 'views/error-board.html',
+		templateUrl: 'views/directives/error-board.html',
 		link: link
 	};
 });

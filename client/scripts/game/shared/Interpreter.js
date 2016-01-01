@@ -4,13 +4,17 @@ var Interpreter = function () {
 
 	var print = function(value)
 	{
-		// todo мб выводить напрямую в форму
 		array.push(value);
+	};
+
+	var println = function(value)
+	{
+		array.push(value + '<br>');
 	};
 
 	var editCode = function(code)
 	{
-		return code + " array.toString();"
+		return code + " array.toString().replace(new RegExp(',', 'g'), '');"
 	};
 
 	var runCode = function(code)
@@ -27,6 +31,7 @@ var Interpreter = function () {
 
 	that.execute = function (code)
 	{
+		// очищаем от старых значений
 		array = [];
 		return runCode(editCode(code));
 	};

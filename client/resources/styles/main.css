@@ -755,6 +755,16 @@ body {
 	overflow: hidden;
 }
 
+.bbot-img{
+	height: 125px;
+	width: 100px;
+	background-image: url(../assets/pages/bbot.png);
+	background-repeat: no-repeat;
+	float: right;
+	overflow: hidden;
+	margin-top: 10px;
+}
+
 .send-img {
 	background-image: url(../assets/pages/astronaut6.png);
 }

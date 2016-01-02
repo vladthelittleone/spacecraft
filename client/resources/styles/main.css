@@ -38,15 +38,6 @@ body {
 	border-bottom: 1px solid rgba(0,0,0,0.45);
 }
 
-.kineticjs-content {
-    -webkit-animation-duration: 0.75s;
-    animation-duration: 0.75s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    -webkit-animation-name: rotate-in-down-left;
-    animation-name: rotate-in-down-left;
-}
-
 .ui-splitbar {
     background-color: #1D1F21;
 }
@@ -74,6 +65,10 @@ body {
 .enjoyhint_next_btn:hover {
     color: rgba(255, 255, 255, 1);
     background: #39C139;
+}
+
+.enjoyhint_next_btn:active {
+	border: 2px solid #39C139;
 }
 
 .point {
@@ -200,6 +195,11 @@ body {
 .toolbar .box {
     width: 50%;
     margin: 0 auto;
+}
+
+.red-label {
+	background: rgb(196, 32, 15);
+	border: 1px solid rgb(230, 70, 70);
 }
 
 .red {
@@ -801,8 +801,8 @@ body {
 	background-color: #5293CC;
 }
 
-.pages-img-red {
-	background-color: #712525;
+.pages-img-spacecraft {
+	background-color: #152B39;
 }
 
 .pages-img {
@@ -862,6 +862,8 @@ body {
 .pane-title {
 	background: #F6F6F6;
 	color: #969696;
+	/*background: #FEFEFE;*/
+	/*color: #45404F;*/
 	width: 100%;
 	top: 25px;
 	height: 40px;
@@ -877,6 +879,8 @@ body {
 }
 
 .content-overflow {
+	background: white;
+	/*background: #F3F2E9;*/
 	height: 100%;
 	overflow-y: auto;
 	padding-bottom: 40px;
@@ -904,18 +908,38 @@ body {
 	line-height: 20px;
 }
 
+.lesson-hint-button {
+	font-family: "Courier New", serif;
+	color: #FFFFFF;
+	text-align: center;
+	background-color: #C61F0E;
+	border-bottom: 1px solid #E1E2E2;
+	border-top: 1px solid #E1E2E2;
+	padding: 10px;
+	cursor: pointer;
+}
+
 .lesson-instructions {
 	font-family: "Courier New", serif;
 	color: white;
 	background-color: #1D1F21;
+	/*color: #F3F2E9;*/
+	/*background-color: #423D4C;*/
 	border-bottom: 1px solid #E1E2E2;
 	border-top: 1px solid #E1E2E2;
 	margin-top: 35px;
 	padding-bottom: 20px;
 }
 
+.lesson-instructions ul li {
+	cursor: text !important;
+}
+
 .lesson-instructions .lesson-content {
 	background-color: #1D1F21;
+	color: white;
+	/*background-color: #423D4C;*/
+	/*color: #F3F2E9;*/
 }
 
 .lesson-content-overflow {
@@ -995,6 +1019,7 @@ div.helper:after {
 	border-width: 17px 17px 0;
 	border-style: solid;
 	border-color: #FFFFFF transparent;
+	/*border-color: #F3F2E9 transparent;*/
 	display: block;
 	width: 0;
 }
@@ -1021,4 +1046,36 @@ div.helper:after {
 	color: #1D1F21;
 	padding: 10px;
 	text-decoration: none;
+}
+
+.quotes {
+	float: right;
+	position: absolute;
+	top: 0;
+	left: 170px;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+}
+
+.quotes p {
+	font-style: italic;
+	color: white;
+	width: 60%;
+	padding: 10px;
+	margin: 50px auto auto;
+	border: 1px solid white;
+}
+
+.quotes button {
+	color: #152B39;
+	outline: 0;
+	width: 60%;
+	background: white;
+	padding: 10px;
+	border: 0;
+}
+
+.quotes button:hover {
+	background: #F0F0F0;
 }

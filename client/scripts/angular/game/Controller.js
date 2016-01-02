@@ -3,14 +3,34 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', 'autocompleter',
-	function ($scope, $storage, autocompleter)
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter',
+function ($scope, $storage, $http, autocompleter)
 {
 	//===================================
 	//============== CODE ===============
 	//===================================
 
-	var code = $storage.local.getItem('code') || 'this.run = function(spaceCraft, world)\n{\n\n}\n';
+	function initCode()
+	{
+		// Если в локальном хранилище нет кода, то берем из js
+		if (!code)
+		{
+			$http({method: 'GET', url: 'scripts/code/game.js'})
+				.success(function (date)
+				{
+					editorSession.setValue(date);
+					code = date;
+				});
+		}
+
+		return  $storage.local.getItem('code') || "";
+	}
+
+	var code = initCode();
+
+	//===================================
+	//============== SCOPE ==============
+	//===================================
 
 	$scope.ep =
 	{

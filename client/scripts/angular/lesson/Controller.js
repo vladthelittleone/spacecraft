@@ -3,46 +3,55 @@
  */
 var app = angular.module('spacecraft.lesson');
 
-app.controller('LessonController', ['$scope', '$storage', 'autocompleter',
-	function ($scope, $storage, autocompleter)
+app.controller('LessonController', ['$scope', '$storage', '$stateParams', '$state', '$http', 'lessonProvider',
+	function ($scope, $storage, $stateParams, $state, $http, lessonProvider)
 {
 	//===================================
 	//============== CODE ===============
 	//===================================
 
-	var code = $storage.local.getItem('code') || 'this.run = function(spaceCraft, world)\n{\n\n}\n';
+	function initCode()
+	{
+		// Если в локальном хранилище нет кода, то берем из js
+		if (!code)
+		{
+			$http({method: 'GET', url: 'scripts/code/lesson1/' + $stateParams.id + '.js'})
+				.success(function (date)
+				{
+					editorSession.setValue(date);
+					code = date;
+				});
+		}
 
-	$scope.ep =
+		return "";
+	}
+
+	var code = initCode();
+
+	var options = $scope.editorOptions =
 	{
 		isCodeRunning: false,
 		code: code,
 		error: null
 	};
 
+	//===================================
+	//============== SCOPE ==============
+	//===================================
+
+	$scope.lesson = lessonProvider($stateParams.id);
+	$scope.subIndex = 0;
+
+	// Проверка существования урока
+	if (!$scope.lesson)
+	{
+		$state.go('lessons');
+	}
+
 	$scope.toggleCodeRun = function ()
 	{
-		$scope.ep.isCodeRunning = !$scope.ep.isCodeRunning;
+		options.isCodeRunning = !options.isCodeRunning;
 	};
-
-	//===================================
-	//============== HIDE ===============
-	//===================================
-	$scope.hideLesson = true;
-	$scope.hideEditor = false;
-
-	$scope.toggleEditorOpen = function ()
-	{
-		$scope.hideEditor = !$scope.hideEditor;
-	};
-
-	$scope.toggleLessonOpen = function ()
-	{
-		$scope.hideLesson = !$scope.hideLesson;
-	};
-
-	// TODO
-	// Вынести в сервис инициализации ace
-	// Используется в GameController
 
 	//===================================
 	//============== EDITOR =============
@@ -52,62 +61,16 @@ app.controller('LessonController', ['$scope', '$storage', 'autocompleter',
 
 	$scope.aceChanged = function ()
 	{
-		$scope.ep.code = editorSession.getDocument().getValue();
-		$storage.local.setItem('code', $scope.ep.code);
+		options.code = editorSession.getDocument().getValue();
+		$storage.local.setItem('code', options.code);
 	};
 
 	$scope.aceLoaded = function (editor)
 	{
 		editorSession = editor.getSession();
 		editor.$blockScrolling = Infinity;
-		editorSession.setValue($scope.ep.code);
+		editorSession.setValue(options.code);
 
-		var langTools = ace.require('ace/ext/language_tools');
-		var spaceCraftCompleter = autocompleter(editor);
-
-		editor.completers = [spaceCraftCompleter];
-		editor.setOptions(
-		{
-			enableSnippets: false,
-			enableBasicAutocompletion: true
-		});
-
-		langTools.addCompleter(spaceCraftCompleter);
-
-		$storage.local.setItem('code', $scope.ep.code);
+		$storage.local.setItem('code', options.code);
 	};
-
-	var Range = ace.require('ace/range').Range;
-	var markerID = null;
-
-	$scope.$watch('ep.error', function ()
-	{
-		if ($scope.ep.error != false && $scope.ep.error != null)
-		{
-			var foundedStringNumb = $scope.ep.error.stack.split(':')[3] - 1;
-
-			if (markerID != null)
-			{
-				// Удаляем старый маркер, что бы не получилось их много
-				editorSession.removeMarker(markerID);
-			}
-
-			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-			markerID = editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
-
-			editorSession.setAnnotations([{
-				row: foundedStringNumb,
-				column: 0,
-				text: $scope.ep.error.toString(),
-				type: "error"
-			}]);
-		}
-		else
-		{
-			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
-			// но но мало ли, что лучше удалять их явно
-			editorSession.clearAnnotations();
-			editorSession.removeMarker(markerID);
-		}
-	});
 }]);

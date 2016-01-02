@@ -1,17 +1,19 @@
-<div ng-class="{'hidden' : hideEditor && (hideLesson || ep.isCodeRunning), 'visible' : !hideEditor && !hideLesson}">
+<div>
     <div ui-layout="{ flow : 'column',  dividerSize: 4}">
 
-		<!-- Директива докуменации -->
+		<!-- Директива урока -->
 		<div ui-layout-container
 			 min-size="30%"
 			 max-size="70%">
-			<lesson-board ng-hide="hideLesson || ep.isCodeRunning"/>
+			<lesson-board
+				lesson="lesson.sub[subIndex]"
+				text="lesson.text"
+				quote="lesson.quote"/>
 		</div>
 
         <div ui-layout-container
             min-size="30%"
-            max-size="70%"
-			ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}">
+            max-size="70%">
 
 			<div class="main-editor"
 			 	ui-ace="{
@@ -27,18 +29,13 @@
 
 			<!-- Директива ошибки -->
 			<div error-board
-				 editor-params="ep">
+				 editor-params="editorOptions">
 			</div>
 
 		</div>
     </div>
 </div>
 
-
-<!-- Директива игры -->
-<div game-canvas
-     editor-params="ep"
-     player="player"></div>
 
 <div class="toolbar">
     <div class="box">
@@ -47,26 +44,10 @@
 			 src="resources/assets/logo3.png"/>
     </div>
     <div class="box">
-        <button type="button" ng-click="toggleEditorOpen()">
-            <span class="glyphicon editor-toggle"
-                  ng-class="{'glyphicon-chevron-down' : hideEditor, 'glyphicon-chevron-up' : !hideEditor}">
-            </span>
-        </button>
         <button type="button" ng-click="toggleCodeRun()">
             <span class="glyphicon play-toggle"
-                  ng-class="{'glyphicon-stop red' : ep.isCodeRunning, 'glyphicon-play green' : !ep.isCodeRunning}">
+                  ng-class="{'glyphicon-stop red' : editorOptions.isCodeRunning, 'glyphicon-play green' : !editorOptions.isCodeRunning}">
             </span>
         </button>
     </div>
-</div>
-
-<div class="left-toolbar">
-	<button type="button"
-			ng-click="toggleLessonOpen()"
-			class="tutorial-button"
-			ng-hide = "ep.isCodeRunning" >
-                <span class="glyphicon question-toggle"
-					  ng-class="{'glyphicon-question-sign': hideLesson, 'glyphicon-chevron-left': !hideLesson}">
-                </span>
-	</button>
 </div>

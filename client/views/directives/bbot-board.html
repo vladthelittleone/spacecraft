@@ -1,0 +1,15 @@
+<div class="bbot-border" ng-show="editorParams.error">
+	<div class="bbot-board">
+		<div class="close-button">
+			<button type="button" ng-click="closeBBotList()">
+				<span class="glyphicon glyphicon-chevron-down"></span>
+			</button>
+		</div>
+		<div class="bbot-img"></div>
+		<div class="bbot-msg red">
+			Похоже, Вы допустили ошибку: {{editorParams.error.toString()}}
+			<br>
+			Проверьте и исправте свой код, и попробуте еще раз.
+		</div>
+	</div>
+</div>

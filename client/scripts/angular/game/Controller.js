@@ -12,6 +12,8 @@ function ($scope, $storage, $http, autocompleter)
 
 	function initCode()
 	{
+		var code = $storage.local.getItem('code') || "";
+
 		// Если в локальном хранилище нет кода, то берем из js
 		if (!code)
 		{
@@ -23,7 +25,7 @@ function ($scope, $storage, $http, autocompleter)
 				});
 		}
 
-		return  $storage.local.getItem('code') || "";
+		return code;
 	}
 
 	var code = initCode();

@@ -3,13 +3,13 @@
 /**
  * Created by vladthelittleone on 08.12.15.
  */
-var app = angular.module('spacecraft.errorBoard', []);
+var app = angular.module('spacecraft.bbotLessonBoard', []);
 
-app.directive('errorBoard', function ()
+app.directive('bbotLessonBoard', function ()
 {
 	var link = function ($scope)
 	{
-		$scope.closeErrorList = function()
+		$scope.closeBBotList = function()
 		{
 			$scope.editorParams.error = false;
 		};
@@ -19,7 +19,7 @@ app.directive('errorBoard', function ()
 		scope: {
 			editorParams: '='
 		},
-		templateUrl: 'views/directives/error-board.html',
+		templateUrl: 'views/directives/bbot-lesson-board.html',
 		link: link
 	};
 });

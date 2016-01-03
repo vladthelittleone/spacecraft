@@ -12,16 +12,12 @@ app.controller('LessonController', ['$scope', '$storage', '$stateParams', '$stat
 
 	function initCode()
 	{
-		// Если в локальном хранилище нет кода, то берем из js
-		if (!code)
-		{
-			$http({method: 'GET', url: 'scripts/code/lesson1/' + $stateParams.id + '.js'})
-				.success(function (date)
-				{
-					editorSession.setValue(date);
-					code = date;
-				});
-		}
+		$http({method: 'GET', url: 'scripts/code/lesson1/' + $stateParams.id + '.js'})
+			.success(function (date)
+			{
+				editorSession.setValue(date);
+				code = date;
+			});
 
 		return "";
 	}

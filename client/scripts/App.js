@@ -17,7 +17,6 @@ var app = angular.module('spacecraft', [
 	'spacecraft.statistics',
 	'spacecraft.lessonProvider',
 	'spacecraft.bbotBoard',
-	'spacecraft.bbotLessonBoard',
 	'spacecraft.gameCanvas',
 	'spacecraft.documentation',
 	'spacecraft.tips',

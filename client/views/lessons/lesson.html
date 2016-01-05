@@ -7,8 +7,7 @@
 			 max-size="70%">
 			<lesson-board
 				lesson="lesson.sub[subIndex]"
-				text="lesson.text"
-				quote="lesson.quote"/>
+				text="lesson.text"/>
 		</div>
 
         <div ui-layout-container
@@ -28,7 +27,10 @@
 			</div>
 
 			<!-- Директива ошибки -->
-			<bbot-lesson-board editor-params="editorOptions"/>
+			<bbot-board
+				editor-params="editorOptions"
+				quote="lesson.quote"
+				lesson="true"/>
 
 		</div>
     </div>

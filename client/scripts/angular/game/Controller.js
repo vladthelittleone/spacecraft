@@ -38,7 +38,8 @@ function ($scope, $storage, $http, autocompleter)
 	{
 		isCodeRunning: false,
 		code: code,
-		error: null
+		error: null,
+		result: null
 	};
 
 	$scope.toggleCodeRun = function ()

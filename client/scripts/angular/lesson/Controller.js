@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.lesson');
 
-app.controller('LessonController', ['$scope', '$storage', '$stateParams', '$state', '$http', 'lessonProvider',
-	function ($scope, $storage, $stateParams, $state, $http, lessonProvider)
+app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', 'lessonProvider',
+	function ($scope, $stateParams, $state, $http, lessonProvider)
 {
 	//===================================
 	//============== CODE ===============
@@ -28,7 +28,8 @@ app.controller('LessonController', ['$scope', '$storage', '$stateParams', '$stat
 	{
 		isCodeRunning: false,
 		code: code,
-		error: null
+		error: null,
+		result: null
 	};
 
 	//===================================
@@ -58,7 +59,6 @@ app.controller('LessonController', ['$scope', '$storage', '$stateParams', '$stat
 	$scope.aceChanged = function ()
 	{
 		options.code = editorSession.getDocument().getValue();
-		$storage.local.setItem('code', options.code);
 	};
 
 	$scope.aceLoaded = function (editor)
@@ -66,7 +66,5 @@ app.controller('LessonController', ['$scope', '$storage', '$stateParams', '$stat
 		editorSession = editor.getSession();
 		editor.$blockScrolling = Infinity;
 		editorSession.setValue(options.code);
-
-		$storage.local.setItem('code', options.code);
 	};
 }]);

@@ -32,6 +32,11 @@ app.service('lessonProvider', function ()
 							'next .ace_active-line': 'Редактор кода',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
+						},
+						{
+							'click .button-gradient .enjoy-hint': 'Нажмите для перехода к следующему уроку',
+							'nextButton': false,
+							'showSkip': false
 						}
 					],
 					result: ''
@@ -49,17 +54,12 @@ app.service('lessonProvider', function ()
 					'</ul>',
 					hint: [
 						{
-							'next .ace_active-line': 'Редактор кода',
-							'nextButton': {text: 'Далее'},
-							'showSkip': false
-						},
-						{
 							'next .ace_active-line': 'Введите свое имя в формате: "Имя"',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						},
 						{
-							'next .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода, а <i class="glyphicon glyphicon-stop red"></i> для вызова паузы',
+							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода, а <i class="glyphicon glyphicon-stop red"></i> для вызова паузы',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						}

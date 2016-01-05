@@ -17,7 +17,9 @@ app.directive('bbotBoard', function ()
 
 	return {
 		scope: {
-			editorParams: '='
+			editorParams: '=',
+			quote: '=',
+			lesson: '='
 		},
 		templateUrl: 'views/directives/bbot-board.html',
 		link: link

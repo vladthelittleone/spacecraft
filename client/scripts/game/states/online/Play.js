@@ -26,7 +26,10 @@ var PlayState = function (spec)
 		{
 			try
 			{
-				userObject.run(SpaceCraftApi(scope.spaceCraft), WorldApi(sc.world, scope.spaceCraft.getId()));
+				var s = SpaceCraftApi(scope.spaceCraft);
+				var w = WorldApi(sc.world, scope.spaceCraft.getId());
+
+				userObject.run && userObject.run(s, w);
 				scope.editorParams.error = false;
 			}
 			catch (err)

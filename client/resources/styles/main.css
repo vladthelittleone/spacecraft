@@ -684,7 +684,7 @@ body {
 .bbot-triangle {
 	border-style: solid;
 	float: right;
-	width: 30%;
+	margin-right: 72px;
 	border-width: 45px 0 300px 100px;
 	border-color: transparent transparent transparent rgb(40, 42, 46);
 }
@@ -784,7 +784,7 @@ body {
 }
 
 .bbot-board .bbot-msg {
-	padding-right: 25px;
+	padding-right: 22px;
 	border-left: 1px solid rgba(0, 0, 0, 0.45) !important;
 	border-top: 1px solid rgba(0, 0, 0, 0.45) !important;
 	height: 100%;
@@ -839,11 +839,16 @@ body {
 }
 
 .bbot-hologram {
-	padding-top: 20px;
-	padding-left: 20px;
 	height: 100%;
-	width: 70%;
+	margin-right: 172px;
 	background: rgb(40, 42, 46);
+}
+
+.bbot-hologram p {
+	position: absolute;
+	left: 60px;
+	top: 45px;
+	right: 195px;
 }
 
 .send-img {
@@ -1135,4 +1140,8 @@ div.helper:after {
 	color: #1D1F21;
 	padding: 10px;
 	text-decoration: none;
+}
+
+@media (min-width: 1200px) {
+
 }

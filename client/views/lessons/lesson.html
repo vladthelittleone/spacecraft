@@ -1,10 +1,11 @@
 <div>
-    <div ui-layout="{ flow : 'column',  dividerSize: 4}">
+    <div ui-layout="{ flow : 'column',  dividerSize: 4, disableToggle: true}">
 
 		<!-- Директива урока -->
 		<div ui-layout-container
 			 min-size="30%"
-			 max-size="70%">
+			 max-size="70%"
+			 size="50%">
 			<lesson-board
 				lesson="lesson.sub[subIndex]"
 				text="lesson.text"/>

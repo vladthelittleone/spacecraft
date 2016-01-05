@@ -1,4 +1,4 @@
-<div ng-class="{'hidden' : hideEditor && (hideDoc || ep.isCodeRunning), 'visible' : !hideEditor && !hideDoc}">
+<div ng-class="{'hidden' : hideEditor && (hideDoc || options.isCodeRunning), 'visible' : !hideEditor && !hideDoc}">
     <div ui-layout="{ flow : 'column',  dividerSize: 4}">
 
 		<!-- Директива докуменации -->
@@ -7,7 +7,7 @@
 			 max-size="70%">
 			<documentation
 				hide="hideDoc"
-				ng-hide="ep.isCodeRunning"/>
+				ng-hide="options.isCodeRunning"/>
 		</div>
 
         <div ui-layout-container
@@ -28,7 +28,7 @@
 			</div>
 
 			<!-- Директива ошибки -->
-			<bbot-board editor-params="ep"/>
+			<bbot-board editor-options="options"/>
 		</div>
     </div>
 </div>
@@ -36,7 +36,7 @@
 
 <!-- Директива игры -->
 <div game-canvas
-     editor-params="ep"
+     editor-options="options"
      player="player"></div>
 
 <!-- Директива подсказки -->
@@ -56,7 +56,7 @@
         </button>
         <button type="button" ng-click="toggleCodeRun()">
             <span class="glyphicon play-toggle"
-                  ng-class="{'glyphicon-stop red' : ep.isCodeRunning, 'glyphicon-play green' : !ep.isCodeRunning}">
+                  ng-class="{'glyphicon-stop red' : options.isCodeRunning, 'glyphicon-play green' : !options.isCodeRunning}">
             </span>
         </button>
     </div>
@@ -66,7 +66,7 @@
 	<button type="button"
 			ng-click="toggleDocOpen()"
 			class="tutorial-button"
-			ng-hide = "ep.isCodeRunning" >
+			ng-hide = "options.isCodeRunning" >
                 <span class="glyphicon question-toggle"
                       ng-class="{'glyphicon-question-sign': hideDoc, 'glyphicon-chevron-left': !hideDoc}">
                 </span>

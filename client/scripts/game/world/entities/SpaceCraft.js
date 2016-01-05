@@ -110,7 +110,7 @@ var SpaceCraft = function (spec)
         if (sc.scope.spaceCraft.getId() === that.getId())
         {
             statistic.calculateTotalScore();
-            sc.scope.editorParams.isCodeRunning = false;
+            sc.scope.editorOptions.isCodeRunning = false;
         }
 
         var modX = sc.world.getBounds().height - 320;

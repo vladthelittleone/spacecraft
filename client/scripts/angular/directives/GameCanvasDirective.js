@@ -71,7 +71,7 @@ app.directive('gameCanvas', ['statistics', '$state', '$stateParams', function (s
 	return {
 		scope:
 		{
-			editorParams: '=',
+			editorOptions: '=',
 			player: '='
 		},
 		templateUrl: 'views/directives/game-canvas.html',

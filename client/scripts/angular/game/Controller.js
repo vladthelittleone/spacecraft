@@ -34,7 +34,7 @@ function ($scope, $storage, $http, autocompleter)
 	//============== SCOPE ==============
 	//===================================
 
-	$scope.ep =
+	$scope.options =
 	{
 		isCodeRunning: false,
 		code: code,
@@ -44,7 +44,7 @@ function ($scope, $storage, $http, autocompleter)
 
 	$scope.toggleCodeRun = function ()
 	{
-		$scope.ep.isCodeRunning = !$scope.ep.isCodeRunning;
+		$scope.options.isCodeRunning = !$scope.options.isCodeRunning;
 	};
 
 	//===================================
@@ -83,15 +83,15 @@ function ($scope, $storage, $http, autocompleter)
 
 	$scope.aceChanged = function ()
 	{
-		$scope.ep.code = editorSession.getDocument().getValue();
-		$storage.local.setItem('code', $scope.ep.code);
+		$scope.options.code = editorSession.getDocument().getValue();
+		$storage.local.setItem('code', $scope.options.code);
 	};
 
 	$scope.aceLoaded = function (editor)
 	{
 		editorSession = editor.getSession();
 		editor.$blockScrolling = Infinity;
-		editorSession.setValue($scope.ep.code);
+		editorSession.setValue($scope.options.code);
 
 		var langTools = ace.require('ace/ext/language_tools');
 		var spaceCraftCompleter = autocompleter(editor);
@@ -105,17 +105,17 @@ function ($scope, $storage, $http, autocompleter)
 
 		langTools.addCompleter(spaceCraftCompleter);
 
-		$storage.local.setItem('code', $scope.ep.code);
+		$storage.local.setItem('code', $scope.options.code);
 	};
 
 	var Range = ace.require('ace/range').Range;
 	var markerID = null;
 
-	$scope.$watch('ep.error', function ()
+	$scope.$watch('options.error', function ()
 	{
-		if ($scope.ep.error != false && $scope.ep.error != null)
+		if ($scope.options.error != false && $scope.options.error != null)
 		{
-			var foundedStringNumb = $scope.ep.error.stack.split(':')[3] - 1;
+			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
 			if (markerID != null)
 			{
@@ -129,7 +129,7 @@ function ($scope, $storage, $http, autocompleter)
 			editorSession.setAnnotations([{
 				row: foundedStringNumb,
 				column: 0,
-				text: $scope.ep.error.toString(),
+				text: $scope.options.error.toString(),
 				type: "error"
 			}]);
 		}

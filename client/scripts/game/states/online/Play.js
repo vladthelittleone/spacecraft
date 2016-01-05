@@ -30,12 +30,12 @@ var PlayState = function (spec)
 				var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
 				userObject.run && userObject.run(s, w);
-				scope.editorParams.error = false;
+				scope.editorOptions.error = false;
 			}
 			catch (err)
 			{
-				scope.editorParams.error = err;
-				scope.editorParams.isCodeRunning = false;
+				scope.editorOptions.error = err;
+				scope.editorOptions.isCodeRunning = false;
 			}
 		}
 	}
@@ -129,12 +129,12 @@ var PlayState = function (spec)
 		followFor(scope.spaceCraft.sprite);
 
 
-		scope.$watch('editorParams.code', function (n)
+		scope.$watch('editorOptions.code', function (n)
 		{
 			userCode = n;
 		});
 
-		scope.$watch('editorParams.isCodeRunning', function (n)
+		scope.$watch('editorOptions.isCodeRunning', function (n)
 		{
 			isRunning = n;
 
@@ -152,8 +152,8 @@ var PlayState = function (spec)
 				}
 				catch (err)
 				{
-					scope.editorParams.error = err.toString();
-					scope.editorParams.isCodeRunning = false;
+					scope.editorOptions.error = err.toString();
+					scope.editorOptions.isCodeRunning = false;
 				}
 			}
 		});

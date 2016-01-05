@@ -11,13 +11,13 @@ app.directive('bbotBoard', function ()
 	{
 		$scope.closeBBotList = function()
 		{
-			$scope.editorParams.error = false;
+			$scope.editorOptions.error = false;
 		};
 	};
 
 	return {
 		scope: {
-			editorParams: '=',
+			editorOptions: '=',
 			quote: '=',
 			lesson: '='
 		},

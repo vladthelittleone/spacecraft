@@ -1,5 +1,4 @@
-<div class="bbot-border">
-	<!--ng-show="editorParams.error">-->
+<div class="bbot-border" ng-show="editorOptions.error">
 	<div class="bbot-board">
 		<div class="bbot-header" ng-if="lesson">
 			<button class="button-gradient quote" type="button" ng-click="closeBBotList()">
@@ -18,7 +17,7 @@
 		<div class="bbot-msg">
 			<div class="bbot-triangle"></div>
 			<div class="bbot-hologram red">
-				<p>Похоже, Вы допустили ошибку: {{editorParams.error.toString()}}
+				<p>Похоже, Вы допустили ошибку: {{editorOptions.error.toString()}}
 					<br>
 					Проверьте и исправте свой код, и попробуте еще раз.</p>
 			</div>

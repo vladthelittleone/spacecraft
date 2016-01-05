@@ -1142,6 +1142,43 @@ div.helper:after {
 	text-decoration: none;
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 800px) {
+	.bbot-img {
+		display: none;
+	}
 
+	.quote {
+		display: none;
+	}
+
+	.bbot-triangle {
+		display: none;
+	}
+
+	.bbot-hologram {
+		margin-right: 0;
+		background: transparent;
+	}
+
+	.bbot-hologram p {
+		position: inherit;
+	}
+
+	.pane-title {
+		display: none;
+	}
+
+	.lesson-content-overflow {
+		top: 0;
+	}
+}
+
+@media (max-height: 400px) {
+	.lesson-content-overflow {
+		bottom: 0;
+	}
+
+	div.helper {
+		display: none;
+	}
 }

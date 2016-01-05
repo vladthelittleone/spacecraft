@@ -683,9 +683,8 @@ body {
 
 .bbot-triangle {
 	border-style: solid;
-	position: absolute;
-	right: 95px;
-	top: 26px;
+	float: right;
+	width: 30%;
 	border-width: 45px 0 300px 100px;
 	border-color: transparent transparent transparent rgb(40, 42, 46);
 }
@@ -785,7 +784,7 @@ body {
 }
 
 .bbot-board .bbot-msg {
-	padding-right: 195px;
+	padding-right: 25px;
 	border-left: 1px solid rgba(0, 0, 0, 0.45) !important;
 	border-top: 1px solid rgba(0, 0, 0, 0.45) !important;
 	height: 100%;
@@ -843,8 +842,7 @@ body {
 	padding-top: 20px;
 	padding-left: 20px;
 	height: 100%;
-	width: 100%;
-	margin-right: 240px;
+	width: 70%;
 	background: rgb(40, 42, 46);
 }
 

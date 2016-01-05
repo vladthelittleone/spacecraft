@@ -34,7 +34,7 @@ app.service('lessonProvider', function ()
 							'showSkip': false
 						},
 						{
-							'click .button-gradient .enjoy-hint': 'Нажмите для перехода к следующему уроку',
+							'click .enjoy-hint-next': 'Нажмите для перехода к следующему уроку',
 							'nextButton': false,
 							'showSkip': false
 						}

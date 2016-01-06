@@ -10,27 +10,28 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	//============== CODE ===============
 	//===================================
 
-	function initCode()
-	{
-		$http({method: 'GET', url: 'scripts/code/lesson1/' + $stateParams.id + '.js'})
-			.success(function (date)
-			{
-				editorSession.setValue(date);
-				code = date;
-			});
-
-		return "";
-	}
-
-	var code = initCode();
-
 	var options = $scope.editorOptions =
 	{
 		isCodeRunning: false,
-		code: code,
+		code: '',
 		error: null,
 		result: null
 	};
+
+	function initCode(i)
+	{
+		$http({
+			method: 'GET',
+			url: 'scripts/code/lesson' + $stateParams.id + '/' + i + '.js'
+		})
+		.success(function (date)
+		{
+			editorSession.setValue(date);
+			options.code = date;
+		});
+	}
+
+	initCode(0);
 
 	//===================================
 	//============== SCOPE ==============
@@ -48,6 +49,24 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.toggleCodeRun = function ()
 	{
 		options.isCodeRunning = !options.isCodeRunning;
+	};
+
+	$scope.nextSubLesson = function ()
+	{
+		// Размер массива подуроков с 0
+		var len = $scope.lesson.sub.length - 1;
+
+		// Индекс текущего подурока
+		var i = $scope.subIndex;
+
+		if (i !== len)
+		{
+			options.code = initCode(++$scope.subIndex);
+		}
+		else
+		{
+			$state.go('lessons');
+		}
 	};
 
 	//===================================

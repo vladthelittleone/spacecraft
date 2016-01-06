@@ -19,7 +19,8 @@ app.directive('bbotBoard', function ()
 		scope: {
 			editorOptions: '=',
 			quote: '=',
-			lesson: '='
+			lesson: '=',
+			next: '='
 		},
 		templateUrl: 'views/directives/bbot-board.html',
 		link: link

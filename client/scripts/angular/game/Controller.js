@@ -34,6 +34,7 @@ function ($scope, $storage, $http, autocompleter)
 	//============== SCOPE ==============
 	//===================================
 
+	$scope.textBot = '';
 	$scope.options =
 	{
 		isCodeRunning: false,
@@ -111,8 +112,11 @@ function ($scope, $storage, $http, autocompleter)
 	var Range = ace.require('ace/range').Range;
 	var markerID = null;
 
-	$scope.$watch('options.error', function ()
+	$scope.$watch('options.error', function (value)
 	{
+		$scope.textBot = "###- Проблема!! Дроид Bbot не может понятb 4еловека -### 0шибка: "
+			+ value + " ###Пожалуйста и3ъясняйтесь понятнее.### ";
+
 		if ($scope.options.error != false && $scope.options.error != null)
 		{
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;

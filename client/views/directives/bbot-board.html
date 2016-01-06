@@ -1,4 +1,4 @@
-<div class="bbot-border" ng-show="editorOptions.error">
+<div class="bbot-border" ng-show="textBot">
 	<div class="bbot-board">
 		<div class="bbot-header" ng-if="lesson">
 			<button class="button-gradient quote" type="button" ng-click="closeBBotList()">
@@ -17,8 +17,7 @@
 		<div class="bbot-msg">
 			<div class="bbot-triangle"></div>
 			<div class="bbot-hologram red">
-				<p>###-Проблема!! Дроид Bbot не может понятb 4еловека-### 0шибка: {{editorOptions.error.toString()}}
-				<br>###Пожалуйста и3ъясняйтесь понятнее.### .</p>
+				 {{textBot}}
 			</div>
 		</div>
 	</div>

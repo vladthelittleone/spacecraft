@@ -17,12 +17,15 @@ function ($scope, $storage, $http, autocompleter)
 		// Если в локальном хранилище нет кода, то берем из js
 		if (!code)
 		{
-			$http({method: 'GET', url: 'scripts/code/game.js'})
-				.success(function (date)
-				{
-					editorSession.setValue(date);
-					code = date;
-				});
+			$http({
+				method: 'GET',
+				url: 'scripts/code/game.js'
+			})
+			.success(function (date)
+			{
+				editorSession.setValue(date);
+				code = date;
+			});
 		}
 
 		return code;

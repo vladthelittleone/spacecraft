@@ -1,10 +1,14 @@
-<div class="bbot-border" ng-show="editorOptions.error">
+<div class="bbot-border">
 	<div class="bbot-board">
 		<div class="bbot-header" ng-if="lesson">
-			<button class="button-gradient quote" type="button" ng-click="closeBBotList()">
+			<button class="button-gradient quote"
+					type="button"
+					ng-click="next()">
 				"{{quote}}"
 			</button>
-			<button class="button-gradient enjoy-hint-next" type="button" ng-click="closeBBotList()">
+			<button class="button-gradient enjoy-hint-next"
+					type="button"
+					ng-click="next()">
 				Далее
 			</button>
 		</div>
@@ -17,8 +21,8 @@
 		<div class="bbot-msg">
 			<div class="bbot-triangle"></div>
 			<div class="bbot-hologram red">
-				<p>###-Проблема!! Дроид Bbot не может понятb 4еловека-### 0шибка: {{editorOptions.error.toString()}}
-				<br>###Пожалуйста и3ъясняйтесь понятнее.### .</p>
+				<p>### Проблема!! EГГ0Г!! Дроид Bbot не может понятb 4еловека ### 0шибка: {{editorOptions.error.toString()}}
+				<br>### Пожалуйста и3ъясняйтесь понятнее. ###</p>
 			</div>
 		</div>
 	</div>

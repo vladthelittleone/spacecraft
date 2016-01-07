@@ -114,8 +114,7 @@ function ($scope, $storage, $http, autocompleter)
 
 	$scope.$watch('options.error', function (value)
 	{
-		$scope.textBot = "###- Проблема!! Дроид Bbot не может понятb 4еловека -### 0шибка: "
-			+ value + " ###Пожалуйста и3ъясняйтесь понятнее.### ";
+		$scope.textBot = value;
 
 		if ($scope.options.error != false && $scope.options.error != null)
 		{

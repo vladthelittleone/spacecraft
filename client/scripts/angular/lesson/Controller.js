@@ -71,6 +71,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.$watch('options.error', function (value)
 	{
-		$scope.textBot = "###- Я тубя не понимаю _#_#_ " + value + " Попробуй еще -###";
+		$scope.textBot = value;
 	});
 }]);

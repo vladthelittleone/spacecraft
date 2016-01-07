@@ -11,15 +11,15 @@ app.directive('bbotBoard', function ()
 	{
 		$scope.closeBBotList = function()
 		{
-			$scope.editorOptions.error = false;
+			$scope.textBot = false;
 		};
 	};
 
 	return {
 		scope: {
-			editorOptions: '=',
 			quote: '=',
 			lesson: '=',
+			textBot: '=',
 			next: '='
 		},
 		templateUrl: 'views/directives/bbot-board.html',

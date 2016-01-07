@@ -152,7 +152,7 @@ var PlayState = function (spec)
 				}
 				catch (err)
 				{
-					scope.editorOptions.error = err.toString();
+					scope.editorOptions.error = err;
 					scope.editorOptions.isCodeRunning = false;
 				}
 			}

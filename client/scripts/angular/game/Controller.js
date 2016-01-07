@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', '$sce', 'autocompleter',
-function ($scope, $storage, $http, $sce, autocompleter)
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter',
+function ($scope, $storage, $http, autocompleter)
 {
 	//===================================
 	//============== CODE ===============
@@ -42,8 +42,7 @@ function ($scope, $storage, $http, $sce, autocompleter)
 	{
 		isCodeRunning: false,
 		code: code,
-		error: null,
-		result: null
+		error: null
 	};
 
 	$scope.toggleCodeRun = function ()
@@ -117,12 +116,10 @@ function ($scope, $storage, $http, $sce, autocompleter)
 
 	function errorWrapper(value)
 	{
-		return $sce.trustAsHtml(
-			'<p>### Неисправность!! EГГ0Г!!</p> ' +
+		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
 			'<p>### Дроид BBot не может понятb к0д 4еловека</p>' +
 			'<p class="red-label">### 0шибка: ' + value + '</p>' +
-			'<p>### Пожалуйста исправте ситуацию.</p>'
-		);
+			'<p>### Пожалуйста исправте ситуацию.</p>';
 	}
 
 	$scope.$watch('options.error', function (value)

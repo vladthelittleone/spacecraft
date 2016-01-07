@@ -2,12 +2,12 @@
 	<div class="bbot-board">
 		<div class="bbot-header" ng-if="lesson">
 			<button class="button-gradient quote"
-					type="button"
-					ng-click="next()">
+					type="button">
 				"{{quote}}"
 			</button>
 			<button class="button-gradient enjoy-hint-next"
 					type="button"
+					ng-show="next"
 					ng-click="next()">
 				Далее
 			</button>
@@ -20,7 +20,7 @@
 		<div class="bbot-img"></div>
 		<div class="bbot-msg">
 			<div class="bbot-triangle"></div>
-			<div class="bbot-hologram" ng-bind-html="textBot"></div>
+			<div class="bbot-hologram" ng-bind-html="getText()"></div>
 		</div>
 	</div>
 </div>

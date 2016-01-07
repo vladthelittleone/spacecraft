@@ -5,13 +5,18 @@
  */
 var app = angular.module('spacecraft.bbotBoard', []);
 
-app.directive('bbotBoard', function ()
+app.directive('bbotBoard', ['$sce', function ($sce)
 {
 	var link = function ($scope)
 	{
 		$scope.closeBBotList = function()
 		{
 			$scope.textBot = false;
+		};
+
+		$scope.getText = function ()
+		{
+			return $sce.trustAsHtml($scope.textBot);
 		};
 	};
 
@@ -25,4 +30,4 @@ app.directive('bbotBoard', function ()
 		templateUrl: 'views/directives/bbot-board.html',
 		link: link
 	};
-});
+}]);

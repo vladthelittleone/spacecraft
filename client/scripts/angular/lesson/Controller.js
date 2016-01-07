@@ -39,6 +39,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.lesson = lessonProvider($stateParams.id);
 	$scope.subIndex = 0;
+	$scope.textBot = '';
 
 	// Проверка существования урока
 	if (!$scope.lesson)
@@ -88,4 +89,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		editor.$blockScrolling = Infinity;
 		editorSession.setValue(options.code);
 	};
+
+	$scope.$watch('options.error', function (value)
+	{
+		$scope.textBot = value;
+	});
 }]);

@@ -20,14 +20,6 @@ var PlayState = function (spec)
 	//============== HELP ===============
 	//===================================
 
-	function errorWrapper(text)
-	{
-		return '### Проблема!! Дроид Bbot не может понятb 4еловека '
-			+ '### 0шибка: '
-			+ text
-			+ ' ### Пожалуйста и3ъясняйтесь понятнее.';
-	}
-
 	function runUserScript()
 	{
 		if (isRunning)
@@ -42,7 +34,7 @@ var PlayState = function (spec)
 			}
 			catch (err)
 			{
-				scope.editorOptions.error = errorWrapper(err);
+				scope.editorOptions.error = err;
 				scope.editorOptions.isCodeRunning = false;
 			}
 		}
@@ -160,7 +152,7 @@ var PlayState = function (spec)
 				}
 				catch (err)
 				{
-					scope.editorOptions.error = errorWrapper(err);
+					scope.editorOptions.error = err;
 					scope.editorOptions.isCodeRunning = false;
 				}
 			}

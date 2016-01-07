@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter',
-function ($scope, $storage, $http, autocompleter)
+app.controller('GameController', ['$scope', '$storage', '$http', '$sce', 'autocompleter',
+function ($scope, $storage, $http, $sce, autocompleter)
 {
 	//===================================
 	//============== CODE ===============
@@ -17,12 +17,15 @@ function ($scope, $storage, $http, autocompleter)
 		// Если в локальном хранилище нет кода, то берем из js
 		if (!code)
 		{
-			$http({method: 'GET', url: 'scripts/code/game.js'})
-				.success(function (date)
-				{
-					editorSession.setValue(date);
-					code = date;
-				});
+			$http({
+				method: 'GET',
+				url: 'scripts/code/game.js'
+			})
+			.success(function (date)
+			{
+				editorSession.setValue(date);
+				code = date;
+			});
 		}
 
 		return code;
@@ -112,12 +115,22 @@ function ($scope, $storage, $http, autocompleter)
 	var Range = ace.require('ace/range').Range;
 	var markerID = null;
 
+	function errorWrapper(value)
+	{
+		return $sce.trustAsHtml(
+			'<p>### Неисправность!! EГГ0Г!!</p> ' +
+			'<p>### Дроид BBot не может понятb к0д 4еловека</p>' +
+			'<p class="red-label">### 0шибка: ' + value + '</p>' +
+			'<p>### Пожалуйста исправте ситуацию.</p>'
+		);
+	}
+
 	$scope.$watch('options.error', function (value)
 	{
-		$scope.textBot = value;
-
-		if ($scope.options.error != false && $scope.options.error != null)
+		if (value)
 		{
+			$scope.textBot = errorWrapper(value);
+
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
 			if (markerID != null)
@@ -138,6 +151,8 @@ function ($scope, $storage, $http, autocompleter)
 		}
 		else
 		{
+			$scope.textBot = value;
+
 			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
 			// но но мало ли, что лучше удалять их явно
 			editorSession.clearAnnotations();

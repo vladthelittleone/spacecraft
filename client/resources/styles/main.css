@@ -839,16 +839,15 @@ body {
 }
 
 .bbot-hologram {
+	padding: 20px;
 	height: 100%;
 	margin-right: 170px;
 	background: rgb(40, 42, 46);
 }
 
 .bbot-hologram p {
-	position: absolute;
-	left: 60px;
-	top: 45px;
-	right: 195px;
+	color: white;
+	margin: 0;
 }
 
 .send-img {

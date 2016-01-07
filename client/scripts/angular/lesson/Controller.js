@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.lesson');
 
-app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', 'lessonProvider',
-	function ($scope, $stateParams, $state, $http, lessonProvider)
+app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', 'lessonProvider', 'interpreter',
+	function ($scope, $stateParams, $state, $http, lessonProvider, interpreter)
 {
 	//===================================
 	//============== CODE ===============
@@ -46,9 +46,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		$state.go('lessons');
 	}
 
-	$scope.toggleCodeRun = function ()
+	$scope.run = function ()
 	{
-		options.isCodeRunning = !options.isCodeRunning;
+		options.isCodeRunning = true;
+		options.result = interpreter.execute(options.code);
+		options.isCodeRunning = false;
 	};
 
 	$scope.nextSubLesson = function ()

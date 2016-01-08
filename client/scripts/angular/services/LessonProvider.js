@@ -18,6 +18,9 @@ app.service('lessonProvider', function ()
 			[
 				{
 					title: 'Добро пожаловать в академию!',
+					botText: {
+						default: '### Дройд BBot - инициализация...',
+					},
 					content:
 					'<p>Прежде, для управления космическим кораблем требовалась целая команда специалистов, однако это ' +
 					'время прошло, теперь достаточно одного пилота-инженера.</p>' +
@@ -38,11 +41,23 @@ app.service('lessonProvider', function ()
 							'nextButton': false,
 							'showSkip': false
 						}
-					],
-					result: ''
+					]
 				},
 				{
 					title: 'Ваше имя?',
+					botText:
+					{
+						success: function(value)
+						{
+							return '<p>### Ура BBot понял челвек0-имя, транслирую:</p>'
+								+ '<p>' + value + '</p>';
+						},
+						error: function()
+						{
+							return '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
+						}
+					},
 					content:
 					'<p>Так, новенький, введите свое имя в редакторе кода - мне нужно найти вас в реестре новоиспеченных космических кадетов.</p>' +
 					'<p>Высылаю вам инструкции по выполнению.</p>',
@@ -63,7 +78,16 @@ app.service('lessonProvider', function ()
 							'showSkip': false
 						}
 					],
-					result: ''
+					result: function (value)
+					{
+						if (value)
+						{
+							var reg = new RegExp("(.+).*");
+							return reg.test(value);
+						}
+
+						return false;
+					}
 				}
 			]
 		}

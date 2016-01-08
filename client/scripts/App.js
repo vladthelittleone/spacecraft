@@ -16,6 +16,7 @@ var app = angular.module('spacecraft', [
 	'spacecraft.autocompleter',
 	'spacecraft.statistics',
 	'spacecraft.lessonProvider',
+	'spacecraft.interpreter',
 	'spacecraft.bbotBoard',
 	'spacecraft.gameCanvas',
 	'spacecraft.documentation',

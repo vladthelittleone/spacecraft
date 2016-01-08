@@ -80,11 +80,28 @@ app.service('lessonProvider', function ()
 					],
 					result: function (value)
 					{
+						function isNumeric(n)
+						{
+							return !isNaN(parseFloat(n)) && isFinite(n);
+						}
+
 						if (value)
 						{
+							// Если нет " ", будет выброшено исключение
+							if (value.exception)
+							{
+								return false;
+							}
+
+							// Если введено число, то результат отрицательный
+							if (isNumeric(value))
+							{
+								return false;
+							}
+
 							// "Ваше имя" - регулярка направлена
 							// на поиск имени в скобках.
-							var reg = new RegExp("\"(.+).*\"");
+							var reg = new RegExp('(.+).*');
 							return reg.test(value);
 						}
 

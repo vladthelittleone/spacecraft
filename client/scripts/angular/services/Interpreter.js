@@ -39,7 +39,10 @@ app.service('interpreter', function ()
 			}
 			catch (ex)
 			{
-				return ex.message;
+				return {
+					exception: true,
+					message: ex.message
+				}
 			}
 		};
 

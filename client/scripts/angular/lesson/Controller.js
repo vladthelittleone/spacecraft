@@ -13,18 +13,28 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function error()
 	{
-		$scope.textBot = current().botText.error();
+		var func = current().botText.error;
 
-		// Удаляем кнопку 'Далее' тк получили ошибку.
-		$scope.nextSubLesson = null;
+		if (func)
+		{
+			$scope.textBot = func();
+
+			// Удаляем кнопку 'Далее' тк получили ошибку.
+			$scope.nextSubLesson = null;
+		}
 	}
 
 	function success()
 	{
-		$scope.textBot = current().botText.success(options.result);
+		var func = current().botText.success;
 
-		// Добавляем ссылку на функцию и кнопку 'Далее'
-		$scope.nextSubLesson = nextSubLesson;
+		if (func)
+		{
+			$scope.textBot = func(options.result);
+
+			// Добавляем ссылку на функцию и кнопку 'Далее'
+			$scope.nextSubLesson = nextSubLesson;
+		}
 	}
 
 	function nextSubLesson()

@@ -82,7 +82,9 @@ app.service('lessonProvider', function ()
 					{
 						if (value)
 						{
-							var reg = new RegExp("(.+).*");
+							// "Ваше имя" - регулярка направлена
+							// на поиск имени в скобках.
+							var reg = new RegExp("\"(.+).*\"");
 							return reg.test(value);
 						}
 

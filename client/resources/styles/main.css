@@ -521,6 +521,21 @@ body {
 	outline: 0;
 }
 
+.close-button{
+	left: 0;
+	padding: 0;
+	position: fixed;
+	border: 0;
+	width: 35px;
+	background: #000;
+	color: #fff;
+	height: 35px;
+	outline: 0;
+	margin-top: 15px;
+	border-radius: 20px;
+	left: 95%;
+}
+
 .ace-tomorrow-night .ace_gutter {
 	background: #152B39 !important;
 }

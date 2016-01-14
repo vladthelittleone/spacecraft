@@ -9,7 +9,8 @@ var tips = [
 		+ '<p>Мы раскажем вам о рабочем месте капитана, об основных функциях корабля и интерфейсе.</p>'
 		+ '<p>Для продолжения нажмите <i class="glyphicon glyphicon-chevron-right"></i>.</p>'
 		+ '<p>Для возврата на предыдущий слайд нажмите <i class="glyphicon glyphicon-chevron-left"></i>.</p>'
-		+ '<p>Для получения дополнительной информации нажмите <i class="glyphicon glyphicon-info-sign"></i>.</p>'
+		+ '<p>Для получения дополнительной информации нажмите <i class="glyphicon glyphicon-info-sign"></i>.</p>',
+		slide: 'slide-1'
 	},
 	{
 		title: 'Предисловие от авторов',
@@ -18,7 +19,8 @@ var tips = [
 		+ '<img src="resources/assets/pages/gamePlay1.png">'
 		+ '</div> '
 		+ '<p>Изначально мы решили не делать ставку на обучающий материал и сделали мини-игру. Связано это с тем, что большинство наших друзей, которым мы покажем сервис, уже разбирается в программировании.</p>'
-		+ '<p>Но обучение это основная цель на следующих стадиях!</p>'
+		+ '<p>Но обучение это основная цель на следующих стадиях!</p>',
+		slide: 'slide-2'
 	},
 	{
 		title: 'Текущая стадия',
@@ -29,7 +31,8 @@ var tips = [
 		+ '</a>'
 		+ '</div>'
 		+ '<p class="text-center"><a href="https://vk.com/spacecrafter">Группа в ВКонтакте</a></p>'
-		+ '<p class="text-center">Будем очень рады вашим отзывам и предложениям :)</p>'
+		+ '<p class="text-center">Будем очень рады вашим отзывам и предложениям :)</p>',
+		slide: 'slide-3'
 	},
 	{
 		title: 'Мини-игра',
@@ -38,7 +41,8 @@ var tips = [
 		+ '<img src="resources/assets/pages/gamePlay4.png">'
 		+ '</div> '
 		+ '<p>Вам нужно уничтожить <b>как можно больше врагов</b> на карте, изменяя энергию блоков корабля, движение, цель для атаки в зависимости от ситуации и т.д.</p>'
-		+ '<p>Запрограммируй свой корабль и стань лучшим!</p>'
+		+ '<p>Запрограммируй свой корабль и стань лучшим!</p>',
+		slide: 'slide-4'
 	},
 	{
 		title: 'Редактор кода',
@@ -59,7 +63,8 @@ var tips = [
 				'next .editor-toggle': 'Нажмите <i class="glyphicon glyphicon-chevron-down"></i>  для вызова редактора кода, а <i class="glyphicon glyphicon-chevron-up"></i> для закрытия',
 				'nextButton': {text: 'Дальше'},
 				'showSkip': false
-			}]
+			}],
+		slide: 'slide-5'
 	},
 	{
 		title: 'Документация',
@@ -73,7 +78,8 @@ var tips = [
 				'next .question-toggle': 'Нажмите <i class="glyphicon glyphicon-question-sign"></i> для вызова окна документации',
 				'nextButton': {text: 'Дальше'},
 				'showSkip': false
-			}]
+			}],
+		slide: 'slide-6'
 	},
 	{
 		title: 'Отзывы и предложения',
@@ -88,7 +94,8 @@ var tips = [
 				'next .comment-toggle': 'Нажмите <i class="glyphicon glyphicon-comment"></i> для отправки отзывов, предложений или информации о багах',
 				'nextButton': {text: 'Дальше'},
 				'showSkip': false
-			}]
+			}],
+		slide: 'slide-7'
 	},
 	{
 		title: 'Пример кода',
@@ -96,14 +103,16 @@ var tips = [
 		+ '<div class="img-huge-center">'
 		+ '<img src="resources/assets/pages/code1.png">'
 		+ '</div> '
-		+ '<p>Параметр i сохраняет свое значение для каждого вызова run().</p>'
+		+ '<p>Параметр i сохраняет свое значение для каждого вызова run().</p>',
+		slide: 'slide-8'
 	},
 	{
 		title: 'Горячие клавишы',
 		description: '<p>Есть несколько горячих клавиш, о которых нужно знать:</p>'
 		+ '<p><b>SPACE + CTRL</b>, нажатая в редакторе кода, вызовет автодополнение кода.</p>'
 		+ '<p><b>Стрелочками</b> вы можете управлять камерой.</p>'
-		+ '<p><b>SPACE</b> вернет камеру к наблюдению за космическим кораблем.</p>'
+		+ '<p><b>SPACE</b> вернет камеру к наблюдению за космическим кораблем.</p>',
+		slide: 'slide-8'
 	},
 	{
 		title: 'Метод run(spaceCraft, world)',
@@ -113,7 +122,8 @@ var tips = [
 		+ '</div> '
 		+ '<p><b>spaceCraft</b> - отвечает за управление кораблем.</p>'
 		+ '<p><b>world</b> - отвечает за получение информации о объектах мира и самом мире.</p>'
-		+ '<p>Информацию о них вы можете посмотреть в документации, нажав <i class="glyphicon glyphicon-question-sign"></i>.</p>'
+		+ '<p>Информацию о них вы можете посмотреть в документации, нажав <i class="glyphicon glyphicon-question-sign"></i>.</p>',
+		slide: 'slide-9'
 	},
 	{
 		title: 'Объект spaceCraft',
@@ -125,7 +135,8 @@ var tips = [
 		+ '<div class="img-huge-center">'
 		+ '<img src="resources/assets/pages/code3.png">'
 		+ '</div>'
-		+ '<p>Смотрите документацию по объекту <b>SpaceCraft</b>.</p>'
+		+ '<p>Смотрите документацию по объекту <b>SpaceCraft</b>.</p>',
+		slide: 'slide-10'
 	},
 	{
 		title: 'Объект world',
@@ -136,7 +147,8 @@ var tips = [
 		+ '<div class="img-huge-center">'
 		+ '<img src="resources/assets/pages/code3.png">'
 		+ '</div>'
-		+ '<p>Смотрите документацию по объекту <b>World</b>.</p>'
+		+ '<p>Смотрите документацию по объекту <b>World</b>.</p>',
+		slide: 'slide-11'
 	},
 	{
 		title: 'Параметры корабля',
@@ -153,7 +165,8 @@ var tips = [
 				'next .params-hint': 'Параметры корабля',
 				'nextButton': {text: 'Дальше'},
 				'showSkip': false
-			}]
+			}],
+		slide: 'slide-12'
 	},
 	{
 		title: 'Блоки корабля',
@@ -161,7 +174,8 @@ var tips = [
 		+ '<p>1. <b>WeaponBlock</b> - блок управления оружием космического корабля.</p>'
 		+ '<p>2. <b>ProtectionBlock</b> - блок управления защитными системами корабля.</p>'
 		+ '<p>3. <b>EngineBlock</b> - блок, отвечающий за двигатели корабля.</p>'
-		+ '<p>У каждого блока есть свои подмодули, энергию которых можно изменять.</p>'
+		+ '<p>У каждого блока есть свои подмодули, энергию которых можно изменять.</p>',
+		slide: 'slide-13'
 	},
 	{
 		title: 'Модули корабля',
@@ -179,7 +193,8 @@ var tips = [
 				'next .points-hint': 'Индикаторы энергии',
 				'nextButton': {text: 'Дальше'},
 				'showSkip': false
-			}]
+			}],
+		slide: 'slide-14'
 	},
 	{
 		title: 'Бонусы',
@@ -192,7 +207,8 @@ var tips = [
 		+ '<p>1. <b>health</b> - добавляет здоровье</p>'
 		+ '<p>2. <b>damage</b> - добавляет урон</p>'
 		+ '<p>3. <b>shield</b> - добавляет щиты</p>'
-		+ '<p>См. документацию по <b>Bonus</b>.</p>'
+		+ '<p>См. документацию по <b>Bonus</b>.</p>',
+		slide: 'slide-15'
 	},
 	{
 		title: 'Будущие изменения',
@@ -204,12 +220,14 @@ var tips = [
 		+ '<p>2. Первыми уроками по программированию</p>'
 		+ '<p>3. Сохранением статистики текущей мини-игры</p>'
 		+ '<p>4. Авторизацией пользователей</p>'
-		+ '<p><b>Будем рады услышать ваши предложения!</b></p>'
+		+ '<p><b>Будем рады услышать ваши предложения!</b></p>',
+		slide: 'slide-16'
 	},
 	{
 		title: 'Отдельное спасибо',
 		description: "<p xmlns:cc='http://creativecommons.org/ns#' about='http://millionthvector.blogspot.ru/p/free-sprites.html'>За предоставленные спрайты от <a rel='cc:attributionURL' property='cc:attributionName' href='http://millionthvector.blogspot.com/p/free-sprites.html'>MillionthVector</a> / <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a></p>"
 		+ '<p>За иконки от <a href="http://ru.freepik.com">Freepik</a></p>'
-		+ '<p>Нашим друзьям за их поддержку, комментарии и советы</p>'
+		+ '<p>Нашим друзьям за их поддержку, комментарии и советы</p>',
+		slide: 'slide-17'
 	}
 ];

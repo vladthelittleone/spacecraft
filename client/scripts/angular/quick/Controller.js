@@ -7,7 +7,8 @@ var app = angular.module('spacecraft.quick');
 app.controller('QuickController', ['$scope', '$storage', '$http',
 	function ($scope, $storage, $http)
 	{
-		var tips = new tips;
+		var slidear = $scope.tips;
+
 		angular.element(document).ready(function(){
 			/* cache jQuery objects */
 			var slideshow = $('.cd-slideshow'),

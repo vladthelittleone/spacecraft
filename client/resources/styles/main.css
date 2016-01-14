@@ -485,6 +485,10 @@ body {
 	top: 120px;
 }
 
+.left-toolbar .slide-button {
+	top: 145px;
+}
+
 .left-toolbar * {
 	z-index: 1000;
 }
@@ -495,7 +499,8 @@ body {
 
 .left-toolbar .feedback-button,
 .left-toolbar .tutorial-button,
-.left-toolbar .tips-button {
+.left-toolbar .tips-button,
+.left-toolbar .slide-button{
 	left: 0;
 	padding: 0;
 	position: fixed;
@@ -509,7 +514,8 @@ body {
 
 .left-toolbar .feedback-button:hover,
 .left-toolbar .tutorial-button:hover,
-.left-toolbar .tips-button:hover {
+.left-toolbar .tips-button:hover,
+.left-toolbar .slide-button:hover {
 	left: 0;
 	padding: 0;
 	position: fixed;
@@ -520,6 +526,7 @@ body {
 	height: 25px;
 	outline: 0;
 }
+
 
 .close-button{
 	left: 0;

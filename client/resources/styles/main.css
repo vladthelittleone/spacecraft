@@ -529,17 +529,15 @@ body {
 
 
 .close-button{
-	left: 0;
-	padding: 0;
 	position: fixed;
 	border: 0;
-	width: 35px;
+	width: 45px;
 	background: #000;
 	color: #fff;
-	height: 35px;
+	height: 45px;
 	outline: 0;
-	margin-top: 15px;
-	border-radius: 20px;
+	margin-top: 20px;
+	border-radius: 25px;
 	left: 95%;
 }
 

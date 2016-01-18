@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Primary style
 
@@ -14,20 +14,19 @@ html {
 body {
   font-size: 1.6rem;
   font-family: "Roboto", sans-serif;
-  color: #ffffff;
   background-color: #303030;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  color: #d25555;
+
   text-decoration: none;
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
-Slideshow 
+Slideshow
 
 -------------------------------- */
 .cd-slideshow-wrapper {
@@ -79,7 +78,7 @@ Slideshow
   float: left;
 }
 .cd-slideshow .slider-dots {
-  /* 
+  /*
   	dots visible on mobile when a slide has sub-slides
   	you won't see this element in the html - created using jQuery
   */
@@ -108,8 +107,8 @@ Slideshow
   margin-right: 0;
 }
 .cd-slideshow.remove-transitions {
-  /* 
-  	remove transition on transforms 
+  /*
+  	remove transition on transforms
   	used to switch form a slide to another from the main navigation
   */
   -webkit-transition: -webkit-transform 0s;
@@ -152,7 +151,7 @@ Slideshow
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Slide Content
 
@@ -168,29 +167,21 @@ Slide Content
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-  background-color: #d25555;
+  background-color: #FFF;
 }
-.cd-slideshow > li:nth-of-type(1) .cd-slider-content .content-wrapper {
-  background: #d25555;
+
+.smallImg {
+	height: 50%;
+	width: 55%;
 }
-.cd-slideshow > li:nth-of-type(2) .cd-slider-content .content-wrapper {
-  background: #2b3158;
+
+.bigImg{
+	height:80%;
+	width: 85%;
 }
-.cd-slideshow > li:nth-of-type(3) .cd-slider-content .content-wrapper {
-  background: #56b456;
-}
-.cd-slideshow > li:nth-of-type(4) .cd-slider-content .content-wrapper {
-  background: #52bccf;
-}
-.cd-slideshow > li:nth-of-type(5) .cd-slider-content .content-wrapper {
-  background: #df8a2f;
-}
-.cd-slideshow > li:nth-of-type(6) .cd-slider-content .content-wrapper {
-  background: #c14fce;
-}
+
 .cd-slider-content h2 {
   font-size: 3rem;
-  color: #ffffff;
 }
 .cd-slider-content p {
   margin: 1em 0 2em;
@@ -262,7 +253,7 @@ Slide Content
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Slideshow Navigation
 
@@ -361,30 +352,6 @@ Slideshow Navigation
   .no-touch .cd-slideshow-nav a:hover {
     color: #ffffff;
   }
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(1) a:hover::before,
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(1) li a:hover::before {
-    background: #d25555;
-  }
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(2) a:hover::before,
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(2) li a:hover::before {
-    background: #2b3158;
-  }
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(3) a:hover::before,
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(3) li a:hover::before {
-    background: #56b456;
-  }
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(4) a:hover::before,
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(4) li a:hover::before {
-    background: #52bccf;
-  }
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(5) a:hover::before,
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(5) li a:hover::before {
-    background: #df8a2f;
-  }
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(6) a:hover::before,
-  .cd-slideshow-nav .cd-nav-items > ol > li:nth-of-type(6) li a:hover::before {
-    background: #c14fce;
-  }
 }
 
 .cd-nav-trigger {
@@ -477,7 +444,7 @@ Slideshow Navigation
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 no-js
 

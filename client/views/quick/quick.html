@@ -1,6 +1,6 @@
 <div class="cd-slideshow-wrapper">
 
-	<button type="button"  class="close-button">
+	<button type="button"  class="close-button" ng-click="closeQuick()">
 		<span class="glyphicon glyphicon-remove"></span>
 	</button>
 
@@ -33,13 +33,12 @@
 		</div> <!-- .cd-nav-items -->
 	</nav> <!-- .cd-slideshow-nav -->
 
-	<ol class="cd-slideshow" ng-repeat="t in slidear" ng-repeat-finished>
-		<li class="visible" id="{{t.slide}}">
+	<ol class="cd-slideshow">
+		<li class="visible" id="slide-{{$index}}" ng-repeat="t in tips" repeat-finished>
 			<div class="cd-slider-content">
 				<div class="content-wrapper">
 					<h2>{{t.title}}</h2>
-					<div>
-						{{t.description}}
+					<div ng-bind-html="getDescription($index)">
 					</div>
 				</div>
 			</div>

@@ -4,13 +4,13 @@
 
 var app = angular.module('spacecraft.quick');
 
-app.controller('QuickController', ['$scope', '$storage', '$http',
-	function ($scope, $storage, $http)
+app.controller('QuickController', ['$sce', '$scope',
+	function ($sce, $scope)
 	{
-		var slidear = $scope.tips;
-		console.log("eeee");
+	 	$scope.tips = tips;
 
-		$scope.$on('ngRepeatFinished',function(){
+		$scope.$on('ngRepeatFinished',function()
+		{
 			console.log("123123");
 			/* cache jQuery objects */
 			var slideshow = $('.cd-slideshow'),
@@ -287,4 +287,14 @@ app.controller('QuickController', ['$scope', '$storage', '$http',
 				return window.getComputedStyle(element, '::before').getPropertyValue('content').replace(/["']/g, '');
 			}
 		});
+
+		$scope.getDescription = function(index)
+		{
+			return $sce.trustAsHtml(tips[index].description);
+		};
+
+		$scope.closeQuick = function ()
+		{
+			console.log("типа закрыл!");
+		};
 	}]);

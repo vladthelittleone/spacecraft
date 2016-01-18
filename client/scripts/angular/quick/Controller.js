@@ -8,8 +8,10 @@ app.controller('QuickController', ['$scope', '$storage', '$http',
 	function ($scope, $storage, $http)
 	{
 		var slidear = $scope.tips;
+		console.log("eeee");
 
-		angular.element(document).ready(function(){
+		$scope.$on('ngRepeatFinished',function(){
+			console.log("123123");
 			/* cache jQuery objects */
 			var slideshow = $('.cd-slideshow'),
 				slides = slideshow.children('li'),

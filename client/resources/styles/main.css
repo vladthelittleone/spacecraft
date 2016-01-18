@@ -885,28 +885,28 @@ body {
 	margin: 0;
 }
 
-.send-img {
-	background-image: url(../assets/pages/astronaut6.png);
-}
-
 .tips-img {
 	background-image: url(../assets/pages/galaxy2.png);
-}
-
-.learn-img {
-	background-image: url(../assets/pages/stars4.png);
 }
 
 .rocket-white-img {
 	background-image: url(../assets/pages/rocket56white.png);
 }
 
-.game-img {
-	background-image: url(../assets/pages/rocket55.png);
+.js-img {
+	background-image: url(../assets/pages/javascriptsc.png);
 }
 
-.js-img {
-	background-image: url(../assets/pages/javascript.png);
+.learn-img {
+	background-image: url(../assets/pages/stars4white.png);
+}
+
+.send-img {
+	background-image: url(../assets/pages/astronaut6white.png);
+}
+
+.game-img {
+	background-image: url(../assets/pages/rocket55white.png);
 }
 
 .pages-footer-img {
@@ -923,16 +923,7 @@ body {
 	background-repeat: no-repeat;
 }
 
-.pages-img-green {
-	background-color: #84bf7c;
-}
-
-.pages-img-blue {
-	background-color: #5293CC;
-}
-
 .pages-img-spacecraft {
-	background-color: #152B39;
 }
 
 .pages-img {
@@ -944,6 +935,7 @@ body {
 	background-repeat: no-repeat;
 	position: relative;
 	overflow: hidden;
+	background-color: #152B39;
 }
 
 .pages-label {

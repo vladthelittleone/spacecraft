@@ -811,6 +811,21 @@ body {
 	width: 100%;
 }
 
+.img-small-center img {
+	height: 50%;
+	width: 55%;
+}
+
+.img-medium-center img {
+	height: 65%;
+	width: 65%;
+}
+
+.img-huge-center img{
+	height:80%;
+	width: 85%;
+}
+
 .img-small-center {
 	width: 30%;
 	margin: auto;

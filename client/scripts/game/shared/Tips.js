@@ -134,7 +134,7 @@ var tips = [
 		+ '<p>2. <b>Получать</b> информацию о врагах.</p>'
 		+ '<p>3. <b>Получать</b> информацию о границах мира.</p>'
 		+ '<div class="img-huge-center">'
-		+ '<img src="resources/assets/pages/code3.png" class="smallImg">'
+		+ '<img src="resources/assets/pages/code3.png" class="bigImg">'
 		+ '</div>'
 		+ '<p>Смотрите документацию по объекту <b>World</b>.</p>',
 	},

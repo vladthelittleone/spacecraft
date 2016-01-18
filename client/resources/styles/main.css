@@ -486,7 +486,7 @@ body {
 }
 
 .left-toolbar .slide-button {
-	top: 145px;
+	top: 120px;
 }
 
 .left-toolbar * {
@@ -539,6 +539,7 @@ body {
 	margin-top: 20px;
 	border-radius: 25px;
 	left: 95%;
+	z-index: 10000;
 }
 
 .ace-tomorrow-night .ace_gutter {

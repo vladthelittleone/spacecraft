@@ -11,13 +11,13 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		return $scope.lesson.sub[$scope.subIndex];
 	}
 
-	function error()
+	function error(messageType)
 	{
 		var func = current().botText.error;
 
 		if (func)
 		{
-			$scope.textBot = func();
+			$scope.textBot = func()[messageType];
 
 			// Удаляем кнопку 'Далее' тк получили ошибку.
 			$scope.nextSubLesson = null;
@@ -114,18 +114,18 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			var result = current().result(options.result);
 
-			if (result)
+			if (result.status)
 			{
 				success();
 			}
 			else
 			{
-				error();
+				error(result.messageType);
 			}
 		}
 		catch (err)
 		{
-			error();
+			error('unknownError');
 		}
 
 		options.isCodeRunning = false;

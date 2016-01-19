@@ -54,8 +54,15 @@ app.service('lessonProvider', function ()
 						},
 						error: function()
 						{
-							return '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
-								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
+							return {
+								unknownError: '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>',
+
+								noQuotes: '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
+								'<p>Похоже вы забыли использовать кавычки.</p>',
+								isNumeric: '<p>### Упс! BBot полагает, что человеческ0е имя не может быть числом!</p>' +
+									'<p>Если вы, бот или имперский штурмовик, оbратитесь в учебный совет академии.</p>'
+							};
 						}
 					},
 					content:
@@ -85,27 +92,33 @@ app.service('lessonProvider', function ()
 							return !isNaN(parseFloat(n)) && isFinite(n);
 						}
 
+						function result(status, messageType)
+						{
+							return {status: status, messageType: messageType};
+						}
+
 						if (value)
 						{
 							// Если нет " ", будет выброшено исключение
 							if (value.exception)
 							{
-								return false;
+								return result(false, 'noQuotes');
 							}
 
 							// Если введено число, то результат отрицательный
 							if (isNumeric(value))
 							{
-								return false;
+								return result(false, 'isNumeric');
 							}
 
 							// "Ваше имя" - регулярка направлена
 							// на поиск имени в скобках.
 							var reg = new RegExp('(.+).*');
-							return reg.test(value);
+
+							return result(reg.test(value), 'unknownError');
 						}
 
-						return false;
+						return result(false, 'unknownError');
 					}
 				}
 			]

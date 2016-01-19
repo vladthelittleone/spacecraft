@@ -12,23 +12,9 @@
 
 		<div class="cd-nav-items">
 			<ol>
-				<li><a href="#slide-1">Slide 1</a></li>
-				<li><a href="#slide-2">Slide 2</a></li>
-				<li><a href="#slide-3">Slide 3</a></li>
-				<li><a href="#slide-4">Slide 4</a></li>
-				<li><a href="#slide-5">Slide 5</a></li>
-				<li><a href="#slide-6">Slide 6</a></li>
-				<li><a href="#slide-7">Slide 7</a></li>
-				<li><a href="#slide-8">Slide 8</a></li>
-				<li><a href="#slide-9">Slide 9</a></li>
-				<li><a href="#slide-10">Slide 10</a></li>
-				<li><a href="#slide-11">Slide 11</a></li>
-				<li><a href="#slide-12">Slide 12</a></li>
-				<li><a href="#slide-13">Slide 13</a></li>
-				<li><a href="#slide-14">Slide 14</a></li>
-				<li><a href="#slide-15">Slide 15</a></li>
-				<li><a href="#slide-16">Slide 16</a></li>
-				<li><a href="#slide-17">Slide 17</a></li>
+				<li ng-repeat="t in tips">
+					<a href="#slide-{{$index}}">{{t.title}}</a>
+				</li>
 			</ol>
 		</div> <!-- .cd-nav-items -->
 	</nav> <!-- .cd-slideshow-nav -->

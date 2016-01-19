@@ -38,7 +38,7 @@ app.service('lessonProvider', function ()
 					'</ul>',
 					hint: [
 						{
-							'next .ace_active-line': 'Редактор кода',
+							'next .ace_scroller': 'Редактор кода',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						},
@@ -256,6 +256,54 @@ app.service('lessonProvider', function ()
 					{
 						// При комментировании результат будет возвращен ввиде 'undefined'
 						return !value;
+					}
+				},
+				{
+					title: 'What does BBot say?',
+					botText:
+					{
+						success: function()
+						{
+							return '<p>### Да, я такой! Транслирую:</p>' +
+								'<p>15</p>' +
+								'<p>BBot - крутой!</p>';
+						},
+						error: function()
+						{
+							return '<p>### BBot\'у кажется, чт0 вы впариваете галакти4ескую дичb!</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
+						}
+					},
+					content:
+					'<p>Надеюсь вы не забыли о своем роботе-компаньоне?</p>' +
+					'<p>Если вы хотите узнать какие-то данные от BBot\'а, можно вызвать <strong>BBotDebug("то, что хотим сказать")</strong>, это нам поможет с выводом нужных параметров и проверкой работоспособности системы.</p>',
+					instructions:
+					'<ul>' +
+					'<li>Выведите значение <span class="red-label">5*3</span></li>' +
+					'<li>Затем выведите текст <span class="red-label">"BBot - крутой!"</span></li>'+
+					'<li>Пример использования BBotDebug: <span class="red-label">BBotDebug("Я BBot!");</span></li>'+
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'Выведите значение 5*3',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'Выведите текст «BBot - крутой!»',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						// Первое значение 5*3 = 15, второе 'BBot - крутой!'
+						return value[0] === 15 && value[1] === 'BBot - крутой!';
 					}
 				}
 			]

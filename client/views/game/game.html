@@ -42,8 +42,6 @@
 <!-- Директива подсказки -->
 <div tips object="tipsAndTricks"></div>
 
-<div quick ng-show="slide"></div>
-
 <div class="toolbar">
     <div class="box">
 		<img ui-sref="welcome"
@@ -79,7 +77,7 @@
                 </span>
         </button>
     </a>
-	<button type="button" ng-click="hideSlide()" class="slide-button">
+	<button type="button" ui-sref="quick" class="slide-button">
 		<span class="glyphicon glyphicon-th-large"></span>
 	</button>
 </div>

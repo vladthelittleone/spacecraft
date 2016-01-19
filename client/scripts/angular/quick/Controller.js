@@ -11,7 +11,6 @@ app.controller('QuickController', ['$sce', '$scope',
 
 		$scope.$on('ngRepeatFinished',function()
 		{
-			console.log("123123");
 			/* cache jQuery objects */
 			var slideshow = $('.cd-slideshow'),
 				slides = slideshow.children('li'),
@@ -293,13 +292,13 @@ app.controller('QuickController', ['$sce', '$scope',
 			return $sce.trustAsHtml(tips[index].description);
 		};
 
-		$scope.getSubSlideDescription = function(t,index)
+		$scope.getSubSlideDescription = function(subslide)
 		{
-			return $sce.trustAsHtml(t.subslide[index].description);
+			return $sce.trustAsHtml(subslide.description);
 		};
 
-		$scope.closeQuick = function ()
+		$scope.trustAsHtml = function (s)
 		{
-			console.log("типа закрыл!");
+			return $sce.trustAsHtml(s);
 		};
 	}]);

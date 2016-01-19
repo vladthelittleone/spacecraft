@@ -56,8 +56,6 @@ function ($scope, $storage, $http, autocompleter)
 
 	$scope.hideEditor = false;
 	$scope.hideDoc = true;
-	$scope.slide = false;
-
 
 	$scope.toggleEditorOpen = function ()
 	{
@@ -123,11 +121,6 @@ function ($scope, $storage, $http, autocompleter)
 			'<p class="red-label">### 0шибка: ' + value + '</p>' +
 			'<p>### Пожалуйста исправте ситуацию.</p>';
 	}
-
-	$scope.hideSlide = function ()
-	{
-		$scope.slide = !$scope.slide;
-	};
 
 	$scope.$watch('options.error', function (value)
 	{

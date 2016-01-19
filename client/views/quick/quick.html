@@ -15,7 +15,7 @@
 				<li ng-repeat="t in tips">
 					<a href="#slide-{{$index}}">{{t.title}}</a>
 					<ol class="sub-nav">
-						<li ng-repeat="s in t[$index].subslide">
+						<li ng-repeat="s in t.subslide">
 							<a href="#subslide-{{s.num}}-{{$index}}">{{s.title}}</a>
 						</li>
 					</ol>
@@ -31,17 +31,16 @@
 					<div class="cd-slider-content">
 						<div class="content-wrapper">
 							<h2>{{t.title}}</h2>
-
-							<div ng-bind-html="getDescription($index)">
+							<div ng-bind-html="trustAsHtml(t.description)">
 							</div>
 						</div>
 					</div>
 				</li>
-				<li  id="subslide-{{s.num}}-{{$index}}" ng-repeat="s in t[$index].subslide">
+				<li  id="subslide-{{s.num}}-{{$index}}" ng-repeat="s in t.subslide">
 					<div class="cd-slider-content">
 						<div class="content-wrapper">
 							<h2>{{s.title}}</h2>
-							<div ng-bind-html="getDescription(t[$index],$index)">
+							<div ng-bind-html="trustAsHtml(s.description)">
 							</div>
 						</div>
 					</div>

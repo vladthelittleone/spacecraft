@@ -293,6 +293,11 @@ app.controller('QuickController', ['$sce', '$scope',
 			return $sce.trustAsHtml(tips[index].description);
 		};
 
+		$scope.getSubSlideDescription = function(t,index)
+		{
+			return $sce.trustAsHtml(t.subslide[index].description);
+		};
+
 		$scope.closeQuick = function ()
 		{
 			console.log("типа закрыл!");

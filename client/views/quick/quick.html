@@ -1,6 +1,6 @@
 <div class="cd-slideshow-wrapper">
 
-	<button type="button"  class="close-button" ui-sref="game">
+	<button type="button" class="close-button" ui-sref="game">
 		<span class="glyphicon glyphicon-remove"></span>
 	</button>
 
@@ -14,20 +14,39 @@
 			<ol>
 				<li ng-repeat="t in tips">
 					<a href="#slide-{{$index}}">{{t.title}}</a>
+					<ol class="sub-nav">
+						<li ng-repeat="s in t[$index].subslide">
+							<a href="#subslide-{{s.num}}-{{$index}}">{{s.title}}</a>
+						</li>
+					</ol>
 				</li>
 			</ol>
-		</div> <!-- .cd-nav-items -->
-	</nav> <!-- .cd-slideshow-nav -->
+		</div>
+	</nav>
 
 	<ol class="cd-slideshow">
 		<li class="visible" id="slide-{{$index}}" ng-repeat="t in tips" repeat-finished>
-			<div class="cd-slider-content">
-				<div class="content-wrapper">
-					<h2>{{t.title}}</h2>
-					<div ng-bind-html="getDescription($index)">
+			<ol class="sub-slides">
+				<li>
+					<div class="cd-slider-content">
+						<div class="content-wrapper">
+							<h2>{{t.title}}</h2>
+
+							<div ng-bind-html="getDescription($index)">
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
+				</li>
+				<li  id="subslide-{{s.num}}-{{$index}}" ng-repeat="s in t[$index].subslide">
+					<div class="cd-slider-content">
+						<div class="content-wrapper">
+							<h2>{{s.title}}</h2>
+							<div ng-bind-html="getDescription(t[$index],$index)">
+							</div>
+						</div>
+					</div>
+				</li>
+			</ol>
 		</li>
 	</ol> <!-- .cd-slideshow -->
 </div> <!-- .cd-slideshow-wrapper -->

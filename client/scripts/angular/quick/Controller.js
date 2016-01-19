@@ -7,7 +7,7 @@ var app = angular.module('spacecraft.quick');
 app.controller('QuickController', ['$sce', '$scope',
 	function ($sce, $scope)
 	{
-	 	$scope.tips = tips;
+	 	$scope.slides = slides;
 
 		$scope.$on('ngRepeatFinished',function()
 		{
@@ -289,7 +289,7 @@ app.controller('QuickController', ['$sce', '$scope',
 
 		$scope.getDescription = function(index)
 		{
-			return $sce.trustAsHtml(tips[index].description);
+			return $sce.trustAsHtml(slides[index].description);
 		};
 
 		$scope.getSubSlideDescription = function(subslide)

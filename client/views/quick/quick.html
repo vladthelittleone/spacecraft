@@ -12,7 +12,7 @@
 
 		<div class="cd-nav-items">
 			<ol>
-				<li ng-repeat="t in tips">
+				<li ng-repeat="t in slides">
 					<a href="#slide-{{$index}}">{{t.title}}</a>
 					<ol class="sub-nav">
 						<li ng-repeat="s in t.subslide">
@@ -25,7 +25,7 @@
 	</nav>
 
 	<ol class="cd-slideshow">
-		<li class="visible" id="slide-{{$index}}" ng-repeat="t in tips" repeat-finished>
+		<li class="visible" id="slide-{{$index}}" ng-repeat="t in slides" repeat-finished>
 			<ol class="sub-slides">
 				<li>
 					<div class="cd-slider-content">

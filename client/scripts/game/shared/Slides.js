@@ -1,7 +1,7 @@
 /**
  * Created by vladthelittleone on 08.12.15.
  */
-var tips = [
+var slides = [
 	{
 		title: 'Приветствуем вас!',
 		description: '<p>Это краткий экскурс в наш сервис</p>'

@@ -11,30 +11,21 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		return $scope.lesson.sub[$scope.subIndex];
 	}
 
-	function error(messageType)
+	function error(message)
 	{
-		var func = current().botText.error;
+		$scope.textBot = message;
 
-		if (func)
-		{
-			$scope.textBot = func()[messageType];
-
-			// Удаляем кнопку 'Далее' тк получили ошибку.
-			$scope.nextSubLesson = null;
-		}
+		// Удаляем кнопку 'Далее' тк получили ошибку.
+		$scope.nextSubLesson = null;
 	}
 
-	function success()
+	function success(message)
 	{
-		var func = current().botText.success;
 
-		if (func)
-		{
-			$scope.textBot = func(options.result);
+		$scope.textBot = message;
 
-			// Добавляем ссылку на функцию и кнопку 'Далее'
-			$scope.nextSubLesson = nextSubLesson;
-		}
+		// Добавляем ссылку на функцию и кнопку 'Далее'
+		$scope.nextSubLesson = nextSubLesson;
 	}
 
 	function nextSubLesson()
@@ -108,24 +99,17 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	{
 		options.isCodeRunning = true;
 
-		try
+		options.result = interpreter.execute(options.code);
+
+		var result = current().result(options.result);
+
+		if (result.status)
 		{
-			options.result = interpreter.execute(options.code);
-
-			var result = current().result(options.result);
-
-			if (result.status)
-			{
-				success();
-			}
-			else
-			{
-				error(result.messageType);
-			}
+			success(result.message);
 		}
-		catch (err)
+		else
 		{
-			error('unknownError');
+			error(result.message);
 		}
 
 		options.isCodeRunning = false;

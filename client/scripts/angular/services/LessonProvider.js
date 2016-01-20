@@ -12,6 +12,36 @@ app.service('lessonProvider', function ()
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
+	var bbotText = function (correctText, errorText)
+	{
+		var that = {};
+
+		function result(status, message)
+		{
+			return {
+				status: status,
+				message: message
+			};
+		}
+
+		function getErrorMessage(value)
+		{
+			return errorText[value];
+		}
+
+		that.resultCorrect = function()
+		{
+			return result(true, correctText);
+		};
+
+		that.resultNotCorrect = function(messageType)
+		{
+			return result(false, getErrorMessage(messageType));
+		};
+
+		return that;
+	};
+
 	var lessons =
 	[
 		{
@@ -56,18 +86,7 @@ app.service('lessonProvider', function ()
 				},
 				{
 					title: 'Ваше имя?',
-					botText:
-					{
-						success: function(value)
-						{
-							return '<p>### Ура! BBot понял челвек0-имя, транслирую:</p>'
-								+ '<p>' + value + '</p>';
-						},
-						error: function()
-						{
-							return '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
-								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
-						}
+					botText: {
 					},
 					content:
 					'<p>Так, новенький, введите свое имя в редакторе кода - мне нужно найти вас в реестре новоиспеченных космических кадетов.</p>' +
@@ -91,43 +110,51 @@ app.service('lessonProvider', function ()
 					],
 					result: function (value)
 					{
+						var errorText = {
+							unknownError: '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>',
+							noQuotes: '<p>### Упс! BBot не разобрал ваше человеческ0е имя!</p>' +
+							'<p>Похоже вы забыли использовать кавычки.</p>',
+							isNumeric: '<p>### Упс! BBot полагает, что человеческ0е имя не может быть числом!</p>' +
+							'<p>Если вы, бот или имперский штурмовик, оbратитесь в учебный совет академии.</p>',
+							emptyInput: '<p>Упс! BBot неполучил ваше ваше человеческ0е имя!</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+						};
+
+						var correctText = '<p>### Ура! BBot понял челвек0-имя, транслирую:</p>'
+							+ '<p>' + value + '</p>';
+
+						var botText = bbotText(correctText, errorText);
+
 						if (value)
 						{
 							// Если нет " ", будет выброшено исключение
 							if (value.exception)
 							{
-								return false;
+								return botText.resultNotCorrect('noQuotes');
 							}
 
 							// Если введено число, то результат отрицательный
 							if (isNumeric(value))
 							{
-								return false;
+								return botText.resultNotCorrect('isNumeric');
 							}
 
 							// "Ваше имя" - регулярка направлена
 							// на поиск имени в скобках.
 							var reg = new RegExp('(.+).*');
-							return reg.test(value);
+
+							return reg.test(value) ?
+								botText.resultCorrect():
+								botText.resultNotCorrect('unknownError');
 						}
 
-						return false;
+						return botText.resultNotCorrect('emptyInput');
 					}
 				},
 				{
 					title: 'Галактическая единица',
-					botText:
-					{
-						success: function(value)
-						{
-							return '<p>### Уря! BBot понял челвек0-в0звраст, транслирую:</p>'
-								+ '<p>' + value + 'GY</p>';
-						},
-						error: function()
-						{
-							return '<p>### Упс! BBot не разобрал ваш человеческий в0звраст!</p>' +
-								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
-						}
+					botText: {
 					},
 					content:
 					'<p>Отлично кадет «Имя», я нашла вас в списках.</p>' +
@@ -156,34 +183,36 @@ app.service('lessonProvider', function ()
 					],
 					result: function (value)
 					{
+						var correctText = '<p>### Уря! BBot понял челвек0-в0звраст, транслирую:</p>'
+							+ '<p>' + value + 'GY</p>';
+						var errorText = {
+							unknownError: '<p>### Упс! BBot не разобрал ваш человеческий в0звраст!</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>',
+							emptyInput: '<p>Упс! BBot неполучил ваш человеческий в0звраст!!</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+						};
+
+						var botText = bbotText(correctText, errorText);
+
 						if (value)
 						{
 							if (value.exception)
 							{
-								return false;
+								return botText.resultNotCorrect('unknownError');
 							}
 
 							// Если выведено число, то результат положительный
-							return isNumeric(value);
+							return isNumeric(value) ?
+								botText.resultCorrect() :
+								botText.resultNotCorrect('unknownError');
 						}
 
-						return false;
+						return botText.resultNotCorrect('emptyInput');
 					}
 				},
 				{
 					title: 'В4К',
-					botText:
-					{
-						success: function(value)
-						{
-							return '<p>### 0шибка найдена! 0шибка найдена! Транслирую:</p>' +
-								'<p>' + value.message + '</p>';
-						},
-						error: function()
-						{
-							return '<p>### Что-т0 не так! BBot не видит 0шибок! Где же они?</p>' +
-								'<p>### Ст0ит еще раз про4итатb инструкции и попроб0вать снова.</p>';
-						}
+					botText: {
 					},
 					content:
 					'<p>Отлично! Теперь перейдем к действительно важным вещам.</p>' +
@@ -209,28 +238,31 @@ app.service('lessonProvider', function ()
 					],
 					result: function (value)
 					{
+						var correctText = '<p>### 0шибка найдена! 0шибка найдена! Транслирую:</p>' +
+							'<p>' + value.message + '</p>';
+						var errorText = {
+							unknownError: '<p>### Что-т0 не так! BBot не видит 0шибок! Где же они?</p>' +
+							'<p>### Ст0ит еще раз про4итатb инструкции и попроб0вать снова.</p>',
+							emptyInput: '<p>BBot ничего не получил, похоже вы забыли воспользоватся полем ввода.</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+						};
+
+						var botText = bbotText(correctText, errorText);
+
 						if (value)
 						{
 							// Должно быть выброшено исключение
-							return value.exception;
+							return value.exception ?
+								botText.resultCorrect():
+								botText.resultNotCorrect('unknownError');
 						}
 
-						return false;
+						return botText.resultNotCorrect('emptyInput');
 					}
 				},
 				{
 					title: 'Комментарии',
-					botText:
-					{
-						success: function()
-						{
-							return '<p>### Что-т0 преднозначенн0е для чел0века! Комментарии?</p>';
-						},
-						error: function()
-						{
-							return '<p>### Ой! Что-т0 не так! BBot не нашел к0мментарий!</p>' +
-								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
-						}
+					botText: {
 					},
 					content:
 					'<p>Хах, кадет, вы явно умнее космических пиратов! Отлично, идем дальше.</p>' +
@@ -254,8 +286,18 @@ app.service('lessonProvider', function ()
 					],
 					result: function (value)
 					{
+						var correctText = '<p>### Что-т0 преднозначенн0е для чел0века! Комментарии?</p>'
+						var errorText = {
+							unknownError: '<p>### Ой! Что-т0 не так! BBot не нашел к0мментарий!</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+						};
+
+						var botText = bbotText(correctText, errorText);
+
 						// При комментировании результат будет возвращен ввиде 'undefined'
-						return !value;
+						return !value ?
+							botText.resultCorrect() :
+							botText.resultNotCorrect('unknownError');
 					}
 				}
 			]

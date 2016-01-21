@@ -35,6 +35,7 @@ app.service('lessonProvider', function ()
 					'<ul>' +
 					'<li>Справа находится редактор кода - это инструмент с помощью которого вы выполняете поставленные задачи.</li>' +
 					'<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +
+					'<li>Нажмите "Далее" для продолжения.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -84,7 +85,7 @@ app.service('lessonProvider', function ()
 							'showSkip': false
 						},
 						{
-							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода, а <i class="glyphicon glyphicon-stop red"></i> для вызова паузы',
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода, а <i class="glyphicon glyphicon-stop red"></i> для вызова паузы',
 							'nextButton': false,
 							'showSkip': false
 						}
@@ -144,12 +145,12 @@ app.service('lessonProvider', function ()
 					'</ul>',
 					hint: [
 						{
-							'next .ace_active-line': 'Введите свой возраст в GY',
+							'next .ace_active-line': 'Введите свой возраст и поделите на 250',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						},
 						{
-							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
 							'nextButton': false,
 							'showSkip': false
 						}
@@ -176,7 +177,7 @@ app.service('lessonProvider', function ()
 					{
 						success: function(value)
 						{
-							return '<p>### 0шибка найдена! 0шибка найдена! Транслирую:</p>' +
+							return '<p>### Ура! 0шибка найдена! 0шибка найдена! Транслирую:</p>' +
 								'<p>' + value.message + '</p>';
 						},
 						error: function()
@@ -202,7 +203,7 @@ app.service('lessonProvider', function ()
 							'showSkip': false
 						},
 						{
-							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
 							'nextButton': false,
 							'showSkip': false
 						}
@@ -228,7 +229,7 @@ app.service('lessonProvider', function ()
 						},
 						error: function()
 						{
-							return '<p>### Эй, BBot не х0чет уничт0жать чел0векорасу!</p>' +
+							return '<p>### Эй, BBot не х0чет уничт0жать чел0векорасу! Наверно...</p>' +
 								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
 						}
 					},
@@ -239,15 +240,16 @@ app.service('lessonProvider', function ()
 					instructions:
 					'<ul>' +
 					'<li>Закомментируйте кусок кода в строке 1.</li>' +
+					'<li>Пример комментария: <span class="red-label">// Комментарий</span>.</li>' +
 					'</ul>',
 					hint: [
 						{
-							'next .ace_active-line': 'Закомментируйте данный код',
+							'next .ace_active-line': 'Поставте в начале строки "//"',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						},
 						{
-							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
 							'nextButton': false,
 							'showSkip': false
 						}
@@ -256,6 +258,105 @@ app.service('lessonProvider', function ()
 					{
 						// При комментировании результат будет возвращен ввиде 'undefined'
 						return !value;
+					}
+				},
+				{
+					title: 'Много, много типов',
+					botText:
+					{
+						success: function(value)
+						{
+							return '<p>### Слава Роботам! BBot нашел строку! Транслирую:</p>' +
+								'<p>' + value + '</p>';
+						},
+						error: function()
+						{
+							return '<p>### BBot не смог найти строку! Он растроен!</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
+						}
+					},
+					content:
+					'<p>Итак, мы разобрались с комментариями. В языке JavaScript существует множество типов данных, с двумя из которых мы уже познакомились: </p>' +
+					'<p><strong>string</strong> - строка или последовательность из символов. Например: "Я есть BBot!", "42", "JS".</p>' +
+					'<p><strong>number</strong> - числа, с помощью которых ваш корабль будет делать вычисления. Заметим, что числа пишутся без кавычек.</p>',
+					instructions:
+					'<ul>' +
+					'<li>Введите строку в редакторе кода.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'Введите в редакторе кода "Я есть BBot!',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						// Если выброшено исключение
+						if (value.exception)
+						{
+							return false;
+						}
+
+						// проверка типа
+						return typeof value === 'string';
+					}
+				},
+				{
+					title: 'Правда, ложь, ложь…',
+					botText:
+					{
+						success: function(value)
+						{
+							return '<p>### В кажд0й шутейки естb д0ля шутейки! Транслирую:</p>' +
+								'<p>' + value + '</p>';
+						},
+						error: function()
+						{
+							return '<p>### Правда не найдена! Где же она?</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>';
+						}
+					},
+					content:
+					'<p>В космосе нельзя быть во всем уверенным! Запомните, любое высказывание надо проверять на правдивость! В этом нам поможет новый тип данных - <strong>boolean</strong>.</p>' +
+					'<p>Boolean - это логический тип данных, который может принимать значения <strong>true</strong>, либо <strong>false</strong>, как вы уже наверное догадались «правда», «ложь» соответственно.</p>' +
+					'<p>Например сравнение двух чисел может вернуть либо <strong>true</strong>, либо <strong>false</strong>:</p>' +
+					'<ul>' +
+					'<li>5 > 4 - <strong>true</strong></li>' +
+					'<li>4 > 5 - <strong>false</strong></li>' +
+					'</ul>' +
+					'<p>Давайте теперь протестируем работу нашего интерпретатора В4К с логическим типом данных.</p>',
+					instructions:
+					'<ul>' +
+					'<li>Введите логическое выражение, при котором система должна вернуть <span class="red-label">true</span>.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'Введите 4 > 1',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						// Если выброшено исключение
+						if (value.exception)
+						{
+							return false;
+						}
+
+						// Значение должно быть равно true
+						return value;
 					}
 				},
 				{
@@ -280,30 +381,36 @@ app.service('lessonProvider', function ()
 					instructions:
 					'<ul>' +
 					'<li>Выведите значение <span class="red-label">5*3</span></li>' +
-					'<li>Затем выведите текст <span class="red-label">"BBot - крутой!"</span></li>'+
-					'<li>Пример использования BBotDebug: <span class="red-label">BBotDebug("Я BBot!");</span></li>'+
+					'<li>На следующей строке выведите текст <span class="red-label">"SpaceCraft"</span></li>'+
+					'<li>Например, если вы захотите вывести на экран "Я есть BBot!", то нужно выполнить команду: <span class="red-label">BBotDebug("Я есть BBot!");</span></li>'+
 					'</ul>',
 					hint: [
 						{
-							'next .ace_scroller': 'Выведите значение 5*3',
+							'next .ace_scroller': 'Введите в редактор строку: BBotDebug(5*3);',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						},
 						{
-							'next .ace_scroller': 'Выведите текст «BBot - крутой!»',
+							'next .ace_scroller': 'На следующей строке: BBotDebug("SpaceCraft");',
 							'nextButton': {text: 'Далее'},
 							'showSkip': false
 						},
 						{
-							'click .play-toggle .green': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
 							'nextButton': false,
 							'showSkip': false
 						}
 					],
 					result: function (value)
 					{
-						// Первое значение 5*3 = 15, второе 'BBot - крутой!'
-						return value[0] === 15 && value[1] === 'BBot - крутой!';
+						// Если выброшено исключение
+						if (value.exception)
+						{
+							return false;
+						}
+
+						// Первое значение 5*3 = 15, второе 'SpaceCraft'
+						return value[0] === 15 && value[1] === 'SpaceCraft';
 					}
 				}
 			]

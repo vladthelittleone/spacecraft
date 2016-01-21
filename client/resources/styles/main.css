@@ -51,6 +51,11 @@ body {
 	z-index: 500;
 }
 
+.enjoy_hint_label {
+	font-size: 17px;
+	font-family: Courier, serif;
+}
+
 .enjoyhint_close_btn {
 	visibility: hidden;
 }

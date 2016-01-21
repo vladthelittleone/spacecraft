@@ -37,20 +37,20 @@ app.directive('tips', ['$sce', '$storage', function ($sce, $storage)
 		$scope.showTrick = false;
 		$scope.hideTrick = false;
 
-		var index = $storage.local.getItem('tipsAndTricks') ? utils.randomInt(0, tips.length - 1) : 0;
+		var index = $storage.local.getItem('tipsAndTricks') ? utils.randomInt(0, slides.length - 1) : 0;
 
-		$scope.t = tips[index];
+		$scope.t = slides[index];
 
 		$scope.next = function ()
 		{
-			index = (index + 1) % tips.length;
-			$scope.t = tips[index];
+			index = (index + 1) % slides.length;
+			$scope.t = slides[index];
 		};
 
 		$scope.previous = function ()
 		{
-			index = index ? (index - 1) % tips.length : tips.length - 1;
-			$scope.t = tips[index];
+			index = index ? (index - 1) % slides.length : slides.length - 1;
+			$scope.t = slides[index];
 		};
 
 		$scope.getContentTitle = function ()
@@ -99,7 +99,7 @@ app.directive('tips', ['$sce', '$storage', function ($sce, $storage)
 		scope: {
 			object: '='
 		},
-		templateUrl: 'views/directives/tips.html',
+		templateUrl: 'views/directives/slides.html',
 		link: link
 	};
 }]);

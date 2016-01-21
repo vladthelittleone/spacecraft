@@ -31,7 +31,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	function nextSubLesson()
 	{
 		// Слова BBot'а
-		$scope.textBot = current().botText.default;
+		$scope.textBot = current().defaultBBot;
 
 		// Размер массива подуроков с 0
 		var len = $scope.lesson.sub.length - 1;
@@ -72,7 +72,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			options.code = date;
 
 			// Слова BBot'а
-			$scope.textBot = current().botText.default;
+			$scope.textBot = current().defaultBBot;
 			$scope.nextSubLesson = nextSubLesson;
 		});
 	}

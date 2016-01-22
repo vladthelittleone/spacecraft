@@ -11,36 +11,27 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		return $scope.lesson.sub[$scope.subIndex];
 	}
 
-	function error()
+	function error(message)
 	{
-		var func = current().botText.error;
+		$scope.textBot = message;
 
-		if (func)
-		{
-			$scope.textBot = func();
-
-			// Удаляем кнопку 'Далее' тк получили ошибку.
-			$scope.nextSubLesson = null;
-		}
+		// Удаляем кнопку 'Далее' тк получили ошибку.
+		$scope.nextSubLesson = null;
 	}
 
-	function success()
+	function success(message)
 	{
-		var func = current().botText.success;
 
-		if (func)
-		{
-			$scope.textBot = func(options.result);
+		$scope.textBot = message;
 
-			// Добавляем ссылку на функцию и кнопку 'Далее'
-			$scope.nextSubLesson = nextSubLesson;
-		}
+		// Добавляем ссылку на функцию и кнопку 'Далее'
+		$scope.nextSubLesson = nextSubLesson;
 	}
 
 	function nextSubLesson()
 	{
 		// Слова BBot'а
-		$scope.textBot = current().botText.default;
+		$scope.textBot = current().defaultBBot;
 
 		// Размер массива подуроков с 0
 		var len = $scope.lesson.sub.length - 1;
@@ -81,7 +72,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			options.code = date;
 
 			// Слова BBot'а
-			$scope.textBot = current().botText.default;
+			$scope.textBot = current().defaultBBot;
 			$scope.nextSubLesson = nextSubLesson;
 		});
 	}
@@ -108,24 +99,17 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	{
 		options.isCodeRunning = true;
 
-		try
+		options.result = interpreter.execute(options.code);
+
+		var result = current().result(options.result);
+
+		if (result.status)
 		{
-			options.result = interpreter.execute(options.code);
-
-			var result = current().result(options.result);
-
-			if (result)
-			{
-				success();
-			}
-			else
-			{
-				error();
-			}
+			success(result.message);
 		}
-		catch (err)
+		else
 		{
-			error();
+			error(result.message);
 		}
 
 		options.isCodeRunning = false;

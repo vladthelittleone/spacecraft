@@ -7,7 +7,7 @@ var app = angular.module('spacecraft.quick');
 app.controller('QuickController', ['$sce', '$scope',
 	function ($sce, $scope)
 	{
-	 	$scope.slides = slides;
+	 	$scope.slidesQuick = slides;
 
 		$scope.$on('ngRepeatFinished',function()
 		{
@@ -286,16 +286,6 @@ app.controller('QuickController', ['$sce', '$scope',
 				return window.getComputedStyle(element, '::before').getPropertyValue('content').replace(/["']/g, '');
 			}
 		});
-
-		$scope.getDescription = function(index)
-		{
-			return $sce.trustAsHtml(slides[index].description);
-		};
-
-		$scope.getSubSlideDescription = function(subslide)
-		{
-			return $sce.trustAsHtml(subslide.description);
-		};
 
 		$scope.trustAsHtml = function (s)
 		{

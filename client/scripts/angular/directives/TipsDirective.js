@@ -1,9 +1,9 @@
 /**
  * Created by vladthelittleone on 10.11.15.
  */
-var app = angular.module('spacecraft.tips', []);
+var app = angular.module('spacecraft.slides', []);
 
-app.directive('tips', ['$sce', '$storage', function ($sce, $storage)
+app.directive('slides', ['$sce', '$storage', function ($sce, $storage)
 {
 	var link = function ($scope)
 	{
@@ -99,7 +99,7 @@ app.directive('tips', ['$sce', '$storage', function ($sce, $storage)
 		scope: {
 			object: '='
 		},
-		templateUrl: 'views/directives/slides.html',
+		templateUrl: 'views/directives/tips.html',
 		link: link
 	};
 }]);

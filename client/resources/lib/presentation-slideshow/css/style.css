@@ -3,15 +3,17 @@
 Primary style
 
 -------------------------------- */
-*, *::after, *::before {
+.quick-wrapper *,
+.quick-wrapper *::after,
+.quick-wrapper *::before {
 	box-sizing: border-box;
 }
 
-html {
+.quick-wrapper {
 	font-size: 62.5%;
 }
 
-body {
+.quick-wrapper {
 	font-size: 1.6rem;
 	font-family: "Roboto", sans-serif;
 	background-color: #303030;
@@ -20,7 +22,7 @@ body {
 	color: #FFF;
 }
 
-a {
+.quick-wrapper  a {
 
 	text-decoration: none;
 }
@@ -198,6 +200,7 @@ Slide Content
 .cd-slider-content p {
 	margin: 1em 0 2em;
 	opacity: .6;
+	font-family: Courier;
 }
 
 @media only screen and (min-width: 1100px) {
@@ -270,10 +273,6 @@ Slide Content
 	.cd-slider-content h2 {
 		font-size: 4rem;
 		font-weight: 300;
-	}
-
-	.cd-slider-content p {
-		font-weight: bold;
 	}
 }
 

@@ -1,8 +1,10 @@
-<div class="cd-slideshow-wrapper">
+<div class="quick-wrapper cd-slideshow-wrapper">
 
-	<button type="button" class="close-button" ui-sref="game">
-		<span class="glyphicon glyphicon-remove"></span>
-	</button>
+	<div class="close-button-wrapper">
+		<button type="button" class="close-button" ui-sref="welcome">
+			<span aria-hidden="true"></span>
+		</button>
+	</div>
 
 	<nav class="cd-slideshow-nav">
 		<button class="cd-nav-trigger">
@@ -15,7 +17,7 @@
 				<li ng-repeat="t in slidesQuick">
 					<a href="#slide-{{$index}}">{{t.title}}</a>
 					<ol class="sub-nav">
-						<li ng-repeat="s in t.subslide">
+						<li ng-repeat="s in t.subSlides">
 							<a href="#subslide-{{s.num}}-{{$index}}">{{s.title}}</a>
 						</li>
 					</ol>
@@ -36,7 +38,7 @@
 						</div>
 					</div>
 				</li>
-				<li  id="subslide-{{s.num}}-{{$index}}" ng-repeat="s in t.subslide">
+				<li  id="subslide-{{s.num}}-{{$index}}" ng-repeat="s in t.subSlides">
 					<div class="cd-slider-content">
 						<div class="content-wrapper">
 							<h2>{{s.title}}</h2>

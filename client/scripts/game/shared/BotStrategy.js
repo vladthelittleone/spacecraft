@@ -7,14 +7,12 @@ var botStrategy = function (spec)
 
     var bounds = sc.world.getBounds();
 
-    var tryMoveForward = spaceCraft.engine.moveForward;
-
-    if (spaceCraft.getX() - 200 < bounds.x
-        || spaceCraft.getY() - 200 < bounds.y
-        || spaceCraft.getX() + 200 > bounds.x + bounds.width
-        || spaceCraft.getY() + 200 > bounds.y + bounds.height)
+    if (spaceCraft.getX() - 100 < bounds.x
+        || spaceCraft.getY() - 100 < bounds.y
+        || spaceCraft.getX() + 100 > bounds.x + bounds.width
+        || spaceCraft.getY() + 100 > bounds.y + bounds.height)
     {
-        tryMoveForward = spaceCraft.engine.rotateLeft;
+        spaceCraft.hit(spaceCraft.protection.getHealth(), spaceCraft);
     }
 
 
@@ -63,7 +61,7 @@ var botStrategy = function (spec)
         {
             // Поварачиваемся к нему и плывем
             spaceCraft.engine.rotateTo(bonus);
-            tryMoveForward();
+			spaceCraft.engine.moveForward();
         }
     }
     else
@@ -91,14 +89,14 @@ var botStrategy = function (spec)
         if (bMin < eMin)
         {
             spaceCraft.engine.rotateTo(bonus);
-            tryMoveForward();
+			spaceCraft.engine.moveForward();
         }
         else
         {
             if (enemy)
             {
                 spaceCraft.engine.rotateTo(enemy);
-                tryMoveForward();
+				spaceCraft.engine.moveForward();
 
                 if (spaceCraft.weapon.inRange(enemy))
                 {

@@ -18,7 +18,7 @@
 					<a href="#slide-{{$index}}">{{t.title}}</a>
 					<ol class="sub-nav">
 						<li ng-repeat="s in t.subSlides">
-							<a href="#subslide-{{s.num}}-{{$index}}">{{s.title}}</a>
+							<a href="#slide-{{$index}}">{{s.title}}</a>
 						</li>
 					</ol>
 				</li>
@@ -38,7 +38,7 @@
 						</div>
 					</div>
 				</li>
-				<li  id="subslide-{{s.num}}-{{$index}}" ng-repeat="s in t.subSlides">
+				<li ng-repeat="s in t.subSlides">
 					<div class="cd-slider-content">
 						<div class="content-wrapper">
 							<h2>{{s.title}}</h2>

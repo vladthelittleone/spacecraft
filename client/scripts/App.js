@@ -20,7 +20,6 @@ var app = angular.module('spacecraft', [
 	'spacecraft.bbotBoard',
 	'spacecraft.gameCanvas',
 	'spacecraft.documentation',
-	'spacecraft.slides',
 	'spacecraft.game',
 	'spacecraft.result',
 	'spacecraft.welcome',

@@ -38,7 +38,6 @@ jQuery(document).ready(function($){
 
 	/* open/close main navigation*/
 	navigation.on('click', '.cd-nav-trigger', function(){
-		console.log("123");
 		if(navigation.hasClass('nav-open') && mq == 'desktop' ) $(window).on('DOMMouseScroll mousewheel', updateOnScroll);
 		else if( !navigation.hasClass('nav-open') && mq == 'desktop') $(window).off('DOMMouseScroll mousewheel', updateOnScroll);
 		navigation.toggleClass('nav-open');
@@ -186,19 +185,15 @@ jQuery(document).ready(function($){
 			$(window).on('DOMMouseScroll mousewheel', updateOnScroll);
     		$(document).on('keydown', function(event){
 				if( event.which=='40' ) {
-					console.log("next");
 					event.preventDefault();
 					updateSlide('next');
 				} else if( event.which=='38' ) {
-					console.log("prev");
 					event.preventDefault();
 					updateSlide('prev');
 				} else if( event.which=='39' ) {
-					console.log("blabla");
 					var visibleSlide = slides.filter('.visible');
 					updateSubSlide(visibleSlide, 'next');
 				} else if ( event.which=='37' ) {
-					console.log("bbb");
 					var visibleSlide = slides.filter('.visible');
 					updateSubSlide(visibleSlide, 'prev');
 				}

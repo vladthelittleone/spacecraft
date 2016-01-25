@@ -27,7 +27,7 @@
 	</nav>
 
 	<ol class="cd-slideshow">
-		<li class="visible" id="slide-{{$index}}" ng-repeat="t in slidesQuick" repeat-finished>
+		<li ng-class="{'visible' : $index === 0}" id="slide-{{$index}}" ng-repeat="t in slidesQuick" repeat-finished>
 			<ol class="sub-slides">
 				<li>
 					<div class="cd-slider-content">

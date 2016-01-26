@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.lesson');
 
-app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', 'lessonProvider', 'interpreter',
-	function ($scope, $stateParams, $state, $http, lessonProvider, interpreter)
+app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', '$storage', 'lessonProvider', 'interpreter',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter)
 {
 	function current()
 	{
@@ -42,9 +42,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		if (i !== len)
 		{
 			options.code = initCode(++$scope.subIndex);
+			$storage.local.setItem($stateParams.id + 'subLesson', $scope.subIndex);
 		}
 		else
 		{
+			$storage.local.setItem($stateParams.id + 'subLesson', 0);
 			$state.go('lessons');
 		}
 	}
@@ -77,7 +79,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		});
 	}
 
-	initCode(0);
+	initCode($storage.local.getItem($stateParams.id + 'subLesson') || 0);
 
 	//===================================
 	//============== SCOPE ==============
@@ -87,7 +89,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.lesson = lessonProvider($stateParams.id);
 
 	// Индекс под урока
-	$scope.subIndex = 0;
+	$scope.subIndex = $storage.local.getItem($stateParams.id + 'subLesson') || 0;
 
 	// Проверка существования урока
 	if (!$scope.lesson)

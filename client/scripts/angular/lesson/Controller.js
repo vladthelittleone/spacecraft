@@ -87,7 +87,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.lesson = lessonProvider($stateParams.id);
 
 	// Индекс под урока
-	$scope.subIndex = 0;
+	$scope.subIndex = 8;
 
 	// Проверка существования урока
 	if (!$scope.lesson)

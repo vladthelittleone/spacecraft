@@ -5,12 +5,23 @@
  */
 var app = angular.module('spacecraft.lessonProvider', []);
 
-app.service('lessonProvider', function ()
+app.service('lessonProvider', ['$storage', function ($storage)
 {
 	function isNumeric(n)
 	{
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+
+	var storage = {
+		saveUserInfo: function(name, value)
+		{
+			$storage.local.setItem(name, value);
+		},
+		getUserInfo: function(name)
+		{
+			return $storage.local.getItem(name);
+		}
+	};
 
 	var BBotText = function (text)
 	{
@@ -53,6 +64,7 @@ app.service('lessonProvider', function ()
 
 			return that.unknownError();
 		};
+
 
 		return that;
 	};
@@ -160,7 +172,10 @@ app.service('lessonProvider', function ()
 							// на поиск имени в скобках.
 							var reg = new RegExp('(.+).*');
 
+							storage.saveUserInfo('userName', value);
+
 							return botText.result(reg.test(value));
+
 						}
 
 						return botText.resultNotCorrect('emptyInput');
@@ -169,7 +184,7 @@ app.service('lessonProvider', function ()
 				{
 					title: 'Галактическая единица',
 					content:
-					'<p>Отлично кадет «Имя», я нашла вас в списках.</p>' +
+					'<p>Отлично кадет ' + storage.getUserInfo('userName') + ', я нашла вас в списках.</p>' +
 					'<p>Нам нужно уладить еще пару ненужных бюрократических моментов.</p>' +
 					'<p>Введите свой возраст в галактической единице измерения времени - <strong>GY</strong>.</p>',
 					instructions:
@@ -213,6 +228,8 @@ app.service('lessonProvider', function ()
 							{
 								return botText.unknownError();
 							}
+
+							storage.saveUserInfo('userAge', value);
 
 							// Если выведено число, то результат положительный
 							return botText.result(isNumeric(value));
@@ -550,4 +567,4 @@ app.service('lessonProvider', function ()
 	{
 		return lessons[num];
 	}
-});
+}]);

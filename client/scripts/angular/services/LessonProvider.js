@@ -467,6 +467,97 @@ app.service('lessonProvider', ['$storage', function ($storage)
 
 						return botText.unknownError();
 					}
+				},
+				{
+					title: 'Нужнооо больше операторов!',
+					content:
+					'<p>Есть множество операторов сравнения:</p>' +
+					'<ul>' +
+					'<li><strong>></strong> - больше чем</li>' +
+					'<li><strong><</strong> - меньше чем</li>' +
+					'<li><strong><=</strong> - меньше либо равно</li>' +
+					'<li><strong>>=</strong> - больше либо равно</li>' +
+					'<li><strong>===</strong> - равенство</li>' +
+					'<li><strong>!==</strong> - не равенство</li>' +
+					'</ul>',
+					instructions:
+					'<ul>' +
+					'<li>Поменять в коде операторы и числа так, чтобы BBotDebug выводили во всех случаях true.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'В первой строке измените код на BBotDebug(4 === 4);',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'Во второй строке измените код на BBotDebug(3 < 5);',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'В третьей строке ничего не нужно менять.',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'В четвертой строке измените код на BBotDebug(3 >= 2);',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'В пятой строке измените код на BBotDebug(1 === 1);',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'В шестой строке ничего не нужно менять.',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						var botText = BBotText(
+						{
+							correct: '<p>Испытание окончен0. Скушай т0ртик. Траслирую:</p>' +
+							'<p>true</p>' +
+							'<p>true</p>' +
+							'<p>true</p>' +
+							'<p>true</p>' +
+							'<p>true</p>' +
+							'<p>true</p>',
+
+							unknownError: '<p>### Все в н0рме? Моей колонии р0ботов нужны умные рабы. Шучу.</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+						});
+
+						// Если выброшено исключение
+						if (value)
+						{
+							var result = true;
+
+							if (value.exception)
+							{
+								return botText.unknownError();
+							}
+
+							// Проверка значений на равность true.
+							value.forEach(function (v)
+							{
+								result &= v;
+							});
+
+							return botText.result(result);
+						}
+
+						return botText.unknownError();
+					}
 				}
 			]
 		}

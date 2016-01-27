@@ -15,9 +15,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			$storage.local.setItem(name, value);
 		},
-		get: function(name)
+		getInt: function(name)
 		{
-			return $storage.local.getItem(name);
+			return parseInt($storage.local.getItem(name));
 		}
 	};
 
@@ -94,7 +94,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		});
 	}
 
-	initCode(st.get($stateParams.id + 'subLesson') || 0);
+	initCode(st.getInt($stateParams.id + 'subLesson') || 0);
 
 	//===================================
 	//============== SCOPE ==============
@@ -104,7 +104,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.lesson = lessonProvider($stateParams.id);
 
 	// Индекс под урока
-	$scope.subIndex = st.get($stateParams.id + 'subLesson') || 0;
+	$scope.subIndex = st.getInt($stateParams.id + 'subLesson') || 0;
 
 	// Проверка существования урока
 	if (!$scope.lesson)

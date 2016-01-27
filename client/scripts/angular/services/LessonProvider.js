@@ -382,11 +382,11 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					}
 				},
 				{
-					title: 'Правда, ложь, ложь…',
+					title: 'Истина, ложь, ложь…',
 					content: function ()
 					{
 						return '<p>В космосе нельзя быть во всем уверенным! Запомните, любое высказывание надо проверять на правдивость! В этом нам поможет новый тип данных - <strong>boolean</strong>.</p>' +
-						'<p>Boolean - это логический тип данных, который может принимать значения <strong>true</strong>, либо <strong>false</strong>, как вы уже наверное догадались «правда», «ложь» соответственно.</p>' +
+						'<p>Boolean - это логический тип данных, который может принимать значения <strong>true</strong>, либо <strong>false</strong>, как вы уже наверное догадались «истина», «ложь» соответственно.</p>' +
 						'<p>Например сравнение двух чисел может вернуть либо <strong>true</strong>, либо <strong>false</strong>:</p>' +
 						'<ul>' +
 						'<li>5 > 4 - <strong>true</strong></li>' +
@@ -417,7 +417,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							correct: '<p>### В кажд0й шутейки естb д0ля шутейки! Транслирую:</p>' +
 							'<p>' + value + '</p>',
 
-							unknownError:  '<p>### Правда не найдена! Где же она?</p>' +
+							unknownError:  '<p>### Истина не найдена! Где же она?</p>' +
 							'<p>### Пох0же вы не разобрались с л0гическим тип0м.</p>'
 						});
 
@@ -576,6 +576,89 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							});
 
 							return botText.result(result);
+						}
+
+						return botText.unknownError();
+					}
+				},
+				{
+					title: 'Светлая или темная сторона?',
+					content: function ()
+					{
+						return '<p>В космосе бывают ситуации, когда, в зависимсоти от условий, нужно принять определенные решения.</p>' +
+							'<p>Для этого был создан оператор if, который использует в качестве условия хорошо известный нам тип данных - boolean:</p>' +
+							'<p><strong>if ( УСЛОВИЕ ) { ДЕЙСТВИЯ }</strong></p>' +
+							'<p>Если <strong>УСЛОВИЕ</strong> имеет значение true - "истина", то выполняются <strong>ДЕЙСТВИЯ</strong>.</p>';
+					},
+					instructions:
+					'<ul>' +
+					'<li>Изменить условие так, чтобы система не была уничтожена.</li>' +
+					'<li>Изменить условие так, чтобы BBot вывел сообщение о состоянии параметров.</li>' +
+					'<li>Изучите комментарии к коду.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'Поменяйте условие 2 === 2 на 2 === 3.',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'Поменяйте условие 5 < 3 на 5 > 3.',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						var botText = BBotText(
+						{
+							correct: '<p>### Где правда пр0ступает скво3b туман, ' +
+							'<p>### Там терпит п0ражение 0бман....</p>' +
+							'<p>### Ой, чт0 это я. Траслирую:</p>' +
+							'<p>Все параметры системы в норме!</p>',
+
+							removeSystem: '<p>### Создаю резервную копию.</p>' +
+							'<p>### Уничт0жение сисtемы через 3.. 2.. 1..</p>' +
+							'<p>### В0сстанавливаю системY из ре3ервной копии.</p>' +
+							'<p>### Не делайtе так б0льше. Ты ра3биваешb мое мета2лическое сердце!</p>',
+
+							unknownError: '<p>### Чт0-то не так! Не могу найtи 3аданный выв0д!</p>' +
+							'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+						});
+
+						// Если выброшено исключение
+						if (value)
+						{
+							if (value.exception)
+							{
+								return botText.unknownError();
+							}
+
+							var result;
+
+							// Проверяем использовалось ли сообщение об уничтожении.
+							value.forEach(function (v)
+							{
+								if (v === 'КОМ№4 - Выполнить уничтожение системы.')
+								{
+									result = botText.resultNotCorrect('removeSystem');
+								}
+							});
+
+							if (result)
+							{
+								return result;
+							}
+							else
+							{
+								// Проверка значений.
+								return botText.result(value[0] === 'Все параметры системы в норме!');
+							}
 						}
 
 						return botText.unknownError();

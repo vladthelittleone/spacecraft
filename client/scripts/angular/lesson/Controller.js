@@ -6,6 +6,21 @@ var app = angular.module('spacecraft.lesson');
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', '$storage', 'lessonProvider', 'interpreter',
 	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter)
 {
+	/**
+	 * Local storage
+	 */
+	var st =
+	{
+		set: function(name, value)
+		{
+			$storage.local.setItem(name, value);
+		},
+		get: function(name)
+		{
+			return $storage.local.getItem(name);
+		}
+	};
+
 	function current()
 	{
 		return $scope.lesson.sub[$scope.subIndex];
@@ -42,11 +57,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		if (i !== len)
 		{
 			options.code = initCode(++$scope.subIndex);
-			$storage.local.setItem($stateParams.id + 'subLesson', $scope.subIndex);
+			st.set($stateParams.id + 'subLesson', $scope.subIndex);
 		}
 		else
 		{
-			$storage.local.setItem($stateParams.id + 'subLesson', 0);
+			st.set($stateParams.id + 'subLesson', 0);
 			$state.go('lessons');
 		}
 	}
@@ -79,7 +94,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		});
 	}
 
-	initCode($storage.local.getItem($stateParams.id + 'subLesson') || 0);
+	initCode(st.get($stateParams.id + 'subLesson') || 0);
 
 	//===================================
 	//============== SCOPE ==============
@@ -89,7 +104,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.lesson = lessonProvider($stateParams.id);
 
 	// Индекс под урока
-	$scope.subIndex = $storage.local.getItem($stateParams.id + 'subLesson') || 0;
+	$scope.subIndex = st.get($stateParams.id + 'subLesson') || 0;
 
 	// Проверка существования урока
 	if (!$scope.lesson)

@@ -9,7 +9,7 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 	{
 		$scope.getContent = function ()
 		{
-			return $sce.trustAsHtml($scope.lesson.content);
+			return $sce.trustAsHtml($scope.lesson.content());
 		};
 
 		$scope.getInstructions = function ()

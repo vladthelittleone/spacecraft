@@ -36,6 +36,15 @@
 				<div class="pages-text">Начать просмотр</div>
 			</div>
 		</div>
+		<div class="container-25">
+			<div class="container-inside">
+				<carousel interval="interval">
+					<slide ng-repeat="cr in carouselW" active="cr.active">
+						<img ng-src="{{cr.image}}">
+					</slide>
+				</carousel>
+			</div>
+		</div>
 	</div>
 
 	<div class="rocket-white-img pages-footer-img "></div>

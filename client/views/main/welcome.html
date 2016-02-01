@@ -38,9 +38,12 @@
 		</div>
 		<div class="container-25">
 			<div class="container-inside">
-				<carousel interval="interval">
-					<slide ng-repeat="cr in carouselW" active="cr.active">
-						<img ng-src="{{cr.image}}">
+				<carousel interval="interval" no-wrap="false">
+					<slide ng-repeat="slide in carouselW" active="slide.active" index="{{$index}}">
+						<img ng-src="{{slide.image}}">
+						<div class="carousel-caption">
+							<h4>{{$index}}</h4>
+						</div>
 					</slide>
 				</carousel>
 			</div>

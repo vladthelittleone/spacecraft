@@ -9,6 +9,7 @@
  * Main module of the application.
  */
 var app = angular.module('spacecraft', [
+	'chart.js',
 	'ui.router',
 	'ui.ace',
 	'ui.layout',

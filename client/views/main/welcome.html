@@ -36,16 +36,16 @@
 				<div class="pages-text">Начать просмотр</div>
 			</div>
 		</div>
-		<div class="container-25">
+		<div class="container-50">
 			<div class="container-inside">
-				<carousel interval="interval" no-wrap="false">
-					<slide ng-repeat="slide in carouselW" active="slide.active" index="{{$index}}">
-						<img ng-src="{{slide.image}}">
+				<uib-carousel interval="interval" no-wrap="false">
+					<uib-slide ng-repeat="slide in carouselW" active="slide.active">
+						<img ng-src="{{slide.image}}"
+						style="height: 360px">
 						<div class="carousel-caption">
-							<h4>{{$index}}</h4>
 						</div>
-					</slide>
-				</carousel>
+					</uib-slide>
+				</uib-carousel>
 			</div>
 		</div>
 	</div>

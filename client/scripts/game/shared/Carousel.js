@@ -4,9 +4,18 @@
 
 var carousel = [
 	{
-		image : 'resources/assets/space.png'
+		image : 'resources/assets/pages/astronaut6.png'
 	},
 	{
-		image: 'resources/assets/logo3.png'
+		image: 'resources/assets/pages/galaxy2.png'
+	},
+	{
+		image: 'resources/assets/pages/javascriptgray.png'
+	},
+	{
+		image: 'resources/assets/pages/rocket55.png'
+	},
+	{
+		image: 'resources/assets/pages/rocket56.png'
 	}
 ];

@@ -2,7 +2,8 @@
  * Created by Ivan on 31.01.2016.
  */
 
-var carousel = [
+var carousel =
+[
 	{
 		image : 'resources/assets/pages/astronaut6.png'
 	},

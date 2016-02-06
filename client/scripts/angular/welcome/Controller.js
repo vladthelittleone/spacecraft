@@ -6,6 +6,9 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state',
 	function ($scope, $storage, $state)
 	{
+		$scope.carousel = carousel;
+		$scope.interval = 10000;
+
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,
 			width: "auto",

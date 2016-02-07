@@ -646,6 +646,10 @@ body {
 	cursor: default;
 }
 
+.lesson-board strong {
+	/*font-weight: 500;*/
+}
+
 .documentation {
 	background: #fff;
 	color: #152B39;

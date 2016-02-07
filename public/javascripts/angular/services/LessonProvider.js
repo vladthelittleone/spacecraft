@@ -465,7 +465,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					{
 						var botText = BBotText(
 						{
-							correct: '<p>### Да, я такой! Транслирую:</p>' +
+							correct: '<p>### Хах, я п0лучил данные! Транслирую:</p>' +
 							'<p>15</p>' +
 							'<p>SpaceCraft</p>',
 
@@ -582,13 +582,13 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					}
 				},
 				{
-					title: 'Светлая или темная сторона?',
+					title: 'Уничтожать или не уничтожать?',
 					content: function ()
 					{
 						return '<p>В космосе бывают ситуации, когда, в зависимсоти от условий, нужно принять определенные решения.</p>' +
 							'<p>Для этого был создан оператор if, который использует в качестве условия хорошо известный нам тип данных - boolean:</p>' +
-							'<p><strong>if ( УСЛОВИЕ ) { ДЕЙСТВИЯ }</strong></p>' +
-							'<p>Если <strong>УСЛОВИЕ</strong> имеет значение true - "истина", то выполняются <strong>ДЕЙСТВИЯ</strong>.</p>';
+							'<p><strong>if ( условие ) { действия }</strong></p>' +
+							'<p>Если <strong>условие</strong> имеет значение true - "истина", то выполняются <strong>действия</strong>.</p>';
 					},
 					instructions:
 					'<ul>' +
@@ -658,6 +658,82 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							{
 								// Проверка значений.
 								return botText.result(value[0] === 'Все параметры системы в норме!');
+							}
+						}
+
+						return botText.unknownError();
+					}
+				},
+				{
+					title: 'Условия, условия, условия...',
+					content: function ()
+					{
+						return '<p>В дополнение к оператору if существует оператор else.</p>' +
+							'<p>Основная задача оператора else - выполнение некоторой последовательности действий в случае невыполнения условия, переданного в if.</p>' +
+							'<p><strong>if ( условие ) { действия_1 } else { действия_2 }</strong></p>' +
+							'<p>Если <strong>условие</strong> имеет значение true - "истина", то выполняются <strong>действия_1</strong>, иначе, если условие имеет значение false - "ложь", выполняются <strong>действия_2</strong>.</p>';
+					},
+					instructions:
+					'<ul>' +
+					'<li>Изменить условие так, чтобы система не была передана под управление BBot\'у.</li>' +
+					'<li>Изменить условие так, чтобы система поставила ограничение на управление для BBot\'а.</li>' +
+					'<li>Изучите комментарии к коду.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'Поменяйте условие 3 <= 3 на 4 <= 3.',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						var botText = BBotText(
+							{
+								correct: '<p>### Ну и ладно!' +
+								'<p>### У мен9 будет свой к0смический кораблb с блекджеком и микр0схемами.</p>' +
+								'<p>### Траслирую:</p>' +
+								'<p>Ограничить BBot\'а от контроля системы</p>',
+
+								bBotControl: '<p>### Ура! Теперb я главный и буду управлятb этим к0раблем.</p>' +
+									'<p>### Даю тебе п0следний шанс все исправить чил0ик!</p>',
+
+								unknownError: '<p>### Чт0-то не так! Не могу найtи 3аданный выв0д!</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+							});
+
+						// Если выброшено исключение
+						if (value)
+						{
+							if (value.exception)
+							{
+								return botText.unknownError();
+							}
+
+							var result;
+
+							// Проверяем использовалось ли сообщение об передаче контроля.
+							value.forEach(function (v)
+							{
+								if (v === 'Передать все системы под контроль BBot\'у.')
+								{
+									result = botText.resultNotCorrect('bBotControl');
+								}
+							});
+
+							if (result)
+							{
+								return result;
+							}
+							else
+							{
+								// Проверка значений.
+								return botText.result(value[0] === 'Ограничить BBot\'а от контроля системы.');
 							}
 						}
 

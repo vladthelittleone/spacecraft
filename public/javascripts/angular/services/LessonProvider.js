@@ -669,7 +669,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					content: function ()
 					{
 						return '<p>Если условие неверно, то выполняется необязательный блок else:</p>' +
-							'<p class="code">if ( условие ) <br>{<br>	действия1<br>}<br>else<br>{<br>	действия2<br>}</strong></p>' +
+							'<p class="code">if ( условие ) <br>{<br>	блок1<br>}<br>else<br>{<br>	блок2<br>}</strong></p>' +
 							'<p>Теперь, когда мы разобрались с этим оператором, нужно решить проблему с ограничением контроля BBot\'а.</p>'
 					},
 					instructions:
@@ -733,6 +733,98 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							{
 								// Проверка значений.
 								return botText.result(value[0] === 'Ограничить BBot\'а от контроля системы.');
+							}
+						}
+
+						return botText.unknownError();
+					}
+				},
+				{
+					title: 'Где же все хранить?',
+					content: function ()
+					{
+						return '<p>Вы что думали, мы сразу доверим вам управлять кораблем?</p>' +
+							'<p>Для начала нужно разобраться с понятием переменной.</p>' +
+							'<p>В практике управления кораблем, так или иначе приходится создавать (определять) временные хранилища данных, так называемые переменные.</p>' +
+							'<p>Вы можете обратиться к ней и получить хранящееся в ней значение.</p> ' +
+							'<p>Для создание переменной используется ключевое слово var:</p>' +
+							'<p class="code">var имя;</br>// либо</br>var имя = значение;</p>'
+					},
+					instructions:
+					'<ul>' +
+					'<li>Изучите комментарии к коду.</li>' +
+					'<li>Присвойте значение <span class="red-label">10</span> переменной <span class="red-label">ememies</span> и выведите его с помощью <span>BBotDebug</span>.</li>' +
+					'<li>Не забудьте дать команду об отступлении.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'next .ace_scroller': 'Измените код на: var enemies = 10;',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'next .ace_scroller': 'Выведите значение enemies: BBotDebug(enemies);',
+							'nextButton': {text: 'Далее'},
+							'showSkip': false
+						},
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода.',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					result: function (value)
+					{
+						var botText = BBotText(
+							{
+								correct: '<p>### BBot считаеt, чт0 вы правы!</p>' +
+								'<p>### Не ст0ит рисковатb целым фл0том, их слишк0м мн0го!</p>' +
+								'<p>### Траслирую:</p>' +
+								'<p>Отступаем! Отступаем! Врагов слишком много!</p>' +
+								'<p>10</p>',
+
+								attackError: '<p>### Безрасудств0! BBot считаеt, чт0 мы с0вершаем 0шибку!</p>' +
+								'<p>### Ваша инф0рмация не достоверна! Мы рискуеm целым вирtуальным фл0tом!</p>' +
+								'<p>### Траслирую:</p>' +
+								'<p>### У нас численное привосходство! Наступаем!</p>' +
+								'<p>8</p>',
+
+								noCommand: '<p>### Мы не дали к0мманду 0тступления!</p>' +
+								'<p>### Теперь большая часть фл0та будет уничтожена!</p>' +
+								'<p>### Хор0шо, чт0 это т0лько моделирование реальн0й ситуации!</p>',
+
+								unknownError: '<p>### Чт0-то не так! Виртуалbный враг с0здает п0мехи!</p>' +
+								'<p>### Либ0 вы решили 0бманутb нашу сисtему тестирования?</p>' +
+								'<p>### Внимателbней про4итайте инструкции и попробуйте снова.</p>'
+							});
+
+						// Если выброшено исключение
+						if (value)
+						{
+							if (value.exception)
+							{
+								return botText.unknownError();
+							}
+
+							var result;
+
+							// Проверяем использовалось ли сообщение об уничтожении.
+							value.forEach(function (v)
+							{
+								if (v === 'КОМ№4 - Выполнить уничтожение системы.')
+								{
+									result = botText.resultNotCorrect('removeSystem');
+								}
+							});
+
+							if (result)
+							{
+								return result;
+							}
+							else
+							{
+								// Проверка значений.
+								return botText.result(value[0] === 'Все параметры системы в норме!');
 							}
 						}
 

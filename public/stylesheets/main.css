@@ -1327,3 +1327,22 @@ div.helper:after {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
 	background-repeat: repeat-x;
 }
+
+.chart-legend li,
+.bar-legend li,
+.line-legend li,
+.pie-legend li,
+.radar-legend li,
+.polararea-legend li,
+.doughnut-legend li {
+	display: inline-block;
+	white-space: nowrap;
+	position: relative;
+	margin-bottom: 4px;
+	border-radius: 5px;
+	padding: 2px 8px 2px 28px;
+	cursor: default;
+	max-height: 42px;
+	font-size: 14px;
+	line-height: 20px;
+}

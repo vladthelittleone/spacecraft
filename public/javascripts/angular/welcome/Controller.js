@@ -6,14 +6,12 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
-		var str = $storage.local.getItem("statistic") || null;
+		var stat = JSON.parse($storage.local.getItem("statistic"));
 
-		// Если удалось получить из хранилища статистику формируем массив JSON объектов
-		var masJSON = str === null ? 0 : $storage.local.getItem("statistic").split(';');
-		var j;
 		$scope.labels = [];
 		$scope.series = ['Уничтоженные корабли'];
-		// Формирует подписи оси ординат исходя из длины ьассива masJSON
+
+		// Формирует подписи оси ординат исходя из длины массива
 		makeLabels();
 
 		$scope.takeBonus = [[]];
@@ -45,9 +43,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		function makeLabels()
 		{
-			if (masJSON !== 0)
+			if (stat)
 			{
-				for (var i = 1; i <= masJSON.length; i++)
+				for (var i = 1; i <= stat.length; i++)
 				{
 					$scope.labels.push(i);
 				}
@@ -60,14 +58,13 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		function makeStatistic()
 		{
-			if (masJSON !== 0)
+			if (stat)
 			{
-				masJSON.forEach(function (s, i, masJson)
+				stat.forEach(function (s)
 				{
-					j = JSON.parse(s);
-					$scope.takeBonus[0].push(j.takenBonus);
-					$scope.killSpaceCraft[0].push(j.killEnemy);
-					$scope.totaleScore[0].push(j.totalScore);
+					$scope.takeBonus[0].push(s.takenBonus);
+					$scope.killSpaceCraft[0].push(s.killEnemy);
+					$scope.totaleScore[0].push(s.totalScore);
 				})
 			}
 		}

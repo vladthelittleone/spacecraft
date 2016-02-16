@@ -7,9 +7,13 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
 		var stat = JSON.parse($storage.local.getItem("statistic"));
+		$scope.index = 0;
+		$scope.checkStat = stat ? true : false;
 
 		$scope.labels = [];
-		$scope.series = ['Уничтоженные корабли'];
+		$scope.seriesC = ['Уничтоженные корабли'];
+		$scope.seriesB = ['Собранные бонусы'];
+		$scope.seriesT = ['Общее количество очков'];
 
 		// Формирует подписи оси ординат исходя из длины массива
 		makeLabels();
@@ -67,5 +71,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 					$scope.totaleScore[0].push(s.totalScore);
 				})
 			}
+		}
+
+		$scope.changeChart = function(){
+			$scope.index = ($scope.index + 1) % 3;
 		}
 	}]);

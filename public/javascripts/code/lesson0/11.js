@@ -26,5 +26,4 @@ if (allies < enemies)
 else
 {
 	BBotDebug("У нас численное привосходство! Наступаем!");
-	BBotDebug(allies);
 }

@@ -786,8 +786,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 								attackError: '<p>### Безрасудств0! BBot считаеt, чт0 мы с0вершаем 0шибку!</p>' +
 								'<p>### Ваша инф0рмация не достоверна! Мы рискуеm целым вирtуальным фл0tом!</p>' +
 								'<p>### Траслирую:</p>' +
-								'<p>### У нас численное привосходство! Наступаем!</p>' +
-								'<p>8</p>',
+								'<p>У нас численное привосходство! Наступаем!</p>',
 
 								noCommand: '<p>### Мы не дали к0мманду 0тступления!</p>' +
 								'<p>### Теперь большая часть фл0та будет уничтожена!</p>' +
@@ -806,25 +805,39 @@ app.service('lessonProvider', ['$storage', function ($storage)
 								return botText.unknownError();
 							}
 
-							var result;
+							var enemiesCountEqualsTen = false;
+							var error = botText.resultNotCorrect('noCommand');
 
-							// Проверяем использовалось ли сообщение об уничтожении.
+							// Проверяем использовалось ли сообщение об отступлении и о наступлении.
 							value.forEach(function (v)
 							{
-								if (v === 'КОМ№4 - Выполнить уничтожение системы.')
+								if (v === 'Отступаем! Отступаем! Врагов слишком много!')
 								{
-									result = botText.resultNotCorrect('removeSystem');
+									error = false;
+								}
+
+								// Проверка равенства кол-ва врагов - 10
+								if (v === 10)
+								{
+									enemiesCountEqualsTen = true;
 								}
 							});
 
-							if (result)
+							if (value.length === 1 &&
+								value[0] === 'У нас численное привосходство! Наступаем!')
 							{
-								return result;
+								return botText.resultNotCorrect('attackError');
+							}
+
+							if (error)
+							{
+								return error;
 							}
 							else
 							{
 								// Проверка значений.
-								return botText.result(value[0] === 'Все параметры системы в норме!');
+								// Если был v === 10, то ответ коректный.
+								return botText.result(enemiesCountEqualsTen);
 							}
 						}
 

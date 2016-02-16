@@ -6,10 +6,6 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
-		// Массив данных для карусели и интервал смены
-		$scope.carouselWelcome = carousel;
-		$scope.interval = 10000;
-
 		var str = $storage.local.getItem("statistic") || null;
 
 		// Если удалось получить из хранилища статистику формируем массив JSON объектов

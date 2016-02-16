@@ -12,7 +12,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 		var masJSON = str === null ? 0 : $storage.local.getItem("statistic").split(';');
 		var j;
 		$scope.labels = [];
-		$scope.series = ['User Stastic'];
+		$scope.series = ['Уничтоженные корабли'];
 		// Формирует подписи оси ординат исходя из длины ьассива masJSON
 		makeLabels();
 

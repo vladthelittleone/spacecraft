@@ -290,6 +290,8 @@ body {
 
 .pages-board .chart-inside {
 	padding: 20px;
+	max-width: 600px;
+	margin: auto;
 }
 
 .pages-board {
@@ -1008,9 +1010,6 @@ body {
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-repeat: no-repeat;
-}
-
-.pages-img-spacecraft {
 }
 
 .pages-img {

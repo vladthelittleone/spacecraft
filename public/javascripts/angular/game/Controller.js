@@ -19,7 +19,7 @@ function ($scope, $storage, $http, autocompleter)
 		{
 			$http({
 				method: 'GET',
-				url: 'scripts/code/game.js'
+				url: 'javascripts/code/game.js'
 			})
 			.success(function (date)
 			{

@@ -3,26 +3,39 @@
 # You can run this on server after git push or
 # locally before you put new version of website via FTP
 
-echo "[Deploy] Running npm install"
-npm install
-if [ $? = "0" ]; then
-  echo "[Deploy] Npm install success, running Bower install"
-  cd public
-  bower install --allow-root
-  if [ $? = "0" ]; then
-  	cd ..
-    echo "[Deploy] Bower install success, running build"
-    rm -rf build
-    gulp build
-    if [ $? = "0" ]; then
-      echo "[Deploy] Build success, deploying files"
-	  NODE_ENV=production NODE_PATH=. PORT=8080 DEBUG=spacecraft node bin/www
-    else
-      echo "[Deploy] Build failed, aborting deploy"
-    fi
-  else
-    echo "[Deploy] Bower install failed, aborting deploy"
-  fi
-else
-  echo "[Deploy] Npm install failed, aborting deploy"
+if [ $1 = "build" ]; then
+	echo "[Build] Running npm install"
+	npm install
+	echo "[Build] Running forever install"
+	npm install forever -g
+	if [ $? = "0" ]; then
+	  echo "[Build] Npm install success, running Bower install"
+	  cd public
+	  bower install --allow-root
+	  if [ $? = "0" ]; then
+		cd ..
+		echo "[Build] Bower install success, running gulp build"
+		rm -rf build
+		gulp build
+		if [ $? = "0" ]; then
+		  echo "[Build] Gulp build success"
+		else
+		  echo "[Build] Gulp build failed, aborting build"
+		fi
+	  else
+		echo "[Build] Bower install failed, aborting build"
+	  fi
+	else
+	  echo "[Build] Npm install failed, aborting build"
+	fi
+fi
+
+if [ $1 = "start" ]; then
+	echo "[Start] Running server"
+	NODE_ENV=production NODE_PATH=. PORT=8080 DEBUG=spacecraft forever --uid SpaceCraftServer -a start bin/www
+fi
+
+if [ $1 = "stop" ]; then
+	echo "[Stop] Stop server"
+ 	forever stop SpaceCraftServer
 fi

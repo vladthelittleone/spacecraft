@@ -38,7 +38,7 @@ app.config(['$urlRouterProvider','ChartJsProvider', function ($urlRouterProvider
 
 	// Configure all charts
 	ChartJsProvider.setOptions({
-		colours: ['#152B39', '#FF8A80'],
+		colours: ['#152B39', '#C5C8C6'],
 		responsive: false
 	});
 	// Configure all line charts

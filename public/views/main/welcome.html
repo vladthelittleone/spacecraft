@@ -36,19 +36,20 @@
 				<div class="pages-text">Начать просмотр</div>
 			</div>
 		</div>
-		<div class="container-50" ng-show="stat || learnLessons">
+		<div class="container-50">
+			<div class="container-inside" ng-show="index === 1 && stat[0]" ng-click="changeChart()">
+				<canvas id="line" class="chart chart-line graphics" chart-data="totaleScore"
+						chart-labels="labels" chart-legend="true" chart-series="seriesT">
+				</canvas>
+			</div>
 
-			<div class="container-inside" ng-show="index === 0 && learnLessons" ng-click="changeChart()">
+			<div class="container-inside" ng-show="index === 0" ng-click="changeChart()">
 				<canvas id="pie" class="chart chart-pie graphics"
 						chart-data="dataL" chart-labels="labelsL">
 				</canvas>
 			</div>
 
-			<div class="container-inside" ng-show="index === 1 && stat" ng-click="changeChart()">
-				<canvas id="line" class="chart chart-line graphics" chart-data="totaleScore"
-						chart-labels="labels" chart-legend="true" chart-series="seriesT">
-				</canvas>
-			</div>
+
 		</div>
 	</div>
 

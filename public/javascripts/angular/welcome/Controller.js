@@ -6,7 +6,10 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
-		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic"));
+		var stat = $scope.stat = [
+			JSON.parse($storage.local.getItem("statistic")),
+			$storage.local.getItem('AllLessons') || 0
+		];
 		$scope.index = 0;
 
 		$scope.labels = [];
@@ -15,8 +18,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 		$scope.seriesT = ['Общее количество очков'];
 
 		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
-		$scope.learnLessons = $storage.local.getItem('AllLessons');
-		$scope.dataL = [$scope.learnLessons, 12 - $scope.learnLessons];
+		$scope.dataL = [stat[1], 12 - stat[1]];
 		// Формирует подписи оси ординат исходя из длины массива
 		makeLabels();
 
@@ -49,9 +51,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		function makeLabels()
 		{
-			if (stat)
+			if (stat[0])
 			{
-				for (var i = 1; i <= stat.length; i++)
+				for (var i = 1; i <= stat[0].length; i++)
 				{
 					$scope.labels.push(i);
 				}
@@ -64,9 +66,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		function makeStatistic()
 		{
-			if (stat)
+			if (stat[0])
 			{
-				stat.forEach(function (s)
+				stat[0].forEach(function (s)
 				{
 					$scope.takeBonus[0].push(s.takenBonus);
 					$scope.killSpaceCraft[0].push(s.killEnemy);
@@ -77,7 +79,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		$scope.changeChart = function ()
 		{
-			if ($scope.stat && $scope.learnLessons)
+			if ($scope.stat[0])
 			{
 				$scope.index = ($scope.index + 1) % 2;
 			}

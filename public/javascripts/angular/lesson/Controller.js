@@ -13,11 +13,22 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	{
 		set: function(name, value)
 		{
-			$storage.local.setItem(name, value);
+			$storage.local.setItem(name, JSON.stringify(value));
 		},
-		getInt: function(name)
+		getCurrent: function(name)
 		{
-			return parseInt($storage.local.getItem(name));
+			var l = JSON.parse($storage.local.getItem('lessons'));
+
+			if (l)
+			{
+				return parseInt(l[name].current)
+			}
+
+			return 0;
+		},
+		getLessons: function ()
+		{
+			return JSON.parse($storage.local.getItem('lessons')) || [];;
 		}
 	};
 
@@ -45,6 +56,18 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function nextSubLesson()
 	{
+		function set(a, i, len, completed)
+		{
+			// Устанавливаем текущий
+			a[$stateParams.id] = {
+				current: i,
+				size: len,
+				completed: completed
+			};
+
+			st.set('lessons', a);
+		}
+
 		// Слова BBot'а
 		$scope.textBot = current().defaultBBot;
 
@@ -54,14 +77,21 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		// Индекс текущего подурока
 		var i = $scope.subIndex;
 
+		// Текущий объект статистики уроков
+		var l = st.getLessons();
+
 		if (i !== len)
 		{
 			options.code = initCode(++$scope.subIndex);
-			st.set($stateParams.id + 'subLesson', $scope.subIndex);
+
+			// Устанавливаем текущий урок в хранилище
+			set(l, $scope.subIndex, len);
 		}
 		else
 		{
-			st.set($stateParams.id + 'subLesson', 0);
+			// Устанавливаем текущий урок в хранилище
+			set(l, 0, len, true);
+
 			$state.go('lessons');
 		}
 	}
@@ -94,7 +124,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		});
 	}
 
-	initCode(st.getInt($stateParams.id + 'subLesson') || 0);
+	initCode(st.getCurrent($stateParams.id) || 0);
 
 	//===================================
 	//============== SCOPE ==============
@@ -104,7 +134,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.lesson = lessonProvider($stateParams.id);
 
 	// Индекс под урока
-	$scope.subIndex = st.getInt($stateParams.id + 'subLesson') || 0;
+	$scope.subIndex = st.getCurrent($stateParams.id);
 
 	// Проверка существования урока
 	if (!$scope.lesson)

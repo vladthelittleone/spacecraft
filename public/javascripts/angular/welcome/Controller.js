@@ -6,20 +6,52 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
+		function sum(a, param1, param2, predicate)
+		{
+			var c = 0;
+
+			a.forEach(function (v)
+			{
+				if (v[predicate])
+				{
+					c =+ v[param1];
+				}
+				else
+				{
+					c =+ v[param2];
+				}
+			});
+
+			return c;
+		}
+
 		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic"));
+		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
+
+		// Кол-во подуроков
+		var size = sum(lessons, null, 'size') || 100;
+
+		// Добавляем полное кол-во уроков, если он уже был пройден,
+		// иначе номер текущего урока.
+		var end = sum(lessons, 'size', 'current', 'complete');
+
+		// Вычитаем из общего размера.
+		var notEnd = size - end;
+
 		$scope.index = 0;
 
 		$scope.labels = [];
-		$scope.seriesC = ['Уничтоженные корабли'];
-		$scope.seriesB = ['Собранные бонусы'];
 		$scope.seriesT = ['Общее количество очков'];
+
+		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
+		$scope.dataL = [end, notEnd];
 
 		// Формирует подписи оси ординат исходя из длины массива
 		makeLabels();
 
 		$scope.takeBonus = [[]];
 		$scope.killSpaceCraft = [[]];
-		$scope.totaleScore = [[]];
+		$scope.totalScore = [[]];
 
 		// Складывает в массивы информацию о пользователе
 		makeStatistic();
@@ -67,13 +99,13 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 				{
 					$scope.takeBonus[0].push(s.takenBonus);
 					$scope.killSpaceCraft[0].push(s.killEnemy);
-					$scope.totaleScore[0].push(s.totalScore);
+					$scope.totalScore[0].push(s.totalScore);
 				})
 			}
 		}
 
-		$scope.changeChart = function()
+		$scope.changeChart = function ()
 		{
-			$scope.index = ($scope.index + 1) % 3;
+			$scope.index = ($scope.index + 1) % 2;
 		}
 	}]);

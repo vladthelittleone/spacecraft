@@ -202,17 +202,6 @@ body {
 	margin: 0 auto;
 }
 
-.container-inside .chart-container {
-	width: 100%;
-	height: 100%;
-}
-
-.graphics {
-	height: 80%;
-	width: 90%;
-	margin: 10px;
-}
-
 .red-label {
 	background: rgb(196, 32, 15);
 	border: 1px solid rgb(230, 70, 70);
@@ -297,6 +286,12 @@ body {
 	height: 100%;
 	width: 100%;
 	background: rgba(255, 255, 255, 0.95);
+}
+
+.pages-board .chart-inside {
+	padding: 20px;
+	max-width: 600px;
+	margin: auto;
 }
 
 .pages-board {
@@ -1017,9 +1012,6 @@ body {
 	background-repeat: no-repeat;
 }
 
-.pages-img-spacecraft {
-}
-
 .pages-img {
 	height: 250px;
 	background-position: 50% 50%;
@@ -1028,6 +1020,21 @@ body {
 	background-size: cover;
 	background-repeat: no-repeat;
 	position: relative;
+	overflow: hidden;
+	background-color: #152B39;
+}
+
+.pages-chart-title {
+	padding: 15px;
+	color: white;
+	font-weight: bold;
+	font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+	text-align: center;
+	font-size: 11px;
+	height: 50px;
+	bottom: 0;
+	width: 100%;
+	position: absolute;
 	overflow: hidden;
 	background-color: #152B39;
 }

@@ -32,7 +32,7 @@ fi
 
 if [ $1 = "start" ]; then
 	echo "[Start] Running server"
-	NODE_ENV=production NODE_PATH=. PORT=8080 DEBUG=spacecraft forever --uid SpaceCraftServer -a start bin/www
+	NODE_ENV=production NODE_PATH=. PORT=80 DEBUG=spacecraft forever --uid SpaceCraftServer -a start bin/www
 fi
 
 if [ $1 = "stop" ]; then

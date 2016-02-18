@@ -15,6 +15,7 @@ if [ $1 = "build" ]; then
 	  if [ $? = "0" ]; then
 		cd ..
 		echo "[Build] Bower install success, running gulp build"
+		npm install --global gulp-cli
 		rm -rf build
 		gulp build
 		if [ $? = "0" ]; then

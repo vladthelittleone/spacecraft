@@ -14,6 +14,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 		$scope.seriesB = ['Собранные бонусы'];
 		$scope.seriesT = ['Общее количество очков'];
 
+		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
+		$scope.learnLessons = $storage.local.getItem('AllLessons');
+		$scope.dataL = [$scope.learnLessons, 12 - $scope.learnLessons];
 		// Формирует подписи оси ординат исходя из длины массива
 		makeLabels();
 
@@ -72,8 +75,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 			}
 		}
 
-		$scope.changeChart = function()
+		$scope.changeChart = function ()
 		{
-			$scope.index = ($scope.index + 1) % 3;
+			if ($scope.stat && $scope.learnLessons)
+			{
+				$scope.index = ($scope.index + 1) % 2;
+			}
 		}
 	}]);

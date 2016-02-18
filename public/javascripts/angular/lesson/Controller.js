@@ -56,7 +56,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 		if (i !== len)
 		{
-			$storage.local.setItem('AllLessons',Number($storage.local.getItem('AllLessons') || 0) + 1 );
+			$storage.local.setItem('AllLessons', Number($storage.local.getItem('AllLessons') || 0) + 1 );
 			options.code = initCode(++$scope.subIndex);
 			st.set($stateParams.id + 'subLesson', $scope.subIndex);
 		}

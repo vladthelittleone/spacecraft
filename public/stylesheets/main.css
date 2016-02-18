@@ -1346,3 +1346,13 @@ div.helper:after {
 	font-size: 14px;
 	line-height: 20px;
 }
+
+.lesson-content a {
+	font-weight: 600;
+	text-decoration: underline;
+	color: #337ab7;
+}
+
+.lesson-content a:hover {
+	color: #42b1fd;
+}

@@ -302,12 +302,14 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					{
 						return '<p>Хах, кадет, вы явно умнее космических пиратов! Отлично, идем дальше.</p>' +
 						'<p>В В4К есть поддержка комментариев JavaScript. Комментарии начинаются с <strong>//</strong> и предназначены только для человека.</p>' +
+						'<p class="code">// Комментарий, занимающий одну строку.</p>' +
 						'<p>Комментарии делают ваш код более понятным для вас и вашей команды. Поэтому, если вдруг ваш корабль летит в систему, принадлежащую фракции «PHP», комментарии помогут вам разобраться, где вы могли допустить ошибку.</p>';
 					},
 					instructions:
 					'<ul>' +
 					'<li>Закомментируйте кусок кода в строке 1.</li>' +
-					'<li>Пример комментария: <span class="red-label">// Комментарий</span>.</li>' +
+					'<li>Пример комментария: <span class="red-label">// Этот комментарий для пилота! </span>.</li>' +
+					'<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -345,7 +347,8 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					},
 					instructions:
 					'<ul>' +
-					'<li>Введите строку в редакторе кода.</li>' +
+					'<li>Введите любую строку в редакторе кода.</li>' +
+					'<li>Для углубленного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Типы_данных">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -397,6 +400,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					instructions:
 					'<ul>' +
 					'<li>Введите логическое выражение, при котором система должна вернуть <span class="red-label">true</span>.</li>' +
+					'<li>Для тех кому нужно больше: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Boolean">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -436,13 +440,15 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					content: function ()
 					{
 						return '<p>Надеюсь вы не забыли о своем роботе-компаньоне?</p>' +
-						'<p>Если вы хотите узнать какие-то данные от BBot\'а, можно вызвать <strong>BBotDebug("то, что хотим сказать")</strong>, это нам поможет с выводом нужных параметров и проверкой работоспособности системы.</p>';
+						'<p>Если вы хотите узнать какие-то данные от BBot\'а, можно вызвать:</p>' +
+						'<p class="code">BBotDebug("то, что хотим сказать");</p>' +
+						'<p>В данном случае BBot выведет предложение: \'то, что хотим сказать\'.</p>' +
+						'<p>BBotDebug поможет нам с выводом нужных параметров и проверкой работоспособности системы.</p>';
 					},
 					instructions:
 					'<ul>' +
-					'<li>Выведите значение <span class="red-label">5*3</span></li>' +
-					'<li>На следующей строке выведите текст <span class="red-label">"SpaceCraft"</span></li>'+
-					'<li>Например, если вы захотите вывести на экран "Я есть BBot!", то нужно выполнить команду: <span class="red-label">BBotDebug("Я есть BBot!");</span></li>'+
+					'<li>Выведите значение <span class="red-label">5*3</span> с помощью команды  <span class="red-label">BBotDebug</span>.</li>' +
+					'<li>На следующей строке выведите текст <span class="red-label">"SpaceCraft"</span> с помощью команды  <span class="red-label">BBotDebug</span>.</li>'+
 					'</ul>',
 					hint: [
 						{
@@ -505,6 +511,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					instructions:
 					'<ul>' +
 					'<li>Поменять в коде операторы и числа так, чтобы BBotDebug выводили во всех случаях true.</li>' +
+					'<li>Все еще не понятно, тогда вам сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Операторы_сравнения">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -595,6 +602,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					'<li>Изучите комментарии к коду.</li>' +
 					'<li>Изменить условие так, чтобы система не была уничтожена.</li>' +
 					'<li>Изменить условие так, чтобы BBot вывел сообщение о состоянии параметров.</li>' +
+					'<li>Щепотка дополнительной информации: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/if...else">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -668,8 +676,9 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					title: 'Условия, условия, условия...',
 					content: function ()
 					{
-						return '<p>Если условие неверно, то выполняется необязательный блок else:</p>' +
+						return '<p>Если if-условие неверно, то выполняется необязательный блок else:</p>' +
 							'<p class="code">if ( условие ) <br>{<br>	блок1<br>}<br>else<br>{<br>	блок2<br>}</strong></p>' +
+							'<p>Заметим, что if не может существовать без else, но не наоборот.</p>' +
 							'<p>Теперь, когда мы разобрались с этим оператором, нужно решить проблему с ограничением контроля BBot\'а.</p>'
 					},
 					instructions:
@@ -677,6 +686,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					'<li>Изучите комментарии к коду.</li>' +
 					'<li>Изменить условие так, чтобы система не была передана под управление BBot\'у.</li>' +
 					'<li>Изменить условие так, чтобы система поставила ограничение на управление для BBot\'а.</li>' +
+					'<li>Щепотка дополнительной информации: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/if...else">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -755,6 +765,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					'<li>Изучите комментарии к коду.</li>' +
 					'<li>Присвойте значение <span class="red-label">10</span> переменной <span class="red-label">ememies</span> и выведите его с помощью <span>BBotDebug</span>.</li>' +
 					'<li>Не забудьте дать команду об отступлении.</li>' +
+					'<li>Для любознательных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Переменные">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{
@@ -865,7 +876,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							'<li>равенство / неравенство (===, !==)</li>' +
 							'</ul>' +
 							'<p><strong>Условные оператор</strong></p>' +
-							'<p>Оператор if-else позволяет выполнять определенный блок кода в зависимости от значения условия.</p> ' +
+							'<p>Оператор if...else позволяет выполнять определенный блок кода в зависимости от значения условия.</p> ' +
 							'<p><strong>Переменные</strong></p>' +
 							'<p>Переменные используются для хранения информации.</p>'
 					},

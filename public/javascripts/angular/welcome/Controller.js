@@ -24,7 +24,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		$scope.takeBonus = [[]];
 		$scope.killSpaceCraft = [[]];
-		$scope.totaleScore = [[]];
+		$scope.totalScore = [[]];
 
 		// Складывает в массивы информацию о пользователе
 		makeStatistic();
@@ -72,7 +72,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 				{
 					$scope.takeBonus[0].push(s.takenBonus);
 					$scope.killSpaceCraft[0].push(s.killEnemy);
-					$scope.totaleScore[0].push(s.totalScore);
+					$scope.totalScore[0].push(s.totalScore);
 				})
 			}
 		}

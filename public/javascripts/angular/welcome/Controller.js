@@ -6,19 +6,46 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
-		var stat = $scope.stat = [
-			JSON.parse($storage.local.getItem("statistic")),
-			$storage.local.getItem('AllLessons') || 0
-		];
+		function sum(a, param1, param2, predicate)
+		{
+			var c = 0;
+
+			a.forEach(function (v)
+			{
+				if (v[predicate])
+				{
+					c =+ v[param1];
+				}
+				else
+				{
+					c =+ v[param2];
+				}
+			});
+
+			return c;
+		}
+
+		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic"));
+		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
+
+		// Кол-во подуроков
+		var size = sum(lessons, null, 'size') || 100;
+
+		// Добавляем полное кол-во уроков, если он уже был пройден,
+		// иначе номер текущего урока.
+		var end = sum(lessons, 'size', 'current', 'complete');
+
+		// Вычитаем из общего размера.
+		var notEnd = size - end;
+
 		$scope.index = 0;
 
 		$scope.labels = [];
-		$scope.seriesC = ['Уничтоженные корабли'];
-		$scope.seriesB = ['Собранные бонусы'];
 		$scope.seriesT = ['Общее количество очков'];
 
 		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
-		$scope.dataL = [stat[1], 12 - stat[1]];
+		$scope.dataL = [end, notEnd];
+
 		// Формирует подписи оси ординат исходя из длины массива
 		makeLabels();
 
@@ -51,9 +78,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		function makeLabels()
 		{
-			if (stat[0])
+			if (stat)
 			{
-				for (var i = 1; i <= stat[0].length; i++)
+				for (var i = 1; i <= stat.length; i++)
 				{
 					$scope.labels.push(i);
 				}
@@ -66,9 +93,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		function makeStatistic()
 		{
-			if (stat[0])
+			if (stat)
 			{
-				stat[0].forEach(function (s)
+				stat.forEach(function (s)
 				{
 					$scope.takeBonus[0].push(s.takenBonus);
 					$scope.killSpaceCraft[0].push(s.killEnemy);
@@ -79,9 +106,6 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		$scope.changeChart = function ()
 		{
-			if ($scope.stat[0])
-			{
-				$scope.index = ($scope.index + 1) % 2;
-			}
+			$scope.index = ($scope.index + 1) % 2;
 		}
 	}]);

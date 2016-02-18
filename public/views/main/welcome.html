@@ -37,16 +37,35 @@
 			</div>
 		</div>
 		<div class="container-50">
+
+
 			<div class="container-inside" ng-show="index === 1" ng-click="changeChart()">
-				<canvas id="line" class="chart chart-line graphics" chart-data="totalScore"
-						chart-labels="labels" chart-legend="true" chart-series="seriesT">
-				</canvas>
+
+				<div class="chart-inside">
+					<canvas id="line" ng-show="index === 1"
+							class="chart chart-line"
+							chart-data="totalScore"
+							chart-labels="labels"
+							chart-series="seriesT">
+					</canvas>
+				</div>
+
+				<div class="pages-chart-title">ГРАФИК ПОЛУЧЕННЫХ ОЧКОВ</div>
+
 			</div>
 
 			<div class="container-inside" ng-show="index === 0" ng-click="changeChart()">
-				<canvas id="pie" class="chart chart-pie graphics"
-						chart-data="dataL" chart-labels="labelsL">
-				</canvas>
+
+				<div class="chart-inside">
+					<canvas id="pie"
+							class="chart chart-pie"
+							chart-data="dataL"
+							chart-labels="labelsL">
+					</canvas>
+				</div>
+
+				<div class="pages-chart-title">ДИАГРАММА ИЗУЧЕННЫХ УРОКОВ</div>
+
 			</div>
 
 
@@ -56,7 +75,7 @@
 	<div class="rocket-white-img pages-footer-img "></div>
 
 	<div class="pages-footer"></div>
-	<div class="pages-footer-text">Доступны новые уроки!</div>
+	<div class="pages-footer-text" ui-sref="lessons">Доступны новые уроки!</div>
 
 	<div class="toolbar-min">
 		<img class="logo"

@@ -5,6 +5,6 @@ var gulp = require('gulp');
 var bower = require('gulp-bower');
 
 module.exports = function() {
-    return bower({ directory: './bower_components', cwd: './client' })
+    return bower({ directory: './bower_components', cwd: './public' })
         .pipe(gulp.dest('./build/bower_components'))
 };

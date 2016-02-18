@@ -6,8 +6,9 @@ var gulp = require('./gulp')([
     'watch',
     'bower',
     'images',
-    'browserify'
+    'browserify',
+	'move'
 ]);
 
-gulp.task('build', ['packaging', 'bower', 'images']);
+gulp.task('build', ['packaging', 'bower', 'images', 'move']);
 gulp.task('default', ['build', 'server', 'watch']);

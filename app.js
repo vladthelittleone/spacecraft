@@ -20,7 +20,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+if (app.get('env') === 'development')
+{
+	app.use(express.static(path.join(__dirname, 'public')));
+}
+else
+{
+	app.use(express.static(path.join(__dirname, 'build')));
+}
 
 // Мидлвер
 app.use('/', routes);

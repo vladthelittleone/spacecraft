@@ -5,7 +5,7 @@ var gulp       = require('gulp');
 var imagemin   = require('gulp-imagemin');
 
 module.exports = function(){
-    return gulp.src('./client/resources/assets/**', { base: './client' })
+    return gulp.src('./public/images/**', { base: './public' })
         .pipe(imagemin())
         .pipe(gulp.dest('./build/'));
 };

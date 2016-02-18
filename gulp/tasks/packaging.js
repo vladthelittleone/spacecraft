@@ -11,7 +11,7 @@ var autoprefixer = require('gulp-autoprefixer');
 
 module.exports = function ()
 {
-    return gulp.src(['./client/index.html', './client/views/**/*.html'], {base: './client'})
+    return gulp.src(['./public/index.html', './public/views/**/*.html'], {base: './public'})
         .pipe(useref())
         .pipe(gulpif('*.js', uglify()))
         .pipe(gulpif('*.css', autoprefixer('last 2 versions')))

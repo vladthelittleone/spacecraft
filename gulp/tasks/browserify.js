@@ -6,7 +6,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 
 module.exports = function() {
-    return browserify('client/scripts/app.js')
+    return browserify('public/javascripts/app.js')
         .bundle()
         // Передаем имя файла, который получим на выходе, vinyl-source-stream
         .pipe(source('bundle.js'))

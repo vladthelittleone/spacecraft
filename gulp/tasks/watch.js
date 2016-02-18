@@ -7,9 +7,9 @@ var notify = require('gulp-notify');
 module.exports = function ()
 {
     gulp.watch([
-            'client/views/*.html',
-            'client/*.html',
-            'client/resources/styles/*.css'
+            'public/views/*.html',
+            'public/*.html',
+            'public/resources/styles/*.css'
         ],
         ['packaging']);
 };

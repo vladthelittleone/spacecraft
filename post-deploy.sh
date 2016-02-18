@@ -7,15 +7,16 @@ echo "[Deploy] Running npm install"
 npm install
 if [ $? = "0" ]; then
   echo "[Deploy] Npm install success, running Bower install"
-  bower install
+  cd public
+  bower install --allow-root
   if [ $? = "0" ]; then
+  	cd ..
     echo "[Deploy] Bower install success, running build"
-    rm -rf dist
-    gulp --gulpfile gulpfile-production.js
+    rm -rf build
+    gulp build
     if [ $? = "0" ]; then
       echo "[Deploy] Build success, deploying files"
-      rm -rf deploy
-      mv dist deploy
+	  NODE_ENV=production NODE_PATH=. PORT=8080 DEBUG=spacecraft node bin/www
     else
       echo "[Deploy] Build failed, aborting deploy"
     fi

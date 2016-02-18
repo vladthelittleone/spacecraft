@@ -120,7 +120,7 @@ function ($scope, $storage, $http, autocompleter)
 	function errorWrapper(value)
 	{
 		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
-			'<p>### Дроид BBot не может понятb к0д 4еловека</p>' +
+			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
 			'<p class="red-label">### 0шибка: ' + value + '</p>' +
 			'<p>### Пожалуйста исправте ситуацию.</p>';
 	}

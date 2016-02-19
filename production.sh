@@ -15,6 +15,7 @@ if [ $1 = "build" ]; then
 		echo "[Build] Bower install success, running gulp build"
 		rm -rf build
 		gulp build
+		gulp rev
 		if [ $? = "0" ]; then
 		  echo "[Build] Gulp build success"
 		else

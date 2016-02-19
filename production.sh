@@ -6,8 +6,6 @@
 if [ $1 = "build" ]; then
 	echo "[Build] Running npm install"
 	npm install
-	echo "[Build] Running forever install"
-	npm install forever -g
 	if [ $? = "0" ]; then
 	  echo "[Build] Npm install success, running Bower install"
 	  cd public
@@ -15,7 +13,6 @@ if [ $1 = "build" ]; then
 	  if [ $? = "0" ]; then
 		cd ..
 		echo "[Build] Bower install success, running gulp build"
-		npm install --global gulp-cli
 		rm -rf build
 		gulp build
 		if [ $? = "0" ]; then
@@ -39,4 +36,11 @@ fi
 if [ $1 = "stop" ]; then
 	echo "[Stop] Stop server"
  	forever stop SpaceCraftServer
+fi
+
+if [ $1 = "tools" ]; then
+	npm install forever -g
+	npm install -g bower
+	npm install --g gulp-cli
+	npm install --save-dev gulp
 fi

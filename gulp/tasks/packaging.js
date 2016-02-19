@@ -8,6 +8,8 @@ var useref = require('gulp-useref');
 var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
 var autoprefixer = require('gulp-autoprefixer');
+var rev = require('gulp-rev');
+var revCollector = require('gulp-rev-collector');
 
 module.exports = function ()
 {
@@ -16,6 +18,10 @@ module.exports = function ()
         .pipe(gulpif('*.js', uglify()))
         .pipe(gulpif('*.css', autoprefixer('last 2 versions')))
         .pipe(gulpif('*.css', minifyCss()))
-        .pipe(livereload())
+		.pipe(gulpif('*.css', rev()))
+		.pipe(gulpif('*.js', rev()))
+		.pipe(livereload())
+		.pipe(gulp.dest('build'))
+		.pipe(rev.manifest())
         .pipe(gulp.dest('build'));
 };

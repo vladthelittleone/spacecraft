@@ -127,7 +127,7 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					},
 					instructions:
 					'<ul>' +
-					'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="red-label">«Джайна»</span>.</li>' +
+					'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="red-label">"Джайна"</span>.</li>' +
 					'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 					'</ul>',
 					hint: [

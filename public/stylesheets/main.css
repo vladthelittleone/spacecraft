@@ -1270,6 +1270,12 @@ div.helper:after {
 }
 
 @media (max-width: 800px) {
+	.container-25,
+	.container-50,
+	.container-75 {
+		width: 100%;
+	}
+
 	.bbot-img {
 		display: none;
 	}

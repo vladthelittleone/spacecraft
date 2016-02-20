@@ -6,6 +6,16 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 	function ($scope, $storage, $state, $sce)
 	{
+		var empty = [
+			{
+				killEnemy: 0,
+				takenBonus: 0,
+				totalScore: 0,
+				acceptDamage: 0,
+				takenDamage: 0
+			}
+		];
+
 		function sum(a, param1, param2, predicate)
 		{
 			var c = 0;
@@ -25,7 +35,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 			return c;
 		}
 
-		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic"));
+		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic")) || empty;
 		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
 
 		// Кол-во подуроков
@@ -33,7 +43,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 
 		// Добавляем полное кол-во уроков, если он уже был пройден,
 		// иначе номер текущего урока.
-		var end = sum(lessons, 'size', 'current', 'complete');
+		var end = sum(lessons, 'size', 'current', 'completed');
 
 		// Вычитаем из общего размера.
 		var notEnd = size - end;

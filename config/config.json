@@ -1,4 +1,13 @@
 {
   "port": 3000,
-  "database": {}
+  "database": {
+	  "uri":  "mongodb://localhost/spacecraft",
+	  "options": {
+		  "server": {
+			  "socketOptions": {
+				  "keepAlive": 1
+			  }
+		  }
+	  }
+  }
 }

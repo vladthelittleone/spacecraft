@@ -3,11 +3,6 @@ var User = require('models/user').User;
 var ObjectID = require('mongodb').ObjectID;
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
 router.get('/user/:id', function (req, res, next)
 {
 	try
@@ -17,6 +12,7 @@ router.get('/user/:id', function (req, res, next)
 	catch (e)
 	{
 		next(404);
+
 		return;
 	}
 
@@ -26,10 +22,12 @@ router.get('/user/:id', function (req, res, next)
 		{
 			return next(err);
 		}
+
 		if (!user)
 		{
 			return next(404);
 		}
+
 		res.json(user);
 	});
 });

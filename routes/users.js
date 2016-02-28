@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var User = require('models/user').User;
 
-/* GET users listing. */
 router.get('/', function (req, res, next)
 {
 	User.find({}, function (err, users)
@@ -11,6 +10,7 @@ router.get('/', function (req, res, next)
 		{
 			return next(err);
 		}
+
 		res.json(users);
 	})
 });

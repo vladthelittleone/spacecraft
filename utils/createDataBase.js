@@ -4,8 +4,7 @@ var async = require('async');
 async.series([
 	open,
 	dropDatabase,
-	requireModels,
-	createUsers
+	requireModels
 ], function (err)
 {
 	console.log(arguments);
@@ -44,20 +43,5 @@ function requireModels(callback)
 	{
 		// Проверка создания индекса.
 		mongoose.models[modelName].ensureIndexes(callback);
-	}, callback);
-}
-
-function createUsers(callback)
-{
-	var users = [
-		{username: 'Вася', password: 'supervasya'},
-		{username: 'Петя', password: '123'},
-		{username: 'admin', password: 'thetruehero'}
-	];
-
-	async.each(users, function (userData, callback)
-	{
-		var user = new mongoose.models.User(userData);
-		user.save(callback);
 	}, callback);
 }

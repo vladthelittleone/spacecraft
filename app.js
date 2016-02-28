@@ -35,7 +35,7 @@ app.use(session({
 	resave: config.get('session:resave'),
 	saveUninitialized: config.get('session:saveUninitialized'),
 	cookie: config.get('session:cookie'),
-	store: new MongoStore({ mongooseConnection: mongoose.connection })
+	store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
 if (app.get('env') === 'development')
@@ -56,11 +56,24 @@ app.use(function (req, res, next)
 {
 	var err = new Error('Not Found');
 	err.status = 404;
+	next(err);
+});
+
+const HttpError = require('error').HttpError;
+
+// catch 404 and forward to error handler
+app.use(function (err, req, res, next)
+{
+	if (typeof err == 'number')
+	{
+		err = new HttpError(err);
+	}
+
+	logger.debug(err.message);
+
+	res.status(err.status || 500);
 	res.send(err.message);
 	res.end();
-
-	// TODO переделать error-handlers
-	//next(err);
 });
 
 // error handlers

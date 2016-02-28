@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.result');
 
-app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage',
-	function ($scope, $state, statistics, $storage)
+app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage', '$http',
+	function ($scope, $state, statistics, $storage, $http)
 	{
 		$scope.player = statistics.getPlayer();
 
@@ -23,6 +23,13 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 		});
 
 		$storage.local.setItem("statistic", JSON.stringify(stat));
+
+		$http({
+			url: '/statistic',
+			method: 'POST',
+			data: JSON.parse($storage.local.getItem("statistic")),
+			headers: {'Content-Type': 'application/json'}
+		});
 
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,

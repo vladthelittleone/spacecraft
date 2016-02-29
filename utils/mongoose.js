@@ -1,5 +1,6 @@
 /**
- * Created by vladthelittleone on 27.02.16.
+ * @since 03.02.16
+ * @author Skurishin Vladislav
  */
 var mongoose = require('mongoose');
 var config = require('config');

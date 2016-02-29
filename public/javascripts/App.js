@@ -47,3 +47,15 @@ app.config(['$urlRouterProvider','ChartJsProvider', function ($urlRouterProvider
 		datasetFill: false
 	});
 }]);
+
+app.run(['$http', function ($http)
+{
+	$http({
+		method: 'POST',
+		url: '/login',
+		data: {
+			username: "vlad",
+			password: "sadsadasds"
+		}
+	});
+}]);

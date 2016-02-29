@@ -24,10 +24,12 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 
 		$storage.local.setItem("statistic", JSON.stringify(stat));
 
+		console.log(stat[stat.length - 1]);
+
 		$http({
 			url: '/statistic',
 			method: 'POST',
-			data: JSON.parse($storage.local.getItem("statistic")),
+			data: stat[stat.length - 1],
 			headers: {'Content-Type': 'application/json'}
 		});
 

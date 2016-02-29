@@ -10,8 +10,6 @@ const session = require('express-session');
 const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
-const routes = require('./routes/index');
-const users = require('./routes/users');
 
 const app = express();
 
@@ -19,7 +17,6 @@ const app = express();
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(httpLogger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
@@ -47,67 +44,33 @@ else
 	app.use(express.static(path.join(__dirname, 'build')));
 }
 
-// Мидлвер
-app.use('/', routes);
-app.use('/users', users);
+require('./routes')(app);
+
+app.use(require('./middlewares/sendHttpError'));
+app.use(require('./middlewares/loadUser'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next)
 {
-	var err = new Error('Not Found');
+	var err = new Error('На просторах вселенной страница не найдена!');
 	err.status = 404;
 	next(err);
 });
 
 const HttpError = require('error').HttpError;
 
-// catch 404 and forward to error handler
 app.use(function (err, req, res, next)
 {
+	// Проверка на error/HttpError
 	if (typeof err == 'number')
 	{
 		err = new HttpError(err);
 	}
 
-	logger.debug(err.message);
+	logger.error(err);
 
-	res.status(err.status || 500);
-	res.send(err.message);
-	res.end();
+	// middlewares/sendHttpError
+	res.sendHttpError(err);
 });
-
-// error handlers
-//
-// development error handler
-// will print stacktrace
-//if (app.get('env') === 'development')
-//{
-//	app.use(function (err, req, res, next)
-//	{
-//		res.status(err.status || 500);
-//		res.render('error', {
-//			message: err.message,
-//			error: err
-//		});
-//	});
-//}
-//
-// production error handler
-// no stacktraces leaked to user
-//app.use(function (err, req, res, next)
-//{
-//	if (typeof err == 'number')
-//	{ // next(404);
-//		err = new HttpError(err);
-//	}
-//
-//	logger.error(err);
-//	res.status(err.status || 500);
-//	res.render('error', {
-//		message: err.message,
-//		error: {}
-//	});
-//});
-
 
 module.exports = app;

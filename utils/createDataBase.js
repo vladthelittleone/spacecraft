@@ -1,3 +1,7 @@
+/**
+ * @since 03.02.16
+ * @author Skurishin Vladislav
+ */
 var mongoose = require('utils/mongoose');
 var async = require('async');
 

@@ -1,5 +1,6 @@
 /**
- * Created by vladthelittleone on 03.02.16.
+ * @since 03.02.16
+ * @author Skurishin Vladislav
  */
 var winston = require('winston');
 var ENV = process.env.NODE_ENV;

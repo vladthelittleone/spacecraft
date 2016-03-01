@@ -11,6 +11,11 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		$state.go('welcome');
 	}
 
+	function error (res)
+	{
+		$scope.error = res.data;
+	}
+
 	authentication.isLoggedIn(
 	{
 		success: toWelcome
@@ -24,7 +29,8 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		authentication.login({
 			username: email,
 			password: pswrd,
-			success: toWelcome
+			success: toWelcome,
+			error: error
 		});
 	}
 }]);

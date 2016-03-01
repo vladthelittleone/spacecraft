@@ -9,10 +9,31 @@ var User = require('models/user').User;
 var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
+function isBlank()
+{
+	var isBlank = false;
+
+	var args = Array.prototype.slice.call(arguments, 0);
+
+	args.forEach(function (v)
+	{
+		if (!v || !v.trim())
+		{
+			isBlank = true;
+		}
+	});
+
+	return isBlank;
+}
 router.post('/', function (req, res, next)
 {
 	var username = req.body.username;
 	var password = req.body.password;
+
+	if (isBlank(username, password))
+	{
+		return next(new HttpError(400, 'Некорректный пароль или email'));
+	}
 
 	User.authorize(username, password, function (err, user)
 	{

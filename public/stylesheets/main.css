@@ -1377,6 +1377,13 @@ div.helper:after {
 	font-size: 1.3em;
 }
 
+.login-error {
+	maring-top: 10px;
+	color: #C61F0E;
+	height: 35px;
+	width: 100%;
+}
+
 .login-sub-title {
 	font-size: 1.0em;
 	color: white;
@@ -1415,9 +1422,9 @@ div.helper:after {
 
 .login-button-group button {
 	width: 49%;
+	height: 35px;
 	border: 0;
 	float: left;
-	height: 35px;
 	background: rgba(21, 43, 57, 0.97);;
 	color: white;
 	outline: 0;
@@ -1440,6 +1447,7 @@ div.helper:after {
 
 .login-button-group {
 	width: 60%;
+	height: 35px;
 	margin: auto;
 }
 
@@ -1453,7 +1461,7 @@ div.helper:after {
 	background: rgba(255,255,255,0.97);
 }
 
-.login-landing .first {
+.login-landing .login-main {
 	height: 100%;
 }
 
@@ -1551,15 +1559,14 @@ div.helper:after {
 		width: 100%;
 	}
 
-	.bbot-img {
-		display: none;
-	}
-
-	.quote {
-		display: none;
-	}
-
-	.bbot-triangle {
+	.login-about,
+	.login-question,
+	.login-copyright,
+	.bbot-img,
+	.bbot-triangle,
+	.quote,
+	.pane-title,
+	.login-footer {
 		display: none;
 	}
 
@@ -1572,10 +1579,6 @@ div.helper:after {
 		position: inherit;
 	}
 
-	.pane-title {
-		display: none;
-	}
-
 	.lesson-content-overflow {
 		top: 0;
 	}
@@ -1585,10 +1588,11 @@ div.helper:after {
 	}
 
 	.login-right-container {
+		margin-top: 20px;
 		width: 100%;
 	}
 
-	.login-container {
+	.login-main {
 		display: block;
 	}
 }

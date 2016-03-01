@@ -26,12 +26,12 @@ app.factory('authentication', ['$http', '$state', function ($http, $state)
 		.then(function (res)
 		{
 			user = res.user;
-			success && success();
+			success && success(res);
 		},
 		function (res)
 		{
 			user = null;
-			error && error();
+			error && error(res);
 		});
 	};
 
@@ -47,11 +47,11 @@ app.factory('authentication', ['$http', '$state', function ($http, $state)
 		.then(function (res)
 		{
 			user = null;
-			success && success();
+			success && success(res);
 		},
-		function ()
+		function (res)
 		{
-			error && error();
+			error && error(res);
 		});
 	};
 
@@ -67,12 +67,12 @@ app.factory('authentication', ['$http', '$state', function ($http, $state)
 		.then(function (res)
 		{
 			user = res.user;
-			success && success();
+			success && success(res);
 		},
 		function (res)
 		{
 			user = null;
-			error && error();
+			error && error(res);
 		});
 	};
 

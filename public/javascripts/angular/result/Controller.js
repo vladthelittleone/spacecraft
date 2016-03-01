@@ -24,13 +24,15 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 
 		$storage.local.setItem("statistic", JSON.stringify(stat));
 
-		console.log(stat[stat.length - 1]);
-
 		$http({
 			url: '/statistic',
 			method: 'POST',
 			data: stat[stat.length - 1],
 			headers: {'Content-Type': 'application/json'}
+		}).success(function(data,status,headers,config){
+			console.log("all right");
+		}).error(function(data, status, headers, config){
+			console.log("Error comes");
 		});
 
 		VK.Widgets.Group("vk_groups", {

@@ -229,7 +229,8 @@ body {
 
 .container-white-board,
 .result-background,
-.pages-background {
+.pages-background,
+.login-background {
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -246,10 +247,16 @@ body {
 	padding-bottom: 60px;
 }
 
+.login-background {
+	z-index: -1000;
+	background-image: url('../images/space.png');
+	background-size: cover;
+}
+
 .result-background {
 	background-image: url('../images/space.png');
 	background-size: cover;
-	padding-top: 60px;
+	padding-top: 5%;
 	padding-bottom: 60px;
 }
 
@@ -1269,53 +1276,6 @@ div.helper:after {
 	text-decoration: none;
 }
 
-@media (max-width: 800px) {
-	.container-25,
-	.container-50,
-	.container-75 {
-		width: 100%;
-	}
-
-	.bbot-img {
-		display: none;
-	}
-
-	.quote {
-		display: none;
-	}
-
-	.bbot-triangle {
-		display: none;
-	}
-
-	.bbot-hologram {
-		margin-right: 0;
-		background: transparent;
-	}
-
-	.bbot-hologram p {
-		position: inherit;
-	}
-
-	.pane-title {
-		display: none;
-	}
-
-	.lesson-content-overflow {
-		top: 0;
-	}
-}
-
-@media (max-height: 400px) {
-	.lesson-content-overflow {
-		bottom: 0;
-	}
-
-	div.helper {
-		display: none;
-	}
-}
-
 .underline {
 	text-decoration: underline;
 }
@@ -1368,4 +1328,184 @@ div.helper:after {
 
 .lesson-content a:hover {
 	color: #42b1fd;
+}
+
+.black-back {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	background: rgba(0, 0, 0, 0.50);
+}
+
+.login-vertical-center {
+	width: 80%;
+	margin: auto;
+	height: 100%;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.login-left-container {
+	width: 60%;
+	float: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.login-right-container {
+	width: 40%;
+	float: right;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.login-title {
+	color: white;
+	font-size: 1.7em;
+	font-weight: bold;
+	text-align: center;
+}
+
+.login-input-title {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: white;
+	font-size: 1.3em;
+}
+
+.login-sub-title {
+	font-size: 1.0em;
+	color: white;
+	text-align: center;
+}
+
+.login-input {
+	width: 60%;
+	margin: auto;
+}
+
+.login-input input,
+.login-input label {
+	width: 100%;
+}
+
+.login-input input {
+	outline: 0;
+	border: 0;
+	color: #152B39;
+	height: 35px;
+	padding: 10px;
+	font-weight: 300;
+	font-family: "Courier New", serif;
+}
+
+.login-logo {
+	width: 100%;
+	display: inline-block;
+}
+
+.login-img {
+	width: 60%;
+	margin: auto;
+}
+
+.login-button-group button {
+	width: 49%;
+	border: 0;
+	float: left;
+	height: 35px;
+	background: #152B39;
+	color: white;
+	outline: 0;
+}
+
+.login-button-group button:hover {
+	background: #264d66;
+}
+
+.login-button-group span {
+	overflow: hidden;
+	white-space: nowrap;
+	display: block;
+	text-overflow: ellipsis;
+}
+
+.login-button-group .float-right {
+	float: right;
+}
+
+.login-button-group {
+	width: 60%;
+	margin: auto;
+}
+
+.login-container {
+	overflow-y: auto;
+	display: table;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+@media (max-width: 800px) {
+	.container-25,
+	.container-50,
+	.container-75 {
+		width: 100%;
+	}
+
+	.bbot-img {
+		display: none;
+	}
+
+	.quote {
+		display: none;
+	}
+
+	.bbot-triangle {
+		display: none;
+	}
+
+	.bbot-hologram {
+		margin-right: 0;
+		background: transparent;
+	}
+
+	.bbot-hologram p {
+		position: inherit;
+	}
+
+	.pane-title {
+		display: none;
+	}
+
+	.lesson-content-overflow {
+		top: 0;
+	}
+
+	.login-left-container {
+		width: 100%;
+	}
+
+	.login-right-container {
+		width: 100%;
+	}
+
+	.login-container {
+		display: block;
+	}
+}
+
+@media (max-height: 400px) {
+	.lesson-content-overflow {
+		bottom: 0;
+	}
+
+	div.helper {
+		display: none;
+	}
 }

@@ -9,8 +9,6 @@ var User = require('models/user').User;
 var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
-var log = require('utils/log')(module);
-
 router.post('/', function (req, res, next)
 {
 	var username = req.body.username;

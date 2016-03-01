@@ -4,10 +4,11 @@
 var express = require('express');
 var router = express.Router();
 
-router.post('/statistic', function (req, res, next)
+router.post('/', function (req, res, next)
 {
-	console.log('in post blabla');
-	console.log(req.body.acceptDamage);
+	if(req.session.user){
+
+	}
 	res.send(200);
 });
 

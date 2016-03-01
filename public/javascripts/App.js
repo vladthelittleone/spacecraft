@@ -15,6 +15,7 @@ var app = angular.module('spacecraft', [
 	'ui.layout',
 	'spacecraft.storage',
 	'spacecraft.autocompleter',
+	'spacecraft.authentication',
 	'spacecraft.statistics',
 	'spacecraft.lessonProvider',
 	'spacecraft.interpreter',
@@ -25,13 +26,15 @@ var app = angular.module('spacecraft', [
 	'spacecraft.result',
 	'spacecraft.welcome',
 	'spacecraft.lessons',
+	'spacecraft.login',
 	'spacecraft.lessonBoard',
 	'spacecraft.lesson',
 	'spacecraft.quick',
 	'spacecraft.repeatFinished'
 ]);
 
-app.config(['$urlRouterProvider','ChartJsProvider', function ($urlRouterProvider, ChartJsProvider)
+app.config(['$locationProvider', '$urlRouterProvider', 'ChartJsProvider',
+	function ($locationProvider, $urlRouterProvider, ChartJsProvider)
 {
 	// For any unmatched url, send to ''
 	$urlRouterProvider.otherwise('/');
@@ -48,14 +51,15 @@ app.config(['$urlRouterProvider','ChartJsProvider', function ($urlRouterProvider
 	});
 }]);
 
-app.run(['$http', function ($http)
+app.run(['authentication', '$rootScope', '$state', function (authentication, $rootScope, $state)
 {
-	$http({
-		method: 'POST',
-		url: '/login',
-		data: {
-			username: "vlad",
-			password: "sadsadasds"
-		}
+	$rootScope.$on('$stateChangeSuccess', function ()
+	{
+		authentication.isLoggedIn(
+		{
+			error: function () {
+				$state.go('login');
+			}
+		});
 	});
 }]);

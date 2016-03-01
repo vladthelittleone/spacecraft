@@ -44,10 +44,10 @@ else
 	app.use(express.static(path.join(__dirname, 'build')));
 }
 
-require('./routes')(app);
-
 app.use(require('./middlewares/sendHttpError'));
 app.use(require('./middlewares/loadUser'));
+
+require('./routes')(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next)
@@ -67,7 +67,10 @@ app.use(function (err, req, res, next)
 		err = new HttpError(err);
 	}
 
-	logger.error(err);
+	if (app.get('env') === 'development')
+	{
+		logger.error(err);
+	}
 
 	// middlewares/sendHttpError
 	res.sendHttpError(err);

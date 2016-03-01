@@ -9,8 +9,6 @@ var User = require('models/user').User;
 var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
-var log = require('utils/log')(module);
-
 router.post('/', function (req, res, next)
 {
 	var username = req.body.username;
@@ -33,6 +31,16 @@ router.post('/', function (req, res, next)
 		req.session.user = user._id;
 		res.send({});
 	});
+});
+
+router.get('/check', function (req, res, next)
+{
+	if (!req.session.user)
+	{
+		return next(new HttpError(401, "Вы не авторизованы"));
+	}
+
+	res.send({});
 });
 
 module.exports = router;

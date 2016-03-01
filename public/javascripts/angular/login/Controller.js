@@ -4,28 +4,27 @@
  */
 var app = angular.module('spacecraft.login');
 
-app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
+app.controller('LoginController', ['$scope', '$state', 'authentication', function ($scope, $state, authentication)
 {
+	function toWelcome ()
+	{
+		$state.go('welcome');
+	}
+
+	authentication.isLoggedIn(
+	{
+		success: toWelcome
+	});
+
 	$scope.login = function ()
 	{
 		var email = $scope.email;
 		var pswrd = $scope.password;
 
-		$http({
-			method: 'POST',
-			data: {
-				username: email,
-				password: pswrd
-			},
-			url: '/login'
-		})
-		.then(function success (response)
-		{
-			console.log(response);
-		},
-		function error (response)
-		{
-			console.log(response);
+		authentication.login({
+			username: email,
+			password: pswrd,
+			success: toWelcome
 		});
 	}
 }]);

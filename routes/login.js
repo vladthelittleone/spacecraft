@@ -33,4 +33,14 @@ router.post('/', function (req, res, next)
 	});
 });
 
+router.get('/check', function (req, res, next)
+{
+	if (!req.session.user)
+	{
+		return next(new HttpError(401, "Вы не авторизованы"));
+	}
+
+	res.send({});
+});
+
 module.exports = router;

@@ -325,7 +325,7 @@ body {
 .pages-footer-text {
 	cursor: default;
 	position: fixed;
-	right: 250px;
+	right: 150px;
 	bottom: 13px;
 	color: white;
 }
@@ -1009,7 +1009,7 @@ body {
 	position: fixed;
 	bottom: 0;
 	top: auto;
-	left: 125px;
+	left: 150px;
 	height: 70px;
 	z-index: 2000;
 	width: 70px;
@@ -1527,6 +1527,23 @@ div.helper:after {
 	width: 50%;
 }
 
+.welcome-logout {
+	color: white;
+	padding-top: 2px;
+	cursor: pointer;
+	text-align: center;
+	position: absolute;
+	right: 50px;
+	width: 25px;
+	height: 25px;
+}
+
+.welcome-logout:hover {
+	color: #fff;
+	text-decoration: none;
+	background: #1D3C50;
+}
+
 @media (max-width: 800px) {
 	.container-25,
 	.container-50,
@@ -1584,18 +1601,4 @@ div.helper:after {
 	div.helper {
 		display: none;
 	}
-}
-
-section.parallax-container {
-	max-width: 960px;
-	margin: 0 auto;
-}
-
-section.parallax {
-	background-image: url("https://s3.amazonaws.com/media.launchrock.com/assets/sites/site-epx0rpcbkhdi8m62rkbm1ax06/sldbgp-da77f7e0901341978f3cd8654f3a0c36_15_1600.jpg");
-	height: 600px;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
 }

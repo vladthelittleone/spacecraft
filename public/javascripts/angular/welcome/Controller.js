@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.welcome');
 
-app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
-	function ($scope, $storage, $state, $sce)
+app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication',
+	function ($scope, $storage, $state, $sce, authentication)
 	{
 		var empty = [
 			{
@@ -117,5 +117,17 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce',
 		$scope.changeChart = function ()
 		{
 			$scope.index = ($scope.index + 1) % 2;
-		}
+		};
+
+		$scope.logout = function ()
+		{
+			function toLogin ()
+			{
+				$state.go('login');
+			}
+			authentication.logout(
+			{
+				success: toLogin
+			});
+		};
 	}]);

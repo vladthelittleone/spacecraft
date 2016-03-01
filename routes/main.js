@@ -3,9 +3,8 @@
  */
 var express = require('express');
 var router = express.Router();
-var check = require('middlewares/checkAuth');
 
-router.get('/', check, function (req, res, next)
+router.get('/', function (req, res, next)
 {
 
 });

@@ -21,13 +21,16 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		success: toWelcome
 	});
 
-	$scope.login = function (event)
+	$scope.loginByKey = function (code)
 	{
-		if (event && event.keyCode !== 13)
+		if (code === 13)
 		{
-			return;
+			$scope.login();
 		}
+	};
 
+	$scope.login = function ()
+	{
 		var email = $scope.email;
 		var pswrd = $scope.password;
 

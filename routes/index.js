@@ -9,7 +9,7 @@ const main = require('./main');
 const logout = require('./logout');
 const statistic = require('./statistic');
 
-module.exports = function(app)
+module.exports = function (app)
 {
 	// Мидлвер
 	app.use('/', main);
@@ -17,5 +17,5 @@ module.exports = function(app)
 	app.use('/login', login);
 	app.use('/user', user);
 	app.use('/logout', logout);
-	app.use('/statistic',statistic)
+	app.use('/statistic', statistic)
 };

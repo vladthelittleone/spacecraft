@@ -7,12 +7,14 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
 	username: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
 		unique: true,
 		required: true
 	},
-	stat:{
-		type: Array
+	stat: {
+		type: Array,
+		required: true
 	}
 });
 

@@ -32,10 +32,6 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 			method: 'POST',
 			data: stat[stat.length - 1],
 			headers: {'Content-Type': 'application/json'}
-		}).success(function(data,status,headers,config){
-			console.log("all right");
-		}).error(function(data, status, headers, config){
-			console.log("Error comes");
 		});
 
 		VK.Widgets.Group("vk_groups", {

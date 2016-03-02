@@ -6,7 +6,7 @@ var mongoose = require('utils/mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	username: {
+	idUser: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 		unique: true,

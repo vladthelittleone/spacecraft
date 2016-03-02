@@ -51,15 +51,22 @@ app.config(['$locationProvider', '$urlRouterProvider', 'ChartJsProvider',
 	});
 }]);
 
-app.run(['authentication', '$rootScope', '$state', function (authentication, $rootScope, $state)
+app.run(['authentication', '$rootScope', '$state',
+	function (authentication, $rootScope, $state)
 {
 	$rootScope.$on('$stateChangeSuccess', function ()
 	{
-		authentication.isLoggedIn(
+		var current = $state.current.name;
+
+		if (current !== 'login')
 		{
-			error: function () {
-				$state.go('login');
-			}
-		});
+			authentication.isLoggedIn(
+			{
+				error: function ()
+				{
+					$state.go('login');
+				}
+			});
+		}
 	});
 }]);

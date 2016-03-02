@@ -3,39 +3,51 @@
  * @author Skurishin Vladislav
  */
 var express = require('express');
+var valid = require('validator');
 var router = express.Router();
 
 var User = require('models/user').User;
 var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
-function isBlank()
+function isEmail(email)
 {
-	var isBlank = false;
-
-	var args = Array.prototype.slice.call(arguments, 0);
-
-	args.forEach(function (v)
+	if (!email)
 	{
-		if (!v || !v.trim())
-		{
-			isBlank = true;
-		}
-	});
-
-	return isBlank;
-}
-router.post('/', function (req, res, next)
-{
-	var username = req.body.username;
-	var password = req.body.password;
-
-	if (isBlank(username, password))
-	{
-		return next(new HttpError(400, 'Некорректный пароль или email'));
+		return false;
 	}
 
-	User.authorize(username, password, function (err, user)
+	return valid.isEmail(email);
+}
+
+function isPassword(password)
+{
+	if (!password)
+	{
+		return false;
+	}
+
+	return valid.isLength(valid.trim(password), {min: 8});
+}
+
+router.post('/', function (req, res, next)
+{
+	var email = req.body.email;
+	var password = req.body.password;
+
+	if (!isEmail(email))
+	{
+		return next(new HttpError(400, 'Некорректный email'));
+	}
+
+	if (!isPassword(password))
+	{
+		return next(new HttpError(400, 'Пароль неверен'));
+	}
+
+	var normalizedEmail = valid.normalizeEmail(email);
+
+	User.authorize(normalizedEmail, password, function (err, user)
 	{
 		if (err)
 		{
@@ -50,7 +62,10 @@ router.post('/', function (req, res, next)
 		}
 
 		req.session.user = user._id;
-		res.send({});
+
+		res.send({
+			email: normalizedEmail
+		});
 	});
 });
 
@@ -61,7 +76,9 @@ router.get('/check', function (req, res, next)
 		return next(new HttpError(401, "Вы не авторизованы"));
 	}
 
-	res.send({});
+	res.send({
+		email: req.user.email
+	});
 });
 
 module.exports = router;

@@ -6,6 +6,11 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication',
 	function ($scope, $storage, $state, $sce, authentication)
 	{
+		authentication.currentUser(function (user)
+		{
+			$scope.mail = user && user.email;
+		});
+
 		var empty = [
 			{
 				killEnemy: 0,

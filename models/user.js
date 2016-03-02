@@ -5,10 +5,13 @@ var mongoose = require('utils/mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	username: {
+	email: {
 		type: String,
 		unique: true,
 		required: true
+	},
+	username: {
+		type: String
 	},
 	hashedPassword: {
 		type: String,
@@ -50,18 +53,18 @@ schema.methods.checkPassword = function (password)
 var AuthError = require('error').AuthError;
 
 /**
- * 1. Получить юзера с таким username из базы.
+ * 1. Получить юзера с таким email из базы.
  * 2. Такой посетитель найден?
  *  Да - сверить пароль вывозвом checkPassword.
  *  Нет - создать нового пользователя
  * 3. Авторизация успешна?
  *  Да - сохранить _id посетителя в сессии: session.user = user._id и ответить 200
  *  Нет - вывести ошибку (403 или другую)
- * @param username
+ * @param email
  * @param password
  * @param callback
  */
-schema.statics.authorize = function (username, password, callback)
+schema.statics.authorize = function (email, password, callback)
 {
 	var User = this;
 
@@ -69,7 +72,7 @@ schema.statics.authorize = function (username, password, callback)
 	[
 		function (callback)
 		{
-			User.findOne({username: username}, callback);
+			User.findOne({email: email}, callback);
 		},
 		function (user, callback)
 		{
@@ -81,26 +84,49 @@ schema.statics.authorize = function (username, password, callback)
 				}
 				else
 				{
-					callback(new AuthError("Пароль неверен"));
+					callback(new AuthError('Пароль неверен'));
 				}
 			}
 			else
 			{
-				var newbie = new User({username: username, password: password});
+				callback(new AuthError('Пользователь не найден'));
+			}
+		}
+	], callback);
+};
+
+schema.statics.registration = function (email, password, callback)
+{
+	var User = this;
+
+	async.waterfall(
+	[
+		function (callback)
+		{
+			User.find({email: email}, callback);
+		},
+		function (user, callback)
+		{
+			if (!user.length)
+			{
+				var newbie = new User({email: email, password: password});
 
 				newbie.save(function (err)
 				{
 					if (err)
 					{
 						return callback(err);
-                    }
+					}
 
 					callback(null, newbie);
 				});
 			}
+			else
+			{
+				callback(new AuthError('Пользователь уже существует'));
+			}
 		}
 	], callback);
 };
-
 
 exports.User = mongoose.model('User', schema);

@@ -7,6 +7,7 @@ const login = require('./login');
 const user = require('./user');
 const main = require('./main');
 const logout = require('./logout');
+const reg = require('./registration');
 
 module.exports = function(app)
 {
@@ -15,5 +16,6 @@ module.exports = function(app)
 	app.use('/users', users);
 	app.use('/login', login);
 	app.use('/user', user);
+	app.use('/reg', reg);
 	app.use('/logout', logout);
 };

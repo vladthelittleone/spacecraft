@@ -21,16 +21,34 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		success: toWelcome
 	});
 
-	$scope.login = function ()
+	$scope.login = function (event)
 	{
+		if (event && event.keyCode !== 13)
+		{
+			return;
+		}
+
 		var email = $scope.email;
 		var pswrd = $scope.password;
 
 		authentication.login({
-			username: email,
+			email: email,
 			password: pswrd,
 			success: toWelcome,
 			error: error
 		});
-	}
+	};
+
+	$scope.register = function ()
+	{
+		var email = $scope.email;
+		var pswrd = $scope.password;
+
+		authentication.register({
+			email: email,
+			password: pswrd,
+			success: $scope.login,
+			error: error
+		});
+	};
 }]);

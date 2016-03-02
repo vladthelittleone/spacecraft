@@ -47,7 +47,7 @@ router.post('/', function (req, res, next)
 
 	var normalizeEmail = valid.normalizeEmail(email);
 
-	User.register(normalizeEmail, password, function (err, user)
+	User.registration(normalizeEmail, password, function (err, user)
 	{
 		if (err)
 		{
@@ -61,7 +61,9 @@ router.post('/', function (req, res, next)
 			}
 		}
 
-		res.send({});
+		res.send({
+			email: normalizeEmail
+		});
 	});
 });
 

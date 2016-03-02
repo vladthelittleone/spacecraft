@@ -8,7 +8,7 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 	{
 		$scope.player = statistics.getPlayer();
 
-		if ($scope.player.length)
+		if ($scope.player)
 		{
 			// Получаем статистику из хранилища.
 			// В хранилище храниятся строка из JSON объектов

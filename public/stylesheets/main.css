@@ -323,11 +323,12 @@ body {
 }
 
 .pages-footer-text {
-	cursor: default;
+	cursor: pointer;
 	position: fixed;
 	right: 150px;
 	bottom: 13px;
 	color: white;
+	font-weight: bold;
 }
 
 .pages-footer div {
@@ -1378,7 +1379,6 @@ div.helper:after {
 }
 
 .login-error {
-	maring-top: 10px;
 	color: #C61F0E;
 	height: 35px;
 	width: 100%;
@@ -1537,13 +1537,22 @@ div.helper:after {
 
 .welcome-logout {
 	color: white;
-	padding-top: 2px;
+	padding-top: 3px;
 	cursor: pointer;
 	text-align: center;
 	position: absolute;
 	right: 50px;
 	width: 25px;
 	height: 25px;
+}
+
+.welcome-email {
+	position: absolute;
+	right: 80px;
+	color: white;
+	padding-top: 2px;
+	font-weight: bold;
+	cursor: default;
 }
 
 .welcome-logout:hover {

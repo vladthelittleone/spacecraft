@@ -19,3 +19,5 @@ module.exports = function (app)
 	app.use('/logout', logout);
 	app.use('/statistic', statistic)
 };
+
+

@@ -8,31 +8,32 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 	{
 		$scope.player = statistics.getPlayer();
 
-		if ($scope.player.length)
-		{
-			// Получаем статистику из хранилища.
-			// В хранилище храниятся строка из JSON объектов
-			// Если статистики нет, то создаем пустой объект
-			var stat = JSON.parse($storage.local.getItem("statistic")) || [];
+		// Получаем статистику из хранилища.
+		// В хранилище храниятся строка из JSON объектов
+		// Если статистики нет, то создаем пустой объект
+		var stat = JSON.parse($storage.local.getItem("statistic")) || [];
 
-			// Добавляем новый результат
-			stat.push({
-				killEnemy: $scope.player.getKillEnemy(),
-				takenBonus: $scope.player.getTakenBonus(),
-				totalScore: $scope.player.getTotalScore(),
-				acceptDamage: $scope.player.getAcceptDamage(),
-				takenDamage: $scope.player.getTakenDamage()
-			});
+		// Добавляем новый результат
+		stat.push({
+			killEnemy: $scope.player.getKillEnemy(),
+			takenBonus: $scope.player.getTakenBonus(),
+			totalScore: $scope.player.getTotalScore(),
+			acceptDamage: $scope.player.getAcceptDamage(),
+			takenDamage: $scope.player.getTakenDamage()
+		});
 
-			$storage.local.setItem("statistic", JSON.stringify(stat));
-		}
+		$storage.local.setItem("statistic", JSON.stringify(stat));
 
 		$http({
 			url: '/statistic',
 			method: 'POST',
 			data: stat[stat.length - 1],
 			headers: {'Content-Type': 'application/json'}
+		}).then(function successCallback(response)
+		{
+			console.log("GO GO GO");
 		});
+
 
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,

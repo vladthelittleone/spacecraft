@@ -10,29 +10,23 @@ var router = express.Router();
 router.post('/', function (req, res, next)
 {
 	var id = req.session.user;
-	async.waterfall(
-		[
-			function (callback)
-			{
-				if (id)
+	if (id)
+	{
+		async.waterfall(
+			[
+				function (callback)
 				{
-					if (!Statistic.findOneAndUpdate(id, {statistic: req.body}))
-					{
-						var stat = new Statistic({
-							idUser: id,
-							statistic: req.body
-						});
-						stat.save(function (err, stat)
-						{
-							if (err)
-							{
-								console.error(err);
-							}
-						});
-					}
+					Statistic.findOneAndUpdate(id, {statistic: req.body}, {upsert: true}, callback);
 				}
-			}
-		], callback);
+			], function (err, result)
+			{
+				if (err)
+				{
+					console.log("error");
+				}
+			});
+	}
+
 	res.send(200);
 });
 

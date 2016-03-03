@@ -4,7 +4,6 @@
 var express = require('express');
 var async = require('async');
 var Statistic = require('models/statistic').Statistic;
-var mongoose = require('utils/mongoose');
 var router = express.Router();
 
 router.post('/', function (req, res, next)
@@ -16,9 +15,9 @@ router.post('/', function (req, res, next)
 			[
 				function (callback)
 				{
-					Statistic.findOneAndUpdate(id, {statistic: req.body}, {upsert: true}, callback);
+					Statistic.findOneAndUpdate(id, {stat: req.body}, {upsert: true, new: true}, callback);
 				}
-			], function (err, result)
+			], function (err, doc)
 			{
 				if (err)
 				{
@@ -26,7 +25,6 @@ router.post('/', function (req, res, next)
 				}
 			});
 	}
-
 	res.send(200);
 });
 

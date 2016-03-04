@@ -15,9 +15,25 @@ router.post('/', function (req, res, next)
 			[
 				function (callback)
 				{
-					Statistic.findOneAndUpdate(id, {stat: req.body}, {upsert: true, new: true}, callback);
+					Statistic.findOne({idUser: req.session.user},callback);
+				},
+				function(stat, callback){
+					if(stat){
+						stat.stat.push(req.body);
+						Statistic.findOneAndUpdate(id, {idUser: id,stat: stat.stat}, {upsert: true, new: true}, callback);
+					}else{
+						var newStat = new Statistic(
+							{
+								idUser: id,
+								stat: req.body
+							}
+						);
+
+						newStat.save(callback);
+					}
+
 				}
-			], function (err, doc)
+			], function (err)
 			{
 				if (err)
 				{
@@ -26,6 +42,18 @@ router.post('/', function (req, res, next)
 			});
 	}
 	res.send(200);
+});
+
+router.get('/', function (req, res, next)
+{
+	console.log(req.session.user);
+	Statistic.findOne({idUser: req.session.user},(function(err, data){
+		if(err){
+			console.log(err);
+		}
+		console.log(data.stat);
+		res.json(data.stat);
+	}));
 });
 
 module.exports = router;

@@ -29,9 +29,6 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 			method: 'POST',
 			data: stat[stat.length - 1],
 			headers: {'Content-Type': 'application/json'}
-		}).then(function successCallback(response)
-		{
-			console.log("GO GO GO");
 		});
 
 

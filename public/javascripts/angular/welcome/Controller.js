@@ -3,9 +3,15 @@
  */
 var app = angular.module('spacecraft.welcome');
 
-app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication',
-	function ($scope, $storage, $state, $sce, authentication)
+app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication', '$http',
+	function ($scope, $storage, $state, $sce, authentication, $http)
 	{
+		var st;
+		$http.get('/statistic').success(function(data){
+			console.log(data);
+			st = data;
+		});
+
 		var empty = [
 			{
 				killEnemy: 0,
@@ -35,7 +41,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			return c;
 		}
 
-		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic")) || empty;
+		var stat = st || empty;
 		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
 
 		// Кол-во подуроков

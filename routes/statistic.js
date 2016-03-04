@@ -15,13 +15,19 @@ router.post('/', function (req, res, next)
 			[
 				function (callback)
 				{
-					Statistic.findOne({idUser: req.session.user},callback);
+					Statistic.findOne({idUser: req.session.user}, callback);
 				},
-				function(stat, callback){
-					if(stat){
+				function (stat, callback)
+				{
+					if (stat)
+					{
 						stat.stat.push(req.body);
-						Statistic.findOneAndUpdate(id, {idUser: id,stat: stat.stat}, {upsert: true, new: true}, callback);
-					}else{
+						Statistic.findOneAndUpdate(id, {idUser: id, stat: stat.stat}, {
+							upsert: true,
+							new: true
+						}, callback);
+					} else
+					{
 						var newStat = new Statistic(
 							{
 								idUser: id,
@@ -47,8 +53,10 @@ router.post('/', function (req, res, next)
 router.get('/', function (req, res, next)
 {
 	console.log(req.session.user);
-	Statistic.findOne({idUser: req.session.user},(function(err, data){
-		if(err){
+	Statistic.findOne({idUser: req.session.user}, (function (err, data)
+	{
+		if (err)
+		{
 			console.log(err);
 		}
 		console.log(data.stat);

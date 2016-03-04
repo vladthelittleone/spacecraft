@@ -7,7 +7,8 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 	function ($scope, $storage, $state, $sce, authentication, $http)
 	{
 		var st;
-		$http.get('/statistic').success(function(data){
+		$http.get('/statistic').success(function (data)
+		{
 			console.log(data);
 			st = data;
 		});
@@ -30,11 +31,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			{
 				if (v[predicate])
 				{
-					c =+ v[param1];
+					c = +v[param1];
 				}
 				else
 				{
-					c =+ v[param2];
+					c = +v[param2];
 				}
 			});
 
@@ -127,13 +128,14 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 		$scope.logout = function ()
 		{
-			function toLogin ()
+			function toLogin()
 			{
 				$state.go('login');
 			}
+
 			authentication.logout(
-			{
-				success: toLogin
-			});
+				{
+					success: toLogin
+				});
 		};
 	}]);

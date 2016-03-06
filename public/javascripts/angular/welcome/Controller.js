@@ -11,6 +11,8 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		{
 			console.log(data);
 			st = data;
+			makeStatistic(data);
+			makeLabels(data)
 		});
 
 		var empty = [
@@ -31,11 +33,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			{
 				if (v[predicate])
 				{
-					c = +v[param1];
+					c =+ v[param1];
 				}
 				else
 				{
-					c = +v[param2];
+					c =+ v[param2];
 				}
 			});
 
@@ -64,14 +66,14 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		$scope.dataL = [end, notEnd];
 
 		// Формирует подписи оси ординат исходя из длины массива
-		makeLabels();
+		makeLabels(stat);
 
 		$scope.takeBonus = [[]];
 		$scope.killSpaceCraft = [[]];
 		$scope.totalScore = [[]];
 
 		// Складывает в массивы информацию о пользователе
-		makeStatistic();
+		makeStatistic(stat);
 
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,
@@ -93,8 +95,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			$state.go("game");
 		};
 
-		function makeLabels()
+		function makeLabels(stat)
 		{
+			$scope.labels = [];
 			if (stat)
 			{
 				for (var i = 1; i <= stat.length; i++)
@@ -108,8 +111,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			}
 		}
 
-		function makeStatistic()
+		function makeStatistic(stat)
 		{
+			$scope.takeBonus[0] = [];
+			$scope.killSpaceCraft[0] = [];
+			$scope.totalScore[0] = [];
 			if (stat)
 			{
 				stat.forEach(function (s)

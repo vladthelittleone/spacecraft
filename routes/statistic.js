@@ -15,19 +15,25 @@ router.post('/', function (req, res, next)
 			[
 				function (callback)
 				{
-					Statistic.findOne({idUser: req.session.user}, callback);
+					// Ищем статистику юзера в базе
+					Statistic.findOne({idUser: id}, callback);
 				},
-				function (stat, callback)
+				function (result, callback)
 				{
-					if (stat)
+					if (result)
 					{
-						stat.stat.push(req.body);
-						Statistic.findOneAndUpdate(id, {idUser: id, stat: stat.stat}, {
-							upsert: true,
-							new: true
-						}, callback);
+						// Если нашли проверяем сколько игр он сыграл
+						if (result.stat.length === 50)
+						{
+							delete result.stat[0];
+						}
+
+						// Заносим в массив новое значение и апдейтим запись
+						result.stat.push(req.body);
+						Statistic.findOneAndUpdate(id, {idUser: id, stat: result.stat}, callback);
 					} else
 					{
+						// Если не нашли запись создаем новую
 						var newStat = new Statistic(
 							{
 								idUser: id,
@@ -52,7 +58,7 @@ router.post('/', function (req, res, next)
 
 router.get('/', function (req, res, next)
 {
-	console.log(req.session.user);
+	// Находим статистику юзера и отправляем
 	Statistic.findOne({idUser: req.session.user}, (function (err, data)
 	{
 		if (err)

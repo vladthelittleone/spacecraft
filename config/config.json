@@ -20,5 +20,6 @@
 			"httpOnly": true,
 			"maxAge": null
 		}
-	}
+	},
+	"maxGame": 50
 }

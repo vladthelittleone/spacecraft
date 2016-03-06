@@ -6,11 +6,9 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication', '$http',
 	function ($scope, $storage, $state, $sce, authentication, $http)
 	{
-		var st;
+
 		$http.get('/statistic').success(function (data)
 		{
-			console.log(data);
-			st = data;
 			makeStatistic(data);
 			makeLabels(data)
 		});
@@ -33,18 +31,18 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			{
 				if (v[predicate])
 				{
-					c =+ v[param1];
+					c = +v[param1];
 				}
 				else
 				{
-					c =+ v[param2];
+					c = +v[param2];
 				}
 			});
 
 			return c;
 		}
 
-		var stat = st || empty;
+		var stat = empty;
 		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
 
 		// Кол-во подуроков
@@ -139,9 +137,8 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 				$state.go('login');
 			}
 
-			authentication.logout(
-				{
-					success: toLogin
-				});
+			authentication.logout({
+				success: toLogin
+			});
 		};
 	}]);

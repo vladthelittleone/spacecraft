@@ -17,8 +17,7 @@ app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage'
 				totalScore: $scope.player.getTotalScore(),
 				acceptDamage: $scope.player.getAcceptDamage(),
 				takenDamage: $scope.player.getTakenDamage()
-			},
-			headers: {'Content-Type': 'application/json'}
+			}
 		});
 
 		VK.Widgets.Group("vk_groups", {

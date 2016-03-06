@@ -3,7 +3,10 @@
  */
 var express = require('express');
 var async = require('async');
+var config = require('config');
 var Statistic = require('models/statistic').Statistic;
+var HttpError = require('error').HttpError;
+var logget = require('utils/log.js');
 var router = express.Router();
 
 router.post('/', function (req, res, next)
@@ -23,14 +26,14 @@ router.post('/', function (req, res, next)
 					if (result)
 					{
 						// Если нашли проверяем сколько игр он сыграл
-						if (result.stat.length === 50)
+						if (result.stat.length === config.get('maxGame'))
 						{
 							delete result.stat[0];
 						}
 
 						// Заносим в массив новое значение и апдейтим запись
 						result.stat.push(req.body);
-						Statistic.findOneAndUpdate(id, {idUser: id, stat: result.stat}, callback);
+						Statistic.update(id, {stat: result.stat}, callback);
 					} else
 					{
 						// Если не нашли запись создаем новую
@@ -49,7 +52,8 @@ router.post('/', function (req, res, next)
 			{
 				if (err)
 				{
-					console.log("error");
+					log(err);
+					return next(new HttpError(401, "Ошибка с сохранением статистики"));
 				}
 			});
 	}
@@ -58,16 +62,21 @@ router.post('/', function (req, res, next)
 
 router.get('/', function (req, res, next)
 {
-	// Находим статистику юзера и отправляем
-	Statistic.findOne({idUser: req.session.user}, (function (err, data)
-	{
-		if (err)
+	async.waterfall(
+		[
+			function (callback)
+			{
+				// Находим статистику юзера и отправляем
+				Statistic.findOne({idUser: req.session.user}, callback)
+			}], function (err, data)
 		{
-			console.log(err);
-		}
-		console.log(data.stat);
-		res.json(data.stat);
-	}));
+			if (err)
+			{
+				log(err);
+				return next(new HttpError(401, "Нет такой статистики"));
+			}
+			res.json(data.stat);
+		});
 });
 
 module.exports = router;

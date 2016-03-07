@@ -14,8 +14,7 @@ router.post('/', function (req, res, next)
 	var id = req.session.user;
 	if (id)
 	{
-		async.waterfall(
-			[
+		async.waterfall([
 				function (callback)
 				{
 					// Ищем статистику юзера в базе
@@ -26,7 +25,7 @@ router.post('/', function (req, res, next)
 					if (result)
 					{
 						// Если нашли проверяем сколько игр он сыграл
-						if (result.stat.length === config.get('maxGame'))
+						if (result.stat.length === config.get('maxStatisticsCount'))
 						{
 							delete result.stat[0];
 						}
@@ -52,8 +51,7 @@ router.post('/', function (req, res, next)
 			{
 				if (err)
 				{
-					log(err);
-					return next(new HttpError(401, "Ошибка с сохранением статистики"));
+					return next(new HttpError(500, "Ошибка с сохранением статистики"));
 				}
 			});
 	}
@@ -72,8 +70,7 @@ router.get('/', function (req, res, next)
 		{
 			if (err)
 			{
-				log(err);
-				return next(new HttpError(401, "Нет такой статистики"));
+				return next(new HttpError(4044, "Нет такой статистики"));
 			}
 			res.json(data.stat);
 		});

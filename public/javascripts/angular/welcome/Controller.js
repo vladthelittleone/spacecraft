@@ -6,7 +6,6 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication', '$http',
 	function ($scope, $storage, $state, $sce, authentication, $http)
 	{
-
 		$http.get('/statistic').success(function (data)
 		{
 			makeStatistic(data);
@@ -31,18 +30,17 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			{
 				if (v[predicate])
 				{
-					c = +v[param1];
+					c =+ v[param1];
 				}
 				else
 				{
-					c = +v[param2];
+					c =+ v[param2];
 				}
 			});
 
 			return c;
 		}
 
-		var stat = empty;
 		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
 
 		// Кол-во подуроков
@@ -63,15 +61,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 		$scope.dataL = [end, notEnd];
 
-		// Формирует подписи оси ординат исходя из длины массива
-		makeLabels(stat);
-
 		$scope.takeBonus = [[]];
 		$scope.killSpaceCraft = [[]];
 		$scope.totalScore = [[]];
-
-		// Складывает в массивы информацию о пользователе
-		makeStatistic(stat);
 
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,

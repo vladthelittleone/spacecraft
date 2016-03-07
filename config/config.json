@@ -21,5 +21,5 @@
 			"maxAge": null
 		}
 	},
-	"maxGame": 50
+	"maxStatisticsCount": 50
 }

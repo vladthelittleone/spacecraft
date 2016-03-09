@@ -29,11 +29,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			{
 				if (v[predicate])
 				{
-					c =+ v[param1];
+					c += v[param1];
 				}
 				else
 				{
-					c =+ v[param2];
+					c += v[param2];
 				}
 			});
 

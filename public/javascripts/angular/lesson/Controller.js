@@ -57,6 +57,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function nextSubLesson()
 	{
+		options.nextSubLesson = true;
+		options.isCodeRunning = false;
+
 		function set(a, i, len, completed)
 		{
 			// Устанавливаем текущий
@@ -168,6 +171,16 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		else
 		{
 			options.isCodeRunning = !options.isCodeRunning;
+
+			options.update = function ()
+			{
+				var result = current().handleUpdate(arguments);
+
+				if (result.status)
+				{
+					success(result.message);
+				}
+			}
 		}
 	};
 

@@ -88,10 +88,14 @@ var LessonPlayState = function (spec)
 	{
 		scope.$apply(function ()
 		{
-			if (!scope.spaceCraft.isAlive())
+			var upd = scope.editorOptions.update;
+
+			upd && upd(scope.spaceCraft, sc.world);
+
+			if (scope.editorOptions.nextSubLesson)
 			{
-				sc.callers.result(scope.spaceCraft.statistic);
-				game.paused = true;
+				game.state.start('boot');
+				scope.editorOptions.nextSubLesson = false;
 			}
 		});
 
@@ -102,8 +106,6 @@ var LessonPlayState = function (spec)
 		}
 
 		keysControl();
-
-		sc.animationManager.update();
 	};
 
 	that.entitiesInit = function ()
@@ -111,6 +113,13 @@ var LessonPlayState = function (spec)
 		scope.$apply(function createHarvester()
 		{
 			var factory = sc.world.factory;
+
+			factory.createMeteor({
+				x: 500,
+				y: 500,
+				scale: 1.0,
+				spriteName: 'meteor1'
+			});
 
 			scope.spaceCraft = factory.createHarvester({
 				x: game.world.centerX,

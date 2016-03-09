@@ -73,8 +73,10 @@ var EngineBlock = function (spec)
         sprite.body.moveBackward(moveSpeed.getMoveSpeed() / 2);
     };
 
-    that.moveTo = function (obj1, obj2)
+    that.moveTo = function (obj1, obj2, distance)
     {
+		var d = distance || 100;
+
         var x = obj1,
             y = obj2;
 
@@ -100,8 +102,11 @@ var EngineBlock = function (spec)
                 }
             };
 
-            that.rotateTo(point);
-            that.moveForward();
+			if (Phaser.Point.distance(sprite, {x: x, y: y}) > d)
+			{
+				that.rotateTo(point);
+				that.moveForward();
+			}
         }
         else
         {

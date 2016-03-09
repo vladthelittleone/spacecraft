@@ -1,5 +1,6 @@
 /**
- * Created by vladthelittleone on 30.11.15.
+ * @since 30.11.15
+ * @author Skurishin Vladislav
  */
 var app = angular.module('spacecraft.welcome');
 

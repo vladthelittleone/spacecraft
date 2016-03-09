@@ -3,9 +3,15 @@
  */
 var app = angular.module('spacecraft.welcome');
 
-app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication',
-	function ($scope, $storage, $state, $sce, authentication)
+app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication', '$http',
+	function ($scope, $storage, $state, $sce, authentication, $http)
 	{
+		$http.get('/statistic').success(function (data)
+		{
+			makeStatistic(data);
+			makeLabels(data)
+		});
+
 		authentication.currentUser(function (user)
 		{
 			$scope.mail = user && user.email;
@@ -40,7 +46,6 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			return c;
 		}
 
-		var stat = $scope.stat = JSON.parse($storage.local.getItem("statistic")) || empty;
 		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
 
 		// Кол-во подуроков
@@ -61,15 +66,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 		$scope.dataL = [end, notEnd];
 
-		// Формирует подписи оси ординат исходя из длины массива
-		makeLabels();
-
 		$scope.takeBonus = [[]];
 		$scope.killSpaceCraft = [[]];
 		$scope.totalScore = [[]];
-
-		// Складывает в массивы информацию о пользователе
-		makeStatistic();
 
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,
@@ -91,8 +90,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			$state.go("game");
 		};
 
-		function makeLabels()
+		function makeLabels(stat)
 		{
+			$scope.labels = [];
 			if (stat)
 			{
 				for (var i = 1; i <= stat.length; i++)
@@ -106,8 +106,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			}
 		}
 
-		function makeStatistic()
+		function makeStatistic(stat)
 		{
+			$scope.takeBonus[0] = [];
+			$scope.killSpaceCraft[0] = [];
+			$scope.totalScore[0] = [];
 			if (stat)
 			{
 				stat.forEach(function (s)

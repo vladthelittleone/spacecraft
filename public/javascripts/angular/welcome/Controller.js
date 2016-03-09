@@ -6,6 +6,9 @@ var app = angular.module('spacecraft.welcome');
 app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'authentication',
 	function ($scope, $storage, $state, $sce, authentication)
 	{
+		$scope.usersW = ['aaaa', 'ssss', 'dd'];
+		$scope.score = [123, 12, 3];
+
 		authentication.currentUser(function (user)
 		{
 			$scope.mail = user && user.email;

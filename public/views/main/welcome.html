@@ -66,8 +66,24 @@
 				<div class="pages-chart-title">ДИАГРАММА ИЗУЧЕННЫХ УРОКОВ</div>
 
 			</div>
+		</div>
+		<div class="container-25">
+			<div class="container-inside">
+				<div class="pages-leadboard-title">Лучшие игроки</div>
+				<table style="width: 100%">
+					<tr>
+						<td class="table-number">№</td>
+						<td class="table-content">Пользователь</td>
+						<td class="table-content"><span class="glyphicon glyphicon-flag orange"></span></td>
+					</tr>
+					<tr ng-repeat="u in usersW">
+						<td class="table-number">{{$index + 1}}</td>
+						<td class="table-content">{{u}}</td>
+						<td class="table-content">{{score[$index]}}</td>
+					</tr>
+				</table>
 
-
+			</div>
 		</div>
 	</div>
 

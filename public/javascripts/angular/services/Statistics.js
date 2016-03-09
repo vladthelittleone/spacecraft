@@ -8,7 +8,7 @@ var app = angular.module('spacecraft.statistics', []);
 app.service('statistics', function ()
 {
 	var statistic = [];
-	var player = {};
+	var player = null;
 
 	var setPlayer = function (p)
 	{

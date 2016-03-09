@@ -1,6 +1,6 @@
 <div class="login-background"></div>
-<div class="login-landing">
-	<div class="login-container first">
+<div class="login-landing" ng-keypress="loginByKey($event.keyCode)">
+	<div class="login-container login-main">
 		<div class="login-vertical-center">
 			<div class="login-left-container">
 				<div class="login-img">
@@ -30,9 +30,18 @@
 				</div>
 
 				<div class="login-button-group">
-					<button class="login-button" ng-click="login()"><span>Войти</span></button>
-					<button class="login-button float-right"><span>Регистрация</span></button>
+					<button class="login-button"
+							ng-click="login()">
+						<span>Войти</span>
+					</button>
+
+					<button class="login-button float-right"
+							ng-click="register()">
+						<span>Регистрация</span>
+					</button>
 				</div>
+
+				<div class="login-input-title login-error">{{error}}</div>
 
 			</div>
 		</div>

@@ -12,6 +12,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			makeLabels(data)
 		});
 
+		authentication.currentUser(function (user)
+		{
+			$scope.mail = user && user.email;
+		});
+
 		var empty = [
 			{
 				killEnemy: 0,
@@ -124,12 +129,12 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 		$scope.logout = function ()
 		{
-			function toLogin()
+			function toLogin ()
 			{
 				$state.go('login');
 			}
-
-			authentication.logout({
+			authentication.logout(
+			{
 				success: toLogin
 			});
 		};

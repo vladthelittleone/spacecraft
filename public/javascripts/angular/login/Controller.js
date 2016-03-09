@@ -11,10 +11,23 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		$state.go('welcome');
 	}
 
+	function error (res)
+	{
+		$scope.error = res.data;
+	}
+
 	authentication.isLoggedIn(
 	{
 		success: toWelcome
 	});
+
+	$scope.loginByKey = function (code)
+	{
+		if (code === 13)
+		{
+			$scope.login();
+		}
+	};
 
 	$scope.login = function ()
 	{
@@ -22,9 +35,23 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		var pswrd = $scope.password;
 
 		authentication.login({
-			username: email,
+			email: email,
 			password: pswrd,
-			success: toWelcome
+			success: toWelcome,
+			error: error
 		});
-	}
+	};
+
+	$scope.register = function ()
+	{
+		var email = $scope.email;
+		var pswrd = $scope.password;
+
+		authentication.register({
+			email: email,
+			password: pswrd,
+			success: $scope.login,
+			error: error
+		});
+	};
 }]);

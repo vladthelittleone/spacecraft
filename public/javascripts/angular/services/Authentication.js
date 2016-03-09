@@ -8,8 +8,6 @@ var app = angular.module('spacecraft.authentication', []);
 
 app.factory('authentication', ['$http', '$state', function ($http, $state)
 {
-	var user;
-
 	var login = function (args)
 	{
 		var success = args.success;
@@ -18,21 +16,12 @@ app.factory('authentication', ['$http', '$state', function ($http, $state)
 		$http({
 			method: 'POST',
 			data: {
-				username: args.username,
+				email: args.email,
 				password: args.password
 			},
 			url: '/login'
 		})
-		.then(function (res)
-		{
-			user = res.user;
-			success && success();
-		},
-		function (res)
-		{
-			user = null;
-			error && error();
-		});
+		.then(success, error);
 	};
 
 	var logout = function (args)
@@ -44,15 +33,23 @@ app.factory('authentication', ['$http', '$state', function ($http, $state)
 			method: 'POST',
 			url: '/logout'
 		})
-		.then(function (res)
-		{
-			user = null;
-			success && success();
-		},
-		function ()
-		{
-			error && error();
-		});
+		.then(success, error);
+	};
+
+	var register = function (args)
+	{
+		var success = args.success;
+		var error = args.error;
+
+		$http({
+			method: 'POST',
+			data: {
+				email: args.email,
+				password: args.password
+			},
+			url: '/reg'
+		})
+		.then(success, error);
 	};
 
 	var isLoggedIn = function (args)
@@ -64,27 +61,25 @@ app.factory('authentication', ['$http', '$state', function ($http, $state)
 			method: 'GET',
 			url: 'login/check'
 		})
-		.then(function (res)
-		{
-			user = res.user;
-			success && success();
-		},
-		function (res)
-		{
-			user = null;
-			error && error();
-		});
+		.then(success, error);
 	};
 
-	var currentUser = function ()
+	var currentUser = function (callback)
 	{
-		return user;
+		isLoggedIn(
+		{
+			success: function (res)
+			{
+				callback(res.data);
+			}
+		})
 	};
 
 	return {
 		login: login,
 		logout: logout,
 		isLoggedIn: isLoggedIn,
-		currentUser: currentUser
+		currentUser: currentUser,
+		register: register
 	};
 }]);

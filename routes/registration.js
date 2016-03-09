@@ -1,5 +1,5 @@
 /**
- * @since 29.02.16
+ * @since 02.03.16
  * @author Skurishin Vladislav
  */
 var express = require('express');
@@ -42,18 +42,18 @@ router.post('/', function (req, res, next)
 
 	if (!isPassword(password))
 	{
-		return next(new HttpError(400, 'Пароль неверен'));
+		return next(new HttpError(400, 'Длина пароля слишком мала'));
 	}
 
-	var normalizedEmail = valid.normalizeEmail(email);
+	var normalizeEmail = valid.normalizeEmail(email);
 
-	User.authorize(normalizedEmail, password, function (err, user)
+	User.registration(normalizeEmail, password, function (err, user)
 	{
 		if (err)
 		{
 			if (err instanceof AuthError)
 			{
-				return next(new HttpError(403, err.message));
+				return next(new HttpError(409, err.message));
 			}
 			else
 			{
@@ -61,23 +61,9 @@ router.post('/', function (req, res, next)
 			}
 		}
 
-		req.session.user = user._id;
-
 		res.send({
-			email: normalizedEmail
+			email: normalizeEmail
 		});
-	});
-});
-
-router.get('/check', function (req, res, next)
-{
-	if (!req.session.user)
-	{
-		return next(new HttpError(401, "Вы не авторизованы"));
-	}
-
-	res.send({
-		email: req.user.email
 	});
 });
 

@@ -3,7 +3,7 @@
 /**
  * Created by vladthelittleone on 02.12.15.
  */
-var PreloadState = function (spec)
+var OnlinePreload = function (spec)
 {
 	var that = {};
 

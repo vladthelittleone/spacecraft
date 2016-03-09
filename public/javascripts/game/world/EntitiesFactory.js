@@ -65,6 +65,13 @@ var EntitiesFactory = function (spec)
 		return SpaceCraft(args);
 	};
 
+	that.createHarvester = function (args)
+	{
+		args.game = game;
+
+		return Harvester(args);
+	};
+
 	that.createGameObject = function (args)
 	{
 		args.game = game;

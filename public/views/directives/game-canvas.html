@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<div class="points-bar rate-points">
+<div class="points-bar rate-points" ng-if="spaceCraft.weapon">
     <span class="glyphicon glyphicon-refresh green"></span>
     <div class="points-block">
         <span ng-repeat="i in getNumber(spaceCraft.weapon.rate.getMax())"
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div class="points-bar range-points">
+<div class="points-bar range-points" ng-if="spaceCraft.weapon">
     <span class="glyphicon glyphicon-record green"></span>
     <div class="points-block">
         <span ng-repeat="i in getNumber(spaceCraft.weapon.range.getMax())"
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div class="points-bar damage-points">
+<div class="points-bar damage-points" ng-if="spaceCraft.weapon">
     <span class="glyphicon glyphicon-screenshot green"></span>
     <div class="points-block">
         <span ng-repeat="i in getNumber(spaceCraft.weapon.damage.getMax())"
@@ -70,7 +70,7 @@
 
 <!-- DSH bar -->
 
-<div class="damage">
+<div class="damage" ng-if="spaceCraft.weapon">
     <span class="glyphicon glyphicon-screenshot green"></span>
     <span class="green">{{spaceCraft.weapon.getDamage()}}</span>
 </div>

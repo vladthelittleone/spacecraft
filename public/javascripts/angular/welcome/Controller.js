@@ -15,7 +15,8 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		$scope.usersW = [];
 		$scope.score = false;
 
-		$http.get('/statistic/score').success(function (data){
+		$http.get('/statistic/score').success(function (data)
+		{
 			$scope.usersW = data;
 			$scope.score = true;
 		});
@@ -24,16 +25,6 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		{
 			$scope.mail = user && user.email;
 		});
-
-		var empty = [
-			{
-				killEnemy: 0,
-				takenBonus: 0,
-				totalScore: 0,
-				acceptDamage: 0,
-				takenDamage: 0
-			}
-		];
 
 		function sum(a, param1, param2, predicate)
 		{
@@ -101,6 +92,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		function makeLabels(stat)
 		{
 			$scope.labels = [];
+
 			if (stat)
 			{
 				for (var i = 1; i <= stat.length; i++)
@@ -119,6 +111,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			$scope.takeBonus[0] = [];
 			$scope.killSpaceCraft[0] = [];
 			$scope.totalScore[0] = [];
+
 			if (stat)
 			{
 				stat.forEach(function (s)

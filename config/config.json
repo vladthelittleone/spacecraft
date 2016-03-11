@@ -20,5 +20,6 @@
 			"httpOnly": true,
 			"maxAge": null
 		}
-	}
+	},
+	"maxStatisticsCount": 50
 }

@@ -73,13 +73,13 @@
 				<table style="width: 100%">
 					<tr>
 						<td class="table-number">№</td>
-						<td class="table-content">Пользователь</td>
-						<td class="table-content"><span class="glyphicon glyphicon-flag orange"></span></td>
+						<td class="table-content-name">Пользователь</td>
+						<td class="table-content-score"><span class="glyphicon glyphicon-flag orange"></span></td>
 					</tr>
 					<tr ng-repeat="u in usersW">
 						<td class="table-number">{{$index + 1}}</td>
-						<td class="table-content">{{u}}</td>
-						<td class="table-content">{{score[$index]}}</td>
+						<td class="table-content-name">{{u.username}}</td>
+						<td class="table-content-score">{{u.maxScore}}</td>
 					</tr>
 				</table>
 

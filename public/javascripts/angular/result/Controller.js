@@ -3,29 +3,22 @@
  */
 var app = angular.module('spacecraft.result');
 
-app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage',
-	function ($scope, $state, statistics, $storage)
+app.controller('ResultController', ['$scope', '$state', 'statistics', '$storage', '$http',
+	function ($scope, $state, statistics, $storage, $http)
 	{
 		$scope.player = statistics.getPlayer();
 
-		if ($scope.player)
-		{
-			// Получаем статистику из хранилища.
-			// В хранилище храниятся строка из JSON объектов
-			// Если статистики нет, то создаем пустой объект
-			var stat = JSON.parse($storage.local.getItem("statistic")) || [];
-
-			// Добавляем новый результат
-			stat.push({
+		$http({
+			url: '/statistic',
+			method: 'POST',
+			data: {
 				killEnemy: $scope.player.getKillEnemy(),
 				takenBonus: $scope.player.getTakenBonus(),
 				totalScore: $scope.player.getTotalScore(),
 				acceptDamage: $scope.player.getAcceptDamage(),
 				takenDamage: $scope.player.getTakenDamage()
-			});
-
-			$storage.local.setItem("statistic", JSON.stringify(stat));
-		}
+			}
+		});
 
 		VK.Widgets.Group("vk_groups", {
 			mode: 0,

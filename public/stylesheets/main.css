@@ -1065,8 +1065,12 @@ body {
 	padding-left: 10px;
 }
 
-.table-content {
-	width: 50%;
+.table-content-name {
+	width: 80%;
+	text-align: center;
+}
+.table-content-score {
+	width: 20%;
 	text-align: center;
 }
 

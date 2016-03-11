@@ -8,8 +8,9 @@ const user = require('./user');
 const main = require('./main');
 const logout = require('./logout');
 const reg = require('./registration');
+const statistic = require('./statistic');
 
-module.exports = function(app)
+module.exports = function (app)
 {
 	// Мидлвер
 	app.use('/', main);
@@ -18,4 +19,6 @@ module.exports = function(app)
 	app.use('/user', user);
 	app.use('/reg', reg);
 	app.use('/logout', logout);
+	app.use('/statistic', statistic);
 };
+

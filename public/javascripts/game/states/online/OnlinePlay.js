@@ -81,7 +81,6 @@ var OnlinePlay = function (spec)
 		that.entitiesInit();
 		followFor(scope.spaceCraft.sprite);
 
-
 		scope.$watch('editorOptions.code', function (n)
 		{
 			userCode = n;

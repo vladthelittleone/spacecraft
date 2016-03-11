@@ -957,8 +957,16 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							'<p>Чтобы не повторять один и тот же код, был создан один из удобнейших инструментов космического инженера - функция!</p>'
 					},
 					instructions: '<ul>' +
+					'<li>На строке <span class="bold-label">6</span>, дается описание функции.</li>' +
+					'<li>На строке <span class="bold-label">20</span>, объявляется функция и ее имя - <span class="red-label">moveToMeteor</span>.</li>' +
+					'<li>Взглянем на строку <span class="bold-label">25</span> и <span class="bold-label">26</span>. Там определен код, который можно использовать множество ' +
+					'раз, используя функцию <span class="red-label">moveToMeteor</span>.</li>' +
+					'<li>На строке <span class="bold-label">25</span>, мы вызываем функцию полета к координатам <span class="red-label">meteorX</span> и ' +
+					'<span class="red-label">meteorY</span>. А на следующей транслируем координаты метеорита.</li>' +
+					'<li>На строке <span class="bold-label">42</span>, мы вызываем объявленную функцию.</li>' +
 					'<li>Изучите комментарии к коду.</li>' +
 					'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					'<li>Самообразование - сила: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Functions#Функции_в_JavaScript">клац</a>.</li>' +
 					'</ul>',
 					hint: [
 						{

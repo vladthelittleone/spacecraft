@@ -207,6 +207,10 @@ body {
 	border: 1px solid rgb(230, 70, 70);
 }
 
+.bold-label {
+	font-weight: bold;
+}
+
 .red {
 	color: #DE5151;
 }

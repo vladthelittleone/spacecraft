@@ -150,7 +150,7 @@ var WeaponBlock = function (spec)
 
     that.fire = function (obj1, obj2)
     {
-        var x = obj1,
+		var x = obj1,
             y = obj2;
 
         // Если урон или скорострельность, диапозон равен нулю, не стреляем.
@@ -208,7 +208,24 @@ var WeaponBlock = function (spec)
 
                 fireTime = game.time.now + rate.getFireRate();
             }
-        }
+
+			if (sprite.inCamera)
+			{
+				var audio = game.add.audio('laser1');
+
+				if (sc.scope.spaceCraft.getId() === spaceCraft.getId())
+				{
+					audio.volume = 0.015;
+				}
+				else
+				{
+					audio.volume = 0.01;
+				}
+
+				audio.play();
+
+			}
+		}
     };
 
     that.enemiesInRange = function (callback)

@@ -32,6 +32,9 @@ var OnlinePreload = function (spec)
 		game.load.image('userShield', 'images/sprites/shield2.png');
 		game.load.atlasJSONHash('bots', 'images/animations/bots.png', 'images/animations/bots.json');
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
+
+		game.load.audio('laser1', ['audio/laser1.wav']);
+		game.load.audio('track1', ['audio/track1.mp3']);
 	};
 
 	that.create = function ()

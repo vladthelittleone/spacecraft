@@ -13,27 +13,27 @@ var EntitiesFactory = function (spec)
 	{
 		for (var i = 0; i < args.count; i++)
 		{
-			decorations.push(Meteor({
+			decorations.pushMeteor({
 				angle: game.rnd.angle(),
 				x: game.world.randomX,
 				y: game.world.randomY,
 				scale: utils.randomInt(1, 3) * 0.25,
 				spriteName: 'meteor' + utils.randomInt(1, 7),
 				game: game
-			}));
+			});
 		}
 	};
 
 	that.createMeteor = function (args)
 	{
-		decorations.push(Meteor({
+		decorations.pushMeteor({
 			angle: game.rnd.angle(),
 			x: args.x,
 			y: args.y,
 			scale: args.scale,
 			spriteName: args.spriteName,
 			game: game
-		}));
+		});
 	};
 
 	that.createBots = function (args)

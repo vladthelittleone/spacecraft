@@ -5,20 +5,27 @@
 var Decorations = function (spec)
 {
     var that = {};
-    var objects = [];
+    var meteors = [];
 
-    that.push = function (obj)
+	that.meteorType = 0;
+
+	that.pushMeteor = function (args)
     {
-		objects.push(obj);
+		meteors.push(Meteor(args));
     };
 
     that.update = function ()
     {
-        objects.forEach(function (o)
+		meteors.forEach(function (o)
         {
             o.update();
         });
     };
+
+	that.getMeteors = function ()
+	{
+		return meteors;
+	};
 
     return that;
 };

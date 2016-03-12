@@ -975,15 +975,63 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							'showSkip': false
 						}
 					],
-					handleUpdate: function (spaceCraft, world)
+					handleUpdate: function (spaceCraft, world, text)
 					{
 						var botText = BBotText(
 							{
 								correct: '<p>### Ко0рдинаты м3теорита п0лучены!</p>' +
-								'<p>### На4инаю движение!</p>'
+								'<p>### На4инаю движение!</p>' +
+								'<p>### Транслирую:</p>' +
+								'<p>' + text + '</p>'
 							});
 
-						return botText.resultCorrect();
+						if (text)
+						{
+							return botText.resultCorrect();
+						}
+					}
+				},
+				{
+					title: 'Синтаксис функций',
+					content: function ()
+					{
+						return '<p>Итак, приступим к разговору о том, на чем вообще держится весь этот космос.</p>' +
+							'<p>Часто, при программировании корабля, нужно повторять одно и то же действие.</p>' +
+							'<p>Чтобы не повторять один и тот же код, был создан один из удобнейших инструментов космического инженера - функция!</p>'
+					},
+					instructions: '<ul>' +
+					'<li>На строке <span class="bold-label">6</span>, дается описание функции.</li>' +
+					'<li>На строке <span class="bold-label">20</span>, объявляется функция и ее имя - <span class="red-label">moveToMeteor</span>.</li>' +
+					'<li>Взглянем на строку <span class="bold-label">25</span> и <span class="bold-label">26</span>. Там определен код, который можно использовать множество ' +
+					'раз, используя функцию <span class="red-label">moveToMeteor</span>.</li>' +
+					'<li>На строке <span class="bold-label">25</span>, мы вызываем функцию полета к координатам <span class="red-label">meteorX</span> и ' +
+					'<span class="red-label">meteorY</span>. А на следующей транслируем координаты метеорита.</li>' +
+					'<li>На строке <span class="bold-label">42</span>, мы вызываем объявленную функцию.</li>' +
+					'<li>Изучите комментарии к коду.</li>' +
+					'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					'<li>Самообразование - сила: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Functions#Функции_в_JavaScript">клац</a>.</li>' +
+					'</ul>',
+					hint: [
+						{
+							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода, а <i class="glyphicon glyphicon-stop red"></i> для вызова паузы',
+							'nextButton': false,
+							'showSkip': false
+						}
+					],
+					handleUpdate: function (spaceCraft, world, text)
+					{
+						var botText = BBotText(
+							{
+								correct: '<p>### Ко0рдинаты м3теорита п0лучены!</p>' +
+								'<p>### На4инаю движение!</p>' +
+								'<p>### Транслирую:</p>' +
+								'<p>' + text + '</p>'
+							});
+
+						if (text)
+						{
+							return botText.resultCorrect();
+						}
 					}
 				}
 			]

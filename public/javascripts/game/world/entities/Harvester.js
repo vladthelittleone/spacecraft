@@ -25,6 +25,14 @@ var Harvester = function (spec)
 	// для бота, либо игроква
 	var strategy = spec.strategy;
 
+	var harvestRange = spec.harvestRange;
+	var maxTank = spec.maxTank;
+	var harvestRate = spec.harvestRate;
+	var harvestTime = 0;
+
+	var currentMeteor = null;
+	var currentTank = 0;
+
 	// Если не заданы x, y проставляем рандомные значения мира
 	// Координаты корабля (спрайта)
 	var x = spec.x || game.world.randomX;
@@ -138,6 +146,48 @@ var Harvester = function (spec)
 	};
 
 	that.distance = function (another)
+	{
+		var p = new Phaser.Point(another.getX(), another.getY());
+
+		return Phaser.Point.distance(sprite, p);
+	};
+
+	that.harvest = function ()
+	{
+		function getMeteorInRange()
+		{
+			var meteors = sc.world.decorations.getMeteors();
+			var res = null;
+
+			meteors.forEach(function (m)
+			{
+				if (Phaser.Point.distance(sprite, m.sprite) < harvestRange)
+				{
+					res = m.sprite;
+				}
+			});
+
+			return res;
+		}
+
+		// Проверка делэя. Не собираем каждый фрэйм.
+		if (game.time.now > harvestTime && currentTank != maxTank)
+		{
+			if (!currentMeteor || Phaser.Point.distance(sprite, currentMeteor) > harvestRange)
+			{
+				currentMeteor = getMeteorInRange();
+			}
+			else
+			{
+				currentTank++;
+				console.log(currentTank);
+			}
+
+			harvestTime = game.time.now + harvestRate;
+		}
+	};
+
+	that.debark = function (another)
 	{
 		var p = new Phaser.Point(another.getX(), another.getY());
 

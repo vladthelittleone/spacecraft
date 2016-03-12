@@ -172,11 +172,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			options.isCodeRunning = !options.isCodeRunning;
 
-			options.update = function ()
+			options.update = function (s, w, t)
 			{
-				var result = current().handleUpdate(arguments);
+				var result = current().handleUpdate(s, w, t);
 
-				if (result.status)
+				if (result && result.status)
 				{
 					success(result.message);
 				}

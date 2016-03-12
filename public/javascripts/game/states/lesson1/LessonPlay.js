@@ -18,6 +18,7 @@ var LessonPlayState = function (spec)
 	var followFor = that.followFor;
 	var gameInit = that.gameInit;
 	var keysControl = that.keysControl;
+	var bBotText;
 
 	//===================================
 	//============== HELP ===============
@@ -72,8 +73,12 @@ var LessonPlayState = function (spec)
 			{
 				try
 				{
-					var Class = new Function(userCode);
-					userObject = new Class();
+					var Class = new Function('BBotDebug', userCode);
+
+					userObject = new Class(function BBotDebug (text)
+					{
+						bBotText = text;
+					});
 				}
 				catch (err)
 				{
@@ -86,11 +91,18 @@ var LessonPlayState = function (spec)
 
 	that.update = function ()
 	{
+		if (!game.paused)
+		{
+			sc.world.update();
+			runUserScript();
+		}
+
 		scope.$apply(function ()
 		{
 			var upd = scope.editorOptions.update;
 
-			upd && upd(scope.spaceCraft, sc.world);
+
+			upd && upd(scope.spaceCraft, sc.world, bBotText);
 
 			if (scope.editorOptions.nextSubLesson)
 			{
@@ -98,12 +110,6 @@ var LessonPlayState = function (spec)
 				scope.editorOptions.nextSubLesson = false;
 			}
 		});
-
-		if (!game.paused)
-		{
-			sc.world.update();
-			runUserScript();
-		}
 
 		keysControl();
 	};
@@ -127,7 +133,10 @@ var LessonPlayState = function (spec)
 				spriteName: 'harvester',
 				health: 200,
 				shield: 100,
-				shieldSprite: 'userShield'
+				shieldSprite: 'userShield',
+				harvestRange: 100,
+				maxTank: 50,
+				harvestRate: 400
 			});
 		});
 

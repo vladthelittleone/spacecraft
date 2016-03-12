@@ -12,13 +12,16 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			makeLabels(data)
 		});
 
-		$scope.usersW = [];
+		$scope.usersLead = [];
 		$scope.score = false;
 
 		$http.get('/statistic/score').success(function (data)
 		{
-			$scope.usersW = data;
-			$scope.score = true;
+			$scope.usersLead = data.reverse();
+			if(data.length !== 0)
+			{
+				$scope.score = true;
+			}
 		});
 
 		authentication.currentUser(function (user)

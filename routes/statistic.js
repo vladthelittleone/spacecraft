@@ -30,9 +30,10 @@ router.post('/', function (req, res, next)
 						delete result.stat[0];
 					}
 
+
 					result.stat.push(req.body);
 					// Заносим в массив новое значение и апдейтим запись
-					if (result.maxScore >= req.body.totalScore)
+					if (result.maxScore > req.body.totalScore)
 					{
 						Statistic.update(id, {stat: result.stat}, {multi: true}, callback);
 					} else
@@ -80,7 +81,7 @@ router.get('/', function (req, res, next)
 		{
 			if (err)
 			{
-				return next(new HttpError(4044, "Нет такой статистики"));
+				return next(new HttpError(400, "Нет такой статистики"));
 			}
 			if (data)
 			{
@@ -102,6 +103,8 @@ router.get('/score', function (req, res, next)
 			},
 			function (user, callback)
 			{
+				console.log(user[0].maxScore);
+				console.log(user[1].maxScore);
 				if (user)
 				{
 					var great = [];

@@ -190,8 +190,21 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	var editorSession;
 
+	function full(c, n)
+	{
+		var str = '';
+
+		for (var i = 0; i < n; i++)
+		{
+			str += c;
+		}
+
+		return str;
+	}
+
 	$scope.aceChanged = function ()
 	{
+		// editorSession.replace(new Range(0, 0, editorSession.getLength() - 1, options.code.length), full('*', options.code.length));
 		options.code = editorSession.getDocument().getValue();
 	};
 

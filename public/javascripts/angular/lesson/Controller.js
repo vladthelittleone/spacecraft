@@ -64,8 +64,8 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			// Устанавливаем текущий
 			a[$stateParams.id] = {
-				current: i,
-				size: len,
+				current: i + 1,
+				size: len + 1,
 				completed: completed
 			};
 

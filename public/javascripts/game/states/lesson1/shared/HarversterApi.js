@@ -14,6 +14,9 @@ var HarvesterApi = function (harvester)
 	api.moveTo = e.moveTo;
 	api.moveToNearestBonus = e.moveToNearestBonus;
 
+	api.getX = harvester.getX;
+	api.getY = harvester.getY;
+
 	api.harvest = harvester.harvest;
 
 	return api;

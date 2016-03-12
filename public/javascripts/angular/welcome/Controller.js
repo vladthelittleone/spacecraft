@@ -28,6 +28,11 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 			a.forEach(function (v)
 			{
+				if (!v)
+				{
+					return;
+				}
+
 				if (v[predicate])
 				{
 					c += v[param1];

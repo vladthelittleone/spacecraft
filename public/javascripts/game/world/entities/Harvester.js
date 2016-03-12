@@ -25,9 +25,16 @@ var Harvester = function (spec)
 	// для бота, либо игроква
 	var strategy = spec.strategy;
 
+	// Дальность сбора
 	var harvestRange = spec.harvestRange;
+
+	// Грузоподъемность
 	var maxTank = spec.maxTank;
+
+	// Дальность сбора
 	var harvestRate = spec.harvestRate;
+
+	// Время до следующего сбора
 	var harvestTime = 0;
 
 	var currentMeteor = null;
@@ -189,9 +196,7 @@ var Harvester = function (spec)
 
 	that.debark = function (another)
 	{
-		var p = new Phaser.Point(another.getX(), another.getY());
 
-		return Phaser.Point.distance(sprite, p);
 	};
 
 	// Переносим на верхний слой, перед лазерами.

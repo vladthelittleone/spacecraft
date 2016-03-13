@@ -1062,16 +1062,16 @@ body {
 }
 
 .pages-leadboard-title {
-	padding: 5px;
+	padding: 9px;
 	background-color: #152B39;
 	color: white;
 	font-weight: bold;
 	font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
 	text-align: center;
 	font-size: 11px;
-
-	height: 30px;
+	height: 34px;
 	width: 100%;
+	margin-bottom: 8px;
 }
 
 .table-titles {
@@ -1080,7 +1080,7 @@ body {
 
 .table-number {
 	width: 15px;
-	padding-left: 10px;
+	padding: 2px 2px 2px 10px;
 }
 
 .table-content-name {
@@ -1606,13 +1606,15 @@ div.helper:after {
 	background: #1D3C50;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 968px) {
 	.container-25,
 	.container-50,
 	.container-75 {
 		width: 100%;
 	}
+}
 
+@media (max-width: 800px) {
 	.login-about,
 	.login-question,
 	.login-copyright,

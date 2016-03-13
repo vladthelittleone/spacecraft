@@ -110,7 +110,7 @@ router.get('/score', function (req, res, next)
 					user.forEach(function (u, i, user)
 					{
 						great.push({
-							username: u.idUser.email || u.idUser.username,
+							username: u.idUser.username || u.idUser.email,
 							maxScore: u.maxScore
 						});
 
@@ -127,7 +127,7 @@ router.get('/score', function (req, res, next)
 		{
 			if (err)
 			{
-				console.log(err);
+				return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
 			}
 		});
 });

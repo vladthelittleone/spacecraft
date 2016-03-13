@@ -17,7 +17,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 		$http.get('/statistic/score').success(function (data)
 		{
-			$scope.usersLead = data.reverse();
+			$scope.usersLead = data;
 			if(data.length !== 0)
 			{
 				$scope.hideLead = false;

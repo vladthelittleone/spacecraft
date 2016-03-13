@@ -19,7 +19,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		{
 			$scope.usersLead = data;
 
-			if(!data.length)
+			if(data.length)
 			{
 				$scope.hideLead = false;
 			}

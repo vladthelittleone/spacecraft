@@ -66,8 +66,24 @@
 				<div class="pages-chart-title">ДИАГРАММА ИЗУЧЕННЫХ УРОКОВ</div>
 
 			</div>
+		</div>
+		<div class="container-25" ng-hide="hideLead">
+			<div class="container-inside">
+				<div class="pages-leadboard-title">ЛУЧШИЕ ИГРОКИ</div>
+				<table style="width: 100%">
+					<tr class="table-titles">
+						<td class="table-number">№</td>
+						<td class="table-content-name">Пользователь</td>
+						<td class="table-content-score"><span class="glyphicon glyphicon-flag orange"></span></td>
+					</tr>
+					<tr ng-repeat="u in usersLead">
+						<td class="table-number">{{$index + 1}}</td>
+						<td class="table-content-name">{{u.username}}</td>
+						<td class="table-content-score">{{u.maxScore}}</td>
+					</tr>
+				</table>
 
-
+			</div>
 		</div>
 	</div>
 

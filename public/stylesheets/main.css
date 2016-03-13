@@ -1061,6 +1061,37 @@ body {
 	background-color: #152B39;
 }
 
+.pages-leadboard-title {
+	padding: 5px;
+	background-color: #152B39;
+	color: white;
+	font-weight: bold;
+	font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+	text-align: center;
+	font-size: 11px;
+
+	height: 30px;
+	width: 100%;
+}
+
+.table-titles {
+	font-weight: bold;
+}
+
+.table-number {
+	width: 15px;
+	padding-left: 10px;
+}
+
+.table-content-name {
+	width: 80%;
+	text-align: center;
+}
+.table-content-score {
+	width: 20%;
+	text-align: center;
+}
+
 .pages-label {
 	margin: 17px 25px 12px;
 	font-size: 12px;

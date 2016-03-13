@@ -19,5 +19,6 @@ module.exports = function (app)
 	app.use('/user', user);
 	app.use('/reg', reg);
 	app.use('/logout', logout);
-	app.use('/statistic', statistic)
+	app.use('/statistic', statistic);
 };
+

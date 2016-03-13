@@ -15,6 +15,10 @@ var schema = new Schema({
 	stat: {
 		type: Array,
 		required: true
+	},
+	maxScore: {
+		type: Number,
+		required: true
 	}
 });
 

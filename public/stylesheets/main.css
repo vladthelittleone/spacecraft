@@ -157,6 +157,16 @@ body {
 	margin-left: 10px;
 }
 
+.tank {
+	position: fixed;
+	bottom: 50px;
+	width: 30%;
+	right: 0;
+	left: 0;
+	height: 25px;
+	margin-left: 10px;
+}
+
 .health {
 	position: fixed;
 	bottom: 0;

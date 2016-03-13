@@ -70,6 +70,11 @@
 
 <!-- DSH bar -->
 
+<div class="tank" ng-if="spaceCraft.getCurrentTank">
+	<span class="glyphicon glyphicon-scale yellow"></span>
+	<span class="yellow">{{spaceCraft.getCurrentTank()}} / {{spaceCraft.getMaxTank()}}</span>
+</div>
+
 <div class="damage" ng-if="spaceCraft.weapon">
     <span class="glyphicon glyphicon-screenshot green"></span>
     <span class="green">{{spaceCraft.weapon.getDamage()}}</span>

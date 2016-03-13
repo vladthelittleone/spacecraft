@@ -45,6 +45,9 @@ var Harvester = function (spec)
 	var x = spec.x || game.world.randomX;
 	var y = spec.y || game.world.randomY;
 
+	var graphics = game.add.graphics();
+	var line;
+
 	// Создаем спрайт
 	var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
@@ -159,8 +162,43 @@ var Harvester = function (spec)
 		return Phaser.Point.distance(sprite, p);
 	};
 
+	that.getCurrentTank = function ()
+	{
+		return currentTank;
+	};
+
+	that.getMaxTank = function ()
+	{
+		return maxTank;
+	};
+
+
 	that.harvest = function ()
 	{
+		function tryToHarvest()
+		{
+			// Проверка делэя. Не собираем каждый фрэйм.
+			if (game.time.now > harvestTime)
+			{
+				if (!currentMeteor || Phaser.Point.distance(sprite, currentMeteor) > harvestRange)
+				{
+					currentMeteor = getMeteorInRange();
+				}
+				else
+				{
+					graphics.clear();
+					graphics.moveTo(sprite.x, sprite.y);
+					graphics.lineStyle(2, 0xDE5151);
+
+					line = graphics.lineTo(currentMeteor.x, currentMeteor.y);
+
+					currentTank++;
+				}
+
+				harvestTime = game.time.now + harvestRate;
+			}
+		}
+
 		function getMeteorInRange()
 		{
 			var meteors = sc.world.decorations.getMeteors();
@@ -177,20 +215,13 @@ var Harvester = function (spec)
 			return res;
 		}
 
-		// Проверка делэя. Не собираем каждый фрэйм.
-		if (game.time.now > harvestTime && currentTank != maxTank)
+		if (currentTank != maxTank)
 		{
-			if (!currentMeteor || Phaser.Point.distance(sprite, currentMeteor) > harvestRange)
-			{
-				currentMeteor = getMeteorInRange();
-			}
-			else
-			{
-				currentTank++;
-				console.log(currentTank);
-			}
-
-			harvestTime = game.time.now + harvestRate;
+			tryToHarvest();
+		}
+		else
+		{
+			graphics.clear();
 		}
 	};
 

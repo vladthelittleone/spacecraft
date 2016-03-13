@@ -103,8 +103,6 @@ router.get('/score', function (req, res, next)
 			},
 			function (user, callback)
 			{
-				console.log(user[0].maxScore);
-				console.log(user[1].maxScore);
 				if (user)
 				{
 					var great = [];
@@ -129,7 +127,7 @@ router.get('/score', function (req, res, next)
 		{
 			if (err)
 			{
-				console.log(err);
+				return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
 			}
 		});
 });

@@ -13,14 +13,14 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		});
 
 		$scope.usersLead = [];
-		$scope.score = false;
+		$scope.hideLead = true;
 
 		$http.get('/statistic/score').success(function (data)
 		{
 			$scope.usersLead = data.reverse();
 			if(data.length !== 0)
 			{
-				$scope.score = true;
+				$scope.hideLead = false;
 			}
 		});
 

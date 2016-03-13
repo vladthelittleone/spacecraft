@@ -99,12 +99,10 @@ router.get('/score', function (req, res, next)
 		[
 			function (callback)
 			{
-				Statistic.find().populate('idUser').sort('maxScore').exec(callback);
+				Statistic.find().populate('idUser').sort('-maxScore').exec(callback);
 			},
 			function (user, callback)
 			{
-				console.log(user[0].maxScore);
-				console.log(user[1].maxScore);
 				if (user)
 				{
 					var great = [];

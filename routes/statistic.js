@@ -14,7 +14,8 @@ router.post('/', function (req, res, next)
 
 	if (id)
 	{
-		async.waterfall([
+		async.waterfall(
+		[
 			function (callback)
 			{
 				// Ищем статистику юзера в базе
@@ -22,42 +23,33 @@ router.post('/', function (req, res, next)
 			},
 			function (result, callback)
 			{
+				var stat = req.body;
+				var maxScore = req.body.totalScore;
+
 				if (result)
 				{
+					stat = result;
+					maxScore = (result.maxScore > maxScore) ? result.maxScore : maxScore;
+
 					// Если нашли проверяем сколько игр он сыграл
 					if (result.stat.length === config.get('maxStatisticsCount'))
 					{
 						delete result.stat[0];
 					}
 
-
 					result.stat.push(req.body);
-					// Заносим в массив новое значение и апдейтим запись
-					if (result.maxScore > req.body.totalScore)
-					{
-						Statistic.update(id, {stat: result.stat}, {multi: true}, callback);
-					} else
-					{
-						Statistic.update(id, {
-							stat: result.stat,
-							maxScore: req.body.totalScore
-						}, {multi: true}, callback);
-					}
-				} else
-				{
-					// Если не нашли запись создаем новую
-					var newStat = new Statistic(
-						{
-							idUser: id,
-							stat: req.body,
-							maxScore: req.body.totalScore
-						}
-					);
-					newStat.save(callback);
 				}
 
+				Statistic.update({idUser: id},
+					{
+						stat: stat,
+						maxScore: maxScore
+					},
+					{upsert: true, multi: true},
+					callback);
 			}
-		], function (err)
+		],
+		function (err)
 		{
 			if (err)
 			{
@@ -72,64 +64,70 @@ router.post('/', function (req, res, next)
 router.get('/', function (req, res, next)
 {
 	async.waterfall(
-		[
-			function (callback)
-			{
-				// Находим статистику юзера и отправляем
-				Statistic.findOne({idUser: req.session.user}, callback)
-			}], function (err, data)
+	[
+		function (callback)
 		{
-			if (err)
-			{
-				return next(new HttpError(400, "Нет такой статистики"));
-			}
-			if (data)
-			{
-				res.json(data.stat);
-			} else
-			{
-				res.send([]);
-			}
-		});
+			// Находим статистику юзера и отправляем
+			Statistic.findOne({idUser: req.session.user}, callback)
+		}
+	],
+	function (err, data)
+	{
+		if (err)
+		{
+			return next(new HttpError(400, "Нет такой статистики"));
+		}
+
+		if (data)
+		{
+			res.json(data.stat);
+		}
+		else
+		{
+			res.send([]);
+		}
+	});
 });
 
 router.get('/score', function (req, res, next)
 {
 	async.waterfall(
-		[
-			function (callback)
-			{
-				Statistic.find().populate('idUser').sort('-maxScore').exec(callback);
-			},
-			function (user, callback)
-			{
-				if (user)
-				{
-					var great = [];
-
-					user.forEach(function (u, i, user)
-					{
-						great.push({
-							username: u.idUser.username || u.idUser.email,
-							maxScore: u.maxScore
-						});
-
-						if (i === 9)
-						{
-							return false;
-						}
-					});
-
-					res.json(great);
-				}
-			}
-		], function (err)
+	[
+		function (callback)
 		{
-			if (err)
+			Statistic.find()
+				.populate('idUser')
+				.sort('-maxScore')
+				.exec(callback);
+		}
+	],
+	function (err, user)
+	{
+		if (err)
+		{
+			return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
+		}
+
+		if (user)
+		{
+			var great = [];
+
+			user.forEach(function (u, i)
 			{
-				return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
-			}
-		});
+				great.push({
+					username: u.idUser.username || u.idUser.email,
+					maxScore: u.maxScore
+				});
+
+				if (i === 9)
+				{
+					return false;
+				}
+			});
+
+			res.json(great);
+		}
+	});
 });
 
 module.exports = router;

@@ -74,6 +74,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		$scope.totalScore = [[]];
 
 		$scope.vkShow = true;
+
 		try
 		{
 			VK.Widgets.Group("vk_groups", {
@@ -83,8 +84,10 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 				color1: 'FFFFFF',
 				color2: '25282C',
 				color3: '152B39'
-			}, 105816682);
-		}catch (e){
+			}, 105816682)
+		}
+		catch (e)
+		{
 			$scope.vkShow = false;
 		}
 

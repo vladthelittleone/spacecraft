@@ -73,14 +73,20 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		$scope.killSpaceCraft = [[]];
 		$scope.totalScore = [[]];
 
-		VK.Widgets.Group("vk_groups", {
-			mode: 0,
-			width: "auto",
-			height: "345",
-			color1: 'FFFFFF',
-			color2: '25282C',
-			color3: '152B39'
-		}, 105816682);
+		$scope.vkShow = true;
+		try
+		{
+			VK.Widgets.Group("vk_groups", {
+				mode: 0,
+				width: "auto",
+				height: "345",
+				color1: 'FFFFFF',
+				color2: '25282C',
+				color3: '152B39'
+			}, 105816682);
+		}catch (e){
+			$scope.vkShow = false;
+		}
 
 		$scope.trustAsHtml = function (s)
 		{

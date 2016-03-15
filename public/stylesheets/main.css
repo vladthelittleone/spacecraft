@@ -1006,6 +1006,10 @@ body {
 	background-image: url(../images/pages/rocket55white.png);
 }
 
+.vk-img {
+	background-image: url(../images/pages/vkwhite.png);
+}
+
 .pages-footer-img {
 	position: fixed;
 	bottom: 0;

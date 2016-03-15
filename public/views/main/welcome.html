@@ -24,9 +24,18 @@
 				</div>
 			</a>
 		</div>
-		<div class="container-25">
+		<div class="container-25" ng-show="vkShow">
 			<div class="container-inside">
 				<div id="vk_groups"></div>
+			</div>
+		</div>
+		<div class="container-25" ng-show="!vkShow">
+			<div class="container-inside">
+				<a href="https://vk.com/spacecrafter">
+					<div class="pages-img vk-img"></div>
+				</a>
+					<div class="pages-label">Присоединяйтесь к нам!</div>
+					<div class="pages-text">Группа вконтакте</div>
 			</div>
 		</div>
 		<div class="container-25" ui-sref="quick" >

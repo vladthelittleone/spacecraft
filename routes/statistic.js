@@ -121,7 +121,7 @@ router.get('/score', function (req, res, next)
 
 				if (i === 9)
 				{
-					return false;
+					return;
 				}
 			});
 
@@ -130,4 +130,82 @@ router.get('/score', function (req, res, next)
 	});
 });
 
+router.post('/lessoncomplete', function(req, res, next){
+
+	var id = req.session.user;
+
+	if (id)
+	{
+		async.waterfall(
+			[
+				function (callback)
+				{
+					// Ищем статистику юзера в базе
+					Statistic.findOne({idUser: id}, callback);
+				},
+				function(result, callback)
+				{
+					var lesson = req.body;
+					if(result)
+					{
+						if(result.lessonComplete)
+						{
+							lesson = result.lessonComplete;
+							var change = false;
+							lesson.forEach(function(l, i)
+							{
+								if(l.name === req.body.name)
+								{
+									lesson[i].current = req.body.current;
+									change = true;
+									return;
+								}
+
+								if(!change)
+								{
+									lesson.push(req.body);
+								}
+							});
+						}
+					}
+
+					Statistic.update({idUser: id},
+						{
+							lessonComplete: lesson
+						},
+						{upsert: true, multi: true},
+						callback);
+				}
+			],
+		function(err)
+		{
+			if(err)
+			{
+				next(new HttpError(500, "Ошибка с сохранением урока"));
+			}
+		});
+	}
+});
+
+router.get('/lessoncomplete', function(req, res, next){
+	async.waterfall(
+		[
+			function (callback)
+			{
+				Statistic.findOne({idUser: req.session.user},callback);
+			}
+		],
+		function (err, result)
+		{
+			if (err)
+			{
+				return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
+			}
+
+			if (result)
+			{
+				res.json(result.lessonComplete);
+			}
+		});
+});
 module.exports = router;

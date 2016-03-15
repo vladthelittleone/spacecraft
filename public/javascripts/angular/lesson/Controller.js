@@ -28,7 +28,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		},
 		getLessons: function ()
 		{
-			return JSON.parse($storage.local.getItem('lessons')) || [];;
+			return JSON.parse($storage.local.getItem('lessons')) || [];
 		}
 	};
 
@@ -86,6 +86,16 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			// Устанавливаем текущий урок в хранилище
 			set(l, $scope.subIndex, len);
+
+			$http({
+				url: '/statistic/lessoncomplete',
+				method: 'POST',
+				data: {
+					name: $stateParams.id,
+					size: len,
+					current: $scope.subIndex,
+				}
+			});
 		}
 		else
 		{

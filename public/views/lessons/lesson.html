@@ -5,7 +5,8 @@
 		<div ui-layout-container
 			 min-size="30%"
 			 max-size="70%"
-			 size="50%">
+			 size="50%"
+			 ng-hide="options.isCodeRunning && isGameLesson">
 			<lesson-board
 				lesson="lesson.sub[subIndex]"
 				text="lesson.text"/>
@@ -38,6 +39,11 @@
     </div>
 </div>
 
+<!-- Директива игры -->
+<div game-canvas ng-if="isGameLesson"
+	 editor-options="options">
+</div>
+
 
 <div class="toolbar">
     <div class="box">
@@ -47,8 +53,8 @@
     </div>
     <div class="box">
         <button class="hint-play" type="button" ng-click="run()">
-            <span class="glyphicon play-toggle glyphicon-play green"
-                  ng-class="{'glyphicon-stop red' : editorOptions.isCodeRunning, 'glyphicon-play green' : !editorOptions.isCodeRunning}">
+            <span class="glyphicon"
+                  ng-class="{'glyphicon-stop red' : options.isCodeRunning, 'glyphicon-play green' : !options.isCodeRunning}">
             </span>
         </button>
     </div>

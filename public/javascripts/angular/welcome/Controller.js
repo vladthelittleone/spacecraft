@@ -1,5 +1,6 @@
 /**
- * Created by vladthelittleone on 30.11.15.
+ * @since 30.11.15
+ * @author Skurishin Vladislav
  */
 var app = angular.module('spacecraft.welcome');
 
@@ -36,13 +37,18 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 			a.forEach(function (v)
 			{
+				if (!v)
+				{
+					return;
+				}
+
 				if (v[predicate])
 				{
-					c =+ v[param1];
+					c += v[param1];
 				}
 				else
 				{
-					c =+ v[param2];
+					c += v[param2];
 				}
 			});
 

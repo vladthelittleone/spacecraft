@@ -13,7 +13,7 @@
         <div ui-layout-container
             min-size="30%"
             max-size="70%"
-			ng-class="{'hidden' : hideEditor, 'visible' : !hideEditor}">
+			ng-hide="hideEditor">
 
 			<div class="main-editor"
 			 	ui-ace="{
@@ -36,8 +36,7 @@
 
 <!-- Директива игры -->
 <div game-canvas
-     editor-options="options"
-     player="player"></div>
+     editor-options="options"></div>
 
 <!-- Директива подсказки -->
 <div tips object="tipsAndTricks"></div>

@@ -28,16 +28,16 @@ router.post('/', function (req, res, next)
 
 				if (result)
 				{
-					stat = result;
+					stat = result.stat;
 					maxScore = (result.maxScore > maxScore) ? result.maxScore : maxScore;
 
 					// Если нашли проверяем сколько игр он сыграл
-					if (result.stat.length === config.get('maxStatisticsCount'))
+					if (stat.length === config.get('maxStatisticsCount'))
 					{
-						delete result.stat[0];
+						delete stat[0];
 					}
 
-					result.stat.push(req.body);
+					stat.push(req.body);
 				}
 
 				Statistic.update({idUser: id},

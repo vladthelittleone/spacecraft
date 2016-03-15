@@ -217,7 +217,17 @@ body {
 	border: 1px solid rgb(230, 70, 70);
 }
 
-.bold-label {
+.under-label {
+	padding: 1px;
+	white-space: pre;
+	border-bottom: 2px solid rgb(200, 29, 20);
+	font-weight: bold;
+}
+
+.under-label-blue {
+	padding: 1px;
+	white-space: pre;
+	border-bottom: 2px solid rgb(21, 43, 57);
 	font-weight: bold;
 }
 
@@ -672,15 +682,6 @@ body {
 	height: 100%;
 	width: 100%;
 	cursor: default;
-}
-
-.lesson-board .code {
-	border: 3px solid black;
-	white-space: pre-wrap;
-	background-color: rgb(29, 31, 33);
-	color: #FFFFFF;
-	font-weight: 400;
-	padding: 2px;
 }
 
 .documentation {

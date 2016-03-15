@@ -18,8 +18,6 @@ function moveToMeteor(spaceCraft)
  */
 this.run = function(spaceCraft, world)
 {
-	// Формально вызывается код строки 11 - 12:
-	// Перемещение корабля в сторону 500, 500,
-	// Вывод BBot'ом информации
-	moveToMeteor(spaceCraft);
+	// Вызовите на следующей строке функцию moveToMeteor
+
 };

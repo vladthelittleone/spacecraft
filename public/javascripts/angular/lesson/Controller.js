@@ -22,7 +22,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			if (l && l[name])
 			{
-				return parseInt(l[name].current)
+				return parseInt(l[name].current) - 1;
 			}
 
 			return 0;

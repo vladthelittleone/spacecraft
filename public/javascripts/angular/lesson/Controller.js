@@ -6,16 +6,16 @@ var app = angular.module('spacecraft.lesson');
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', '$storage', 'lessonProvider', 'interpreter',
 	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter)
 {
-	function getCurrent(name)
+	// Вся информация о уроке
+	$scope.lesson = lessonProvider($stateParams.id);
+
+	$http.get('/statistic/lessonscomplete').then(function(result)
 	{
-		$http.get('/statistic/lessonscomplete').success(function(data)
-		{
-			console.log("In get Current = 1");
-			console.log("lessons = " + parseInt(data[name].current));
-			return parseInt(data[name].current) || 0;
-		});
-		console.log("In get Current = 2");
-	}
+		// Индекс под урока
+		$scope.subIndex = parseInt(result.data[$stateParams.id].current) || 0;
+		initCode(parseInt(result.data[$stateParams.id].current));
+	});
+
 
 	function current()
 	{
@@ -83,7 +83,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function initCode(i)
 	{
-		console.log("initCode = " + i);
 		$http({
 			method: 'GET',
 			url: 'javascripts/code/lesson' + $stateParams.id + '/' + i + '.js'
@@ -99,17 +98,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		});
 	}
 
-	initCode(getCurrent($stateParams.id) || 0);
-
 	//===================================
 	//============== SCOPE ==============
 	//===================================
 
-	// Индекс под урока
-	$scope.subIndex = getCurrent($stateParams.id) || 0;
-	console.log("$scope.subIndex" + $scope.subIndex);
-	// Вся информация о уроке
-	$scope.lesson = lessonProvider($stateParams.id);
+
 
 	// Проверка существования урока
 	if (!$scope.lesson)

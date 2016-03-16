@@ -112,12 +112,18 @@ router.get('/score', function (req, res, next)
 		{
 			var great = [];
 
-			user.forEach(function (u, i)
+			var i = 0;
+			user.forEach(function (u)
 			{
-				great.push({
-					username: u.idUser.username || u.idUser.email,
-					maxScore: u.maxScore
-				});
+				if(u.maxScore !== undefined)
+				{
+					console.log(u.maxScore);
+					great.push({
+						username: u.idUser.username || u.idUser.email,
+						maxScore: u.maxScore
+					});
+					i++;
+				}
 
 				if (i === 9)
 				{

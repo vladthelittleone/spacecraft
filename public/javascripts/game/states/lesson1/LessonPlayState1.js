@@ -3,7 +3,7 @@
 /**
  * Created by vladthelittleone on 02.12.15.
  */
-var LessonPlayState = function (spec)
+var LessonPlayState1 = function (spec)
 {
 	var that = PlayState(spec);
 

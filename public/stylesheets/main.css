@@ -12,6 +12,10 @@ body {
 	z-index: -1;
 }
 
+.lesson-canvas .game-canvas {
+	bottom: 40px;
+}
+
 .toolbar {
 	position: fixed;
 	top: 0;
@@ -676,7 +680,6 @@ body {
 }
 
 .lesson-board {
-	background: #fff;
 	color: rgb(80, 80, 80);
 	bottom: 0;
 	height: 100%;
@@ -1139,11 +1142,16 @@ body {
 	z-index: 40
 }
 
+.lesson-left-pane {
+	width: 50%;
+	float: left;
+	padding: 10px;
+	text-align: center;
+}
+
 .pane-title {
 	background: #F6F6F6;
 	color: #969696;
-	/*background: #FEFEFE;*/
-	/*color: #45404F;*/
 	width: 100%;
 	top: 25px;
 	height: 40px;
@@ -1156,6 +1164,11 @@ body {
 	margin: auto;
 	max-width: none;
 	width: 80%;
+}
+
+.lesson-pane-title {
+	color: white;
+	font-weight: bold;
 }
 
 .content-overflow {
@@ -1222,8 +1235,8 @@ body {
 }
 
 .lesson-content-overflow {
-	top: 40px;
-	bottom: 175px;
+	top: 0;
+	bottom: 40px;
 	height: initial;
 	width: 100%;
 	position: absolute;
@@ -1267,48 +1280,49 @@ div.thought:after {
 	border-radius: 18px;
 }
 
+div.lesson-img-wrapper {
+	position: absolute;
+	bottom: 0;
+}
+
+div.lesson-toolbar {
+	border-top: 5px solid #1D1F21;
+	position: absolute;
+	bottom: 0;
+	height: 40px;
+	background-color: #152B39;
+	width: 100%;
+}
+
+.lesson-toolbar .lesson-player-container {
+	height: 100%;
+	margin-left: 170px;
+}
+
+.lesson-player-container button {
+	color: #ffffff;
+	float: right;
+	background: #152B39;
+	height: 40px;
+	width: 40px;
+	text-decoration: none;
+	border: 0;
+	outline: none;
+	text-align: center;
+}
+
+.lesson-player-container button:hover {
+	color: #fff;
+	text-decoration: none;
+	background: #1D3C50;
+}
+
 div.helper {
 	border-top: 5px solid #1D1F21;
 	position: absolute;
 	bottom: 0;
 	background-color: #152B39;
 	width: 100%;
-}
-
-div.helper .astrogirl-img {
-	margin-top: 20px;
-}
-
-div.helper:before {
-	border-color: #1D1F21 transparent;
-	display: block;
-	width: 0;
-	content: "";
-	position: absolute;
-	left: 40px;
-	border-width: 20px 20px 0;
-	border-style: solid;
-}
-
-div.helper:after {
-	content: "";
-	position: absolute;
-	top: -5px;
-	left: 43px;
-	border-width: 17px 17px 0;
-	border-style: solid;
-	border-color: #FFFFFF transparent;
-	/*border-color: #F3F2E9 transparent;*/
-	display: block;
-	width: 0;
-}
-
-.helper .button-block {
-	position: absolute;
-	right: 0;
-	left: 150px;
-	bottom: 0;
-	height: 170px;
 }
 
 .button-block > div {
@@ -1625,8 +1639,7 @@ div.helper:after {
 	.login-copyright,
 	.bbot-img,
 	.bbot-triangle,
-	.quote,
-	.pane-title,
+	.quote
 	.login-footer {
 		display: none;
 	}
@@ -1663,7 +1676,20 @@ div.helper:after {
 		bottom: 0;
 	}
 
-	div.helper {
+	div.helper,
+	div.lesson-img-wrapper{
 		display: none;
 	}
 }
+
+.videogular-container {
+	width: 100%;
+	height: 320px;
+	margin: auto;
+	overflow: hidden;
+}
+
+.videogular-container.audio {
+	height: 50px;
+}
+

@@ -4,7 +4,7 @@
  * @since 02.12.15
  * @author Skurishin Vladislav
  */
-var LessonPreloadState = function (spec)
+var LessonPreloadState1 = function (spec)
 {
 	var that = {};
 

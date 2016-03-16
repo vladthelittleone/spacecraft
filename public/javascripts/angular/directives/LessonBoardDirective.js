@@ -7,6 +7,13 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 {
 	var link = function ($scope)
 	{
+		$scope.textContent = false;
+
+		$scope.toggleTextContent = function ()
+		{
+			$scope.textContent = !$scope.textContent;
+		};
+
 		$scope.getContent = function ()
 		{
 			return $sce.trustAsHtml($scope.lesson.content());

@@ -130,8 +130,7 @@ router.get('/score', function (req, res, next)
 	});
 });
 
-router.post('/lessoncomplete', function(req, res, next){
-
+router.post('/lessonscomplete', function(req, res, next){
 	var id = req.session.user;
 
 	if (id)
@@ -145,33 +144,20 @@ router.post('/lessoncomplete', function(req, res, next){
 				},
 				function(result, callback)
 				{
-					var lesson = req.body;
+					var lessons = req.body;
 					if(result)
 					{
-						if(result.lessonComplete)
+						if(result.lessonsComplete)
 						{
-							lesson = result.lessonComplete;
+							lessons = result.lessonsComplete;
 							var change = false;
-							lesson.forEach(function(l, i)
-							{
-								if(l.name === req.body.name)
-								{
-									lesson[i].current = req.body.current;
-									change = true;
-									return;
-								}
-
-								if(!change)
-								{
-									lesson.push(req.body);
-								}
-							});
+							lessons[req.body.lessonId] = req.body;
 						}
 					}
 
 					Statistic.update({idUser: id},
 						{
-							lessonComplete: lesson
+							lessonsComplete: lessons
 						},
 						{upsert: true, multi: true},
 						callback);
@@ -187,15 +173,15 @@ router.post('/lessoncomplete', function(req, res, next){
 	}
 });
 
-router.get('/lessoncomplete', function(req, res, next){
+router.get('/lessonscomplete', function(req, res, next){
 	async.waterfall(
 		[
-			function (callback)
+			function(callback)
 			{
 				Statistic.findOne({idUser: req.session.user},callback);
 			}
 		],
-		function (err, result)
+		function(err, result)
 		{
 			if (err)
 			{
@@ -204,7 +190,10 @@ router.get('/lessoncomplete', function(req, res, next){
 
 			if (result)
 			{
-				res.json(result.lessonComplete);
+				res.json(result.lessonsComplete);
+			}else
+			{
+				res.send([]);
 			}
 		});
 });

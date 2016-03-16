@@ -25,23 +25,19 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			}
 		});
 
-		// Кол-во подуроков
-		var size = 0;
-
-		// Добавляем полное кол-во уроков, если он уже был пройден,
-		// иначе номер текущего урока.
-		var end = 0;
-
-		// Вычитаем из общего размера.
-		var notEnd = 0;
-
 		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 
-		$http.get('/statistic/lessoncomplete').success(function(data)
+		$http.get('/statistic/lessonscomplete').success(function(data)
 		{
-			size = sum(data, null, 'size') || 100;
-			end = sum(data, 'size', 'current', 'completed');
-			notEnd = size - end;
+			// Кол-во подуроков
+			var size = sum(data, null, 'size') || 100;
+
+			// Добавляем полное кол-во уроков, если он уже был пройден,
+			// иначе номер текущего урока.
+			var end = sum(data, 'size', 'current', 'completed');
+
+			// Вычитаем из общего размера.
+			var notEnd = size - end;
 			$scope.dataL = [end, notEnd];
 		});
 

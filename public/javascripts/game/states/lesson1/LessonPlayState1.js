@@ -50,7 +50,7 @@ var LessonPlayState1 = function (spec)
 
 	that.create = function ()
 	{
-		gameInit(sc.world.getBounds());
+		gameInit(sc.world.getBounds(), true);
 		that.entitiesInit();
 		followFor(scope.spaceCraft.sprite);
 
@@ -100,7 +100,6 @@ var LessonPlayState1 = function (spec)
 		scope.$apply(function ()
 		{
 			var upd = scope.editorOptions.update;
-
 
 			upd && upd(scope.spaceCraft, sc.world, bBotText);
 

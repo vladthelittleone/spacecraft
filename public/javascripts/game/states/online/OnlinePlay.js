@@ -77,7 +77,7 @@ var OnlinePlay = function (spec)
 
 	that.create = function ()
 	{
-		gameInit(sc.world.getBounds());
+		gameInit(sc.world.getBounds(), true);
 		that.entitiesInit();
 		followFor(scope.spaceCraft.sprite);
 

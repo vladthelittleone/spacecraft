@@ -10,6 +10,7 @@ var LessonPlayState0 = function (spec)
 	var game = spec.game;
 	var scope = game.sc.scope;
 	var sc = game.sc;
+	var base = {};
 
 	var followFor = that.followFor;
 	var gameInit = that.gameInit;
@@ -22,24 +23,53 @@ var LessonPlayState0 = function (spec)
 	{
 		gameInit(sc.world.getBounds());
 		that.entitiesInit();
+		followFor(base.sprite);
 	};
 
 	that.update = function ()
 	{
 		if (!game.paused)
 		{
+			base.update();
 			sc.world.update();
-			runUserScript();
 		}
 	};
 
 	that.entitiesInit = function ()
 	{
-		scope.$apply(function createAcademy()
-		{
+		var factory = sc.world.factory;
 
+		base = AcademyBase({
+			game: game,
+			x: game.world.centerX,
+			y: game.world.centerY,
+			spriteName: 'base',
+			scale: 1
 		});
 
+		for (var i = 0; i < 10; i++)
+		{
+			factory.createHarvester({
+				x: game.world.randomX % 1000,
+				y: game.world.randomY % 1000,
+				angle: game.rnd.angle(),
+				spriteName: 'harvester',
+				health: 200,
+				shield: 100,
+				shieldSprite: 'userShield',
+				harvestRange: 100,
+				maxTank: 50,
+				scale: 1,
+				harvestRate: 400,
+				strategy: function (args)
+				{
+					var spaceCraft = args.spaceCraft;
+
+					spaceCraft.engine.moveForward();
+					spaceCraft.engine.rotateLeft();
+				}
+			});
+		}
 	};
 
 	return that;

@@ -21,6 +21,8 @@ var WeaponBlock = function (spec)
     var velocity = spec.velocity;
     var fireTime = 0;
 
+	var audio = spec.audio;
+
     // Объявляем группу коллизий.
     var beamsCollisionGroup = game.physics.p2.createCollisionGroup();
 	game.physics.p2.updateBoundsCollisionGroup();
@@ -108,6 +110,8 @@ var WeaponBlock = function (spec)
                 spaceCraft.statistic.addAcceptDamage(spaceCraft.weapon.getDamage());
                 u.statistic.addTakenDamage(damage.getDamage());
 
+				// проигрываем звук маленького взрыва
+				audio.playSmallExplosion(spaceCraft.isUserSpaceCraft());
             }
         };
     }
@@ -209,22 +213,8 @@ var WeaponBlock = function (spec)
                 fireTime = game.time.now + rate.getFireRate();
             }
 
-			if (sprite.inCamera)
-			{
-				var audio = game.add.audio('laser1');
-
-				if (sc.scope.spaceCraft.getId() === spaceCraft.getId())
-				{
-					audio.volume = 0.015;
-				}
-				else
-				{
-					audio.volume = 0.01;
-				}
-
-				audio.play();
-
-			}
+			// проигрываем звук выстреле
+			audio.playLaser(spaceCraft.isUserSpaceCraft());
 		}
     };
 

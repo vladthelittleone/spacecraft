@@ -35,7 +35,10 @@ var SpaceCraft = function (spec)
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
-	var audio = new AudioManager(game, sprite);
+	var audio = new AudioManager(game, sprite, function()
+	{
+		return sc.scope.spaceCraft.getId() === that.getId();
+	});
 
     var isAlive = true;
 
@@ -133,11 +136,6 @@ var SpaceCraft = function (spec)
     //============== THAT ===============
     //===================================
 
-	that.isUserSpaceCraft = function()
-	{
-		return sc.scope.spaceCraft.getId() === that.getId();
-	};
-
     that.update = function ()
     {
         weapon.update();
@@ -174,7 +172,7 @@ var SpaceCraft = function (spec)
                 protection.setShield(0);
 
 				// проигрываем звук разрушения щита
-				audio.playDestructionShield(that.isUserSpaceCraft());
+				audio.playDestructionShield();
             }
         }
         else
@@ -187,7 +185,7 @@ var SpaceCraft = function (spec)
             destroy(damageCraft);
 
 			// проигрываем звук взрыва коробля
-			audio.playExplosion(that.isUserSpaceCraft());
+			audio.playExplosion();
         }
     };
 

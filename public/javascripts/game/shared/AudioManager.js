@@ -1,12 +1,23 @@
-var AudioManager = function (game, sprite)
+var AudioManager = function (game, sprite, callback)
 {
 	var that = {};
 
 	var game = that.game = game;
 	var sprite = that.sprite = sprite;
 
-	function play (volume, audioName)
+	function play (audioName, min, max)
 	{
+		var volume;
+
+		if (callback)
+		{
+			volume = callback() ? max : min;
+		}
+		else
+		{
+			volume = min;
+		}
+
 		if (sprite.visible && volume > 0)
 		{
 			var audio = game.add.audio(audioName);
@@ -16,39 +27,34 @@ var AudioManager = function (game, sprite)
 		}
 	}
 
-	function volume (isUser, min, max)
+	that.playLaser = function ()
 	{
-		return isUser? max : min;
-	}
-
-	that.playLaser = function (isUser)
-	{
-		play(volume(isUser, 0.01, 0.015), 'laser1');
+		play('laser1', 0.01, 0.015);
 	};
 
-	that.playExplosion = function (isUser)
+	that.playExplosion = function ()
 	{
-		play(volume(isUser, 0.05, 0.2), 'explosion2');
+		play('explosion2', 0.05, 0.2);
 	};
 
-	that.playSmallExplosion = function (isUser)
+	that.playSmallExplosion = function ()
 	{
-		play(volume(isUser, 0.001, 0.005), 'explosion2');
+		play('explosion2', 0.001, 0.005);
 	};
 
-	that.playDestructionShield = function (isUser)
+	that.playDestructionShield = function ()
 	{
-		play(volume(isUser, 0, 0.1), 'shield1');
+		play('shield1', 0, 0.1);
 	};
 
-	that.playTakeBonus = function (isUser)
+	that.playTakeBonus = function ()
 	{
-		play(volume(isUser, 0, 0.03), 'bonus1');
+		play('bonus1', 0, 0.03);
 	};
 
 	that.playHarvest = function ()
 	{
-		play(0.01, 'harvest1');
+		play('harvest1', 0.01, 0.01);
 	};
 
 	return that;

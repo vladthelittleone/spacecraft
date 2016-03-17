@@ -111,7 +111,7 @@ var WeaponBlock = function (spec)
                 u.statistic.addTakenDamage(damage.getDamage());
 
 				// проигрываем звук маленького взрыва
-				audio.playSmallExplosion(spaceCraft.isUserSpaceCraft());
+				audio.playSmallExplosion();
             }
         };
     }
@@ -214,7 +214,7 @@ var WeaponBlock = function (spec)
             }
 
 			// проигрываем звук выстреле
-			audio.playLaser(spaceCraft.isUserSpaceCraft());
+			audio.playLaser();
 		}
     };
 

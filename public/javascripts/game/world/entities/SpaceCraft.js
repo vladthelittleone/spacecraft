@@ -13,7 +13,6 @@ var SpaceCraft = function (spec)
 	var game = spec.game;
 	var sc = game.sc;
 
-
     var that = sc.world.factory.createGameObject({
         type: sc.world.spaceCraftType
     });

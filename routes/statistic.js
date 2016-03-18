@@ -34,7 +34,7 @@ router.post('/', function (req, res, next)
 					// Если нашли проверяем сколько игр он сыграл
 					if (stat.length === config.get('maxStatisticsCount'))
 					{
-						delete stat[0];
+						 stat.splice(0,1);
 					}
 
 					stat.push(req.body);

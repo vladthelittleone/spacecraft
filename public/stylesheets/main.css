@@ -1204,9 +1204,8 @@ body {
 	font-family: "Courier New", serif;
 	color: #FFFFFF;
 	text-align: center;
-	background-color: #C61F0E;
+	background-color: rgba(198, 31, 14, 0.55);
 	border-bottom: 1px solid #E1E2E2;
-	border-top: 1px solid #E1E2E2;
 	padding: 10px;
 	cursor: pointer;
 }
@@ -1214,9 +1213,7 @@ body {
 .lesson-instructions {
 	font-family: "Courier New", serif;
 	color: white;
-	background-color: #1D1F21;
-	/*color: #F3F2E9;*/
-	/*background-color: #423D4C;*/
+	background-color: rgba(29, 31, 33, 0.54);
 	border-bottom: 1px solid #E1E2E2;
 	border-top: 1px solid #E1E2E2;
 	margin-top: 35px;
@@ -1228,18 +1225,22 @@ body {
 }
 
 .lesson-instructions .lesson-content {
-	background-color: #1D1F21;
 	color: white;
-	/*background-color: #423D4C;*/
-	/*color: #F3F2E9;*/
 }
 
 .lesson-content-overflow {
-	top: 0;
-	bottom: 40px;
+	top: 40px;
+	border-bottom-left-radius: 30px;
+	border-top-left-radius: 30px;
+	bottom: 170px;
 	height: initial;
+	border-bottom: 5px solid #1D1F21;
+	border-top: 5px solid #1D1F21;
+	border-left: 5px solid #1D1F21;
 	width: 100%;
 	position: absolute;
+	color: white;
+	background: rgba(29, 60, 80, 0.8);
 }
 
 div.thought {
@@ -1283,6 +1284,12 @@ div.thought:after {
 div.lesson-img-wrapper {
 	position: absolute;
 	bottom: 0;
+}
+
+div.lesson-border-wrapper {
+	border: 1px solid #070D11;
+	width: 100%;
+	height: 100%;
 }
 
 div.lesson-toolbar {

@@ -16,16 +16,21 @@
 			</div>
 		</div>
 		<div class="lesson-toolbar">
-			<div class="lesson-player-container">
-				<div class="lesson-left-pane"><span class="lesson-pane-title">{{text}}</span></div>
+			<div class="lesson-border-wrapper">
+				<div class="lesson-player-container">
+					<div class="lesson-left-pane"><span class="lesson-pane-title">{{text}}</span></div>
 
-				<button ng-click="toggleTextContent()">
-					<span class="glyphicon glyphicon-list-alt"
-						  ng-class="{'glyphicon-chevron-down' : textContent}"></span>
-				</button>
+					<button ng-click="toggleTextContent()">
+						<span class="glyphicon glyphicon-list-alt"
+							  ng-class="{'glyphicon-chevron-right' : textContent}"></span>
+					</button>
 
-				<button><span class="glyphicon glyphicon-fast-backward"></span></button>
-				<button><span class="glyphicon glyphicon-play"></span></button>
+					<button ng-click="previousAudio()"><span class="glyphicon glyphicon-fast-backward"></span></button>
+					<button ng-click="togglePauseAudio()">
+						<span class="glyphicon"
+							  ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 		<div class="lesson-img-wrapper">

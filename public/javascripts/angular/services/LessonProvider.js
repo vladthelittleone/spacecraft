@@ -116,6 +116,22 @@ app.service('lessonProvider', ['$storage', function ($storage)
 							'nextButton': false,
 							'showSkip': false
 						}
+					],
+					character: [
+						{
+							audio: 'audio/lesson1/1.mp3'
+						}
+						//{
+						//	audio: 'audio/lesson1/1.mp3',
+						//	waitForHint: true,
+						//	hint: [
+						//		{
+						//			'next .ace_scroller': 'Редактор кода',
+						//			'nextButton': 'Далее',
+						//			'showSkip': false
+						//		}
+						//	]
+						//}
 					]
 				},
 				{

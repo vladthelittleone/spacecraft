@@ -47,11 +47,11 @@ var LessonPlayState0 = function (spec)
 			scale: 1
 		});
 
-		for (var i = 0; i < 10; i++)
+		for (var i = 0; i < 3; i++)
 		{
 			factory.createHarvester({
-				x: game.world.randomX % 1000,
-				y: game.world.randomY % 1000,
+				x: game.world.centerX + game.world.randomX % 200,
+				y: game.world.centerY + game.world.randomY % 200,
 				angle: game.rnd.angle(),
 				spriteName: 'harvester',
 				health: 200,

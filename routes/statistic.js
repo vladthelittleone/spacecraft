@@ -95,7 +95,7 @@ router.get('/score', function (req, res, next)
 	[
 		function (callback)
 		{
-			Statistic.find()
+			Statistic.find(({ maxScore: { $ne: null } }))
 				.populate('idUser')
 				.sort('-maxScore')
 				.exec(callback);
@@ -112,8 +112,7 @@ router.get('/score', function (req, res, next)
 		{
 			var great = [];
 
-			var i = 0;
-			user.forEach(function (u)
+			user.forEach(function (u,i)
 			{
 				if(u.maxScore !== undefined)
 				{
@@ -122,7 +121,6 @@ router.get('/score', function (req, res, next)
 						username: u.idUser.username || u.idUser.email,
 						maxScore: u.maxScore
 					});
-					i++;
 				}
 
 				if (i === 9)

@@ -9,7 +9,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	// Вся информация о уроке
 	$scope.lesson = lessonProvider($stateParams.id);
 
-	$http.get('/statistic/lessonscomplete').then(function(result)
+	$http.get('/statistic/lessons').then(function(result)
 	{
 		// Индекс под урока
 		$scope.subIndex = parseInt(result.data[$stateParams.id].current) || 0;
@@ -55,7 +55,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			options.code = initCode(++$scope.subIndex);
 
 			$http({
-				url: '/statistic/lessonscomplete',
+				url: '/statistic/lessons',
 				method: 'POST',
 				data: {
 					lessonId: $stateParams.id,

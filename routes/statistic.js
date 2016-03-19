@@ -130,7 +130,7 @@ router.get('/score', function (req, res, next)
 	});
 });
 
-router.post('/lessonscomplete', function(req, res, next){
+router.post('/lessons', function(req, res, next){
 	var id = req.session.user;
 
 	if (id)
@@ -173,7 +173,7 @@ router.post('/lessonscomplete', function(req, res, next){
 	}
 });
 
-router.get('/lessonscomplete', function(req, res, next){
+router.get('/lessons', function(req, res, next){
 	async.waterfall(
 		[
 			function(callback)
@@ -191,7 +191,8 @@ router.get('/lessonscomplete', function(req, res, next){
 			if (result)
 			{
 				res.json(result.lessonsComplete);
-			}else
+			}
+			else
 			{
 				res.send([]);
 			}

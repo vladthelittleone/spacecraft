@@ -27,7 +27,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 
-		$http.get('/statistic/lessonscomplete').success(function(data)
+		$http.get('/statistic/lessons').success(function(data)
 		{
 			// Кол-во подуроков
 			var size = sum(data, null, 'size') || 100;

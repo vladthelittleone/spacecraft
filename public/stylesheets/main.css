@@ -967,6 +967,14 @@ body {
 	overflow: hidden;
 }
 
+.astromen-img {
+	height: 150px;
+	width: 170px;
+	background-image: url(../images/pages/astromen.png);
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
 .bbot-img {
 	height: 125px;
 	width: 100px;
@@ -1230,12 +1238,12 @@ body {
 
 .lesson-content-overflow {
 	top: 40px;
-	border-bottom-left-radius: 30px;
-	border-top-left-radius: 30px;
+	border-bottom-left-radius: 15px;
+	border-top-left-radius: 15px;
 	bottom: 170px;
 	height: initial;
-	border-bottom: 5px solid #1D1F21;
-	border-top: 5px solid #1D1F21;
+	border-bottom: 2px solid #1D1F21;
+	border-top: 2px solid #1D1F21;
 	border-left: 5px solid #1D1F21;
 	width: 100%;
 	position: absolute;
@@ -1646,7 +1654,7 @@ div.helper {
 	.login-copyright,
 	.bbot-img,
 	.bbot-triangle,
-	.quote
+	.quote,
 	.login-footer {
 		display: none;
 	}

@@ -8,7 +8,7 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 	var link = function ($scope)
 	{
 		var audio;
-		var char = $scope.lesson.character;
+		var char =  $scope.lesson.character;
 		var i = 0;
 
 		$scope.audioPause = false;
@@ -60,18 +60,21 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 
 		function previous()
 		{
+			$scope.audioPause = false;
 			i = Math.max(i - 2, 0);
 			next();
 		}
 
 		function next()
 		{
-			if (char[i])
+			var ch = $scope.char = char[i];
+
+			if (ch)
 			{
-				audio = new Audio(char[i].audio);
+				audio = new Audio(ch.audio);
 				audio.play();
 
-				tryShowHint(char[i], function ()
+				tryShowHint(ch, function ()
 				{
 					$scope.audioPause = true;
 					i++;

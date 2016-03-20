@@ -147,17 +147,16 @@ router.post('/lessons', function(req, res, next){
 					var lessons = req.body;
 					if(result)
 					{
-						if(result.lessonsComplete)
+						if(result.lessons)
 						{
-							lessons = result.lessonsComplete;
-							var change = false;
+							lessons = result.lessons;
 							lessons[req.body.lessonId] = req.body;
 						}
 					}
 
 					Statistic.update({idUser: id},
 						{
-							lessonsComplete: lessons
+							lessons: lessons
 						},
 						{upsert: true, multi: true},
 						callback);
@@ -190,7 +189,7 @@ router.get('/lessons', function(req, res, next){
 
 			if (result)
 			{
-				res.json(result.lessonsComplete);
+				res.json(result.lessons);
 			}
 			else
 			{

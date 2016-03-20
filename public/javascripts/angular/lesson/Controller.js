@@ -11,9 +11,14 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$http.get('/statistic/lessons').then(function(result)
 	{
-		// Индекс под урока
-		$scope.subIndex = parseInt(result.data[$stateParams.id].current) || 0;
-		initCode(parseInt(result.data[$stateParams.id].current));
+		if(result.data.length !== 0){
+			// Индекс под урока
+			$scope.subIndex = parseInt(result.data[$stateParams.id].current);
+			initCode(parseInt(result.data[$stateParams.id].current));
+		}else{
+			$scope.subIndex = 0;
+			initCode(0);
+		}
 	});
 
 

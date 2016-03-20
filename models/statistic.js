@@ -18,7 +18,7 @@ var schema = new Schema({
 	maxScore: {
 		type: Number
 	},
-	lessonsComplete: {
+	lessons: {
 		type: Array
 	}
 });

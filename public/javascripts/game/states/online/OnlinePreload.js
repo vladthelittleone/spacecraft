@@ -34,6 +34,11 @@ var OnlinePreload = function (spec)
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
 
 		game.load.audio('laser1', ['audio/laser1.wav']);
+		game.load.audio('explosion1', ['audio/explosion1.wav']);
+		game.load.audio('explosion2', ['audio/explosion2.wav']);
+		game.load.audio('shield1', ['audio/shieldvisible1.wav']);
+		game.load.audio('bonus1', ['audio/bonus1.wav']);
+		game.load.audio('harvest1', ['audio/harvest1.wav']);
 		game.load.audio('track1', ['audio/track1.mp3']);
 	};
 

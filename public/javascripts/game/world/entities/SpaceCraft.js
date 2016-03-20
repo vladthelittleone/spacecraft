@@ -181,10 +181,10 @@ var SpaceCraft = function (spec)
 
         if (protection.getHealth() <= 0)
         {
-            destroy(damageCraft);
-
 			// проигрываем звук взрыва коробля
 			audio.playExplosion();
+
+            destroy(damageCraft);
         }
     };
 

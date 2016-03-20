@@ -18,7 +18,7 @@ var AudioManager = function (game, sprite, callback)
 			volume = min;
 		}
 
-		if (sprite.inCamera && volume > 0)
+		if (volume > 0  && sprite.inCamera)
 		{
 			var audio = game.add.audio(audioName);
 

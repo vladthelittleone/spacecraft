@@ -24,6 +24,11 @@ var Bonus = function (spec)
     var sprite = that.sprite = game.add.sprite(x, y, bonusType.spriteName);
     sprite.name = that.getId();
 
+	var audio = new AudioManager(game, sprite, function()
+	{
+		return sc.scope.spaceCraft.getId() == sprite.name;
+	});
+
     // Подключаем физику тел к бонусу
     game.physics.p2.enable(sprite);
 
@@ -58,6 +63,8 @@ var Bonus = function (spec)
             bonus.destroy();
 
             s.statistic.addBonus();
+
+			audio.playTakeBonus();
         }
     };
 

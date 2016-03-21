@@ -34,7 +34,7 @@ router.post('/', function (req, res, next)
 					// Если нашли проверяем сколько игр он сыграл
 					if (stat.length === config.get('maxStatisticsCount'))
 					{
-						delete stat[0];
+						 stat.splice(0,1);
 					}
 
 					stat.push(req.body);
@@ -95,7 +95,7 @@ router.get('/score', function (req, res, next)
 	[
 		function (callback)
 		{
-			Statistic.find()
+			Statistic.find(({ maxScore: { $ne: null } }))
 				.populate('idUser')
 				.sort('-maxScore')
 				.exec(callback);
@@ -112,7 +112,7 @@ router.get('/score', function (req, res, next)
 		{
 			var great = [];
 
-			user.forEach(function (u, i)
+			user.forEach(function (u,i)
 			{
 				great.push({
 					username: u.idUser.username || u.idUser.email,

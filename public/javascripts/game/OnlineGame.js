@@ -21,9 +21,9 @@ var OnlineGame = function (spec)
 	function initStates()
 	{
 		that.state.add('boot', BootState({game: that}));
-		that.state.add('preload', PreloadState({game: that}));
+		that.state.add('preload', OnlinePreload({game: that}));
 		that.state.add('menu', MenuState({game: that}));
-		that.state.add('play', PlayState({game: that}));
+		that.state.add('play', OnlinePlay({game: that}));
 
 		that.state.start('boot');
 	}

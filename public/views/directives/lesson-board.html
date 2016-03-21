@@ -11,8 +11,16 @@
 					<div class="lesson-content" ng-bind-html="getInstructions()"></div>
 				</div>
 			</div>
-			<div class="lesson-hint-button" ng-click="showHint()">
+			<div class="lesson-hint-button"
+				 ng-click="showHint()"
+				 ng-hide="!getHint() || hint">
 				Показать подсказку.
+			</div>
+			<div class="lesson-hint"
+				 ng-show="hint">
+				<div class="content-center">
+					<div class="lesson-content" ng-bind-html="getHint()"></div>
+				</div>
 			</div>
 		</div>
 		<div class="lesson-toolbar">

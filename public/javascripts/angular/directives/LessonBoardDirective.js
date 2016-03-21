@@ -3,7 +3,7 @@
  */
 var app = angular.module('spacecraft.lessonBoard', []);
 
-app.directive('lessonBoard', ['$sce', function ($sce)
+app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManager)
 {
 	var link = function ($scope)
 	{
@@ -13,6 +13,7 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 
 		$scope.audioPause = false;
 		$scope.textContent = false;
+		$scope.hint = false;
 
 		function tryShowHint (char, callback)
 		{
@@ -26,19 +27,13 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 					{
 						if (char.waitForHint)
 						{
-							audio.onended = function ()
-							{
-								callback && callback();
-							}
+							audio.onended = callback;
 						}
 					}
 				});
 
-				if ($scope.lesson.hint)
-				{
-					enjoyHint.set(hint);
-					enjoyHint.run();
-				}
+				enjoyHint.set(hint);
+				enjoyHint.run();
 
 				if (!char.waitForHint)
 				{
@@ -51,10 +46,7 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 			}
 			else
 			{
-				audio.onended = function()
-				{
-					callback && callback();
-				}
+				audio.onended = callback;
 			}
 		}
 
@@ -71,8 +63,9 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 
 			if (ch)
 			{
-				audio = new Audio(ch.audio);
+				audio = audioManager.create(ch.audio);
 				audio.play();
+				$scope.audioPause = false;
 
 				tryShowHint(ch, function ()
 				{
@@ -95,6 +88,15 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 		{
 			return $sce.trustAsHtml($scope.lesson.content());
 		};
+
+		$scope.getHint = function ()
+		{
+			if ($scope.lesson.hint)
+			{
+				return $sce.trustAsHtml($scope.lesson.hint);
+			}
+		};
+
 
 		$scope.getInstructions = function ()
 		{
@@ -129,6 +131,11 @@ app.directive('lessonBoard', ['$sce', function ($sce)
 				audio.currentTime = 0;
 			}
 		};
+
+		$scope.showHint = function ()
+		{
+			$scope.hint = !$scope.hint;
+		}
 	};
 
 	return {

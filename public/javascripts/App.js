@@ -17,6 +17,7 @@ var app = angular.module('spacecraft', [
 	'spacecraft.autocompleter',
 	'spacecraft.authentication',
 	'spacecraft.statistics',
+	'spacecraft.audioManager',
 	'spacecraft.lessonProvider',
 	'spacecraft.interpreter',
 	'spacecraft.bbotBoard',
@@ -51,14 +52,16 @@ app.config(['$locationProvider', '$urlRouterProvider', 'ChartJsProvider',
 	});
 }]);
 
-app.run(['authentication', '$rootScope', '$state',
-	function (authentication, $rootScope, $state)
+app.run(['authentication', '$rootScope', '$state', '$stateParams',
+	function (authentication, $rootScope, $state, $stateParams)
 {
 	$rootScope.$on('$stateChangeSuccess', function ()
 	{
+		var id = parseInt($stateParams.id);
 		var current = $state.current.name;
+		var isFirstLesson = (current === 'lesson') && !id;
 
-		if (current !== 'login')
+		if (current !== 'login' && !isFirstLesson)
 		{
 			authentication.isLoggedIn(
 			{

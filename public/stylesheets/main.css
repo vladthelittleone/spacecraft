@@ -1208,6 +1208,15 @@ body {
 	line-height: 20px;
 }
 
+.lesson-hint {
+	font-family: "Courier New", serif;
+	color: white;
+	background-color: rgba(198, 31, 14, 0.55);
+	border-bottom: 1px solid #E1E2E2;
+	border-top: 1px solid rgba(198, 31, 14, 0.55);
+	padding-bottom: 20px;
+}
+
 .lesson-hint-button {
 	font-family: "Courier New", serif;
 	color: #FFFFFF;
@@ -1238,13 +1247,10 @@ body {
 
 .lesson-content-overflow {
 	top: 40px;
-	border-bottom-left-radius: 15px;
-	border-top-left-radius: 15px;
 	bottom: 170px;
 	height: initial;
-	border-bottom: 2px solid #1D1F21;
-	border-top: 2px solid #1D1F21;
-	border-left: 5px solid #1D1F21;
+	border-bottom: 5px solid #1D1F21;
+	border-top: 5px solid #1D1F21;
 	width: 100%;
 	position: absolute;
 	color: white;
@@ -1655,8 +1661,15 @@ div.helper {
 	.bbot-img,
 	.bbot-triangle,
 	.quote,
-	.login-footer {
+	.login-footer,
+	.welcome-email,
+	.welcome-logout,
+	.lesson-left-pane {
 		display: none;
+	}
+
+	.lesson-player-container {
+		margin-left: 0;
 	}
 
 	.bbot-hologram {

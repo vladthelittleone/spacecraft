@@ -72,9 +72,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			st.set('lessons', a);
 		}
 
-		// Слова BBot'а
-		$scope.textBot = current().defaultBBot;
-
 		// Размер массива подуроков с 0
 		var len = $scope.lesson.sub.length - 1;
 
@@ -153,17 +150,24 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			options.isCodeRunning = true;
 
-			options.result = interpreter.execute(options.code);
-
-			var result = current().result(options.result);
-
-			if (result.status)
+			if (current().result)
 			{
-				success(result.message);
+				options.result = interpreter.execute(options.code);
+
+				var result = current().result(options.result);
+
+				if (result.status)
+				{
+					success(result.message);
+				}
+				else
+				{
+					error(result.message);
+				}
 			}
 			else
 			{
-				error(result.message);
+
 			}
 
 			options.isCodeRunning = false;

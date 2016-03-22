@@ -166,19 +166,31 @@ app.service('lessonProvider', ['$storage', function ($storage)
 					},
 					instructions:
 					'<ul>' +
-					'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="red-label">"Джайна"</span>.</li>' +
+					'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="red-label">"Нилар"</span>.</li>' +
 					'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 					'</ul>',
-					hint: [
+					character: [
 						{
-							'next .ace_active-line': 'Введите свое имя в кавычках',
-							'nextButton': {text: 'Далее'},
-							'showSkip': false
+							audio: 'audio/lesson1/1-1.mp3',
+							css: 'astromen-img',
+							hint: [
+								{
+									'next .ace_scroller': 'Введите свое имя в кавычках',
+									'nextButton': {text: 'Далее'},
+									'showSkip': false
+								}
+							]
 						},
 						{
-							'click .hint-play': 'Нажмите <i class="glyphicon glyphicon-play green"></i> для запуска кода, а <i class="glyphicon glyphicon-stop red"></i> для вызова паузы',
-							'nextButton': false,
-							'showSkip': false
+							audio: 'audio/lesson1/1-2.mp3',
+							css: 'astrogirl-img',
+							hint: [
+								{
+									'next .lesson-alt-hint': 'Инструкции',
+									'nextButton': {text: 'Далее'},
+									'showSkip': false
+								}
+							]
 						}
 					],
 					result: function (value)

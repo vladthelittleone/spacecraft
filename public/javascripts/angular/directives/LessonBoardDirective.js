@@ -135,7 +135,14 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 		$scope.showHint = function ()
 		{
 			$scope.hint = !$scope.hint;
-		}
+		};
+
+		$scope.$watch('lesson', function ()
+		{
+			char =  $scope.lesson.character;
+			i = 0;
+			next();
+		})
 	};
 
 	return {

@@ -132,7 +132,8 @@ router.get('/score', function (req, res, next)
 
 router.post('/lessons', function(req, res, next){
 	var id = req.session.user;
-	console.log(req.body);
+	var lesId = req.body.lessonId;
+
 	if (id)
 	{
 		async.waterfall(
@@ -145,24 +146,13 @@ router.post('/lessons', function(req, res, next){
 				function(result, callback)
 				{
 					var lessons = req.body;
-					if(result)
+					if(result && result.lessons)
 					{
-						if(result.lessons)
-						{
-							lessons = result.lessons;
-							lessons[req.body.lessonId] = req.body;
-
-							if(req.body.completed && !lessons[req.body.lessonId].completed)
-							{
-								lessons[req.body.lessonId].completed = true;
-							}
-							else
-							{
-								lessons[req.body.lessonId].completed = false
-							}
-						}
+						lessons = result.lessons;
+						lessons[lesId] = req.body;
+						lessons[lesId].completed = req.body.completed && !lessons[lesId].completed;
 					}
-					console.log(lessons);
+
 					Statistic.update({idUser: id},
 						{
 							lessons: lessons

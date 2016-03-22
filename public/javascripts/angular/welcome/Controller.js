@@ -30,7 +30,6 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 
 		$http.get('/statistic/lessons').success(function(data)
 		{
-			console.log(data[0]);
 			// Кол-во подуроков
 			var size = sum(data, null, 'size') || 100;
 

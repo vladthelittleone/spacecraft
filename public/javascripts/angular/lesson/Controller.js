@@ -131,7 +131,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		}
 		else
 		{
-			console.log("zachel");
 			// Устанавливаем текущий урок в хранилище
 			set(l, 0, len, true);
 

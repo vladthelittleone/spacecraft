@@ -49,13 +49,14 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 					// Индекс под урока
 					$scope.subIndex = parseInt(result.data[id].current);
 					initCode($scope.subIndex);
-					return;
 				}
 			});
 		}
-
-		$scope.subIndex = ls;
-		initCode(ls);
+		else
+		{
+			$scope.subIndex = ls;
+			initCode(ls);
+		}
 	}
 
 	initialize($stateParams.id);
@@ -124,13 +125,13 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				data: {
 					lessonId: $stateParams.id,
 					size: len,
-					current: $scope.subIndex,
-					completed: false
+					current: $scope.subIndex
 				}
 			});
 		}
 		else
 		{
+			console.log("zachel");
 			// Устанавливаем текущий урок в хранилище
 			set(l, 0, len, true);
 

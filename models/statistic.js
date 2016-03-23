@@ -13,12 +13,13 @@ var schema = new Schema({
 		required: true
 	},
 	stat: {
-		type: Array,
-		required: true
+		type: Array
 	},
 	maxScore: {
-		type: Number,
-		required: true
+		type: Number
+	},
+	lessons: {
+		type: Array
 	}
 });
 

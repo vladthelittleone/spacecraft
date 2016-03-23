@@ -25,6 +25,7 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 				{
 					onEnd: function ()
 					{
+						enjoyHint = null;
 						if (char.waitForHint)
 						{
 							audio.onended = callback;
@@ -39,7 +40,7 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 				{
 					audio.onended = function ()
 					{
-						enjoyHint.trigger("skip");
+						enjoyHint && enjoyHint.trigger("skip");
 						callback && callback();
 					}
 				}

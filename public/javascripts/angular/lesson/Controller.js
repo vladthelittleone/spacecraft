@@ -40,7 +40,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	{
 		var ls = st.getCurrent(id);
 
-		if(!ls)
+		if(!ls && id != '0')
 		{
 			$http.get('/statistic/lessons').then(function(result)
 			{

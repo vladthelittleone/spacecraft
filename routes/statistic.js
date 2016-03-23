@@ -34,7 +34,7 @@ router.post('/', function (req, res, next)
 					// Если нашли проверяем сколько игр он сыграл
 					if (stat.length === config.get('maxStatisticsCount'))
 					{
-						delete stat[0];
+						 stat.splice(0,1);
 					}
 
 					stat.push(req.body);
@@ -95,7 +95,7 @@ router.get('/score', function (req, res, next)
 	[
 		function (callback)
 		{
-			Statistic.find()
+			Statistic.find(({ maxScore: { $ne: null } }))
 				.populate('idUser')
 				.sort('-maxScore')
 				.exec(callback);
@@ -112,7 +112,7 @@ router.get('/score', function (req, res, next)
 		{
 			var great = [];
 
-			user.forEach(function (u, i)
+			user.forEach(function (u,i)
 			{
 				great.push({
 					username: u.idUser.username || u.idUser.email,
@@ -121,7 +121,7 @@ router.get('/score', function (req, res, next)
 
 				if (i === 9)
 				{
-					return false;
+					return;
 				}
 			});
 
@@ -130,4 +130,70 @@ router.get('/score', function (req, res, next)
 	});
 });
 
+router.post('/lessons', function(req, res, next){
+	var id = req.session.user;
+	var lesId = req.body.lessonId;
+
+	if (id)
+	{
+		async.waterfall(
+			[
+				function (callback)
+				{
+					// Ищем статистику юзера в базе
+					Statistic.findOne({idUser: id}, callback);
+				},
+				function(result, callback)
+				{
+					var lessons = req.body;
+					if(result && result.lessons)
+					{
+						lessons = result.lessons;
+						lessons[lesId] = req.body;
+						lessons[lesId].completed = req.body.completed && !lessons[lesId].completed;
+					}
+
+					Statistic.update({idUser: id},
+						{
+							lessons: lessons
+						},
+						{upsert: true, multi: true},
+						callback);
+				}
+			],
+		function(err)
+		{
+			if(err)
+			{
+				next(new HttpError(500, "Ошибка с сохранением урока"));
+			}
+		});
+	}
+});
+
+router.get('/lessons', function(req, res, next){
+	async.waterfall(
+		[
+			function(callback)
+			{
+				Statistic.findOne({idUser: req.session.user},callback);
+			}
+		],
+		function(err, result)
+		{
+			if (err)
+			{
+				return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
+			}
+
+			if (result)
+			{
+				res.json(result.lessons);
+			}
+			else
+			{
+				res.send([]);
+			}
+		});
+});
 module.exports = router;

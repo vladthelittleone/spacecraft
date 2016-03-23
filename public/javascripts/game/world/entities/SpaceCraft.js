@@ -34,6 +34,11 @@ var SpaceCraft = function (spec)
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+	var audio = new AudioManager(game, sprite, function()
+	{
+		return sc.scope.spaceCraft.getId() === that.getId();
+	});
+
     var isAlive = true;
 
     sprite.name = that.getId();
@@ -75,7 +80,8 @@ var SpaceCraft = function (spec)
         modulesManager: modulesManager,
         velocity: 400,
         spriteName: 'greenBeam',
-		game: game
+		game: game,
+		audio: audio
 	});
 
     //===================================
@@ -163,6 +169,9 @@ var SpaceCraft = function (spec)
             {
                 protection.subHealth(protection.getShield());
                 protection.setShield(0);
+
+				// проигрываем звук разрушения щита
+				audio.playDestructionShield();
             }
         }
         else
@@ -172,6 +181,9 @@ var SpaceCraft = function (spec)
 
         if (protection.getHealth() <= 0)
         {
+			// проигрываем звук взрыва коробля
+			audio.playExplosion();
+
             destroy(damageCraft);
         }
     };

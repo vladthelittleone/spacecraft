@@ -7,6 +7,7 @@
 			 max-size="70%"
 			 size="50%">
 			<lesson-board
+				ng-if="lesson.sub[subIndex]"
 				lesson="lesson.sub[subIndex]"
 				text="lesson.text"/>
 		</div>
@@ -29,6 +30,7 @@
 
 			<!-- Директива ошибки -->
 			<bbot-board
+				ng-if="lesson.sub[subIndex]"
 				text-bot="textBot"
 				quote="lesson.quote"
 				lesson="true"

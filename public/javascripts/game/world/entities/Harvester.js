@@ -51,6 +51,8 @@ var Harvester = function (spec)
 	// Создаем спрайт
 	var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+	var audio = new AudioManager(game, sprite);
+
 	var isAlive = true;
 
 	sprite.name = that.getId();
@@ -198,6 +200,9 @@ var Harvester = function (spec)
 				}
 
 				harvestTime = game.time.now + harvestRate;
+
+				// воспроизводим звук для события
+				audio.playHarvest();
 			}
 		}
 

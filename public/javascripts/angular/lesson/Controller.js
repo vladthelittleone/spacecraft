@@ -171,7 +171,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			options.code = date;
 
 			// Слова BBot'а
-			$scope.textBot = current().defaultBBot;
+			$scope.textBot = current().defaultBBot && current().defaultBBot();
 			$scope.isGameLesson = $scope.lesson.isGameLesson;
 			$scope.nextSubLesson = nextSubLesson;
 		});

@@ -57,6 +57,8 @@ var Harvester = function (spec)
 
 	sprite.name = that.getId();
 
+	spec.scale && sprite.scale.setTo(spec.scale);
+
 	// Центрирование
 	sprite.anchor.x = 0.5;
 	sprite.anchor.y = 0.5;

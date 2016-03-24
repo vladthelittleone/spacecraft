@@ -26,6 +26,22 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			}
 		});
 
+		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
+
+		$http.get('/statistic/lessons').success(function(data)
+		{
+			// Кол-во подуроков
+			var size = sum(data, null, 'size') || 100;
+
+			// Добавляем полное кол-во уроков, если он уже был пройден,
+			// иначе номер текущего урока.
+			var end = sum(data, 'size', 'current', 'completed');
+
+			// Вычитаем из общего размера.
+			var notEnd = size - end;
+			$scope.dataL = [end, notEnd];
+		});
+
 		authentication.currentUser(function (user)
 		{
 			$scope.mail = user && user.email;
@@ -55,25 +71,10 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			return c;
 		}
 
-		var lessons = JSON.parse($storage.local.getItem("lessons")) || [];
-
-		// Кол-во подуроков
-		var size = sum(lessons, null, 'size') || 100;
-
-		// Добавляем полное кол-во уроков, если он уже был пройден,
-		// иначе номер текущего урока.
-		var end = sum(lessons, 'size', 'current', 'completed');
-
-		// Вычитаем из общего размера.
-		var notEnd = size - end;
-
 		$scope.index = 0;
 
 		$scope.labels = [];
 		$scope.seriesT = ['Общее количество очков'];
-
-		$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
-		$scope.dataL = [end, notEnd];
 
 		$scope.takeBonus = [[]];
 		$scope.killSpaceCraft = [[]];

@@ -3,7 +3,7 @@
 /**
  * Created by vladthelittleone on 02.12.15.
  */
-var LessonPlayState = function (spec)
+var LessonPlayState1 = function (spec)
 {
 	var that = PlayState(spec);
 
@@ -50,7 +50,7 @@ var LessonPlayState = function (spec)
 
 	that.create = function ()
 	{
-		gameInit(sc.world.getBounds());
+		gameInit(sc.world.getBounds(), true);
 		that.entitiesInit();
 		followFor(scope.spaceCraft.sprite);
 
@@ -100,7 +100,6 @@ var LessonPlayState = function (spec)
 		scope.$apply(function ()
 		{
 			var upd = scope.editorOptions.update;
-
 
 			upd && upd(scope.spaceCraft, sc.world, bBotText);
 

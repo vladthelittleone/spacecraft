@@ -29,9 +29,39 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		},
 		getLessons: function ()
 		{
-			return JSON.parse($storage.local.getItem('lessons')) || [];;
+			return JSON.parse($storage.local.getItem('lessons')) || [];
 		}
 	};
+
+	// Вся информация о уроке
+	$scope.lesson = lessonProvider($stateParams.id);
+
+	function initialize(id)
+	{
+		var ls = st.getCurrent(id);
+		$scope.subIndex = 0;
+
+		if(!ls)
+		{
+			$http.get('/statistic/lessons').then(function(result)
+			{
+				if(result.data.length)
+				{
+					// Индекс под урока
+					$scope.subIndex = parseInt(result.data[id].current);
+				}
+
+				initCode($scope.subIndex);
+			});
+		}
+		else
+		{
+			$scope.subIndex = ls;
+			initCode(ls);
+		}
+	}
+
+	initialize($stateParams.id);
 
 	function current()
 	{
@@ -72,9 +102,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			st.set('lessons', a);
 		}
 
-		// Слова BBot'а
-		$scope.textBot = current().defaultBBot;
-
 		// Размер массива подуроков с 0
 		var len = $scope.lesson.sub.length - 1;
 
@@ -90,11 +117,32 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			// Устанавливаем текущий урок в хранилище
 			set(l, $scope.subIndex, len);
+
+			$http({
+				url: '/statistic/lessons',
+				method: 'POST',
+				data: {
+					lessonId: $stateParams.id,
+					size: len,
+					current: $scope.subIndex
+				}
+			});
 		}
 		else
 		{
 			// Устанавливаем текущий урок в хранилище
 			set(l, 0, len, true);
+
+			$http({
+				url: '/statistic/lessons',
+				method: 'POST',
+				data: {
+					lessonId: $stateParams.id,
+					size: len,
+					current: 0,
+					completed: true
+				}
+			});
 
 			$state.go('lessons');
 		}
@@ -129,17 +177,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		});
 	}
 
-	initCode(st.getCurrent($stateParams.id));
 
 	//===================================
 	//============== SCOPE ==============
 	//===================================
-
-	// Вся информация о уроке
-	$scope.lesson = lessonProvider($stateParams.id);
-
-	// Индекс под урока
-	$scope.subIndex = st.getCurrent($stateParams.id);
 
 	// Проверка существования урока
 	if (!$scope.lesson)
@@ -153,17 +194,24 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			options.isCodeRunning = true;
 
-			options.result = interpreter.execute(options.code);
-
-			var result = current().result(options.result);
-
-			if (result.status)
+			if (current().result)
 			{
-				success(result.message);
+				options.result = interpreter.execute(options.code);
+
+				var result = current().result(options.result);
+
+				if (result.status)
+				{
+					success(result.message);
+				}
+				else
+				{
+					error(result.message);
+				}
 			}
 			else
 			{
-				error(result.message);
+
 			}
 
 			options.isCodeRunning = false;
@@ -204,7 +252,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.aceChanged = function ()
 	{
-		// editorSession.replace(new Range(0, 0, editorSession.getLength() - 1, options.code.length), full('*', options.code.length));
 		options.code = editorSession.getDocument().getValue();
 	};
 

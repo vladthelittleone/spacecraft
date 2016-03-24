@@ -7,11 +7,6 @@ var app = angular.module('spacecraft.lessonProvider', []);
 
 app.service('lessonProvider', ['$storage', function ($storage)
 {
-	function isNumeric(n)
-	{
-		return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-
 	/**
 	 * Local storage
 	 */

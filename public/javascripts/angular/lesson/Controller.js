@@ -39,8 +39,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	function initialize(id)
 	{
 		var ls = st.getCurrent(id);
+		$scope.subIndex = 0;
 
-		if(!ls && id != '0')
+		if(!ls)
 		{
 			$http.get('/statistic/lessons').then(function(result)
 			{
@@ -48,8 +49,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				{
 					// Индекс под урока
 					$scope.subIndex = parseInt(result.data[id].current);
-					initCode($scope.subIndex);
 				}
+
+				initCode($scope.subIndex);
 			});
 		}
 		else
@@ -250,7 +252,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.aceChanged = function ()
 	{
-		// editorSession.replace(new Range(0, 0, editorSession.getLength() - 1, options.code.length), full('*', options.code.length));
 		options.code = editorSession.getDocument().getValue();
 	};
 

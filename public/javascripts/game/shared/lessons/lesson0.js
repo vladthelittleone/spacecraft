@@ -233,6 +233,29 @@ var Lesson0 = function (st)
 
 					return botText.resultNotCorrect('emptyInput');
 				}
+			},
+			{
+				title: 'Да начнется долгий путь...',
+				defaultBBot: '<p>### Статус: ЗАЧИСЛЕН</p>' +
+							'<p>### Имя: ' + st.get('userName').toUpperCase() + '</p>' +
+							'<p>### Раса: ЧЕЛОВЕК</p>' +
+							'<p>### Возвраст: ' + st.get('userAge') + '</p>'
+				,
+				content: function ()
+				{
+					return '<p>Поздравляю, теперь вы официально числитесь в академии, кадет!</p>' +
+						'<p>Вам предстоит нелегкий путь, чтобы получить гордое звание офицера флота.</p>' +
+						'<p>Желаю удачи!</p>';
+				},
+				instructions: '<ul>' +
+				'<li>Нажмите "Далее" для продолжения.</li>' +
+				'</ul>',
+				character: [
+					{
+						audio: 'audio/lesson1/3-1.mp3',
+						css: 'astromen-img'
+					}
+				]
 			}
 		]
 	};

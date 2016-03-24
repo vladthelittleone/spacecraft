@@ -52,16 +52,14 @@ app.config(['$locationProvider', '$urlRouterProvider', 'ChartJsProvider',
 	});
 }]);
 
-app.run(['authentication', '$rootScope', '$state', '$stateParams',
-	function (authentication, $rootScope, $state, $stateParams)
+app.run(['authentication', '$rootScope', '$state',
+	function (authentication, $rootScope, $state)
 {
 	$rootScope.$on('$stateChangeSuccess', function ()
 	{
-		var id = parseInt($stateParams.id);
 		var current = $state.current.name;
-		var isFirstLesson = (current === 'lesson') && !id;
 
-		if (current !== 'login' && !isFirstLesson)
+		if (current !== 'login')
 		{
 			authentication.isLoggedIn(
 			{

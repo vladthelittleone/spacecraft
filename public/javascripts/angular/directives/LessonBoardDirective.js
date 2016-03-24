@@ -143,6 +143,7 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 			char =  $scope.lesson.character;
 			i = 0;
 			next();
+			$scope.textContent = false;
 		})
 	};
 

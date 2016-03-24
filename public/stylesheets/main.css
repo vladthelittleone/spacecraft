@@ -279,6 +279,7 @@ body {
 }
 
 .stars-background{
+	z-index: -1000;
 	background-size: cover;
 	background-color: #1f6377;
 	opacity: 0.2;

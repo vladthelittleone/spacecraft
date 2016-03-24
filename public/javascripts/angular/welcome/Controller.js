@@ -158,4 +158,13 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 				success: toLogin
 			});
 		};
+
+		$scope.openGame = function ()
+		{
+			$http.post('metrics/opengame');
+		};
+		$scope.openLessons = function ()
+		{
+			$http.post('metrics/openlessons');
+		};
 	}]);

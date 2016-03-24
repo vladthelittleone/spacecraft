@@ -117,7 +117,7 @@ var Lesson0 = function (st)
 						css: 'astrogirl-img',
 						hint: [
 							{
-								'click .lesson-alt-hint': 'Инструкции',
+								'click .lesson-alt-hint': 'Нажмите для получения инструкций',
 								'nextButton': false,
 								'showSkip': false
 							}

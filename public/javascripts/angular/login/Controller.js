@@ -11,9 +11,30 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		$state.go('welcome');
 	}
 
+	function toLesson ()
+	{
+		login(function ()
+		{
+			$state.go('lesson', {id: 0})
+		});
+	}
+
 	function error (res)
 	{
 		$scope.error = res.data;
+	}
+
+	function login(callback)
+	{
+		var email = $scope.email;
+		var pswrd = $scope.password;
+
+		authentication.login({
+			email: email,
+			password: pswrd,
+			success: callback,
+			error: error
+		});
 	}
 
 	authentication.isLoggedIn(
@@ -31,15 +52,7 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 
 	$scope.login = function ()
 	{
-		var email = $scope.email;
-		var pswrd = $scope.password;
-
-		authentication.login({
-			email: email,
-			password: pswrd,
-			success: toWelcome,
-			error: error
-		});
+		login(toWelcome);
 	};
 
 	$scope.register = function ()
@@ -50,7 +63,7 @@ app.controller('LoginController', ['$scope', '$state', 'authentication', functio
 		authentication.register({
 			email: email,
 			password: pswrd,
-			success: $scope.login,
+			success: toLesson,
 			error: error
 		});
 	};

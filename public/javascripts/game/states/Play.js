@@ -58,13 +58,13 @@ var PlayState = function (spec)
 		game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
 	};
 
-	var gameInit = that.gameInit = function gameInit(bounds)
+	var gameInit = that.gameInit = function gameInit(bounds, paused)
 	{
 		game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
 		game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
 
 		cursors = game.input.keyboard.createCursorKeys();
-		game.paused = true;
+		game.paused = paused;
 	};
 
 	return that;

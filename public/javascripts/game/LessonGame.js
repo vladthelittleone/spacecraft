@@ -5,33 +5,19 @@
  */
 var LessonGame = function (spec)
 {
-	var that = SpaceCraftGame(spec);
+	var that = {};
 	var lessonId = spec.lessonId;
 
-	function initParams()
+	switch (parseInt(lessonId))
 	{
-		that.sc.scope = spec.scope;
-		that.sc.callers = spec.callers;
-		that.sc.world = {};
-		that.sc.collisionGroups = {};
-		that.sc.collisionGroups.spaceCraft = {};
-		that.sc.collisionGroups.bonus = {};
-		that.sc.seq = utils.seq();
-	}
-
-	function initStates()
-	{
-		that.state.add('boot', BootState({game: that}));
-		that.state.add('preload', LessonPreloadState({game: that}));
-		that.state.add('menu', MenuState({game: that}));
-		that.state.add('play', LessonPlayState({game: that}));
-
-		that.state.start('boot');
+		case 0:
+			that = LessonGameInit0(spec);
+			break;
 	}
 
 
-	initParams();
-	initStates();
+	that.initParams();
+	that.initStates();
 
 	return that;
 };

@@ -7,7 +7,6 @@ var config = require('config');
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var router = express.Router();
-const logger = require('utils/log')(module);
 
 router.post('/', function (req, res, next)
 {
@@ -151,8 +150,6 @@ router.post('/lessons', function(req, res, next)
 			},
 			function(result, callback)
 			{
-				console.log(result.lessons);
-
 				var lessons = req.body;
 
 				if(result && result.lessons)

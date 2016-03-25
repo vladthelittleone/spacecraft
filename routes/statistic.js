@@ -156,7 +156,7 @@ router.post('/lessons', function(req, res, next)
 				{
 					lessons = result.lessons;
 					lessons[lesId] = req.body;
-					lessons[lesId].completed = req.body.completed && !lessons[lesId].completed;
+					lessons[lesId].completed = req.body.completed || lessons[lesId].completed;
 				}
 
 				Statistic.update({idUser: id},

@@ -120,7 +120,6 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 
 		$scope.previousAudio = function ()
 		{
-
 			if (audio.currentTime / 5 < 1)
 			{
 				audio.pause();

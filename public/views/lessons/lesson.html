@@ -36,14 +36,12 @@
 				quote="lesson.quote"
 				lesson="true"
 				next="nextSubLesson"/>
-
-			<!-- Директива звезд рейтинга урока-->
-			<stars
-				ng-if="starsHide"
-				idLesson="idLesson"/>
 		</div>
     </div>
 </div>
+
+<!-- Директива звезд рейтинга урока-->
+<stars idLesson="idLesson" ng-if="starsHide"/>
 
 <!-- Директива игры -->
 <div game-canvas ng-if="isGameLesson"

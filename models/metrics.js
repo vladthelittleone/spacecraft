@@ -1,4 +1,5 @@
 var mongoose = require('utils/mongoose');
+var async = require('async');
 
 var Schema = mongoose.Schema;
 
@@ -11,20 +12,50 @@ var schema = new Schema({
 	},
 	visits: {
 		type: Number,
-		default: 1
+		required: true,
+		default: 0
 	},
 	lastEntryDate: {
 		type: Date,
+		required: true,
 		default: Date.now
 	},
 	numbClicksOnLesson: {
 		type: Number,
+		required: true,
 		default: 0
 	},
 	numbClicksOnGame: {
 		type: Number,
+		required: true,
 		default: 0
 	}
 });
 
-exports.Statistic = mongoose.model('Metrics', schema);
+schema.statics.update = function (idUser, callback)
+{
+	var Metrics = this;
+
+	async.waterfall(
+		[
+			function (callback)
+			{
+				Metrics.findOne({idUser: idUser}, callback)
+			},
+			function (metrics, callback)
+			{
+				if (metrics)
+				{
+					callback(metrics);
+				}
+				else
+				{
+					var newMetrics = new Metrics({idUser: idUser});
+					newMetrics.save();
+				}
+			}
+
+		], callback);
+};
+
+exports.Metrics = mongoose.model('Metrics', schema);

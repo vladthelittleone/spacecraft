@@ -5,6 +5,10 @@ var app = angular.module('spacecraft.stars', []);
 
 app.directive('stars', [function()
 {
+	function link ()
+	{
+
+	}
 
 	return {
 		scope: {

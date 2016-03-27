@@ -278,7 +278,7 @@ body {
 	background-size: cover;
 }
 
-.stars-background{
+.stars-background {
 	z-index: -1000;
 	background-size: cover;
 	background-color: #1f6377;
@@ -546,7 +546,7 @@ body {
 .left-toolbar .feedback-button,
 .left-toolbar .tutorial-button,
 .left-toolbar .tips-button,
-.left-toolbar .slide-button{
+.left-toolbar .slide-button {
 	left: 0;
 	padding: 0;
 	position: fixed;
@@ -599,8 +599,7 @@ body {
 	color: transparent;
 }
 
-.close-button span
-{
+.close-button span {
 	position: absolute;
 	height: 2px;
 	width: 18px;
@@ -618,8 +617,7 @@ body {
 	transition: background-color 0.3s;
 }
 
-.close-button-wrapper .close-button span:before
-{
+.close-button-wrapper .close-button span:before {
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
@@ -644,8 +642,7 @@ body {
 	background-color: #ffffff;
 }
 
-.close-button-wrapper .close-button span:after
-{
+.close-button-wrapper .close-button span:after {
 	-webkit-transform: rotate(-45deg);
 	-moz-transform: rotate(-45deg);
 	-ms-transform: rotate(-45deg);
@@ -848,6 +845,7 @@ body {
 	overflow: hidden;
 	cursor: default;
 }
+
 .bbot-board .next-button {
 	border: 0;
 	width: 100%;
@@ -907,11 +905,11 @@ body {
 }
 
 .button-gradient {
-	box-shadow: inset 1px 1px rgba(255,255,255,0.1),1px 1px rgba(0,0,0,0.1);
-	background-color: rgba(255,255,255,0.1);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255,0.1)), to(transparent));
-	background-image: -webkit-linear-gradient(top, rgba(255,255,255,0.1), transparent);
-	background-image: linear-gradient(top, rgba(255,255,255,0.1), transparent);
+	box-shadow: inset 1px 1px rgba(255, 255, 255, 0.1), 1px 1px rgba(0, 0, 0, 0.1);
+	background-color: rgba(255, 255, 255, 0.1);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0.1)), to(transparent));
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), transparent);
+	background-image: linear-gradient(top, rgba(255, 255, 255, 0.1), transparent);
 	background-repeat: repeat-x;
 	background-color: #C71E14;
 	color: #fff;
@@ -954,8 +952,7 @@ body {
 
 .img-small-center,
 .img-medium-center,
-.img-huge-center
-{
+.img-huge-center {
 	width: 50%;
 	margin: auto;
 }
@@ -1100,6 +1097,7 @@ body {
 	width: 80%;
 	text-align: center;
 }
+
 .table-content-score {
 	width: 20%;
 	text-align: center;
@@ -1352,10 +1350,10 @@ div.helper:after {
 
 .carousel-control.left,
 .carousel-control.right {
-	background-image: -webkit-linear-gradient(left,rgba(0,0,0,0.0) 0,rgba(0,0,0,0.0) 100%);
-	background-image: -o-linear-gradient(left,rgba(0,0,0,0.0) 0,rgba(0,0,0,0.0) 100%);
-	background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,0.0)),to(rgba(0,0,0,0.0)));
-	background-image: linear-gradient(to right,rgba(0,0,0,0.0) 0,rgba(0,0,0,0.0) 100%);
+	background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0) 0, rgba(0, 0, 0, 0.0) 100%);
+	background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0.0) 0, rgba(0, 0, 0, 0.0) 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.0)), to(rgba(0, 0, 0, 0.0)));
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0) 0, rgba(0, 0, 0, 0.0) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
 	background-repeat: repeat-x;
 }
@@ -1516,7 +1514,7 @@ div.helper:after {
 }
 
 .login-about {
-	background: rgba(255,255,255,0.97);
+	background: rgba(255, 255, 255, 0.97);
 }
 
 .login-landing .login-main {
@@ -1689,18 +1687,13 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating {
 	border: none;
 	float: left;
-	position: relative;
-	width: 60%;
-	padding: 0;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-	margin: auto auto 0;
 }
 
 .rating > input { display: none; }
 .rating > label:before {
 	margin: 5px;
 	font-size: 1.25em;
+	font-family: FontAwesome;
 	display: inline-block;
 	content: "\f005";
 }
@@ -1725,3 +1718,8 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+
+.stars-conteiner{
+	margin: 0 auto;
+}
+

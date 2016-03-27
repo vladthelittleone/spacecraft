@@ -2,8 +2,8 @@ var AudioManager = function (game, sprite, callback)
 {
 	var that = {};
 
-	var game = that.game = game;
-	var sprite = that.sprite = sprite;
+	that.game = game;
+	that.sprite = sprite;
 
 	function play (audioName, min, max)
 	{
@@ -44,7 +44,7 @@ var AudioManager = function (game, sprite, callback)
 
 	that.playDestructionShield = function ()
 	{
-		play('shield1', 0, 0.1);
+		play('shield1', 0, 0.01);
 	};
 
 	that.playTakeBonus = function ()

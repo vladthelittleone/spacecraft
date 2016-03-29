@@ -279,10 +279,10 @@ body {
 }
 
 .stars-background {
-	z-index: -1000;
+	z-index: 3000;
 	background-size: cover;
-	background-color: #1f6377;
-	opacity: 0.2;
+	background-color: #000033;
+	opacity: 0.5;
 }
 
 .result-background {
@@ -1678,15 +1678,15 @@ div.helper:after {
 ********Stars rating******
 **************************/
 
-fieldset, label { margin: 0; padding: 0; }
-body{ margin: 20px; }
-h1 { font-size: 1.5em; margin: 10px; }
+fieldset, label { padding: 0; }
 
 /****** Style Star Rating Widget *****/
 
 .rating {
 	border: none;
 	float: left;
+	height: 25px;
+	width: 150px;
 }
 
 .rating > input { display: none; }
@@ -1720,6 +1720,12 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
 
 .stars-conteiner{
-	margin: 0 auto;
+	height: 200px;
+	width: 300px;
+	position: absolute;
+	color: #FFFFFF;
+	top: 30%;
+	bottom: 40%;
+	left: 45%;
 }
 

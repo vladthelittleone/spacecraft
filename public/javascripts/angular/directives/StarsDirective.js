@@ -10,7 +10,6 @@ app.directive('stars', ['$http', '$state', function($http, $state)
 	{
 		$scope.RadioChange = function (value)
 		{
-			console.log("in function value = "+ value);
 			$http({
 				url: '/statistic/lessons/stars',
 				method: 'POST',
@@ -25,6 +24,7 @@ app.directive('stars', ['$http', '$state', function($http, $state)
 
 	return {
 		scope: {
+			idLesson: '='
 		},
 		templateUrl: 'views/directives/stars.html',
 		link: link

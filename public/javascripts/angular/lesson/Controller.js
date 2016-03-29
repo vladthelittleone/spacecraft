@@ -7,8 +7,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	'$storage', 'lessonProvider', 'interpreter',
 	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter)
 {
-	$scope.starsHide = true;
+	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
+
 	/**
 	 * Local storage
 	 */
@@ -154,8 +155,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			});
 
 			$scope.starsHide = true;
-
-			//$state.go('lessons');
 		}
 	}
 

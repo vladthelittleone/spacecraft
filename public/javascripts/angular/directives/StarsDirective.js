@@ -8,7 +8,7 @@ app.directive('stars', ['$http', '$state', function($http, $state)
 {
 	function link ($scope)
 	{
-		$scope.RadioChange = function (value)
+		$scope.radioChange = function (value)
 		{
 			$http({
 				url: '/statistic/lessons/stars',

@@ -3,12 +3,30 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter',
-function ($scope, $storage, $http, autocompleter)
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter','audioManager',
+function ($scope, $storage, $http, autocompleter, audioManager)
 {
 	//===================================
 	//============== CODE ===============
 	//===================================
+
+	var playList = [
+		{
+			src: 'audio/track1.mp3',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track3.mp3',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track2.mp3',
+			volume: 0.05
+		}
+	];
+
+	var audio = audioManager.createWithPlayList(playList);
+	audio.play();
 
 	function initCode()
 	{

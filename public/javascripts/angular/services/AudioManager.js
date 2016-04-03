@@ -9,6 +9,7 @@ var app = angular.module('spacecraft.audioManager', []);
 app.factory('audioManager', ['$rootScope', function ($rootScope)
 {
 	var audio;
+	var nowPlay = 0;
 
 	function create(str)
 	{
@@ -31,7 +32,33 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 		return audio;
 	}
 
+	function playNext(audio, playList)
+	{
+		nowPlay = nowPlay < (playList.length - 1) ? nowPlay + 1 : 0;
+		audio.setAttribute('src', playList[nowPlay].src);
+		audio.load();
+
+		audio.volume = playList[nowPlay].volume;
+
+		audio.play();
+	}
+
+	function createWithPlayList(playList)
+	{
+		var audio = create(playList[nowPlay].src);
+
+		audio.volume = playList[nowPlay].volume;
+
+		audio.onended = function()
+		{
+			playNext(audio, playList);
+		};
+
+		return audio;
+	}
+
 	return {
-		create: create
+		create: create,
+		createWithPlayList: createWithPlayList
 	};
 }]);

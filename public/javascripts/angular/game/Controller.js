@@ -10,24 +10,6 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	//============== CODE ===============
 	//===================================
 
-	var playList = [
-		{
-			src: 'audio/track1.mp3',
-			volume: 0.05
-		},
-		{
-			src: 'audio/track3.mp3',
-			volume: 0.05
-		},
-		{
-			src: 'audio/track2.mp3',
-			volume: 0.05
-		}
-	];
-
-	var audio = audioManager.createWithPlayList(playList);
-	audio.play();
-
 	function initCode()
 	{
 		var code = $storage.local.getItem('code') || "";
@@ -176,5 +158,31 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 			editorSession.clearAnnotations();
 			editorSession.removeMarker(markerID);
 		}
+	});
+
+	//===================================
+	//============== AUDIO ==============
+	//===================================
+
+	var playList = [
+		{
+			src: 'audio/track1.mp3',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track3.mp3',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track2.mp3',
+			volume: 0.05
+		}
+	];
+
+	var audio = audioManager.createWithPlayList(playList);
+
+	$scope.$watch('$viewContentLoaded', function()
+	{
+		audio.play();
 	});
 }]);

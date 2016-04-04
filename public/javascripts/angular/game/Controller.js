@@ -3,7 +3,7 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter','audioManager',
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
 function ($scope, $storage, $http, autocompleter, audioManager)
 {
 	//===================================
@@ -181,7 +181,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 
 	var audio = audioManager.createWithPlayList(playList);
 
-	$scope.$watch('$viewContentLoaded', function()
+	$scope.$watch ('$viewContentLoaded', function()
 	{
 		audio.play();
 	});

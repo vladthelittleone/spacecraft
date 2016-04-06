@@ -23,13 +23,13 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 			audio = new Audio(str);
 		}
 
-		$rootScope.$on('$stateChangeSuccess', function ()
-		{
-			audio.pause();
-		});
-
 		return audio;
 	}
+
+	$rootScope.$on('$stateChangeSuccess', function ()
+	{
+		audio.pause();
+	});
 
 	return {
 		create: create

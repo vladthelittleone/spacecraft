@@ -197,12 +197,13 @@ router.get('/lessons', function(req, res, next){
 		});
 });
 
-router.post('/lessons/stars', function(req, res, next){
+router.post('/lessons/stars', function(req, res, next)
+{
 	async.waterfall(
 		[
 			function(callback)
 			{
-				Statistic.findOne({idUser: req.session.user},callback);
+				Statistic.findOne({idUser: req.session.user}, callback);
 			},
 			function(result, callback)
 			{
@@ -218,6 +219,7 @@ router.post('/lessons/stars', function(req, res, next){
 					callback);
 			}
 		],
+
 		function(err)
 		{
 			if (err)

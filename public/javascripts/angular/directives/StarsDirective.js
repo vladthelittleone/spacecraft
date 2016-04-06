@@ -18,6 +18,7 @@ app.directive('stars', ['$http', '$state', function($http, $state)
 					stars: value
 				}
 			});
+
 			$state.go('lessons');
 		};
 	}

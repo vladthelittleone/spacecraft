@@ -34,7 +34,7 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 
 	function playNext(audio, playList)
 	{
-		nowPlay = nowPlay < (playList.length - 1) ? nowPlay + 1 : 0;
+		nowPlay %= playList.length;
 		audio.setAttribute('src', playList[nowPlay].src);
 		audio.load();
 

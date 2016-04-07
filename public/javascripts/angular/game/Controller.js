@@ -3,7 +3,7 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter','audioManager',
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
 function ($scope, $storage, $http, autocompleter, audioManager)
 {
 	//===================================
@@ -166,15 +166,15 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 
 	var playList = [
 		{
-			src: 'audio/track1.mp3',
+			src: 'audio/track1.ogg',
 			volume: 0.05
 		},
 		{
-			src: 'audio/track3.mp3',
+			src: 'audio/track3.ogg',
 			volume: 0.05
 		},
 		{
-			src: 'audio/track2.mp3',
+			src: 'audio/track2.ogg',
 			volume: 0.05
 		}
 	];

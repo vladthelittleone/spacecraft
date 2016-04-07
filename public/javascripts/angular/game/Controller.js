@@ -181,7 +181,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 
 	var audio = audioManager.createWithPlayList(playList);
 
-	$scope.$watch('$viewContentLoaded', function()
+	$scope.$watch ('$viewContentLoaded', function()
 	{
 		audio.play();
 	});

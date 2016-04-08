@@ -1301,9 +1301,11 @@ div.lesson-img-wrapper {
 }
 
 div.lesson-border-wrapper {
-	border: 1px solid #070D11;
 	width: 100%;
 	height: 100%;
+	border-top: 1px solid #070D11;
+	border-left: 1px solid #070D11;
+	border-right: 1px solid #070D11;
 }
 
 div.lesson-toolbar {

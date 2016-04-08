@@ -52,13 +52,13 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				{
 					// Индекс под урока
 					$scope.subIndex = parseInt(result.data[id].current) || 0;
-					initCode($scope.subIndex);
 				}
 				else
 				{
 					$scope.subIndex = 0;
-					initCode($scope.subIndex);
 				}
+
+				initCode($scope.subIndex);
 			});
 		}
 		else

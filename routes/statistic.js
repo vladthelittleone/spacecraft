@@ -230,4 +230,5 @@ router.post('/lessons/stars', function(req, res, next)
 			res.sendStatus(200);
 		});
 });
+
 module.exports = router;

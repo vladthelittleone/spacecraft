@@ -1,5 +1,5 @@
 <div ng-class="{'hidden' : hideEditor && (hideDoc || options.isCodeRunning), 'visible' : !hideEditor && !hideDoc}">
-    <div ui-layout="{ flow : 'column',  dividerSize: 4}">
+    <div ui-layout="{ flow : 'column',  dividerSize: 4}" class="ui-layout-custom">
 
 		<!-- Директива докуменации -->
 		<div ui-layout-container
@@ -41,39 +41,21 @@
 <!-- Директива подсказки -->
 <div tips object="tipsAndTricks"></div>
 
-<div class="toolbar">
-    <div class="box">
-		<img ui-sref="welcome"
-			 class="logo"
-			 src="images/logo3.png"/>
-    </div>
-    <div class="box">
-        <button type="button" ng-click="toggleEditorOpen()">
-            <span class="glyphicon editor-toggle"
-                  ng-class="{'glyphicon-chevron-down' : hideEditor, 'glyphicon-chevron-up' : !hideEditor}">
-            </span>
-        </button>
-        <button type="button" ng-click="toggleCodeRun()">
-            <span class="glyphicon play-toggle"
-                  ng-class="{'glyphicon-stop red' : options.isCodeRunning, 'glyphicon-play green' : !options.isCodeRunning}">
-            </span>
-        </button>
-    </div>
+<div class="right-toolbar">
+
+	<div class="right-toolbar-button right-toolbar-icon" ui-sref="welcome"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="toggleCodeRun()"
+		 ng-class="{'glyphicon-stop right-toolbar-red' : options.isCodeRunning, 'glyphicon-play right-toolbar-green' : !options.isCodeRunning}"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="toggleEditorOpen()"
+		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
+
+	<div class="right-toolbar-button right-toolbar-new-group glyphicon"
+		 ng-hide = "options.isCodeRunning"
+		 ng-click="toggleDocOpen()"
+		 ng-class="{'glyphicon-question-sign': hideDoc, 'glyphicon-chevron-right': !hideDoc}"></div>
 </div>
 
-<div class="left-toolbar">
-	<button type="button"
-			ng-click="toggleDocOpen()"
-			class="tutorial-button"
-			ng-hide = "options.isCodeRunning" >
-                <span class="glyphicon question-toggle"
-                      ng-class="{'glyphicon-question-sign': hideDoc, 'glyphicon-chevron-left': !hideDoc}">
-                </span>
-    </button>
-    <a href="https://vk.com/im?media=&sel=-105816682" target="_blank" class="feedback-button">
-        <button type="button" class="feedback-button">
-                <span class="glyphicon glyphicon-comment comment-toggle">
-                </span>
-        </button>
-    </a>
-</div>

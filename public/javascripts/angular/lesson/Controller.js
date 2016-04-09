@@ -4,9 +4,12 @@
 var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter)
+	'$storage', 'lessonProvider', 'interpreter', 'audioManager',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager)
 {
+	var audio;
+	var audioIndex = 0;
+
 	/**
 	 * Local storage
 	 */
@@ -32,38 +35,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			return JSON.parse($storage.local.getItem('lessons')) || [];
 		}
 	};
-
-	// Вся информация о уроке
-	$scope.lesson = lessonProvider($stateParams.id);
-
-	function initialize(id)
-	{
-		// Получаем урок из локального хранилища
-		var ls = st.getCurrent(id);
-		$scope.subIndex = 0;
-
-		if(!ls)
-		{
-			// Идем в базу за статой по урокам
-			$http.get('/statistic/lessons').then(function(result)
-			{
-				if(result.data.length)
-				{
-					// Индекс под урока
-					$scope.subIndex = parseInt(result.data[id].current);
-				}
-
-				initCode($scope.subIndex);
-			});
-		}
-		else
-		{
-			$scope.subIndex = ls;
-			initCode(ls);
-		}
-	}
-
-	initialize($stateParams.id);
 
 	function current()
 	{
@@ -148,7 +119,103 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			$state.go('lessons');
 		}
+
+		audioIndex = 0;
+		next();
+		$scope.textContent = false;
 	}
+
+	function tryShowHint (char, callback)
+	{
+		var hint = char.hint;
+
+		if (hint)
+		{
+			var enjoyHint = new EnjoyHint(
+				{
+					onEnd: function ()
+					{
+						enjoyHint = null;
+						if (char.waitForHint)
+						{
+							audio.onended = callback;
+						}
+					}
+				});
+
+			enjoyHint.set(hint);
+			enjoyHint.run();
+
+			if (!char.waitForHint)
+			{
+				audio.onended = function ()
+				{
+					enjoyHint && enjoyHint.trigger("skip");
+					callback && callback();
+				}
+			}
+		}
+		else
+		{
+			audio.onended = callback;
+		}
+	}
+
+	function previous()
+	{
+		$scope.audioPause = false;
+		audioIndex = Math.max(audioIndex- 2, 0);
+		next();
+	}
+
+	function next()
+	{
+		var ch = $scope.char = current().character[audioIndex];
+
+		if (ch)
+		{
+			audio = audioManager.create(ch.audio);
+			audio.play();
+			$scope.audioPause = false;
+
+			tryShowHint(ch, function ()
+			{
+				$scope.audioPause = true;
+				audioIndex++;
+				next();
+				$scope.$apply();
+			});
+		}
+	}
+
+	function initialize(id)
+	{
+		// Получаем урок из локального хранилища
+		var ls = st.getCurrent(id);
+		$scope.subIndex = 0;
+
+		if(!ls)
+		{
+			// Идем в базу за статой по урокам
+			$http.get('/statistic/lessons').then(function(result)
+			{
+				if(result.data.length)
+				{
+					// Индекс под урока
+					$scope.subIndex = parseInt(result.data[id].current);
+				}
+
+				initCode($scope.subIndex);
+			});
+		}
+		else
+		{
+			$scope.subIndex = ls;
+			initCode(ls);
+		}
+	}
+
+	initialize($stateParams.id);
 
 	//===================================
 	//============== CODE ===============
@@ -176,6 +243,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			$scope.textBot = current().defaultBBot && current().defaultBBot();
 			$scope.isGameLesson = $scope.lesson.isGameLesson;
 			$scope.nextSubLesson = nextSubLesson;
+			next();
 		});
 	}
 
@@ -183,6 +251,13 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	//===================================
 	//============== SCOPE ==============
 	//===================================
+
+	// Вся информация о уроке
+	$scope.lesson = lessonProvider($stateParams.id);
+	$scope.hideEditor = false;
+	$scope.audioPause = false;
+	$scope.textContent = false;
+	$scope.hint = false;
 
 	// Проверка существования урока
 	if (!$scope.lesson)
@@ -234,23 +309,50 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		}
 	};
 
+	$scope.toggleTextContent = function ()
+	{
+		$scope.textContent = !$scope.textContent;
+	};
+
+	$scope.toggleAudioPause = function ()
+	{
+		if ($scope.audioPause)
+		{
+			audio.play();
+		}
+		else
+		{
+			audio.pause();
+		}
+
+		$scope.audioPause = !$scope.audioPause;
+	};
+
+	$scope.previousAudio = function ()
+	{
+		if (audio.currentTime / 5 < 1)
+		{
+			audio.pause();
+			audio.currentTime = 0;
+			previous();
+		}
+		else
+		{
+			audio.currentTime = 0;
+		}
+	};
+
+
+	$scope.toggleEditorOpen = function ()
+	{
+		$scope.hideEditor = !$scope.hideEditor;
+	};
+
 	//===================================
 	//============== EDITOR =============
 	//===================================
 
 	var editorSession;
-
-	function full(c, n)
-	{
-		var str = '';
-
-		for (var i = 0; i < n; i++)
-		{
-			str += c;
-		}
-
-		return str;
-	}
 
 	$scope.aceChanged = function ()
 	{

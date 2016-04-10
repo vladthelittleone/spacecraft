@@ -951,7 +951,6 @@ body {
 .bbot-img {
 	height: 125px;
 	width: 80px;
-	background-image: url(../images/pages/happy.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 50% 50%;
@@ -959,6 +958,18 @@ body {
 	position: absolute;
 	bottom: 0;
 	right: 10px;
+}
+
+.bbot-happy {
+	background-image: url(../images/pages/happy.png);
+}
+
+.bbot-wow {
+	background-image: url(../images/pages/wow.png);
+}
+
+.bbot-angry {
+	background-image: url(../images/pages/angry.png);
 }
 
 .bbot-border {

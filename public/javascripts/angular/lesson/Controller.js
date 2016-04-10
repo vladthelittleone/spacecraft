@@ -277,6 +277,8 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 				var result = current().result(options.result);
 
+				$scope.botCss = result.css;
+
 				if (result.status)
 				{
 					success(result.message);
@@ -285,10 +287,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				{
 					error(result.message);
 				}
-			}
-			else
-			{
-
 			}
 
 			options.isCodeRunning = false;

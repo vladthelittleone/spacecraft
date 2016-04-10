@@ -164,22 +164,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	//============== AUDIO ==============
 	//===================================
 
-	var playList = [
-		{
-			src: 'audio/track1.ogg',
-			volume: 0.05
-		},
-		{
-			src: 'audio/track3.ogg',
-			volume: 0.05
-		},
-		{
-			src: 'audio/track2.ogg',
-			volume: 0.05
-		}
-	];
-
-	var audio = audioManager.createWithPlayList(playList);
+	var audio = audioManager.createWithPlayList();
 
 	$scope.$watch ('$viewContentLoaded', function()
 	{

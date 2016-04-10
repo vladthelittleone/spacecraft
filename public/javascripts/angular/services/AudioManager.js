@@ -9,7 +9,23 @@ var app = angular.module('spacecraft.audioManager', []);
 app.factory('audioManager', ['$rootScope', function ($rootScope)
 {
 	var audio;
+	var audioTwo;
 	var nowPlay = 0;
+
+	var playList = [
+		{
+			src: 'audio/track1.ogg',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track3.ogg',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track2.ogg',
+			volume: 0.05
+		}
+	];
 
 	function create(str)
 	{
@@ -24,37 +40,47 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 			audio = new Audio(str);
 		}
 
-		$rootScope.$on('$stateChangeSuccess', function ()
-		{
-			audio.pause();
-		});
-
 		return audio;
+	}
+
+	$rootScope.$on('$stateChangeSuccess', function ()
+	{
+		audio.pause();
+		audioTwo.pause();
+	});
+
+	function load(audio, playValue)
+	{
+		audio.setAttribute('src', playValue.src);
+		audio.load();
+
+		audio.volume = playValue.volume;
 	}
 
 	function playNext(audio, playList)
 	{
-		nowPlay %= playList.length;
-		audio.setAttribute('src', playList[nowPlay].src);
-		audio.load();
+		nowPlay = (nowPlay + 1) % playList.length;
 
-		audio.volume = playList[nowPlay].volume;
+		load(audio, playList[nowPlay]);
 
 		audio.play();
 	}
 
-	function createWithPlayList(playList)
+	function createWithPlayList()
 	{
-		var audio = create(playList[nowPlay].src);
-
-		audio.volume = playList[nowPlay].volume;
-
-		audio.onended = function()
+		if (!audioTwo)
 		{
-			playNext(audio, playList);
+			audioTwo = new Audio();
+		}
+
+		load(audioTwo, playList[nowPlay]);
+
+		audioTwo.onended = function()
+		{
+			playNext(audioTwo, playList);
 		};
 
-		return audio;
+		return audioTwo;
 	}
 
 	return {

@@ -306,7 +306,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
 			// но но мало ли, что лучше удалять их явно
-			editorSession.clearAnnotations();я
+			editorSession.clearAnnotations();
 			editorSession.removeMarker(markerID);
 		}
 	});

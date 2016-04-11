@@ -38,13 +38,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function initialize(id)
 	{
-		// Получаем урок из локального хранилища
 		var ls = st.getCurrent(id);
 		$scope.subIndex = 0;
 
 		if(!ls)
 		{
-			// Идем в базу за статой по урокам
 			$http.get('/statistic/lessons').then(function(result)
 			{
 				if(result.data.length)

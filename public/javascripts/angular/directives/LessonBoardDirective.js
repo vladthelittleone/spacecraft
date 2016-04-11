@@ -11,6 +11,8 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 		var char =  $scope.lesson.character;
 		var i = 0;
 
+		audioManager.createWithPlayList().play();
+
 		$scope.audioPause = false;
 		$scope.textContent = false;
 		$scope.hint = false;
@@ -97,7 +99,6 @@ app.directive('lessonBoard', ['$sce', 'audioManager', function ($sce, audioManag
 				return $sce.trustAsHtml($scope.lesson.hint);
 			}
 		};
-
 
 		$scope.getInstructions = function ()
 		{

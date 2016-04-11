@@ -8,30 +8,83 @@ var app = angular.module('spacecraft.audioManager', []);
 
 app.factory('audioManager', ['$rootScope', function ($rootScope)
 {
-	var audio;
+	var voice;
+	var soundtrack;
+	var nowPlay = 0;
+
+	var playList = [
+		{
+			src: 'audio/track1.ogg',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track3.ogg',
+			volume: 0.05
+		},
+		{
+			src: 'audio/track2.ogg',
+			volume: 0.05
+		}
+	];
 
 	function create(str)
 	{
-		if (audio)
+		if (voice)
 		{
-			audio.onended = null;
-			audio.setAttribute('src', str); //change the source
-			audio.load(); //load the new source
+			voice.onended = null;
+			voice.setAttribute('src', str); // change the source
+			voice.load(); // load the new source
 		}
 		else
 		{
-			audio = new Audio(str);
+			voice = new Audio(str);
 		}
 
-		return audio;
+		return voice;
 	}
 
 	$rootScope.$on('$stateChangeSuccess', function ()
 	{
-		audio.pause();
+		voice && voice.pause();
+		soundtrack && soundtrack.pause();
 	});
 
+	function load(audio, playValue)
+	{
+		audio.setAttribute('src', playValue.src);
+		audio.load();
+
+		audio.volume = playValue.volume;
+	}
+
+	function playNext(audio, playList)
+	{
+		nowPlay = (nowPlay + 1) % playList.length;
+
+		load(audio, playList[nowPlay]);
+
+		audio.play();
+	}
+
+	function createWithPlayList()
+	{
+		if (!soundtrack)
+		{
+			soundtrack = new Audio();
+		}
+
+		load(soundtrack, playList[nowPlay]);
+
+		soundtrack.onended = function()
+		{
+			playNext(soundtrack, playList);
+		};
+
+		return soundtrack;
+	}
+
 	return {
-		create: create
+		create: create,
+		createWithPlayList: createWithPlayList
 	};
 }]);

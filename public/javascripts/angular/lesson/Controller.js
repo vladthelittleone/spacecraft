@@ -412,4 +412,15 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			editorSession.removeMarker(markerID);
 		}
 	});
+
+	//===================================
+	//============== AUDIO ==============
+	//===================================
+
+	var soundtrack = audioManager.createWithPlayList();
+
+	$scope.$watch ('$viewContentLoaded', function()
+	{
+		soundtrack.play();
+	});
 }]);

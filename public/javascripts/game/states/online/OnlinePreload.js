@@ -39,7 +39,6 @@ var OnlinePreload = function (spec)
 		game.load.audio('shield1', ['audio/shieldvisible1.wav']);
 		game.load.audio('bonus1', ['audio/bonus1.wav']);
 		game.load.audio('harvest1', ['audio/harvest1.wav']);
-		game.load.audio('track1', ['audio/track1.mp3']);
 	};
 
 	that.create = function ()

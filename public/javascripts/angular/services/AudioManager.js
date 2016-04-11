@@ -8,8 +8,8 @@ var app = angular.module('spacecraft.audioManager', []);
 
 app.factory('audioManager', ['$rootScope', function ($rootScope)
 {
-	var audio;
-	var audioTwo;
+	var voice;
+	var soundtrack;
 	var nowPlay = 0;
 
 	var playList = [
@@ -29,24 +29,24 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 
 	function create(str)
 	{
-		if (audio)
+		if (voice)
 		{
-			audio.onended = null;
-			audio.setAttribute('src', str); //change the source
-			audio.load(); //load the new source
+			voice.onended = null;
+			voice.setAttribute('src', str); // change the source
+			voice.load(); // load the new source
 		}
 		else
 		{
-			audio = new Audio(str);
+			voice = new Audio(str);
 		}
 
-		return audio;
+		return voice;
 	}
 
 	$rootScope.$on('$stateChangeSuccess', function ()
 	{
-		audio.pause();
-		audioTwo.pause();
+		voice.pause();
+		soundtrack.pause();
 	});
 
 	function load(audio, playValue)
@@ -68,19 +68,19 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 
 	function createWithPlayList()
 	{
-		if (!audioTwo)
+		if (!soundtrack)
 		{
-			audioTwo = new Audio();
+			soundtrack = new Audio();
 		}
 
-		load(audioTwo, playList[nowPlay]);
+		load(soundtrack, playList[nowPlay]);
 
-		audioTwo.onended = function()
+		soundtrack.onended = function()
 		{
-			playNext(audioTwo, playList);
+			playNext(soundtrack, playList);
 		};
 
-		return audioTwo;
+		return soundtrack;
 	}
 
 	return {

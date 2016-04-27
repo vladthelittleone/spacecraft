@@ -7,6 +7,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	'$storage', 'lessonProvider', 'interpreter',
 	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter)
 {
+	$scope.starsHide = false;
+	$scope.idLesson = $stateParams.id;
+
 	/**
 	 * Local storage
 	 */
@@ -45,7 +48,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			$http.get('/statistic/lessons').then(function(result)
 			{
-				if(result.data.length)
+				if(result.data[id])
 				{
 					// Индекс под урока
 					$scope.subIndex = parseInt(result.data[id].current);
@@ -144,7 +147,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				}
 			});
 
-			$state.go('lessons');
+			$scope.starsHide = true;
 		}
 	}
 

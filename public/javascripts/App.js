@@ -31,7 +31,8 @@ var app = angular.module('spacecraft', [
 	'spacecraft.lessonBoard',
 	'spacecraft.lesson',
 	'spacecraft.quick',
-	'spacecraft.repeatFinished'
+	'spacecraft.repeatFinished',
+	'spacecraft.stars'
 ]);
 
 app.config(['$locationProvider', '$urlRouterProvider', 'ChartJsProvider',

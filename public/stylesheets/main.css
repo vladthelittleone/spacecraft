@@ -281,8 +281,7 @@ body {
 .stars-background {
 	z-index: 3000;
 	background-size: cover;
-	background-color: #000033;
-	opacity: 0.5;
+	background-color: rgba(21, 43, 57, 0.9);
 }
 
 .result-background {
@@ -1684,16 +1683,16 @@ fieldset, label { padding: 0; }
 
 .rating {
 	border: none;
-	float: left;
-	height: 25px;
-	width: 150px;
+	display: inline-block;
+	margin: 0 auto;
+	text-align: left;
 }
 
 .rating > input { display: none; }
 .rating > label:before {
-	margin: 5px;
-	font-size: 1.25em;
-	font-family: FontAwesome;
+	margin: 10px;
+	font-size: 4.5em;
+	font-family: FontAwesome, serif;
 	display: inline-block;
 	content: "\f005";
 }
@@ -1704,7 +1703,8 @@ fieldset, label { padding: 0; }
 }
 
 .rating > label {
-	color: #ddd;
+	color: #fff;
+	border: black;
 	float: right;
 }
 
@@ -1719,13 +1719,12 @@ fieldset, label { padding: 0; }
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
 
-.stars-conteiner{
-	height: 200px;
-	width: 300px;
+.stars-conteiner
+{
+	width: 100%;
+	text-align: center;
 	position: absolute;
 	color: #FFFFFF;
 	top: 30%;
-	bottom: 40%;
-	left: 45%;
 }
 

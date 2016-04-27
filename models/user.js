@@ -2,6 +2,8 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 
+var Metrics = require('models/metrics').Metrics;
+
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
@@ -80,6 +82,15 @@ schema.statics.authorize = function (email, password, callback)
 			{
 				if (user.checkPassword(password))
 				{
+					Metrics.update(user, function (metrics)
+					{
+						metrics.visits += 1;
+						metrics.lastEntryDate = new Date();
+
+						metrics.save();
+
+					});
+
 					callback(null, user);
 				}
 				else

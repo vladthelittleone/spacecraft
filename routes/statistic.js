@@ -8,6 +8,7 @@ var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var router = express.Router();
 
+// Сохранение статистики по играм пользователей
 router.post('/', function (req, res, next)
 {
 	var id = req.session.user;
@@ -24,6 +25,7 @@ router.post('/', function (req, res, next)
 			function (result, callback)
 			{
 				var stat = req.body;
+				// Максимальное чилос очков за все игры пользователя
 				var maxScore = req.body.totalScore;
 
 				if (result)
@@ -40,6 +42,7 @@ router.post('/', function (req, res, next)
 					stat.push(req.body);
 				}
 
+				// Апдейт записи о статистики. создание новой записи если ее нет
 				Statistic.update({idUser: id},
 					{
 						stat: stat,
@@ -61,6 +64,7 @@ router.post('/', function (req, res, next)
 	res.send([]);
 });
 
+// Получение статисик юзера
 router.get('/', function (req, res, next)
 {
 	async.waterfall(
@@ -89,12 +93,15 @@ router.get('/', function (req, res, next)
 	});
 });
 
+// Получаем из базы стату по максимальным очкам юзеров
 router.get('/score', function (req, res, next)
 {
 	async.waterfall(
 	[
 		function (callback)
 		{
+			// Join запрос, соедниям 2 таблицы статистику и юзеров
+			// Берем не пустые поля макс очков и сортируем по убыванию
 			Statistic.find(({ maxScore: { $ne: null } }))
 				.populate('idUser')
 				.sort('-maxScore')
@@ -112,6 +119,7 @@ router.get('/score', function (req, res, next)
 		{
 			var great = [];
 
+			// Делаем массив из 10 лучших юзеров
 			user.forEach(function (u,i)
 			{
 				great.push({
@@ -127,40 +135,49 @@ router.get('/score', function (req, res, next)
 
 			res.json(great);
 		}
+		else
+		{
+			res.send();
+		}
 	});
 });
 
-router.post('/lessons', function(req, res, next){
+// Запись статы о прохождении уроков юзером
+router.post('/lessons', function(req, res, next)
+{
 	var id = req.session.user;
 	var lesId = req.body.lessonId;
 
 	if (id)
 	{
 		async.waterfall(
-			[
-				function (callback)
-				{
-					// Ищем статистику юзера в базе
-					Statistic.findOne({idUser: id}, callback);
-				},
-				function(result, callback)
-				{
-					var lessons = req.body;
-					if(result && result.lessons)
-					{
-						lessons = result.lessons;
-						lessons[lesId] = req.body;
-						lessons[lesId].completed = req.body.completed && !lessons[lesId].completed;
-					}
+		[
+			function (callback)
+			{
+				// Ищем статистику юзера в базе
+				Statistic.findOne({idUser: id}, callback);
+			},
+			function(result, callback)
+			{
+				var lessons = req.body;
 
-					Statistic.update({idUser: id},
-						{
-							lessons: lessons
-						},
-						{upsert: true, multi: true},
-						callback);
+				// Если в базе была стата об уроках
+				if(result && result.lessons)
+				{
+					lessons = result.lessons;
+					lessons[lesId] = req.body;
+					lessons[lesId].completed = req.body.completed || lessons[lesId].completed;
 				}
-			],
+
+				// Апдейт записи о статистики. создание новой записи если ее нет
+				Statistic.update({idUser: id},
+				{
+					lessons: lessons
+				},
+				{upsert: true, multi: true},
+				callback);
+			}
+		],
 		function(err)
 		{
 			if(err)
@@ -169,32 +186,36 @@ router.post('/lessons', function(req, res, next){
 			}
 		});
 	}
+
+	res.send([]);
 });
 
-router.get('/lessons', function(req, res, next){
+// Получение статистики юзера о прохождении уроков
+router.get('/lessons', function(req, res, next)
+{
 	async.waterfall(
-		[
-			function(callback)
-			{
-				Statistic.findOne({idUser: req.session.user},callback);
-			}
-		],
-		function(err, result)
+	[
+		function(callback)
 		{
-			if (err)
-			{
-				return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
-			}
+			Statistic.findOne({idUser: req.session.user}, callback);
+		}
+	],
+	function(err, result)
+	{
+		if (err)
+		{
+			return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
+		}
 
-			if (result)
-			{
-				res.json(result.lessons);
-			}
-			else
-			{
-				res.send([]);
-			}
-		});
+		if (result)
+		{
+			res.json(result.lessons);
+		}
+		else
+		{
+			res.send([]);
+		}
+	});
 });
 
 router.post('/lessons/stars', function(req, res, next)

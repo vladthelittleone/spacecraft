@@ -9,6 +9,7 @@ const main = require('./main');
 const logout = require('./logout');
 const reg = require('./registration');
 const statistic = require('./statistic');
+const metrics = require('./metrics');
 
 module.exports = function (app)
 {
@@ -20,5 +21,6 @@ module.exports = function (app)
 	app.use('/reg', reg);
 	app.use('/logout', logout);
 	app.use('/statistic', statistic);
+	app.use('/metrics', metrics)
 };
 

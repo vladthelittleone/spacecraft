@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter',
-function ($scope, $storage, $http, autocompleter)
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
+function ($scope, $storage, $http, autocompleter, audioManager)
 {
 	//===================================
 	//============== CODE ===============
@@ -158,5 +158,16 @@ function ($scope, $storage, $http, autocompleter)
 			editorSession.clearAnnotations();
 			editorSession.removeMarker(markerID);
 		}
+	});
+
+	//===================================
+	//============== AUDIO ==============
+	//===================================
+
+	var audio = audioManager.createWithPlayList();
+
+	$scope.$watch ('$viewContentLoaded', function()
+	{
+		audio.play();
 	});
 }]);

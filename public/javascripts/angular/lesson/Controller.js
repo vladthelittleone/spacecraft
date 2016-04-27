@@ -42,20 +42,16 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	function initialize(id)
 	{
 		var ls = st.getCurrent(id);
+		$scope.subIndex = 0;
 
 		if(!ls)
 		{
 			$http.get('/statistic/lessons').then(function(result)
 			{
-
 				if(result.data[id])
 				{
 					// Индекс под урока
-					$scope.subIndex = parseInt(result.data[id].current) || 0;
-				}
-				else
-				{
-					$scope.subIndex = 0;
+					$scope.subIndex = parseInt(result.data[id].current);
 				}
 
 				initCode($scope.subIndex);
@@ -108,9 +104,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			st.set('lessons', a);
 		}
-
-		// Слова BBot'а
-		$scope.textBot = current().defaultBBot;
 
 		// Размер массива подуроков с 0
 		var len = $scope.lesson.sub.length - 1;
@@ -181,7 +174,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			options.code = date;
 
 			// Слова BBot'а
-			$scope.textBot = current().defaultBBot;
+			$scope.textBot = current().defaultBBot && current().defaultBBot();
 			$scope.isGameLesson = $scope.lesson.isGameLesson;
 			$scope.nextSubLesson = nextSubLesson;
 		});
@@ -204,17 +197,24 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			options.isCodeRunning = true;
 
-			options.result = interpreter.execute(options.code);
-
-			var result = current().result(options.result);
-
-			if (result.status)
+			if (current().result)
 			{
-				success(result.message);
+				options.result = interpreter.execute(options.code);
+
+				var result = current().result(options.result);
+
+				if (result.status)
+				{
+					success(result.message);
+				}
+				else
+				{
+					error(result.message);
+				}
 			}
 			else
 			{
-				error(result.message);
+
 			}
 
 			options.isCodeRunning = false;
@@ -255,7 +255,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.aceChanged = function ()
 	{
-		// editorSession.replace(new Range(0, 0, editorSession.getLength() - 1, options.code.length), full('*', options.code.length));
 		options.code = editorSession.getDocument().getValue();
 	};
 

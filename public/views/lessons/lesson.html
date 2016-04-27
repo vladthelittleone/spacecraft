@@ -5,8 +5,7 @@
 		<div ui-layout-container
 			 min-size="30%"
 			 max-size="70%"
-			 size="50%"
-			 ng-hide="options.isCodeRunning && isGameLesson">
+			 size="50%">
 			<lesson-board
 				ng-if="lesson.sub[subIndex]"
 				lesson="lesson.sub[subIndex]"
@@ -44,8 +43,9 @@
 <div stars id-lesson="idLesson" ng-if="starsHide"></div>
 
 <!-- Директива игры -->
-<div game-canvas ng-if="isGameLesson"
-	 editor-options="options">
+<div game-canvas
+	 editor-options="options"
+	 class="lesson-canvas">
 </div>
 
 <div class="toolbar">

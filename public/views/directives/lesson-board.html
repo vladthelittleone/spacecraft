@@ -1,12 +1,6 @@
 <div class="lesson-board">
 	<div class="objects content-description">
-		<div class="pane-title">
-			<div class="pane-title-inner">
-				{{text}}
-			</div>
-		</div>
-
-		<div class="content-overflow lesson-content-overflow">
+		<div class="content-overflow lesson-content-overflow" ng-show="textContent">
 			<div class="content-center">
 				<div class="lesson-title">{{lesson.title}}</div>
 				<div class="lesson-content" ng-bind-html="getContent()"></div>
@@ -17,12 +11,38 @@
 					<div class="lesson-content" ng-bind-html="getInstructions()"></div>
 				</div>
 			</div>
-			<div class="lesson-hint-button" ng-click="showHint()">
+			<div class="lesson-hint-button"
+				 ng-click="showHint()"
+				 ng-hide="!getHint() || hint">
 				Показать подсказку.
 			</div>
+			<div class="lesson-hint"
+				 ng-show="hint">
+				<div class="content-center">
+					<div class="lesson-content" ng-bind-html="getHint()"></div>
+				</div>
+			</div>
 		</div>
-		<div class="helper">
-			<div class="astrogirl-img"></div>
+		<div class="lesson-toolbar">
+			<div class="lesson-border-wrapper">
+				<div class="lesson-player-container">
+					<div class="lesson-left-pane"><span class="lesson-pane-title">{{text}}</span></div>
+
+					<button ng-click="toggleTextContent()" class="lesson-alt-hint">
+						<span class="glyphicon glyphicon-list-alt"
+							  ng-class="{'glyphicon-chevron-right' : textContent}"></span>
+					</button>
+
+					<button ng-click="previousAudio()"><span class="glyphicon glyphicon-fast-backward"></span></button>
+					<button ng-click="togglePauseAudio()">
+						<span class="glyphicon"
+							  ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="lesson-img-wrapper">
+			<div ng-class="char.css"></div>
 		</div>
 	</div>
 </div>

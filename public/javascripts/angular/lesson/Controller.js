@@ -103,6 +103,8 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 					current: $scope.subIndex
 				}
 			});
+
+			next();
 		}
 		else
 		{
@@ -124,7 +126,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		}
 
 		audioIndex = 0;
-		next();
 		$scope.textContent = false;
 	}
 

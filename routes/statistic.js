@@ -218,4 +218,38 @@ router.get('/lessons', function(req, res, next)
 	});
 });
 
+router.post('/lessons/stars', function(req, res, next)
+{
+	async.waterfall(
+		[
+			function(callback)
+			{
+				Statistic.findOne({idUser: req.session.user}, callback);
+			},
+			function(result, callback)
+			{
+				var lessons = result.lessons;
+				var lesId = req.body.idLesson;
+				lessons[lesId].stars = req.body.stars;
+
+				Statistic.update({idUser: req.session.user},
+					{
+						lessons: lessons
+					},
+					{multi: true},
+					callback);
+			}
+		],
+
+		function(err)
+		{
+			if (err)
+			{
+				return next(new HttpError(500, "Ошибка сохранения оценки урока"));
+			}
+
+			res.sendStatus(200);
+		});
+});
+
 module.exports = router;

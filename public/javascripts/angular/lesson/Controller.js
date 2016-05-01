@@ -10,6 +10,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	var audio;
 	var audioIndex = 0;
 
+	$scope.starsHide = false;
+	$scope.idLesson = $stateParams.id;
+
 	/**
 	 * Local storage
 	 */
@@ -117,7 +120,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				}
 			});
 
-			$state.go('lessons');
+			$scope.starsHide = true;
 		}
 
 		audioIndex = 0;
@@ -188,6 +191,9 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		}
 	}
 
+	// Вся информация о уроке
+	$scope.lesson = lessonProvider($stateParams.id);
+
 	function initialize(id)
 	{
 		// Получаем урок из локального хранилища
@@ -199,7 +205,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Идем в базу за статой по урокам
 			$http.get('/statistic/lessons').then(function(result)
 			{
-				if(result.data.length)
+				if(result.data[id])
 				{
 					// Индекс под урока
 					$scope.subIndex = parseInt(result.data[id].current);

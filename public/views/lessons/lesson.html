@@ -1,23 +1,26 @@
 <div>
-    <div ui-layout="{ flow : 'column',  dividerSize: 4, disableToggle: true}">
+	<div ui-layout="{ flow : 'column',  dividerSize: 4, disableToggle: true}"
+		 class="ui-layout-custom">
 
 		<!-- Директива урока -->
 		<div ui-layout-container
 			 min-size="30%"
 			 max-size="70%"
 			 size="50%">
-			<lesson-board
-				ng-if="lesson.sub[subIndex]"
-				lesson="lesson.sub[subIndex]"
-				text="lesson.text"/>
+			<div lesson-board
+				 ng-if="lesson.sub[subIndex]"
+				 lesson="lesson.sub[subIndex]"
+				 text-content="textContent">
+			</div>
 		</div>
 
-        <div ui-layout-container
-            min-size="30%"
-            max-size="70%">
+		<div ui-layout-container
+			 min-size="30%"
+			 max-size="70%"
+			 ng-hide="hideEditor">
 
 			<div class="main-editor"
-			 	ui-ace="{
+				 ui-ace="{
 			 	useWrapMode : true,
 				showGutter: true,
 				theme:'tomorrow_night',
@@ -29,14 +32,17 @@
 			</div>
 
 			<!-- Директива ошибки -->
-			<bbot-board
-				ng-if="lesson.sub[subIndex]"
-				text-bot="textBot"
-				quote="lesson.quote"
-				lesson="true"
-				next="nextSubLesson"/>
+			<div bbot-board
+				 ng-if="lesson.sub[subIndex]"
+				 text-bot="textBot"
+				 quote="lesson.quote"
+				 lesson="true"
+				 css="botCss"
+				 next="nextSubLesson">
+			</div>
+
 		</div>
-    </div>
+	</div>
 </div>
 
 <!-- Директива звезд рейтинга урока-->
@@ -48,17 +54,32 @@
 	 class="lesson-canvas">
 </div>
 
-<div class="toolbar">
-    <div class="box">
-		<img ui-sref="welcome"
-			 class="logo"
-			 src="images/logo3.png"/>
-    </div>
-    <div class="box">
-        <button class="hint-play" type="button" ng-click="run()">
-            <span class="glyphicon"
-                  ng-class="{'glyphicon-stop red' : options.isCodeRunning, 'glyphicon-play green' : !options.isCodeRunning}">
-            </span>
-        </button>
-    </div>
+<div class="right-toolbar">
+
+	<div class="right-toolbar-button right-toolbar-icon" ui-sref="welcome"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="run()"
+		 ng-class="{'glyphicon-stop right-toolbar-red' : options.isCodeRunning, 'glyphicon-play right-toolbar-green' : !options.isCodeRunning}"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="toggleEditorOpen()"
+		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
+
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-fast-backward"
+		 ng-click="previousAudio()"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="toggleAudioPause()"
+		 ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></div>
+
+	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
+		 ng-click="toggleTextContent()"
+		 ng-class="{'glyphicon-chevron-right' : textContent}"></div>
+
 </div>
+
+<div class="lesson-img-wrapper">
+	<div ng-class="char.css"></div>
+</div>
+

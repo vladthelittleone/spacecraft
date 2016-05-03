@@ -28,7 +28,8 @@ app.directive('bbotBoard', ['$sce', function ($sce)
 			quote: '=',
 			lesson: '=',
 			textBot: '=',
-			next: '='
+			next: '=',
+			css: '='
 		},
 		templateUrl: 'views/directives/bbot-board.html',
 		link: link

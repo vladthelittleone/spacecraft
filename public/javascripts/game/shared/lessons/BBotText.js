@@ -6,11 +6,12 @@ var BBotText = function (text)
 {
 	var that = {};
 
-	function result(status, message)
+	function result(status, message, css)
 	{
 		return {
 			status: status,
-			message: message
+			message: message,
+			css: css
 		};
 	}
 
@@ -19,29 +20,29 @@ var BBotText = function (text)
 		return text[value];
 	}
 
-	that.resultCorrect = function ()
+	that.resultCorrect = function (css)
 	{
-		return result(true, getText('correct'));
+		return result(true, getText('correct'), css);
 	};
 
-	that.unknownError = function ()
+	that.unknownError = function (css)
 	{
-		return that.resultNotCorrect('unknownError');
+		return that.resultNotCorrect('unknownError', css || 'bbot-wow');
 	};
 
-	that.resultNotCorrect = function (messageType)
+	that.resultNotCorrect = function (messageType, css)
 	{
-		return result(false, getText(messageType));
+		return result(false, getText(messageType), css || 'bbot-angry');
 	};
 
-	that.result = function (v)
+	that.result = function (v, css)
 	{
 		if (v)
 		{
-			return that.resultCorrect();
+			return that.resultCorrect(css);
 		}
 
-		return that.unknownError();
+		return that.unknownError(css);
 	};
 
 

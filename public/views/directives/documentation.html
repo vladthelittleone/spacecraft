@@ -1,13 +1,8 @@
 <div class="documentation"
 	 ng-class="{'hidden' : hide, 'visible' : !hide}">
 
-	<div class="objects content-description" ng-show="!functionDocOpen">
-		<div class="pane-title">
-			<div class="pane-title-inner">
-				Доступные объекты управления
-			</div>
-		</div>
-
+	<div class="objects content-description"
+		 ng-show="!functionDocOpen">
 		<div class="content-overflow">
 			<ul>
 				<li ng-click="openFunctionDoc('world')"><p><em>World</em>Объект, отвечающий за информацию о
@@ -43,12 +38,9 @@
 			</ul>
 		</div>
 	</div>
-	<div ng-show="functionDocOpen" class="content-description">
-		<div class="pane-title">
-			<div class="pane-title-inner">
-				{{functionDoc.title}}
-			</div>
-		</div>
+
+	<div ng-show="functionDocOpen"
+		 class="content-description">
 		<div class="content-overflow">
 			<ul>
 				<li ng-repeat="obj in functionDoc.functions">

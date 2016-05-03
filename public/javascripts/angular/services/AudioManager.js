@@ -73,7 +73,9 @@ app.factory('audioManager', ['$rootScope', function ($rootScope)
 			soundtrack = new Audio();
 		}
 
-		load(soundtrack, playList[nowPlay]);
+		var rIndex = utils.randomInt(0, playList.length - 1);
+
+		load(soundtrack, playList[rIndex]);
 
 		soundtrack.onended = function()
 		{

@@ -153,6 +153,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			function toLogin ()
 			{
 				$state.go('login');
+				$storage.clear();
 			}
 			authentication.logout(
 			{

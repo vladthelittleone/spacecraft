@@ -66,16 +66,16 @@
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
 
-	<div class="right-toolbar-button right-toolbar-new-group glyphicon glyphicon-list-alt lesson-alt-hint"
-		 ng-click="toggleTextContent()"
-		 ng-class="{'glyphicon-chevron-right' : textContent}"></div>
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-fast-backward"
+		 ng-click="previousAudio()"></div>
 
 	<div class="right-toolbar-button glyphicon"
 		 ng-click="toggleAudioPause()"
 		 ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></div>
 
-	<div class="right-toolbar-button glyphicon glyphicon-fast-backward"
-		 ng-click="previousAudio()"></div>
+	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
+		 ng-click="toggleTextContent()"
+		 ng-class="{'glyphicon-chevron-right' : textContent}"></div>
 
 </div>
 

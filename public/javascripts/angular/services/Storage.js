@@ -3,7 +3,7 @@
 /**
  * Created by Ivan on 10.11.2015.
  */
-var app = angular.module('spacecraft.storage', [])
+var app = angular.module('spacecraft.storage', []);
 
 /**
  * Service that responding for web storage.

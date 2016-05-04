@@ -252,19 +252,20 @@ router.post('/lessons/stars', function(req, res, next)
 		});
 });
 
+// Сохраняем код в базе
 router.post('/code', function(req, res, next)
 {
 	async.waterfall(
 		[
 			function(callback)
 			{
-				console.log(req.body);
-				//Statistic.update({idUser: req.session.user},
-				//	{
-				//		code: req.body
-				//	},
-				//	{upsert: true, multi: true},
-				//	callback);
+				console.log(req.body.code);
+				Statistic.update({idUser: req.session.user},
+					{
+						code: req.body.code
+					},
+					{upsert: true, multi: true},
+					callback);
 			}
 		],
 		function(err)
@@ -276,7 +277,27 @@ router.post('/code', function(req, res, next)
 
 			res.sendStatus(200);
 		});
+});
 
+// Ищем код в базе
+router.get('/code', function(req, res, next)
+{
+	async.waterfall(
+		[
+			function(callback)
+			{
+				Statistic.findOne({idUser: req.session.user}, callback);
+			}
+		],
+		function(err, result)
+		{
+			if (err)
+			{
+				return next(new HttpError(500, "Ошибка поиска кода"));
+			}
+
+			res.json(result.code);
+		});
 });
 
 module.exports = router;

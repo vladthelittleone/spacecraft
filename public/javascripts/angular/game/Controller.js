@@ -14,17 +14,31 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	{
 		var code = $storage.local.getItem('code') || "";
 
-		// Если в локальном хранилище нет кода, то берем из js
+		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
 		if (!code)
 		{
 			$http({
 				method: 'GET',
-				url: 'javascripts/code/game.js'
-			})
-			.success(function (date)
+				url: '/statistic/code'
+			}).then(function(result)
 			{
-				editorSession.setValue(date);
-				code = date;
+				if(result.data)
+				{
+					editorSession.setValue(result.data);
+					code = result.data;
+				}
+				else
+				{
+					$http({
+						method: 'GET',
+						url: 'javascripts/code/game.js'
+					})
+						.success(function (date)
+						{
+							editorSession.setValue(date);
+							code = date;
+						});
+				}
 			});
 		}
 
@@ -49,13 +63,16 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	{
 		$scope.options.isCodeRunning = !$scope.options.isCodeRunning;
 
+		// Сохраняем код только при нажатии на кнопку плей
 		if($scope.options.isCodeRunning)
 		{
-			console.log("in if");
 			$http({
 				method: 'POST',
 				url: '/statistic/code',
-				data: $scope.options.code
+				data:
+				{
+					code: $scope.options.code
+				}
 			});
 		}
 	};

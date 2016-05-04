@@ -48,6 +48,16 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	$scope.toggleCodeRun = function ()
 	{
 		$scope.options.isCodeRunning = !$scope.options.isCodeRunning;
+
+		if($scope.options.isCodeRunning)
+		{
+			console.log("in if");
+			$http({
+				method: 'POST',
+				url: '/statistic/code',
+				data: $scope.options.code
+			});
+		}
 	};
 
 	//===================================

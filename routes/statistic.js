@@ -252,4 +252,31 @@ router.post('/lessons/stars', function(req, res, next)
 		});
 });
 
+router.post('/code', function(req, res, next)
+{
+	async.waterfall(
+		[
+			function(callback)
+			{
+				console.log(req.body);
+				//Statistic.update({idUser: req.session.user},
+				//	{
+				//		code: req.body
+				//	},
+				//	{upsert: true, multi: true},
+				//	callback);
+			}
+		],
+		function(err)
+		{
+			if (err)
+			{
+				return next(new HttpError(500, "Ошибка сохранения кода"));
+			}
+
+			res.sendStatus(200);
+		});
+
+});
+
 module.exports = router;

@@ -6,6 +6,36 @@ var app = angular.module('spacecraft.game');
 app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
 function ($scope, $storage, $http, autocompleter, audioManager)
 {
+
+	function requestToDB()
+	{
+		var code = "";
+		$http({
+			method: 'GET',
+			url: '/statistic/code'
+		}).then(function(result)
+		{
+			if(result.data)
+			{
+				editorSession.setValue(result.data);
+				code = result.data;
+			}
+			else
+			{
+				$http({
+					method: 'GET',
+					url: 'javascripts/code/game.js'
+				})
+					.success(function (date)
+					{
+						editorSession.setValue(date);
+						code = date;
+					});
+			}
+		});
+
+		return code;
+	}
 	//===================================
 	//============== CODE ===============
 	//===================================
@@ -17,29 +47,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
 		if (!code)
 		{
-			$http({
-				method: 'GET',
-				url: '/statistic/code'
-			}).then(function(result)
-			{
-				if(result.data)
-				{
-					editorSession.setValue(result.data);
-					code = result.data;
-				}
-				else
-				{
-					$http({
-						method: 'GET',
-						url: 'javascripts/code/game.js'
-					})
-						.success(function (date)
-						{
-							editorSession.setValue(date);
-							code = date;
-						});
-				}
-			});
+			code = requestToDB();
 		}
 
 		return code;

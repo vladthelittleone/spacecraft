@@ -58,4 +58,39 @@ schema.statics.update = function (idUser, callback)
 		], callback);
 };
 
+schema.statics.calcStatistics = function (callback)
+{
+	var Metrics = this;
+
+	async.waterfall(
+		[
+			function (callback)
+			{
+				Metrics.find(callback);
+			},
+			function (metrics)
+			{
+				var sumVisits = 0;
+				var sumClickOnLesson = 0;
+				var sumClickOnGame = 0;
+
+				metrics.forEach(function(item)
+				{
+					sumVisits += item.visits;
+					sumClickOnLesson += item.numbClicksOnLesson;
+					sumClickOnGame += item.numbClicksOnGame;
+				});
+
+				var userNumb = metrics.length;
+
+				var meanVisits = sumVisits / userNumb;
+				var meanClickOnLesson = sumClickOnLesson / userNumb;
+				var meanClickOnGame = sumClickOnGame / userNumb;
+
+				callback(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson);
+			}
+
+		]);
+};
+
 exports.Metrics = mongoose.model('Metrics', schema);

@@ -6,51 +6,53 @@ var app = angular.module('spacecraft.game');
 app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
 function ($scope, $storage, $http, autocompleter, audioManager)
 {
-	function checkAndSaveResult(data)
-	{
-		if(data)
-		{
-			editorSession.setValue(data);
-			return data;
-		}
-		else
-		{
-			$http({
-				method: 'GET',
-				url: 'javascripts/code/game.js'
-			}).success(function (date)
-			{
-				editorSession.setValue(date);
-				return date;
-			});
-		}
-	}
-
-	function requestToDB()
-	{
-		var code = "";
-		$http({
-			method: 'GET',
-			url: '/statistic/code'
-		}).then(function(result)
-		{
-			code = checkAndSaveResult(result.data);
-		});
-
-		return code;
-	}
 	//===================================
 	//============== CODE ===============
 	//===================================
 
 	function initCode()
 	{
+		function checkAndSaveCode(data)
+		{
+			if(data)
+			{
+				editorSession.setValue(data);
+				return data;
+			}
+			else
+			{
+				$http({
+					method: 'GET',
+					url: 'javascripts/code/game.js'
+				}).success(function (date)
+				{
+					editorSession.setValue(date);
+					return date;
+				});
+			}
+		}
+
+		function requestForCode()
+		{
+			var code = "";
+
+			$http({
+				method: 'GET',
+				url: '/statistic/code'
+			}).then(function(result)
+			{
+				code = checkAndSaveCode(result.data);
+			});
+
+			return code;
+		}
+
 		var code = $storage.local.getItem('code') || "";
 
 		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
 		if (!code)
 		{
-			code = requestToDB();
+			code = requestForCode();
 		}
 
 		return code;

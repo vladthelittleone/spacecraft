@@ -189,10 +189,6 @@ router.post('/lessons', function(req, res, next)
 
 	res.send([]);
 });
-function findOnrUserStatistic(id, callback)
-{
-	Statistic.findOne({idUser: id}, callback);
-}
 
 // Получение статистики юзера о прохождении уроков
 router.get('/lessons', function(req, res, next)
@@ -201,7 +197,7 @@ router.get('/lessons', function(req, res, next)
 	[
 		function(callback)
 		{
-			findOnrUserStatistic(req.session.user, callback)
+			Statistic.findOne({idUser: req.session.user}, callback);
 		}
 	],
 	function(err, result)

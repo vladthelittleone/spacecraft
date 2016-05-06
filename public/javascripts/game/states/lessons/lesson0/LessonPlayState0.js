@@ -8,7 +8,6 @@ var LessonPlayState0 = function (spec)
 	var that = PlayState(spec);
 
 	var game = spec.game;
-	var scope = game.sc.scope;
 	var sc = game.sc;
 	var base = {};
 
@@ -56,7 +55,7 @@ var LessonPlayState0 = function (spec)
 				spriteName: 'harvester',
 				health: 200,
 				shield: 100,
-				shieldSprite: 'userShield',
+				shieldSprite: 'shield',
 				harvestRange: 100,
 				maxTank: 50,
 				scale: 1,

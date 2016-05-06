@@ -1,7 +1,7 @@
 /**
  * Created by vladthelittleone on 16.03.16.
  */
-var LessonGameInit0 = function (spec)
+var LessonGameInit = function (spec)
 {
 	var that = SpaceCraftGame(spec);
 
@@ -18,11 +18,10 @@ var LessonGameInit0 = function (spec)
 
 	that.initStates = function ()
 	{
-
 		that.state.add('boot', BootState({game: that}));
-		that.state.add('preload', LessonPreloadState0({game: that}));
+		that.state.add('preload', LessonPreloadState({game: that, loads: spec.loads}));
 		that.state.add('menu', MenuState({game: that}));
-		that.state.add('play', LessonPlayState0({game: that}));
+		that.state.add('play', spec.playState.call(null, {game: that}));
 
 		that.state.start('boot');
 	};

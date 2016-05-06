@@ -24,7 +24,8 @@ app.service('lessonProvider', ['$storage', function ($storage)
 
 	var lessons =
 	[
-		Lesson0(st)
+		Lesson0(st),
+		Lesson1(st)
 		//		{
 		//			title: 'В4К',
 		//			content: function ()

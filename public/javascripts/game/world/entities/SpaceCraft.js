@@ -34,6 +34,8 @@ var SpaceCraft = function (spec)
     // Создаем спрайт
     var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
 
+	spec.scale && sprite.scale.setTo(spec.scale);
+
 	var audio = new AudioManager(game, sprite, function()
 	{
 		return sc.scope.spaceCraft.getId() === that.getId();

@@ -6,6 +6,25 @@ var app = angular.module('spacecraft.game');
 app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
 function ($scope, $storage, $http, autocompleter, audioManager)
 {
+	function checkAndSaveResult(data)
+	{
+		if(data)
+		{
+			editorSession.setValue(data);
+			return data;
+		}
+		else
+		{
+			$http({
+				method: 'GET',
+				url: 'javascripts/code/game.js'
+			}).success(function (date)
+			{
+				editorSession.setValue(date);
+				return date;
+			});
+		}
+	}
 
 	function requestToDB()
 	{
@@ -15,23 +34,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 			url: '/statistic/code'
 		}).then(function(result)
 		{
-			if(result.data)
-			{
-				editorSession.setValue(result.data);
-				code = result.data;
-			}
-			else
-			{
-				$http({
-					method: 'GET',
-					url: 'javascripts/code/game.js'
-				})
-					.success(function (date)
-					{
-						editorSession.setValue(date);
-						code = date;
-					});
-			}
+			code = checkAndSaveResult(result.data);
 		});
 
 		return code;

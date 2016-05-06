@@ -259,7 +259,6 @@ router.post('/code', function(req, res, next)
 		[
 			function(callback)
 			{
-				console.log(req.body.code);
 				Statistic.update({idUser: req.session.user},
 					{
 						code: req.body.code

@@ -12,20 +12,47 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 
 	function initCode()
 	{
-		var code = $storage.local.getItem('code') || "";
-
-		// Если в локальном хранилище нет кода, то берем из js
-		if (!code)
+		function checkAndSaveCode(data)
 		{
+			if(data)
+			{
+				editorSession.setValue(data);
+				return data;
+			}
+			else
+			{
+				$http({
+					method: 'GET',
+					url: 'javascripts/code/game.js'
+				}).success(function (date)
+				{
+					editorSession.setValue(date);
+					return date;
+				});
+			}
+		}
+
+		function requestForCode()
+		{
+			var code = "";
+
 			$http({
 				method: 'GET',
-				url: 'javascripts/code/game.js'
-			})
-			.success(function (date)
+				url: '/statistic/code'
+			}).then(function(result)
 			{
-				editorSession.setValue(date);
-				code = date;
+				code = checkAndSaveCode(result.data);
 			});
+
+			return code;
+		}
+
+		var code = $storage.local.getItem('code') || "";
+
+		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
+		if (!code)
+		{
+			code = requestForCode();
 		}
 
 		return code;
@@ -48,6 +75,19 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	$scope.toggleCodeRun = function ()
 	{
 		$scope.options.isCodeRunning = !$scope.options.isCodeRunning;
+
+		// Сохраняем код только при нажатии на кнопку плей
+		if($scope.options.isCodeRunning)
+		{
+			$http({
+				method: 'POST',
+				url: '/statistic/code',
+				data:
+				{
+					code: $scope.options.code
+				}
+			});
+		}
 	};
 
 	//===================================

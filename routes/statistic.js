@@ -120,16 +120,14 @@ router.get('/score', function (req, res, next)
 			var great = [];
 
 			// Делаем массив из 10 лучших юзеров
-			user.forEach(function (u,i)
+			user.forEach(function (u, i)
 			{
-				great.push({
-					username: u.idUser.username || u.idUser.email,
-					maxScore: u.maxScore
-				});
-
-				if (i === 9)
+				if (i < 10)
 				{
-					return;
+					great.push({
+						username: u.idUser.username || u.idUser.email,
+						maxScore: u.maxScore
+					});
 				}
 			});
 
@@ -221,35 +219,82 @@ router.get('/lessons', function(req, res, next)
 router.post('/lessons/stars', function(req, res, next)
 {
 	async.waterfall(
-		[
-			function(callback)
-			{
-				Statistic.findOne({idUser: req.session.user}, callback);
-			},
-			function(result, callback)
-			{
-				var lessons = result.lessons;
-				var lesId = req.body.idLesson;
-				lessons[lesId].stars = req.body.stars;
-
-				Statistic.update({idUser: req.session.user},
-					{
-						lessons: lessons
-					},
-					{multi: true},
-					callback);
-			}
-		],
-
-		function(err)
+	[
+		function(callback)
 		{
-			if (err)
-			{
-				return next(new HttpError(500, "Ошибка сохранения оценки урока"));
-			}
+			Statistic.findOne({idUser: req.session.user}, callback);
+		},
+		function(result, callback)
+		{
+			var lessons = result.lessons;
+			var lesId = req.body.idLesson;
+			lessons[lesId].stars = req.body.stars;
 
-			res.sendStatus(200);
-		});
+			Statistic.update({idUser: req.session.user},
+				{
+					lessons: lessons
+				},
+				{multi: true},
+				callback);
+		}
+	],
+
+	function(err)
+	{
+		if (err)
+		{
+			return next(new HttpError(500, "Ошибка сохранения оценки урока"));
+		}
+
+		res.sendStatus(200);
+	});
+});
+
+// Сохраняем код в базе
+router.post('/code', function(req, res, next)
+{
+	async.waterfall(
+	[
+		function(callback)
+		{
+			Statistic.update({idUser: req.session.user},
+				{
+					code: req.body.code
+				},
+				{ upsert: true, multi: true },
+				callback);
+		}
+	],
+	function(err)
+	{
+		if (err)
+		{
+			return next(new HttpError(500, "Ошибка сохранения кода"));
+		}
+
+		res.sendStatus(200);
+	});
+});
+
+// Ищем код в базе
+router.get('/code', function(req, res, next)
+{
+	async.waterfall(
+	[
+		function(callback)
+		{
+			Statistic.findOne({ idUser: req.session.user }, callback);
+		}
+	],
+	function(err, result)
+	{
+		if (err)
+		{
+			return next(new HttpError(500, "Ошибка поиска кода"));
+		}
+
+		res.json(result ? result.code : null);
+	});
 });
 
 module.exports = router;

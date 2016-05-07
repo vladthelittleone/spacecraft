@@ -21,6 +21,9 @@ var schema = new Schema({
 	},
 	lessons: {
 		type: Array
+	},
+	code: {
+		type: String
 	}
 });
 

@@ -25,25 +25,57 @@ router.post('/openlessons', function (req, res, next)
 
 router.get('/stat', function(req, res, next)
 {
-	Metrics.calcStatistics(function(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson) {
-		console.log("Cумарное количество посещений " + sumVisits +
-			        "\nСреднее количество посещений " + meanVisits +
-					"\nКоличество пользователей " + userNumb +
-					"\nСреднее количество переходов на игру " + meanClickOnGame +
-					"\nСреднее количество переходов на уроки " + meanClickOnLesson);
-	});
+	Metrics.calcMetrics(function(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson)
+	{
+		var userMetrics = {};
 
-	Stat.calcStatistics(function(key, starStatForLesson, meanStatForLessons) {
-		console.log('\nCредняя оценка всех уроков ' + meanStatForLessons + '\n');
-
-		key.forEach(function(item, i)
+		if (sumVisits)
 		{
-			var value = starStatForLesson[item];
-			console.log('средняя оценка ' + i + " урока " + value.mean);
-			console.log('\nминимальная оценка ' + i + " урока " + value.min);
-			console.log('\nмаксимальная оценка ' + i + " урока " + value.max);
-		});
+			userMetrics = {
+				// сумарное количество посещений
+				sumVisits: sumVisits,
+				// количество пользователей
+				userNumb: userNumb,
+				// среднее кол-во посещений
+				meanVisits: meanVisits,
+				// среднее кол-во переходов на игру
+				meanClickOnGame: meanClickOnGame,
+				// среднее кол-во преходов на уроки
+				meanClickOnLesson: meanClickOnLesson
+			};
+
+			Stat.calcMetrics(function(starStatForLesson, meanStatForLessons)
+			{
+				var lessonMetrics = {};
+
+				if (starStatForLesson)
+				{
+					lessonMetrics = {
+						// параметры звезд для каждого урока в отдельности
+						// параметры
+						// sum: суммарная оценка урока
+						// numb: количество людей поставивших данному уроку оценку
+						// min: минимальная оценка
+						// max: максимальная оценка
+						// mean: средняя оценка
+						starStatForLesson: starStatForLesson,
+						// среднее кол-во звезд для всех уроков
+						meanStatForLessons: meanStatForLessons
+					};
+				}
+
+				res.send({
+					lessonMetrics: lessonMetrics,
+					userMetrics: userMetrics
+				});
+			});
+		}
+		else
+		{
+			res.send({error: "Не получилось собрать статистику."});
+		}
 	});
+
 });
 
 module.exports = router;

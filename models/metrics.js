@@ -58,7 +58,7 @@ schema.statics.update = function (idUser, callback)
 		], callback);
 };
 
-schema.statics.calcStatistics = function (callback)
+schema.statics.calcMetrics = function (callback)
 {
 	var Metrics = this;
 
@@ -70,24 +70,30 @@ schema.statics.calcStatistics = function (callback)
 			},
 			function (metrics)
 			{
-				var sumVisits = 0;
-				var sumClickOnLesson = 0;
-				var sumClickOnGame = 0;
-
-				metrics.forEach(function(item)
+				if (metrics.length == 0)
 				{
-					sumVisits += item.visits;
-					sumClickOnLesson += item.numbClicksOnLesson;
-					sumClickOnGame += item.numbClicksOnGame;
-				});
+					callback();
+				}
+				else
+				{
+					var sumVisits = 0;
+					var sumClickOnLesson = 0;
+					var sumClickOnGame = 0;
 
-				var userNumb = metrics.length;
+					metrics.forEach(function (item) {
+						sumVisits += item.visits;
+						sumClickOnLesson += item.numbClicksOnLesson;
+						sumClickOnGame += item.numbClicksOnGame;
+					});
 
-				var meanVisits = sumVisits / userNumb;
-				var meanClickOnLesson = sumClickOnLesson / userNumb;
-				var meanClickOnGame = sumClickOnGame / userNumb;
+					var userNumb = metrics.length;
 
-				callback(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson);
+					var meanVisits = sumVisits / userNumb;
+					var meanClickOnLesson = sumClickOnLesson / userNumb;
+					var meanClickOnGame = sumClickOnGame / userNumb;
+
+					callback(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson);
+				}
 			}
 
 		]);

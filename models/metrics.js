@@ -63,40 +63,41 @@ schema.statics.calcMetrics = function (callback)
 	var Metrics = this;
 
 	async.waterfall(
-		[
-			function (callback)
+	[
+		function (callback)
+		{
+			Metrics.find(callback);
+		},
+		function (metrics)
+		{
+			if (metrics.length == 0)
 			{
-				Metrics.find(callback);
-			},
-			function (metrics)
-			{
-				if (metrics.length == 0)
-				{
-					callback();
-				}
-				else
-				{
-					var sumVisits = 0;
-					var sumClickOnLesson = 0;
-					var sumClickOnGame = 0;
-
-					metrics.forEach(function (item) {
-						sumVisits += item.visits;
-						sumClickOnLesson += item.numbClicksOnLesson;
-						sumClickOnGame += item.numbClicksOnGame;
-					});
-
-					var userNumb = metrics.length;
-
-					var meanVisits = sumVisits / userNumb;
-					var meanClickOnLesson = sumClickOnLesson / userNumb;
-					var meanClickOnGame = sumClickOnGame / userNumb;
-
-					callback(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson);
-				}
+				callback();
 			}
+			else
+			{
+				var sumVisits = 0;
+				var sumClickOnLesson = 0;
+				var sumClickOnGame = 0;
 
-		]);
+				metrics.forEach(function (item)
+				{
+					sumVisits += item.visits;
+					sumClickOnLesson += item.numbClicksOnLesson;
+					sumClickOnGame += item.numbClicksOnGame;
+				});
+
+				var userNumb = metrics.length;
+
+				var meanVisits = sumVisits / userNumb;
+				var meanClickOnLesson = sumClickOnLesson / userNumb;
+				var meanClickOnGame = sumClickOnGame / userNumb;
+
+				callback(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson);
+			}
+		}
+
+	]);
 };
 
 exports.Metrics = mongoose.model('Metrics', schema);

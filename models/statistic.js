@@ -52,6 +52,8 @@ schema.statics.getUserWithBestScore = function (callback)
 // какому уроку было поставленно пользователем
 schema.statics.updateLessonStarStatistics = function (req, callback)
 {
+	var Statistic = this;
+
 	async.waterfall(
 	[
 		function(callback)
@@ -66,18 +68,17 @@ schema.statics.updateLessonStarStatistics = function (req, callback)
 			lessons[lesId].stars = req.body.stars;
 
 			Statistic.update(
-				{
-					idUser: req.session.user
-				},
-				{
-					lessons: lessons
-				},
-				{
-					multi: true
-				},
-				callback);
-			}
-		], callback);
+			{
+				idUser: req.session.user
+			},
+			{
+				lessons: lessons
+			},
+			{
+				multi: true
+			}, callback);
+		}],
+		callback);
 };
 
 // возвращает статистуку пользователя
@@ -105,17 +106,16 @@ schema.statics.updateUserCode = function(req, callback)
 		function(callback)
 		{
 			Statistic.update(
-				{
-					idUser: req.session.user
-				},
-				{
-					code: req.body.code
-				},
-				{
-					upsert: true,
-					multi: true
-				},
-				callback);
+			{
+				idUser: req.session.user
+			},
+			{
+				code: req.body.code
+			},
+			{
+				upsert: true,
+				multi: true
+			}, callback);
 		}
 	], callback);
 };
@@ -147,15 +147,15 @@ schema.statics.updateLessonStatistics = function (id, req, callback)
 
 			// Апдейт записи о статистики. создание новой записи если ее нет
 			Statistic.update({idUser: id},
-				{
-					lessons: lessons
-				},
-				{
-					upsert: true,
-					multi: true
-				}, callback);
-			}
-		], callback);
+			{
+				lessons: lessons
+			},
+			{
+				upsert: true,
+				multi: true
+			}, callback);
+		}],
+		callback);
 };
 
 // Обновление статистики по играм пользователей
@@ -194,20 +194,19 @@ schema.statics.updateGameStatistics = function (id, req, callback)
 
 			// Апдейт записи о статистики. создание новой записи если ее нет
 			Statistic.update(
-				{
-					idUser: id
-				},
-				{
-					stat: stat,
-					maxScore: maxScore
-				},
-				{
-					upsert: true,
-					multi: true
+			{
+				idUser: id
+			},
+			{
+				stat: stat,
+				maxScore: maxScore
+			},
+			{
+				upsert: true,
+				multi: true
 
-				}, callback);
-			}
-	], callback);
+			}, callback);
+		}], callback);
 };
 
 exports.Statistic = mongoose.model('Statistic', schema);

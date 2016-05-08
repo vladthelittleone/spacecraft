@@ -153,8 +153,9 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 			function toLogin ()
 			{
 				$state.go('login');
-				$storage.clear();
+				$storage.local.clear();
 			}
+
 			authentication.logout(
 			{
 				success: toLogin
@@ -165,6 +166,7 @@ app.controller('WelcomeController', ['$scope', '$storage', '$state', '$sce', 'au
 		{
 			$http.post('metrics/opengame');
 		};
+
 		$scope.openLessons = function ()
 		{
 			$http.post('metrics/openlessons');

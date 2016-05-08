@@ -5,97 +5,39 @@
  */
 var LessonPlayState1 = function (spec)
 {
-	var that = PlayState(spec);
+	var that = RunScriptPlayState(spec);
 
-	var game = spec.game;
-	var scope = game.sc.scope;
-	var sc = game.sc;
+	var game = that.game;
+	var scope = that.scope;
+	var sc = that.sc;
 
-	var isRunning;
-	var userCode;
-	var userObject;
-
-	var followFor = that.followFor;
-	var gameInit = that.gameInit;
-	var keysControl = that.keysControl;
 	var bBotText;
-
-	//===================================
-	//============== HELP ===============
-	//===================================
-
-	function runUserScript()
-	{
-		if (isRunning)
-		{
-			try
-			{
-				var s = HarvesterApi(scope.spaceCraft);
-				var w = WorldApi(sc.world, scope.spaceCraft.getId());
-
-				userObject.run && userObject.run(s, w);
-				scope.editorOptions.error = false;
-			}
-			catch (err)
-			{
-				scope.editorOptions.error = err;
-				scope.editorOptions.isCodeRunning = false;
-			}
-		}
-	}
 
 	//===================================
 	//============== CYCLE ==============
 	//===================================
 
+	var superCreate = that.create;
+
 	that.create = function ()
 	{
-		gameInit(sc.world.getBounds(), true);
-		that.entitiesInit();
-		followFor(scope.spaceCraft.sprite);
-
-
-		scope.$watch('editorOptions.code', function (n)
+		superCreate(function (userCode)
 		{
-			userCode = n;
-		});
+			var Class = new Function('BBotDebug', userCode);
 
-		scope.$watch('editorOptions.isCodeRunning', function (n)
-		{
-			isRunning = n;
-
-			if (game)
+			return new Class(function BBotDebug (text)
 			{
-				game.paused = !isRunning;
-			}
-
-			if (n)
-			{
-				try
-				{
-					var Class = new Function('BBotDebug', userCode);
-
-					userObject = new Class(function BBotDebug (text)
-					{
-						bBotText = text;
-					});
-				}
-				catch (err)
-				{
-					scope.editorOptions.error = err;
-					scope.editorOptions.isCodeRunning = false;
-				}
-			}
+				bBotText = text;
+			});
 		});
 	};
 
 	that.update = function ()
 	{
-		if (!game.paused)
-		{
-			sc.world.update();
-			runUserScript();
-		}
+		var s = SpaceCraftApi(scope.spaceCraft);
+		var w = WorldApi(sc.world, scope.spaceCraft.getId());
+
+		that.tryRunScript(s, w);
 
 		scope.$apply(function ()
 		{
@@ -109,8 +51,6 @@ var LessonPlayState1 = function (spec)
 				scope.editorOptions.nextSubLesson = false;
 			}
 		});
-
-		keysControl();
 	};
 
 	that.entitiesInit = function ()

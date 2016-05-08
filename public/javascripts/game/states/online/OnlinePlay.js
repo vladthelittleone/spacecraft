@@ -5,43 +5,45 @@
  */
 var OnlinePlay = function (spec)
 {
-	var that = PlayState(spec);
+	var that = RunScriptPlayState(spec);
 
-	var game = spec.game;
-	var scope = game.sc.scope;
-	var sc = game.sc;
-
-	var isRunning;
-	var userCode;
-	var userObject;
-
-	var followFor = that.followFor;
-	var gameInit = that.gameInit;
-	var keysControl = that.keysControl;
+	var game = that.game;
+	var scope = that.scope;
+	var sc = that.sc;
 
 	//===================================
-	//============== HELP ===============
+	//============== CYCLE ==============
 	//===================================
 
-	function runUserScript()
+	var superCreate = that.create;
+
+	that.create = function ()
 	{
-		if (isRunning)
+		superCreate(function (userCode)
 		{
-			try
-			{
-				var s = SpaceCraftApi(scope.spaceCraft);
-				var w = WorldApi(sc.world, scope.spaceCraft.getId());
+			var Class = new Function(userCode);
+			return new Class();
+		});
+	};
 
-				userObject.run && userObject.run(s, w);
-				scope.editorOptions.error = false;
-			}
-			catch (err)
+	that.update = function ()
+	{
+		var s = SpaceCraftApi(scope.spaceCraft);
+		var w = WorldApi(sc.world, scope.spaceCraft.getId());
+
+		that.tryRunScript(s, w);
+
+		scope.$apply(function ()
+		{
+			if (!scope.spaceCraft.isAlive())
 			{
-				scope.editorOptions.error = err;
-				scope.editorOptions.isCodeRunning = false;
+				sc.callers.result(scope.spaceCraft.statistic);
+				game.paused = true;
 			}
-		}
-	}
+		});
+
+		sc.animationManager.update();
+	};
 
 	that.entitiesInit = function ()
 	{
@@ -68,69 +70,6 @@ var OnlinePlay = function (spec)
 			});
 		});
 
-	};
-
-
-	//===================================
-	//============== CYCLE ==============
-	//===================================
-
-	that.create = function ()
-	{
-		gameInit(sc.world.getBounds(), true);
-		that.entitiesInit();
-		followFor(scope.spaceCraft.sprite);
-
-		scope.$watch('editorOptions.code', function (n)
-		{
-			userCode = n;
-		});
-
-		scope.$watch('editorOptions.isCodeRunning', function (n)
-		{
-			isRunning = n;
-
-			if (game)
-			{
-				game.paused = !isRunning;
-			}
-
-			if (n)
-			{
-				try
-				{
-					var Class = new Function(userCode);
-					userObject = new Class();
-				}
-				catch (err)
-				{
-					scope.editorOptions.error = err;
-					scope.editorOptions.isCodeRunning = false;
-				}
-			}
-		});
-	};
-
-	that.update = function ()
-	{
-		scope.$apply(function ()
-		{
-			if (!scope.spaceCraft.isAlive())
-			{
-				sc.callers.result(scope.spaceCraft.statistic);
-				game.paused = true;
-			}
-		});
-
-		if (!game.paused)
-		{
-			sc.world.update();
-			runUserScript();
-		}
-
-		keysControl();
-
-		sc.animationManager.update();
 	};
 
 	return that;

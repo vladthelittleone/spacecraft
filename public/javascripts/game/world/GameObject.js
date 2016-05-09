@@ -1,23 +1,23 @@
 /**
  * Created by vladthelittleone on 02.12.15.
  */
-var GameObject = function (spec)
+var GameObject = function (s)
 {
-	var that = {};
+	var t = s.inherit || {};
 
-	var game = spec.game;
+	var game = s.game;
+	var type = s.type;
 	var id = game.sc.seq.next();
-	var type = spec.type;
 
-	that.getId = function ()
+	t.getId = function ()
 	{
-		return id;
+		return id
 	};
 
-	that.getType = function ()
+	t.getType = function ()
 	{
 		return type;
 	};
 
-	return that;
+	return t;
 };

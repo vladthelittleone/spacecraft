@@ -107,11 +107,6 @@ var Harvester = function (spec)
 		});
 	};
 
-	that.changeStatus = function ()
-	{
-		that.live = false;
-	};
-
 	that.isAlive = function ()
 	{
 		return isAlive;

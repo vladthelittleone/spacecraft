@@ -106,7 +106,7 @@ var WeaponBlock = function (spec)
                 beam.destroy();
 
                 // Наносим урон
-                u.hit(damage.getDamage(), spaceCraft);
+                u.protection.hit(damage.getDamage(), spaceCraft);
                 spaceCraft.statistic.addAcceptDamage(spaceCraft.weapon.getDamage());
                 u.statistic.addTakenDamage(damage.getDamage());
 

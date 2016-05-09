@@ -35,7 +35,7 @@ var OnlinePlay = function (spec)
 
 		scope.$apply(function ()
 		{
-			if (!scope.spaceCraft.isAlive())
+			if (!scope.spaceCraft.protection.isAlive())
 			{
 				sc.callers.result(scope.spaceCraft.statistic);
 				game.paused = true;

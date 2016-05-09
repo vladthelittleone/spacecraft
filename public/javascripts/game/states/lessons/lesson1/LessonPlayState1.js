@@ -59,13 +59,9 @@ var LessonPlayState1 = function (spec)
 
 		scope.$apply(function createSpaceCraft()
 		{
-			scope.spaceCraft = factory.createSpaceCraft({
+			scope.spaceCraft = factory.createFighter({
 				x: game.world.centerX,
 				y: game.world.centerY,
-				scale: 0.5,
-				spriteName: 'fighter',
-				health: 200,
-				shield: 100,
 				shieldSprite: 'userShield'
 			});
 		});

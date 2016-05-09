@@ -12,7 +12,7 @@ var botStrategy = function (spec)
         || spaceCraft.getX() + 100 > bounds.x + bounds.width
         || spaceCraft.getY() + 100 > bounds.y + bounds.height)
     {
-        spaceCraft.hit(spaceCraft.protection.getHealth(), spaceCraft);
+        spaceCraft.protection.hit(spaceCraft.protection.getHealth(), spaceCraft);
     }
 
 

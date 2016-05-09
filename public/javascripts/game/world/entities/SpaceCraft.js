@@ -10,240 +10,101 @@ var SpaceCraft = function (spec)
     //============== INIT ===============
     //===================================
 
-	var game = spec.game;
-	var sc = game.sc;
+	// Включаем проверку на коллизии с границей
+	spec.checkWorldBounds = true;
 
-    var that = sc.world.factory.createGameObject({
-        type: sc.world.spaceCraftType
-    });
+	// Параметры игры
+	var sc = spec.game.sc;
+	var scope = sc.scope;
+	var world = sc.world;
 
-    var statistic = that.statistic = Statistic();
-    var modulesManager = that.modulesManager = ModulesManager({
-        energyPoints: 12
+	var t = world.factory.createGameObject({
+        type: world.spaceCraftType,
+		inherit: Unit(spec)
     });
 
     // Стратегия, которая будет использоваться
     // для бота, либо игроква
-    var strategy = spec.strategy;
+	var strategy = spec.strategy;
 
-    // Если не заданы x, y проставляем рандомные значения мира
-    // Координаты корабля (спрайта)
-    var x = spec.x || game.world.randomX;
-    var y = spec.y || game.world.randomY;
+	// Статистика корабля
+	t.statistic = Statistic();
 
-    // Создаем спрайт
-    var sprite = that.sprite = game.add.sprite(x, y, spec.spriteName);
-
-	spec.scale && sprite.scale.setTo(spec.scale);
-
-	var audio = new AudioManager(game, sprite, function()
+	// Аудио для персонажа
+	var audio = t.audio = new AudioManager(t.game, t.sprite, function()
 	{
-		return sc.scope.spaceCraft.getId() === that.getId();
+		return scope.spaceCraft.getId() === t.getId();
 	});
 
-    var isAlive = true;
-
-    sprite.name = that.getId();
-
-    // Центрирование
-    sprite.anchor.x = 0.5;
-    sprite.anchor.y = 0.5;
-
-    // Включаем проверку на коллизии с границей
-    sprite.checkWorldBounds = true;
-
-    // Подключаем физику тел к кораблю
-    game.physics.p2.enable(sprite);
+	var modulesManager = t.modulesManager = ModulesManager({
+		energyPoints: 12
+	});
 
     //  Добавляем группу коллизий
-    sprite.body.setCollisionGroup(sc.collisionGroups.spaceCraft);
-    sprite.body.collides(sc.collisionGroups.bonus);
+	t.sprite.name = t.getId();
+	t.sprite.body.setCollisionGroup(sc.collisionGroups.spaceCraft);
+	t.sprite.body.collides(sc.collisionGroups.bonus);
 
-    // Поварачиваем корабль на init-угол
-    !spec.angle || (sprite.body.angle = spec.angle);
+	t.addEngineBlock = function()
+	{
+		t.engine = EngineBlock({
+			modulesManager: modulesManager,
+			spaceCraft: t,
+			game: t.game
+		});
+	};
 
-    var engine = that.engine = EngineBlock({
-        modulesManager: modulesManager,
-        spaceCraft: that,
-		game: game
-	});
+	t.addProtectionBlock = function(args)
+	{
+		t.protection = ProtectionBlock({
+			spaceCraft: t,
+			health: args.health,
+			shield: args.shield,
+			modulesManager: modulesManager,
+			spriteShield: args.shieldSprite,
+			game: t.game
+		});
+	};
 
-    var protection = that.protection = ProtectionBlock({
-        sprite: sprite,
-        health: spec.health,
-        shield: spec.shield,
-        modulesManager: modulesManager,
-		spriteShield: spec.shieldSprite,
-		game: game
-    });
-
-    var weapon = that.weapon = WeaponBlock({
-        spaceCraft: that,
-        modulesManager: modulesManager,
-        velocity: 400,
-        spriteName: 'greenBeam',
-		game: game,
-		audio: audio
-	});
-
-    //===================================
-    //============== PRIVATE ============
-    //===================================
-
-    function destroy(damageCraft)
-    {
-        var bonusType = generateBonus({
-            health: 10,
-            damage: 10,
-            shield: 10
-        });
-
-        // Создание нового бонуса и занесение его в bonusArray
-        utils.random() && sc.world.factory.createBonus({
-            bonusType: bonusType,
-            x: sprite.body.x,
-            y: sprite.body.y,
-            angle: game.rnd.angle()
-        });
-
-        sc.world.factory.createExplosion({
-			x: that.sprite.x,
-			y: that.sprite.y
+	t.addWeaponBlock = function (args)
+	{
+		t.weapon = WeaponBlock({
+			spaceCraft: t,
+			modulesManager: modulesManager,
+			velocity: args.velocity,
+			spriteName: args.beamSprite,
+			game: t.game,
+			audio: audio
 		});
 
-        damageCraft.statistic.addKillEnemy();
+		// Переносим на верхний слой, перед лазерами.
+		t.sprite.bringToTop();
+	};
 
-        isAlive = false;
-
-        if (sc.scope.spaceCraft.getId() === that.getId())
-        {
-            statistic.calculateTotalScore();
-            sc.scope.editorOptions.isCodeRunning = false;
-        }
-
-        var modX = sc.world.getBounds().height - 320;
-        var modY = sc.world.getBounds().width - 320;
-
-        var nx = game.world.randomX % modX + 200;
-        var ny = game.world.randomY % modY + 200;
-
-        sprite.reset(nx, ny);
-
-        protection.setHealth(protection.getMaxHealth());
-        protection.setShield(protection.getMaxShield());
-    }
+	t.addAllBlocks = function (args)
+	{
+		t.addEngineBlock();
+		t.addWeaponBlock(args);
+		t.addProtectionBlock(args);
+	};
 
     //===================================
     //============== THAT ===============
     //===================================
 
-    that.update = function ()
+    t.update = function ()
     {
-        weapon.update();
-        protection.healthRegeneration();
-        protection.shieldRegeneration();
+		t.weapon && t.weapon.update();
+		t.protection && t.protection.update();
 
         strategy && strategy({
-			spaceCraft: that,
-			game: game
+			spaceCraft: t,
+			game: t.game
 		});
     };
 
-    that.changeStatus = function ()
-    {
-        that.live = false;
-    };
-
-    that.isAlive = function ()
-    {
-        return isAlive;
-    };
-
-    that.hit = function (damage, damageCraft)
-    {
-        if(protection.getShield() > 0)
-        {
-            protection.subShield(damage);
-
-            // если щит сломался, то в нем окажется отрицательное значение,
-            // которое прибавлем к текущему здоровью
-            if(protection.getShield() <= 0)
-            {
-                protection.subHealth(protection.getShield());
-                protection.setShield(0);
-
-				// проигрываем звук разрушения щита
-				audio.playDestructionShield();
-            }
-        }
-        else
-        {
-            protection.subHealth(damage);
-        }
-
-        if (protection.getHealth() <= 0)
-        {
-			// проигрываем звук взрыва коробля
-			audio.playExplosion();
-
-            destroy(damageCraft);
-        }
-    };
-
-    that.getX = function ()
-    {
-        return sprite.x;
-    };
-
-    that.getY = function ()
-    {
-        return sprite.y;
-    };
-
-    that.getAngle = function ()
-    {
-        return sprite.body.angle;
-    };
-
-    that.angleBetween = function (another)
-    {
-        var math = Phaser.Math;
-
-        // Угол линии от точки к точке в пространстве.
-        var a1 = math.angleBetween(sprite.x, sprite.y, another.getX(), another.getY()) + (Math.PI / 2);
-        var a2 = math.degToRad(that.getAngle());
-
-        a1 = math.normalizeAngle(a1);
-        a2 = math.normalizeAngle(a2);
-
-        a1 = math.radToDeg(a1);
-        a2 = math.radToDeg(a2);
-
-        var m1 = (360 - a1) + a2;
-        var m2 = a1 - a2;
-
-        if (m1 < m2)
-        {
-            return -m1;
-        }
-        else
-        {
-            return m2;
-        }
-    };
-
-    that.distance = function (another)
-    {
-        var p = new Phaser.Point(another.getX(), another.getY());
-
-        return Phaser.Point.distance(sprite, p);
-    };
-
-    // Переносим на верхний слой, перед лазерами.
-    sprite.bringToTop();
-
     // Добавляем наш корабль в мир
-    sc.world.pushObject(that);
+    world.pushObject(t);
 
-    return that;
+    return t;
 };

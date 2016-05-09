@@ -3,62 +3,28 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager',
-function ($scope, $storage, $http, autocompleter, audioManager)
+app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager', 'connection', 'gameService',
+function ($scope, $storage, $http, autocompleter, audioManager, connection, gameService)
 {
+	var editorSession;
 	//===================================
 	//============== CODE ===============
 	//===================================
 
-	function initCode()
+	function initCode(callback)
 	{
-		function checkAndSaveCode(data)
-		{
-			if(data)
-			{
-				editorSession.setValue(data);
-				return data;
-			}
-			else
-			{
-				$http({
-					method: 'GET',
-					url: 'javascripts/code/game.js'
-				}).success(function (date)
-				{
-					editorSession.setValue(date);
-					return date;
-				});
-			}
-		}
-
-		function requestForCode()
-		{
-			var code = "";
-
-			$http({
-				method: 'GET',
-				url: '/statistic/code'
-			}).then(function(result)
-			{
-				code = checkAndSaveCode(result.data);
-			});
-
-			return code;
-		}
-
-		var code = $storage.local.getItem('code') || "";
+		var code = gameService.getCode();
 
 		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
 		if (!code)
 		{
-			code = requestForCode();
+			code = gameService.requestForCode(callback);
 		}
 
 		return code;
 	}
 
-	var code = initCode();
+	var code = "";
 
 	//===================================
 	//============== SCOPE ==============
@@ -79,14 +45,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 		// Сохраняем код только при нажатии на кнопку плей
 		if($scope.options.isCodeRunning)
 		{
-			$http({
-				method: 'POST',
-				url: '/statistic/code',
-				data:
-				{
-					code: $scope.options.code
-				}
-			});
+			connection.saveCode($scope.options.code);
 		}
 	};
 
@@ -111,7 +70,7 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	//============== TIPS-TRICKS ========
 	//===================================
 
-	$scope.tipsAndTricks = { hide: $storage.local.getItem('tipsAndTricks') };
+	$scope.tipsAndTricks = { hide: gameService.getTipsAndTricks() };
 
 	$scope.toggleTipsAndTricks = function ()
 	{
@@ -122,12 +81,11 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 	//============== EDITOR =============
 	//===================================
 
-	var editorSession;
 
 	$scope.aceChanged = function ()
 	{
 		$scope.options.code = editorSession.getDocument().getValue();
-		$storage.local.setItem('code', $scope.options.code);
+		gameService.setCode($scope.options.code);
 	};
 
 	$scope.aceLoaded = function (editor)
@@ -151,7 +109,12 @@ function ($scope, $storage, $http, autocompleter, audioManager)
 
 		langTools.addCompleter(spaceCraftCompleter);
 
-		$storage.local.setItem('code', $scope.options.code);
+		gameService.setCode($scope.options.code);
+
+		initCode (function(code)
+		{
+			editorSession.setValue(code);
+		});
 	};
 
 	var Range = ace.require('ace/range').Range;

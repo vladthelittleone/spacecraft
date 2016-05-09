@@ -4,8 +4,8 @@
 var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter', 'audioManager',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager)
+	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection)
 {
 	var audio;
 	var audioIndex = 0;
@@ -94,14 +94,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Устанавливаем текущий урок в хранилище
 			set(l, $scope.subIndex, len);
 
-			$http({
-				url: '/statistic/lessons',
-				method: 'POST',
-				data: {
-					lessonId: $stateParams.id,
-					size: len,
-					current: $scope.subIndex
-				}
+			connection.saveStatisticLesson({
+				lessonId: $stateParams.id,
+				size: len,
+				current: $scope.subIndex
 			});
 
 			next();
@@ -111,15 +107,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Устанавливаем текущий урок в хранилище
 			set(l, 0, len, true);
 
-			$http({
-				url: '/statistic/lessons',
-				method: 'POST',
-				data: {
-					lessonId: $stateParams.id,
-					size: len,
-					current: 0,
-					completed: true
-				}
+			connection.saveStatisticLesson({
+				lessonId: $stateParams.id,
+				size: len,
+				current: 0,
+				completed: true
 			});
 
 			$scope.starsHide = true;

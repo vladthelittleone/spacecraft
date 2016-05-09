@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'autocompleter', 'audioManager', 'connection', 'gameService',
-function ($scope, $storage, $http, autocompleter, audioManager, connection, gameService)
+app.controller('GameController', ['$scope', '$storage', '$http', 'audioManager', 'connection', 'gameService', 'aceService',
+function ($scope, $storage, $http, audioManager, connection, gameService, aceService)
 {
 	var editorSession;
 	//===================================
@@ -91,23 +91,10 @@ function ($scope, $storage, $http, autocompleter, audioManager, connection, game
 	$scope.aceLoaded = function (editor)
 	{
 		editorSession = editor.getSession();
-		editor.$blockScrolling = Infinity;
-		editorSession.setValue($scope.options.code);
 
-		// Скролл до конца. Т.е. скролл есть всегда.
-		editor.setOption("scrollPastEnd", true);
+		aceService.firstAceSetting(editor, editorSession, $scope.options.code);
 
-		var langTools = ace.require('ace/ext/language_tools');
-		var spaceCraftCompleter = autocompleter(editor);
-
-		editor.completers = [spaceCraftCompleter];
-		editor.setOptions(
-		{
-			enableSnippets: false,
-			enableBasicAutocompletion: true
-		});
-
-		langTools.addCompleter(spaceCraftCompleter);
+		aceService.secondAceSetting(editor);
 
 		gameService.setCode($scope.options.code);
 
@@ -117,33 +104,17 @@ function ($scope, $storage, $http, autocompleter, audioManager, connection, game
 		});
 	};
 
-	var Range = ace.require('ace/range').Range;
-	var markerID = null;
-
-	function errorWrapper(value)
-	{
-		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
-			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">### 0шибка: ' + value + '</p>' +
-			'<p>### Пожалуйста исправте ситуацию.</p>';
-	}
-
 	$scope.$watch('options.error', function (value)
 	{
 		if (value)
 		{
-			$scope.textBot = errorWrapper(value);
+			$scope.textBot = aceService.errorWrapper(value);
+
+			aceService.deleteMarker(editorSession);
 
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			if (markerID != null)
-			{
-				// Удаляем старый маркер, что бы не получилось их много
-				editorSession.removeMarker(markerID);
-			}
-
-			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-			markerID = editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
+			aceService.allocationMarker(editorSession, foundedStringNumb);
 
 			editorSession.setAnnotations([{
 				row: foundedStringNumb,
@@ -156,10 +127,7 @@ function ($scope, $storage, $http, autocompleter, audioManager, connection, game
 		{
 			$scope.textBot = value;
 
-			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
-			// но но мало ли, что лучше удалять их явно
-			editorSession.clearAnnotations();
-			editorSession.removeMarker(markerID);
+			aceService.deleteMarkerAndAnnotation(editorSession);
 		}
 	});
 

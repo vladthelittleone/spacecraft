@@ -18,13 +18,13 @@ function ($scope, $storage, $http, autocompleter, audioManager, connection, game
 		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
 		if (!code)
 		{
-			code = gameService.requestForCode(callback);
+			gameService.requestForCode(callback);
 		}
-
-		return code;
+		else
+		{
+			callback(code);
+		}
 	}
-
-	var code = "";
 
 	//===================================
 	//============== SCOPE ==============
@@ -34,7 +34,7 @@ function ($scope, $storage, $http, autocompleter, audioManager, connection, game
 	$scope.options =
 	{
 		isCodeRunning: false,
-		code: code,
+		code: "",
 		error: null
 	};
 
@@ -111,9 +111,9 @@ function ($scope, $storage, $http, autocompleter, audioManager, connection, game
 
 		gameService.setCode($scope.options.code);
 
-		initCode (function(code)
+		initCode (function(data)
 		{
-			editorSession.setValue(code);
+			editorSession.setValue(data);
 		});
 	};
 

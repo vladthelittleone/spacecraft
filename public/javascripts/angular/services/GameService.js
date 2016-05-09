@@ -28,28 +28,22 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 		if(data)
 		{
 			callback(data);
-			return data;
 		}
 		else
 		{
 			connection.getCodeFromJs(function (data)
 			{
 				callback(data);
-				return data;
 			});
 		}
 	}
 
 	var requestForCode = function (callback)
 	{
-		var code = "";
-
-		code = connection.getCodeFromDB(function (code)
+		connection.getCodeFromDB(function (code)
 		{
-			return checkAndSaveCode(code.data, callback);
+			checkAndSaveCode(code.data, callback);
 		});
-
-		return code;
 	};
 
 	return{

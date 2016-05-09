@@ -28,8 +28,32 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
+	var getCodeFromDB = function (callback)
+	{
+		$http({
+			method: 'GET',
+			url: '/statistic/code'
+		}).then(function(result)
+		{
+			callback(result);
+		});
+	};
+
+	var getCodeFromJs = function (callback)
+	{
+		$http({
+			method: 'GET',
+			url: 'javascripts/code/game.js'
+		}).success(function (date)
+		{
+			callback(date);
+		});
+	};
+
 	return{
 		saveStatisticLesson: saveStatisticLesson,
-		saveCode: saveCode
+		saveCode: saveCode,
+		getCodeFromDB: getCodeFromDB,
+		getCodeFromJs: getCodeFromJs
 	};
 }]);

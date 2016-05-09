@@ -6,7 +6,7 @@
 
 var app = angular.module('spacecraft.gameService', []);
 
-app.factory('gameService', ['$storage', '$http', function ($storage, $http)
+app.factory('gameService', ['$storage', 'connection', function ($storage, connection)
 {
 	var getCode = function ()
 	{
@@ -32,13 +32,10 @@ app.factory('gameService', ['$storage', '$http', function ($storage, $http)
 		}
 		else
 		{
-			$http({
-				method: 'GET',
-				url: 'javascripts/code/game.js'
-			}).success(function (date)
+			connection.getCodeFromJs(function (data)
 			{
-				callback(date);
-				return date;
+				callback(data);
+				return data;
 			});
 		}
 	}
@@ -47,12 +44,9 @@ app.factory('gameService', ['$storage', '$http', function ($storage, $http)
 	{
 		var code = "";
 
-		$http({
-			method: 'GET',
-			url: '/statistic/code'
-		}).then(function(result)
+		code = connection.getCodeFromDB(function (code)
 		{
-			code = checkAndSaveCode(result.data, callback);
+			return checkAndSaveCode(code.data, callback);
 		});
 
 		return code;

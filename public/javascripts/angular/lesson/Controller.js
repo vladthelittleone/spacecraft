@@ -4,8 +4,8 @@
 var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection)
+	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService)
 {
 	var audio;
 	var audioIndex = 0;
@@ -359,40 +359,20 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.aceLoaded = function (editor)
 	{
 		editorSession = editor.getSession();
-		editor.$blockScrolling = Infinity;
-		editor.setOption("scrollPastEnd", true);
-
-		// Скролл до конца. Т.е. скролл есть всегда.
-		editorSession.setValue(options.code);
+		aceService.firstAceSetting(editor, editorSession, options.code);
 	};
-
-	function errorWrapper(value)
-	{
-		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
-			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">### 0шибка: ' + value + '</p>' +
-			'<p>### Пожалуйста исправте ситуацию.</p>';
-	}
-
-	var Range = ace.require('ace/range').Range;
-	var markerID = null;
 
 	$scope.$watch('options.error', function (value)
 	{
 		if (value)
 		{
-			$scope.textBot = errorWrapper(value);
+			$scope.textBot = aceService.errorWrapper(value);
+
+			aceService.deleteMarker(editorSession);
 
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			if (markerID != null)
-			{
-				// Удаляем старый маркер, что бы не получилось их много
-				editorSession.removeMarker(markerID);
-			}
-
-			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-			markerID = editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
+			aceService.allocationMarker(editorSession, foundedStringNumb);
 
 			editorSession.setAnnotations([{
 				row: foundedStringNumb,
@@ -405,10 +385,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			$scope.textBot = value;
 
-			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
-			// но но мало ли, что лучше удалять их явно
-			editorSession.clearAnnotations();
-			editorSession.removeMarker(markerID);
+			aceService.deleteMarkerAndAnnotation(editorSession);
 		}
 	});
 

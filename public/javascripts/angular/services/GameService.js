@@ -13,11 +13,6 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 		return $storage.local.getItem('code') || "";
 	};
 
-	var getTipsAndTricks = function ()
-	{
-		return $storage.local.getItem('tipsAndTricks');
-	};
-
 	var setCode = function (code)
 	{
 		$storage.local.setItem('code', code);
@@ -48,7 +43,6 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 
 	return{
 		getCode: getCode,
-		getTipsAndTricks: getTipsAndTricks,
 		setCode: setCode,
 		requestForCode: requestForCode
 	};

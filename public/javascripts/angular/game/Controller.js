@@ -67,17 +67,6 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 	};
 
 	//===================================
-	//============== TIPS-TRICKS ========
-	//===================================
-
-	$scope.tipsAndTricks = { hide: gameService.getTipsAndTricks() };
-
-	$scope.toggleTipsAndTricks = function ()
-	{
-		$scope.tipsAndTricks.hide = !$scope.tipsAndTricks.hide;
-	};
-
-	//===================================
 	//============== EDITOR =============
 	//===================================
 

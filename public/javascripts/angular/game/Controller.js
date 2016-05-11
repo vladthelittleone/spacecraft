@@ -97,9 +97,11 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 		{
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			$scope.textBot = aceService.errorWrapper(value);
+			var markerId = null;
 
-			errorService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
+			$scope.textBot = errorService.errorWrapper(value);
+
+			markerId = errorService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error, markerId);
 		}
 		else
 		{

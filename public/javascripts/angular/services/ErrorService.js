@@ -8,22 +8,18 @@ var app = angular.module('spacecraft.errorService', []);
 app.factory('errorService', [ function ()
 {
 	var Range = ace.require('ace/range').Range;
-	var markerID = null;
 
-	function deleteMarker  (editorSession)
+	var deleteMarker = function (editorSession, markerID)
 	{
-		if (markerID != null)
-		{
 			// Удаляем старый маркер, что бы не получилось их много
 			editorSession.removeMarker(markerID);
-		}
-	}
+	};
 
-	function paintMarker (editorSession, foundedStringNumb)
+	var paintMarker = function (editorSession, foundedStringNumb)
 	{
 		// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-		markerID = editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
-	}
+		return editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
+	};
 
 	var deleteMarkerAndAnnotation = function (editorSession)
 	{
@@ -41,11 +37,14 @@ app.factory('errorService', [ function ()
 			'<p>### Пожалуйста исправте ситуацию.</p>';
 	};
 
-	var setMarkerAndAnnotation = function (editorSession, foundedStringNumb, error)
+	var setMarkerAndAnnotation = function (editorSession, foundedStringNumb, error, markerId)
 	{
-		deleteMarker(editorSession);
+		if(markerId)
+		{
+			deleteMarker(editorSession, markerId);
+		}
 
-		paintMarker(editorSession, foundedStringNumb);
+		var markerId = paintMarker(editorSession, foundedStringNumb);
 
 		editorSession.setAnnotations([{
 			row: foundedStringNumb,
@@ -53,11 +52,15 @@ app.factory('errorService', [ function ()
 			text: error.toString(),
 			type: "error"
 		}]);
+
+		return markerId
 	};
 
 	return{
 		errorWrapper: errorWrapper,
 		deleteMarkerAndAnnotation: deleteMarkerAndAnnotation,
-		setMarkerAndAnnotation: setMarkerAndAnnotation
+		setMarkerAndAnnotation: setMarkerAndAnnotation,
+		deleteMarker: deleteMarker,
+		paintMarker: paintMarker
 	}
 }]);

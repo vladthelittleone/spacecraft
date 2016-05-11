@@ -5,19 +5,19 @@
  */
 var OnlinePlay = function (spec)
 {
-	var that = RunScriptPlayState(spec);
+	var t = RunScriptPlayState(spec);
 
-	var game = that.game;
-	var scope = that.scope;
-	var sc = that.sc;
+	var game = t.game;
+	var scope = t.scope;
+	var sc = t.sc;
 
 	//===================================
 	//============== CYCLE ==============
 	//===================================
 
-	var superCreate = that.create;
+	var superCreate = t.create;
 
-	that.create = function ()
+	t.create = function ()
 	{
 		superCreate(function (userCode)
 		{
@@ -26,26 +26,26 @@ var OnlinePlay = function (spec)
 		});
 	};
 
-	that.update = function ()
+	t.update = function ()
 	{
 		var s = SpaceCraftApi(scope.spaceCraft);
 		var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
-		that.tryRunScript(s, w);
+		t.tryRunScript(s, w);
 
 		scope.$apply(function ()
 		{
 			if (!scope.spaceCraft.protection.isAlive())
 			{
-				sc.callers.result(scope.spaceCraft.statistic);
 				game.paused = true;
+				sc.callers.result(scope.spaceCraft.statistic);
 			}
 		});
 
 		sc.animationManager.update();
 	};
 
-	that.entitiesInit = function ()
+	t.entitiesInit = function ()
 	{
 		var factory = sc.world.factory;
 
@@ -66,11 +66,11 @@ var OnlinePlay = function (spec)
 				spriteName: 'spaceCraft',
 				health: 200,
 				shield: 100,
-				shieldSprite: 'userShield'
+				spriteShield: 'userShield'
 			});
 		});
 
 	};
 
-	return that;
+	return t;
 };

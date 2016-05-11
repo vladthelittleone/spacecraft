@@ -20,15 +20,15 @@ var Unit = function (spec)
 	// Включаем проверку на коллизии с границей
 	t.sprite.checkWorldBounds = spec.checkWorldBounds;
 
-	// Центрирование
-	t.sprite.anchor.x = spec.anchX || 0.5;
-	t.sprite.anchor.y = spec.anchY || 0.5;
-
 	// Устанавливаем scale
 	spec.scale && t.sprite.scale.setTo(spec.scale);
 
 	// Подключаем физику тел
 	t.game.physics.p2.enable(t.sprite);
+
+	// Центрирование
+	t.sprite.anchor.x = spec.anchX || 0.5;
+	t.sprite.anchor.y = spec.anchY || 0.5;
 
 	// Поварачиваем на init-угол
 	spec.angle && (t.sprite.body.angle = spec.angle);
@@ -53,7 +53,7 @@ var Unit = function (spec)
 		var math = Phaser.Math;
 
 		// Угол линии от точки к точке в пространстве.
-		var a1 = math.angleBetween(t.x, t.y, another.getX(), another.getY()) + (Math.PI / 2);
+		var a1 = math.angleBetween(t.getX(), t.getY(), another.getX(), another.getY()) + (Math.PI / 2);
 		var a2 = math.degToRad(t.getAngle());
 
 		a1 = math.normalizeAngle(a1);

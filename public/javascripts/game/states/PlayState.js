@@ -5,26 +5,26 @@
  */
 var PlayState = function (spec)
 {
-	var that = {};
+	var t = {};
 
 	var game = spec.game;
 	var scope = game.sc.scope;
-	var sc = game.sc;
 
+	var tileSprite;
 	var cursors;
 
 	//===================================
 	//============== HELP ===============
 	//===================================
 
-	var followFor = that.followFor = function (object)
+	var followFor = t.followFor = function (object)
 	{
 		game.camera.follow(object);
 		game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
 		game.camera.focusOn(object);
 	};
 
-	var keysControl = that.keysControl = function ()
+	t.keysControl = function ()
 	{
 		if (cursors.up.isDown)
 		{
@@ -58,14 +58,21 @@ var PlayState = function (spec)
 		game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
 	};
 
-	var gameInit = that.gameInit = function gameInit(bounds, paused)
+	t.gameInit = function (bounds, paused)
 	{
-		game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
+		tileSprite = game.add.tileSprite(bounds.x, bounds.y, bounds.width, bounds.height, 'starField');
+		tileSprite.fixedToCamera = true;
+
 		game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
 
 		cursors = game.input.keyboard.createCursorKeys();
 		game.paused = paused;
 	};
 
-	return that;
+	t.updateTileSprite = function ()
+	{
+		tileSprite.tilePosition.set(game.camera.x * -0.3, game.camera.y * -0.3);
+	};
+
+	return t;
 };

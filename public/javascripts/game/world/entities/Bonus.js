@@ -8,45 +8,34 @@
  */
 var Bonus = function (spec)
 {
+	var bonusType = spec.bonusType;
+	var rotateDirection = utils.randomOf(-1, 1);
 	var game = spec.game;
 	var sc = game.sc;
 
-    var that = sc.world.factory.createGameObject({
-        type: game.sc.world.bonusType
+	spec.scale = 0.65;
+	spec.checkWorldBounds = true;
+	spec.spriteName = bonusType.spriteName;
+
+	var t = sc.world.factory.createGameObject({
+        type: game.sc.world.bonusType,
+		inherit: Unit(spec)
     });
 
-    var x = that.x = spec.x;
-    var y = that.y = spec.y;
-    var bonusType = spec.bonusType;
-    var rotateDirection = utils.randomOf(-1, 1);
-
-    // Добавляем спрайт бонуса
-    var sprite = that.sprite = game.add.sprite(x, y, bonusType.spriteName);
-    sprite.name = that.getId();
-
-	var audio = new AudioManager(game, sprite, function()
+	var audio = new AudioManager(game, t.sprite, function()
 	{
-		return sc.scope.spaceCraft.getId() == sprite.name;
+		return sc.scope.spaceCraft.getId() == t.sprite.name;
 	});
 
-    // Подключаем физику тел к бонусу
-    game.physics.p2.enable(sprite);
+	t.sprite.name = t.getId();
 
-    // Поварачиваем бонус на init-угол
-    !spec.angle || (sprite.body.angle = spec.angle);
-
-    sprite.anchor.x = 0.5;
-    sprite.anchor.y = 0.5;
-    sprite.scale.setTo(0.65);
-    sprite.checkWorldBounds = true;
-
-    // Устанавливаем маленькую массу,
+	// Устанавливаем маленькую массу,
     // что б при столкновении с бонусом
     // кораблик не взаимодействовал с ней.
-    sprite.body.mass = 0.00001;
+    t.sprite.body.mass = 0.00001;
 
     // Устанавливаем группу колизий
-    sprite.body.setCollisionGroup(sc.collisionGroups.bonus);
+    t.sprite.body.setCollisionGroup(sc.collisionGroups.bonus);
 
     var bonusTake = function (bonus, spaceCraft)
     {
@@ -57,7 +46,7 @@ var Bonus = function (spec)
             bonusType.useBonus(s);
 
             // Удаляем бонус
-            sc.world.removeObject(that);
+            sc.world.removeObject(t);
 
             bonus.sprite.destroy();
             bonus.destroy();
@@ -68,32 +57,32 @@ var Bonus = function (spec)
         }
     };
 
-    that.getX = function()
+    t.getX = function()
     {
-        return sprite.x;
+        return t.sprite.x;
     };
 
-    that.getY = function()
+    t.getY = function()
     {
-        return sprite.y;
+        return t.sprite.y;
     };
 
-    that.getBonusType = function()
+    t.getBonusType = function()
     {
         return bonusType.name;
     };
 
-    that.update = function ()
+    t.update = function ()
     {
         // Произошла коллизия бонуса с кораблем
-        sprite.body.collides(sc.collisionGroups.spaceCraft, bonusTake, this);
-        sprite.body.rotateLeft(rotateDirection);
-        sprite.body.moveForward(1);
+        t.sprite.body.collides(sc.collisionGroups.spaceCraft, bonusTake, this);
+        t.sprite.body.rotateLeft(rotateDirection);
+        t.sprite.body.moveForward(1);
     };
 
-    sc.world.pushObject(that);
+    sc.world.pushObject(t);
 
-    return that;
+    return t;
 };
 
 var HealthBonus = function (spec)

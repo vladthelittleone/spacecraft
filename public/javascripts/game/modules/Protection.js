@@ -33,6 +33,8 @@ var ProtectionBlock = function (spec)
     shieldSprite.anchor.x = 0.5;
     shieldSprite.anchor.y = 0.5;
 
+	spec.shieldScale && shieldSprite.scale.setTo(spec.shieldScale);
+
 	sprite.addChild(shieldSprite);
 
     var regenerationModule = t.regeneration = RegenerationModule({

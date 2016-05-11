@@ -31,6 +31,7 @@ var LessonGame = function (spec)
 				'fighter': 'images/sprites/spaceCraft/fighter.png',
 				'starField': 'images/sprites/starField.png',
 				'userShield': 'images/sprites/shield2.png',
+				'base': 'images/sprites/base/base.png',
 				'meteor1': 'images/sprites/meteor/meteor1.png'
 			};
 

@@ -74,6 +74,7 @@ var EntitiesFactory = function (spec)
 		args.game = game;
 		args.velocity = 400;
 		args.beamSprite = 'greenBeam';
+		args.energyPoints = 12;
 
 		var o = SpaceCraft(args);
 		o.addAllBlocks(args);
@@ -81,18 +82,18 @@ var EntitiesFactory = function (spec)
 		return o;
 	};
 
-	that.createFighter = function (args)
+	that.createTransport = function (args)
 	{
 		args.game = game;
 		args.scale = 0.5;
-		args.spriteName = 'fighter';
-		args.health = 10;
-		args.shield = 10;
-		args.velocity = 600;
-		args.beamSprite = 'greenBeam';
+		args.health = 2;
+		args.shield = 2;
+		args.velocity = 500;
+		args.energyPoints = 4;
 
 		var o = SpaceCraft(args);
-		o.addAllBlocks(args);
+		o.addEngineBlock(args);
+		o.addProtectionBlock(args);
 
 		return o;
 	};
@@ -100,6 +101,11 @@ var EntitiesFactory = function (spec)
 	that.createHarvester = function (args)
 	{
 		args.game = game;
+		args.spriteName = 'harvester';
+		args.health = 50;
+		args.shield = 26;
+		args.velocity = 500;
+		args.energyPoints = 4;
 
 		return Harvester(args);
 	};

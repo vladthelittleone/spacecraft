@@ -13,6 +13,7 @@ var LessonPlayState0 = function (spec)
 
 	var followFor = that.followFor;
 	var gameInit = that.gameInit;
+	var tileUpdate = that.updateTileSprite;
 
 	//===================================
 	//============== CYCLE ==============
@@ -32,6 +33,8 @@ var LessonPlayState0 = function (spec)
 			base.update();
 			sc.world.update();
 		}
+
+		tileUpdate();
 	};
 
 	that.entitiesInit = function ()
@@ -42,23 +45,20 @@ var LessonPlayState0 = function (spec)
 			game: game,
 			x: game.world.centerX,
 			y: game.world.centerY,
-			spriteName: 'base',
-			scale: 1
+			spriteName: 'base'
 		});
 
 		for (var i = 0; i < 3; i++)
 		{
+			var i1 = utils.randomInt(-200, 200);
+			var i2 = utils.randomInt(-200, 200);
+
 			factory.createHarvester({
-				x: game.world.centerX + game.world.randomX % 200,
-				y: game.world.centerY + game.world.randomY % 200,
+				x: base.sprite.x + i1,
+				y: base.sprite.y + i2,
 				angle: game.rnd.angle(),
-				spriteName: 'harvester',
-				health: 200,
-				shield: 100,
-				shieldSprite: 'shield',
 				harvestRange: 100,
 				maxTank: 50,
-				scale: 1,
 				harvestRate: 400,
 				strategy: function (args)
 				{

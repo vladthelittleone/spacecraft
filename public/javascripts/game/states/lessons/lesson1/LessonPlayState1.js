@@ -34,7 +34,7 @@ var LessonPlayState1 = function (spec)
 
 	that.update = function ()
 	{
-		var s = SpaceCraftApi(scope.spaceCraft);
+		var s = ApiLesson1(scope.spaceCraft);
 		var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
 		that.tryRunScript(s, w);
@@ -59,10 +59,11 @@ var LessonPlayState1 = function (spec)
 
 		scope.$apply(function createSpaceCraft()
 		{
-			scope.spaceCraft = factory.createFighter({
+			scope.spaceCraft = factory.createTransport({
 				x: game.world.centerX,
 				y: game.world.centerY,
-				shieldSprite: 'userShield'
+				spriteShield: 'userShield',
+				spriteName: 'fighter'
 			});
 		});
 	};

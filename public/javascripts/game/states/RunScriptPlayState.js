@@ -6,55 +6,55 @@
  */
 var RunScriptPlayState = function (spec)
 {
-	var that = PlayState(spec);
+	var t = PlayState(spec);
 
-	var followFor = that.followFor;
-	var gameInit = that.gameInit;
-	var keysControl = that.keysControl;
+	var followFor = t.followFor;
+	var gameInit = t.gameInit;
+	var keysControl = t.keysControl;
 
 	var isRunning;
 	var userCode;
 	var userObject;
 
-	that.game = spec.game;
-	that.scope = that.game.sc.scope;
-	that.sc = that.game.sc;
+	t.game = spec.game;
+	t.scope = t.game.sc.scope;
+	t.sc = t.game.sc;
 
-	that.runUserScript = function (args)
+	t.runUserScript = function (args)
 	{
 		if (isRunning)
 		{
 			try
 			{
 				userObject.run && userObject.run.apply(null, args);
-				that.scope.editorOptions.error = false;
+				t.scope.editorOptions.error = false;
 			}
 			catch (err)
 			{
-				that.scope.editorOptions.error = err;
-				that.scope.editorOptions.isCodeRunning = false;
+				t.scope.editorOptions.error = err;
+				t.scope.editorOptions.isCodeRunning = false;
 			}
 		}
 	};
 
-	that.create = function(createUserObjectCallback)
+	t.create = function(createUserObjectCallback)
 	{
-		gameInit(that.sc.world.getBounds(), true);
-		that.entitiesInit();
-		followFor(that.scope.spaceCraft.sprite);
+		gameInit(t.sc.world.getBounds(), true);
+		t.entitiesInit();
+		followFor(t.scope.spaceCraft.sprite);
 
-		that.scope.$watch('editorOptions.code', function (n)
+		t.scope.$watch('editorOptions.code', function (n)
 		{
 			userCode = n;
 		});
 
-		that.scope.$watch('editorOptions.isCodeRunning', function (n)
+		t.scope.$watch('editorOptions.isCodeRunning', function (n)
 		{
 			isRunning = n;
 
-			if (that.game)
+			if (t.game)
 			{
-				that.game.paused = !isRunning;
+				t.game.paused = !isRunning;
 			}
 
 			if (n)
@@ -65,23 +65,25 @@ var RunScriptPlayState = function (spec)
 				}
 				catch (err)
 				{
-					that.scope.editorOptions.error = err;
-					that.scope.editorOptions.isCodeRunning = false;
+					t.scope.editorOptions.error = err;
+					t.scope.editorOptions.isCodeRunning = false;
 				}
 			}
 		});
 	};
 
-	that.tryRunScript = function ()
+	t.tryRunScript = function ()
 	{
-		if (!that.game.paused)
+		t.updateTileSprite();
+
+		if (!t.game.paused)
 		{
-			that.sc.world.update();
-			that.runUserScript(Array.prototype.slice.call(arguments));
+			t.sc.world.update();
+			t.runUserScript(Array.prototype.slice.call(arguments));
 		}
 
 		keysControl();
 	};
 
-	return that;
+	return t;
 };

@@ -37,7 +37,7 @@ var SpaceCraft = function (spec)
 	});
 
 	var modulesManager = t.modulesManager = ModulesManager({
-		energyPoints: 12
+		energyPoints: spec.energyPoints
 	});
 
     //  Добавляем группу коллизий
@@ -61,8 +61,9 @@ var SpaceCraft = function (spec)
 			health: args.health,
 			shield: args.shield,
 			modulesManager: modulesManager,
-			spriteShield: args.shieldSprite,
-			game: t.game
+			spriteShield: args.spriteShield,
+			game: t.game,
+			shieldScale: args.shieldScale
 		});
 	};
 

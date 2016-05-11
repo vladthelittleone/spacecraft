@@ -3,8 +3,8 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'audioManager', 'connection', 'gameService', 'aceService',
-function ($scope, $storage, $http, audioManager, connection, gameService, aceService)
+app.controller('GameController', ['$scope', '$storage', '$http', 'audioManager', 'connection', 'gameService', 'aceService', 'errorService',
+function ($scope, $storage, $http, audioManager, connection, gameService, aceService, errorService)
 {
 	var editorSession;
 	//===================================
@@ -81,9 +81,7 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 	{
 		editorSession = editor.getSession();
 
-		aceService.firstAceSetting(editor, editorSession, $scope.options.code);
-
-		aceService.secondAceSetting(editor);
+		aceService.initializeAceSettings(editor, $scope.options.code);
 
 		gameService.setCode($scope.options.code);
 
@@ -97,20 +95,11 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 	{
 		if (value)
 		{
-			$scope.textBot = aceService.errorWrapper(value);
-
-			aceService.deleteMarker(editorSession);
-
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			aceService.allocationMarker(editorSession, foundedStringNumb);
+			$scope.textBot = aceService.errorWrapper(value);
 
-			editorSession.setAnnotations([{
-				row: foundedStringNumb,
-				column: 0,
-				text: $scope.options.error.toString(),
-				type: "error"
-			}]);
+			errorService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
 		}
 		else
 		{

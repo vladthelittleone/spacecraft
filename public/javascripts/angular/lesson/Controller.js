@@ -4,8 +4,8 @@
 var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService)
+	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'errorService',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, errorService)
 {
 	var audio;
 	var audioIndex = 0;
@@ -359,27 +359,19 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.aceLoaded = function (editor)
 	{
 		editorSession = editor.getSession();
-		aceService.firstAceSetting(editor, editorSession, options.code);
+
+		aceService.initializeAceSettings(editor, options.code);
 	};
 
 	$scope.$watch('options.error', function (value)
 	{
 		if (value)
 		{
-			$scope.textBot = aceService.errorWrapper(value);
-
-			aceService.deleteMarker(editorSession);
-
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			aceService.allocationMarker(editorSession, foundedStringNumb);
+			$scope.textBot = aceService.errorWrapper(value);
 
-			editorSession.setAnnotations([{
-				row: foundedStringNumb,
-				column: 0,
-				text: $scope.options.error.toString(),
-				type: "error"
-			}]);
+			errorService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
 		}
 		else
 		{

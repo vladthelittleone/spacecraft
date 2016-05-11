@@ -7,10 +7,19 @@ var app = angular.module('spacecraft.connection', []);
 
 app.factory('connection', ['$http', function ($http)
 {
+	var resources = {
+		code: 'javascripts/code/game.js'
+	};
+
+	var links = {
+		lessonsStatistic: '/statistic/lessons',
+		code: '/statistic/code'
+	};
+
 	var saveStatisticLesson = function (args)
 	{
 		$http({
-			url: '/statistic/lessons',
+			url: links.lessonsStatistic,
 			method: 'POST',
 			data: args
 		});
@@ -20,7 +29,7 @@ app.factory('connection', ['$http', function ($http)
 	{
 		$http({
 			method: 'POST',
-			url: '/statistic/code',
+			url: links.code,
 			data:
 			{
 				code: data
@@ -32,7 +41,7 @@ app.factory('connection', ['$http', function ($http)
 	{
 		$http({
 			method: 'GET',
-			url: '/statistic/code'
+			url: links.code
 		}).then(function(result)
 		{
 			callback(result);
@@ -43,7 +52,7 @@ app.factory('connection', ['$http', function ($http)
 	{
 		$http({
 			method: 'GET',
-			url: 'javascripts/code/game.js'
+			url: resources.code
 		}).success(function (date)
 		{
 			callback(date);

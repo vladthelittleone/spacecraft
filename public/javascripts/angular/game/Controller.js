@@ -45,7 +45,7 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 		// Сохраняем код только при нажатии на кнопку плей
 		if($scope.options.isCodeRunning)
 		{
-			connection.saveCode($scope.options.code);
+			connection.httpSaveCode($scope.options.code);
 		}
 	};
 

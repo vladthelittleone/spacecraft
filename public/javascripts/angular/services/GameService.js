@@ -26,7 +26,7 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 		}
 		else
 		{
-			connection.getCodeFromJs(function (data)
+			connection.httpGetCodeFromJs(function (data)
 			{
 				callback(data);
 			});
@@ -35,7 +35,7 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 
 	var requestForCode = function (callback)
 	{
-		connection.getCodeFromDB(function (code)
+		connection.httpGetCodeFromDB(function (code)
 		{
 			checkAndSaveCode(code.data, callback);
 		});

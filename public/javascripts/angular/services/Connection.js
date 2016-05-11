@@ -16,7 +16,7 @@ app.factory('connection', ['$http', function ($http)
 		code: '/statistic/code'
 	};
 
-	var saveStatisticLesson = function (args)
+	var httpSaveStatisticLesson = function (args)
 	{
 		$http({
 			url: links.lessonsStatistic,
@@ -25,7 +25,7 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
-	var saveCode = function (data)
+	var httpSaveCode = function (data)
 	{
 		$http({
 			method: 'POST',
@@ -37,7 +37,7 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
-	var getCodeFromDB = function (callback)
+	var httpGetCodeFromDB = function (callback)
 	{
 		$http({
 			method: 'GET',
@@ -48,7 +48,7 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
-	var getCodeFromJs = function (callback)
+	var httpGetCodeFromJs = function (callback)
 	{
 		$http({
 			method: 'GET',
@@ -60,9 +60,9 @@ app.factory('connection', ['$http', function ($http)
 	};
 
 	return{
-		saveStatisticLesson: saveStatisticLesson,
-		saveCode: saveCode,
-		getCodeFromDB: getCodeFromDB,
-		getCodeFromJs: getCodeFromJs
+		httpSaveStatisticLesson: httpSaveStatisticLesson,
+		httpSaveCode: httpSaveCode,
+		httpGetCodeFromDB: httpGetCodeFromDB,
+		httpGetCodeFromJs: httpGetCodeFromJs
 	};
 }]);

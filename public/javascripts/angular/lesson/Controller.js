@@ -94,7 +94,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Устанавливаем текущий урок в хранилище
 			set(l, $scope.subIndex, len);
 
-			connection.saveStatisticLesson({
+			connection.httpSaveStatisticLesson({
 				lessonId: $stateParams.id,
 				size: len,
 				current: $scope.subIndex
@@ -107,7 +107,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Устанавливаем текущий урок в хранилище
 			set(l, 0, len, true);
 
-			connection.saveStatisticLesson({
+			connection.httpSaveStatisticLesson({
 				lessonId: $stateParams.id,
 				size: len,
 				current: 0,

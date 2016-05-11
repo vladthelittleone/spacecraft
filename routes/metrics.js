@@ -25,25 +25,10 @@ router.post('/openlessons', function (req, res, next)
 
 router.get('/stat', function(req, res, next)
 {
-	Metrics.calcMetrics(function(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson)
+	Metrics.calcMetrics(function(userMetrics)
 	{
-		var userMetrics = {};
-
-		if (sumVisits)
+		if (userMetrics)
 		{
-			userMetrics = {
-				// сумарное количество посещений
-				sumVisits: sumVisits,
-				// количество пользователей
-				userNumb: userNumb,
-				// среднее кол-во посещений
-				meanVisits: meanVisits,
-				// среднее кол-во переходов на игру
-				meanClickOnGame: meanClickOnGame,
-				// среднее кол-во преходов на уроки
-				meanClickOnLesson: meanClickOnLesson
-			};
-
 			Stat.calcMetrics(function(starStatForLesson, meanStatForLessons)
 			{
 				var lessonMetrics = {};

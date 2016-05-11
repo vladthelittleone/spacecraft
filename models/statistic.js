@@ -95,7 +95,8 @@ schema.statics.calcMetrics = function (callback)
 		{
 			Statictics.find(callback);
 		},
-		function (statistic) {
+		function (statistic)
+		{
 			if (statistic.length == 0)
 			{
 				callback();

@@ -89,11 +89,20 @@ schema.statics.calcMetrics = function (callback)
 
 				var userNumb = metrics.length;
 
-				var meanVisits = sumVisits / userNumb;
-				var meanClickOnLesson = sumClickOnLesson / userNumb;
-				var meanClickOnGame = sumClickOnGame / userNumb;
+				var userMetrics = {
+					// сумарное количество посещений
+					sumVisits: sumVisits,
+					// количество пользователей
+					userNumb: userNumb,
+					// среднее кол-во посещений
+					meanVisits: sumVisits / userNumb,
+					// среднее кол-во переходов на игру
+					meanClickOnGame: sumClickOnLesson / userNumb,
+					// среднее кол-во преходов на уроки
+					meanClickOnLesson: sumClickOnGame / userNumb
+				};
 
-				callback(sumVisits, userNumb, meanVisits, meanClickOnGame, meanClickOnLesson);
+				callback(userMetrics);
 			}
 		}
 

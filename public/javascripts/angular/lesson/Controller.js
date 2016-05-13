@@ -9,6 +9,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 {
 	var audio;
 	var audioIndex = 0;
+	var markerId;
 
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;

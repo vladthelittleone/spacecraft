@@ -1,9 +1,11 @@
 /**
  * Что за странный код?
  * run?
+ * Что это?
  */
 this.run = function(transport)
 {
-	// Команда кораблю - лететь вперед
-	transport.moveForward();
+	// Команда кораблю - поворачивать налево
+	transport.rotateLeft();
 };
+

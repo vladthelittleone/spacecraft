@@ -9,10 +9,20 @@ app.factory('markerService', [ function ()
 {
 	var Range = ace.require('ace/range').Range;
 
-	var paintMarker = function (editorSession, foundedStringNumb)
+	var paintMarker = function (editorSession, x1, y1, x2, y2, type)
 	{
-		// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-		return editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb, 1000), "bar", "fullLine");
+		x1 = x1 - 1;
+		x2 = x2 || x1;
+
+		if (!type)
+		{
+			return editorSession.highlightLines(x1, x2, 'bar').id;
+		}
+		else
+		{
+			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
+			return editorSession.addMarker(new Range(x1, y1, x2, y2), 'bar', type);
+		}
 	};
 
 	var deleteMarkerAndAnnotation = function (editorSession, markerId)
@@ -30,7 +40,7 @@ app.factory('markerService', [ function ()
 		var markerId = paintMarker(editorSession, foundedStringNumb);
 
 		editorSession.setAnnotations([{
-			row: foundedStringNumb,
+			row: foundedStringNumb - 1,
 			column: 0,
 			text: error.toString(),
 			type: "error"

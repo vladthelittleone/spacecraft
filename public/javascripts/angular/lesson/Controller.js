@@ -64,7 +64,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function nextSubLesson()
 	{
-		options.nextSubLesson = true;
+		options.nextSubLesson = current().handleUpdateg;
 		options.isCodeRunning = false;
 
 		function set(a, i, len, completed)
@@ -183,15 +183,18 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				$scope.$apply();
 			});
 
-			if (ch.marker)
-			{
+			var m = ch.marker;
 
+			if (m)
+			{
+				markerId = markerService.paintMarker(editorSession, m.x1, m.y1, m.x2, m.y2, m.type);
+			}
+			else
+			{
+				markerService.deleteMarkerAndAnnotation(editorSession, markerId);
 			}
 		}
 	}
-
-	// Вся информация о уроке
-	$scope.lesson = lessonProvider($stateParams.id);
 
 	function initialize(id)
 	{
@@ -206,8 +209,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			{
 				if(result.data[id])
 				{
+					var size = $scope.lesson.sub.length;
+					var serverIndex = parseInt(result.data[id].current);
+
 					// Индекс под урока
-					$scope.subIndex = parseInt(result.data[id].current);
+					$scope.subIndex = serverIndex % size;
 				}
 
 				initCode($scope.subIndex);
@@ -302,8 +308,12 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			{
 				options.isCodeRunning = !options.isCodeRunning;
 
-				options.update = function (s, w, t)
+				options.update = function (args)
 				{
+					var s = args.spaceCraft;
+					var w = args.world;
+					var t = args.text;
+
 					var result = current().handleUpdate(s, w, t);
 
 					if (result && result.status)

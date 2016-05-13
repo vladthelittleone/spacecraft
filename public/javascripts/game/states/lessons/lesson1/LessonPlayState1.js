@@ -43,13 +43,18 @@ var LessonPlayState1 = function (spec)
 		{
 			var upd = scope.editorOptions.update;
 
-			upd && upd(scope.spaceCraft, sc.world, bBotText);
+			upd && upd({
+				spaceCraft: scope.spaceCraft,
+				world: sc.world,
+				text: bBotText
+			});
 
-            if (scope.editorOptions.nextSubLesson)
-            {
+			if (scope.editorOptions.nextSubLesson)
+			{
 				game.state.start('boot');
 				scope.editorOptions.nextSubLesson = false;
 			}
+
 		});
 	};
 

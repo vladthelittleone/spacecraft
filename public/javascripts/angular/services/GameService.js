@@ -44,7 +44,7 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 		});
 	};
 
-	return{
+	return {
 		getCode: getCode,
 		setCode: setCode,
 		requestForCode: requestForCode

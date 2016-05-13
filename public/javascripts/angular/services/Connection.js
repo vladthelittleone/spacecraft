@@ -7,11 +7,13 @@ var app = angular.module('spacecraft.connection', []);
 
 app.factory('connection', ['$http', function ($http)
 {
-	var resources = {
+	var resources =
+	{
 		code: 'javascripts/code/game.js'
 	};
 
-	var links = {
+	var links =
+	{
 		lessonsStatistic: '/statistic/lessons',
 		code: '/statistic/code'
 	};
@@ -59,7 +61,7 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
-	return{
+	return {
 		httpSaveStatisticLesson: httpSaveStatisticLesson,
 		httpSaveCode: httpSaveCode,
 		httpGetCodeFromDB: httpGetCodeFromDB,

@@ -12,7 +12,7 @@ app.factory('markerService', [ function ()
 	var paintMarker = function (editorSession, foundedStringNumb)
 	{
 		// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-		return editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
+		return editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb, 1000), "bar", "fullLine");
 	};
 
 	var deleteMarkerAndAnnotation = function (editorSession, markerId)
@@ -20,7 +20,7 @@ app.factory('markerService', [ function ()
 		// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
 		// но но мало ли, что лучше удалять их явно
 		editorSession.clearAnnotations();
-		editorSession.removeMarker(markerID);
+		editorSession.removeMarker(markerId);
 	};
 
 

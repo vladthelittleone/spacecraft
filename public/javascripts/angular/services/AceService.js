@@ -10,7 +10,6 @@ app.factory('aceService', ['autocompleter', function (autocompleter)
 {
 	function setCodeAndAddScroll (editor, editorSession, code)
 	{
-
 		editor.$blockScrolling = Infinity;
 		editorSession.setValue(code);
 
@@ -25,10 +24,10 @@ app.factory('aceService', ['autocompleter', function (autocompleter)
 
 		editor.completers = [spaceCraftCompleter];
 		editor.setOptions(
-			{
-				enableSnippets: false,
-				enableBasicAutocompletion: true
-			});
+		{
+			enableSnippets: false,
+			enableBasicAutocompletion: true
+		});
 
 		langTools.addCompleter(spaceCraftCompleter);
 	}

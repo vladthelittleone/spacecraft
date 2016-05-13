@@ -4,8 +4,8 @@
 var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'errorService',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, errorService)
+	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'markerService',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, markerService)
 {
 	var audio;
 	var audioIndex = 0;
@@ -362,22 +362,26 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 		aceService.initializeAceSettings(editor, options.code);
 	};
+	function errorWrapper (value)
+	{
+		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
+			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
+			'<p class="red-label">### 0шибка: ' + value + '</p>' +
+			'<p>### Пожалуйста исправте ситуацию.</p>';
+	}
 
 	$scope.$watch('options.error', function (value)
 	{
+		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+		$scope.textBot = value;
+
 		if (value)
 		{
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			$scope.textBot = aceService.errorWrapper(value);
+			$scope.textBot = errorWrapper(value);
 
-			errorService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
-		}
-		else
-		{
-			$scope.textBot = value;
-
-			aceService.deleteMarkerAndAnnotation(editorSession);
+			markerId = markerService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
 		}
 	});
 

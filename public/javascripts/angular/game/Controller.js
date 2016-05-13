@@ -3,21 +3,25 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'audioManager', 'connection', 'gameService', 'aceService', 'errorService',
-function ($scope, $storage, $http, audioManager, connection, gameService, aceService, errorService)
+app.controller('GameController', ['$scope', '$storage', '$http', 'audioManager', 'connection', 'gameService', 'aceService', 'markerService',
+function ($scope, $storage, $http, audioManager, connection, gameService, aceService, markerService)
 {
 	var editorSession;
+	var markerId;
+
 	//===================================
 	//============== CODE ===============
 	//===================================
 
 	function initCode(callback)
 	{
+		// Вытаскиваем код из  локалного хранилища
 		var code = gameService.getCode();
 
-		// Если в локальном хранилище нет кода, то берем из базы, если нет там берем из js
+		// Если в локальном хранилище нет кода
 		if (!code)
 		{
+			// Делаем запрос на получение коду от других источников выполняем callback
 			gameService.requestForCode(callback);
 		}
 		else
@@ -91,23 +95,26 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 		});
 	};
 
+	function errorWrapper (value)
+	{
+		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
+			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
+			'<p class="red-label">### 0шибка: ' + value + '</p>' +
+			'<p>### Пожалуйста исправте ситуацию.</p>';
+	}
+
 	$scope.$watch('options.error', function (value)
 	{
+		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+		$scope.textBot = value;
+
 		if (value)
 		{
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			var markerId = null;
+			$scope.textBot = errorWrapper(value);
 
-			$scope.textBot = errorService.errorWrapper(value);
-
-			markerId = errorService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error, markerId);
-		}
-		else
-		{
-			$scope.textBot = value;
-
-			aceService.deleteMarkerAndAnnotation(editorSession);
+			markerId = markerService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
 		}
 	});
 

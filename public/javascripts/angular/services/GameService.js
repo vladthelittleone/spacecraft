@@ -20,12 +20,14 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 
 	function checkAndSaveCode(data, callback)
 	{
+		// Если пришел код из базы выполняем callback
 		if(data)
 		{
 			callback(data);
 		}
 		else
 		{
+			// Если его нет берем из JS файла и выполняем callback
 			connection.httpGetCodeFromJs(function (data)
 			{
 				callback(data);
@@ -35,6 +37,7 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 
 	var requestForCode = function (callback)
 	{
+		// Обращаемся к базе за кодом
 		connection.httpGetCodeFromDB(function (code)
 		{
 			checkAndSaveCode(code.data, callback);

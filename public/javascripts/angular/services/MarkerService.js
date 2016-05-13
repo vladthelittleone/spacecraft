@@ -3,17 +3,11 @@
  */
 'use strict';
 
-var app = angular.module('spacecraft.errorService', []);
+var app = angular.module('spacecraft.markerService', []);
 
-app.factory('errorService', [ function ()
+app.factory('markerService', [ function ()
 {
 	var Range = ace.require('ace/range').Range;
-
-	var deleteMarker = function (editorSession, markerID)
-	{
-			// Удаляем старый маркер, что бы не получилось их много
-			editorSession.removeMarker(markerID);
-	};
 
 	var paintMarker = function (editorSession, foundedStringNumb)
 	{
@@ -21,7 +15,7 @@ app.factory('errorService', [ function ()
 		return editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
 	};
 
-	var deleteMarkerAndAnnotation = function (editorSession)
+	var deleteMarkerAndAnnotation = function (editorSession, markerId)
 	{
 		// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
 		// но но мало ли, что лучше удалять их явно
@@ -29,21 +23,10 @@ app.factory('errorService', [ function ()
 		editorSession.removeMarker(markerID);
 	};
 
-	var errorWrapper = function (value)
-	{
-		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
-			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">### 0шибка: ' + value + '</p>' +
-			'<p>### Пожалуйста исправте ситуацию.</p>';
-	};
 
-	var setMarkerAndAnnotation = function (editorSession, foundedStringNumb, error, markerId)
-	{
-		if(markerId)
-		{
-			deleteMarker(editorSession, markerId);
-		}
 
+	var setMarkerAndAnnotation = function (editorSession, foundedStringNumb, error)
+	{
 		var markerId = paintMarker(editorSession, foundedStringNumb);
 
 		editorSession.setAnnotations([{
@@ -57,10 +40,8 @@ app.factory('errorService', [ function ()
 	};
 
 	return{
-		errorWrapper: errorWrapper,
 		deleteMarkerAndAnnotation: deleteMarkerAndAnnotation,
 		setMarkerAndAnnotation: setMarkerAndAnnotation,
-		deleteMarker: deleteMarker,
 		paintMarker: paintMarker
 	}
 }]);

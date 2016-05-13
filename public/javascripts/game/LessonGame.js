@@ -28,11 +28,17 @@ var LessonGame = function (spec)
 			spec.playState = LessonPlayState1;
 			spec.loads =
 			{
-				'fighter': 'images/sprites/spaceCraft/fighter.png',
+				'transport': 'images/sprites/spaceCraft/transport.png',
 				'starField': 'images/sprites/starField.png',
+				'meteor1': 'images/sprites/meteor/meteor1.png',
+				'meteor2': 'images/sprites/meteor/meteor2.png',
+				'meteor3': 'images/sprites/meteor/meteor3.png',
+				'meteor4': 'images/sprites/meteor/meteor4.png',
+				'meteor5': 'images/sprites/meteor/meteor5.png',
+				'meteor6': 'images/sprites/meteor/meteor6.png',
+				'meteor7': 'images/sprites/meteor/meteor7.png',
 				'userShield': 'images/sprites/shield2.png',
-				'base': 'images/sprites/base/base.png',
-				'meteor1': 'images/sprites/meteor/meteor1.png'
+				'base': 'images/sprites/base/base.png'
 			};
 
 			break;

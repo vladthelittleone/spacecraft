@@ -3,13 +3,13 @@
  */
 var EntitiesFactory = function (spec)
 {
-	var that = {};
+	var t = {};
 
 	var game = spec.game;
 	var world = spec.world;
 	var decorations = world.decorations;
 
-	that.createMeteors = function (args)
+	t.createMeteors = function (args)
 	{
 		for (var i = 0; i < args.count; i++)
 		{
@@ -18,32 +18,56 @@ var EntitiesFactory = function (spec)
 				x: game.world.randomX,
 				y: game.world.randomY,
 				scale: utils.randomInt(1, 3) * 0.25,
+				speed: utils.randomInt(1, 8) * 0.1,
 				spriteName: 'meteor' + utils.randomInt(1, 7),
 				game: game
 			});
 		}
 	};
 
-	that.createMeteor = function (args)
+	t.createMeteorField = function (args)
+	{
+		var R = args.radius;
+		var count = args.count;
+		var start = args.start;
+		var shift = args.shift;
+
+		// Создаем объект мира
+		for (var y = start; y < count; y = y + shift)
+		{
+			var x = Math.sqrt(R * R - y * y);
+
+			t.createMeteor({
+				spriteName: 'meteor' + utils.randomInt(1, 7),
+				scale: utils.randomInt(1, 3) * 0.1,
+				speed: utils.randomInt(1, 8) * 0.1,
+				x: x + utils.randomInt(0, 200),
+				y: y + utils.randomInt(0, 200)
+			});
+		}
+	};
+
+	t.createMeteor = function (args)
 	{
 		decorations.pushMeteor({
 			angle: game.rnd.angle(),
 			x: args.x,
 			y: args.y,
 			scale: args.scale,
+			speed: args.speed,
 			spriteName: args.spriteName,
 			game: game
 		});
 	};
 
-	that.createBots = function (args)
+	t.createBots = function (args)
 	{
 		for (var i = 0; i < args.count; i++)
 		{
 			var modX = world.getBounds().height - 320;
 			var modY = world.getBounds().width - 320;
 
-			that.createSpaceCraft({
+			t.createSpaceCraft({
 				strategy: args.strategy,
 				x: game.world.randomX % modX + 200,
 				y: game.world.randomY % modY + 200,
@@ -55,21 +79,21 @@ var EntitiesFactory = function (spec)
 		}
 	};
 
-	that.createBonus = function (args)
+	t.createBonus = function (args)
 	{
 		args.game = game;
 
 		return Bonus(args);
 	};
 
-	that.createExplosion = function (args)
+	t.createExplosion = function (args)
 	{
 		args.game = game;
 
 		return game.sc.animationManager.explosion(args);
 	};
 
-	that.createSpaceCraft = function (args)
+	t.createSpaceCraft = function (args)
 	{
 		args.game = game;
 		args.velocity = 400;
@@ -82,7 +106,7 @@ var EntitiesFactory = function (spec)
 		return o;
 	};
 
-	that.createTransport = function (args)
+	t.createTransport = function (args)
 	{
 		args.game = game;
 		args.scale = 0.5;
@@ -90,6 +114,7 @@ var EntitiesFactory = function (spec)
 		args.shield = 2;
 		args.velocity = 500;
 		args.energyPoints = 4;
+		args.shieldScale = 0.4;
 
 		var o = SpaceCraft(args);
 		o.addEngineBlock(args);
@@ -98,7 +123,7 @@ var EntitiesFactory = function (spec)
 		return o;
 	};
 
-	that.createHarvester = function (args)
+	t.createHarvester = function (args)
 	{
 		args.game = game;
 		args.spriteName = 'harvester';
@@ -110,12 +135,12 @@ var EntitiesFactory = function (spec)
 		return Harvester(args);
 	};
 
-	that.createGameObject = function (args)
+	t.createGameObject = function (args)
 	{
 		args.game = game;
 
 		return GameObject(args);
 	};
 
-	return that;
+	return t;
 };

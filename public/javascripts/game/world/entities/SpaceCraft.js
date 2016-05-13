@@ -104,6 +104,9 @@ var SpaceCraft = function (spec)
 		});
     };
 
+	// Переносим на верхний слой, перед лазерами.
+	t.sprite.bringToTop();
+
     // Добавляем наш корабль в мир
     world.pushObject(t);
 

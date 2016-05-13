@@ -17,14 +17,14 @@ var Unit = function (spec)
 	// Добавляем спрайт
 	t.sprite = t.game.add.sprite(x, y, spec.spriteName);
 
-	// Включаем проверку на коллизии с границей
-	t.sprite.checkWorldBounds = spec.checkWorldBounds;
-
 	// Устанавливаем scale
 	spec.scale && t.sprite.scale.setTo(spec.scale);
 
 	// Подключаем физику тел
 	t.game.physics.p2.enable(t.sprite);
+
+	// Включаем проверку на коллизии с границей
+	t.sprite.checkWorldBounds = spec.checkWorldBounds;
 
 	// Центрирование
 	t.sprite.anchor.x = spec.anchX || 0.5;

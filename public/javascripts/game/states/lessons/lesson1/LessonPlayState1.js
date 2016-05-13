@@ -5,11 +5,11 @@
  */
 var LessonPlayState1 = function (spec)
 {
-	var that = RunScriptPlayState(spec);
+	var t = RunScriptPlayState(spec);
 
-	var game = that.game;
-	var scope = that.scope;
-	var sc = that.sc;
+	var game = t.game;
+	var scope = t.scope;
+	var sc = t.sc;
 
 	var bBotText;
 
@@ -17,9 +17,9 @@ var LessonPlayState1 = function (spec)
 	//============== CYCLE ==============
 	//===================================
 
-	var superCreate = that.create;
+	var superCreate = t.create;
 
-	that.create = function ()
+	t.create = function ()
 	{
 		superCreate(function (userCode)
 		{
@@ -32,12 +32,12 @@ var LessonPlayState1 = function (spec)
 		});
 	};
 
-	that.update = function ()
+	t.update = function ()
 	{
 		var s = ApiLesson1(scope.spaceCraft);
 		var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
-		that.tryRunScript(s, w);
+		t.tryRunScript(s, w);
 
 		scope.$apply(function ()
 		{
@@ -45,15 +45,15 @@ var LessonPlayState1 = function (spec)
 
 			upd && upd(scope.spaceCraft, sc.world, bBotText);
 
-			if (scope.editorOptions.nextSubLesson)
-			{
+            if (scope.editorOptions.nextSubLesson)
+            {
 				game.state.start('boot');
 				scope.editorOptions.nextSubLesson = false;
 			}
 		});
 	};
 
-	that.entitiesInit = function ()
+	t.entitiesInit = function ()
 	{
 		var factory = sc.world.factory;
 
@@ -63,11 +63,21 @@ var LessonPlayState1 = function (spec)
 				x: game.world.centerX,
 				y: game.world.centerY,
 				spriteShield: 'userShield',
-				spriteName: 'fighter'
+				spriteName: 'transport'
 			});
+		});
+
+		var R = Phaser.Point.distance(scope.spaceCraft.sprite, new Phaser.Point(0, 0));
+		var bounds = sc.world.getBounds();
+
+		factory.createMeteorField({
+			shift: 10,
+			count: bounds.height,
+			radius: R,
+			start: bounds.y
 		});
 	};
 
-	return that;
+	return t;
 };
 

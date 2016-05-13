@@ -28,14 +28,17 @@ var ProtectionBlock = function (spec)
 	// Жив ли персонаж?
 	var isAlive = true;
 
-    var shieldSprite = game.make.sprite(0, 0, spec.spriteShield || 'shield');
+	if (shield)
+	{
+		var shieldSprite = game.make.sprite(0, 0, spec.spriteShield || 'shield');
 
-    shieldSprite.anchor.x = 0.5;
-    shieldSprite.anchor.y = 0.5;
+		shieldSprite.anchor.x = 0.5;
+		shieldSprite.anchor.y = 0.5;
 
-	spec.shieldScale && shieldSprite.scale.setTo(spec.shieldScale);
+		spec.shieldScale && shieldSprite.scale.setTo(spec.shieldScale);
 
-	sprite.addChild(shieldSprite);
+		sprite.addChild(shieldSprite);
+	}
 
     var regenerationModule = t.regeneration = RegenerationModule({
         modulesManager: spec.modulesManager,
@@ -182,7 +185,7 @@ var ProtectionBlock = function (spec)
         {
             shield = regeneration(maxShield, shield);
 
-            if (shield > 0)
+            if (shieldSprite && shield > 0)
             {
                 shieldSprite.visible = true;
             }
@@ -219,7 +222,7 @@ var ProtectionBlock = function (spec)
     {
         shield -= Math.abs(dec);
 
-        if(shield <= 0)
+        if(shieldSprite && shield <= 0)
         {
             shieldSprite.visible = false;
         }

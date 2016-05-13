@@ -19,9 +19,23 @@ var PlayState = function (spec)
 
 	var followFor = t.followFor = function (object)
 	{
+		var view = game.camera.view;
+
+		var x = Math.max(object.width, 100);
+		var y = Math.max(object.height, 100);
+
+		var w = Math.round(view.halfWidth - 2 * x);
+		var h = Math.round(view.height - 2 * y);
+
+		var deadzoneCenterX = x + w / 2;
+		var deadzoneCenterY = y + h / 2;
+
+		var viewX = Math.round(object.x + view.halfWidth);
+		var viewY = Math.round(object.y + view.halfHeight);
+
 		game.camera.follow(object);
-		game.camera.deadzone = new Phaser.Rectangle(200, 200, 300, 300);
-		game.camera.focusOn(object);
+		game.camera.deadzone = new Phaser.Rectangle(x, y, w, h);
+		game.camera.focusOnXY(viewX - deadzoneCenterX, viewY - deadzoneCenterY);
 	};
 
 	t.keysControl = function ()

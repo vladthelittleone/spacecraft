@@ -189,6 +189,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				next();
 				$scope.$apply();
 			});
+
+			if (ch.marker)
+			{
+
+			}
 		}
 	}
 
@@ -300,15 +305,18 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		}
 		else
 		{
-			options.isCodeRunning = !options.isCodeRunning;
-
-			options.update = function (s, w, t)
+			if (current().handleUpdate)
 			{
-				var result = current().handleUpdate(s, w, t);
+				options.isCodeRunning = !options.isCodeRunning;
 
-				if (result && result.status)
+				options.update = function (s, w, t)
 				{
-					success(result.message);
+					var result = current().handleUpdate(s, w, t);
+
+					if (result && result.status)
+					{
+						success(result.message);
+					}
 				}
 			}
 		}

@@ -4,11 +4,12 @@
 var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter', 'audioManager',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager)
+	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'markerService',
+	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, markerService)
 {
 	var audio;
 	var audioIndex = 0;
+	var markerId;
 
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
@@ -94,14 +95,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Устанавливаем текущий урок в хранилище
 			set(l, $scope.subIndex, len);
 
-			$http({
-				url: '/statistic/lessons',
-				method: 'POST',
-				data: {
-					lessonId: $stateParams.id,
-					size: len,
-					current: $scope.subIndex
-				}
+			connection.httpSaveStatisticLesson({
+				lessonId: $stateParams.id,
+				size: len,
+				current: $scope.subIndex
 			});
 
 			next();
@@ -111,15 +108,11 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Устанавливаем текущий урок в хранилище
 			set(l, 0, len, true);
 
-			$http({
-				url: '/statistic/lessons',
-				method: 'POST',
-				data: {
-					lessonId: $stateParams.id,
-					size: len,
-					current: 0,
-					completed: true
-				}
+			connection.httpSaveStatisticLesson({
+				lessonId: $stateParams.id,
+				size: len,
+				current: 0,
+				completed: true
 			});
 
 			$scope.starsHide = true;
@@ -375,14 +368,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.aceLoaded = function (editor)
 	{
 		editorSession = editor.getSession();
-		editor.$blockScrolling = Infinity;
-		editor.setOption("scrollPastEnd", true);
 
-		// Скролл до конца. Т.е. скролл есть всегда.
-		editorSession.setValue(options.code);
+		aceService.initializeAceSettings(editor, options.code);
 	};
-
-	function errorWrapper(value)
+	function errorWrapper (value)
 	{
 		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
 			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
@@ -390,41 +379,18 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			'<p>### Пожалуйста исправте ситуацию.</p>';
 	}
 
-	var Range = ace.require('ace/range').Range;
-	var markerID = null;
-
 	$scope.$watch('options.error', function (value)
 	{
+		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+		$scope.textBot = value;
+
 		if (value)
 		{
-			$scope.textBot = errorWrapper(value);
-
 			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
 
-			if (markerID != null)
-			{
-				// Удаляем старый маркер, что бы не получилось их много
-				editorSession.removeMarker(markerID);
-			}
+			$scope.textBot = errorWrapper(value);
 
-			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
-			markerID = editorSession.addMarker(new Range(foundedStringNumb, 0, foundedStringNumb + 1, 0), "bar", "fullLine");
-
-			editorSession.setAnnotations([{
-				row: foundedStringNumb,
-				column: 0,
-				text: $scope.options.error.toString(),
-				type: "error"
-			}]);
-		}
-		else
-		{
-			$scope.textBot = value;
-
-			// очищаем едитор от анотаций и маркеров, по идее анотации сами могут удалться,
-			// но но мало ли, что лучше удалять их явно
-			editorSession.clearAnnotations();
-			editorSession.removeMarker(markerID);
+			markerId = markerService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
 		}
 	});
 

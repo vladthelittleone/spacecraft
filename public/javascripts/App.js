@@ -32,7 +32,11 @@ var app = angular.module('spacecraft', [
 	'spacecraft.lesson',
 	'spacecraft.quick',
 	'spacecraft.repeatFinished',
-	'spacecraft.stars'
+	'spacecraft.stars',
+	'spacecraft.connection',
+	'spacecraft.gameService',
+	'spacecraft.aceService',
+	'spacecraft.markerService'
 ]);
 
 app.config(['$locationProvider', '$urlRouterProvider', 'ChartJsProvider',

@@ -7,6 +7,9 @@ var app = angular.module('spacecraft.lessonService', []);
 
 app.factory('lessonService', ['$storage', 'connection', function ($storage, connection)
 {
+	var audio;
+	var audioIndex = 0;
+
 	/**
 	 * Local storage
 	 */
@@ -33,12 +36,7 @@ app.factory('lessonService', ['$storage', 'connection', function ($storage, conn
 		}
 	};
 
-	var getCurrentLessonLS = function (name)
-	{
-		return st.getCurrent(name);
-	};
-
-	var getLessonsLS = function ()
+	var getLessons = function ()
 	{
 		return st.getLessons();
 	};
@@ -52,13 +50,55 @@ app.factory('lessonService', ['$storage', 'connection', function ($storage, conn
 			completed: completed
 		};
 
-		lessonService.st.set('lessons', a);
+		st.set('lessons', a);
+	};
+
+	var getCurrentLesson = function (name)
+	{
+		return st.getCurrent(name);
+	};
+
+	var tryShowHint = function  (char, callback)
+	{
+		var hint = char.hint;
+
+		if (hint)
+		{
+			var enjoyHint = new EnjoyHint(
+				{
+					onEnd: function ()
+					{
+						enjoyHint = null;
+						if (char.waitForHint)
+						{
+							audio.onended = callback;
+						}
+					}
+				});
+
+			enjoyHint.set(hint);
+			enjoyHint.run();
+
+			if (!char.waitForHint)
+			{
+				audio.onended = function ()
+				{
+					enjoyHint && enjoyHint.trigger("skip");
+					callback && callback();
+				}
+			}
+		}
+		else
+		{
+			audio.onended = callback;
+		}
 	};
 
 	return{
 		setLesson: setLesson,
-		getCurrentLessonLS: getCurrentLessonLS,
-		getLessonsLS: getLessonsLS
+		getCurrentLesson: getCurrentLesson,
+		getLessons: getLessons,
+		tryShowHint: tryShowHint
 	}
 
 }]);

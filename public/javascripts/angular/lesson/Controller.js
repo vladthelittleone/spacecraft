@@ -7,8 +7,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'markerService',
 	function ($scope, $stateParams, lessonService, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, markerService)
 {
-	var audio;
-	var audioIndex = 0;
 	var markerId;
 
 	$scope.starsHide = false;
@@ -48,14 +46,14 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		var i = $scope.subIndex;
 
 		// Текущий объект статистики уроков
-		var l = lessonService.getLessonsLS();
+		var l = lessonService.getLessons();
 
 		if (i !== len)
 		{
 			options.code = initCode(++$scope.subIndex);
 
 			// Устанавливаем текущий урок в хранилище
-			lessonService.set(l, $scope.subIndex, len);
+			lessonService.setLesson(l, $scope.subIndex, len);
 
 			connection.httpSaveStatisticLesson({
 				lessonId: $stateParams.id,
@@ -68,7 +66,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		else
 		{
 			// Устанавливаем текущий урок в хранилище
-			lessonService.set(l, 0, len, true);
+			lessonService.setLesson(l, 0, len, true);
 
 			connection.httpSaveStatisticLesson({
 				lessonId: $stateParams.id,
@@ -84,41 +82,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		$scope.textContent = false;
 	}
 
-	function tryShowHint (char, callback)
-	{
-		var hint = char.hint;
 
-		if (hint)
-		{
-			var enjoyHint = new EnjoyHint(
-				{
-					onEnd: function ()
-					{
-						enjoyHint = null;
-						if (char.waitForHint)
-						{
-							audio.onended = callback;
-						}
-					}
-				});
-
-			enjoyHint.set(hint);
-			enjoyHint.run();
-
-			if (!char.waitForHint)
-			{
-				audio.onended = function ()
-				{
-					enjoyHint && enjoyHint.trigger("skip");
-					callback && callback();
-				}
-			}
-		}
-		else
-		{
-			audio.onended = callback;
-		}
-	}
 
 	function previous()
 	{
@@ -137,7 +101,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			audio.play();
 			$scope.audioPause = false;
 
-			tryShowHint(ch, function ()
+			lessonService.tryShowHint(ch, function ()
 			{
 				$scope.audioPause = true;
 				audioIndex++;
@@ -153,7 +117,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	function initialize(id)
 	{
 		// Получаем урок из локального хранилища
-		var ls = lessonService.getCurrentLessonLS(id);
+		var ls = lessonService.getCurrentLesson(id);
 		$scope.subIndex = 0;
 
 		if(!ls)

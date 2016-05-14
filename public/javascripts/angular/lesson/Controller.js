@@ -3,9 +3,9 @@
  */
 var app = angular.module('spacecraft.lesson');
 
-app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
-	'$storage', 'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'markerService',
-	function ($scope, $stateParams, $state, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, markerService)
+app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', 'lessonService',
+	'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'markerService',
+	function ($scope, $stateParams, lessonService, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, markerService)
 {
 	var audio;
 	var audioIndex = 0;
@@ -13,32 +13,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
-
-	/**
-	 * Local storage
-	 */
-	var st =
-	{
-		set: function(name, value)
-		{
-			$storage.local.setItem(name, JSON.stringify(value));
-		},
-		getCurrent: function(name)
-		{
-			var l = JSON.parse($storage.local.getItem('lessons'));
-
-			if (l && l[name])
-			{
-				return parseInt(l[name].current) - 1;
-			}
-
-			return 0;
-		},
-		getLessons: function ()
-		{
-			return JSON.parse($storage.local.getItem('lessons')) || [];
-		}
-	};
 
 	function current()
 	{
@@ -67,18 +41,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		options.nextSubLesson = true;
 		options.isCodeRunning = false;
 
-		function set(a, i, len, completed)
-		{
-			// Устанавливаем текущий
-			a[$stateParams.id] = {
-				current: i + 1,
-				size: len + 1,
-				completed: completed
-			};
-
-			st.set('lessons', a);
-		}
-
 		// Размер массива подуроков с 0
 		var len = $scope.lesson.sub.length - 1;
 
@@ -86,14 +48,14 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		var i = $scope.subIndex;
 
 		// Текущий объект статистики уроков
-		var l = st.getLessons();
+		var l = lessonService.getLessonsLS();
 
 		if (i !== len)
 		{
 			options.code = initCode(++$scope.subIndex);
 
 			// Устанавливаем текущий урок в хранилище
-			set(l, $scope.subIndex, len);
+			lessonService.set(l, $scope.subIndex, len);
 
 			connection.httpSaveStatisticLesson({
 				lessonId: $stateParams.id,
@@ -106,7 +68,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		else
 		{
 			// Устанавливаем текущий урок в хранилище
-			set(l, 0, len, true);
+			lessonService.set(l, 0, len, true);
 
 			connection.httpSaveStatisticLesson({
 				lessonId: $stateParams.id,
@@ -191,14 +153,15 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	function initialize(id)
 	{
 		// Получаем урок из локального хранилища
-		var ls = st.getCurrent(id);
+		var ls = lessonService.getCurrentLessonLS(id);
 		$scope.subIndex = 0;
 
 		if(!ls)
 		{
 			// Идем в базу за статой по урокам
-			$http.get('/statistic/lessons').then(function(result)
+			connection.httpGetLessonFromDb(function(result)
 			{
+				console.log(result.data);
 				if(result.data[id])
 				{
 					// Индекс под урока
@@ -230,11 +193,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function initCode(i)
 	{
-		$http({
-			method: 'GET',
-			url: 'javascripts/code/lesson' + $stateParams.id + '/' + i + '.js'
-		})
-		.success(function (date)
+		connection.getCodeLessonFromJs(i, $stateParams.id, function (date)
 		{
 			editorSession.setValue(date);
 			options.code = date;
@@ -378,7 +337,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 		if (value)
 		{
-			var foundedStringNumb = $scope.options.error.stack.split(':')[3] - 1;
+			var foundedStringNumb = $scope.options.error.stack.split(':')[6] - 2;
 
 			$scope.textBot = errorWrapper(value);
 

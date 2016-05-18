@@ -5,9 +5,10 @@ var app = angular.module('spacecraft.lesson');
 
 app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http', 'lessonService',
 	'lessonProvider', 'interpreter', 'audioManager', 'connection', 'aceService', 'markerService',
-	function ($scope, $stateParams, lessonService, $http, $storage, lessonProvider, interpreter, audioManager, connection, aceService, markerService)
+	function ($scope, $stateParams, $state, $http, lessonService,lessonProvider, interpreter, audioManager, connection, aceService, markerService)
 {
 	var markerId;
+	var audio;
 
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
@@ -61,7 +62,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				current: $scope.subIndex
 			});
 
-			next();
+			lessonService.nextAudio($scope, audio, current());
 		}
 		else
 		{
@@ -84,32 +85,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 
 
-	function previous()
-	{
-		$scope.audioPause = false;
-		audioIndex = Math.max(audioIndex- 2, 0);
-		next();
-	}
 
-	function next()
-	{
-		var ch = $scope.char = current().character[audioIndex];
-
-		if (ch)
-		{
-			audio = audioManager.create(ch.audio);
-			audio.play();
-			$scope.audioPause = false;
-
-			lessonService.tryShowHint(ch, function ()
-			{
-				$scope.audioPause = true;
-				audioIndex++;
-				next();
-				$scope.$apply();
-			});
-		}
-	}
 
 	// Вся информация о уроке
 	$scope.lesson = lessonProvider($stateParams.id);
@@ -125,7 +101,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			// Идем в базу за статой по урокам
 			connection.httpGetLessonFromDb(function(result)
 			{
-				console.log(result.data);
 				if(result.data[id])
 				{
 					// Индекс под урока
@@ -166,7 +141,8 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			$scope.textBot = current().defaultBBot && current().defaultBBot();
 			$scope.isGameLesson = $scope.lesson.isGameLesson;
 			$scope.nextSubLesson = nextSubLesson;
-			next();
+
+			lessonService.nextAudio($scope, audio, current());
 		});
 	}
 
@@ -255,7 +231,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		{
 			audio.pause();
 			audio.currentTime = 0;
-			previous();
+			lessonService.previousAudio($scope, audio, current());
 		}
 		else
 		{
@@ -286,6 +262,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 		aceService.initializeAceSettings(editor, options.code);
 	};
+
 	function errorWrapper (value)
 	{
 		return '<p>### Неисправность!! EГГ0Г!!</p> ' +

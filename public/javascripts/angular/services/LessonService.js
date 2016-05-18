@@ -5,11 +5,9 @@
 
 var app = angular.module('spacecraft.lessonService', []);
 
-app.factory('lessonService', ['$storage', 'connection', function ($storage, connection)
+app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioManager', function ($storage, connection, $stateParams, audioManager)
 {
-	var audio;
 	var audioIndex = 0;
-
 	/**
 	 * Local storage
 	 */
@@ -58,7 +56,7 @@ app.factory('lessonService', ['$storage', 'connection', function ($storage, conn
 		return st.getCurrent(name);
 	};
 
-	var tryShowHint = function  (char, callback)
+	var tryShowHint = function  (audio,char, callback)
 	{
 		var hint = char.hint;
 
@@ -94,11 +92,40 @@ app.factory('lessonService', ['$storage', 'connection', function ($storage, conn
 		}
 	};
 
+	var previousAudio = function ($scope, audio, current)
+	{
+		$scope.audioPause = false;
+		audioIndex = Math.max(audioIndex- 2, 0);
+		nextAudio(audioPause, audio, current);
+	};
+
+	var nextAudio = function ($scope, audio, current)
+	{
+		var ch = $scope.char = current.character[audioIndex];
+
+		if (ch)
+		{
+			audio = audioManager.create(ch.audio);
+			audio.play();
+			$scope.audioPause = false;
+
+			tryShowHint(audio, ch, function ()
+			{
+				$scope.audioPause = true;
+				audioIndex++;
+				next();
+				$scope.$apply();
+			});
+		}
+	};
+
 	return{
 		setLesson: setLesson,
 		getCurrentLesson: getCurrentLesson,
 		getLessons: getLessons,
-		tryShowHint: tryShowHint
+		tryShowHint: tryShowHint,
+		previousAudio: previousAudio,
+		nextAudio: nextAudio
 	}
 
 }]);

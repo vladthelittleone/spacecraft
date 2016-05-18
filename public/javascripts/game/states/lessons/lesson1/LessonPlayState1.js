@@ -34,6 +34,7 @@ var LessonPlayState1 = function (spec)
 
 	t.update = function ()
 	{
+		console.log(scope.editorOptions.nextSubLesson);
 		var s = ApiLesson1(scope.spaceCraft);
 		var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
@@ -81,6 +82,8 @@ var LessonPlayState1 = function (spec)
 			radius: R,
 			start: bounds.y
 		});
+
+		scope.spaceCraft.sprite.bringToTop();
 	};
 
 	return t;

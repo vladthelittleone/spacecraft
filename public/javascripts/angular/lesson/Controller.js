@@ -64,7 +64,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function nextSubLesson()
 	{
-		options.nextSubLesson = current().handleUpdateg;
+		options.nextSubLesson = current().handleUpdate;
 		options.isCodeRunning = false;
 
 		function set(a, i, len, completed)

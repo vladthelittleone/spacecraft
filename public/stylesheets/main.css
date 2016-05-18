@@ -12,6 +12,12 @@ body {
 	z-index: -1;
 }
 
+pre {
+	background-color: rgba(29, 31, 33, 0.54);
+	color: white;
+	border: 1px solid rgb(225, 226, 226);
+}
+
 .toolbar-min {
 	position: fixed;
 	top: 0;
@@ -32,6 +38,28 @@ body {
 
 .ace-tomorrow-night {
 	background-color: rgba(29, 31, 33, 0.8) !important;
+}
+
+.ace_editor.ace_autocomplete {
+	background-color: #1A262F !important;
+	color: #E1E2E2;
+}
+
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line,
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
+	background-color: #0C181F;
+	z-index: 1;
+}
+
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
+	border: 0;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+
+.ace_editor.ace_autocomplete .ace_completion-highlight {
+	color: #D08A5A;
+	text-shadow: 0 0 0.01em;
 }
 
 .ui-splitbar .glyphicon {

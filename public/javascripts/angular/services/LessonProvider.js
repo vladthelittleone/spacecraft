@@ -19,6 +19,8 @@ app.service('lessonProvider', ['$storage', function ($storage)
 		}
 	});
 
+	// Хьюстон, у нас проблема
+	// Hasta la vista, baby
 	//		{
 	//			title: 'В4К',
 	//			content: function ()

@@ -27,12 +27,22 @@ var BBotText = function (text)
 
 	that.unknownError = function (css)
 	{
-		return that.resultNotCorrect('unknownError', css || 'bbot-wow');
+		return that.resultText('unknownError', css || 'bbot-wow');
 	};
 
-	that.resultNotCorrect = function (messageType, css)
+	that.text = function (css)
 	{
-		return result(false, getText(messageType), css || 'bbot-angry');
+		return that.resultText('text', css);
+	};
+
+	that.resultNotCorrect = function (messageType)
+	{
+		return that.resultText(messageType, 'bbot-angry');
+	};
+
+	that.resultText = function (messageType, css)
+	{
+		return result(false, getText(messageType), css);
 	};
 
 	that.result = function (v, css)

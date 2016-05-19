@@ -29,7 +29,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 			if (l && l[name])
 			{
-				return parseInt(l[name].current) - 1;
+				return parseInt(l[name].current);
 			}
 
 			return 0;
@@ -45,7 +45,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		return $scope.lesson.sub[$scope.subIndex];
 	}
 
-	function error(message)
+	function text(message)
 	{
 		$scope.textBot = message;
 
@@ -64,7 +64,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	function nextSubLesson()
 	{
-		options.nextSubLesson = current().handleUpdate;
+		options.resetGame = current().handleUpdate;
 		options.isCodeRunning = false;
 
 		function set(a, i, len, completed)
@@ -214,16 +214,16 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 					// Индекс под урока
 					$scope.subIndex = serverIndex % size;
+					initCode();
 				}
-
-				initCode($scope.subIndex);
 			});
 		}
 		else
 		{
-			$scope.subIndex = ls;
-			initCode(ls);
+			$scope.subIndex = ls - 1;
+			initCode();
 		}
+
 	}
 
 	initialize($stateParams.id);
@@ -239,8 +239,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		error: null
 	};
 
-	function initCode(i)
+	function initCode()
 	{
+		var i = $scope.subIndex;
+
 		$http({
 			method: 'GET',
 			url: 'javascripts/code/lesson' + $stateParams.id + '/' + i + '.js'
@@ -278,7 +280,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 	$scope.run = function ()
 	{
-		if (!$scope.isGameLesson)
+		if (current().isNotGameLesson)
 		{
 			options.isCodeRunning = true;
 
@@ -296,7 +298,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				}
 				else
 				{
-					error(result.message);
+					text(result.message);
 				}
 			}
 
@@ -319,6 +321,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 					if (result && result.status)
 					{
 						success(result.message);
+					}
+					else if (t)
+					{
+						text(t);
 					}
 				}
 			}
@@ -381,12 +387,13 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 
 		aceService.initializeAceSettings(editor, options.code);
 	};
+
 	function errorWrapper (value)
 	{
-		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
-			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">### 0шибка: ' + value + '</p>' +
-			'<p>### Пожалуйста исправте ситуацию.</p>';
+		return '<p>Неисправность!! EГГ0Г!!</p> ' +
+			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
+			'<p class="red-label">0шибка: ' + value + '</p>' +
+			'<p>Пожалуйста исправте ситуацию.</p>';
 	}
 
 	$scope.$watch('options.error', function (value)

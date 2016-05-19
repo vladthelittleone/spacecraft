@@ -14,8 +14,9 @@ body {
 
 pre {
 	background-color: rgba(29, 31, 33, 0.54);
-	color: white;
-	border: 1px solid rgb(225, 226, 226);
+	border: 0;
+	font-weight: bold;
+	color: #C0C3C1;
 }
 
 .toolbar-min {
@@ -167,22 +168,17 @@ pre {
 }
 
 .red-label {
-	background: rgb(196, 32, 15);
-	border: 1px solid rgb(230, 70, 70);
+	background: rgba(198, 31, 14, 0.55);
 }
 
 .under-label {
-	padding: 1px;
 	white-space: pre;
-	border-bottom: 2px solid rgb(200, 29, 20);
-	font-weight: bold;
+	border-bottom: 2px solid rgba(198, 31, 14, 0.55);
 }
 
-.under-label-blue {
-	padding: 1px;
+.under-label-gray {
 	white-space: pre;
-	border-bottom: 2px solid rgb(21, 43, 57);
-	font-weight: bold;
+	border-bottom: 2px solid #C0C3C1;
 }
 
 .red {
@@ -795,7 +791,7 @@ pre {
 	z-index: 500;
 	width: 100%;
 	height: 100%;
-	border-left: 46px solid #152B39;
+	border-left: 39px solid #152B39;
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
@@ -979,7 +975,7 @@ pre {
 }
 
 .bbot-hologram p {
-	color: white;
+	color: #C0C3C1;
 	margin: 0;
 }
 
@@ -1166,29 +1162,29 @@ pre {
 
 .lesson-hint {
 	font-family: "Courier New", serif;
-	color: white;
-	background-color: rgba(198, 31, 14, 0.55);
-	border-bottom: 1px solid #E1E2E2;
-	border-top: 1px solid rgba(198, 31, 14, 0.55);
+	color: #C0C3C1;
+	background-color: rgba(198, 31, 14, 0.54);
+	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
+	border-top: 1px solid rgba(29, 31, 33, 0.54);
 	padding-bottom: 20px;
 }
 
 .lesson-hint-button {
 	font-family: "Courier New", serif;
-	color: #FFFFFF;
+	color: #CBCECB;
 	text-align: center;
-	background-color: rgba(198, 31, 14, 0.55);
-	border-bottom: 1px solid #E1E2E2;
+	background-color: rgba(198, 31, 14, 0.54);
+	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
 	padding: 10px;
 	cursor: pointer;
 }
 
 .lesson-instructions {
 	font-family: "Courier New", serif;
-	color: white;
+	color: #CBCECB;
 	background-color: rgba(29, 31, 33, 0.54);
-	border-bottom: 1px solid #E1E2E2;
-	border-top: 1px solid #E1E2E2;
+	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
+	border-top: 1px solid rgba(29, 31, 33, 0.54);
 	margin-top: 35px;
 	padding-bottom: 20px;
 }
@@ -1198,7 +1194,7 @@ pre {
 }
 
 .lesson-instructions .lesson-content {
-	color: white;
+	color: #CBCECB;
 }
 
 .lesson-content-overflow {
@@ -1206,8 +1202,8 @@ pre {
 	border: 1px solid #0C181F;
 	width: 100%;
 	position: absolute;
-	color: white;
-	background: rgba(29, 60, 80, 0.8);
+	color: rgba(154,169,178,1);
+	background: rgba(29, 60, 80, 0.9);
 }
 
 div.thought {

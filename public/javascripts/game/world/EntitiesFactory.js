@@ -109,12 +109,12 @@ var EntitiesFactory = function (spec)
 	t.createTransport = function (args)
 	{
 		args.game = game;
-		args.scale = 0.5;
+		args.scale = 1;
 		args.health = 2;
 		args.shield = 2;
 		args.velocity = 500;
 		args.energyPoints = 4;
-		args.shieldScale = 0.4;
+		args.shieldScale = 0.6;
 
 		var o = SpaceCraft(args);
 		o.addEngineBlock(args);

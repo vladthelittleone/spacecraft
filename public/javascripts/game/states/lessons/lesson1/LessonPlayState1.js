@@ -11,7 +11,8 @@ var LessonPlayState1 = function (spec)
 	var scope = t.scope;
 	var sc = t.sc;
 
-	var bBotText;
+	var bBotText = '';
+	var endLn = '</br>';
 
 	//===================================
 	//============== CYCLE ==============
@@ -27,14 +28,13 @@ var LessonPlayState1 = function (spec)
 
 			return new Class(function BBotDebug (text)
 			{
-				bBotText = text;
+				bBotText += text + endLn;
 			});
 		});
 	};
 
 	t.update = function ()
 	{
-		console.log(scope.editorOptions.nextSubLesson);
 		var s = ApiLesson1(scope.spaceCraft);
 		var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
@@ -49,14 +49,9 @@ var LessonPlayState1 = function (spec)
 				world: sc.world,
 				text: bBotText
 			});
-
-			if (scope.editorOptions.nextSubLesson)
-			{
-				game.state.start('boot');
-				scope.editorOptions.nextSubLesson = false;
-			}
-
 		});
+
+		bBotText = '';
 	};
 
 	t.entitiesInit = function ()

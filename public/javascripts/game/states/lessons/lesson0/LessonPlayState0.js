@@ -11,7 +11,6 @@ var LessonPlayState0 = function (spec)
 	var sc = game.sc;
 	var base = {};
 
-	var followFor = that.followFor;
 	var gameInit = that.gameInit;
 	var tileUpdate = that.updateTileSprite;
 
@@ -23,7 +22,7 @@ var LessonPlayState0 = function (spec)
 	{
 		gameInit(sc.world.getBounds());
 		that.entitiesInit();
-		followFor(base.sprite);
+		game.camera.focusOnXY(base.sprite.x + (base.sprite.width / 4), base.sprite.y);
 	};
 
 	that.update = function ()

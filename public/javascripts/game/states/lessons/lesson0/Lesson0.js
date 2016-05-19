@@ -17,6 +17,7 @@ var Lesson0 = function (st)
 		sub: [
 			{
 				title: 'Добро пожаловать в академию!',
+				isNotGameLesson: true,
 				defaultBBot: function () {
 					return '<p>Дройд BBot - инициализация...</p>' +
 						'<p>Настройка юм0ра на 75%</p>' +
@@ -93,6 +94,7 @@ var Lesson0 = function (st)
 			},
 			{
 				title: 'Ваше имя?',
+				isNotGameLesson: true,
 				content: function ()
 				{
 					return '<p>Так, новенький, нам нужно уладить еще пару ненужных бюрократических моментов.</p>' +
@@ -100,7 +102,7 @@ var Lesson0 = function (st)
 						'<p>Высылаю вам инструкции по выполнению.</p>'
 				},
 				instructions: '<ul>' +
-				'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="red-label">"Нилар"</span>.</li>' +
+				'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">"Нилар"</span>.</li>' +
 				'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 				'</ul>',
 				character: [
@@ -176,6 +178,7 @@ var Lesson0 = function (st)
 			},
 			{
 				title: 'Галактическая единица',
+				isNotGameLesson: true,
 				content: function ()
 				{
 					return '<p>Отлично кадет ' + st.get('userName') + ', я нашел вас в списках.</p>' +
@@ -184,8 +187,8 @@ var Lesson0 = function (st)
 				},
 				instructions: '<ul>' +
 				'<li>Введите свой возраст и поделите на 250 (является периодом вращения систем вокруг центра нашей галактики в млн. лет).</li>' +
-				'<li>Для деления используется оператор <span class="red-label">/</span>. ' +
-				'<li>Например: <span class="red-label">21 / 250</span></li>' +
+				'<li>Для деления используется оператор <span class="under-label">/</span>.</li>' +
+				'<li>Например: <span class="under-label">21 / 250</span>.</li>' +
 				'</ul>',
 				character: [
 					{
@@ -238,6 +241,7 @@ var Lesson0 = function (st)
 			},
 			{
 				title: 'Да начнется долгий путь...',
+				isNotGameLesson: true,
 				defaultBBot: function ()
 				{
 					return '<p>Статус: ЗАЧИСЛЕН</p>' +

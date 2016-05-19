@@ -97,10 +97,10 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 
 	function errorWrapper (value)
 	{
-		return '<p>### Неисправность!! EГГ0Г!!</p> ' +
-			'<p>### Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">### 0шибка: ' + value + '</p>' +
-			'<p>### Пожалуйста исправте ситуацию.</p>';
+		return '<p>Неисправность!! EГГ0Г!!</p> ' +
+			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
+			'<p class="red-label">0шибка: ' + value + '</p>' +
+			'<p>Пожалуйста исправте ситуацию.</p>';
 	}
 
 	$scope.$watch('options.error', function (value)

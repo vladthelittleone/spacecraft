@@ -43,31 +43,44 @@ var RunScriptPlayState = function (spec)
 		t.entitiesInit();
 		followFor(t.scope.spaceCraft.sprite);
 
-		t.scope.$watch('editorOptions.code', function (n)
+		t.scope.$watch('editorOptions.code', function (v)
 		{
-			userCode = n;
+			userCode = v;
 		});
 
-		t.scope.$watch('editorOptions.isCodeRunning', function (n)
+		t.scope.$watch('editorOptions.isCodeRunning', function (v)
 		{
-			isRunning = n;
-
-			if (t.game)
+			function runUserCode()
 			{
-				t.game.paused = !isRunning;
+				if (v)
+				{
+					try
+					{
+						userObject = createUserObjectCallback(userCode);
+					}
+					catch (err)
+					{
+						t.scope.editorOptions.error = err;
+						t.scope.editorOptions.isCodeRunning = false;
+					}
+				}
 			}
 
-			if (n)
+			isRunning = v;
+
+			if (t.scope.editorOptions.resetGame)
 			{
-				try
+				t.game.state.start('boot');
+				t.scope.editorOptions.resetGame = false;
+			}
+			else
+			{
+				if (t.game)
 				{
-					userObject = createUserObjectCallback(userCode);
+					t.game.paused = !isRunning;
 				}
-				catch (err)
-				{
-					t.scope.editorOptions.error = err;
-					t.scope.editorOptions.isCodeRunning = false;
-				}
+
+				runUserCode();
 			}
 		});
 	};

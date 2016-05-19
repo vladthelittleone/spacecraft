@@ -7,6 +7,7 @@ var app = angular.module('spacecraft.lessonService', []);
 
 app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioManager', function ($storage, connection, $stateParams, audioManager)
 {
+	var audio;
 	var audioIndex = 0;
 	/**
 	 * Local storage
@@ -56,7 +57,7 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		return st.getCurrent(name);
 	};
 
-	var tryShowHint = function  (audio,char, callback)
+	var tryShowHint = function  (char, callback)
 	{
 		var hint = char.hint;
 
@@ -92,14 +93,14 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		}
 	};
 
-	var previousAudio = function ($scope, audio, current)
+	var previous = function ($scope, current)
 	{
 		$scope.audioPause = false;
 		audioIndex = Math.max(audioIndex- 2, 0);
-		nextAudio(audioPause, audio, current);
+		nextAudio(audioPause, current);
 	};
 
-	var nextAudio = function ($scope, audio, current)
+	var nextAudio = function ($scope, current)
 	{
 		var ch = $scope.char = current.character[audioIndex];
 
@@ -119,13 +120,86 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		}
 	};
 
+	var toggleAudioPause = function ($scope)
+	{
+		if ($scope.audioPause && audio)
+		{
+			audio.play();
+		}
+		else
+		{
+			audio && audio.pause();
+		}
+
+		$scope.audioPause = !$scope.audioPause;
+	};
+
+	var previousAudio = function ($scope, current)
+	{
+		if (audio && audio.currentTime / 5 < 1)
+		{
+			audio.pause();
+			audio.currentTime = 0;
+			previous($scope, current);
+		}
+		else if (audio)
+		{
+			audio.currentTime = 0;
+		}
+	};
+
+	var codeRun = function ($scope, options, current)
+	{
+		if (!$scope.isGameLesson)
+		{
+			options.isCodeRunning = true;
+
+			if (current.result)
+			{
+				options.result = interpreter.execute(options.code);
+
+				var result = current.result(options.result);
+
+				$scope.botCss = result.css;
+
+				if (result.status)
+				{
+					success(result.message);
+				}
+				else
+				{
+					error(result.message);
+				}
+			}
+
+			options.isCodeRunning = false;
+		}
+		else
+		{
+			options.isCodeRunning = !options.isCodeRunning;
+
+			options.update = function (s, w, t)
+			{
+				var result = current.handleUpdate(s, w, t);
+
+				if (result && result.status)
+				{
+					success(result.message);
+				}
+			}
+		}
+	};
+
 	return{
 		setLesson: setLesson,
 		getCurrentLesson: getCurrentLesson,
 		getLessons: getLessons,
 		tryShowHint: tryShowHint,
+		previous: previous,
+		nextAudio: nextAudio,
+		toggleAudioPause: toggleAudioPause,
 		previousAudio: previousAudio,
-		nextAudio: nextAudio
+		codeRun: codeRun
 	}
 
 }]);

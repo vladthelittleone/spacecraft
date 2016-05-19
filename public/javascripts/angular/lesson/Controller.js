@@ -8,7 +8,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	function ($scope, $stateParams, $state, $http, lessonService,lessonProvider, interpreter, audioManager, connection, aceService, markerService)
 {
 	var markerId;
-	var audio;
 
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
@@ -62,7 +61,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 				current: $scope.subIndex
 			});
 
-			lessonService.nextAudio($scope, audio, current());
+			lessonService.nextAudio($scope, current());
 		}
 		else
 		{
@@ -82,10 +81,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		audioIndex = 0;
 		$scope.textContent = false;
 	}
-
-
-
-
 
 	// Вся информация о уроке
 	$scope.lesson = lessonProvider($stateParams.id);
@@ -142,7 +137,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 			$scope.isGameLesson = $scope.lesson.isGameLesson;
 			$scope.nextSubLesson = nextSubLesson;
 
-			lessonService.nextAudio($scope, audio, current());
+			lessonService.nextAudio($scope, current());
 		});
 	}
 
@@ -164,80 +159,17 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		$state.go('lessons');
 	}
 
-	$scope.run = function ()
-	{
-		if (!$scope.isGameLesson)
-		{
-			options.isCodeRunning = true;
-
-			if (current().result)
-			{
-				options.result = interpreter.execute(options.code);
-
-				var result = current().result(options.result);
-
-				$scope.botCss = result.css;
-
-				if (result.status)
-				{
-					success(result.message);
-				}
-				else
-				{
-					error(result.message);
-				}
-			}
-
-			options.isCodeRunning = false;
-		}
-		else
-		{
-			options.isCodeRunning = !options.isCodeRunning;
-
-			options.update = function (s, w, t)
-			{
-				var result = current().handleUpdate(s, w, t);
-
-				if (result && result.status)
-				{
-					success(result.message);
-				}
-			}
-		}
-	};
+	$scope.run = lessonService.codeRun($scope, options, current());
 
 	$scope.toggleTextContent = function ()
 	{
 		$scope.textContent = !$scope.textContent;
 	};
 
-	$scope.toggleAudioPause = function ()
-	{
-		if ($scope.audioPause)
-		{
-			audio.play();
-		}
-		else
-		{
-			audio.pause();
-		}
+	$scope.toggleAudioPause = lessonService.toggleAudioPause($scope);
 
-		$scope.audioPause = !$scope.audioPause;
-	};
 
-	$scope.previousAudio = function ()
-	{
-		if (audio.currentTime / 5 < 1)
-		{
-			audio.pause();
-			audio.currentTime = 0;
-			lessonService.previousAudio($scope, audio, current());
-		}
-		else
-		{
-			audio.currentTime = 0;
-		}
-	};
+	$scope.previousAudio = lessonService.previousAudio($scope, current());
 
 
 	$scope.toggleEditorOpen = function ()

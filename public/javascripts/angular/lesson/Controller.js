@@ -12,135 +12,14 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
 
-	function current()
-	{
-		return $scope.lesson.sub[$scope.subIndex];
-	}
-
-	function error(message)
-	{
-		$scope.textBot = message;
-
-		// Удаляем кнопку 'Далее' тк получили ошибку.
-		$scope.nextSubLesson = null;
-	}
-
-	function success(message)
-	{
-
-		$scope.textBot = message;
-
-		// Добавляем ссылку на функцию и кнопку 'Далее'
-		$scope.nextSubLesson = nextSubLesson;
-	}
-
-	function nextSubLesson()
-	{
-		options.nextSubLesson = true;
-		options.isCodeRunning = false;
-
-		// Размер массива подуроков с 0
-		var len = $scope.lesson.sub.length - 1;
-
-		// Индекс текущего подурока
-		var i = $scope.subIndex;
-
-		// Текущий объект статистики уроков
-		var l = lessonService.getLessons();
-
-		if (i !== len)
-		{
-			options.code = initCode(++$scope.subIndex);
-
-			// Устанавливаем текущий урок в хранилище
-			lessonService.setLesson(l, $scope.subIndex, len);
-
-			connection.httpSaveStatisticLesson({
-				lessonId: $stateParams.id,
-				size: len,
-				current: $scope.subIndex
-			});
-
-			lessonService.nextAudio($scope, current());
-		}
-		else
-		{
-			// Устанавливаем текущий урок в хранилище
-			lessonService.setLesson(l, 0, len, true);
-
-			connection.httpSaveStatisticLesson({
-				lessonId: $stateParams.id,
-				size: len,
-				current: 0,
-				completed: true
-			});
-
-			$scope.starsHide = true;
-		}
-
-		audioIndex = 0;
-		$scope.textContent = false;
-	}
-
 	// Вся информация о уроке
 	$scope.lesson = lessonProvider($stateParams.id);
-
-	function initialize(id)
-	{
-		// Получаем урок из локального хранилища
-		var ls = lessonService.getCurrentLesson(id);
-		$scope.subIndex = 0;
-
-		if(!ls)
-		{
-			// Идем в базу за статой по урокам
-			connection.httpGetLessonFromDb(function(result)
-			{
-				if(result.data[id])
-				{
-					// Индекс под урока
-					$scope.subIndex = parseInt(result.data[id].current);
-				}
-
-				initCode($scope.subIndex);
-			});
-		}
-		else
-		{
-			$scope.subIndex = ls;
-			initCode(ls);
-		}
-	}
-
-	initialize($stateParams.id);
 
 	//===================================
 	//============== CODE ===============
 	//===================================
 
-	var options = $scope.options =
-	{
-		isCodeRunning: false,
-		code: '',
-		error: null
-	};
-
-	function initCode(i)
-	{
-		connection.getCodeLessonFromJs(i, $stateParams.id, function (date)
-		{
-			editorSession.setValue(date);
-			options.code = date;
-
-			// Слова BBot'а
-			$scope.textBot = current().defaultBBot && current().defaultBBot();
-			$scope.isGameLesson = $scope.lesson.isGameLesson;
-			$scope.nextSubLesson = nextSubLesson;
-
-			lessonService.nextAudio($scope, current());
-		});
-	}
-
+	var options = $scope.options = lessonService.getOptions();
 
 	//===================================
 	//============== SCOPE ==============
@@ -159,7 +38,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		$state.go('lessons');
 	}
 
-	$scope.run = lessonService.codeRun($scope, options, current());
+	$scope.run = lessonService.codeRun($scope, editorSession);
 
 	$scope.toggleTextContent = function ()
 	{
@@ -169,7 +48,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 	$scope.toggleAudioPause = lessonService.toggleAudioPause($scope);
 
 
-	$scope.previousAudio = lessonService.previousAudio($scope, current());
+	$scope.previousAudio = lessonService.previousAudio($scope);
 
 
 	$scope.toggleEditorOpen = function ()
@@ -193,6 +72,8 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		editorSession = editor.getSession();
 
 		aceService.initializeAceSettings(editor, options.code);
+
+		lessonService.initialize($scope, $stateParams.id, editorSession);
 	};
 
 	function errorWrapper (value)

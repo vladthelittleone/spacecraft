@@ -5,8 +5,15 @@
 
 var app = angular.module('spacecraft.lessonService', []);
 
-app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioManager', function ($storage, connection, $stateParams, audioManager)
+app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioManager', 'interpreter',
+	function ($storage, connection, $stateParams, audioManager, interpreter)
 {
+	var options = {
+		isCodeRunning: false,
+		code: '',
+		error: null
+	};
+
 	var audio;
 	var audioIndex = 0;
 	/**
@@ -33,6 +40,33 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		{
 			return JSON.parse($storage.local.getItem('lessons')) || [];
 		}
+	};
+
+	function current($scope)
+	{
+		return $scope.lesson.sub[$scope.subIndex];
+	}
+
+	function error($scope, message)
+	{
+		$scope.textBot = message;
+
+		// Удаляем кнопку 'Далее' тк получили ошибку.
+		$scope.nextSubLesson = null;
+	}
+
+	function success($scope, message, editorSession)
+	{
+
+		$scope.textBot = message;
+
+		// Добавляем ссылку на функцию и кнопку 'Далее'
+		$scope.nextSubLesson = nextSubLesson($scope, editorSession);
+	}
+
+	var getOptions = function ()
+	{
+		return options;
 	};
 
 	var getLessons = function ()
@@ -93,16 +127,16 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		}
 	};
 
-	var previous = function ($scope, current)
+	var previous = function ($scope)
 	{
 		$scope.audioPause = false;
 		audioIndex = Math.max(audioIndex- 2, 0);
-		nextAudio(audioPause, current);
+		nextAudio($scope);
 	};
 
-	var nextAudio = function ($scope, current)
+	var nextAudio = function ($scope)
 	{
-		var ch = $scope.char = current.character[audioIndex];
+		var ch = $scope.char = current($scope).character[audioIndex];
 
 		if (ch)
 		{
@@ -114,7 +148,7 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 			{
 				$scope.audioPause = true;
 				audioIndex++;
-				next();
+				nextAudio($scope);
 				$scope.$apply();
 			});
 		}
@@ -134,13 +168,13 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		$scope.audioPause = !$scope.audioPause;
 	};
 
-	var previousAudio = function ($scope, current)
+	var previousAudio = function ($scope)
 	{
 		if (audio && audio.currentTime / 5 < 1)
 		{
 			audio.pause();
 			audio.currentTime = 0;
-			previous($scope, current);
+			previous($scope);
 		}
 		else if (audio)
 		{
@@ -148,17 +182,17 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		}
 	};
 
-	var codeRun = function ($scope, options, current)
+	var codeRun = function ($scope, editorSession)
 	{
 		if (!$scope.isGameLesson)
 		{
 			options.isCodeRunning = true;
 
-			if (current.result)
+			if (current($scope) && current($scope).result)
 			{
 				options.result = interpreter.execute(options.code);
 
-				var result = current.result(options.result);
+				var result = current($scope).result(options.result);
 
 				$scope.botCss = result.css;
 
@@ -190,6 +224,97 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		}
 	};
 
+	function nextSubLesson($scope, editorSession)
+	{
+		options.nextSubLesson = true;
+		options.isCodeRunning = false;
+
+		// Размер массива подуроков с 0
+		var len = $scope.lesson.sub.length - 1;
+
+		// Индекс текущего подурока
+		var i = $scope.subIndex;
+
+		// Текущий объект статистики уроков
+		var l = getLessons();
+
+		if (i !== len)
+		{
+			options.code = initCode($scope, ++$scope.subIndex, editorSession);
+
+			// Устанавливаем текущий урок в хранилище
+			setLesson(l, $scope.subIndex, len);
+
+			connection.httpSaveStatisticLesson({
+				lessonId: $stateParams.id,
+				size: len,
+				current: $scope.subIndex
+			});
+
+			nextAudio($scope, current());
+		}
+		else
+		{
+			// Устанавливаем текущий урок в хранилище
+			setLesson(l, 0, len, true);
+
+			connection.httpSaveStatisticLesson({
+				lessonId: $stateParams.id,
+				size: len,
+				current: 0,
+				completed: true
+			});
+
+			$scope.starsHide = true;
+		}
+
+		audioIndex = 0;
+		$scope.textContent = false;
+	}
+
+	var initCode = function ($scope, i, editorSession)
+	{
+		connection.getCodeLessonFromJs(i, $stateParams.id, function (date)
+		{
+			editorSession.setValue(date);
+			options.code = date;
+
+			// Слова BBot'а
+			$scope.textBot = current($scope).defaultBBot && current($scope).defaultBBot();
+			$scope.isGameLesson = $scope.lesson.isGameLesson;
+			$scope.nextSubLesson = nextSubLesson($scope, editorSession);
+
+			nextAudio($scope);
+		});
+	};
+
+	var initialize = function ($scope, id, editorSession)
+	{
+		// Получаем урок из локального хранилища
+		var ls = st.getCurrent(id);
+		$scope.subIndex = 0;
+
+		if(!ls)
+		{
+			// Идем в базу за статой по урокам
+			connection.httpGetLessonFromDb(function(result)
+			{
+				if(result.data[id])
+				{
+					// Индекс под урока
+					$scope.subIndex = parseInt(result.data[id].current);
+				}
+
+				initCode($scope, $scope.subIndex, editorSession);
+			});
+		}
+		else
+		{
+			$scope.subIndex = ls;
+			initCode($scope, ls, editorSession);
+		}
+	};
+
 	return{
 		setLesson: setLesson,
 		getCurrentLesson: getCurrentLesson,
@@ -199,7 +324,12 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 		nextAudio: nextAudio,
 		toggleAudioPause: toggleAudioPause,
 		previousAudio: previousAudio,
-		codeRun: codeRun
+		codeRun: codeRun,
+		getOptions: getOptions,
+		current: current,
+		nextSubLesson: nextSubLesson,
+		initCode: initCode,
+		initialize: initialize
 	}
 
 }]);

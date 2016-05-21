@@ -41,6 +41,10 @@ pre {
 	background-color: rgba(29, 31, 33, 0.8) !important;
 }
 
+.ace_gutter-layer {
+	z-index: 1000;
+}
+
 .ace_editor.ace_autocomplete {
 	background-color: #1A262F !important;
 	color: #E1E2E2;
@@ -625,9 +629,8 @@ pre {
 	background: #1D3C50 !important;
 }
 
-.ace_gutter-layer {
-	border-left: 1px solid rgba(0, 0, 0, 0.45) !important;
-	border-right: 1px solid rgba(0, 0, 0, 0.45) !important;
+.ace-gutter-layer {
+	border: 0 !important;
 }
 
 .lesson-board {
@@ -688,9 +691,7 @@ pre {
 .main-editor {
 	width: 100%;
 	height: 100%;
-	border-top: 1px solid #0C181F;
-	border-right: 1px solid #0C181F;
-	border-bottom: 1px solid #0C181F;
+	border: 1px solid #152B39;
 }
 
 .logo {
@@ -784,14 +785,12 @@ pre {
 	float: right;
 	margin-right: 72px;
 	border-width: 45px 0 300px 100px;
-	border-color: transparent transparent transparent rgba(40, 42, 46, 0.5);
+	border-color: transparent transparent transparent rgba(10, 12, 16, 0.5);
 }
 
 .bbot-board {
-	z-index: 500;
 	width: 100%;
 	height: 100%;
-	border-left: 39px solid #152B39;
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
@@ -813,9 +812,7 @@ pre {
 	background: #152B39;
 	color: #fff;
 	height: 25px;
-	border-right: 1px solid #0C181F;
 	outline: 0;
-	border-top: 1px solid rgb(12, 24, 31) !important;
 }
 
 .bbot-header .button-gradient {
@@ -830,14 +827,14 @@ pre {
 }
 
 .bbot-header .quote {
-	left: 50px;
+	left: 60px;
 	width: auto;
 	background: #152B39;
 	cursor: default;
 }
 
 .bbot-header .quote:hover {
-	left: 50px;
+	left: 60px;
 	width: auto;
 	background: #152B39;
 	cursor: default;
@@ -884,8 +881,6 @@ pre {
 
 .bbot-board .bbot-msg {
 	padding-right: 22px;
-	border-left: 1px solid rgb(12, 24, 31) !important;
-	border-top: 1px solid rgb(12, 24, 31) !important;
 	height: 100%;
 	width: 100%;
 }
@@ -958,7 +953,6 @@ pre {
 }
 
 .bbot-border {
-	z-index: 500;
 	position: absolute;
 	height: 175px;
 	bottom: 0;
@@ -967,10 +961,10 @@ pre {
 }
 
 .bbot-hologram {
-	padding: 20px;
 	height: 100%;
 	margin-right: 170px;
-	background: rgba(40, 42, 46, 0.5);
+	padding: 20px 20px 20px 70px;
+	background: rgba(10, 12, 16, 0.5);
 	overflow-y: auto;
 }
 
@@ -1146,7 +1140,7 @@ pre {
 .content-center {
 	max-width: none;
 	width: 85%;
-	margin: 30px auto 0;
+	margin: 30px auto 20px;
 }
 
 .lesson-title {
@@ -1181,10 +1175,10 @@ pre {
 
 .lesson-instructions {
 	font-family: "Courier New", serif;
-	color: #CBCECB;
-	background-color: rgba(29, 31, 33, 0.54);
-	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
-	border-top: 1px solid rgba(29, 31, 33, 0.54);
+	color: #FFFFFF;
+	background-color: rgb(21, 43, 57);
+	border-bottom: 1px solid rgb(21, 43, 57);
+	border-top: 1px solid rgb(21, 43, 57);
 	margin-top: 35px;
 	padding-bottom: 20px;
 }
@@ -1194,16 +1188,16 @@ pre {
 }
 
 .lesson-instructions .lesson-content {
-	color: #CBCECB;
+	color: #FFFFFF;
 }
 
 .lesson-content-overflow {
 	height: 100%;
-	border: 1px solid #0C181F;
+	border: 1px solid #152B39;
 	width: 100%;
 	position: absolute;
-	color: rgba(154,169,178,1);
-	background: rgba(29, 60, 80, 0.9);
+	color: #C0C3C1;
+	background: rgba(29, 31, 33, 0.8);
 }
 
 div.thought {

@@ -38,7 +38,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state', '$http',
 		$state.go('lessons');
 	}
 
-	$scope.run = lessonService.codeRun($scope, editorSession);
+	$scope.run = function()
+	{
+		lessonService.codeRun($scope, editorSession);
+	};
 
 	$scope.toggleTextContent = function ()
 	{

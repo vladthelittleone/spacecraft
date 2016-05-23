@@ -16,6 +16,7 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 
 	var audio;
 	var audioIndex = 0;
+
 	/**
 	 * Local storage
 	 */
@@ -44,7 +45,7 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 
 	function current($scope)
 	{
-		return $scope.lesson.sub[$scope.subIndex];
+		return  $scope.lesson.sub[$scope.subIndex];
 	}
 
 	function error($scope, message)
@@ -198,11 +199,11 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 
 				if (result.status)
 				{
-					success(result.message);
+					success($scope, result.message, editorSession);
 				}
 				else
 				{
-					error(result.message);
+					error($scope, result.message);
 				}
 			}
 
@@ -218,7 +219,7 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 
 				if (result && result.status)
 				{
-					success(result.message);
+					success($scope, result.message, editorSession);
 				}
 			}
 		}
@@ -251,7 +252,7 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 				current: $scope.subIndex
 			});
 
-			nextAudio($scope, current());
+			nextAudio($scope);
 		}
 		else
 		{
@@ -282,7 +283,10 @@ app.factory('lessonService', ['$storage', 'connection', '$stateParams', 'audioMa
 			// Слова BBot'а
 			$scope.textBot = current($scope).defaultBBot && current($scope).defaultBBot();
 			$scope.isGameLesson = $scope.lesson.isGameLesson;
-			$scope.nextSubLesson = nextSubLesson($scope, editorSession);
+			$scope.nextSubLesson = function ()
+			{
+				nextSubLesson($scope, editorSession);
+			};
 
 			nextAudio($scope);
 		});

@@ -9,7 +9,8 @@ app.factory('connection', ['$http', function ($http)
 {
 	var resources =
 	{
-		code: 'javascripts/code/game.js'
+		code: 'javascripts/code/game.js',
+		lessonCode: 'javascripts/code/lesson'
 	};
 
 	var links =
@@ -61,10 +62,31 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
+	var httpGetLessonFromDb = function (callback)
+	{
+		$http.get(links.lessonsStatistic).then(function(result)
+		{
+			callback(result);
+		});
+	};
+
+	var getCodeLessonFromJs = function (i, id, callback)
+	{
+		$http({
+			method: 'GET',
+			url: resources.lessonCode + id + '/' + i + '.js'
+		}).success(function (date)
+			{
+				callback(date);
+			});
+	};
+
 	return {
 		httpSaveStatisticLesson: httpSaveStatisticLesson,
 		httpSaveCode: httpSaveCode,
 		httpGetCodeFromDB: httpGetCodeFromDB,
-		httpGetCodeFromJs: httpGetCodeFromJs
+		httpGetCodeFromJs: httpGetCodeFromJs,
+		httpGetLessonFromDb: httpGetLessonFromDb,
+		getCodeLessonFromJs: getCodeLessonFromJs
 	};
 }]);

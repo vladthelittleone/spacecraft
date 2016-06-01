@@ -32,11 +32,13 @@ var LessonGame = function (spec)
 				'starField': 'images/sprites/starField.png',
 				'meteor1': 'images/sprites/meteor/meteor1.png',
 				'meteor2': 'images/sprites/meteor/meteor2.png',
+				'turret': 'images/sprites/base/turret.png',
 				'meteor3': 'images/sprites/meteor/meteor3.png',
 				'meteor4': 'images/sprites/meteor/meteor4.png',
 				'meteor5': 'images/sprites/meteor/meteor5.png',
 				'meteor6': 'images/sprites/meteor/meteor6.png',
 				'meteor7': 'images/sprites/meteor/meteor7.png',
+				'greenBeam': 'images/sprites/beam/greenBeam.png',
 				'userShield': 'images/sprites/shield2.png',
 				'base': 'images/sprites/base/base.png'
 			};

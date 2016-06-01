@@ -249,6 +249,51 @@ var Lesson1 = function (st)
 					// При комментировании результат будет возвращен ввиде 'undefined'
 					return botText.result(!value);
 				}
+			},
+			{
+				title: 'Комментарии',
+				content: function ()
+				{
+					return '<p></p>';
+				},
+				// BBot - проказник, не позорься!
+				// Нужно понизить его уровень юмора, а то этот Джордж Карлин переходит все границы.
+				// Закомментируйте кусок кода в строке 8, пока никто не видет.
+				instructions: '<ul>' +
+				'<li>Закомментируйте кусок кода в строке <strong>8</strong>.</li>' +
+				'<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
+				'</ul>',
+				character: [
+					{
+						audio: 'audio/lesson1/3.mp3',
+						css: 'astrogirl-img',
+						hint: [
+							{
+								'next .ace_scroller': 'Редактор кода',
+								'nextButton': {text: 'Далее'},
+								'showSkip': false
+							}
+						],
+						marker: {
+							x1: 6,
+							y2: Infinity,
+							type: 'line'
+						}
+					}
+				],
+				handleUpdate: function (value)
+				{
+					var botText = BBotText(
+						{
+							correct: '<p>Что-т0 преднозначенное для человека! Комментарии?</p>',
+
+							unknownError: '<p>Эй, BBot не хочет уничтожать человекорасу! Наверно...</p>' +
+							'<p>Похоже вы забыли поставитb //.</p>'
+						});
+
+					// При комментировании результат будет возвращен ввиде 'undefined'
+					return botText.result(!value);
+				}
 			}
 		]
 	};

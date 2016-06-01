@@ -13,6 +13,7 @@ var LessonPlayState1 = function (spec)
 
 	var bBotText = '';
 	var endLn = '</br>';
+	var turret;
 
 	//===================================
 	//============== CYCLE ==============
@@ -37,6 +38,8 @@ var LessonPlayState1 = function (spec)
 	{
 		var s = ApiLesson1(scope.spaceCraft);
 		var w = WorldApi(sc.world, scope.spaceCraft.getId());
+
+		turret.weapon.fire(scope.spaceCraft);
 
 		t.tryRunScript(s, w);
 
@@ -76,6 +79,11 @@ var LessonPlayState1 = function (spec)
 			count: bounds.height,
 			radius: R,
 			start: bounds.y
+		});
+
+		turret = factory.createTurret({
+			x: game.world.centerX,
+			y: game.world.centerY - 300
 		});
 
 		scope.spaceCraft.sprite.bringToTop();

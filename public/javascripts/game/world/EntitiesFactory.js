@@ -135,6 +135,22 @@ var EntitiesFactory = function (spec)
 		return Harvester(args);
 	};
 
+	t.createTurret = function (args)
+	{
+		args.game = game;
+		args.spriteName = 'turret';
+		args.health = 600;
+		args.shield = 0;
+		args.energyPoints = 10;
+		args.beamSprite = 'greenBeam';
+
+		var o = SpaceCraft(args);
+		o.addWeaponBlock(args);
+		o.addProtectionBlock(args);
+
+		return o;
+	};
+
 	t.createGameObject = function (args)
 	{
 		args.game = game;

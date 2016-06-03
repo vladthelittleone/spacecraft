@@ -29,13 +29,14 @@ router.get('/stat', function(req, res, next)
 	{
 		if (userMetrics)
 		{
-			Stat.calcMetrics(function(starStatForLesson, meanStatForLessons)
+			Stat.calcMetrics(function(statistic)
 			{
 				var lessonMetrics = {};
 
-				if (starStatForLesson)
+				if (statistic.starStatForLesson)
 				{
-					lessonMetrics = {
+					lessonMetrics =
+					{
 						// параметры звезд для каждого урока в отдельности
 						// параметры
 						// sum: суммарная оценка урока
@@ -43,9 +44,9 @@ router.get('/stat', function(req, res, next)
 						// min: минимальная оценка
 						// max: максимальная оценка
 						// mean: средняя оценка
-						starStatForLesson: starStatForLesson,
+						starStatForLesson: statistic.starStatForLesson,
 						// среднее кол-во звезд для всех уроков
-						meanStatForLessons: meanStatForLessons
+						meanStatForLessons: statistic.meanStatForLessons
 					};
 				}
 

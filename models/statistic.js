@@ -28,8 +28,13 @@ var schema = new Schema({
 	}
 });
 
-function calcMetrics(statistic, starStatForLesson, meanStatForLessons, numb, key)
+function calcMetrics(statistic)
 {
+	var numb = 0;
+	var key = [];
+	var starStatForLesson = {};
+	var meanStatForLessons = 0;
+
 	statistic.forEach(function (item)
 	{
 		item.lessons.forEach(function (value)
@@ -84,6 +89,11 @@ function calcMetrics(statistic, starStatForLesson, meanStatForLessons, numb, key
 
 		value.mean = value.sum / value.numb;
 	});
+
+	return {
+		starStatForLesson: starStatForLesson,
+		meanStatForLessons: meanStatForLessons
+	};
 }
 
 schema.statics.calcMetrics = function (callback)
@@ -104,15 +114,7 @@ schema.statics.calcMetrics = function (callback)
 			}
 			else
 			{
-				var starStatForLesson = {};
-				var key = [];
-
-				var meanStatForLessons = 0;
-				var numb = 0;
-
-				calcMetrics(statistic, starStatForLesson, meanStatForLessons, numb, key);
-
-				callback(starStatForLesson, meanStatForLessons);
+				callback(calcMetrics(statistic));
 			}
 		}
 	]);

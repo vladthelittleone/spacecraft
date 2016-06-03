@@ -37,25 +37,24 @@ schema.statics.update = function (idUser, callback)
 	var Metrics = this;
 
 	async.waterfall(
-		[
-			function (callback)
+	[
+		function (callback)
+		{
+			Metrics.findOne({idUser: idUser}, callback)
+		},
+		function (metrics, callback)
+		{
+			if (metrics)
 			{
-				Metrics.findOne({idUser: idUser}, callback)
-			},
-			function (metrics, callback)
-			{
-				if (metrics)
-				{
-					callback(metrics);
-				}
-				else
-				{
-					var newMetrics = new Metrics({idUser: idUser});
-					newMetrics.save();
-				}
+				callback(metrics);
 			}
-
-		], callback);
+			else
+			{
+				var newMetrics = new Metrics({idUser: idUser});
+				newMetrics.save();
+			}
+		}
+	], callback);
 };
 
 schema.statics.calcMetrics = function (callback)

@@ -134,6 +134,7 @@ lessonsArray[0] = function (storage)
 					{
 						audio: 'audio/lesson1/1-2.mp3',
 						css: 'astrogirl-img',
+						waitForHint: true,
 						hint: [
 							{
 								'click .lesson-alt-hint': 'Нажмите для получения инструкций',

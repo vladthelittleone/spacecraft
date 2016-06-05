@@ -12,14 +12,8 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 	var markerId;
 	var lessonId;
 	var scope;
-	var audioIndex = 0;
-
-	var options =
-	{
-		isCodeRunning: false,
-		code: '',
-		error: null
-	};
+	var audioIndex;
+	var options = {};
 
 	var audioWrapper = function ()
 	{
@@ -272,11 +266,15 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 
 	function initialize(args)
 	{
+		audioIndex = 0;
 		scope = args.scope;
 		lessonId  = args.lessonId;
 
+		options.code = '';
+
 		// Получаем урок из локального хранилища
 		var ls = storage.getCurrent(lessonId);
+
 		scope.subIndex = 0;
 
 		if(!ls)

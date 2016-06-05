@@ -67,9 +67,9 @@ app.factory('connection', ['$http', function ($http)
 		$http({
 			method: 'GET',
 			url: source
-		}).success(function (date)
+		}).success(function (data)
 		{
-			callback(date);
+			callback(data);
 		});
 	};
 

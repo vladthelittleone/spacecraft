@@ -80,15 +80,50 @@ var SpaceCraftApi = function (spaceCraft)
 {
     var api = {};
 
-    api.weapon = api.w = WeaponBlockApi(spaceCraft.weapon);
-    api.engine = api.e = EngineBlockApi(spaceCraft.engine);
-    api.protection = api.p = ProtectionBlockApi(spaceCraft.protection);
+	if (spaceCraft.weapon)
+	{
+		api.weapon = api.w = WeaponBlockApi(spaceCraft.weapon);
+
+		api.inRange = api.w.inRange;
+		api.fire = api.w.fire;
+		api.enemiesInRange = api.w.enemiesInRange;
+		api.fireNearestEnemy = api.w.fireNearestEnemy;
+
+		api.getRangeByPoints = api.w.getRangeByPoints;
+		api.getRateByPoints = api.w.getRateByPoints;
+		api.getDamageByPoints = api.w.getDamageByPoints;
+	}
+
+	if (spaceCraft.engine)
+	{
+		api.engine = api.e = EngineBlockApi(spaceCraft.engine);
+
+		api.rotateLeft = api.e.rotateLeft;
+		api.rotateRight = api.e.rotateRight;
+		api.rotateTo = api.e.rotateTo;
+		api.moveForward = api.e.moveForward;
+		api.moveBackward = api.e.moveBackward;
+		api.moveTo = api.e.moveTo;
+		api.moveToNearestBonus = api.e.moveToNearestBonus;
+
+		api.moveTo = api.e.moveTo;
+		api.moveToNearestBonus = api.e.moveToNearestBonus;
+
+		api.getMoveSpeedByPoints = api.e.getMoveSpeedByPoints;
+	}
+
+	if (spaceCraft.protection)
+	{
+		api.protection = api.p = ProtectionBlockApi(spaceCraft.protection);
+
+		api.getHealth = api.p.getHealth;
+		api.getShield = api.p.getShield;
+		api.getRegeneration = api.p.getRegeneration;
+
+		api.getRegenByPoints = api.p.getRegenByPoints;
+	}
 
     api.getId = spaceCraft.getId;
-
-    api.getHealth = api.p.getHealth;
-    api.getShield = api.p.getShield;
-    api.getRegeneration = api.p.getRegeneration;
 
     api.getX = spaceCraft.getX;
     api.getY = spaceCraft.getY;
@@ -97,30 +132,8 @@ var SpaceCraftApi = function (spaceCraft)
     api.angleBetween = spaceCraft.angleBetween;
     api.distance = spaceCraft.distance;
 
-    api.rotateLeft = api.e.rotateLeft;
-    api.rotateRight = api.e.rotateRight;
-    api.rotateTo = api.e.rotateTo;
-    api.moveForward = api.e.moveForward;
-    api.moveBackward = api.e.moveBackward;
-    api.moveTo = api.e.moveTo;
-    api.moveToNearestBonus = api.e.moveToNearestBonus;
-
-    api.inRange = api.w.inRange;
-    api.fire = api.w.fire;
-    api.enemiesInRange = api.w.enemiesInRange;
-    api.fireNearestEnemy = api.w.fireNearestEnemy;
-
     api.getFreePoints = spaceCraft.modulesManager.getFreePoints;
     api.getMaxPoints = spaceCraft.modulesManager.getMaxPoints;
-
-    api.moveTo = api.e.moveTo;
-    api.moveToNearestBonus = api.e.moveToNearestBonus;
-
-    api.getMoveSpeedByPoints = api.e.getMoveSpeedByPoints;
-    api.getRegenByPoints = api.p.getRegenByPoints;
-    api.getRangeByPoints = api.w.getRangeByPoints;
-    api.getRateByPoints = api.w.getRateByPoints;
-    api.getDamageByPoints = api.w.getDamageByPoints;
 
     return api;
 };

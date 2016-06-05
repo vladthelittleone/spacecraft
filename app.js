@@ -13,7 +13,7 @@ const logger = require('./utils/log')(module);
 
 const app = express();
 
-var heap = 0;
+var maxHeap = 0;
 
 // view engine setup (Т.к. у нас уже написан html, лучше пока не юзать движки)
 //app.set('views', path.join(__dirname, 'views'));
@@ -81,15 +81,14 @@ app.use(function (err, req, res, next)
 if (app.get('env') === 'development')
 {
 	setInterval(function ()
-		{
-			if (heap < process.memoryUsage().heapUsed)
-			{
-				heap = process.memoryUsage().heapUsed;
-			}
+	{
+		var heap = process.memoryUsage().heapUsed;
 
-			logger.log(heap);
-		},
-		10000);
+		maxHeap = maxHeap < heap ? heap : maxHeap;
+
+		logger.info('Heap size: '  + heap + ', maximum heap size: ' + maxHeap);
+	},
+	10000);
 }
 
 module.exports = app;

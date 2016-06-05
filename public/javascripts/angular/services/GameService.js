@@ -44,9 +44,27 @@ app.factory('gameService', ['$storage', 'connection', function ($storage, connec
 		});
 	};
 
+	function initCode(callback)
+	{
+		// Вытаскиваем код из  локалного хранилища
+		var code = getCode();
+
+		// Если в локальном хранилище нет кода
+		if (!code)
+		{
+			// Делаем запрос на получение коду от других источников выполняем callback
+			requestForCode(callback);
+		}
+		else
+		{
+			callback(code);
+		}
+	}
+
 	return {
 		getCode: getCode,
 		setCode: setCode,
-		requestForCode: requestForCode
+		requestForCode: requestForCode,
+		initCode: initCode
 	};
 }]);

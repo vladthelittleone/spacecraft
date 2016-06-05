@@ -7,6 +7,16 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state',
 	'lessonService', 'audioManager', 'aceService', 'markerService',
 	function ($scope, $stateParams, $state, lessonService, audioManager, aceService, markerService)
 {
+	var soundtrack = audioManager.createWithPlayList();
+
+	function errorWrapper (value)
+	{
+		return '<p>Неисправность!! EГГ0Г!!</p> ' +
+			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
+			'<p class="red-label">0шибка: ' + value + '</p>' +
+			'<p>Пожалуйста исправте ситуацию.</p>';
+	}
+
 	$scope.starsHide = false;
 	$scope.idLesson = $stateParams.id;
 	$scope.hideEditor = false;
@@ -48,15 +58,10 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state',
 		 }
 	};
 
-
 	$scope.toggleEditorOpen = function ()
 	{
 		$scope.hideEditor = !$scope.hideEditor;
 	};
-
-	//===================================
-	//============== EDITOR =============
-	//===================================
 
 	$scope.aceChanged = function ()
 	{
@@ -69,14 +74,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state',
 		aceService.initializeAceSettings(editor, $scope.options.code);
 	};
 
-	function errorWrapper (value)
-	{
-		return '<p>Неисправность!! EГГ0Г!!</p> ' +
-			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">0шибка: ' + value + '</p>' +
-			'<p>Пожалуйста исправте ситуацию.</p>';
-	}
-
 	$scope.$watch('options.error', function (value)
 	{
 		var editorSession = lessonService.getEditorSession();
@@ -88,7 +85,7 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state',
 
 		if (value)
 		{
-			var errorLine = $scope.options.error.stack.split(':')[6] - 1;
+			var errorLine = $scope.options.error.stack.split(':')[6] - 2;
 
 			$scope.textBot = errorWrapper(value);
 
@@ -96,12 +93,6 @@ app.controller('LessonController', ['$scope', '$stateParams', '$state',
 			lessonService.setMarkerId(markerId);
 		}
 	});
-
-	//===================================
-	//============== AUDIO ==============
-	//===================================
-
-	var soundtrack = audioManager.createWithPlayList();
 
 	$scope.$watch ('$viewContentLoaded', function()
 	{

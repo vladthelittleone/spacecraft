@@ -35,12 +35,12 @@ app.factory('markerService', [ function ()
 
 
 
-	var setMarkerAndAnnotation = function (editorSession, foundedStringNumb, error)
+	var setMarkerAndAnnotation = function (editorSession, errorLine, error)
 	{
-		var markerId = paintMarker(editorSession, foundedStringNumb);
+		var markerId = paintMarker(editorSession, errorLine);
 
 		editorSession.setAnnotations([{
-			row: foundedStringNumb - 1,
+			row: errorLine - 1,
 			column: 0,
 			text: error.toString(),
 			type: "error"

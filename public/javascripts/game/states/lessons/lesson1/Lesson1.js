@@ -150,6 +150,7 @@ lessonsArray[1] = function ()
 							'<p>ПОЕХАЛИ!</p>'
 						});
 
+
 					if (spaceCraft.isMoveForwardCalled())
 					{
 						return botText.resultCorrect();
@@ -398,7 +399,13 @@ lessonsArray[1] = function ()
 
 			turret = factory.createTurret({
 				x: game.world.centerX,
-				y: game.world.centerY - 300
+				y: game.world.centerY - 500,
+				strategy: function (args)
+				{
+					var that = args.spaceCraft;
+
+					that.weapon.fireNearestEnemy(scope.spaceCraft);
+				}
 			});
 
 			scope.spaceCraft.sprite.bringToTop();

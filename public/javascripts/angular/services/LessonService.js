@@ -204,8 +204,8 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 
 			// Слова BBot'а
 			scope.textBot = current.defaultBBot && current.defaultBBot();
-			scope.isGameLesson = scope.lesson.isGameLesson;
 			scope.nextSubLesson = nextSubLesson;
+			scope.isGameLesson = scope.lesson.isGameLesson;
 
 			next();
 		});
@@ -230,6 +230,7 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 		// Обновляем игровые объекты на начальные значения или нет
 		options.resetGame = currentSubLesson().handleUpdate;
 		options.isCodeRunning = false;
+		options.update = false;
 
 		// Размер массива подуроков с 0
 		var size = scope.lesson.sub.length - 1;
@@ -249,8 +250,6 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 				lessonId: lessonId,
 				size: size
 			});
-
-			next();
 		}
 		else
 		{
@@ -264,6 +263,8 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 
 			scope.starsHide = true;
 		}
+
+		markerService.deleteMarkerAndAnnotation(editorSession, markerId);
 
 		audioIndex = 0;
 		scope.textContent = false;
@@ -303,7 +304,6 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 
 	function text(message, nextSubLesson)
 	{
-
 		scope.textBot = message;
 
 		// Добавляем ссылку на функцию и кнопку 'Далее'
@@ -410,7 +410,6 @@ app.service('lessonService', ['$storage', 'connection', 'audioManager', 'interpr
 		getEditorSession: getEditorSession,
 		getCode: getCode,
 		lessonContent: lessonContent,
-		nextSubLessons: nextSubLesson,
 		initialize: initialize,
 		run: run,
 		getMarkerId: getMarkerId,

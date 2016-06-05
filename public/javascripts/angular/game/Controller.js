@@ -3,37 +3,24 @@
  */
 var app = angular.module('spacecraft.game');
 
-app.controller('GameController', ['$scope', '$storage', '$http', 'audioManager', 'connection', 'gameService', 'aceService', 'markerService',
-function ($scope, $storage, $http, audioManager, connection, gameService, aceService, markerService)
+app.controller('GameController', ['$scope', 'audioManager',
+	'connection', 'gameService', 'aceService', 'markerService',
+function ($scope, audioManager, connection, gameService, aceService, markerService)
 {
+	var audio = audioManager.createWithPlayList();
 	var editorSession;
 	var markerId;
 
-	//===================================
-	//============== CODE ===============
-	//===================================
-
-	function initCode(callback)
+	function errorWrapper (value)
 	{
-		// Вытаскиваем код из  локалного хранилища
-		var code = gameService.getCode();
-
-		// Если в локальном хранилище нет кода
-		if (!code)
-		{
-			// Делаем запрос на получение коду от других источников выполняем callback
-			gameService.requestForCode(callback);
-		}
-		else
-		{
-			callback(code);
-		}
+		return '<p>Неисправность!! EГГ0Г!!</p> ' +
+			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
+			'<p class="red-label">0шибка: ' + value + '</p>' +
+			'<p>Пожалуйста исправте ситуацию.</p>';
 	}
 
-	//===================================
-	//============== SCOPE ==============
-	//===================================
-
+	$scope.hideEditor = false;
+	$scope.hideDoc = true;
 	$scope.textBot = '';
 	$scope.options =
 	{
@@ -53,13 +40,6 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 		}
 	};
 
-	//===================================
-	//============== HIDE ===============
-	//===================================
-
-	$scope.hideEditor = false;
-	$scope.hideDoc = true;
-
 	$scope.toggleEditorOpen = function ()
 	{
 		$scope.hideEditor = !$scope.hideEditor;
@@ -70,14 +50,10 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 		$scope.hideDoc = !$scope.hideDoc;
 	};
 
-	//===================================
-	//============== EDITOR =============
-	//===================================
-
-
 	$scope.aceChanged = function ()
 	{
 		$scope.options.code = editorSession.getDocument().getValue();
+
 		gameService.setCode($scope.options.code);
 	};
 
@@ -89,39 +65,28 @@ function ($scope, $storage, $http, audioManager, connection, gameService, aceSer
 
 		gameService.setCode($scope.options.code);
 
-		initCode (function(data)
+		gameService.initCode(function(data)
 		{
 			editorSession.setValue(data);
 		});
 	};
 
-	function errorWrapper (value)
-	{
-		return '<p>Неисправность!! EГГ0Г!!</p> ' +
-			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">0шибка: ' + value + '</p>' +
-			'<p>Пожалуйста исправте ситуацию.</p>';
-	}
-
 	$scope.$watch('options.error', function (value)
 	{
 		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+
 		$scope.textBot = value;
 
 		if (value)
 		{
-			var foundedStringNumb = $scope.options.error.stack.split(':')[6] - 1;
+			console.log($scope.options.error.stack);
+			var errorLine = $scope.options.error.stack.split(':')[6] - 2;
+
 			$scope.textBot = errorWrapper(value);
 
-			markerId = markerService.setMarkerAndAnnotation(editorSession, foundedStringNumb, $scope.options.error);
+			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, $scope.options.error);
 		}
 	});
-
-	//===================================
-	//============== AUDIO ==============
-	//===================================
-
-	var audio = audioManager.createWithPlayList();
 
 	$scope.$watch ('$viewContentLoaded', function()
 	{

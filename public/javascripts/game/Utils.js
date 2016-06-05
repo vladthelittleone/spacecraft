@@ -46,6 +46,8 @@ var utils =
 	}
 };
 
+var lessonsArray = [];
+
 Array.prototype.removeElement = function (element)
 {
 	var index = this.indexOf(element);

@@ -7,6 +7,5 @@ this.run = function(transport)
 {
 	// Команда кораблю - поворачивать налево
 	transport.moveForward();
-
 };
 

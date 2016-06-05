@@ -13,6 +13,8 @@ const logger = require('./utils/log')(module);
 
 const app = express();
 
+var heap = 0;
+
 // view engine setup (Т.к. у нас уже написан html, лучше пока не юзать движки)
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
@@ -75,5 +77,19 @@ app.use(function (err, req, res, next)
 	// middlewares/sendHttpError
 	res.sendHttpError(err);
 });
+
+if (app.get('env') === 'development')
+{
+	setInterval(function ()
+		{
+			if (heap < process.memoryUsage().heapUsed)
+			{
+				heap = process.memoryUsage().heapUsed;
+			}
+
+			logger.log(heap);
+		},
+		10000);
+}
 
 module.exports = app;

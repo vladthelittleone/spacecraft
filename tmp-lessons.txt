@@ -1,25 +1,4 @@
-'use strict';
-
-/**
- * Created by Ivan on 02.01.2016.
- */
-var app = angular.module('spacecraft.lessonProvider', []);
-
-app.service('lessonProvider', ['$storage', function ($storage)
-{
-	var lessons = LessonsArray
-	({
-		set: function(name, value)
-		{
-			$storage.local.setItem(name, value);
-		},
-		get: function(name)
-		{
-			return $storage.local.getItem(name);
-		}
-	});
-
-	// Хьюстон, у нас проблема
+// Хьюстон, у нас проблема
 	// Hasta la vista, baby
 	//		{
 	//			title: 'В4К',
@@ -761,9 +740,3 @@ app.service('lessonProvider', ['$storage', function ($storage)
 	//		}
 	//	]
 	//}
-
-	return function (num)
-	{
-		return lessons[num];
-	}
-}]);

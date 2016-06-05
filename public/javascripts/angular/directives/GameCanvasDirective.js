@@ -29,21 +29,14 @@ app.directive('gameCanvas', ['statistics', '$state', '$stateParams', function (s
 			var args =
 			{
 				scope: $scope,
+				lessonId: $stateParams.id,
 				callers:
 				{
 					result: resultCall
 				}
 			};
 
-			if ($state.current.name == 'lesson')
-			{
-				args.lessonId = $stateParams.id;
-				return LessonGame(args);
-			}
-			else
-			{
-				return OnlineGame(args);
-			}
+			return GameTypeGenerator(args);
 		}
 
 		//===================================

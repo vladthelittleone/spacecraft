@@ -9,7 +9,8 @@ app.factory('connection', ['$http', function ($http)
 {
 	var resources =
 	{
-		code: 'javascripts/code/game.js'
+		code: 'javascripts/code/game.js',
+		lessonsCode: 'javascripts/code/lesson'
 	};
 
 	var links =
@@ -39,7 +40,7 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
-	var httpGetCodeFromDB = function (callback)
+	var httpGetCodeFromDataBase = function (callback)
 	{
 		$http({
 			method: 'GET',
@@ -50,7 +51,7 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
-	var httpGetCodeFromJs = function (callback)
+	var httpGetGameCodeFromJs = function (callback)
 	{
 		$http({
 			method: 'GET',
@@ -61,10 +62,35 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
+	var httpGetCodeFromJs = function (source, callback)
+	{
+		$http({
+			method: 'GET',
+			url: source
+		}).success(function (date)
+		{
+			callback(date);
+		});
+	};
+
+	var httpGetLessonCodeFromJs = function (lessonId, subLessonId, callback)
+	{
+		var source = resources.lessonsCode + lessonId + '/' + subLessonId + '.js';
+		httpGetCodeFromJs(source, callback)
+	};
+
+	var httpGetLessonsStatisticsFromDataBase = function (callback)
+	{
+		$http.get(links.lessonsStatistic).then(callback);
+	};
+
 	return {
 		httpSaveStatisticLesson: httpSaveStatisticLesson,
 		httpSaveCode: httpSaveCode,
-		httpGetCodeFromDB: httpGetCodeFromDB,
-		httpGetCodeFromJs: httpGetCodeFromJs
+		httpGetCodeFromDataBase: httpGetCodeFromDataBase,
+		httpGetGameCodeFromJs: httpGetGameCodeFromJs,
+		httpGetCodeFromJs: httpGetCodeFromJs,
+		httpGetLessonCodeFromJs: httpGetLessonCodeFromJs,
+		httpGetLessonsStatisticsFromDataBase: httpGetLessonsStatisticsFromDataBase
 	};
 }]);

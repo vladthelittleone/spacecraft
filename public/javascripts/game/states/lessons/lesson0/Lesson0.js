@@ -2,23 +2,37 @@
  * @since 23.03.16
  * @author Skurishin Vladislav
  */
-var Lesson0 = function (st)
+lessonsArray[0] = function (storage)
 {
+	var that = {};
+
 	function isNumeric(n)
 	{
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
-	return {
+	that.preload =
+	{
+		'harvester': 'images/sprites/spaceCraft/harvester.png',
+		'starField': 'images/sprites/starField.png',
+		'shield': 'images/sprites/shield.png',
+		'base': 'images/sprites/base/base.png',
+		'meteor1': 'images/sprites/meteor/meteor1.png'
+	};
+
+	that.lessonContent =
+	{
 		text: 'Поступление в академию',
 		label: 'Основы JavaScript',
 		quote: 'Знания свет — путь укажет нам',
 		startCode: '',
-		sub: [
+		sub:
+		[
 			{
 				title: 'Добро пожаловать в академию!',
 				isNotGameLesson: true,
-				defaultBBot: function () {
+				defaultBBot: function ()
+				{
 					return '<p>Дройд BBot - инициализация...</p>' +
 						'<p>Настройка юм0ра на 75%</p>' +
 						'<p>Самоуничтожение через 10... 9... 8... 7...</p>'
@@ -167,7 +181,7 @@ var Lesson0 = function (st)
 						// на поиск имени в скобках.
 						var reg = new RegExp('(.+).*');
 
-						st.set('userName', value);
+						storage.setString('userName', value);
 
 						return botText.result(reg.test(value));
 
@@ -181,7 +195,7 @@ var Lesson0 = function (st)
 				isNotGameLesson: true,
 				content: function ()
 				{
-					return '<p>Отлично кадет ' + st.get('userName') + ', я нашел вас в списках.</p>' +
+					return '<p>Отлично кадет ' + storage.getString('userName') + ', я нашел вас в списках.</p>' +
 						'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
 						'<p>Высылаю вам инструкции.</p>';
 				},
@@ -230,7 +244,7 @@ var Lesson0 = function (st)
 							return botText.unknownError();
 						}
 
-						st.set('userAge', value);
+						storage.setString('userAge', value);
 
 						// Если выведено число, то результат положительный
 						return botText.result(isNumeric(value));
@@ -245,9 +259,9 @@ var Lesson0 = function (st)
 				defaultBBot: function ()
 				{
 					return '<p>Статус: ЗАЧИСЛЕН</p>' +
-						'<p>Имя: ' + st.get('userName').toUpperCase() + '</p>' +
+						'<p>Имя: ' + storage.getString('userName').toUpperCase() + '</p>' +
 						'<p>Раса: ЧЕЛОВЕК</p>' +
-						'<p>Возраст: ' + st.get('userAge') + 'GY</p>'
+						'<p>Возраст: ' + storage.getString('userAge') + 'GY</p>'
 				},
 				content: function ()
 				{
@@ -267,4 +281,76 @@ var Lesson0 = function (st)
 			}
 		]
 	};
+
+	that.lessonPlayState = function (spec)
+	{
+		var that = PlayState(spec);
+
+		var game = spec.game;
+		var sc = game.sc;
+		var base = {};
+
+		var gameInit = that.gameInit;
+		var tileUpdate = that.updateTileSprite;
+
+		//===================================
+		//============== CYCLE ==============
+		//===================================
+
+		that.create = function ()
+		{
+			gameInit(sc.world.getBounds());
+			that.entitiesInit();
+			game.camera.focusOnXY(base.sprite.x + (base.sprite.width / 4), base.sprite.y);
+		};
+
+		that.update = function ()
+		{
+			if (!game.paused)
+			{
+				base.update();
+				sc.world.update();
+			}
+
+			tileUpdate();
+		};
+
+		that.entitiesInit = function ()
+		{
+			var factory = sc.world.factory;
+
+			base = AcademyBase({
+				game: game,
+				x: game.world.centerX,
+				y: game.world.centerY,
+				spriteName: 'base'
+			});
+
+			for (var i = 0; i < 3; i++)
+			{
+				var i1 = utils.randomInt(-200, 200);
+				var i2 = utils.randomInt(-200, 200);
+
+				factory.createHarvester({
+					x: base.sprite.x + i1,
+					y: base.sprite.y + i2,
+					angle: game.rnd.angle(),
+					harvestRange: 100,
+					maxTank: 50,
+					harvestRate: 400,
+					strategy: function (args)
+					{
+						var spaceCraft = args.spaceCraft;
+
+						spaceCraft.engine.moveForward();
+						spaceCraft.engine.rotateLeft();
+					}
+				});
+			}
+		};
+
+		return that;
+	};
+
+	return that;
 };

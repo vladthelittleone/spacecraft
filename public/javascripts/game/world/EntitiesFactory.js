@@ -141,12 +141,12 @@ var EntitiesFactory = function (spec)
 		args.spriteName = 'turret';
 		args.health = 600;
 		args.shield = 0;
-		args.energyPoints = 10;
+		args.velocity = 400;
+		args.energyPoints = 12;
 		args.beamSprite = 'greenBeam';
 
 		var o = SpaceCraft(args);
-		o.addWeaponBlock(args);
-		o.addProtectionBlock(args);
+		o.addAllBlocks(args);
 
 		return o;
 	};

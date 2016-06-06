@@ -8,7 +8,8 @@
  */
 var app = angular.module('spacecraft.gameCanvas', []);
 
-app.directive('gameCanvas', ['statistics', '$state', '$stateParams', function (statistics, $state, $stateParams)
+app.directive('gameCanvas', ['statistics', '$state', '$stateParams',
+	function (statistics, $state, $stateParams)
 {
 	var linkFn = function ($scope)
 	{
@@ -16,13 +17,11 @@ app.directive('gameCanvas', ['statistics', '$state', '$stateParams', function (s
 		 * Выполняется при уничтожение корабля.
 		 * @param player
 		 */
-		var resultCall = function (player)
+		function resultCall (player)
 		{
 			statistics.setPlayer(player);
 			$state.go('result');
-		};
-
-		var game = CreateGame();
+		}
 
 		function CreateGame ()
 		{
@@ -39,11 +38,9 @@ app.directive('gameCanvas', ['statistics', '$state', '$stateParams', function (s
 			return GameTypeGenerator(args);
 		}
 
-		//===================================
-		//============== SCOPE ==============
-		//===================================
+		var game = CreateGame();
 
-		$scope.getNumber = function(num)
+		$scope.fillArray = function(num)
 		{
 			var arr = [];
 

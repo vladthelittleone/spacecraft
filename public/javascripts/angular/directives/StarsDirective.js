@@ -1,24 +1,17 @@
 'use strict';
+
 /**
  * Created by Ivan on 23.03.2016.
  */
 var app = angular.module('spacecraft.stars', []);
 
-app.directive('stars', ['$http', '$state', function($http, $state)
+app.directive('stars', ['connection', '$state', function(connection, $state)
 {
 	function link ($scope)
 	{
 		$scope.radioChange = function (value)
 		{
-			$http({
-				url: '/statistic/lessons/stars',
-				method: 'POST',
-				data: {
-					idLesson: $scope.idLesson,
-					stars: value
-				}
-			});
-
+			connection.httpLessonRate($scope.idLesson, value);
 			$state.go('lessons');
 		};
 	}

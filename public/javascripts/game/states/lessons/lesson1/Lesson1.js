@@ -355,8 +355,6 @@ lessonsArray[1] = function ()
 			var s = ApiLesson1(scope.spaceCraft);
 			var w = WorldApi(sc.world, scope.spaceCraft.getId());
 
-			turret.weapon.fire(scope.spaceCraft);
-
 			t.tryRunScript(s, w);
 
 			scope.$apply(function ()
@@ -377,6 +375,18 @@ lessonsArray[1] = function ()
 		{
 			var factory = sc.world.factory;
 
+			turret = factory.createTurret({
+				x: game.world.centerX,
+				y: game.world.centerY - 500,
+				strategy: function (args)
+				{
+					var that = args.spaceCraft;
+
+					that.engine.rotateLeft(0.5);
+					that.weapon.fire(scope.spaceCraft);
+				}
+			});
+
 			scope.$apply(function createSpaceCraft()
 			{
 				scope.spaceCraft = factory.createTransport({
@@ -395,17 +405,6 @@ lessonsArray[1] = function ()
 				count: bounds.height,
 				radius: R,
 				start: bounds.y
-			});
-
-			turret = factory.createTurret({
-				x: game.world.centerX,
-				y: game.world.centerY - 500,
-				strategy: function (args)
-				{
-					var that = args.spaceCraft;
-
-					that.weapon.fireNearestEnemy(scope.spaceCraft);
-				}
 			});
 
 			scope.spaceCraft.sprite.bringToTop();

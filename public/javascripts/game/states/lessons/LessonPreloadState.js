@@ -16,6 +16,8 @@ var LessonPreloadState = function (spec)
 			game.load.image(key, spec.loads[key]);
 		}, spec.loads);
 
+		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
+
 		game.load.audio('laser1', ['audio/laser1.wav']);
 		game.load.audio('explosion1', ['audio/explosion1.wav']);
 		game.load.audio('explosion2', ['audio/explosion2.wav']);

@@ -28,6 +28,18 @@ app.factory('connection', ['$http', function ($http)
 		});
 	};
 
+	var httpLessonRate = function (lessonId, stars)
+	{
+		$http({
+			url: '/statistic/lessons/stars',
+			method: 'POST',
+			data: {
+				idLesson: lessonId,
+				stars: stars
+			}
+		});
+	};
+
 	var httpSaveCode = function (data)
 	{
 		$http({
@@ -91,6 +103,7 @@ app.factory('connection', ['$http', function ($http)
 		httpGetGameCodeFromJs: httpGetGameCodeFromJs,
 		httpGetCodeFromJs: httpGetCodeFromJs,
 		httpGetLessonCodeFromJs: httpGetLessonCodeFromJs,
-		httpGetLessonsStatisticsFromDataBase: httpGetLessonsStatisticsFromDataBase
+		httpGetLessonsStatisticsFromDataBase: httpGetLessonsStatisticsFromDataBase,
+		httpLessonRate: httpLessonRate
 	};
 }]);

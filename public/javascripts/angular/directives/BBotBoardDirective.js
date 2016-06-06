@@ -9,7 +9,7 @@ app.directive('bbotBoard', ['$sce', function ($sce)
 {
 	var link = function ($scope)
 	{
-		$scope.closeBBotList = function()
+		$scope.closeBBotList = function ()
 		{
 			$scope.textBot = false;
 		};

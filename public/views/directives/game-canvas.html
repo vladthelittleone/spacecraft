@@ -9,7 +9,7 @@
 	<div class="points-bar">
 		<span class="glyphicon glyphicon-flash green"></span>
 		<div class="points-block">
-			<span ng-repeat="i in getNumber(spaceCraft.modulesManager.getMaxPoints())"
+			<span ng-repeat="i in fillArray(spaceCraft.modulesManager.getMaxPoints())"
 				  class="point"
 				  ng-class="{'point-full': spaceCraft.modulesManager.getFreePoints() > i}">
 			</span>
@@ -19,7 +19,7 @@
 	<div class="points-bar" ng-if="spaceCraft.protection">
 		<span class="glyphicon glyphicon-wrench green"></span>
 		<div class="points-block">
-			<span ng-repeat="i in getNumber(spaceCraft.protection.regeneration.getMax())"
+			<span ng-repeat="i in fillArray(spaceCraft.protection.regeneration.getMax())"
 				  class="point"
 				  ng-class="{'point-full': spaceCraft.protection.regeneration.getEnergyPoints() > i}">
 			</span>
@@ -29,7 +29,7 @@
 	<div class="points-bar" ng-if="spaceCraft.engine">
 		<span class="glyphicon glyphicon-forward green"></span>
 		<div class="points-block">
-			<span ng-repeat="i in getNumber(spaceCraft.engine.moveSpeed.getMax())"
+			<span ng-repeat="i in fillArray(spaceCraft.engine.moveSpeed.getMax())"
 				  class="point"
 				  ng-class="{'point-full': spaceCraft.engine.moveSpeed.getEnergyPoints() > i}">
 			</span>
@@ -39,7 +39,7 @@
 	<div class="points-bar" ng-if="spaceCraft.weapon">
 		<span class="glyphicon glyphicon-refresh green"></span>
 		<div class="points-block">
-			<span ng-repeat="i in getNumber(spaceCraft.weapon.rate.getMax())"
+			<span ng-repeat="i in fillArray(spaceCraft.weapon.rate.getMax())"
 				  class="point"
 				  ng-class="{'point-full': spaceCraft.weapon.rate.getEnergyPoints() > i}">
 			</span>
@@ -49,7 +49,7 @@
 	<div class="points-bar" ng-if="spaceCraft.weapon">
 		<span class="glyphicon glyphicon-record green"></span>
 		<div class="points-block">
-			<span ng-repeat="i in getNumber(spaceCraft.weapon.range.getMax())"
+			<span ng-repeat="i in fillArray(spaceCraft.weapon.range.getMax())"
 				  class="point"
 				  ng-class="{'point-full': spaceCraft.weapon.range.getEnergyPoints() > i}">
 			</span>
@@ -59,7 +59,7 @@
 	<div class="points-bar" ng-if="spaceCraft.weapon">
 		<span class="glyphicon glyphicon-screenshot green"></span>
 		<div class="points-block">
-			<span ng-repeat="i in getNumber(spaceCraft.weapon.damage.getMax())"
+			<span ng-repeat="i in fillArray(spaceCraft.weapon.damage.getMax())"
 				  class="point"
 				  ng-class="{'point-full': spaceCraft.weapon.damage.getEnergyPoints() > i}">
 			</span>

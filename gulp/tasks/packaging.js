@@ -9,7 +9,6 @@ var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
 var autoprefixer = require('gulp-autoprefixer');
 var rev = require('gulp-rev');
-var revCollector = require('gulp-rev-collector');
 
 module.exports = function ()
 {

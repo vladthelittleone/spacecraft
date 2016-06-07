@@ -1,26 +1,34 @@
 'use strict';
 
-/**
- * Created by Ivan on 10.11.2015.
- */
-var app = angular.module('spacecraft.storage', []);
+module.exports = Storage;
 
 /**
  * Service that responding for web storage.
  */
-app.factory('$storage', function ()
-{
+function Storage () {
+
+	var that = {};
+
+	/**
+	 * Local storage.
+	 */
+	that.local = initializeStorage(localStorage);
+
+	/**
+	 * Session storage.
+	 */
+	that.session = initializeStorage(sessionStorage);
+
+	return that;
 
 	/**
 	 * Private function that return storage. If web storage not supported, then
 	 * return custom storage with array. Also resolve issue with private mode.
 	 */
-	function initializeStorage(type)
-	{
+	function initializeStorage(type) {
 
 		// Check storage support.
-		try
-		{
+		try {
 
 			type.setItem('storage', '');
 
@@ -29,32 +37,27 @@ app.factory('$storage', function ()
 			return type;
 
 		}
-		catch (e)
-		{
+		catch (e) {
 
 			// Custom storage.
 			return {
 
 				s: {},
 
-				setItem: function (key, value)
-				{
+				setItem: function (key, value) {
 
 					this.s[key] = value;
 
 				},
 
-				getItem: function (key)
-				{
+				getItem: function (key) {
 
-					if (typeof this.s[key] != 'undefined')
-					{
+					if (typeof this.s[key] != 'undefined') {
 
 						return this.s[key];
 
 					}
-					else
-					{
+					else {
 
 						return null;
 
@@ -62,15 +65,13 @@ app.factory('$storage', function ()
 
 				},
 
-				removeItem: function (key)
-				{
+				removeItem: function (key) {
 
 					this.s[key] = undefined;
 
 				},
 
-				clear: function ()
-				{
+				clear: function () {
 
 					this.s.length = 0;
 
@@ -82,18 +83,4 @@ app.factory('$storage', function ()
 
 	}
 
-	return {
-
-		/**
-		 * Local storage.
-		 */
-		local: initializeStorage(localStorage),
-
-		/**
-		 * Session storage.
-		 */
-		session: initializeStorage(sessionStorage)
-
-	}
-
-});
+}

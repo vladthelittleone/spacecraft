@@ -9,6 +9,8 @@ router.post('/opengame', function (req, res, next)
 		metrics.numbClicksOnGame += 1;
 
 		metrics.save();
+
+		res.send({});
 	});
 });
 
@@ -19,6 +21,8 @@ router.post('/openlessons', function (req, res, next)
 		metrics.numbClicksOnLesson += 1;
 
 		metrics.save();
+
+		res.send({});
 	});
 });
 

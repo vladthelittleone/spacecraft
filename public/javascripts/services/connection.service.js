@@ -16,12 +16,34 @@ var resources = {
  * Ссылки на REST API
  */
 var links = {
-	lessonStatistic: '/statistic/lessons',
-	code:            '/statistic/code',
-	register:        '/reg',
-	logout:          '/logout',
-	login:           '/login',
-	loginCheck:      'login/check'
+
+	/**
+	 * Сбор статистики.
+	 */
+	statistic:   {
+		main:    '/statistic',
+		lessons: '/statistic/lessons',
+		code:    '/statistic/code',
+		stars:   '/statistic/lessons/stars',
+		score:   '/statistic/score'
+	},
+
+	/**
+	 * Сбор метрик.
+	 */
+	metrics: {
+		openGame:    'metrics/opengame',
+		openLessons: 'metrics/openlessons'
+	},
+
+	/**
+	 * Остальные ссылки
+	 */
+	register:    '/reg',
+	logout:      '/logout',
+	login:       '/login',
+	loginCheck:  'login/check'
+
 };
 
 /**
@@ -39,7 +61,11 @@ function Connection($http) {
 	that.getGameCodeFromJs = getGameCodeFromJs;
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
 
-	that.saveLessonStatistic = saveLessonStatistic;
+	that.saveGameStatistics = saveGameStatistics;
+	that.getGameStatistics = getGameStatistics;
+	that.getScore = getScore;
+
+	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
 	that.lessonRate = lessonRate;
 
@@ -48,15 +74,19 @@ function Connection($http) {
 	that.register = register;
 	that.isLoggedIn = isLoggedIn;
 
+	that.metrics = {};
+	that.metrics.hitOpenGame = hitOpenGame;
+	that.metrics.hitOpenLesson = hitOpenLesson;
+
 	return that;
 
 	/**
 	 * Сохранение статистики урока.
 	 */
-	function saveLessonStatistic(args) {
+	function saveLessonsStatistics(args) {
 
 		$http({
-			url:    links.lessonStatistic,
+			url:    links.statistic.lessons,
 			method: 'POST',
 			data:   args
 		});
@@ -69,7 +99,7 @@ function Connection($http) {
 	function lessonRate(lessonId, stars) {
 
 		$http({
-			url:    '/statistic/lessons/stars',
+			url:    links.statistic.stars,
 			method: 'POST',
 			data:   {
 				idLesson: lessonId,
@@ -86,7 +116,7 @@ function Connection($http) {
 
 		$http({
 			method: 'POST',
-			url:    links.code,
+			url:    links.statistic.code,
 			data:   {
 				code: data
 			}
@@ -101,7 +131,7 @@ function Connection($http) {
 
 		$http({
 			method: 'GET',
-			url:    links.code
+			url:    links.statistic.code
 		}).then(callback);
 
 	}
@@ -146,7 +176,26 @@ function Connection($http) {
 	 */
 	function getLessonsStatistics(callback) {
 
-		$http.get(links.lessonStatistic).then(callback);
+		$http.get(links.statistic.lessons).then(callback);
+
+	}
+
+	/**
+	 * Статистика игры.
+	 */
+	function saveGameStatistics(player) {
+
+		$http({
+			url:    links.statistic.main,
+			method: 'POST',
+			data:   {
+				killEnemy:    player.getKillEnemy(),
+				takenBonus:   player.getTakenBonus(),
+				totalScore:   player.getTotalScore(),
+				acceptDamage: player.getAcceptDamage(),
+				takenDamage:  player.getTakenDamage()
+			}
+		});
 
 	}
 
@@ -212,6 +261,42 @@ function Connection($http) {
 			method: 'GET',
 			url:    links.loginCheck
 		}).then(success, error);
+
+	}
+
+	/**
+	 * Формирование игровой статистики.
+	 */
+	function getGameStatistics(callback) {
+
+		$http.get(links.statistic.main).success(callback);
+
+	}
+
+	/**
+	 * Получить информацию об очках лучших пользователей.
+	 */
+	function getScore(callback) {
+
+		$http.get(links.statistic.score).success(callback);
+
+	}
+
+	/**
+	 * Отправка информации о открытии игры пользователем.
+	 */
+	function hitOpenGame() {
+
+		$http.post(links.metrics.openGame);
+
+	}
+
+	/**
+	 * Отправка информации о открытии урока пользователем.
+	 */
+	function hitOpenLesson() {
+
+		$http.post(links.metrics.openLessons);
 
 	}
 }

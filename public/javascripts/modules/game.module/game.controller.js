@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Контрллер игрового окна.
  *
@@ -9,7 +11,6 @@ module.exports = GameController;
 
 function GameController($scope, audioManager, connection, service, aceService) {
 
-	var audio = audioManager.createWithPlayList();
 	var editorSession;
 	var markerService;
 	var markerId;
@@ -24,99 +25,119 @@ function GameController($scope, audioManager, connection, service, aceService) {
 		error:         null
 	};
 
+	$scope.toggleCodeRun = toggleCodeRun;
+	$scope.toggleEditorOpen = toggleEditorOpen;
+	$scope.toggleDocOpen = toggleDocOpen;
+	$scope.aceChanged = aceChanged;
+	$scope.aceLoaded = aceLoaded;
+
+	$scope.$watch('options.error', onError);
+	$scope.$watch('$viewContentLoaded', onContentLoaded);
+
+	// ==================================================
+
 	/**
 	 * Переключение состояния кода.
 	 */
-	$scope.toggleCodeRun = function () {
+	function toggleCodeRun() {
 
 		$scope.options.isCodeRunning = !$scope.options.isCodeRunning;
 
 		// Сохраняем код только при нажатии на кнопку 'play'
 		if ($scope.options.isCodeRunning) {
 
-			connection.httpSaveCode($scope.options.code);
+			connection.saveCode($scope.options.code);
 
 		}
 
-	};
+	}
 
 	/**
 	 * Переключение состояния окна редактора.
 	 */
-	$scope.toggleEditorOpen = function () {
+	function toggleEditorOpen() {
 
 		$scope.hideEditor = !$scope.hideEditor;
 
-	};
+	}
 
 	/**
 	 * Переключение состояния окна документации.
 	 */
-	$scope.toggleDocOpen = function () {
+	function toggleDocOpen() {
 
 		$scope.hideDoc = !$scope.hideDoc;
 
-	};
+	}
 
 	/**
 	 * Обработчик изменения кода в Ace.
 	 */
-	$scope.aceChanged = function () {
+	function aceChanged() {
 
 		$scope.options.code = editorSession.getDocument().getValue();
 
 		service.setCode($scope.options.code);
 
-	};
+	}
 
 	/**
 	 * Инициализация Ace.
 	 */
-	$scope.aceLoaded = function (editor) {
+	function aceLoaded(editor) {
 
 		editorSession = editor.getSession();
 
-		markerService = aceService(editor, $scope.options.code);
+		aceService.initialize(editor, $scope.options.code);
 
+		markerService = aceService.getMarkerService();
+
+		// Установка кода
 		service.setCode($scope.options.code);
 
+		// Инициализация кода
 		service.initCode(function (data) {
 
 			editorSession.setValue(data);
 
 		});
 
-	};
+	}
 
 	/**
 	 * Обработка ошибки при запуске пользовательского кода.
 	 */
-	$scope.$watch('options.error', function (value) {
+	function onError(value) {
 
+		// Удаляем старый маркер
 		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
 
+		// Выводим текст
 		$scope.textBot = value;
 
 		if (value) {
 
+			// Номер ошибки кода
 			var errorLine = $scope.options.error.stack.split(':')[6] - 2;
 
+			// Выводим ошибку
 			$scope.textBot = errorWrapper(value);
 
+			// Указываем маркер
 			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, $scope.options.error);
 
 		}
 
-	});
+	}
 
 	/**
 	 * При загрузке запускаем звук.
 	 */
-	$scope.$watch('$viewContentLoaded', function () {
+	function onContentLoaded() {
 
-		audio.play();
+		audioManager.createSoundtrack().play();
 
-	});
+	}
 
 	function errorWrapper(value) {
 

@@ -44,7 +44,7 @@ function GameService($storage, connection) {
 	function requestForCode(callback) {
 
 		// Обращаемся к базе за кодом
-		connection.httpGetCodeFromDataBase(function (code) {
+		connection.getCodeFromDataBase(function (code) {
 
 			var data = code.data;
 
@@ -57,7 +57,7 @@ function GameService($storage, connection) {
 			else {
 
 				// Если его нет, берем из .js файла код и выполняем callback
-				connection.httpGetGameCodeFromJs(function (data) {
+				connection.getGameCodeFromJs(function (data) {
 
 					callback(data);
 

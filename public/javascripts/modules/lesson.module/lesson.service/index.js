@@ -14,7 +14,7 @@ module.exports = LessonService;
  *
  * @see LessonController
  */
-function LessonService($storage, connection, audioManager, markerService) {
+function LessonService($storage, connection, audioManager, aceService) {
 
 	var that = {};
 
@@ -27,6 +27,7 @@ function LessonService($storage, connection, audioManager, markerService) {
 
 	var audioWrapper = AudioWrapper();
 	var storage = Storage($storage);
+	var markers = aceService.getMarkerService;
 
 	that.setEditorSession = setEditorSession;
 	that.getEditorSession = getEditorSession;
@@ -126,7 +127,7 @@ function LessonService($storage, connection, audioManager, markerService) {
 
 		that.create = function (a) {
 
-			audio = audioManager.create(a);
+			audio = audioManager.createVoice(a);
 
 		};
 
@@ -179,12 +180,12 @@ function LessonService($storage, connection, audioManager, markerService) {
 			// Обработка отрисовки маркеров
 			if (m) {
 
-				markerId = markerService.paintMarker(editorSession, m.x1, m.y1, m.x2, m.y2, m.type);
+				markerId = markers().paintMarker(editorSession, m.x1, m.y1, m.x2, m.y2, m.type);
 
 			}
 			else {
 
-				markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+				markers().deleteMarkerAndAnnotation(editorSession, markerId);
 
 			}
 
@@ -253,12 +254,14 @@ function LessonService($storage, connection, audioManager, markerService) {
 		var current = currentSubLesson();
 
 		// Отправка запроса на получение кода следующего уркоа
-		connection.httpGetLessonCodeFromJs(lessonId, scope.subIndex, function (data) {
+		connection.getLessonCodeFromJs(lessonId, scope.subIndex, function (res) {
+
+			var code = res.data;
 
 			// Сохранение в Ace.
-			editorSession.setValue(data);
+			editorSession.setValue(code);
 
-			options.code = data;
+			options.code = code;
 
 			// Слова BBot'а
 			scope.textBot = current.defaultBBot && current.defaultBBot();
@@ -289,7 +292,7 @@ function LessonService($storage, connection, audioManager, markerService) {
 
 		storage.set('lessons', args.statistic);
 
-		connection.httpSaveStatisticLesson(args);
+		connection.saveLessonsStatistics(args);
 
 	}
 
@@ -305,7 +308,7 @@ function LessonService($storage, connection, audioManager, markerService) {
 		options.update = false;
 
 		// Удаление маркеров
-		markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+		markers().deleteMarkerAndAnnotation(editorSession, markerId);
 
 		// Установка трека в 0
 		audioIndex = 0;
@@ -371,7 +374,7 @@ function LessonService($storage, connection, audioManager, markerService) {
 		if (!config) {
 
 			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-			connection.httpGetLessonsStatisticsFromDataBase(function (result) {
+			connection.getLessonsStatistics(function (result) {
 
 				var statistics = result.data[lessonId];
 

@@ -33,11 +33,13 @@ function Storage($storage) {
 	 */
 	function getCurrent(lessonId) {
 
-		var l = JSON.parse($storage.local.getItem('lessons'));
+		var json = $storage.local.getItem('lessons');
 
-		if (l && l[lessonId]) {
+		var lessons = json && JSON.parse(json);
 
-			return parseInt(l[lessonId].current);
+		if (lessons && lessons[lessonId]) {
+
+			return parseInt(lessons[lessonId].current);
 
 		}
 
@@ -49,7 +51,9 @@ function Storage($storage) {
 	 */
 	function getLessons() {
 
-		return JSON.parse($storage.local.getItem('lessons')) || [];
+		var json = $storage.local.getItem('lessons');
+
+		return json && JSON.parse(json) || [];
 
 	}
 

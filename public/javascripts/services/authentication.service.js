@@ -33,7 +33,7 @@ function Authentication(connection) {
 		var success = args.success;
 		var error = args.error;
 
-		connection.httpLogin(success, error);
+		connection.login(success, error);
 
 	}
 
@@ -48,7 +48,7 @@ function Authentication(connection) {
 		var success = args.success;
 		var error = args.error;
 
-		connection.httpLogout(success, error);
+		connection.logout(success, error);
 
 	}
 
@@ -62,7 +62,7 @@ function Authentication(connection) {
 	 */
 	function register(args) {
 
-		connection.httpRegister(args);
+		connection.register(args);
 
 	}
 
@@ -74,7 +74,7 @@ function Authentication(connection) {
 	 */
 	function isLoggedIn(args) {
 
-		connection.httpIsLoggedIn(args);
+		connection.isLoggedIn(args);
 
 	}
 

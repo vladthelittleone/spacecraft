@@ -51,7 +51,7 @@ function AudioManager($rootScope) {
 			voice.setAttribute('src', str);
 
 			// Загрузка нового сурса
-			voice.init();
+			voice.load();
 
 		}
 		else {
@@ -75,7 +75,7 @@ function AudioManager($rootScope) {
 
 		audio.setAttribute('src', config.src);
 
-		audio.init();
+		audio.load();
 
 		audio.volume = config.volume;
 

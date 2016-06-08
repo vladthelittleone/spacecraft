@@ -4,8 +4,11 @@ var angular = require('angular');
 
 require('angular-ui-router');
 require('angular-ui-layout');
-require('angular-chart.js');
 require('angular-ui-ace');
+
+/**
+ * Загружаем модули.
+ */
 require('./modules');
 
 /**
@@ -13,26 +16,25 @@ require('./modules');
  * описывающий все модули.
  */
 angular.module('spacecraft', [
-		'chart.js',
 		'ui.router',
 		'ui.ace',
 		'ui.layout',
-		'spacecraft.game.module'
+		'spacecraft.modules'
 	])
 	.config(configBlock)
 	.run(runBlock);
 
 /**
- * Загружаем директивы, сервисы, контроллеры.
+ * Загружаем директивы, сервисы.
  */
 require('./services');
 require('./directives');
 
-angular.module('spacecraft').config(configBlock);
-angular.module('spacecraft').run(runBlock);
-
 runBlock.$inject = ['authentication', '$rootScope', '$state'];
 configBlock.$inject = ['$urlRouterProvider', 'ChartJsProvider'];
+
+angular.module('spacecraft').config(configBlock);
+angular.module('spacecraft').run(runBlock);
 
 /**
  * Конфигурация сервисов до старта приложения.
@@ -41,17 +43,6 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
 
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');
-
-	// Настройка всех графиков
-	ChartJsProvider.setOptions({
-		colours:    ['#152B39', '#C5C8C6'],
-		responsive: true
-	});
-
-	// Конфигурация графиков линейных
-	ChartJsProvider.setOptions('Line', {
-		datasetFill: false
-	});
 
 }
 

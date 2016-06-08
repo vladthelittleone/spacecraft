@@ -30,7 +30,7 @@ function Stars(connection, $state) {
 		 */
 		$scope.radioChange = function (value) {
 
-			connection.httpLessonRate($scope.idLesson, value);
+			connection.lessonRate($scope.idLesson, value);
 
 			$state.go('lessons');
 

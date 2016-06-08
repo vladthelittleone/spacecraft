@@ -1,11 +1,7 @@
 'use strict';
 
-var ace = require('ace-builds');
-
 var autocompleter = require('./autocompleter');
-var markerService = require('./marker-service');
-
-AceService.$inject = ['autocompleter'];
+var MarkerService = require('./marker-service');
 
 module.exports = AceService;
 
@@ -14,21 +10,15 @@ module.exports = AceService;
  *
  * Created by Ivan on 09.05.2016.
  */
-function AceService(editor, code) {
+function AceService() {
 
 	var that = {};
 
-	editor.$blockScrolling = Infinity;
+	var markerService;
+	var editor;
 
-	// установка кода
-	editor.getSession().setValue(code);
-
-	// Скролл до конца - скролл присутствует всегда.
-	editor.setOption("scrollPastEnd", true);
-
-	autocomplete(editor);
-
-	that.markers = markerService(editor);
+	that.initialize = initialize;
+	that.getMarkerService = getMarkerService;
 
 	return that;
 
@@ -52,5 +42,30 @@ function AceService(editor, code) {
 		});
 
 		langTools.addCompleter(completer);
+	}
+
+	/**
+	 * Инициализация Ace
+	 *
+	 * @param edx Ace класс
+     */
+	function initialize (edx)
+	{
+		editor = edx;
+
+		editor.$blockScrolling = Infinity;
+
+		// Скролл до конца - скролл присутствует всегда.
+		editor.setOption("scrollPastEnd", true);
+
+		autocomplete(editor);
+
+		markerService = MarkerService(editor);
+
+	}
+
+	function getMarkerService ()
+	{
+		return markerService;
 	}
 }

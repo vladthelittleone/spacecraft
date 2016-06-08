@@ -1,7 +1,5 @@
 'use strict';
 
-var ace = require('ace-builds');
-
 module.exports = MarkerService;
 
 /**

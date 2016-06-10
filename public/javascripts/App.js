@@ -7,6 +7,11 @@ require('angular-ui-layout');
 require('angular-ui-ace');
 
 /**
+ * Подключаем изменение прототипа.
+ */
+require('./extends');
+
+/**
  * Загружаем модули.
  */
 require('./modules');

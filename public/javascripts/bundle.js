@@ -41171,6 +41171,11 @@ require('angular-ui-layout');
 require('angular-ui-ace');
 
 /**
+ * Подключаем изменение прототипа.
+ */
+require('./extends');
+
+/**
  * Загружаем модули.
  */
 require('./modules');
@@ -41244,7 +41249,7 @@ function runBlock(authentication, $rootScope, $state) {
 
 }
 
-},{"./directives":13,"./modules":21,"./services":50,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
+},{"./directives":13,"./extends":17,"./modules":27,"./services":56,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
 'use strict';
 
 BotBoard.$inject = ['$sce'];
@@ -41274,17 +41279,17 @@ function BotBoard($sce) {
 
 	return directive;
 
-	function link ($scope) {
+	function link($scope) {
 
 		// Закрыть доску
-		$scope.closeBBotList = function () {
-
-			$scope.textBot = false;
-
-		};
+		$scope.closeBBotList = closeBBotList;
 
 		// Вывод сохраненного текста
-		$scope.getText = function () {
+		$scope.getText = getText;
+
+		// ==================================================
+
+		function getText() {
 
 			if ($scope.textBot) {
 
@@ -41293,7 +41298,13 @@ function BotBoard($sce) {
 
 			}
 
-		};
+		}
+
+		function closeBBotList() {
+
+			$scope.textBot = false;
+
+		}
 
 	}
 
@@ -41332,27 +41343,39 @@ function Documentation() {
 		// вкладка функций.
 		$scope.functionDocOpen = false;
 
-		$scope.openFunctionDoc = function (v) {
+		// Переклчатель документации
+		$scope.openFunctionDoc = functionDocOpen;
+
+		// Наблюдение за параметром hide.
+		// В случае изменения
+		$scope.$watch('hide', onHide);
+
+		// ==================================================
+
+		function functionDocOpen(v) {
 
 			$scope.doc = documentation[v];
 
 			$scope.functionDocOpen = true;
 
-		};
+		}
 
-		// Наблюдение за параметром hide.
-		// В случае изменения
-		$scope.$watch('hide', function () {
+		function onHide() {
 
 			// Закрываем вкладку функций.
 			$scope.functionDocOpen = false;
 
-		});
+		}
 	}
 }
 
 },{}],12:[function(require,module,exports){
 'use strict';
+
+/**
+ * Зависимости
+ */
+var Game = require('../game');
 
 /**
  * Директива инициализации игрового контента.
@@ -41370,7 +41393,15 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 	return directive;
 
-	function link ($scope) {
+	function link($scope) {
+
+		var game = createGame();
+
+		$scope.fillArray = fillArray;
+		$scope.$on('$destroy', onDestroy);
+
+		// ==================================================
+
 		/**
 		 * Callback, который выполняется при уничтожение корабля.
 		 *
@@ -41387,7 +41418,7 @@ function GameCanvas(statistics, $state, $stateParams) {
 		/**
 		 * Функция создания игры.
 		 */
-		function CreateGame() {
+		function createGame() {
 
 			var args = {
 				scope:    $scope, 				// scope
@@ -41395,12 +41426,9 @@ function GameCanvas(statistics, $state, $stateParams) {
 				callers:  {result: resultCall} 	// callback'и
 			};
 
-			return GameTypeGenerator(args);
+			return Game.createOnlineGame(args);
 
 		}
-
-		var game = CreateGame();
-
 
 		/**
 		 * Возврашает заполненый массив, заданного размера.
@@ -41408,7 +41436,7 @@ function GameCanvas(statistics, $state, $stateParams) {
 		 *
 		 * @param num размер массив
 		 */
-		$scope.fillArray = function (num) {
+		function fillArray(num) {
 
 			var arr = [];
 
@@ -41420,13 +41448,13 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 			return arr;
 
-		};
+		}
 
-		$scope.$on('$destroy', function () {
+		function onDestroy() {
 
 			game.destroy(); // Очистка игры при удалении
 
-		});
+		}
 
 	}
 
@@ -41436,7 +41464,7 @@ GameCanvas.$inject = ['statistics', '$state', '$stateParams'];
 
 module.exports = GameCanvas;
 
-},{}],13:[function(require,module,exports){
+},{"../game":18}],13:[function(require,module,exports){
 'use strict';
 
 /**
@@ -41482,20 +41510,27 @@ function LessonBoard($sce) {
 
 	function link($scope) {
 
+		$scope.getContent = getContent;
+		$scope.getHint = getHint;
+		$scope.getInstructions = getInstructions;
+		$scope.showHint = showHint;
+
+		// ==================================================
+
 		/**
 		 * Возвращает контент урока.
 		 */
-		$scope.getContent = function () {
+		function getContent () {
 
 			// Проверка html на предмет xss
 			return $sce.trustAsHtml($scope.lesson.content());
 
-		};
+		}
 
 		/**
 		 * Возвращает текст подсказки.
 		 */
-		$scope.getHint = function () {
+		function getHint () {
 
 			if ($scope.lesson.hint) {
 
@@ -41503,22 +41538,22 @@ function LessonBoard($sce) {
 
 			}
 
-		};
+		}
 
 		/**
 		 * Инструкции пользователю.
 		 */
-		$scope.getInstructions = function () {
+		function getInstructions () {
 
 			return $sce.trustAsHtml($scope.lesson.instructions);
 
-		};
+		}
 
-		$scope.showHint = function () {
+		function showHint () {
 
 			$scope.hint = !$scope.hint;
 
-		};
+		}
 
 	}
 
@@ -41593,6 +41628,263 @@ function Stars(connection, $state) {
 }
 
 },{}],17:[function(require,module,exports){
+/**
+ * Изменение прототипа функций.
+ *
+ * Created by vladthelittleone on 08.06.16.
+ */
+Array.prototype.removeElement = function (element)
+{
+	var index = this.indexOf(element);
+	this.removeElementByIndex(index)
+};
+
+Array.prototype.removeElementByIndex = function (index)
+{
+	if (index > -1)
+	{
+		this.splice(index, 1);
+	}
+};
+
+},{}],18:[function(require,module,exports){
+'use strict';
+
+/**
+ * Зависимости.
+ */
+var OnlineGame = require('./online');
+
+// Экспорт
+module.exports = Game();
+
+/**
+ * Модуль создания игры опредленного типа.
+ *
+ * Created by vladthelittleone on 21.10.15.
+ */
+function Game() {
+
+	var t = {};
+
+	t.createLessonGame = createLessonGame;
+	t.createOnlineGame = createOnlineGame;
+
+	return t;
+
+	function createLessonGame() {
+
+		//
+
+	}
+
+	function createOnlineGame() {
+
+		return OnlineGame();
+
+	}
+
+}
+
+},{"./online":19}],19:[function(require,module,exports){
+'use strict';
+
+/**
+ * Зависимости.
+ */
+var BootState = require('./states/boot');
+var PreloadState = require('./states/preload');
+var PlayState = require('./states/play');
+
+// Экспорт
+module.exports = OnlineGame;
+
+/**
+ * Модуль создания игры для онлайна.
+ *
+ * Created by vladthelittleone on 21.10.15.
+ */
+function OnlineGame() {
+
+	// that / this
+	var t = {};
+
+	t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
+
+	// Игровые состояния
+	t.phaser.state.add('boot', BootState);
+	t.phaser.state.add('preload', PreloadState);
+	t.phaser.state.add('play', PlayState);
+
+	t.phaser.state.start('boot');
+
+	return t;
+
+}
+
+},{"./states/boot":20,"./states/play":21,"./states/preload":22}],20:[function(require,module,exports){
+'use strict';
+
+module.exports = BootState;
+
+/**
+ * Состояние инициализации физики и других компонент игры.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function BootState(game) {
+
+	var t = {};
+
+	t.preload = preload;
+	t.create = create;
+
+	return t;
+
+	/**
+	 *  Этап перед созданием состояния.
+	 */
+	function preload() {
+
+		game.load.image('preload', 'images/sprites/preload.png');
+
+	}
+
+	/**
+	 * Этап создания состояния.
+	 */
+	function create() {
+
+		game.renderer.clearBeforeRender = false;
+		game.renderer.roundPixels = true;
+
+		game.scale.pageAlignVertically = true;
+		game.scale.pageAlignHorizontally = true;
+
+		game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+
+		// Переходим в состояние предзагрузки ресурсов
+		game.state.start('preload');
+
+	}
+
+}
+
+},{}],21:[function(require,module,exports){
+/**
+ * Created by vladthelittleone on 10.06.16.
+ */
+'use strict';
+
+module.exports = PlayState;
+
+/**
+ * Состояние инициализации геймплея.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function PlayState(game) {
+
+	var t = {};
+
+	var tileSprite;
+
+	t.create = create;
+
+	return t;
+
+	/**
+	 * Этап создания состояния.
+	 */
+	function create() {
+
+		game.world.setBounds(0, 0, 1920, 1920);
+
+		tileSprite = game.add.tileSprite(0, 0, 1920, 1920, 'starField');
+	}
+}
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+module.exports = PreloadState;
+
+/**
+ * Состояние инициализации ресурсов, картинок, аудио игры.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function PreloadState(game) {
+
+	var t = {};
+
+	var preloadSprite;
+
+	t.isPreloading = true;
+
+	t.preload = preload;
+	t.create = create;
+	t.update = update;
+
+	return t;
+
+	/**
+	 *  Этап перед созданием состояния.
+	 */
+	function preload() {
+
+		var centerX = game.width / 2;
+		var centerY = game.height / 2;
+
+		preloadSprite = game.add.sprite(centerX, centerY, 'preload');
+
+		preloadSprite.anchor.setTo(0.5, 0.5);
+
+		// когда все ресурсы будут загружены вызываем callback
+		game.load.onLoadComplete.addOnce(onLoadComplete);
+		game.load.setPreloadSprite(preloadSprite);
+
+		game.load.image('starField', 'images/sprites/starField.png');
+	}
+
+	/**
+	 * Этап создания состояния.
+	 */
+	function create() {
+
+		preloadSprite.cropEnabled = false;
+
+	}
+
+	/**
+	 * Этап обновления состояния.
+	 */
+	function update() {
+
+		// Загружаемся?
+		if (!t.isPreloading) {
+
+			// Переходим в состояние - игры
+			game.state.start('play');
+
+		}
+
+	}
+
+	/**
+	 * При выполнении загрузки всех asset'ов
+	 */
+	function onLoadComplete() {
+
+		t.isPreloading = false;
+
+	}
+
+}
+
+},{}],23:[function(require,module,exports){
 'use strict';
 
 GameConfig.$inject = ['$stateProvider'];
@@ -41612,7 +41904,7 @@ function GameConfig($stateProvider) {
 
 }
 
-},{}],18:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 /**
@@ -41765,7 +42057,7 @@ function GameController($scope, audioManager, connection, service, aceService) {
 
 }
 
-},{}],19:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 GameService.$inject = ['$storage', 'connection'];
@@ -41866,7 +42158,7 @@ function GameService($storage, connection) {
 
 }
 
-},{}],20:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /**
@@ -41882,7 +42174,7 @@ app.config(require('./game.config'));
 app.controller('GameController', require('./game.controller'));
 app.factory('gameService', require('./game.service'));
 
-},{"./game.config":17,"./game.controller":18,"./game.service":19,"angular":8}],21:[function(require,module,exports){
+},{"./game.config":23,"./game.controller":24,"./game.service":25,"angular":8}],27:[function(require,module,exports){
 /**
  * Created by vladthelittleone on 08.06.16.
  *
@@ -41906,7 +42198,7 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.welcome.module'
 ]);
 
-},{"./game.module":20,"./lesson.module":22,"./lessons.module":28,"./login.module":31,"./quick.module":34,"./result.module":37,"./welcome.module":40,"angular":8}],22:[function(require,module,exports){
+},{"./game.module":26,"./lesson.module":28,"./lessons.module":34,"./login.module":37,"./quick.module":40,"./result.module":43,"./welcome.module":46,"angular":8}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -41922,7 +42214,7 @@ app.config(require('./lesson.config'));
 app.controller('LessonController', require('./lesson.controller'));
 app.factory('lessonService', require('./lesson.service'));
 
-},{"./lesson.config":23,"./lesson.controller":24,"./lesson.service":25,"angular":8}],23:[function(require,module,exports){
+},{"./lesson.config":29,"./lesson.controller":30,"./lesson.service":31,"angular":8}],29:[function(require,module,exports){
 'use strict';
 
 LessonConfig.$inject = ['$stateProvider'];
@@ -41942,7 +42234,7 @@ function LessonConfig($stateProvider) {
 
 }
 
-},{}],24:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
@@ -42102,7 +42394,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 }
 
-},{}],25:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var Storage = require('./storage');
@@ -42646,7 +42938,7 @@ function LessonService($storage, connection, audioManager, aceService) {
 
 }
 
-},{"./interpreter":26,"./storage":27}],26:[function(require,module,exports){
+},{"./interpreter":32,"./storage":33}],32:[function(require,module,exports){
 'use strict';
 
 module.exports = Interpreter();
@@ -42706,7 +42998,7 @@ function Interpreter () {
 
 }
 
-},{}],27:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;
@@ -42785,7 +43077,7 @@ function Storage($storage) {
 	}
 }
 
-},{}],28:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42800,7 +43092,7 @@ var app = angular.module('spacecraft.lessons.module', []);
 app.config(require('./lessons.config'));
 app.controller('LessonsController', require('./lessons.controller'));
 
-},{"./lessons.config":29,"./lessons.controller":30,"angular":8}],29:[function(require,module,exports){
+},{"./lessons.config":35,"./lessons.controller":36,"angular":8}],35:[function(require,module,exports){
 'use strict';
 
 LessonsConfig.$inject = ['$stateProvider'];
@@ -42820,7 +43112,7 @@ function LessonsConfig($stateProvider) {
 
 }
 
-},{}],30:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 LessonsController.$inject = ['$scope'];
@@ -42837,7 +43129,7 @@ function LessonsController($scope) {
 
 }
 
-},{}],31:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42852,7 +43144,7 @@ var app = angular.module('spacecraft.login.module', []);
 app.config(require('./login.config'));
 app.controller('LoginController', require('./login.controller'));
 
-},{"./login.config":32,"./login.controller":33,"angular":8}],32:[function(require,module,exports){
+},{"./login.config":38,"./login.controller":39,"angular":8}],38:[function(require,module,exports){
 'use strict';
 
 LoginConfig.$inject = ['$stateProvider'];
@@ -42872,7 +43164,7 @@ function LoginConfig($stateProvider) {
 
 }
 
-},{}],33:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 var ENTER = 13;
@@ -42978,7 +43270,7 @@ function LoginController($scope, $state, authentication) {
 
 }
 
-},{}],34:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42994,7 +43286,7 @@ app.config(require('./quick.config'));
 app.controller('QuickController', require('./quick.controller'));
 
 
-},{"./quick.config":35,"./quick.controller":36,"angular":8}],35:[function(require,module,exports){
+},{"./quick.config":41,"./quick.controller":42,"angular":8}],41:[function(require,module,exports){
 'use strict';
 
 QuickConfig.$inject = ['$stateProvider'];
@@ -43014,7 +43306,7 @@ function QuickConfig($stateProvider) {
 
 }
 
-},{}],36:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 QuickController.$inject = ['$scope', '$sce', 'authentication'];
 
 module.exports = QuickController;
@@ -43331,7 +43623,7 @@ function QuickController($scope, $sce) {
 	}
 }
 
-},{}],37:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43347,7 +43639,7 @@ app.config(require('./result.config'));
 app.controller('ResultController', require('./result.controller'));
 
 
-},{"./result.config":38,"./result.controller":39,"angular":8}],38:[function(require,module,exports){
+},{"./result.config":44,"./result.controller":45,"angular":8}],44:[function(require,module,exports){
 'use strict';
 
 ResultConfig.$inject = ['$stateProvider'];
@@ -43367,7 +43659,7 @@ function ResultConfig($stateProvider) {
 
 }
 
-},{}],39:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
@@ -43416,7 +43708,7 @@ function ResultController($scope, $state, statistics, connection) {
 	}
 }
 
-},{}],40:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43433,7 +43725,7 @@ var app = angular.module('spacecraft.welcome.module', ['chart.js']);
 app.config(require('./welcome.config'));
 app.controller('WelcomeController', require('./welcome.controller'));
 
-},{"./welcome.config":41,"./welcome.controller":42,"angular":8,"angular-chart.js":1}],41:[function(require,module,exports){
+},{"./welcome.config":47,"./welcome.controller":48,"angular":8,"angular-chart.js":1}],47:[function(require,module,exports){
 'use strict';
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
@@ -43465,7 +43757,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 }
 
 
-},{}],42:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 WelcomeController.$inject = ['$scope', '$storage', '$state', '$sce', 'authentication', 'connection'];
@@ -43718,7 +44010,7 @@ function WelcomeController($scope, $storage, $state, $sce, authentication, conne
 	}
 }
 
-},{}],43:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports=[
 	{"regExps": [" *spaceCraft.weapon.$"], "name": "weaponBlock"},
 	{"regExps": [" *spaceCraft.engine.$"], "name": "engineBlock"},
@@ -43739,7 +44031,7 @@ module.exports=[
 	}
 ]
 
-},{}],44:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 module.exports = SpaceCraftCompleter;
@@ -43854,7 +44146,7 @@ function generateAutocomplete(bindings, line) {
 
 }
 
-},{"./autocomplete.json":43}],45:[function(require,module,exports){
+},{"./autocomplete.json":49}],51:[function(require,module,exports){
 'use strict';
 
 var autocompleter = require('./autocompleter');
@@ -43927,7 +44219,7 @@ function AceService() {
 	}
 }
 
-},{"./autocompleter":44,"./marker-service":46}],46:[function(require,module,exports){
+},{"./autocompleter":50,"./marker-service":52}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = MarkerService;
@@ -44014,8 +44306,11 @@ function MarkerService(editor) {
 
 }
 
-},{}],47:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
+
+// Зависимости
+var rand = require('../utils/random');
 
 AudioManager.$inject = ['$rootScope'];
 
@@ -44124,7 +44419,7 @@ function AudioManager($rootScope) {
 
 		}
 
-		var random = utils.randomInt(0, playList.length - 1);
+		var random = rand.randomInt(0, playList.length - 1);
 
 		init(soundtrack, playList[random]);
 
@@ -44148,7 +44443,7 @@ function AudioManager($rootScope) {
 	}
 }
 
-},{}],48:[function(require,module,exports){
+},{"../utils/random":59}],54:[function(require,module,exports){
 'use strict';
 
 Authentication.$inject = ['connection'];
@@ -44245,7 +44540,7 @@ function Authentication(connection) {
 	}
 }
 
-},{}],49:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 Connection.$inject = ['$http'];
@@ -44549,7 +44844,7 @@ function Connection($http) {
 	}
 }
 
-},{}],50:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44566,7 +44861,7 @@ app.factory('authentication', require('./authentication.service'));
 app.factory('connection', require('./connection.service'));
 app.factory('statistics', require('./statistics.service'));
 
-},{"./ace.service":45,"./audio.service":47,"./authentication.service":48,"./connection.service":49,"./statistics.service":51,"./storage.service":52,"angular":8}],51:[function(require,module,exports){
+},{"./ace.service":51,"./audio.service":53,"./authentication.service":54,"./connection.service":55,"./statistics.service":57,"./storage.service":58,"angular":8}],57:[function(require,module,exports){
 'use strict';
 
 module.exports = Statistics;
@@ -44611,7 +44906,7 @@ function Statistics ()
 
 }
 
-},{}],52:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;
@@ -44698,5 +44993,63 @@ function Storage () {
 	}
 
 }
+
+},{}],59:[function(require,module,exports){
+'use strict';
+
+module.exports = RandomUtils();
+
+/**
+ * Функциональность рандомизации, необходимая во всех частях системы.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function RandomUtils ()
+{
+	var that = {};
+
+	that.lessonsArray = [];
+	that.randomInt = randomInt;
+	that.randomArbitrary = randomArbitrary;
+	that.random = random;
+	that.randomOf = randomOf;
+
+	return that;
+
+	/**
+	 * Returns a random number between min (inclusive) and max (exclusive)
+	 */
+	function randomArbitrary (min, max)
+	{
+		return Math.random() * (max - min) + min;
+	}
+
+	/**
+	 * Returns a random integer between min (inclusive) and max (inclusive)
+	 * Using Math.round() will give you a non-uniform distribution!
+	 */
+	function randomInt (min, max)
+	{
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	/**
+	 * Возвращает случайное между 1 и 0 или true и false.
+     */
+	function random ()
+	{
+		return this.randomInt(0, 1);
+	}
+
+	/**
+	 * Возвращает случайно одно из заданных чисел.
+     */
+	function randomOf (i1, i2)
+	{
+		return this.random() ? i1 : i2;
+	}
+
+}
+
 
 },{}]},{},[9]);

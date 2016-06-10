@@ -1,5 +1,8 @@
 'use strict';
 
+// Зависимости
+var rand = require('../utils/random');
+
 AudioManager.$inject = ['$rootScope'];
 
 module.exports = AudioManager;
@@ -107,7 +110,7 @@ function AudioManager($rootScope) {
 
 		}
 
-		var random = utils.randomInt(0, playList.length - 1);
+		var random = rand.randomInt(0, playList.length - 1);
 
 		init(soundtrack, playList[random]);
 

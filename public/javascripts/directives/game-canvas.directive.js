@@ -1,6 +1,11 @@
 'use strict';
 
 /**
+ * Зависимости
+ */
+var Game = require('../game');
+
+/**
  * Директива инициализации игрового контента.
  */
 function GameCanvas(statistics, $state, $stateParams) {
@@ -16,7 +21,15 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 	return directive;
 
-	function link ($scope) {
+	function link($scope) {
+
+		var game = createGame();
+
+		$scope.fillArray = fillArray;
+		$scope.$on('$destroy', onDestroy);
+
+		// ==================================================
+
 		/**
 		 * Callback, который выполняется при уничтожение корабля.
 		 *
@@ -33,7 +46,7 @@ function GameCanvas(statistics, $state, $stateParams) {
 		/**
 		 * Функция создания игры.
 		 */
-		function CreateGame() {
+		function createGame() {
 
 			var args = {
 				scope:    $scope, 				// scope
@@ -41,12 +54,9 @@ function GameCanvas(statistics, $state, $stateParams) {
 				callers:  {result: resultCall} 	// callback'и
 			};
 
-			return GameTypeGenerator(args);
+			return Game.createOnlineGame(args);
 
 		}
-
-		var game = CreateGame();
-
 
 		/**
 		 * Возврашает заполненый массив, заданного размера.
@@ -54,7 +64,7 @@ function GameCanvas(statistics, $state, $stateParams) {
 		 *
 		 * @param num размер массив
 		 */
-		$scope.fillArray = function (num) {
+		function fillArray(num) {
 
 			var arr = [];
 
@@ -66,13 +76,13 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 			return arr;
 
-		};
+		}
 
-		$scope.$on('$destroy', function () {
+		function onDestroy() {
 
 			game.destroy(); // Очистка игры при удалении
 
-		});
+		}
 
 	}
 

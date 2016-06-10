@@ -1,12 +1,30 @@
 'use strict';
 
 /**
+ * Зависимости.
+ */
+var Phaser = require('phaser');
+
+// Экспорт
+module.exports = Game;
+
+/**
+ * Модуль создания игры опредленного типа.
+ *
  * Created by vladthelittleone on 21.10.15.
  */
-var GameTypeGenerator = function (spec)
+var Game = function (spec)
 {
 	var that = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'game');
 
+	initParams();
+	initStates();
+
+	return that;
+
+	/**
+	 * Инициализация основных игровых параметров.
+	 */
 	function initParams ()
 	{
 		that.sc = {};
@@ -16,9 +34,11 @@ var GameTypeGenerator = function (spec)
 		that.sc.collisionGroups = {};
 		that.sc.collisionGroups.spaceCraft = {};
 		that.sc.collisionGroups.bonus = {};
-		that.sc.seq = utils.seq();
 	}
 
+	/**
+	 * Инициализация состояний.
+	 */
 	function initStates ()
 	{
 		var isLesson = spec.lessonId;
@@ -41,9 +61,4 @@ var GameTypeGenerator = function (spec)
 
 		that.state.start('boot');
 	}
-
-	initParams();
-	initStates();
-
-	return that;
 };

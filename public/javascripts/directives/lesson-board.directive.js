@@ -26,20 +26,27 @@ function LessonBoard($sce) {
 
 	function link($scope) {
 
+		$scope.getContent = getContent;
+		$scope.getHint = getHint;
+		$scope.getInstructions = getInstructions;
+		$scope.showHint = showHint;
+
+		// ==================================================
+
 		/**
 		 * Возвращает контент урока.
 		 */
-		$scope.getContent = function () {
+		function getContent () {
 
 			// Проверка html на предмет xss
 			return $sce.trustAsHtml($scope.lesson.content());
 
-		};
+		}
 
 		/**
 		 * Возвращает текст подсказки.
 		 */
-		$scope.getHint = function () {
+		function getHint () {
 
 			if ($scope.lesson.hint) {
 
@@ -47,22 +54,22 @@ function LessonBoard($sce) {
 
 			}
 
-		};
+		}
 
 		/**
 		 * Инструкции пользователю.
 		 */
-		$scope.getInstructions = function () {
+		function getInstructions () {
 
 			return $sce.trustAsHtml($scope.lesson.instructions);
 
-		};
+		}
 
-		$scope.showHint = function () {
+		function showHint () {
 
 			$scope.hint = !$scope.hint;
 
-		};
+		}
 
 	}
 

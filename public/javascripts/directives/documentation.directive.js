@@ -30,21 +30,28 @@ function Documentation() {
 		// вкладка функций.
 		$scope.functionDocOpen = false;
 
-		$scope.openFunctionDoc = function (v) {
+		// Переклчатель документации
+		$scope.openFunctionDoc = functionDocOpen;
+
+		// Наблюдение за параметром hide.
+		// В случае изменения
+		$scope.$watch('hide', onHide);
+
+		// ==================================================
+
+		function functionDocOpen(v) {
 
 			$scope.doc = documentation[v];
 
 			$scope.functionDocOpen = true;
 
-		};
+		}
 
-		// Наблюдение за параметром hide.
-		// В случае изменения
-		$scope.$watch('hide', function () {
+		function onHide() {
 
 			// Закрываем вкладку функций.
 			$scope.functionDocOpen = false;
 
-		});
+		}
 	}
 }

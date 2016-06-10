@@ -27,17 +27,17 @@ function BotBoard($sce) {
 
 	return directive;
 
-	function link ($scope) {
+	function link($scope) {
 
 		// Закрыть доску
-		$scope.closeBBotList = function () {
-
-			$scope.textBot = false;
-
-		};
+		$scope.closeBBotList = closeBBotList;
 
 		// Вывод сохраненного текста
-		$scope.getText = function () {
+		$scope.getText = getText;
+
+		// ==================================================
+
+		function getText() {
 
 			if ($scope.textBot) {
 
@@ -46,7 +46,13 @@ function BotBoard($sce) {
 
 			}
 
-		};
+		}
+
+		function closeBBotList() {
+
+			$scope.textBot = false;
+
+		}
 
 	}
 

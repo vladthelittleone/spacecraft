@@ -1,37 +1,36 @@
-<div ng-class="{'hidden' : hideEditor && (hideDoc || options.isCodeRunning), 'visible' : !hideEditor && !hideDoc}">
-    <div ui-layout="{ flow : 'column',  dividerSize: 4}" class="ui-layout-custom">
+<div ui-layout="{ flow : 'column',  dividerSize: 4}" class="ui-layout-custom">
 
-		<!-- Директива докуменации -->
-		<div ui-layout-container
-			 min-size="30%"
-			 max-size="70%">
+	<!-- Директива докуменации -->
+	<div ui-layout-container
+		 min-size="30%"
+		 max-size="70%">
 
-			<documentation hide="hideDoc || options.isCodeRunning"/>
+		<documentation hide="hideDoc"/>
 
+	</div>
+
+	<div ui-layout-container
+		min-size="30%"
+		max-size="70%"
+		ng-class="{'hidden' : hideEditor}">
+
+		<div class="main-editor"
+			ui-ace="{
+			useWrapMode : true,
+			showGutter: true,
+			theme:'tomorrow_night',
+			mode: 'javascript',
+			firstLineNumber: 1,
+			onLoad: aceLoaded,
+			onChange: aceChanged
+			}">
 		</div>
 
-        <div ui-layout-container
-            min-size="30%"
-            max-size="70%"
-			ng-hide="hideEditor">
+		<!-- Директива ошибки -->
+		<bbot-board text-bot="textBot"
+					css="'bbot-wow'"/>
+	</div>
 
-			<div class="main-editor"
-			 	ui-ace="{
-			 	useWrapMode : true,
-				showGutter: true,
-				theme:'tomorrow_night',
-				mode: 'javascript',
-				firstLineNumber: 1,
-				onLoad: aceLoaded,
-				onChange: aceChanged
-				}">
-			</div>
-
-			<!-- Директива ошибки -->
-			<bbot-board text-bot="textBot"
-						css="'bbot-wow'"/>
-		</div>
-    </div>
 </div>
 
 

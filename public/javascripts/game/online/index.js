@@ -3,9 +3,7 @@
 /**
  * Зависимости.
  */
-var BootState = require('./states/boot');
-var PreloadState = require('./states/preload');
-var PlayState = require('./states/play');
+var StatesFactory = require('./states');
 
 // Экспорт
 module.exports = OnlineGame;
@@ -23,11 +21,11 @@ function OnlineGame() {
 	t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
 
 	// Игровые состояния
-	t.phaser.state.add('boot', BootState);
-	t.phaser.state.add('preload', PreloadState);
-	t.phaser.state.add('play', PlayState);
+	StatesFactory.createPreloadState(t.phaser, 'preload');
+	StatesFactory.createRunnerState(t.phaser, 'play');
 
-	t.phaser.state.start('boot');
+	// Стартуем boot состояние.
+	StatesFactory.createBootState(t.phaser, 'boot', true);
 
 	return t;
 

@@ -38,6 +38,8 @@ function PreloadState(game) {
 		game.load.setPreloadSprite(preloadSprite);
 
 		game.load.image('starField', 'images/sprites/starField.png');
+		game.load.image('transport', 'images/sprites/entities/transport.png');
+
 	}
 
 	/**

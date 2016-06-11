@@ -1,5 +1,8 @@
 'use strict';
 
+// Зависимости
+var CodeLauncher = require('../../game/launcher');
+
 /**
  * Контрллер игрового окна.
  *
@@ -46,7 +49,17 @@ function GameController($scope, audioManager, connection, service, aceService) {
 		// Сохраняем код только при нажатии на кнопку 'play'
 		if ($scope.options.isCodeRunning) {
 
-			connection.saveCode($scope.options.code);
+			var code = $scope.options.code;
+
+			// Запуск кода в игре
+			CodeLauncher.run(code);
+
+			connection.saveCode(code);
+
+		} else {
+
+			// Остановка кода
+			CodeLauncher.stop();
 
 		}
 

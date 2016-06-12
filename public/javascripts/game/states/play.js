@@ -1,7 +1,6 @@
 'use strict';
 
-var EntitiesFactory = require('../../entities');
-var CodeLauncher = require('../../launcher');
+var CodeLauncher = require('../launcher');
 
 module.exports = PlayState;
 
@@ -19,9 +18,10 @@ function PlayState(game) {
 	var cursors;			// Объект ввода / вывода
 	var background;			// Спрайт фона
 
-	var updates = []; 		// Объекты обновления
+	t.updates = []; 		// Объекты обновления
 
 	t.getPlayer = getPlayer;
+	t.setPlayer = setPlayer;
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
@@ -47,14 +47,11 @@ function PlayState(game) {
 		background = game.add.tileSprite(0, 0, game.width, game.height, 'starField');
 		background.fixedToCamera = true;
 
-		// Создание транспорта.
-		player = EntitiesFactory.createTransport(game, game.world.centerX, game.world.centerY);
+		// Запуск шаблонного метода инициализации сущностей
+		t.entities && t.entities(game);
 
 		// Добавление аргументов для объекта обработки кода.
 		runner && runner.setArguments(player);
-
-		// Фокус на объекте транспорта.
-		game.camera.focusOn(player.sprite);
 
 		// Объект ввода / вывода
 		cursors = game.input.keyboard.createCursorKeys();
@@ -68,7 +65,7 @@ function PlayState(game) {
 
 		runner = v;
 
-		updates.push(runner);
+		t.updates.push(runner);
 
 		CodeLauncher.setRunner(runner);
 
@@ -80,10 +77,10 @@ function PlayState(game) {
 	function update() {
 
 		// Обновление объектов
-		updates.forEach(function (e)
+		t.updates.forEach(function (e)
 		{
 
-			e.update();
+			e.update && e.update();
 
 		});
 
@@ -95,6 +92,17 @@ function PlayState(game) {
 	function getPlayer() {
 
 		return player;
+	}
+
+	/**
+	 * Устанавливаем игрока.
+	 */
+	function setPlayer(v) {
+
+		player = v;
+
+		t.updates.push(player);
+
 	}
 
 }

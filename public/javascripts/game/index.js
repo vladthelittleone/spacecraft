@@ -3,34 +3,52 @@
 /**
  * Зависимости.
  */
-var OnlineGame = require('./online');
+var StatesFactory = require('./states');
+var ContentFactory = require('../content');
 
 // Экспорт
-module.exports = Game();
+module.exports = Game;
 
 /**
  * Модуль создания игры опредленного типа.
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function Game() {
+function Game(id) {
 
+	// that / this
 	var t = {};
 
-	t.createLessonGame = createLessonGame;
-	t.createOnlineGame = createOnlineGame;
+	t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
+
+	t.destroy = destroy;
+
+	initialization();
 
 	return t;
 
-	function createLessonGame() {
+	/**
+	 * Инициализация состояний
+	 */
+	function initialization() {
 
-		//
+		var content = ContentFactory.content(id);
 
+		// Игровые состояния
+		StatesFactory.createBootState(t.phaser, 'boot');
+		StatesFactory.createPreloadState(t.phaser, 'preload', content.preload);
+		StatesFactory.createWrappedPlayState(t.phaser, 'play', content.state);
+
+		// Стартуем boot состояние.
+		game.state.start('boot');
 	}
 
-	function createOnlineGame() {
+	/**
+	 * Очистка кэша, памяти.
+	 */
+	function destroy() {
 
-		return OnlineGame();
+		t.phaser.destroy();
 
 	}
 

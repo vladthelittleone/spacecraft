@@ -518,7 +518,7 @@ pre {
 
 .right-toolbar .right-toolbar-icon {
 	margin: 0 0 10px;
-	background-image: url(../images/pages/rocket56fwhite.png);
+	background-image: url(../images/pages/rocket-white-2.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
@@ -911,7 +911,7 @@ pre {
 .astrogirl-img {
 	height: 400px;
 	width: 144px;
-	background-image: url(../images/pages/serg.png);
+	background-image: url(../images/pages/astrogirl.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 50% 50%;
@@ -941,15 +941,15 @@ pre {
 }
 
 .bbot-happy {
-	background-image: url(../images/pages/happy.png);
+	background-image: url(../images/pages/bbot-happy.png);
 }
 
 .bbot-wow {
-	background-image: url(../images/pages/wow.png);
+	background-image: url(../images/pages/bbot-wow.png);
 }
 
 .bbot-angry {
-	background-image: url(../images/pages/angry.png);
+	background-image: url(../images/pages/bbot-angry.png);
 }
 
 .bbot-border {
@@ -974,11 +974,11 @@ pre {
 }
 
 .quick-img {
-	background-image: url(../images/pages/galaxy2white.png);
+	background-image: url(../images/pages/galaxy.png);
 }
 
 .rocket-white-img {
-	background-image: url(../images/pages/rocket56white.png);
+	background-image: url(../images/pages/rocket-white-shadow.png);
 }
 
 .js-img {
@@ -986,19 +986,19 @@ pre {
 }
 
 .learn-img {
-	background-image: url(../images/pages/stars4white.png);
+	background-image: url(../images/pages/stars.png);
 }
 
 .send-img {
-	background-image: url(../images/pages/astronaut6white.png);
+	background-image: url(../images/pages/astrnaut.png);
 }
 
 .game-img {
-	background-image: url(../images/pages/rocket55white.png);
+	background-image: url(../images/pages/rocket-white.png);
 }
 
 .vk-img {
-	background-image: url(../images/pages/vkwhite.png);
+	background-image: url(../images/pages/vk-white.png);
 }
 
 .pages-footer-img {

@@ -2,7 +2,7 @@
  * @since 23.03.16
  * @author Skurishin Vladislav
  */
-lessonsArray[1] = function ()
+lessons[1] = function ()
 {
 	var that = {};
 

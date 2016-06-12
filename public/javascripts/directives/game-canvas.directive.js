@@ -48,13 +48,18 @@ function GameCanvas(statistics, $state, $stateParams) {
 		 */
 		function createGame() {
 
-			var args = {
-				scope:    $scope, 				// scope
-				lessonId: $stateParams.id,     	// текущий урок
-				callers:  {result: resultCall} 	// callback'и
-			};
+			var lessonId = $stateParams.id; // текущий урок
 
-			return Game.createOnlineGame(args);
+			// Если идентификатор задан, то LessonGame
+			if (lessonId) {
+
+				return Game.createLessonGame(lessonId);
+
+			} else {
+
+				return Game.createOnlineGame(args);
+
+			}
 
 		}
 

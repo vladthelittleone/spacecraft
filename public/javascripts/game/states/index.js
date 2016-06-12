@@ -24,21 +24,43 @@ function StatesManager() {
 	t.createBootState = createBootState;
 	t.createPreloadState = createPreloadState;
 	t.createPlayState = createPlayState;
+	t.createWrappedPlayState = createWrappedPlayState;
 
 	return t;
 
 	/**
 	 * Состояние игры с обработкой кода.
 	 */
-	function createRunnerState(game, key, autoStart) {
+	function createWrappedPlayState(game, key, wrapper) {
 
 		// Состояние
-		var state = game.state.add(key, PlayState, autoStart);
+		var state = game.state.add(key, PlayState);
 
 		// Объект запуска кода
 		var runner = Runner(game);
 
-		// Добавляем состояние.
+		// Добавляем объект запуска кода
+		state.setRunner(runner);
+
+		// Обварачиваем PlayState в новый функционал
+		wrapper(state);
+
+		return state;
+
+	}
+
+	/**
+	 * Состояние игры с обработкой кода.
+	 */
+	function createRunnerState(game, key) {
+
+		// Состояние
+		var state = game.state.add(key, PlayState);
+
+		// Объект запуска кода
+		var runner = Runner(game);
+
+		// Добавляем объект запуска кода
 		state.setRunner(runner);
 
 		return state;
@@ -48,27 +70,31 @@ function StatesManager() {
 	/**
 	 * Состояние игры с обработкой кода.
 	 */
-	function createPlayState(game, key, autoStart) {
+	function createPlayState(game, key) {
 
-		return game.state.add(key, PlayState, autoStart);
+		return game.state.add(key, PlayState);
 
 	}
 
 	/**
 	 * Состояние загрузки физики и игры.
 	 */
-	function createBootState(game, key, autoStart) {
+	function createBootState(game, key) {
 
-		return game.state.add(key, BootState, autoStart);
+		return game.state.add(key, BootState);
 
 	}
 
 	/**
 	 * Состояние загрузки ресурсов.
 	 */
-	function createPreloadState(game, key, autoStart) {
+	function createPreloadState(game, key, resources) {
 
-		return game.state.add(key, PreloadState, autoStart);
+		var state = game.state.add(key, PreloadState);
+
+		state.resources = resources;
+
+		return state;
 
 	}
 

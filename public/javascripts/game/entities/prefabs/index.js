@@ -1,6 +1,7 @@
 'use strict';
 
 // Зависимости
+var Harvester = require('./harvester');
 var Transport = require('./transport');
 
 // Экспорт
@@ -17,12 +18,21 @@ function PrefabsFactory() {
 	var t = {};
 
 	t.createTransport = createTransport;
+	t.createHarvester = createHarvester;
 
 	return t;
 
-	function createTransport(game, x, y, frame) {
+	// Транспорт
+	function createTransport(game, x, y) {
 
-		return new Transport(game, x, y, frame);
+		return new Transport(game, x, y, 'transport');
+
+	}
+
+	// Харвестер
+	function createHarvester(game, x, y) {
+
+		return new Harvester(game, x, y, 'harvester');
 
 	}
 }

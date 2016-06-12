@@ -34,7 +34,9 @@ function World() {
      */
 	function pushObject(obj) {
 
-		obj.id = sequence.next();
+		var id = sequence.next();
+
+		obj.id = id;
 
 		objects[id] = obj;
 
@@ -76,7 +78,7 @@ function World() {
 
 		objects.forEach(function (e) {
 
-			e.update && e.update();
+			e.update && e.update(e);
 
 		});
 
@@ -93,9 +95,9 @@ function World() {
 	/**
 	 * Устанавливаем игрока.
 	 */
-	function setPlayer(v) {
+	function setPlayer(id) {
 
-		player = pushObject(v);
+		player = id;
 
 	}
 

@@ -18,8 +18,8 @@ var Bonus = function (spec)
 	spec.spriteName = bonusType.spriteName;
 
 	var t = sc.world.factory.createGameObject({
-        type: game.sc.world.bonusType,
-		inherit: Unit(spec)
+        type:    game.sc.world.bonusType,
+		inherit: Prefab(spec)
     });
 
 	var audio = new AudioManager(game, t.sprite, function()

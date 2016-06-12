@@ -7,7 +7,7 @@ var AcademyBase = function (spec)
 {
 	spec.anchX = 0.8;
 
-	var t = Unit(spec);
+	var t = Prefab(spec);
 
 	// Объявляем группу коллизий.
 	var meteorCollisionGroup = t.game.physics.p2.createCollisionGroup();

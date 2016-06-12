@@ -5,14 +5,14 @@ var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
 
 // Экспорт
-module.exports = TransportUnit;
+module.exports = HarvesterUnit;
 
 /**
  * Фабрика prefab'ов.
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function TransportUnit(game, x, y) {
+function HarvesterUnit(game, x, y) {
 
 	// that / this
 	var t = {};
@@ -20,17 +20,17 @@ function TransportUnit(game, x, y) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createTransport(game, x, y);
+	t.sprite = PrefabsFactory.createHarvester(game, x, y);
 
 	/**
 	 * Добавляем двигатель к кораблю.
 	 */
 	t.engine = BlocksFactory.addEngineBlock({
-		game:            game,
-		unit:            t,
-		drag:            100,				// Торможение корабля
-		velocity:        60,			// Скорость корабля
-		angularVelocity: 15		// Скорость разворота
+		game: game,
+		unit: t,
+		drag: 150,				// Торможение корабля
+		velocity: 20,			// Скорость корабля
+		angularVelocity: 10		// Скорость разворота
 	});
 
 	t.update = update;
@@ -49,4 +49,5 @@ function TransportUnit(game, x, y) {
 		t.logic && t.logic(t);
 
 	}
+
 }

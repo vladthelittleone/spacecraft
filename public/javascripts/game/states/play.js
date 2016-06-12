@@ -1,6 +1,7 @@
 'use strict';
 
 var CodeLauncher = require('../launcher');
+var EntitiesFactory = require('../entities');
 
 module.exports = PlayState;
 
@@ -74,11 +75,18 @@ function PlayState(game) {
 	 */
 	function update() {
 
+		var u = [];
+
+		// Объекты игрового мира
+		var objects = EntitiesFactory.getWorld().getObjects();
+
+		u = u.concat(objects).concat(t.updates);
+
 		// Обновление объектов
-		t.updates.forEach(function (e)
+		u.forEach(function (e)
 		{
 
-			e.update && e.update();
+			e.update && e.update(e);
 
 		});
 

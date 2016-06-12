@@ -41249,12 +41249,14 @@ function runBlock(authentication, $rootScope, $state) {
 
 }
 
-},{"./directives":24,"./extends":28,"./modules":46,"./services":75,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
+},{"./directives":24,"./extends":28,"./modules":49,"./services":78,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = BBotText;
 
 /**
+ * Соотношение текста и результата.
+ *
  * @since 23.03.16
  * @author Skurishin Vladislav
  */
@@ -41306,7 +41308,9 @@ function BBotText(messagesArray) {
 	}
 
 	function resultNotCorrect(messageType) {
+
 		return t.resultText(messageType, 'bbot-angry');
+
 	}
 
 	function resultText(messageType, css) {
@@ -41326,7 +41330,7 @@ function BBotText(messagesArray) {
 		return t.unknownError(css);
 
 	}
-};
+}
 
 },{}],11:[function(require,module,exports){
 'use strict';
@@ -41390,9 +41394,6 @@ function Lesson() {
 },{"./lesson-content":13,"./preload.json":14,"./state":15}],13:[function(require,module,exports){
 'use strict';
 
-// Зависимости
-var sub = require('./sub');
-
 // Экспорт
 module.exports = Content();
 
@@ -41401,13 +41402,13 @@ module.exports = Content();
  *
  * Created by vladthelittleone on 12.06.16.
  */
-function Content () {
+function Content() {
 
 	return {
-		text:      'Поступление в академию',
-		label:     'Основы JavaScript',
-		quote:     'Знания свет — путь укажет нам',
-		sub:       sub
+		text:  'Поступление в академию',
+		label: 'Основы JavaScript',
+		quote: 'Знания свет — путь укажет нам',
+		sub:   require('./sub')
 	};
 
 }
@@ -41415,6 +41416,7 @@ function Content () {
 },{"./sub":18}],14:[function(require,module,exports){
 module.exports={
 	"transport": "images/sprites/entities/transport.png",
+	"harvester": "images/sprites/entities/harvester.png",
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
 	"shield": "images/sprites/entities/shared/shield.png"
@@ -41424,6 +41426,7 @@ module.exports={
 'use strict';
 
 var EntitiesFactory = require('../../game/entities');
+var random = require('../../utils/random');
 
 module.exports = StateWrapper;
 
@@ -41445,31 +41448,65 @@ function StateWrapper(state) {
 	 */
 	function entities(game) {
 
+		var x = game.world.centerX;
+		var y = game.world.centerY;
+
+		//base = AcademyBase({
+		//	game: game,
+		//	x: game.world.centerX,
+		//	y: game.world.centerY,
+		//	spriteName: 'base'
+		//});
+
 		// Создание транспорта.
-		var player = EntitiesFactory.createTransport(game, game.world.centerX, game.world.centerY);
+		var transport = EntitiesFactory.createTransport(game, game.world.centerX, game.world.centerY);
 
-		t.setPlayer(player);
+		transport.logic = function (h) {
 
-		// Фокус на объекте транспорта.
-		game.camera.focusOn(player.sprite);
+			h.moveForward();
+			h.rotateRight();
+
+		};
+
+		for (var i = 0; i < 3; i++)
+		{
+			var i1 = random.randomInt(-200, 200);
+			var i2 = random.randomInt(-200, 200);
+
+			var harvester = EntitiesFactory.createHarvester(game, x + i1, y + i2);
+
+			// Рандомный угол
+			harvester.sprite.angle = game.rnd.angle();
+
+			// Дейстивя харвестра
+			harvester.logic = function (h) {
+
+				h.moveForward();
+				h.rotateLeft();
+
+			}
+		}
+
+		// Фокус на на центре.
+		game.camera.focusOnXY(x, y);
 
 	}
 }
 
-},{"../../game/entities":31}],16:[function(require,module,exports){
+},{"../../game/entities":32,"../../utils/random":80}],16:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
 var Storage = require('../../../utils/storage');
 
-module.exports = YourName();
+module.exports = End();
 
 /**
  * Урок - 'Ваше имя?'.
  *
  * Created by vladthelittleone on 02.12.15.
  */
-function YourName() {
+function End() {
 
 	var storage = Storage();
 
@@ -41501,7 +41538,7 @@ function YourName() {
 	};
 }
 
-},{"../../../utils/storage":78}],17:[function(require,module,exports){
+},{"../../../utils/storage":82}],17:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41580,13 +41617,12 @@ function GalaxyYear() {
 		}
 	};
 
-	function isNumeric(n)
-	{
+	function isNumeric(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 }
 
-},{"../../../utils/storage":78,"../../bot-text":10}],18:[function(require,module,exports){
+},{"../../../utils/storage":82,"../../bot-text":10}],18:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41702,13 +41738,12 @@ function YourName() {
 		}
 	};
 
-	function isNumeric(n)
-	{
+	function isNumeric(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 }
 
-},{"../../../utils/storage":78,"../../bot-text":10}],20:[function(require,module,exports){
+},{"../../../utils/storage":82,"../../bot-text":10}],20:[function(require,module,exports){
 'use strict';
 
 module.exports = WelcomeToAcademy();
@@ -42004,7 +42039,7 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 }
 
-},{"../game":35}],24:[function(require,module,exports){
+},{"../game":38}],24:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42214,6 +42249,8 @@ function EngineBlock(spec) {
 	unit.rotateLeft = rotateLeft;
 	unit.rotateRight = rotateRight;
 
+	t.update = update;
+
 	initialization();
 
 	return t;
@@ -42236,7 +42273,7 @@ function EngineBlock(spec) {
 	 */
 	function moveForward() {
 
-		game.physics.arcade.velocityFromAngle(unit.sprite.angle, angularVelocity, unit.sprite.body.velocity);
+		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
 
 	}
 
@@ -42255,6 +42292,17 @@ function EngineBlock(spec) {
 	function rotateRight() {
 
 		unit.sprite.body.angularVelocity = angularVelocity;
+
+	}
+
+	/**
+	 * Обновление двигателя.
+	 */
+	function update() {
+
+		unit.sprite.body.velocity.x = 0;
+		unit.sprite.body.velocity.y = 0;
+		unit.sprite.body.angularVelocity = 0;
 
 	}
 }
@@ -42295,7 +42343,64 @@ function BlocksFactory() {
 },{"./engine":29}],31:[function(require,module,exports){
 'use strict';
 
+// Зависимости
+var PrefabsFactory = require('./prefabs');
+var BlocksFactory = require('./blocks');
+
+// Экспорт
+module.exports = HarvesterUnit;
+
+/**
+ * Фабрика prefab'ов.
+ *
+ * Created by vladthelittleone on 21.10.15.
+ */
+function HarvesterUnit(game, x, y) {
+
+	// that / this
+	var t = {};
+
+	/**
+	 * Создаем спрайт.
+	 */
+	t.sprite = PrefabsFactory.createHarvester(game, x, y);
+
+	/**
+	 * Добавляем двигатель к кораблю.
+	 */
+	t.engine = BlocksFactory.addEngineBlock({
+		game: game,
+		unit: t,
+		drag: 150,				// Торможение корабля
+		velocity: 20,			// Скорость корабля
+		angularVelocity: 10		// Скорость разворота
+	});
+
+	t.update = update;
+
+	game.add.existing(t.sprite);
+
+	return t;
+
+	/**
+	 * Обновление всехо бъектов.
+	 */
+	function update() {
+
+		t.engine.update();
+
+		t.logic && t.logic(t);
+
+	}
+
+}
+
+},{"./blocks":30,"./prefabs":34}],32:[function(require,module,exports){
+'use strict';
+
+var World = require('./world');
 var Transport = require('./transport');
+var Harvester = require('./harvester');
 
 // Экспорт
 module.exports = EntitiesFactory();
@@ -42310,24 +42415,91 @@ function EntitiesFactory() {
 	// that / this
 	var t = {};
 
+	var world = World();
+
 	t.createTransport = createTransport;
+	t.createHarvester = createHarvester;
+	t.getWorld = getWorld;
 
 	return t;
 
 	/**
-	 * Создать транспорт
+	 * Создать транспорт.
      */
-	function createTransport(game, x, y) {
+	function createTransport(game, x, y, player) {
 
-		return Transport(game, x, y);
+		var transport = Transport(game, x, y);
+
+		var id = world.pushObject(transport);
+
+		player && world.setPlayer(id);
+
+		return transport;
+
+	}
+
+	/**
+	 * Создать транспорт
+	 */
+	function createHarvester(game, x, y, player) {
+
+		var harvester = Harvester(game, x, y);
+
+		var id = world.pushObject(harvester);
+
+		player && world.setPlayer(id);
+
+		return harvester;
+
+	}
+
+	/**
+	 * Возвращаем объект всех сущностей.
+     */
+	function getWorld() {
+
+		return world;
 
 	}
 }
 
-},{"./transport":34}],32:[function(require,module,exports){
+},{"./harvester":31,"./transport":36,"./world":37}],33:[function(require,module,exports){
+'use strict';
+
+Harvester.prototype = Object.create(Phaser.Sprite.prototype);
+Harvester.prototype.constructor = Harvester;
+
+Harvester.prototype.update = update;
+
+module.exports = Harvester;
+
+/**
+ * Prefab транспорта.
+ *
+ * Created by vladthelittleone on 11.06.16.
+ */
+function Harvester(game, x, y) {
+
+	Phaser.Sprite.call(this, game, x, y, 'harvester');
+
+	// Центрирование
+	this.anchor.x = 0.5;
+	this.anchor.y = 0.5;
+
+	game.physics.arcade.enableBody(this);
+
+}
+
+function update() {
+
+
+}
+
+},{}],34:[function(require,module,exports){
 'use strict';
 
 // Зависимости
+var Harvester = require('./harvester');
 var Transport = require('./transport');
 
 // Экспорт
@@ -42344,17 +42516,26 @@ function PrefabsFactory() {
 	var t = {};
 
 	t.createTransport = createTransport;
+	t.createHarvester = createHarvester;
 
 	return t;
 
-	function createTransport(game, x, y, frame) {
+	// Транспорт
+	function createTransport(game, x, y) {
 
-		return new Transport(game, x, y, frame);
+		return new Transport(game, x, y, 'transport');
+
+	}
+
+	// Харвестер
+	function createHarvester(game, x, y) {
+
+		return new Harvester(game, x, y, 'harvester');
 
 	}
 }
 
-},{"./transport":33}],33:[function(require,module,exports){
+},{"./harvester":33,"./transport":35}],35:[function(require,module,exports){
 'use strict';
 
 Transport.prototype = Object.create(Phaser.Sprite.prototype);
@@ -42386,7 +42567,7 @@ function update() {
 
 }
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42415,20 +42596,138 @@ function TransportUnit(game, x, y) {
 	 * Добавляем двигатель к кораблю.
 	 */
 	t.engine = BlocksFactory.addEngineBlock({
-		game: game,
-		unit: t,
-		drag: 100,				// Тормажение корабля
-		velocity: 100,			// Скорость корабля
-		angularVelocity: 50		// Скорость разворота
+		game:            game,
+		unit:            t,
+		drag:            100,				// Торможение корабля
+		velocity:        100,			// Скорость корабля
+		angularVelocity: 15		// Скорость разворота
 	});
+
+	t.update = update;
 
 	game.add.existing(t.sprite);
 
 	return t;
 
+	/**
+	 * Обновление всехо бъектов.
+	 */
+	function update() {
+
+		t.engine.update();
+
+		t.logic && t.logic(t);
+
+	}
 }
 
-},{"./blocks":30,"./prefabs":32}],35:[function(require,module,exports){
+},{"./blocks":30,"./prefabs":34}],37:[function(require,module,exports){
+'use strict';
+
+// Зависимости
+var sequence = require('../../utils/sequence');
+
+module.exports = World;
+
+/**
+ * Объект, хранящий все объекты мира.
+ *
+ * Created by vladthelittleone on 21.10.15.
+ * @constructor
+ */
+function World() {
+
+	var t = {};
+
+	var player;			// Игрок
+	var objects = [];	// Массив всех объектов
+
+	t.pushObject = pushObject;
+	t.removeObject = removeObject;
+	t.get = get;
+	t.getObjects = getObjects;
+	t.update = update;
+	t.getPlayer = getPlayer;
+	t.setPlayer = setPlayer;
+
+	return t;
+
+	/**
+	 * Добавить новый объект.
+	 * К объекту добавляется параметр id - идентификатор объекта в мире.
+     */
+	function pushObject(obj) {
+
+		var id = sequence.next();
+
+		obj.id = id;
+
+		objects[id] = obj;
+
+		return obj.id;
+
+	}
+
+	/**
+	 * Удалить.
+     */
+	function removeObject(obj) {
+
+		objects.removeElement(obj);
+
+	}
+
+	/**
+	 * Вернуть сущность по идентификатору.
+     */
+	function get(id) {
+
+		return objects[id];
+
+	}
+
+	/**
+	 * Вернусть все сущности.
+     */
+	function getObjects() {
+
+		return objects;
+
+	}
+
+	/**
+	 * Обновить все объекты мира.
+	 */
+	function update() {
+
+		objects.forEach(function (e) {
+
+			e.update && e.update(e);
+
+		});
+
+	}
+
+	/**
+	 * Возвращаем игрока.
+	 */
+	function getPlayer() {
+
+		return get(player);
+	}
+
+	/**
+	 * Устанавливаем игрока.
+	 */
+	function setPlayer(id) {
+
+		player = id;
+
+	}
+
+}
+
+},{"../../utils/sequence":81}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42485,7 +42784,7 @@ function Game(id) {
 
 }
 
-},{"../content":11,"./states":38}],36:[function(require,module,exports){
+},{"../content":11,"./states":41}],39:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42542,7 +42841,7 @@ function CodeLauncher () {
 	}
 }
 
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 module.exports = BootState;
@@ -42600,7 +42899,7 @@ function BootState(game) {
 
 }
 
-},{}],38:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42703,10 +43002,11 @@ function StatesManager() {
 
 }
 
-},{"./boot":37,"./play":39,"./preload":40,"./runner":41}],39:[function(require,module,exports){
+},{"./boot":40,"./play":42,"./preload":43,"./runner":44}],42:[function(require,module,exports){
 'use strict';
 
 var CodeLauncher = require('../launcher');
+var EntitiesFactory = require('../entities');
 
 module.exports = PlayState;
 
@@ -42726,8 +43026,6 @@ function PlayState(game) {
 
 	t.updates = []; 		// Объекты обновления
 
-	t.getPlayer = getPlayer;
-	t.setPlayer = setPlayer;
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
@@ -42782,38 +43080,26 @@ function PlayState(game) {
 	 */
 	function update() {
 
+		var u = [];
+
+		// Объекты игрового мира
+		var objects = EntitiesFactory.getWorld().getObjects();
+
+		u = u.concat(objects).concat(t.updates);
+
 		// Обновление объектов
-		t.updates.forEach(function (e)
+		u.forEach(function (e)
 		{
 
-			e.update && e.update();
+			e.update && e.update(e);
 
 		});
 
 	}
 
-	/**
-	 * Возвращаем игрока.
-	 */
-	function getPlayer() {
-
-		return player;
-	}
-
-	/**
-	 * Устанавливаем игрока.
-	 */
-	function setPlayer(v) {
-
-		player = v;
-
-		t.updates.push(player);
-
-	}
-
 }
 
-},{"../launcher":36}],40:[function(require,module,exports){
+},{"../entities":32,"../launcher":39}],43:[function(require,module,exports){
 'use strict';
 
 module.exports = PreloadState;
@@ -42905,7 +43191,7 @@ function PreloadState(game) {
 
 }
 
-},{}],41:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42980,7 +43266,7 @@ function CodeRunner (game) {
 	}
 }
 
-},{}],42:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 GameConfig.$inject = ['$stateProvider'];
@@ -43000,7 +43286,7 @@ function GameConfig($stateProvider) {
 
 }
 
-},{}],43:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43166,7 +43452,7 @@ function GameController($scope, audioManager, connection, service, aceService) {
 
 }
 
-},{"../../game/launcher":36}],44:[function(require,module,exports){
+},{"../../game/launcher":39}],47:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43272,7 +43558,7 @@ function GameService(connection) {
 
 }
 
-},{"../../utils/storage":78}],45:[function(require,module,exports){
+},{"../../utils/storage":82}],48:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43288,7 +43574,7 @@ app.config(require('./game.config'));
 app.controller('GameController', require('./game.controller'));
 app.factory('gameService', require('./game.service'));
 
-},{"./game.config":42,"./game.controller":43,"./game.service":44,"angular":8}],46:[function(require,module,exports){
+},{"./game.config":45,"./game.controller":46,"./game.service":47,"angular":8}],49:[function(require,module,exports){
 /**
  * Created by vladthelittleone on 08.06.16.
  *
@@ -43312,7 +43598,7 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.welcome.module'
 ]);
 
-},{"./game.module":45,"./lesson.module":47,"./lessons.module":53,"./login.module":56,"./quick.module":59,"./result.module":62,"./welcome.module":65,"angular":8}],47:[function(require,module,exports){
+},{"./game.module":48,"./lesson.module":50,"./lessons.module":56,"./login.module":59,"./quick.module":62,"./result.module":65,"./welcome.module":68,"angular":8}],50:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43328,7 +43614,7 @@ app.config(require('./lesson.config'));
 app.controller('LessonController', require('./lesson.controller'));
 app.factory('lessonService', require('./lesson.service'));
 
-},{"./lesson.config":48,"./lesson.controller":49,"./lesson.service":50,"angular":8}],48:[function(require,module,exports){
+},{"./lesson.config":51,"./lesson.controller":52,"./lesson.service":53,"angular":8}],51:[function(require,module,exports){
 'use strict';
 
 LessonConfig.$inject = ['$stateProvider'];
@@ -43348,7 +43634,7 @@ function LessonConfig($stateProvider) {
 
 }
 
-},{}],49:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
@@ -43508,7 +43794,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 }
 
-},{}],50:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 var ContentFactory = require('../../../content');
@@ -44018,7 +44304,6 @@ function LessonService(connection, audioManager, aceService) {
      */
 	function lessonContent(num) {
 
-		console.log(ContentFactory.content(num));
 		return ContentFactory.content(num).lessonContent;
 
 	}
@@ -44055,7 +44340,7 @@ function LessonService(connection, audioManager, aceService) {
 
 }
 
-},{"../../../content":11,"./interpreter":51,"./storage":52}],51:[function(require,module,exports){
+},{"../../../content":11,"./interpreter":54,"./storage":55}],54:[function(require,module,exports){
 'use strict';
 
 module.exports = Interpreter();
@@ -44115,7 +44400,7 @@ function Interpreter () {
 
 }
 
-},{}],52:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 var Storage = require('../../../utils/storage');
@@ -44197,7 +44482,7 @@ function LessonStorage() {
 	}
 }
 
-},{"../../../utils/storage":78}],53:[function(require,module,exports){
+},{"../../../utils/storage":82}],56:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44212,7 +44497,7 @@ var app = angular.module('spacecraft.lessons.module', []);
 app.config(require('./lessons.config'));
 app.controller('LessonsController', require('./lessons.controller'));
 
-},{"./lessons.config":54,"./lessons.controller":55,"angular":8}],54:[function(require,module,exports){
+},{"./lessons.config":57,"./lessons.controller":58,"angular":8}],57:[function(require,module,exports){
 'use strict';
 
 LessonsConfig.$inject = ['$stateProvider'];
@@ -44232,7 +44517,7 @@ function LessonsConfig($stateProvider) {
 
 }
 
-},{}],55:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 LessonsController.$inject = ['$scope'];
@@ -44249,7 +44534,7 @@ function LessonsController($scope) {
 
 }
 
-},{}],56:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44264,7 +44549,7 @@ var app = angular.module('spacecraft.login.module', []);
 app.config(require('./login.config'));
 app.controller('LoginController', require('./login.controller'));
 
-},{"./login.config":57,"./login.controller":58,"angular":8}],57:[function(require,module,exports){
+},{"./login.config":60,"./login.controller":61,"angular":8}],60:[function(require,module,exports){
 'use strict';
 
 LoginConfig.$inject = ['$stateProvider'];
@@ -44284,7 +44569,7 @@ function LoginConfig($stateProvider) {
 
 }
 
-},{}],58:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 var ENTER = 13;
@@ -44390,7 +44675,7 @@ function LoginController($scope, $state, authentication) {
 
 }
 
-},{}],59:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44406,7 +44691,7 @@ app.config(require('./quick.config'));
 app.controller('QuickController', require('./quick.controller'));
 
 
-},{"./quick.config":60,"./quick.controller":61,"angular":8}],60:[function(require,module,exports){
+},{"./quick.config":63,"./quick.controller":64,"angular":8}],63:[function(require,module,exports){
 'use strict';
 
 QuickConfig.$inject = ['$stateProvider'];
@@ -44426,7 +44711,7 @@ function QuickConfig($stateProvider) {
 
 }
 
-},{}],61:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 QuickController.$inject = ['$scope', '$sce', 'authentication'];
 
 module.exports = QuickController;
@@ -44743,7 +45028,7 @@ function QuickController($scope, $sce) {
 	}
 }
 
-},{}],62:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44759,7 +45044,7 @@ app.config(require('./result.config'));
 app.controller('ResultController', require('./result.controller'));
 
 
-},{"./result.config":63,"./result.controller":64,"angular":8}],63:[function(require,module,exports){
+},{"./result.config":66,"./result.controller":67,"angular":8}],66:[function(require,module,exports){
 'use strict';
 
 ResultConfig.$inject = ['$stateProvider'];
@@ -44779,7 +45064,7 @@ function ResultConfig($stateProvider) {
 
 }
 
-},{}],64:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
 ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
@@ -44828,7 +45113,7 @@ function ResultController($scope, $state, statistics, connection) {
 	}
 }
 
-},{}],65:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44845,7 +45130,7 @@ var app = angular.module('spacecraft.welcome.module', ['chart.js']);
 app.config(require('./welcome.config'));
 app.controller('WelcomeController', require('./welcome.controller'));
 
-},{"./welcome.config":66,"./welcome.controller":67,"angular":8,"angular-chart.js":1}],66:[function(require,module,exports){
+},{"./welcome.config":69,"./welcome.controller":70,"angular":8,"angular-chart.js":1}],69:[function(require,module,exports){
 'use strict';
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
@@ -44877,7 +45162,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 }
 
 
-},{}],67:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -45135,7 +45420,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	}
 }
 
-},{"../../utils/storage":78}],68:[function(require,module,exports){
+},{"../../utils/storage":82}],71:[function(require,module,exports){
 module.exports=[
 	{"regExps": [" *spaceCraft.weapon.$"], "name": "weaponBlock"},
 	{"regExps": [" *spaceCraft.engine.$"], "name": "engineBlock"},
@@ -45156,7 +45441,7 @@ module.exports=[
 	}
 ]
 
-},{}],69:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
 
 module.exports = SpaceCraftCompleter;
@@ -45271,7 +45556,7 @@ function generateAutocomplete(bindings, line) {
 
 }
 
-},{"./autocomplete.json":68}],70:[function(require,module,exports){
+},{"./autocomplete.json":71}],73:[function(require,module,exports){
 'use strict';
 
 var autocompleter = require('./autocompleter');
@@ -45344,7 +45629,7 @@ function AceService() {
 	}
 }
 
-},{"./autocompleter":69,"./marker-service":71}],71:[function(require,module,exports){
+},{"./autocompleter":72,"./marker-service":74}],74:[function(require,module,exports){
 'use strict';
 
 module.exports = MarkerService;
@@ -45431,7 +45716,7 @@ function MarkerService(editor) {
 
 }
 
-},{}],72:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -45568,7 +45853,7 @@ function AudioManager($rootScope) {
 	}
 }
 
-},{"../utils/random":77}],73:[function(require,module,exports){
+},{"../utils/random":80}],76:[function(require,module,exports){
 'use strict';
 
 Authentication.$inject = ['connection'];
@@ -45665,7 +45950,7 @@ function Authentication(connection) {
 	}
 }
 
-},{}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 Connection.$inject = ['$http'];
@@ -45969,7 +46254,7 @@ function Connection($http) {
 	}
 }
 
-},{}],75:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45985,7 +46270,7 @@ app.factory('authentication', require('./authentication.service'));
 app.factory('connection', require('./connection.service'));
 app.factory('statistics', require('./statistics.service'));
 
-},{"./ace.service":70,"./audio.service":72,"./authentication.service":73,"./connection.service":74,"./statistics.service":76,"angular":8}],76:[function(require,module,exports){
+},{"./ace.service":73,"./audio.service":75,"./authentication.service":76,"./connection.service":77,"./statistics.service":79,"angular":8}],79:[function(require,module,exports){
 'use strict';
 
 module.exports = Statistics;
@@ -46030,7 +46315,7 @@ function Statistics ()
 
 }
 
-},{}],77:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 'use strict';
 
 module.exports = RandomUtils();
@@ -46088,7 +46373,32 @@ function RandomUtils ()
 }
 
 
-},{}],78:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
+'use strict';
+
+module.exports = Sequence();
+
+/**
+ * Объект генерации идентификаторов.
+ *
+ * Created by vladthelittleone on 09.06.16.
+ */
+function Sequence ()
+{
+	var that = {};
+	var i = 1;
+
+	that.next = next;
+
+	return that;
+
+	function next()
+	{
+		return i++;
+	}
+}
+
+},{}],82:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;

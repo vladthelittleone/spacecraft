@@ -2,6 +2,7 @@
 
 var World = require('./world');
 var Transport = require('./transport');
+var Harvester = require('./harvester');
 
 // Экспорт
 module.exports = EntitiesFactory();
@@ -19,20 +20,38 @@ function EntitiesFactory() {
 	var world = World();
 
 	t.createTransport = createTransport;
+	t.createHarvester = createHarvester;
 	t.getWorld = getWorld;
 
 	return t;
 
 	/**
-	 * Создать транспорт
+	 * Создать транспорт.
      */
 	function createTransport(game, x, y, player) {
 
 		var transport = Transport(game, x, y);
 
-		player && world.setPlayer(transport);
+		var id = world.pushObject(transport);
+
+		player && world.setPlayer(id);
 
 		return transport;
+
+	}
+
+	/**
+	 * Создать транспорт
+	 */
+	function createHarvester(game, x, y, player) {
+
+		var harvester = Harvester(game, x, y);
+
+		var id = world.pushObject(harvester);
+
+		player && world.setPlayer(id);
+
+		return harvester;
 
 	}
 

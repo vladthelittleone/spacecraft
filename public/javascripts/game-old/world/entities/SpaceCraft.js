@@ -19,8 +19,8 @@ var SpaceCraft = function (spec)
 	var world = sc.world;
 
 	var t = world.factory.createGameObject({
-        type: world.spaceCraftType,
-		inherit: Unit(spec)
+        type:    world.spaceCraftType,
+		inherit: Prefab(spec)
     });
 
     // Стратегия, которая будет использоваться

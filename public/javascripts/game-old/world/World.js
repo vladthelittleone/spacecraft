@@ -17,7 +17,7 @@ var World = function (spec)
     that.bonusType = 1;
 
 	that.decorations = Decorations();
-	that.factory = Unit({game: game, world: that});
+	that.factory = Prefab({game: game, world: that});
 
 	that.pushObject = function (obj)
     {

@@ -24,6 +24,8 @@ function EngineBlock(spec) {
 	unit.rotateLeft = rotateLeft;
 	unit.rotateRight = rotateRight;
 
+	t.update = update;
+
 	initialization();
 
 	return t;
@@ -46,7 +48,7 @@ function EngineBlock(spec) {
 	 */
 	function moveForward() {
 
-		game.physics.arcade.velocityFromAngle(unit.sprite.angle, angularVelocity, unit.sprite.body.velocity);
+		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
 
 	}
 
@@ -65,6 +67,17 @@ function EngineBlock(spec) {
 	function rotateRight() {
 
 		unit.sprite.body.angularVelocity = angularVelocity;
+
+	}
+
+	/**
+	 * Обновление двигателя.
+	 */
+	function update() {
+
+		unit.sprite.body.velocity.x = 0;
+		unit.sprite.body.velocity.y = 0;
+		unit.sprite.body.angularVelocity = 0;
 
 	}
 }

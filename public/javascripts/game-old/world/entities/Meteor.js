@@ -3,7 +3,7 @@
  */
 var Meteor = function (spec){
 
-	var t = Unit(spec);
+	var t = Prefab(spec);
     var game = t.game;
 
     // Объявляем группу коллизий.

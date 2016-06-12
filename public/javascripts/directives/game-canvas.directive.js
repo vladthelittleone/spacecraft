@@ -5,6 +5,10 @@
  */
 var Game = require('../game');
 
+GameCanvas.$inject = ['statistics', '$state', '$stateParams'];
+
+module.exports = GameCanvas;
+
 /**
  * Директива инициализации игрового контента.
  */
@@ -50,16 +54,7 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 			var lessonId = $stateParams.id; // текущий урок
 
-			// Если идентификатор задан, то LessonGame
-			if (lessonId) {
-
-				return Game.createLessonGame(lessonId);
-
-			} else {
-
-				return Game.createOnlineGame(args);
-
-			}
+			return Game(lessonId);
 
 		}
 
@@ -92,7 +87,3 @@ function GameCanvas(statistics, $state, $stateParams) {
 	}
 
 }
-
-GameCanvas.$inject = ['statistics', '$state', '$stateParams'];
-
-module.exports = GameCanvas;

@@ -7,7 +7,6 @@
  */
 var app = require('angular').module('spacecraft');
 
-app.factory('$storage', require('./storage.service'));
 app.factory('aceService', require('./ace.service'));
 app.factory('audioManager', require('./audio.service'));
 app.factory('authentication', require('./authentication.service'));

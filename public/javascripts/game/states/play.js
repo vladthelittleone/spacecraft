@@ -20,8 +20,6 @@ function PlayState(game) {
 
 	t.updates = []; 		// Объекты обновления
 
-	t.getPlayer = getPlayer;
-	t.setPlayer = setPlayer;
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
@@ -83,25 +81,6 @@ function PlayState(game) {
 			e.update && e.update();
 
 		});
-
-	}
-
-	/**
-	 * Возвращаем игрока.
-	 */
-	function getPlayer() {
-
-		return player;
-	}
-
-	/**
-	 * Устанавливаем игрока.
-	 */
-	function setPlayer(v) {
-
-		player = v;
-
-		t.updates.push(player);
 
 	}
 

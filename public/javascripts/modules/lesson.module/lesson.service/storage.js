@@ -1,15 +1,18 @@
 'use strict';
 
-module.exports = Storage;
+var Storage = require('../../../utils/storage');
+
+module.exports = LessonStorage;
 
 /**
  * Интерфейс локального хранилища
  *
  * Created by vladthelittleone on 08.06.16.
  */
-function Storage($storage) {
+function LessonStorage() {
 
 	var that = {};
+	var storage = Storage();
 
 	that.set = set;
 	that.getLessons = getLessons;
@@ -24,7 +27,7 @@ function Storage($storage) {
 	 */
 	function set(name, value) {
 
-		$storage.local.setItem(name, JSON.stringify(value));
+		storage.local.setItem(name, JSON.stringify(value));
 
 	}
 
@@ -33,7 +36,7 @@ function Storage($storage) {
 	 */
 	function getCurrent(lessonId) {
 
-		var json = $storage.local.getItem('lessons');
+		var json = storage.local.getItem('lessons');
 
 		var lessons = json && JSON.parse(json);
 
@@ -51,7 +54,7 @@ function Storage($storage) {
 	 */
 	function getLessons() {
 
-		var json = $storage.local.getItem('lessons');
+		var json = storage.local.getItem('lessons');
 
 		return json && JSON.parse(json) || [];
 
@@ -62,7 +65,7 @@ function Storage($storage) {
 	 */
 	function setString(name, value) {
 
-		$storage.local.setItem(name, value);
+		storage.local.setItem(name, value);
 
 	}
 
@@ -71,7 +74,7 @@ function Storage($storage) {
 	 */
 	function getString(name) {
 
-		return $storage.local.getItem(name);
+		return storage.local.getItem(name);
 
 	}
 }

@@ -1,7 +1,8 @@
-/**
- * Created by vladthelittleone on 12.06.16.
- */
 'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+var Storage = require('../../../utils/storage');
 
 module.exports = GalaxyYear();
 
@@ -12,12 +13,14 @@ module.exports = GalaxyYear();
  */
 function GalaxyYear() {
 
+	var storage = Storage();
+
 	return {
 		title:           'Галактическая единица',
 		isNotGameLesson: true,
 		content:         function () {
 
-			return '<p>Отлично кадет ' + storage.getString('userName') + ', я нашел вас в списках.</p>' +
+			return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
 				'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
 				'<p>Высылаю вам инструкции.</p>';
 
@@ -61,7 +64,7 @@ function GalaxyYear() {
 
 				}
 
-				storage.setString('userAge', value);
+				storage.local.setItem('userAge', value);
 
 				// Если выведено число, то результат положительный
 				return botText.result(isNumeric(value));
@@ -72,4 +75,8 @@ function GalaxyYear() {
 
 		}
 	};
+
+	function isNumeric(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 }

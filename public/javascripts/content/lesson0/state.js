@@ -1,6 +1,6 @@
 'use strict';
 
-var EntitiesFactory = require('../../entities');
+var EntitiesFactory = require('../../game/entities');
 
 module.exports = StateWrapper;
 

@@ -1,20 +1,20 @@
 'use strict';
 
-// Зависимости
-var sub = require('./sub');
+// Экспорт
+module.exports = Content();
 
 /**
  * Контент первого урока.
  *
  * Created by vladthelittleone on 12.06.16.
  */
-var Content = {
-	text:      'Поступление в академию',
-	label:     'Основы JavaScript',
-	quote:     'Знания свет — путь укажет нам',
-	startCode: '',
-	sub:       sub
-};
+function Content() {
 
-// Экспорт
-module.exports = Content;
+	return {
+		text:  'Поступление в академию',
+		label: 'Основы JavaScript',
+		quote: 'Знания свет — путь укажет нам',
+		sub:   require('./sub')
+	};
+
+}

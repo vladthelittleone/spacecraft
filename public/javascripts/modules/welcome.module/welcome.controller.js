@@ -1,6 +1,9 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$storage', '$state', '$sce', 'authentication', 'connection'];
+// Зависимости
+var Storage = require('../../utils/storage');
+
+WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection'];
 
 module.exports = WelcomeController;
 
@@ -8,7 +11,9 @@ module.exports = WelcomeController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $storage, $state, $sce, authentication, connection) {
+function WelcomeController($scope, $state, $sce, authentication, connection) {
+
+	var storage = Storage();
 
 	$scope.usersLead = [];	// Лидеры игры
 	$scope.hideLead = true;	// Переключатель таблицы лидеров
@@ -242,7 +247,7 @@ function WelcomeController($scope, $storage, $state, $sce, authentication, conne
 				$state.go('login');
 
 				// Очистка лок. хранилиша.
-				$storage.local.clear();
+				storage.local.clear();
 
 			}
 

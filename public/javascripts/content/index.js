@@ -1,9 +1,9 @@
 'use strict';
 
-var content = [];	// Хранит контент
+var contentArray = [];	// Хранит контент
 
 // Зависимотси
-content.push(require('./lesson0'));
+contentArray.push(require('./lesson0'));
 
 // Экспорт
 module.exports = ContentFactory();
@@ -27,7 +27,7 @@ function ContentFactory() {
 	 */
 	function content(id) {
 
-		return content[id];
+		return contentArray[id];
 
 	}
 }

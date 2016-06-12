@@ -1,6 +1,9 @@
 'use strict';
 
-GameService.$inject = ['$storage', 'connection'];
+// Зависимости
+var Storage = require('../../utils/storage');
+
+GameService.$inject = ['connection'];
 
 module.exports = GameService;
 
@@ -11,9 +14,11 @@ module.exports = GameService;
  *
  * @see GameController
  */
-function GameService($storage, connection) {
+function GameService(connection) {
 
 	var that = {};
+
+	var storage = Storage();
 
 	that.getCode = getCode;
 	that.setCode = setCode;
@@ -25,14 +30,14 @@ function GameService($storage, connection) {
 	// Код из лок. хранилища
 	function getCode() {
 
-		return $storage.local.getItem('code') || "";
+		return storage.local.getItem('code') || "";
 
 	}
 
 	// Установка кода в лок. хранилище
 	function setCode(code) {
 
-		$storage.local.setItem('code', code);
+		storage.local.setItem('code', code);
 
 	}
 

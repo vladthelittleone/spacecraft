@@ -1,5 +1,9 @@
 'use strict';
 
+// Зависимсоти
+var BBotText = require('../../bot-text');
+var Storage = require('../../../utils/storage');
+
 module.exports = YourName();
 
 /**
@@ -8,6 +12,8 @@ module.exports = YourName();
  * Created by vladthelittleone on 02.12.15.
  */
 function YourName() {
+
+	var storage = Storage();
 
 	return {
 		title:           'Ваше имя?',
@@ -80,7 +86,7 @@ function YourName() {
 				// на поиск имени в скобках.
 				var reg = new RegExp('(.+).*');
 
-				storage.setString('userName', value);
+				storage.local.setItem('userName', value);
 
 				return botText.result(reg.test(value));
 
@@ -90,4 +96,8 @@ function YourName() {
 
 		}
 	};
+
+	function isNumeric(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 }

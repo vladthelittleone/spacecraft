@@ -41249,426 +41249,102 @@ function runBlock(authentication, $rootScope, $state) {
 
 }
 
-},{"./directives":13,"./extends":17,"./modules":45,"./services":74,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
+},{"./directives":24,"./extends":28,"./modules":46,"./services":75,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
 'use strict';
 
-BotBoard.$inject = ['$sce'];
-
-module.exports = BotBoard;
+module.exports = BBotText;
 
 /**
- * Директива контроля доски BBot'а.
- *
- * @since 08.12.15
+ * @since 23.03.16
  * @author Skurishin Vladislav
  */
-function BotBoard($sce) {
+function BBotText(messagesArray) {
 
-	var directive = {
-		scope:       {
-			quote:   '=', // Цитата
-			lesson:  '=', // Текущий подурок
-			textBot: '=', // Текст доски
-			next:    '=', // callback следующего урока
-			css:     '='  // css бота
-		},
-		templateUrl: 'views/directives/bbot-board.html',
-		link:        link,
-		restrict:    'EA'
-	};
+	var t = {};
 
-	return directive;
+	t.resultCorrect = resultCorrect;
+	t.unknownError = unknownError;
+	t.text = text;
+	t.resultNotCorrect = resultNotCorrect;
+	t.resultText = resultText;
+	t.result = result;
 
-	function link($scope) {
+	return t;
 
-		// Закрыть доску
-		$scope.closeBBotList = closeBBotList;
+	function formResult(status, message, css) {
 
-		// Вывод сохраненного текста
-		$scope.getText = getText;
-
-		// ==================================================
-
-		function getText() {
-
-			if ($scope.textBot) {
-
-				// Проверка html на мошенничество
-				return $sce.trustAsHtml($scope.textBot);
-
-			}
-
-		}
-
-		function closeBBotList() {
-
-			$scope.textBot = false;
-
-		}
-
-	}
-
-}
-
-},{}],11:[function(require,module,exports){
-'use strict';
-
-module.exports = Documentation;
-
-/**
- * Директива контроля доски документации.
- *
- * @since 08.12.15
- * @author Skurishin Vladislav
- */
-function Documentation() {
-
-	var directive = {
-		scope:       {
-			hide: '='
-		},
-		templateUrl: 'views/directives/documentation.html',
-		link:        link,
-		restrict:    'EA'
-	};
-
-	return directive;
-
-	function link($scope) {
-
-		// Данные по функциям и объектам
-		$scope.doc = {};
-
-		// Открыта ли на текущий момент
-		// вкладка функций.
-		$scope.functionDocOpen = false;
-
-		// Переклчатель документации
-		$scope.openFunctionDoc = functionDocOpen;
-
-		// Наблюдение за параметром hide.
-		// В случае изменения
-		$scope.$watch('hide', onHide);
-
-		// ==================================================
-
-		function functionDocOpen(v) {
-
-			$scope.doc = documentation[v];
-
-			$scope.functionDocOpen = true;
-
-		}
-
-		function onHide() {
-
-			// Закрываем вкладку функций.
-			$scope.functionDocOpen = false;
-
-		}
-	}
-}
-
-},{}],12:[function(require,module,exports){
-'use strict';
-
-/**
- * Зависимости
- */
-var Game = require('../game');
-
-/**
- * Директива инициализации игрового контента.
- */
-function GameCanvas(statistics, $state, $stateParams) {
-
-	var directive = {
-		scope:       {
-			editorOptions: '='
-		},
-		templateUrl: 'views/directives/game-canvas.html',
-		link:        link,
-		restrict:    'EA'
-	};
-
-	return directive;
-
-	function link($scope) {
-
-		var game = createGame();
-
-		$scope.fillArray = fillArray;
-		$scope.$on('$destroy', onDestroy);
-
-		// ==================================================
-
-		/**
-		 * Callback, который выполняется при уничтожение корабля.
-		 *
-		 * @param player текущяя статистика игрока
-		 */
-		function resultCall(player) {
-
-			statistics.setPlayer(player);
-
-			$state.go('result');
-
-		}
-
-		/**
-		 * Функция создания игры.
-		 */
-		function createGame() {
-
-			var lessonId = $stateParams.id; // текущий урок
-
-			// Если идентификатор задан, то LessonGame
-			if (lessonId) {
-
-				return Game.createLessonGame(lessonId);
-
-			} else {
-
-				return Game.createOnlineGame(args);
-
-			}
-
-		}
-
-		/**
-		 * Возврашает заполненый массив, заданного размера.
-		 * Используется для ng-repeat.
-		 *
-		 * @param num размер массив
-		 */
-		function fillArray(num) {
-
-			var arr = [];
-
-			for (var i = 0; i < num; i++) {
-
-				arr.push(i);
-
-			}
-
-			return arr;
-
-		}
-
-		function onDestroy() {
-
-			game.destroy(); // Очистка игры при удалении
-
-		}
-
-	}
-
-}
-
-GameCanvas.$inject = ['statistics', '$state', '$stateParams'];
-
-module.exports = GameCanvas;
-
-},{"../game":34}],13:[function(require,module,exports){
-'use strict';
-
-/**
- * Created by vladthelittleone on 07.06.16.
- *
- * Подключение директив.
- */
-var app = require('angular').module('spacecraft');
-
-app.directive('bbotBoard', require('./bot-board.directive'));
-app.directive('documentation', require('./documentation.directive'));
-app.directive('gameCanvas', require('./game-canvas.directive'));
-app.directive('lessonBoard', require('./lesson-board.directive'));
-app.directive('repeatFinished', require('./repeat-finished.directive'));
-app.directive('stars', require('./stars.directive'));
-
-},{"./bot-board.directive":10,"./documentation.directive":11,"./game-canvas.directive":12,"./lesson-board.directive":14,"./repeat-finished.directive":15,"./stars.directive":16,"angular":8}],14:[function(require,module,exports){
-'use strict';
-
-LessonBoard.$inject = ['$sce'];
-
-module.exports = LessonBoard;
-
-/**
- * Директива вывода текстового контента уроков.
- *
- * @since 23.12.15
- * @author Skurishin Vladislav
- */
-function LessonBoard($sce) {
-
-	var directive = {
-		scope:       {
-			lesson:      '=', // информация о уроке
-			textContent: '='  // true -  выводим текстовы контент урока
-		},
-		templateUrl: 'views/directives/lesson-board.html',
-		link:        link,
-		restrict:    'EA'
-	};
-
-	return directive;
-
-	function link($scope) {
-
-		$scope.getContent = getContent;
-		$scope.getHint = getHint;
-		$scope.getInstructions = getInstructions;
-		$scope.showHint = showHint;
-
-		// ==================================================
-
-		/**
-		 * Возвращает контент урока.
-		 */
-		function getContent () {
-
-			// Проверка html на предмет xss
-			return $sce.trustAsHtml($scope.lesson.content());
-
-		}
-
-		/**
-		 * Возвращает текст подсказки.
-		 */
-		function getHint () {
-
-			if ($scope.lesson.hint) {
-
-				return $sce.trustAsHtml($scope.lesson.hint);
-
-			}
-
-		}
-
-		/**
-		 * Инструкции пользователю.
-		 */
-		function getInstructions () {
-
-			return $sce.trustAsHtml($scope.lesson.instructions);
-
-		}
-
-		function showHint () {
-
-			$scope.hint = !$scope.hint;
-
-		}
-
-	}
-
-}
-
-},{}],15:[function(require,module,exports){
-'use strict';
-
-RepeatFinished.$inject = ['$sce'];
-
-module.exports = RepeatFinished;
-
-/**
- * Created by Ivan on 18.01.2016.
- */
-function RepeatFinished() {
-
-	return function (scope) {
-
-		// По таймауту выполняется событие ngRepeatFinished
-		if (scope.$last) setTimeout(function () {
-
-			scope.$emit('ngRepeatFinished');
-
-		}, 1);
-
-	}
-
-}
-
-},{}],16:[function(require,module,exports){
-'use strict';
-
-Stars.$inject = ['connection', '$state'];
-
-module.exports = Stars;
-
-/**
- * Директива, отвечающиая за оценку урока.
- *
- * Created by Ivan on 23.03.2016.
- */
-function Stars(connection, $state) {
-
-	var directive = {
-		scope:       {
-			idLesson: '='
-		},
-		templateUrl: 'views/directives/stars.html',
-		link:        link,
-		restrict:    'EA'
-	};
-
-	return directive;
-
-	function link($scope) {
-
-		/**
-		 * При изменении radio-кнопки, выполняется запрос на сервер и
-		 * переход на lessons ссылку.
-		 */
-		$scope.radioChange = function (value) {
-
-			connection.lessonRate($scope.idLesson, value);
-
-			$state.go('lessons');
-
+		return {
+			status:  status,
+			message: message,
+			css:     css
 		};
 
 	}
 
-}
+	function getText(value) {
 
-},{}],17:[function(require,module,exports){
-/**
- * Изменение прототипа функций.
- *
- * Created by vladthelittleone on 08.06.16.
- */
-Array.prototype.removeElement = function (element)
-{
-	var index = this.indexOf(element);
-	this.removeElementByIndex(index)
-};
+		return messagesArray[value];
 
-Array.prototype.removeElementByIndex = function (index)
-{
-	if (index > -1)
-	{
-		this.splice(index, 1);
+	}
+
+	function resultCorrect(css) {
+
+		return formResult(true, getText('correct'), css);
+
+	}
+
+	function unknownError(css) {
+
+		return t.resultText('unknownError', css || 'bbot-wow');
+
+	}
+
+	function text(css) {
+
+		return t.resultText('text', css);
+
+	}
+
+	function resultNotCorrect(messageType) {
+		return t.resultText(messageType, 'bbot-angry');
+	}
+
+	function resultText(messageType, css) {
+
+		return formResult(false, getText(messageType), css);
+
+	}
+
+	function result(v, css) {
+
+		if (v) {
+
+			return t.resultCorrect(css);
+
+		}
+
+		return t.unknownError(css);
+
 	}
 };
 
-},{}],18:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
-var content = [];	// Хранит контент
+var contentArray = [];	// Хранит контент
 
 // Зависимотси
-content.push(require('./lesson0'));
+contentArray.push(require('./lesson0'));
 
 // Экспорт
-module.exports = GameContentFactory();
+module.exports = ContentFactory();
 
 /**
  * Фабрика контента уроков.
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function GameContentFactory() {
+function ContentFactory() {
 
 	// that / this
 	var t = {};
@@ -41682,12 +41358,12 @@ function GameContentFactory() {
 	 */
 	function content(id) {
 
-		return content[id];
+		return contentArray[id];
 
 	}
 }
 
-},{"./lesson0":19}],19:[function(require,module,exports){
+},{"./lesson0":12}],12:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -41703,48 +41379,51 @@ function Lesson() {
 	// that / this
 	var t = {};
 
-	t.preload = require('./preload.json');
-	t.lessonContent = require('./lesson-content');
-	t.state = require('./state');
+	t.preload = require('./preload.json');			// Ресурсы
+	t.lessonContent = require('./lesson-content');	// Контент урока
+	t.state = require('./state');					// Обертка вокруг игрового состояния
 
 	return t;
 
 }
 
-},{"./lesson-content":20,"./preload.json":21,"./state":22}],20:[function(require,module,exports){
+},{"./lesson-content":13,"./preload.json":14,"./state":15}],13:[function(require,module,exports){
 'use strict';
 
 // Зависимости
 var sub = require('./sub');
+
+// Экспорт
+module.exports = Content();
 
 /**
  * Контент первого урока.
  *
  * Created by vladthelittleone on 12.06.16.
  */
-var Content = {
-	text:      'Поступление в академию',
-	label:     'Основы JavaScript',
-	quote:     'Знания свет — путь укажет нам',
-	startCode: '',
-	sub:       sub
-};
+function Content () {
 
-// Экспорт
-module.exports = Content;
+	return {
+		text:      'Поступление в академию',
+		label:     'Основы JavaScript',
+		quote:     'Знания свет — путь укажет нам',
+		sub:       sub
+	};
 
-},{"./sub":25}],21:[function(require,module,exports){
+}
+
+},{"./sub":18}],14:[function(require,module,exports){
 module.exports={
-	"harvester": "images/sprites/entities/harvester.png",
+	"transport": "images/sprites/entities/transport.png",
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
 	"shield": "images/sprites/entities/shared/shield.png"
 }
 
-},{}],22:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
-var EntitiesFactory = require('../../entities');
+var EntitiesFactory = require('../../game/entities');
 
 module.exports = StateWrapper;
 
@@ -41777,8 +41456,11 @@ function StateWrapper(state) {
 	}
 }
 
-},{"../../entities":30}],23:[function(require,module,exports){
+},{"../../game/entities":31}],16:[function(require,module,exports){
 'use strict';
+
+// Зависимсоти
+var Storage = require('../../../utils/storage');
 
 module.exports = YourName();
 
@@ -41789,15 +41471,17 @@ module.exports = YourName();
  */
 function YourName() {
 
+	var storage = Storage();
+
 	return {
 		title:           'Да начнется долгий путь...',
 		isNotGameLesson: true,
 		defaultBBot:     function () {
 
 			return '<p>Статус: ЗАЧИСЛЕН</p>' +
-				'<p>Имя: ' + storage.getString('userName').toUpperCase() + '</p>' +
+				'<p>Имя: ' + storage.local.getItem('userName').toUpperCase() + '</p>' +
 				'<p>Раса: ЧЕЛОВЕК</p>' +
-				'<p>Возраст: ' + storage.getString('userAge') + 'GY</p>'
+				'<p>Возраст: ' + storage.local.getItem('userAge') + 'GY</p>'
 
 		},
 		content:         function () {
@@ -41817,11 +41501,12 @@ function YourName() {
 	};
 }
 
-},{}],24:[function(require,module,exports){
-/**
- * Created by vladthelittleone on 12.06.16.
- */
+},{"../../../utils/storage":78}],17:[function(require,module,exports){
 'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+var Storage = require('../../../utils/storage');
 
 module.exports = GalaxyYear();
 
@@ -41832,12 +41517,14 @@ module.exports = GalaxyYear();
  */
 function GalaxyYear() {
 
+	var storage = Storage();
+
 	return {
 		title:           'Галактическая единица',
 		isNotGameLesson: true,
 		content:         function () {
 
-			return '<p>Отлично кадет ' + storage.getString('userName') + ', я нашел вас в списках.</p>' +
+			return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
 				'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
 				'<p>Высылаю вам инструкции.</p>';
 
@@ -41881,7 +41568,7 @@ function GalaxyYear() {
 
 				}
 
-				storage.setString('userAge', value);
+				storage.local.setItem('userAge', value);
 
 				// Если выведено число, то результат положительный
 				return botText.result(isNumeric(value));
@@ -41892,26 +41579,35 @@ function GalaxyYear() {
 
 		}
 	};
+
+	function isNumeric(n)
+	{
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 }
 
-},{}],25:[function(require,module,exports){
+},{"../../../utils/storage":78,"../../bot-text":10}],18:[function(require,module,exports){
 'use strict';
 
-var WelcomeToAcademy = require('./welcome');
-var YourName = require('./name');
-var GalaxyYear = require('./gy');
-var End = require('./end');
+// Зависимсоти
+var welcomeToAcademy = require('./welcome');
+var yourName = require('./name');
+var galaxyYear = require('./gy');
+var end = require('./end');
 
 /**
  * Подуроки первого урокаж
  *
  * Created by vladthelittleone on 12.06.16.
  */
-// Экспорт
-module.exports = [WelcomeToAcademy, YourName, GalaxyYear, End];
+module.exports = [welcomeToAcademy, yourName, galaxyYear, end];
 
-},{"./end":23,"./gy":24,"./name":26,"./welcome":27}],26:[function(require,module,exports){
+},{"./end":16,"./gy":17,"./name":19,"./welcome":20}],19:[function(require,module,exports){
 'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+var Storage = require('../../../utils/storage');
 
 module.exports = YourName();
 
@@ -41921,6 +41617,8 @@ module.exports = YourName();
  * Created by vladthelittleone on 02.12.15.
  */
 function YourName() {
+
+	var storage = Storage();
 
 	return {
 		title:           'Ваше имя?',
@@ -41993,7 +41691,7 @@ function YourName() {
 				// на поиск имени в скобках.
 				var reg = new RegExp('(.+).*');
 
-				storage.setString('userName', value);
+				storage.local.setItem('userName', value);
 
 				return botText.result(reg.test(value));
 
@@ -42003,9 +41701,14 @@ function YourName() {
 
 		}
 	};
+
+	function isNumeric(n)
+	{
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 }
 
-},{}],27:[function(require,module,exports){
+},{"../../../utils/storage":78,"../../bot-text":10}],20:[function(require,module,exports){
 'use strict';
 
 module.exports = WelcomeToAcademy();
@@ -42090,7 +41793,401 @@ function WelcomeToAcademy() {
 	};
 }
 
+},{}],21:[function(require,module,exports){
+'use strict';
+
+BotBoard.$inject = ['$sce'];
+
+module.exports = BotBoard;
+
+/**
+ * Директива контроля доски BBot'а.
+ *
+ * @since 08.12.15
+ * @author Skurishin Vladislav
+ */
+function BotBoard($sce) {
+
+	var directive = {
+		scope:       {
+			quote:   '=', // Цитата
+			lesson:  '=', // Текущий подурок
+			textBot: '=', // Текст доски
+			next:    '=', // callback следующего урока
+			css:     '='  // css бота
+		},
+		templateUrl: 'views/directives/bbot-board.html',
+		link:        link,
+		restrict:    'EA'
+	};
+
+	return directive;
+
+	function link($scope) {
+
+		// Закрыть доску
+		$scope.closeBBotList = closeBBotList;
+
+		// Вывод сохраненного текста
+		$scope.getText = getText;
+
+		// ==================================================
+
+		function getText() {
+
+			if ($scope.textBot) {
+
+				// Проверка html на мошенничество
+				return $sce.trustAsHtml($scope.textBot);
+
+			}
+
+		}
+
+		function closeBBotList() {
+
+			$scope.textBot = false;
+
+		}
+
+	}
+
+}
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+module.exports = Documentation;
+
+/**
+ * Директива контроля доски документации.
+ *
+ * @since 08.12.15
+ * @author Skurishin Vladislav
+ */
+function Documentation() {
+
+	var directive = {
+		scope:       {
+			hide: '='
+		},
+		templateUrl: 'views/directives/documentation.html',
+		link:        link,
+		restrict:    'EA'
+	};
+
+	return directive;
+
+	function link($scope) {
+
+		// Данные по функциям и объектам
+		$scope.doc = {};
+
+		// Открыта ли на текущий момент
+		// вкладка функций.
+		$scope.functionDocOpen = false;
+
+		// Переклчатель документации
+		$scope.openFunctionDoc = functionDocOpen;
+
+		// Наблюдение за параметром hide.
+		// В случае изменения
+		$scope.$watch('hide', onHide);
+
+		// ==================================================
+
+		function functionDocOpen(v) {
+
+			$scope.doc = documentation[v];
+
+			$scope.functionDocOpen = true;
+
+		}
+
+		function onHide() {
+
+			// Закрываем вкладку функций.
+			$scope.functionDocOpen = false;
+
+		}
+	}
+}
+
+},{}],23:[function(require,module,exports){
+'use strict';
+
+/**
+ * Зависимости
+ */
+var Game = require('../game');
+
+GameCanvas.$inject = ['statistics', '$state', '$stateParams'];
+
+module.exports = GameCanvas;
+
+/**
+ * Директива инициализации игрового контента.
+ */
+function GameCanvas(statistics, $state, $stateParams) {
+
+	var directive = {
+		scope:       {
+			editorOptions: '='
+		},
+		templateUrl: 'views/directives/game-canvas.html',
+		link:        link,
+		restrict:    'EA'
+	};
+
+	return directive;
+
+	function link($scope) {
+
+		var game = createGame();
+
+		$scope.fillArray = fillArray;
+		$scope.$on('$destroy', onDestroy);
+
+		// ==================================================
+
+		/**
+		 * Callback, который выполняется при уничтожение корабля.
+		 *
+		 * @param player текущяя статистика игрока
+		 */
+		function resultCall(player) {
+
+			statistics.setPlayer(player);
+
+			$state.go('result');
+
+		}
+
+		/**
+		 * Функция создания игры.
+		 */
+		function createGame() {
+
+			var lessonId = $stateParams.id; // текущий урок
+
+			return Game(lessonId);
+
+		}
+
+		/**
+		 * Возврашает заполненый массив, заданного размера.
+		 * Используется для ng-repeat.
+		 *
+		 * @param num размер массив
+		 */
+		function fillArray(num) {
+
+			var arr = [];
+
+			for (var i = 0; i < num; i++) {
+
+				arr.push(i);
+
+			}
+
+			return arr;
+
+		}
+
+		function onDestroy() {
+
+			game.destroy(); // Очистка игры при удалении
+
+		}
+
+	}
+
+}
+
+},{"../game":35}],24:[function(require,module,exports){
+'use strict';
+
+/**
+ * Created by vladthelittleone on 07.06.16.
+ *
+ * Подключение директив.
+ */
+var app = require('angular').module('spacecraft');
+
+app.directive('bbotBoard', require('./bot-board.directive'));
+app.directive('documentation', require('./documentation.directive'));
+app.directive('gameCanvas', require('./game-canvas.directive'));
+app.directive('lessonBoard', require('./lesson-board.directive'));
+app.directive('repeatFinished', require('./repeat-finished.directive'));
+app.directive('stars', require('./stars.directive'));
+
+},{"./bot-board.directive":21,"./documentation.directive":22,"./game-canvas.directive":23,"./lesson-board.directive":25,"./repeat-finished.directive":26,"./stars.directive":27,"angular":8}],25:[function(require,module,exports){
+'use strict';
+
+LessonBoard.$inject = ['$sce'];
+
+module.exports = LessonBoard;
+
+/**
+ * Директива вывода текстового контента уроков.
+ *
+ * @since 23.12.15
+ * @author Skurishin Vladislav
+ */
+function LessonBoard($sce) {
+
+	var directive = {
+		scope:       {
+			lesson:      '=', // информация о уроке
+			textContent: '='  // true -  выводим текстовы контент урока
+		},
+		templateUrl: 'views/directives/lesson-board.html',
+		link:        link,
+		restrict:    'EA'
+	};
+
+	return directive;
+
+	function link($scope) {
+
+		$scope.getContent = getContent;
+		$scope.getHint = getHint;
+		$scope.getInstructions = getInstructions;
+		$scope.showHint = showHint;
+
+		// ==================================================
+
+		/**
+		 * Возвращает контент урока.
+		 */
+		function getContent () {
+
+			// Проверка html на предмет xss
+			return $sce.trustAsHtml($scope.lesson.content());
+
+		}
+
+		/**
+		 * Возвращает текст подсказки.
+		 */
+		function getHint () {
+
+			if ($scope.lesson.hint) {
+
+				return $sce.trustAsHtml($scope.lesson.hint);
+
+			}
+
+		}
+
+		/**
+		 * Инструкции пользователю.
+		 */
+		function getInstructions () {
+
+			return $sce.trustAsHtml($scope.lesson.instructions);
+
+		}
+
+		function showHint () {
+
+			$scope.hint = !$scope.hint;
+
+		}
+
+	}
+
+}
+
+},{}],26:[function(require,module,exports){
+'use strict';
+
+RepeatFinished.$inject = ['$sce'];
+
+module.exports = RepeatFinished;
+
+/**
+ * Created by Ivan on 18.01.2016.
+ */
+function RepeatFinished() {
+
+	return function (scope) {
+
+		// По таймауту выполняется событие ngRepeatFinished
+		if (scope.$last) setTimeout(function () {
+
+			scope.$emit('ngRepeatFinished');
+
+		}, 1);
+
+	}
+
+}
+
+},{}],27:[function(require,module,exports){
+'use strict';
+
+Stars.$inject = ['connection', '$state'];
+
+module.exports = Stars;
+
+/**
+ * Директива, отвечающиая за оценку урока.
+ *
+ * Created by Ivan on 23.03.2016.
+ */
+function Stars(connection, $state) {
+
+	var directive = {
+		scope:       {
+			idLesson: '='
+		},
+		templateUrl: 'views/directives/stars.html',
+		link:        link,
+		restrict:    'EA'
+	};
+
+	return directive;
+
+	function link($scope) {
+
+		/**
+		 * При изменении radio-кнопки, выполняется запрос на сервер и
+		 * переход на lessons ссылку.
+		 */
+		$scope.radioChange = function (value) {
+
+			connection.lessonRate($scope.idLesson, value);
+
+			$state.go('lessons');
+
+		};
+
+	}
+
+}
+
 },{}],28:[function(require,module,exports){
+/**
+ * Изменение прототипа функций.
+ *
+ * Created by vladthelittleone on 08.06.16.
+ */
+Array.prototype.removeElement = function (element)
+{
+	var index = this.indexOf(element);
+	this.removeElementByIndex(index)
+};
+
+Array.prototype.removeElementByIndex = function (index)
+{
+	if (index > -1)
+	{
+		this.splice(index, 1);
+	}
+};
+
+},{}],29:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42162,7 +42259,7 @@ function EngineBlock(spec) {
 	}
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42195,7 +42292,7 @@ function BlocksFactory() {
 	}
 }
 
-},{"./engine":28}],30:[function(require,module,exports){
+},{"./engine":29}],31:[function(require,module,exports){
 'use strict';
 
 var Transport = require('./transport');
@@ -42227,7 +42324,7 @@ function EntitiesFactory() {
 	}
 }
 
-},{"./transport":33}],31:[function(require,module,exports){
+},{"./transport":34}],32:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42257,7 +42354,7 @@ function PrefabsFactory() {
 	}
 }
 
-},{"./transport":32}],32:[function(require,module,exports){
+},{"./transport":33}],33:[function(require,module,exports){
 'use strict';
 
 Transport.prototype = Object.create(Phaser.Sprite.prototype);
@@ -42289,7 +42386,7 @@ function update() {
 
 }
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42331,14 +42428,14 @@ function TransportUnit(game, x, y) {
 
 }
 
-},{"./blocks":29,"./prefabs":31}],34:[function(require,module,exports){
+},{"./blocks":30,"./prefabs":32}],35:[function(require,module,exports){
 'use strict';
 
 /**
  * Зависимости.
  */
 var StatesFactory = require('./states');
-var GameContentFactory = require('./content');
+var ContentFactory = require('../content');
 
 // Экспорт
 module.exports = Game;
@@ -42366,7 +42463,7 @@ function Game(id) {
 	 */
 	function initialization() {
 
-		var content = GameContentFactory.content(id);
+		var content = ContentFactory.content(id);
 
 		// Игровые состояния
 		StatesFactory.createBootState(t.phaser, 'boot');
@@ -42374,7 +42471,7 @@ function Game(id) {
 		StatesFactory.createWrappedPlayState(t.phaser, 'play', content.state);
 
 		// Стартуем boot состояние.
-		game.state.start('boot');
+		t.phaser.state.start('boot');
 	}
 
 	/**
@@ -42388,7 +42485,7 @@ function Game(id) {
 
 }
 
-},{"./content":18,"./states":37}],35:[function(require,module,exports){
+},{"../content":11,"./states":38}],36:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42445,7 +42542,7 @@ function CodeLauncher () {
 	}
 }
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 module.exports = BootState;
@@ -42503,7 +42600,7 @@ function BootState(game) {
 
 }
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42606,7 +42703,7 @@ function StatesManager() {
 
 }
 
-},{"./boot":36,"./play":38,"./preload":39,"./runner":40}],38:[function(require,module,exports){
+},{"./boot":37,"./play":39,"./preload":40,"./runner":41}],39:[function(require,module,exports){
 'use strict';
 
 var CodeLauncher = require('../launcher');
@@ -42716,7 +42813,7 @@ function PlayState(game) {
 
 }
 
-},{"../launcher":35}],39:[function(require,module,exports){
+},{"../launcher":36}],40:[function(require,module,exports){
 'use strict';
 
 module.exports = PreloadState;
@@ -42808,7 +42905,7 @@ function PreloadState(game) {
 
 }
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42883,7 +42980,7 @@ function CodeRunner (game) {
 	}
 }
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 GameConfig.$inject = ['$stateProvider'];
@@ -42903,7 +43000,7 @@ function GameConfig($stateProvider) {
 
 }
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43069,10 +43166,13 @@ function GameController($scope, audioManager, connection, service, aceService) {
 
 }
 
-},{"../../game/launcher":35}],43:[function(require,module,exports){
+},{"../../game/launcher":36}],44:[function(require,module,exports){
 'use strict';
 
-GameService.$inject = ['$storage', 'connection'];
+// Зависимости
+var Storage = require('../../utils/storage');
+
+GameService.$inject = ['connection'];
 
 module.exports = GameService;
 
@@ -43083,9 +43183,11 @@ module.exports = GameService;
  *
  * @see GameController
  */
-function GameService($storage, connection) {
+function GameService(connection) {
 
 	var that = {};
+
+	var storage = Storage();
 
 	that.getCode = getCode;
 	that.setCode = setCode;
@@ -43097,14 +43199,14 @@ function GameService($storage, connection) {
 	// Код из лок. хранилища
 	function getCode() {
 
-		return $storage.local.getItem('code') || "";
+		return storage.local.getItem('code') || "";
 
 	}
 
 	// Установка кода в лок. хранилище
 	function setCode(code) {
 
-		$storage.local.setItem('code', code);
+		storage.local.setItem('code', code);
 
 	}
 
@@ -43170,7 +43272,7 @@ function GameService($storage, connection) {
 
 }
 
-},{}],44:[function(require,module,exports){
+},{"../../utils/storage":78}],45:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43186,7 +43288,7 @@ app.config(require('./game.config'));
 app.controller('GameController', require('./game.controller'));
 app.factory('gameService', require('./game.service'));
 
-},{"./game.config":41,"./game.controller":42,"./game.service":43,"angular":8}],45:[function(require,module,exports){
+},{"./game.config":42,"./game.controller":43,"./game.service":44,"angular":8}],46:[function(require,module,exports){
 /**
  * Created by vladthelittleone on 08.06.16.
  *
@@ -43210,7 +43312,7 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.welcome.module'
 ]);
 
-},{"./game.module":44,"./lesson.module":46,"./lessons.module":52,"./login.module":55,"./quick.module":58,"./result.module":61,"./welcome.module":64,"angular":8}],46:[function(require,module,exports){
+},{"./game.module":45,"./lesson.module":47,"./lessons.module":53,"./login.module":56,"./quick.module":59,"./result.module":62,"./welcome.module":65,"angular":8}],47:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43226,7 +43328,7 @@ app.config(require('./lesson.config'));
 app.controller('LessonController', require('./lesson.controller'));
 app.factory('lessonService', require('./lesson.service'));
 
-},{"./lesson.config":47,"./lesson.controller":48,"./lesson.service":49,"angular":8}],47:[function(require,module,exports){
+},{"./lesson.config":48,"./lesson.controller":49,"./lesson.service":50,"angular":8}],48:[function(require,module,exports){
 'use strict';
 
 LessonConfig.$inject = ['$stateProvider'];
@@ -43246,7 +43348,7 @@ function LessonConfig($stateProvider) {
 
 }
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
@@ -43406,13 +43508,15 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 }
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
+
+var ContentFactory = require('../../../content');
 
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 
-LessonService.$inject = ['$storage', 'connection', 'audioManager', 'aceService'];
+LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
 module.exports = LessonService;
 
@@ -43423,7 +43527,7 @@ module.exports = LessonService;
  *
  * @see LessonController
  */
-function LessonService($storage, connection, audioManager, aceService) {
+function LessonService(connection, audioManager, aceService) {
 
 	var that = {};
 
@@ -43435,7 +43539,7 @@ function LessonService($storage, connection, audioManager, aceService) {
 	var options = {};	// Настройки запуска кода и редактора
 
 	var audioWrapper = AudioWrapper();
-	var storage = Storage($storage);
+	var storage = Storage();
 	var markers = aceService.getMarkerService;
 
 	that.setEditorSession = setEditorSession;
@@ -43914,7 +44018,8 @@ function LessonService($storage, connection, audioManager, aceService) {
      */
 	function lessonContent(num) {
 
-		return lessonsArray[num](storage).lessonContent;
+		console.log(ContentFactory.content(num));
+		return ContentFactory.content(num).lessonContent;
 
 	}
 
@@ -43950,7 +44055,7 @@ function LessonService($storage, connection, audioManager, aceService) {
 
 }
 
-},{"./interpreter":50,"./storage":51}],50:[function(require,module,exports){
+},{"../../../content":11,"./interpreter":51,"./storage":52}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = Interpreter();
@@ -44010,19 +44115,22 @@ function Interpreter () {
 
 }
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
-module.exports = Storage;
+var Storage = require('../../../utils/storage');
+
+module.exports = LessonStorage;
 
 /**
  * Интерфейс локального хранилища
  *
  * Created by vladthelittleone on 08.06.16.
  */
-function Storage($storage) {
+function LessonStorage() {
 
 	var that = {};
+	var storage = Storage();
 
 	that.set = set;
 	that.getLessons = getLessons;
@@ -44037,7 +44145,7 @@ function Storage($storage) {
 	 */
 	function set(name, value) {
 
-		$storage.local.setItem(name, JSON.stringify(value));
+		storage.local.setItem(name, JSON.stringify(value));
 
 	}
 
@@ -44046,7 +44154,7 @@ function Storage($storage) {
 	 */
 	function getCurrent(lessonId) {
 
-		var json = $storage.local.getItem('lessons');
+		var json = storage.local.getItem('lessons');
 
 		var lessons = json && JSON.parse(json);
 
@@ -44064,7 +44172,7 @@ function Storage($storage) {
 	 */
 	function getLessons() {
 
-		var json = $storage.local.getItem('lessons');
+		var json = storage.local.getItem('lessons');
 
 		return json && JSON.parse(json) || [];
 
@@ -44075,7 +44183,7 @@ function Storage($storage) {
 	 */
 	function setString(name, value) {
 
-		$storage.local.setItem(name, value);
+		storage.local.setItem(name, value);
 
 	}
 
@@ -44084,12 +44192,12 @@ function Storage($storage) {
 	 */
 	function getString(name) {
 
-		return $storage.local.getItem(name);
+		return storage.local.getItem(name);
 
 	}
 }
 
-},{}],52:[function(require,module,exports){
+},{"../../../utils/storage":78}],53:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44104,7 +44212,7 @@ var app = angular.module('spacecraft.lessons.module', []);
 app.config(require('./lessons.config'));
 app.controller('LessonsController', require('./lessons.controller'));
 
-},{"./lessons.config":53,"./lessons.controller":54,"angular":8}],53:[function(require,module,exports){
+},{"./lessons.config":54,"./lessons.controller":55,"angular":8}],54:[function(require,module,exports){
 'use strict';
 
 LessonsConfig.$inject = ['$stateProvider'];
@@ -44124,7 +44232,7 @@ function LessonsConfig($stateProvider) {
 
 }
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 LessonsController.$inject = ['$scope'];
@@ -44141,7 +44249,7 @@ function LessonsController($scope) {
 
 }
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44156,7 +44264,7 @@ var app = angular.module('spacecraft.login.module', []);
 app.config(require('./login.config'));
 app.controller('LoginController', require('./login.controller'));
 
-},{"./login.config":56,"./login.controller":57,"angular":8}],56:[function(require,module,exports){
+},{"./login.config":57,"./login.controller":58,"angular":8}],57:[function(require,module,exports){
 'use strict';
 
 LoginConfig.$inject = ['$stateProvider'];
@@ -44176,7 +44284,7 @@ function LoginConfig($stateProvider) {
 
 }
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 var ENTER = 13;
@@ -44282,7 +44390,7 @@ function LoginController($scope, $state, authentication) {
 
 }
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44298,7 +44406,7 @@ app.config(require('./quick.config'));
 app.controller('QuickController', require('./quick.controller'));
 
 
-},{"./quick.config":59,"./quick.controller":60,"angular":8}],59:[function(require,module,exports){
+},{"./quick.config":60,"./quick.controller":61,"angular":8}],60:[function(require,module,exports){
 'use strict';
 
 QuickConfig.$inject = ['$stateProvider'];
@@ -44318,7 +44426,7 @@ function QuickConfig($stateProvider) {
 
 }
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 QuickController.$inject = ['$scope', '$sce', 'authentication'];
 
 module.exports = QuickController;
@@ -44635,7 +44743,7 @@ function QuickController($scope, $sce) {
 	}
 }
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44651,7 +44759,7 @@ app.config(require('./result.config'));
 app.controller('ResultController', require('./result.controller'));
 
 
-},{"./result.config":62,"./result.controller":63,"angular":8}],62:[function(require,module,exports){
+},{"./result.config":63,"./result.controller":64,"angular":8}],63:[function(require,module,exports){
 'use strict';
 
 ResultConfig.$inject = ['$stateProvider'];
@@ -44671,7 +44779,7 @@ function ResultConfig($stateProvider) {
 
 }
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
@@ -44720,7 +44828,7 @@ function ResultController($scope, $state, statistics, connection) {
 	}
 }
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44737,7 +44845,7 @@ var app = angular.module('spacecraft.welcome.module', ['chart.js']);
 app.config(require('./welcome.config'));
 app.controller('WelcomeController', require('./welcome.controller'));
 
-},{"./welcome.config":65,"./welcome.controller":66,"angular":8,"angular-chart.js":1}],65:[function(require,module,exports){
+},{"./welcome.config":66,"./welcome.controller":67,"angular":8,"angular-chart.js":1}],66:[function(require,module,exports){
 'use strict';
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
@@ -44769,10 +44877,13 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 }
 
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$storage', '$state', '$sce', 'authentication', 'connection'];
+// Зависимости
+var Storage = require('../../utils/storage');
+
+WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection'];
 
 module.exports = WelcomeController;
 
@@ -44780,7 +44891,9 @@ module.exports = WelcomeController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $storage, $state, $sce, authentication, connection) {
+function WelcomeController($scope, $state, $sce, authentication, connection) {
+
+	var storage = Storage();
 
 	$scope.usersLead = [];	// Лидеры игры
 	$scope.hideLead = true;	// Переключатель таблицы лидеров
@@ -45014,7 +45127,7 @@ function WelcomeController($scope, $storage, $state, $sce, authentication, conne
 				$state.go('login');
 
 				// Очистка лок. хранилиша.
-				$storage.local.clear();
+				storage.local.clear();
 
 			}
 
@@ -45022,7 +45135,7 @@ function WelcomeController($scope, $storage, $state, $sce, authentication, conne
 	}
 }
 
-},{}],67:[function(require,module,exports){
+},{"../../utils/storage":78}],68:[function(require,module,exports){
 module.exports=[
 	{"regExps": [" *spaceCraft.weapon.$"], "name": "weaponBlock"},
 	{"regExps": [" *spaceCraft.engine.$"], "name": "engineBlock"},
@@ -45043,7 +45156,7 @@ module.exports=[
 	}
 ]
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 'use strict';
 
 module.exports = SpaceCraftCompleter;
@@ -45158,7 +45271,7 @@ function generateAutocomplete(bindings, line) {
 
 }
 
-},{"./autocomplete.json":67}],69:[function(require,module,exports){
+},{"./autocomplete.json":68}],70:[function(require,module,exports){
 'use strict';
 
 var autocompleter = require('./autocompleter');
@@ -45231,7 +45344,7 @@ function AceService() {
 	}
 }
 
-},{"./autocompleter":68,"./marker-service":70}],70:[function(require,module,exports){
+},{"./autocompleter":69,"./marker-service":71}],71:[function(require,module,exports){
 'use strict';
 
 module.exports = MarkerService;
@@ -45318,7 +45431,7 @@ function MarkerService(editor) {
 
 }
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -45455,7 +45568,7 @@ function AudioManager($rootScope) {
 	}
 }
 
-},{"../utils/random":77}],72:[function(require,module,exports){
+},{"../utils/random":77}],73:[function(require,module,exports){
 'use strict';
 
 Authentication.$inject = ['connection'];
@@ -45552,7 +45665,7 @@ function Authentication(connection) {
 	}
 }
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 Connection.$inject = ['$http'];
@@ -45856,7 +45969,7 @@ function Connection($http) {
 	}
 }
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45866,14 +45979,13 @@ function Connection($http) {
  */
 var app = require('angular').module('spacecraft');
 
-app.factory('$storage', require('./storage.service'));
 app.factory('aceService', require('./ace.service'));
 app.factory('audioManager', require('./audio.service'));
 app.factory('authentication', require('./authentication.service'));
 app.factory('connection', require('./connection.service'));
 app.factory('statistics', require('./statistics.service'));
 
-},{"./ace.service":69,"./audio.service":71,"./authentication.service":72,"./connection.service":73,"./statistics.service":75,"./storage.service":76,"angular":8}],75:[function(require,module,exports){
+},{"./ace.service":70,"./audio.service":72,"./authentication.service":73,"./connection.service":74,"./statistics.service":76,"angular":8}],76:[function(require,module,exports){
 'use strict';
 
 module.exports = Statistics;
@@ -45918,7 +46030,65 @@ function Statistics ()
 
 }
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
+'use strict';
+
+module.exports = RandomUtils();
+
+/**
+ * Функциональность рандомизации, необходимая во всех частях системы.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function RandomUtils ()
+{
+	var that = {};
+
+	that.lessonsArray = [];
+	that.randomInt = randomInt;
+	that.randomArbitrary = randomArbitrary;
+	that.random = random;
+	that.randomOf = randomOf;
+
+	return that;
+
+	/**
+	 * Returns a random number between min (inclusive) and max (exclusive)
+	 */
+	function randomArbitrary (min, max)
+	{
+		return Math.random() * (max - min) + min;
+	}
+
+	/**
+	 * Returns a random integer between min (inclusive) and max (inclusive)
+	 * Using Math.round() will give you a non-uniform distribution!
+	 */
+	function randomInt (min, max)
+	{
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	/**
+	 * Возвращает случайное между 1 и 0 или true и false.
+     */
+	function random ()
+	{
+		return this.randomInt(0, 1);
+	}
+
+	/**
+	 * Возвращает случайно одно из заданных чисел.
+     */
+	function randomOf (i1, i2)
+	{
+		return this.random() ? i1 : i2;
+	}
+
+}
+
+
+},{}],78:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;
@@ -46005,63 +46175,5 @@ function Storage () {
 	}
 
 }
-
-},{}],77:[function(require,module,exports){
-'use strict';
-
-module.exports = RandomUtils();
-
-/**
- * Функциональность рандомизации, необходимая во всех частях системы.
- *
- * Created by vladthelittleone on 02.12.15.
- */
-function RandomUtils ()
-{
-	var that = {};
-
-	that.lessonsArray = [];
-	that.randomInt = randomInt;
-	that.randomArbitrary = randomArbitrary;
-	that.random = random;
-	that.randomOf = randomOf;
-
-	return that;
-
-	/**
-	 * Returns a random number between min (inclusive) and max (exclusive)
-	 */
-	function randomArbitrary (min, max)
-	{
-		return Math.random() * (max - min) + min;
-	}
-
-	/**
-	 * Returns a random integer between min (inclusive) and max (inclusive)
-	 * Using Math.round() will give you a non-uniform distribution!
-	 */
-	function randomInt (min, max)
-	{
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
-
-	/**
-	 * Возвращает случайное между 1 и 0 или true и false.
-     */
-	function random ()
-	{
-		return this.randomInt(0, 1);
-	}
-
-	/**
-	 * Возвращает случайно одно из заданных чисел.
-     */
-	function randomOf (i1, i2)
-	{
-		return this.random() ? i1 : i2;
-	}
-
-}
-
 
 },{}]},{},[9]);

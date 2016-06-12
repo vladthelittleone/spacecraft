@@ -1,5 +1,6 @@
 'use strict';
 
+var World = require('./world');
 var Transport = require('./transport');
 
 // Экспорт
@@ -15,16 +16,32 @@ function EntitiesFactory() {
 	// that / this
 	var t = {};
 
+	var world = World();
+
 	t.createTransport = createTransport;
+	t.getWorld = getWorld;
 
 	return t;
 
 	/**
 	 * Создать транспорт
      */
-	function createTransport(game, x, y) {
+	function createTransport(game, x, y, player) {
 
-		return Transport(game, x, y);
+		var transport = Transport(game, x, y);
+
+		player && world.setPlayer(transport);
+
+		return transport;
+
+	}
+
+	/**
+	 * Возвращаем объект всех сущностей.
+     */
+	function getWorld() {
+
+		return world;
 
 	}
 }

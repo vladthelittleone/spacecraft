@@ -40,7 +40,7 @@ function Game(id) {
 		StatesFactory.createWrappedPlayState(t.phaser, 'play', content.state);
 
 		// Стартуем boot состояние.
-		game.state.start('boot');
+		t.phaser.state.start('boot');
 	}
 
 	/**

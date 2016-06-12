@@ -1,9 +1,11 @@
 'use strict';
 
+var ContentFactory = require('../../../content');
+
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 
-LessonService.$inject = ['$storage', 'connection', 'audioManager', 'aceService'];
+LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
 module.exports = LessonService;
 
@@ -14,7 +16,7 @@ module.exports = LessonService;
  *
  * @see LessonController
  */
-function LessonService($storage, connection, audioManager, aceService) {
+function LessonService(connection, audioManager, aceService) {
 
 	var that = {};
 
@@ -26,7 +28,7 @@ function LessonService($storage, connection, audioManager, aceService) {
 	var options = {};	// Настройки запуска кода и редактора
 
 	var audioWrapper = AudioWrapper();
-	var storage = Storage($storage);
+	var storage = Storage();
 	var markers = aceService.getMarkerService;
 
 	that.setEditorSession = setEditorSession;
@@ -505,7 +507,7 @@ function LessonService($storage, connection, audioManager, aceService) {
      */
 	function lessonContent(num) {
 
-		return lessonsArray[num](storage).lessonContent;
+		return ContentFactory.content(num).lessonContent;
 
 	}
 

@@ -27,13 +27,12 @@ function Authentication(connection) {
 	 *
 	 * @param args.success коллбек успешного выполнения запроса
 	 * @param args.error коллбек ошибочного выполнения запроса
+	 * @param args.email идентификатор
+	 * @param args.password пароль
 	 */
 	function login(args) {
 
-		var success = args.success;
-		var error = args.error;
-
-		connection.login(success, error);
+		connection.login(args);
 
 	}
 

@@ -284,12 +284,15 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function saveStatistics(args) {
 
+		var id = args.lessonId;
+		var completed = args.completed;
+
 		// Устанавливаем текущий урок
-		args.statistic[args.lessonId] =
+		args.statistic[id] =
 		{
-			current:   args.current + 1,
-			size:      args.size + 1,
-			completed: args.completed
+			current:   args.current,
+			size:      args.size,
+			completed: completed
 		};
 
 		storage.set('lessons', args.statistic);
@@ -298,6 +301,9 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
+	/**
+	 * Очистка контента.
+	 */
 	function clearContent() {
 
 		// Обновляем игровые объекты на начальные значения или нет?
@@ -327,34 +333,35 @@ function LessonService(connection, audioManager, aceService) {
 
 		clearContent();
 
-		// Размер массива подуроков с 0
-		var size = scope.lesson.sub.length - 1;
+		// Размер массива подуроков
+		var size = scope.lesson.sub.length;
 
 		// Текущий объект статистики уроков
 		var statistic = storage.getLessons();
 
-		if (scope.subIndex !== size) {
+		if (scope.subIndex !== size - 1) {
 
 			++scope.subIndex;
 
 			initNextLesson();
 
 			saveStatistics({
-				current:   scope.subIndex,
+				current:   scope.subIndex + 1, // Прибавляем смещение
 				statistic: statistic,
 				lessonId:  lessonId,
-				size:      size
+				size:      size,
+				completed: statistic[lessonId].completed
 			});
 
 		}
 		else {
 
 			saveStatistics({
-				current:   0,
+				current:   1,
 				statistic: statistic,
 				lessonId:  lessonId,
 				size:      size,
-				complete:  true
+				completed:  true
 			});
 
 			// Выводим доску оценки подурока
@@ -363,11 +370,16 @@ function LessonService(connection, audioManager, aceService) {
 		}
 	}
 
+	/**
+	 * Инициализация.
+     */
 	function initialize(args) {
 
-		audioIndex = 0;
 		scope = args.scope;
 		lessonId = args.lessonId;
+
+		scope.subIndex = 0;
+		audioIndex = 0;
 		options.code = '';
 
 		// Получаем урок из локального хранилища
@@ -390,8 +402,9 @@ function LessonService(connection, audioManager, aceService) {
 					// Индекс подурока (% используется на случай изменений в размерах)
 					scope.subIndex = serverIndex % size;
 
-					initNextLesson();
 				}
+
+				initNextLesson();
 
 			});
 

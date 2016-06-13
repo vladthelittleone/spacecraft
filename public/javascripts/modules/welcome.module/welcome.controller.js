@@ -190,12 +190,6 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 		a.forEach(function (v) {
 
-			if (!v) {
-
-				return;
-
-			}
-
 			if (v[predicate]) {
 
 				c += v[param2];

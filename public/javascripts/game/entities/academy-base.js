@@ -5,14 +5,14 @@ var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
 
 // Экспорт
-module.exports = TransportUnit;
+module.exports = AcademyBaseUnit;
 
 /**
  * Фабрика prefab'ов.
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function TransportUnit(game, x, y) {
+function AcademyBaseUnit(game, x, y) {
 
 	// that / this
 	var t = {};
@@ -20,17 +20,17 @@ function TransportUnit(game, x, y) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createTransport(game, x, y);
+	t.sprite = PrefabsFactory.createAcademyBase(game, x, y);
 
 	/**
 	 * Добавляем двигатель к кораблю.
 	 */
 	t.engine = BlocksFactory.addEngineBlock({
-		game:            game,
-		unit:            t,
-		drag:            100,				// Торможение корабля
-		velocity:        60,			// Скорость корабля
-		angularVelocity: 15		// Скорость разворота
+		game: game,
+		unit: t,
+		drag: 0,				// Торможение корабля
+		velocity: 0,			// Скорость корабля
+		angularVelocity: 0.25	// Скорость разворота
 	});
 
 	t.update = update;
@@ -38,13 +38,12 @@ function TransportUnit(game, x, y) {
 	return t;
 
 	/**
-	 * Обновление транспорта.
+	 * Обновление базы.
 	 */
 	function update() {
 
-		t.engine.update();
-
-		t.logic && t.logic(t);
+		t.rotateLeft();
 
 	}
+
 }

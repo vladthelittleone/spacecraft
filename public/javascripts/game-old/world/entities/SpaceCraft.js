@@ -47,7 +47,7 @@ var SpaceCraft = function (spec)
 
 	t.addEngineBlock = function()
 	{
-		t.engine = EngineBlock({
+		t.engine = ShieldBlock({
 			modulesManager: modulesManager,
 			spaceCraft: t,
 			game: t.game

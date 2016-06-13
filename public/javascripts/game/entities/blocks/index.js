@@ -2,6 +2,7 @@
 
 // Зависимости
 var EngineBlock = require('./engine');
+var ShieldBlock = require('./shield');
 
 // Экспорт
 module.exports = BlocksFactory();
@@ -17,6 +18,7 @@ function BlocksFactory() {
 	var t = {};
 
 	t.addEngineBlock = addEngineBlock;
+	t.addShieldBlock = addShieldBlock;
 
 	return t;
 
@@ -28,4 +30,14 @@ function BlocksFactory() {
 		return EngineBlock(spec);
 
 	}
+
+	/**
+	 * Добавляем щит к юниту.
+	 */
+	function addShieldBlock(spec) {
+
+		return ShieldBlock(spec);
+
+	}
+
 }

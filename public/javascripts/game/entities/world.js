@@ -97,6 +97,9 @@ function World() {
 	 */
 	function setPlayer(id) {
 
+		// Устанавливаем параметр игрока
+		objects[id].isPlayer = true;
+
 		player = id;
 
 	}

@@ -202,7 +202,10 @@ function Connection($http) {
 	/**
 	 * Вход в систему.
 	 */
-	function login(success, error) {
+	function login(args) {
+
+		var success = args.success;
+		var error = args.error;
 
 		var promise = $http({
 			method: 'POST',

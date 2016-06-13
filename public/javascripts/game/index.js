@@ -5,6 +5,7 @@
  */
 var StatesFactory = require('./states');
 var ContentFactory = require('../content');
+var EntitiesFactory = require('./entities');
 
 // Экспорт
 module.exports = Game;
@@ -32,6 +33,9 @@ function Game(id) {
 	 */
 	function initialization() {
 
+		// Выполняем инициализацию контейнера игровых объектов.
+		EntitiesFactory.initialization();
+
 		var content = ContentFactory.content(id);
 
 		// Игровые состояния
@@ -47,6 +51,7 @@ function Game(id) {
 	 * Очистка кэша, памяти.
 	 */
 	function destroy() {
+
 
 		t.phaser.destroy();
 

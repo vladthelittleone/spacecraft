@@ -1,10 +1,5 @@
 'use strict';
 
-Transport.prototype = Object.create(Phaser.Sprite.prototype);
-Transport.prototype.constructor = Transport;
-
-Transport.prototype.update = update;
-
 module.exports = Transport;
 
 /**
@@ -14,17 +9,14 @@ module.exports = Transport;
  */
 function Transport(game, x, y) {
 
-	Phaser.Sprite.call(this, game, x, y, 'transport');
+	var t = game.add.sprite(x, y, 'transport');
 
 	// Центрирование
-	this.anchor.x = 0.5;
-	this.anchor.y = 0.5;
+	t.anchor.x = 0.5;
+	t.anchor.y = 0.5;
 
-	game.physics.arcade.enableBody(this);
+	game.physics.arcade.enableBody(t);
 
-}
-
-function update() {
-
+	return t;
 
 }

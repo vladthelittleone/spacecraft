@@ -5,14 +5,14 @@
  */
 var Game = require('../game');
 
-GameCanvas.$inject = ['statistics', '$state', '$stateParams'];
+GameCanvas.$inject = ['$stateParams'];
 
 module.exports = GameCanvas;
 
 /**
  * Директива инициализации игрового контента.
  */
-function GameCanvas(statistics, $state, $stateParams) {
+function GameCanvas($stateParams) {
 
 	var directive = {
 		scope:       {
@@ -27,36 +27,12 @@ function GameCanvas(statistics, $state, $stateParams) {
 
 	function link($scope) {
 
-		var game = createGame();
+		var game = Game($stateParams.id);
 
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
 
 		// ==================================================
-
-		/**
-		 * Callback, который выполняется при уничтожение корабля.
-		 *
-		 * @param player текущяя статистика игрока
-		 */
-		function resultCall(player) {
-
-			statistics.setPlayer(player);
-
-			$state.go('result');
-
-		}
-
-		/**
-		 * Функция создания игры.
-		 */
-		function createGame() {
-
-			var lessonId = $stateParams.id; // текущий урок
-
-			return Game(lessonId);
-
-		}
 
 		/**
 		 * Возврашает заполненый массив, заданного размера.

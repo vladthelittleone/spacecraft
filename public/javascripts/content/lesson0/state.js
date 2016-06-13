@@ -26,44 +26,33 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
-		//base = AcademyBase({
-		//	game: game,
-		//	x: game.world.centerX,
-		//	y: game.world.centerY,
-		//	spriteName: 'base'
-		//});
+		var base = EntitiesFactory.createAcademyBase(game, x, y);
 
-		// Создание транспорта.
-		var transport = EntitiesFactory.createTransport(game, game.world.centerX, game.world.centerY);
+		for (var h = 0; h < 5; h++) {
 
-		transport.logic = function (h) {
+			var i1 = random.randomInt(-225, 225);
+			var i2 = random.randomInt(-225, 225);
 
-			h.moveForward();
-			h.rotateRight();
+			// Рандомим тип корабля
+			var type = random.random() ? EntitiesFactory.createTransport : EntitiesFactory.createHarvester;
 
-		};
-
-		for (var i = 0; i < 3; i++)
-		{
-			var i1 = random.randomInt(-200, 200);
-			var i2 = random.randomInt(-200, 200);
-
-			var harvester = EntitiesFactory.createHarvester(game, x + i1, y + i2);
+			var spacecraft = type(game, x + i1, y + i2);
 
 			// Рандомный угол
-			harvester.sprite.angle = game.rnd.angle();
+			spacecraft.sprite.angle = game.rnd.angle();
 
 			// Дейстивя харвестра
-			harvester.logic = function (h) {
+			spacecraft.logic = function (h) {
 
 				h.moveForward();
 				h.rotateLeft();
 
 			}
+
 		}
 
 		// Фокус на на центре.
-		game.camera.focusOnXY(x, y);
+		game.camera.focusOnXY(x + (base.sprite.width / 4), y);
 
 	}
 }

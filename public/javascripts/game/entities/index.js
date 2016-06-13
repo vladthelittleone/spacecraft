@@ -1,8 +1,12 @@
 'use strict';
 
+// Зависимости
+
+// Сущности
 var World = require('./world');
 var Transport = require('./transport');
 var Harvester = require('./harvester');
+var AcademyBase = require('./academy-base');
 
 // Экспорт
 module.exports = EntitiesFactory();
@@ -17,10 +21,12 @@ function EntitiesFactory() {
 	// that / this
 	var t = {};
 
-	var world = World();
+	var world;	// Контейнер объектов.
 
+	t.initialization = initialization;
 	t.createTransport = createTransport;
 	t.createHarvester = createHarvester;
+	t.createAcademyBase = createAcademyBase;
 	t.getWorld = getWorld;
 
 	return t;
@@ -56,11 +62,33 @@ function EntitiesFactory() {
 	}
 
 	/**
+	 * Создать транспорт
+	 */
+	function createAcademyBase(game, x, y) {
+
+		var base = AcademyBase(game, x, y);
+
+		world.pushObject(base);
+
+		return base;
+
+	}
+
+	/**
 	 * Возвращаем объект всех сущностей.
      */
 	function getWorld() {
 
 		return world;
+
+	}
+
+	/**
+	 * Инициализация.
+	 */
+	function initialization() {
+
+		world = World();
 
 	}
 }

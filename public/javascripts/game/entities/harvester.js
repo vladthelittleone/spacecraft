@@ -33,14 +33,21 @@ function HarvesterUnit(game, x, y) {
 		angularVelocity: 10		// Скорость разворота
 	});
 
-	t.update = update;
+	/**
+	 * Добавляем щиты.
+	 */
+	t.shield = BlocksFactory.addShieldBlock({
+		game: game,
+		unit: t,
+		scale: 0.4
+	});
 
-	game.add.existing(t.sprite);
+	t.update = update;
 
 	return t;
 
 	/**
-	 * Обновление всехо бъектов.
+	 * Обновление харвестра.
 	 */
 	function update() {
 

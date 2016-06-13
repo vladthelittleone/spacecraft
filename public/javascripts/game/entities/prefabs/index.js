@@ -3,6 +3,8 @@
 // Зависимости
 var Harvester = require('./harvester');
 var Transport = require('./transport');
+var Shield = require('./shield');
+var AcademyBase = require('./academy-base');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -19,20 +21,36 @@ function PrefabsFactory() {
 
 	t.createTransport = createTransport;
 	t.createHarvester = createHarvester;
+	t.createShield = createShield;
+	t.createAcademyBase = createAcademyBase;
 
 	return t;
 
 	// Транспорт
 	function createTransport(game, x, y) {
 
-		return new Transport(game, x, y, 'transport');
+		return Transport(game, x, y);
+
+	}
+
+	// Щит
+	function createShield(game, x, y, scale, player) {
+
+		return Shield(game, x, y, scale, player);
 
 	}
 
 	// Харвестер
 	function createHarvester(game, x, y) {
 
-		return new Harvester(game, x, y, 'harvester');
+		return Harvester(game, x, y);
+
+	}
+
+	// База академии
+	function createAcademyBase(game, x, y) {
+
+		return AcademyBase(game, x, y);
 
 	}
 }

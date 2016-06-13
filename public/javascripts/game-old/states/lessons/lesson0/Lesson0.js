@@ -320,7 +320,7 @@ lessons[0] = function (storage)
 		{
 			var factory = sc.world.factory;
 
-			base = AcademyBase({
+			base = AcademyBaseUnit({
 				game: game,
 				x: game.world.centerX,
 				y: game.world.centerY,

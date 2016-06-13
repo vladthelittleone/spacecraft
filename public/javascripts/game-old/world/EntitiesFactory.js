@@ -132,7 +132,7 @@ var EntitiesFactory = function (spec)
 		args.velocity = 500;
 		args.energyPoints = 4;
 
-		return Harvester(args);
+		return Shield(args);
 	};
 
 	t.createTurret = function (args)

@@ -8,7 +8,6 @@ module.exports = Connection;
  * Ссылки на ресурсы.
  */
 var resources = {
-	code:        'javascripts/code/game.js',
 	lessonsCode: 'javascripts/code/lesson'
 };
 
@@ -21,7 +20,6 @@ var links = {
 	 * Сбор статистики.
 	 */
 	statistic:   {
-		main:    '/statistic',
 		lessons: '/statistic/lessons',
 		code:    '/statistic/code',
 		stars:   '/statistic/lessons/stars',
@@ -32,7 +30,6 @@ var links = {
 	 * Сбор метрик.
 	 */
 	metrics: {
-		openGame:    'metrics/opengame',
 		openLessons: 'metrics/openlessons'
 	},
 
@@ -58,11 +55,8 @@ function Connection($http) {
 	that.saveCode = saveCode;
 	that.getCodeFromDataBase = getCodeFromDataBase;
 	that.getCodeFromJs = getCodeFromJs;
-	that.getGameCodeFromJs = getGameCodeFromJs;
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
 
-	that.saveGameStatistics = saveGameStatistics;
-	that.getGameStatistics = getGameStatistics;
 	that.getScore = getScore;
 
 	that.saveLessonsStatistics = saveLessonsStatistics;
@@ -75,7 +69,6 @@ function Connection($http) {
 	that.isLoggedIn = isLoggedIn;
 
 	that.metrics = {};
-	that.metrics.hitOpenGame = hitOpenGame;
 	that.metrics.hitOpenLesson = hitOpenLesson;
 
 	return that;
@@ -137,18 +130,6 @@ function Connection($http) {
 	}
 
 	/**
-	 * Получить код онлайн игры из .js файла.
-	 */
-	function getGameCodeFromJs(callback) {
-
-		$http({
-			method: 'GET',
-			url:    resources.code
-		}).then(callback);
-
-	}
-
-	/**
 	 * Получить код из .js файла.
 	 */
 	function getCodeFromJs(source, callback) {
@@ -177,25 +158,6 @@ function Connection($http) {
 	function getLessonsStatistics(callback) {
 
 		$http.get(links.statistic.lessons).then(callback);
-
-	}
-
-	/**
-	 * Статистика игры.
-	 */
-	function saveGameStatistics(player) {
-
-		$http({
-			url:    links.statistic.main,
-			method: 'POST',
-			data:   {
-				killEnemy:    player.getKillEnemy(),
-				takenBonus:   player.getTakenBonus(),
-				totalScore:   player.getTotalScore(),
-				acceptDamage: player.getAcceptDamage(),
-				takenDamage:  player.getTakenDamage()
-			}
-		});
 
 	}
 
@@ -268,29 +230,11 @@ function Connection($http) {
 	}
 
 	/**
-	 * Формирование игровой статистики.
-	 */
-	function getGameStatistics(callback) {
-
-		$http.get(links.statistic.main).success(callback);
-
-	}
-
-	/**
 	 * Получить информацию об очках лучших пользователей.
 	 */
 	function getScore(callback) {
 
 		$http.get(links.statistic.score).success(callback);
-
-	}
-
-	/**
-	 * Отправка информации о открытии игры пользователем.
-	 */
-	function hitOpenGame() {
-
-		$http.post(links.metrics.openGame);
 
 	}
 

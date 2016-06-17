@@ -8,7 +8,7 @@ var BlocksFactory = require('./blocks');
 module.exports = HarvesterUnit;
 
 /**
- * Фабрика prefab'ов.
+ * Объект харвестра.
  *
  * Created by vladthelittleone on 21.10.15.
  */

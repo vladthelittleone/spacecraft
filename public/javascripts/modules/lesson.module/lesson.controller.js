@@ -1,5 +1,8 @@
 'use strict';
 
+// Зависимости
+var CodeLauncher = require('../../game/launcher');
+
 LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
 
 module.exports = LessonController;
@@ -13,6 +16,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	var markerService;
 
+	CodeLauncher.onError = onError;
+
 	$scope.starsHide = false;	// Переключатель окна оценки урока
 	$scope.hideEditor = false;	// Переключатель окна урока
 	$scope.audioPause = false;	// Переключатель кнопки паузы панели управления
@@ -20,7 +25,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.hint = false;		// Переключатель подсказок
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
-	$scope.options = service.options;						// Конфигурация кода и редактора
+	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
 	$scope.lesson = service.lessonContent($stateParams.id);	// Контент урока
 
 	$scope.toggleTextContent = toggleTextContent;
@@ -29,9 +34,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
-	$scope.run = service.run;
+	$scope.toggleCodeRun = toggleCodeRun;
 
-	$scope.$watch('options.error', onError);
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 
 	// ==================================================
@@ -80,7 +84,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	 */
 	function aceChanged() {
 
-		$scope.options.code = service.getCode();
+		//
 
 	}
 
@@ -107,7 +111,9 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Обработка ошибки при запуске пользовательского кода.
 	 */
-	function onError(value) {
+	function onError(error) {
+
+		CodeLauncher.isCodeRunning = false;
 
 		var editorSession = service.getEditorSession();
 
@@ -117,24 +123,26 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
 
 		// Выводим текст
-		$scope.textBot = value;
+		$scope.textBot = error;
 
-		if (value) {
+		if (error) {
 
 			// Номер ошибки кода
-			var errorLine = $scope.options.error.stack.split(':')[6] - 2;
+			var errorLine = error.stack.split(':')[6] - 2;
 
 			// Выводим ошибку
-			$scope.textBot = errorWrapper(value);
+			$scope.textBot = errorWrapper(error);
 
 			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, $scope.options.error);
+			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, error);
 
 			// Сохраняем в сервисе.
 			// В связи с использованием указаний в уроке.
 			service.setMarkerId(markerId);
 
 		}
+
+		$scope.$apply();
 
 	}
 
@@ -144,6 +152,24 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	function onContentLoaded() {
 
 		audioManager.createSoundtrack().play();
+
+	}
+
+	/**
+	 *    Запуск / Пауза кода.
+	 */
+	function toggleCodeRun() {
+
+		if (!CodeLauncher.isCodeRunning) {
+
+			service.run();
+
+		}
+		else {
+
+			service.stop();
+
+		}
 
 	}
 

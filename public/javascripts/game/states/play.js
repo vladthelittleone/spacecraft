@@ -15,7 +15,6 @@ function PlayState(game) {
 	var t = {};
 
 	var runner;				// Объект запуска кода обработки
-	var player;				// Объект управления
 	var cursors;			// Объект ввода / вывода
 	var background;			// Спрайт фона
 
@@ -24,6 +23,7 @@ function PlayState(game) {
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
+	t.followFor = followFor;
 
 	return t;
 
@@ -48,9 +48,6 @@ function PlayState(game) {
 
 		// Запуск шаблонного метода инициализации сущностей
 		t.entities && t.entities(game);
-
-		// Добавление аргументов для объекта обработки кода.
-		runner && runner.setArguments(player);
 
 		// Объект ввода / вывода
 		cursors = game.input.keyboard.createCursorKeys();
@@ -90,6 +87,33 @@ function PlayState(game) {
 
 		});
 
+		// Обновление background
+		background.tilePosition.set(game.camera.x * -0.3, game.camera.y * -0.3);
+
+	}
+
+	/**
+	 * Следует за объектом в заданном квадрате.
+     */
+	function followFor (object)
+	{
+		var view = game.camera.view;
+
+		var x = Math.max(object.width, 100);
+		var y = Math.max(object.height, 100);
+
+		var w = Math.round(view.halfWidth - 2 * x);
+		var h = Math.round(view.height - 2 * y);
+
+		var deadzoneCenterX = x + w / 2;
+		var deadzoneCenterY = y + h / 2;
+
+		var viewX = Math.round(object.x + view.halfWidth);
+		var viewY = Math.round(object.y + view.halfHeight);
+
+		game.camera.follow(object);
+		game.camera.deadzone = new Phaser.Rectangle(x, y, w, h);
+		game.camera.focusOnXY(viewX - deadzoneCenterX, viewY - deadzoneCenterY);
 	}
 
 }

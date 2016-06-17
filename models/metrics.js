@@ -24,11 +24,6 @@ var schema = new Schema({
 		type: Number,
 		required: true,
 		default: 0
-	},
-	numbClicksOnGame: {
-		type: Number,
-		required: true,
-		default: 0
 	}
 });
 
@@ -36,8 +31,7 @@ schema.statics.update = function (idUser, callback)
 {
 	var Metrics = this;
 
-	async.waterfall(
-		[
+	async.waterfall([
 			function (callback)
 			{
 				Metrics.findOne({idUser: idUser}, callback)
@@ -51,6 +45,7 @@ schema.statics.update = function (idUser, callback)
 				else
 				{
 					var newMetrics = new Metrics({idUser: idUser});
+
 					newMetrics.save();
 				}
 			}

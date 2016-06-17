@@ -41249,7 +41249,7 @@ function runBlock(authentication, $rootScope, $state) {
 
 }
 
-},{"./directives":24,"./extends":28,"./modules":53,"./services":82,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
+},{"./directives":35,"./extends":39,"./modules":62,"./services":92,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = BBotText;
@@ -41339,6 +41339,7 @@ var contentArray = [];	// Хранит контент
 
 // Зависимотси
 contentArray.push(require('./lesson0'));
+contentArray.push(require('./lesson1'));
 
 // Экспорт
 module.exports = ContentFactory();
@@ -41367,7 +41368,7 @@ function ContentFactory() {
 	}
 }
 
-},{"./lesson0":12}],12:[function(require,module,exports){
+},{"./lesson0":12,"./lesson1":22}],12:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -41413,7 +41414,7 @@ function Content() {
 
 }
 
-},{"./sub":18}],14:[function(require,module,exports){
+},{"./sub":20}],14:[function(require,module,exports){
 module.exports={
 	"transport": "images/sprites/entities/transport.png",
 	"harvester": "images/sprites/entities/harvester.png",
@@ -41482,152 +41483,91 @@ function StateWrapper(state) {
 	}
 }
 
-},{"../../game/entities":34,"../../utils/random":84}],16:[function(require,module,exports){
+},{"../../game/entities":45,"../../utils/random":94}],16:[function(require,module,exports){
 'use strict';
 
-// Зависимсоти
-var Storage = require('../../../utils/storage');
-
-module.exports = End();
+module.exports = WelcomeToAcademy();
 
 /**
- * Урок - 'Ваше имя?'.
+ * Урок - 'Добро пожаловать в академию!';
  *
  * Created by vladthelittleone on 02.12.15.
  */
-function End() {
-
-	var storage = Storage();
+function WelcomeToAcademy() {
 
 	return {
-		title:           'Да начнется долгий путь...',
-		isNotGameLesson: true,
-		defaultBBot:     function () {
+		title:        'Добро пожаловать в академию!',
+		defaultBBot:  function () {
 
-			return '<p>Статус: ЗАЧИСЛЕН</p>' +
-				'<p>Имя: ' + storage.local.getItem('userName').toUpperCase() + '</p>' +
-				'<p>Раса: ЧЕЛОВЕК</p>' +
-				'<p>Возраст: ' + storage.local.getItem('userAge') + 'GY</p>'
+			return '<p>Дройд BBot - инициализация...</p>' +
+				'<p>Настройка юм0ра на 75%</p>' +
+				'<p>Самоуничтожение через 10... 9... 8... 7...</p>'
 
 		},
-		content:         function () {
+		content:      function () {
 
-			return '<p>Поздравляю, теперь вы официально числитесь в академии, кадет!</p>' +
-				'<p>Вам предстоит нелегкий путь, чтобы получить гордое звание офицера флота.</p>' +
-				'<p>Желаю удачи!</p>';
+			return '<p>Прежде, для управления космическим кораблем требовалась целая команда специалистов, однако это ' +
+				'время прошло, теперь достаточно одного пилота-инженера.</p>' +
+				'<p>Наша академия выпускает лучших пилотов во всей галактике, когда-нибудь и Вы, сможете стать одним из них.</p>' +
+				'<p>Что ж хватит с меня нотаций. Сержант! Доведите инструкции до поступающих!</p>'
 
 		},
-		instructions:    '<ul>' +
-						 '<li>Нажмите "Далее" для продолжения.</li>' +
-						 '</ul>',
-		character:       [{
-			audio: 'audio/lesson1/3-1.mp3',
+		instructions: '<ul>' +
+					  '<li>Справа находится редактор кода - это инструмент, с помощью которого вы выполняете поставленные задачи.</li>' +
+					  '<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +
+					  '<li>Правее находится панель управления, с помощью которой вы сможете управлять записями, запускать код и вывести текстовый материал.</li>' +
+					  '<li>Нажмите "Далее" для продолжения.</li>' +
+					  '</ul>',
+		character:    [{
+			audio: 'audio/lesson1/1.mp3',
 			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson1/2.mp3',
+			css:   'astrogirl-img'
+		}, {
+			audio: 'audio/lesson1/3.mp3',
+			css:   'astrogirl-img',
+			hint:  [
+				{
+					'next .ace_scroller': 'Редактор кода',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
+		}, {
+			audio: 'audio/lesson1/4.mp3',
+			css:   'astrogirl-img',
+			hint:  [
+				{
+					'next .bbot-img': 'Bob Bot - ваш помощник',
+					'nextButton':     {text: 'Далее'},
+					'showSkip':       false
+				}
+			]
+		}, {
+			audio: 'audio/lesson1/5.mp3',
+			css:   'astrogirl-img',
+			hint:  [
+				{
+					'next .right-toolbar': 'Панель управления',
+					'nextButton':          {text: 'Далее'},
+					'showSkip':            false
+				}
+			]
+		}, {
+			audio:       'audio/lesson1/6.mp3',
+			css:         'astrogirl-img',
+			waitForHint: true,
+			hint:        [{
+				'click .enjoy-hint-next': 'Нажмите для перехода к следующему уроку',
+				'nextButton':             false,
+				'showSkip':               false
+			}]
 		}]
 	};
 }
 
-},{"../../../utils/storage":86}],17:[function(require,module,exports){
-'use strict';
-
-// Зависимсоти
-var BBotText = require('../../bot-text');
-var Storage = require('../../../utils/storage');
-
-module.exports = GalaxyYear();
-
-/**
- * Урок - 'Галактическая единица'.
- *
- * Created by vladthelittleone on 02.12.15.
- */
-function GalaxyYear() {
-
-	var storage = Storage();
-
-	return {
-		title:           'Галактическая единица',
-		isNotGameLesson: true,
-		content:         function () {
-
-			return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
-				'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
-				'<p>Высылаю вам инструкции.</p>';
-
-		},
-		instructions:    '<ul>' +
-						 '<li>Введите свой возраст и поделите на 250 (является периодом вращения систем вокруг центра нашей галактики в млн. лет).</li>' +
-						 '<li>Для деления используется оператор <span class="under-label">/</span>.</li>' +
-						 '<li>Например: <span class="under-label">21 / 250</span>.</li>' +
-						 '</ul>',
-		character:       [{
-			audio: 'audio/lesson1/2-1.mp3',
-			css:   'astromen-img'
-		}, {
-			audio:       'audio/lesson1/2-2.mp3',
-			css:         'astromen-img',
-			waitForHint: true,
-			hint:        [{
-				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
-				'nextButton':             false,
-				'showSkip':               false
-			}]
-		}],
-		result:          function (value) {
-
-			var botText = BBotText({
-				correct: '<p>Ура! BBot разобрал человеческий возраст, транслирую:</p>'
-						 + '<p class="bbot-output">' + value + 'GY</p>',
-
-				unknownError: '<p>Упс! BBot не разобрал ваш человеческий возраст!</p>' +
-							  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>',
-
-				emptyInput: '<p>BBot ничего не получил, похоже вы забыли воспользоватbся полем ввода или головой.</p>' +
-							'<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>'
-			});
-
-			if (value) {
-
-				if (value.exception) {
-
-					return botText.unknownError();
-
-				}
-
-				storage.local.setItem('userAge', value);
-
-				// Если выведено число, то результат положительный
-				return botText.result(isNumeric(value));
-
-			}
-
-			return botText.resultNotCorrect('emptyInput');
-
-		}
-	};
-
-	function isNumeric(n) {
-		return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-}
-
-},{"../../../utils/storage":86,"../../bot-text":10}],18:[function(require,module,exports){
-'use strict';
-
-// Зависимсоти
-var welcomeToAcademy = require('./welcome');
-var yourName = require('./name');
-var galaxyYear = require('./gy');
-var end = require('./end');
-
-/**
- * Подуроки первого урокаж
- *
- * Created by vladthelittleone on 12.06.16.
- */
-module.exports = [welcomeToAcademy, yourName, galaxyYear, end];
-
-},{"./end":16,"./gy":17,"./name":19,"./welcome":20}],19:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41646,20 +41586,19 @@ function YourName() {
 	var storage = Storage();
 
 	return {
-		title:           'Ваше имя?',
-		isNotGameLesson: true,
-		content:         function () {
+		title:              'Ваше имя?',
+		content:            function () {
 
 			return '<p>Так, новенький, нам нужно уладить еще пару ненужных бюрократических моментов.</p>' +
 				'<p>Введите свое имя в редакторе кода - мне нужно найти вас в реестре новоиспеченных космических кадетов.</p>' +
 				'<p>Высылаю вам инструкции по выполнению.</p>'
 
 		},
-		instructions:    '<ul>' +
-						 '<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">"Нилар"</span>.</li>' +
-						 '<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
-						 '</ul>',
-		character:       [{
+		instructions:       '<ul>' +
+							'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">"Нилар"</span>.</li>' +
+							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+							'</ul>',
+		character:          [{
 			audio: 'audio/lesson1/1-1.mp3',
 			css:   'astromen-img',
 			hint:  [{
@@ -41677,7 +41616,7 @@ function YourName() {
 				'showSkip':               false
 			}]
 		}],
-		result:          function (value) {
+		interpreterHandler: function (value) {
 
 			var botText = BBotText({
 				correct: '<p>Ура! BBot понял человек0-имя, транслирую:</p>'
@@ -41732,49 +41671,322 @@ function YourName() {
 	}
 }
 
-},{"../../../utils/storage":86,"../../bot-text":10}],20:[function(require,module,exports){
+},{"../../../utils/storage":96,"../../bot-text":10}],18:[function(require,module,exports){
 'use strict';
 
-module.exports = WelcomeToAcademy();
+// Зависимсоти
+var BBotText = require('../../bot-text');
+var Storage = require('../../../utils/storage');
+
+module.exports = GalaxyYear();
 
 /**
- * Урок - 'Добро пожаловать в академию!';
+ * Урок - 'Галактическая единица'.
  *
  * Created by vladthelittleone on 02.12.15.
  */
-function WelcomeToAcademy() {
+function GalaxyYear() {
+
+	var storage = Storage();
 
 	return {
-		title:           'Добро пожаловать в академию!',
-		isNotGameLesson: true,
-		defaultBBot:     function () {
+		title:              'Галактическая единица',
+		content:            function () {
 
-			return '<p>Дройд BBot - инициализация...</p>' +
-				'<p>Настройка юм0ра на 75%</p>' +
-				'<p>Самоуничтожение через 10... 9... 8... 7...</p>'
-
-		},
-		content:         function () {
-
-			return '<p>Прежде, для управления космическим кораблем требовалась целая команда специалистов, однако это ' +
-				'время прошло, теперь достаточно одного пилота-инженера.</p>' +
-				'<p>Наша академия выпускает лучших пилотов во всей галактике, когда-нибудь и Вы, сможете стать одним из них.</p>' +
-				'<p>Что ж хватит с меня нотаций. Сержант! Доведите инструкции до поступающих!</p>'
+			return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
+				'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
+				'<p>Высылаю вам инструкции.</p>';
 
 		},
-		instructions:    '<ul>' +
-						 '<li>Справа находится редактор кода - это инструмент, с помощью которого вы выполняете поставленные задачи.</li>' +
-						 '<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +
-						 '<li>Правее находится панель управления, с помощью которой вы сможете управлять записями, запускать код и вывести текстовый материал.</li>' +
-						 '<li>Нажмите "Далее" для продолжения.</li>' +
-						 '</ul>',
-		character:       [{
-			audio: 'audio/lesson1/1.mp3',
+		instructions:       '<ul>' +
+							'<li>Введите свой возраст и поделите на 250 (является периодом вращения систем вокруг центра нашей галактики в млн. лет).</li>' +
+							'<li>Для деления используется оператор <span class="under-label">/</span>.</li>' +
+							'<li>Например: <span class="under-label">21 / 250</span>.</li>' +
+							'</ul>',
+		character:          [{
+			audio: 'audio/lesson1/2-1.mp3',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson1/2.mp3',
-			css:   'astrogirl-img'
-		}, {
+			audio:       'audio/lesson1/2-2.mp3',
+			css:         'astromen-img',
+			waitForHint: true,
+			hint:        [{
+				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
+				'nextButton':             false,
+				'showSkip':               false
+			}]
+		}],
+		interpreterHandler: function (value) {
+
+			var botText = BBotText({
+				correct: '<p>Ура! BBot разобрал человеческий возраст, транслирую:</p>'
+						 + '<p class="bbot-output">' + value + 'GY</p>',
+
+				unknownError: '<p>Упс! BBot не разобрал ваш человеческий возраст!</p>' +
+							  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>',
+
+				emptyInput: '<p>BBot ничего не получил, похоже вы забыли воспользоватbся полем ввода или головой.</p>' +
+							'<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>'
+			});
+
+			if (value) {
+
+				if (value.exception) {
+
+					return botText.unknownError();
+
+				}
+
+				storage.local.setItem('userAge', value);
+
+				// Если выведено число, то результат положительный
+				return botText.result(isNumeric(value));
+
+			}
+
+			return botText.resultNotCorrect('emptyInput');
+
+		}
+	};
+
+	function isNumeric(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+}
+
+},{"../../../utils/storage":96,"../../bot-text":10}],19:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var Storage = require('../../../utils/storage');
+
+module.exports = End();
+
+/**
+ * Урок - 'Ваше имя?'.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function End() {
+
+	var storage = Storage();
+
+	return {
+		title:        'Да начнется долгий путь...',
+		defaultBBot:  function () {
+
+			return '<p>Статус: ЗАЧИСЛЕН</p>' +
+				'<p>Имя: ' + storage.local.getItem('userName').toUpperCase() + '</p>' +
+				'<p>Раса: ЧЕЛОВЕК</p>' +
+				'<p>Возраст: ' + storage.local.getItem('userAge') + 'GY</p>'
+
+		},
+		content:      function () {
+
+			return '<p>Поздравляю, теперь вы официально числитесь в академии, кадет!</p>' +
+				'<p>Вам предстоит нелегкий путь, чтобы получить гордое звание офицера флота.</p>' +
+				'<p>Желаю удачи!</p>';
+
+		},
+		instructions: '<ul>' +
+					  '<li>Нажмите "Далее" для продолжения.</li>' +
+					  '</ul>',
+		character:    [{
+			audio: 'audio/lesson1/3-1.mp3',
+			css:   'astromen-img'
+		}]
+	};
+}
+
+},{"../../../utils/storage":96}],20:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var welcomeToAcademy = require('./1');
+var yourName = require('./2');
+var galaxyYear = require('./3');
+var end = require('./4');
+
+/**
+ * Подуроки первого урокаж
+ *
+ * Created by vladthelittleone on 12.06.16.
+ */
+module.exports = [welcomeToAcademy, yourName, galaxyYear, end];
+
+},{"./1":16,"./2":17,"./3":18,"./4":19}],21:[function(require,module,exports){
+'use strict';
+
+// Экспорт
+module.exports = Api;
+
+/**
+ * API для работы с кораблем кода.
+ *
+ * @param player
+ */
+function Api (player) {
+
+	var api = {};
+
+	var moveForwardCalled = false;
+
+	api.moveForward = moveForward;
+	api.rotateLeft = player.rotateLeft;
+	api.rotateRight = player.rotateRight;
+	api.isMoveForwardCalled = isMoveForwardCalled;
+
+	function moveForward() {
+
+		player.moveForward();
+
+		moveForwardCalled = true;
+
+	}
+
+	function isMoveForwardCalled()
+	{
+
+		return moveForwardCalled;
+
+	}
+
+	return api;
+}
+
+},{}],22:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"./lesson-content":23,"./preload.json":24,"./state":25,"dup":12}],23:[function(require,module,exports){
+'use strict';
+
+// Экспорт
+module.exports = Content();
+
+/**
+ * Контент первого урока.
+ *
+ * Created by vladthelittleone on 12.06.16.
+ */
+function Content() {
+
+	return {
+		text: 'Первое занятие',
+		label: 'Основы JavaScript',
+		quote: 'Преодоление трудного начинается с легкого',
+		startCode: '',
+		isGameLesson: true,
+		sub:   require('./sub')
+	};
+
+}
+
+},{"./sub":31}],24:[function(require,module,exports){
+module.exports={
+	"transport": "images/sprites/entities/transport.png",
+	"harvester": "images/sprites/entities/harvester.png",
+	"turret": "images/sprites/entities/turret.png",
+	"base": "images/sprites/entities/base.png",
+	"starField": "images/sprites/starField.png",
+	"shield": "images/sprites/entities/shared/shield.png",
+	"meteor1": "images/sprites/entities/meteors/meteor1.png",
+	"meteor2": "images/sprites/entities/meteors/meteor2.png",
+	"meteor3": "images/sprites/entities/meteors/meteor3.png",
+	"meteor4": "images/sprites/entities/meteors/meteor4.png",
+	"meteor5": "images/sprites/entities/meteors/meteor5.png",
+	"meteor6": "images/sprites/entities/meteors/meteor6.png",
+	"meteor7": "images/sprites/entities/meteors/meteor7.png"
+}
+
+},{}],25:[function(require,module,exports){
+'use strict';
+
+// Зависимости
+var EntitiesFactory = require('../../game/entities');
+var CodeLauncher = require('../../game/launcher');
+var Api = require('./api');
+
+module.exports = StateWrapper;
+
+/**
+ * Оболочка вокруг PlayState, ввоящая конентент урока 0.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function StateWrapper(state) {
+
+	var t = state;
+
+	t.entities = entities;
+
+	return t;
+
+	/**
+	 * Шаблонный метод инфициализации объектов.
+	 */
+	function entities(game) {
+
+		var x = game.world.centerX;
+		var y = game.world.centerY;
+
+		// Создать транспорт
+		var player = EntitiesFactory.createTransport(game, x, y, true);
+		var sprite = player.sprite;
+
+		sprite.angle = Math.PI / 2;
+
+		// API для урока
+		player.api = Api(player);
+
+		// Создать метеоритное поле
+		EntitiesFactory.createMeteorField(game, sprite.x, sprite.y);
+
+		// Корабль на верх.
+		sprite.bringToTop();
+
+		// Фокус на на центре
+		t.followFor(sprite);
+
+		CodeLauncher.setArguments(player.api);
+
+	}
+
+}
+
+},{"../../game/entities":45,"../../game/launcher":56,"./api":21}],26:[function(require,module,exports){
+'use strict';
+
+module.exports = AcademyProgram();
+
+/**
+ * Урок - 'Программа академии';
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function AcademyProgram() {
+
+	return {
+		title:        'Программа академии',
+		defaultBBot:  function () {
+
+			return '<p>Приветствую, 62 69 74 65 20 6d 79 20 73 68 69 6e 79 20 6d 65 74 61 6c 20 61 73 73...</p>' +
+				'<p>Упс! Дройд BBot - рестарт...</p>'
+
+		},
+		content:      function () {
+
+			return '<p>Приятно вас видеть, кадет!</p>' +
+				'<p>Сегодня вам будет предоставлен первый урок программы подготовки пилота-инженера.</p>' +
+				'<p>Программы, направленной на выпуск настоящих профессионалов, которые будут готовы выполнять поставленные задачи в любой части вселенной.</p>'
+
+		},
+		// Похоже вас допустили к курсу учебных полетов. Ваш первый корабль - мелкая посудина.
+		// Хах, а вы что думали? Вам доверят огромной технологичный крейсер?
+		// Научитесь сначала управлять этим транспортником, а там уже и поговорим.
+		// Только смотрите, не поцарапайте!
+		instructions: '<ul>' +
+					  '<li>Нажмите "Далее" для продолжения.</li>' +
+					  '</ul>',
+		character:    [{
 			audio: 'audio/lesson1/3.mp3',
 			css:   'astrogirl-img',
 			hint:  [
@@ -41784,40 +41996,304 @@ function WelcomeToAcademy() {
 					'showSkip':           false
 				}
 			]
-		}, {
-			audio: 'audio/lesson1/4.mp3',
-			css:   'astrogirl-img',
-			hint:  [
-				{
-					'next .bbot-img': 'Bob Bot - ваш помощник',
-					'nextButton':     {text: 'Далее'},
-					'showSkip':       false
-				}
-			]
-		}, {
-			audio: 'audio/lesson1/5.mp3',
-			css:   'astrogirl-img',
-			hint:  [
-				{
-					'next .right-toolbar': 'Панель управления',
-					'nextButton':          {text: 'Далее'},
-					'showSkip':            false
-				}
-			]
-		}, {
-			audio:       'audio/lesson1/6.mp3',
-			css:         'astrogirl-img',
-			waitForHint: true,
-			hint:        [{
-				'click .enjoy-hint-next': 'Нажмите для перехода к следующему уроку',
-				'nextButton':             false,
-				'showSkip':               false
-			}]
 		}]
 	};
 }
 
-},{}],21:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+
+module.exports = JavaScript();
+
+/**
+ * Урок - 'JavaScript'.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function JavaScript() {
+
+	return {
+		title:        'JavaScript',
+		content:      function () {
+
+			return '<p>Все космические корабли нашего флота управляются с помощью древней земной технологии - <strong>JavaScript</strong>.</p>' +
+				'<p><strong>JavaScript</strong> - язык программирования, который был создан в 1995, за 31 год до колонизации Марса компанией EnoSam.</p>' +
+				'<p>Основная задача академии заключается в освоении кадетами данного инструмента.</p>'
+
+		},
+		// Справа показан пример управления транспортным кораблем с помощью JavaScript.
+		// Функция run в бесконечном цикле последовательно раз за разом выполняет написанный код управления
+		// в данном случае команду поворота налево.
+		// Запустите код и увидите результат.
+		instructions: '<ul>' +
+					  '<li>Функция <span class="under-label">run</span> в бесконечном цикле последовательно раз за разом выполняет написанный код управления. Являтеся одной из самых важных функций SpaceCraft.</li>' +
+					  '<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Introduction">клац</a>.</li>' +
+					  '</ul>',
+		character:    [{
+			audio:  'audio/lesson1/3.mp3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Редактор кода',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
+			marker: {
+				x1:   6,
+				y2:   Infinity,
+				type: 'line'
+			}
+		}],
+		gameHandler:  function () {
+
+			var botText = BBotText({
+				correct: '<p>Кадет это функция run, функция run это кадет!</p>' +
+						 '<p>Приятно познакомиться! </p>'
+			});
+
+			return botText.resultCorrect();
+
+		}
+	};
+
+}
+
+},{"../../bot-text":10}],28:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+
+module.exports = Command();
+
+/**
+ * Урок - 'Команды'.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function Command() {
+
+	return {
+		title:        'Команды',
+		content:      function () {
+
+			return '<p>Команды - это инструкции раздеяемые точкой с запятой, с помощью которых вы можете управлять кораблем и не только.</p>' +
+				'<p>Команды сканируются слева направо, сверху вниз.</p>' +
+				'<p>Вы уже знаете команду поворота влево: <pre>transport.rotateLeft();</pre></p>' +
+				'<p>Давайте попробуем добавить новую, ранее не изученную.</p>'
+
+		},
+		instructions: '<ul>' +
+					  '<li><span class="red-label">transport.moveForward()</span> - команда, направляющая корабль вперед.</li>' +
+					  '<li>Добавте команду <span class="red-label">transport.moveForward()</span> на <strong>11</strong> строку.</li>' +
+					  '<li>Не забудьте про точку с запятой.</li>' +
+					  '</ul>',
+		character:    [{
+			audio:  'audio/lesson1/3.mp3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Редактор кода',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
+			marker: {
+				x1:   6,
+				y2:   Infinity,
+				type: 'line'
+			}
+		}],
+		gameHandler:  function (spaceCraft) {
+
+			var botText = BBotText({
+				correct: '<p>Осуществляю подачу топлива!</p>' +
+						 '<p>3апускаю двигатели!</p>' +
+						 '<p>ПОЕХАЛИ!</p>'
+			});
+
+			if (spaceCraft.isMoveForwardCalled()) {
+
+				return botText.resultCorrect();
+
+			}
+
+		}
+	};
+}
+
+},{"../../bot-text":10}],29:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+
+module.exports = WhatDoesBBotSay();
+
+/**
+ * Урок - 'What does BBot say?'.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function WhatDoesBBotSay() {
+
+	return {
+		title:        'What does BBot say?',
+		content:      function () {
+
+			return '<p>Надеюсь вы не забыли о своем роботе-компаньоне?</p>' +
+				'<p>Если вы хотите узнать какие-то данные от BBot\'а, можно вызвать команду:</p>' +
+				'<pre>BBotDebug(\'то, что хотим сказать\');</pre>' +
+				'<p>BBotDebug поможет нам с выводом нужных параметров и проверкой работоспособности системы.</p>';
+
+		},
+		// Давайте рассмотрим пример как это работает
+		// На второй строке команда BBotDebug будет выводить 'Это BBot!'
+		// Запустите и увидите результат.
+		// Что ж теперь попробуем вывести 'Всем привет!' на пятой строке
+		instructions: '<ul>' +
+					  '<li>Команда <span class="under-label">BBotDebug</span> на строке <strong>2</strong> выведет <span class="under-label">\'Это BBot!\'</span>.</li>' +
+					  '<li>Выведите текст <span class="under-label">\'Всем привет!\'</span> с помощью изученной команды.</li>' +
+					  '</ul>',
+		hint:         '<ul>' +
+					  '<li>Добавьте команду <span class="under-label-gray">BBotDebug(\'Всем привет!\');</span> на <strong>5</strong> строку.</li>' +
+					  '</ul>',
+		character:    [{
+			audio:  'audio/lesson1/3.mp3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Редактор кода',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
+			marker: {
+				x1:   6,
+				y2:   Infinity,
+				type: 'line'
+			}
+		}],
+		interpreterHandler:  function (v) {
+
+			var t = '';
+			var r = false;
+
+			v.forEach(function (e) {
+
+				t += e + '</br>';
+
+				r = (e === 'Всем привет!');
+
+			});
+
+			var botText = BBotText({
+
+				correct: '<p>Хах, я п0лучил нужные данные! Транслирую:</p>' +
+						 '<p class="bbot-output">' + t + '</p>',
+
+				text: t
+
+			});
+
+			if (r) {
+
+				return botText.resultCorrect();
+
+			}
+
+			return botText.text();
+		}
+	};
+}
+
+},{"../../bot-text":10}],30:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var BBotText = require('../../bot-text');
+
+module.exports = Comments();
+
+/**
+ * Урок - 'Комментарии'.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function Comments() {
+
+	return {
+		title:        'Комментарии',
+		content:      function () {
+
+			return '<p>Хах, кадет, вы явно умнее космических пиратов! Отлично, идем дальше.</p>' +
+				'<p>Вы наверно уже заметили, что текст, который начинается с <span class="under-label">//</span>, является комментарием и преднзаначен для человека.</p>' +
+				'<p>Комментарии делают код более понятным для вас и вашей команды. Поэтому, если вдруг корабль летит в систему, принадлежащую фракции «PHP», комментарии помогут вам разобраться, где вы могли допустить ошибку.</p>' +
+				'<p><strong>JavaScript</strong> поддерживает два типа комментариев: однострочные и многострочныe.</p>';
+
+		},
+		// BBot - проказник, не позорься!
+		// Нужно понизить его уровень юмора, а то этот Джордж Карлин переходит все границы.
+		// Закомментируйте кусок кода в строке 8, пока никто не видет.
+		instructions: '<ul>' +
+					  '<li>Закомментируйте кусок кода в строке <strong>8</strong>.</li>' +
+					  '<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
+					  '</ul>',
+		character:    [{
+			audio:  'audio/lesson1/3.mp3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Редактор кода',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
+			marker: {
+				x1:   6,
+				y2:   Infinity,
+				type: 'line'
+			}
+		}],
+		interpreterHandler:  function (value) {
+
+			var botText = BBotText({
+
+				correct: '<p>Что-т0 преднозначенное для человека! Комментарии?</p>',
+
+				unknownError: '<p>Эй, BBot не хочет уничтожать человекорасу! Наверно...</p>' +
+							  '<p>Похоже вы забыли поставитb //.</p>'
+
+			});
+
+			// При комментировании результат будет возвращен ввиде 'undefined'
+			return botText.result(!value);
+		}
+	};
+}
+
+},{"../../bot-text":10}],31:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
+var academyProgram = require('./1');
+var javaScript = require('./2');
+var commands = require('./3');
+var bbotSay = require('./4');
+var comments = require('./5');
+
+/**
+ * Подуроки первого урокаж
+ *
+ * Created by vladthelittleone on 12.06.16.
+ */
+module.exports = [academyProgram, javaScript, commands, bbotSay, comments];
+
+},{"./1":26,"./2":27,"./3":28,"./4":29,"./5":30}],32:[function(require,module,exports){
 'use strict';
 
 BotBoard.$inject = ['$sce'];
@@ -41878,7 +42354,7 @@ function BotBoard($sce) {
 
 }
 
-},{}],22:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 module.exports = Documentation;
@@ -41937,7 +42413,7 @@ function Documentation() {
 	}
 }
 
-},{}],23:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -41955,9 +42431,6 @@ module.exports = GameCanvas;
 function GameCanvas($stateParams) {
 
 	var directive = {
-		scope:       {
-			editorOptions: '='
-		},
 		templateUrl: 'views/directives/game-canvas.html',
 		link:        link,
 		restrict:    'EA'
@@ -41967,7 +42440,7 @@ function GameCanvas($stateParams) {
 
 	function link($scope) {
 
-		var game = Game($stateParams.id);
+		Game.initialization($stateParams.id);
 
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
@@ -41996,7 +42469,7 @@ function GameCanvas($stateParams) {
 
 		function onDestroy() {
 
-			game.destroy(); // Очистка игры при удалении
+			Game.destroy(); // Очистка игры при удалении
 
 		}
 
@@ -42004,7 +42477,7 @@ function GameCanvas($stateParams) {
 
 }
 
-},{"../game":42}],24:[function(require,module,exports){
+},{"../game":55}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42021,7 +42494,7 @@ app.directive('lessonBoard', require('./lesson-board.directive'));
 app.directive('repeatFinished', require('./repeat-finished.directive'));
 app.directive('stars', require('./stars.directive'));
 
-},{"./bot-board.directive":21,"./documentation.directive":22,"./game-canvas.directive":23,"./lesson-board.directive":25,"./repeat-finished.directive":26,"./stars.directive":27,"angular":8}],25:[function(require,module,exports){
+},{"./bot-board.directive":32,"./documentation.directive":33,"./game-canvas.directive":34,"./lesson-board.directive":36,"./repeat-finished.directive":37,"./stars.directive":38,"angular":8}],36:[function(require,module,exports){
 'use strict';
 
 LessonBoard.$inject = ['$sce'];
@@ -42099,7 +42572,7 @@ function LessonBoard($sce) {
 
 }
 
-},{}],26:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 RepeatFinished.$inject = ['$sce'];
@@ -42124,7 +42597,7 @@ function RepeatFinished() {
 
 }
 
-},{}],27:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 Stars.$inject = ['connection', '$state'];
@@ -42167,7 +42640,7 @@ function Stars(connection, $state) {
 
 }
 
-},{}],28:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * Изменение прототипа функций.
  *
@@ -42187,7 +42660,7 @@ Array.prototype.removeElementByIndex = function (index)
 	}
 };
 
-},{}],29:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42198,7 +42671,7 @@ var BlocksFactory = require('./blocks');
 module.exports = AcademyBaseUnit;
 
 /**
- * Фабрика prefab'ов.
+ * Объект базы.
  *
  * Created by vladthelittleone on 21.10.15.
  */
@@ -42238,7 +42711,7 @@ function AcademyBaseUnit(game, x, y) {
 
 }
 
-},{"./blocks":31,"./prefabs":37}],30:[function(require,module,exports){
+},{"./blocks":42,"./prefabs":49}],41:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42323,7 +42796,7 @@ function EngineBlock(spec) {
 	}
 }
 
-},{}],31:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42368,7 +42841,7 @@ function BlocksFactory() {
 
 }
 
-},{"./engine":30,"./shield":32}],32:[function(require,module,exports){
+},{"./engine":41,"./shield":43}],43:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42411,7 +42884,7 @@ function ShieldBlock(spec) {
 	}
 }
 
-},{"../prefabs":37}],33:[function(require,module,exports){
+},{"../prefabs":49}],44:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42422,7 +42895,7 @@ var BlocksFactory = require('./blocks');
 module.exports = HarvesterUnit;
 
 /**
- * Фабрика prefab'ов.
+ * Объект харвестра.
  *
  * Created by vladthelittleone on 21.10.15.
  */
@@ -42473,7 +42946,7 @@ function HarvesterUnit(game, x, y) {
 
 }
 
-},{"./blocks":31,"./prefabs":37}],34:[function(require,module,exports){
+},{"./blocks":42,"./prefabs":49}],45:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42483,6 +42956,9 @@ var World = require('./world');
 var Transport = require('./transport');
 var Harvester = require('./harvester');
 var AcademyBase = require('./academy-base');
+var Meteor = require('./meteor');
+
+var Random = require('../../utils/random');
 
 // Экспорт
 module.exports = EntitiesFactory();
@@ -42503,6 +42979,8 @@ function EntitiesFactory() {
 	t.createTransport = createTransport;
 	t.createHarvester = createHarvester;
 	t.createAcademyBase = createAcademyBase;
+	t.createMeteor = createMeteor;
+	t.createMeteorField = createMeteorField;
 	t.getWorld = getWorld;
 
 	return t;
@@ -42551,6 +43029,45 @@ function EntitiesFactory() {
 	}
 
 	/**
+	 * Создать метеорит
+	 */
+	function createMeteor(game, x, y) {
+
+		var meteor = Meteor(game, x, y);
+
+		world.pushObject(meteor);
+
+		return meteor;
+
+	}
+
+	/**
+	 * Создать метеоритное поле
+	 */
+	function createMeteorField(game, x, y) {
+
+		var radius = Phaser.Point.distance(new Phaser.Point(x, y), new Phaser.Point(0, 0));
+
+		// Инициализация
+		var count = 1500;
+		var start = 0;
+		var shift = 10;
+
+		// Создаем объект мира
+		for (var i = start; i < count; i = i + shift)
+		{
+			var j = Math.sqrt(radius * radius - i * i);
+
+			var m = createMeteor(game, j + Random.randomInt(0, 200), i + Random.randomInt(0, 200));
+
+			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
+			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
+
+		}
+
+	}
+
+	/**
 	 * Возвращаем объект всех сущностей.
      */
 	function getWorld() {
@@ -42569,7 +43086,35 @@ function EntitiesFactory() {
 	}
 }
 
-},{"./academy-base":29,"./harvester":33,"./transport":40,"./world":41}],35:[function(require,module,exports){
+},{"../../utils/random":94,"./academy-base":40,"./harvester":44,"./meteor":46,"./transport":53,"./world":54}],46:[function(require,module,exports){
+'use strict';
+
+// Зависимости
+var PrefabsFactory = require('./prefabs');
+var Random = require('../../utils/random');
+
+// Экспорт
+module.exports = Meteor;
+
+/**
+ * Объект метеора.
+ *
+ * Created by vladthelittleone on 21.10.15.
+ */
+function Meteor(game, x, y) {
+
+	// that / this
+	var t = {};
+
+	/**
+	 * Создаем спрайт.
+	 */
+	t.sprite = PrefabsFactory.createMeteor(game, x, y, Random.randomInt(1, 7));
+
+	return t;
+}
+
+},{"../../utils/random":94,"./prefabs":49}],47:[function(require,module,exports){
 'use strict';
 
 module.exports = AcademyBase;
@@ -42593,7 +43138,7 @@ function AcademyBase(game, x, y) {
 
 }
 
-},{}],36:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 module.exports = Harvester;
@@ -42613,11 +43158,13 @@ function Harvester(game, x, y) {
 
 	game.physics.arcade.enableBody(t);
 
+	t.body.collideWorldBounds = true;
+
 	return t;
 
 }
 
-},{}],37:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42625,6 +43172,7 @@ var Harvester = require('./harvester');
 var Transport = require('./transport');
 var Shield = require('./shield');
 var AcademyBase = require('./academy-base');
+var Meteor = require('./meteor');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -42643,6 +43191,7 @@ function PrefabsFactory() {
 	t.createHarvester = createHarvester;
 	t.createShield = createShield;
 	t.createAcademyBase = createAcademyBase;
+	t.createMeteor = createMeteor;
 
 	return t;
 
@@ -42650,6 +43199,13 @@ function PrefabsFactory() {
 	function createTransport(game, x, y) {
 
 		return Transport(game, x, y);
+
+	}
+
+	// Метеорит
+	function createMeteor(game, scale, x, y, n) {
+
+		return Meteor(game, scale, x, y, n);
 
 	}
 
@@ -42675,7 +43231,31 @@ function PrefabsFactory() {
 	}
 }
 
-},{"./academy-base":35,"./harvester":36,"./shield":38,"./transport":39}],38:[function(require,module,exports){
+},{"./academy-base":47,"./harvester":48,"./meteor":50,"./shield":51,"./transport":52}],50:[function(require,module,exports){
+'use strict';
+
+module.exports = Meteor;
+
+/**
+ * Prefab метеора.
+ *
+ * Created by vladthelittleone on 11.06.16.
+ */
+function Meteor(game, x, y, n) {
+
+	var t = game.add.sprite(x, y, 'meteor' + n);
+
+	// Центрирование
+	t.anchor.x = 0.5;
+	t.anchor.y = 0.5;
+
+	game.physics.arcade.enableBody(t);
+
+	return t;
+
+}
+
+},{}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = Shield;
@@ -42702,7 +43282,7 @@ function Shield(game, x, y, scale, player) {
 
 }
 
-},{}],39:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = Transport;
@@ -42722,11 +43302,13 @@ function Transport(game, x, y) {
 
 	game.physics.arcade.enableBody(t);
 
+	t.body.collideWorldBounds = true;
+
 	return t;
 
 }
 
-},{}],40:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42737,7 +43319,7 @@ var BlocksFactory = require('./blocks');
 module.exports = TransportUnit;
 
 /**
- * Фабрика prefab'ов.
+ * Объект транспорта.
  *
  * Created by vladthelittleone on 21.10.15.
  */
@@ -42778,7 +43360,7 @@ function TransportUnit(game, x, y) {
 	}
 }
 
-},{"./blocks":31,"./prefabs":37}],41:[function(require,module,exports){
+},{"./blocks":42,"./prefabs":49}],54:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42796,7 +43378,7 @@ function World() {
 
 	var t = {};
 
-	var player;			// Игрок
+	var playerId;			// Игрок
 	var objects = [];	// Массив всех объектов
 
 	t.pushObject = pushObject;
@@ -42870,7 +43452,7 @@ function World() {
 	 */
 	function getPlayer() {
 
-		return get(player);
+		return get(playerId);
 	}
 
 	/**
@@ -42881,13 +43463,13 @@ function World() {
 		// Устанавливаем параметр игрока
 		objects[id].isPlayer = true;
 
-		player = id;
+		playerId = id;
 
 	}
 
 }
 
-},{"../../utils/sequence":85}],42:[function(require,module,exports){
+},{"../../utils/sequence":95}],55:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42896,32 +43478,37 @@ function World() {
 var StatesFactory = require('./states');
 var ContentFactory = require('../content');
 var EntitiesFactory = require('./entities');
+var CodeLauncher = require('./launcher');
 
 // Экспорт
-module.exports = Game;
+module.exports = Game();
 
 /**
  * Модуль создания игры опредленного типа.
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function Game(id) {
+function Game() {
 
 	// that / this
 	var t = {};
 
-	t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
+	t.content = ContentFactory;		// Фабрика контента уроков
+	t.world = EntitiesFactory;		// Фабрика мира и объектов
+	t.codeLauncher = CodeLauncher;	// Синглтон заупска кода
 
 	t.destroy = destroy;
-
-	initialization();
+	t.initialization = initialization;
+	t.restart = restart;
 
 	return t;
 
 	/**
 	 * Инициализация состояний
 	 */
-	function initialization() {
+	function initialization(id) {
+
+		t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
 
 		// Выполняем инициализацию контейнера игровых объектов.
 		EntitiesFactory.initialization();
@@ -42938,10 +43525,22 @@ function Game(id) {
 	}
 
 	/**
+	 * Рестарт уже существующей игры.
+	 */
+	function restart() {
+
+		// Выполняем инициализацию контейнера игровых объектов.
+		EntitiesFactory.initialization();
+
+		// Стартуем boot состояние.
+		t.phaser.state.start('boot');
+
+	}
+
+	/**
 	 * Очистка кэша, памяти.
 	 */
 	function destroy() {
-
 
 		t.phaser.destroy();
 
@@ -42949,7 +43548,7 @@ function Game(id) {
 
 }
 
-},{"../content":11,"./entities":34,"./states":45}],43:[function(require,module,exports){
+},{"../content":11,"./entities":45,"./launcher":56,"./states":58}],56:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42980,10 +43579,13 @@ function CodeLauncher () {
 	 * Запуск кода.
 	 *
 	 * @param code код
-     */
-	function run(code) {
+	 * @param callback коллбек выполняющийся при обновлении игры
+	 */
+	function run(code, callback) {
 
-		runner && runner.runCode(code);
+		t.isCodeRunning = true;
+
+		runner && runner.runCode(code, callback);
 
 	}
 
@@ -42991,6 +43593,8 @@ function CodeLauncher () {
 	 * Остановить код.
 	 */
 	function stop() {
+
+		t.isCodeRunning = false;
 
 		runner && runner.stopCode();
 
@@ -43003,10 +43607,13 @@ function CodeLauncher () {
 
 		runner = v;
 
+		t.setArguments = runner.setArguments;
+
 	}
+
 }
 
-},{}],44:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 module.exports = BootState;
@@ -43064,7 +43671,7 @@ function BootState(game) {
 
 }
 
-},{}],45:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43167,7 +43774,7 @@ function StatesManager() {
 
 }
 
-},{"./boot":44,"./play":46,"./preload":47,"./runner":48}],46:[function(require,module,exports){
+},{"./boot":57,"./play":59,"./preload":60,"./runner":61}],59:[function(require,module,exports){
 'use strict';
 
 var CodeLauncher = require('../launcher');
@@ -43185,7 +43792,6 @@ function PlayState(game) {
 	var t = {};
 
 	var runner;				// Объект запуска кода обработки
-	var player;				// Объект управления
 	var cursors;			// Объект ввода / вывода
 	var background;			// Спрайт фона
 
@@ -43194,6 +43800,7 @@ function PlayState(game) {
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
+	t.followFor = followFor;
 
 	return t;
 
@@ -43218,9 +43825,6 @@ function PlayState(game) {
 
 		// Запуск шаблонного метода инициализации сущностей
 		t.entities && t.entities(game);
-
-		// Добавление аргументов для объекта обработки кода.
-		runner && runner.setArguments(player);
 
 		// Объект ввода / вывода
 		cursors = game.input.keyboard.createCursorKeys();
@@ -43260,11 +43864,38 @@ function PlayState(game) {
 
 		});
 
+		// Обновление background
+		background.tilePosition.set(game.camera.x * -0.3, game.camera.y * -0.3);
+
+	}
+
+	/**
+	 * Следует за объектом в заданном квадрате.
+     */
+	function followFor (object)
+	{
+		var view = game.camera.view;
+
+		var x = Math.max(object.width, 100);
+		var y = Math.max(object.height, 100);
+
+		var w = Math.round(view.halfWidth - 2 * x);
+		var h = Math.round(view.height - 2 * y);
+
+		var deadzoneCenterX = x + w / 2;
+		var deadzoneCenterY = y + h / 2;
+
+		var viewX = Math.round(object.x + view.halfWidth);
+		var viewY = Math.round(object.y + view.halfHeight);
+
+		game.camera.follow(object);
+		game.camera.deadzone = new Phaser.Rectangle(x, y, w, h);
+		game.camera.focusOnXY(viewX - deadzoneCenterX, viewY - deadzoneCenterY);
 	}
 
 }
 
-},{"../entities":34,"../launcher":43}],47:[function(require,module,exports){
+},{"../entities":45,"../launcher":56}],60:[function(require,module,exports){
 'use strict';
 
 module.exports = PreloadState;
@@ -43356,8 +43987,11 @@ function PreloadState(game) {
 
 }
 
-},{}],48:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
+
+// Зависимости
+var CodeLauncher = require('../launcher');
 
 // Экспорт
 module.exports = CodeRunner;
@@ -43367,13 +44001,18 @@ module.exports = CodeRunner;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function CodeRunner (game) {
+function CodeRunner(game) {
 
 	// that / this
 	var t = {};
 
+	// Const
+	var END_LN = '</br>';
+
+	var logic;			// Коллбек обновления
 	var args;			// Аргументы передаваемые в функцию
-	var runFunction;	// Функция запуска кода
+	var userFunction;	// Функция запуска кода
+	var log = '';		// Логгирование выводимое ботом
 
 	t.runCode = runCode;
 	t.stopCode = stopCode;
@@ -43386,14 +44025,26 @@ function CodeRunner (game) {
 	/**
 	 * Функция запуска код.
 	 */
-	function runCode(code) {
+	function runCode(code, callback) {
 
-		var Class = new Function(code);
+		try {
 
-		// Функция пользователя.
-		runFunction = new Class();
+			var Class = new Function('BBotDebug', code);
 
-		game.paused = false;
+			// Функция пользователя.
+			userFunction = new Class(botDebug);
+
+		}
+		catch (err) {
+
+			userFunction = null;
+
+			// В случае ошибки
+			CodeLauncher.onError(err);
+
+		}
+
+		logic = callback;
 
 	}
 
@@ -43402,15 +44053,13 @@ function CodeRunner (game) {
 	 */
 	function stopCode() {
 
-		runFunction = null;
-
-		game.paused = true;
+		userFunction = null;
 
 	}
 
 	/**
 	 * Передача аргументов.
-     */
+	 */
 	function setArguments() {
 
 		args = Array.prototype.slice.call(arguments);
@@ -43422,330 +44071,41 @@ function CodeRunner (game) {
 	 */
 	function update() {
 
-		if (runFunction) {
+		if (userFunction) {
 
-			runFunction.run && runFunction.run.apply(null, args);
+			try {
 
-		}
+				// Отправляем в коллбек текст
+				logic && logic(log);
 
-	}
-}
+				userFunction.run && userFunction.run.apply(null, args);
 
-},{}],49:[function(require,module,exports){
-'use strict';
+			} catch (err) {
 
-GameConfig.$inject = ['$stateProvider'];
-
-module.exports = GameConfig;
-
-/**
- * Инициализация состояния игры.
- */
-function GameConfig($stateProvider) {
-
-	$stateProvider.state('game', {
-		url:         '/game',
-		templateUrl: 'views/game/game.html',
-		controller:  'GameController as ctrl'
-	});
-
-}
-
-},{}],50:[function(require,module,exports){
-'use strict';
-
-// Зависимости
-var CodeLauncher = require('../../game/launcher');
-
-/**
- * Контрллер игрового окна.
- *
- * Created by vladthelittleone on 30.11.15.
- */
-GameController.$inject = ['$scope', 'audioManager', 'connection', 'gameService', 'aceService'];
-
-module.exports = GameController;
-
-function GameController($scope, audioManager, connection, service, aceService) {
-
-	var editorSession;
-	var markerService;
-	var markerId;
-
-	$scope.hideEditor = false;
-	$scope.hideDoc = true;
-	$scope.textBot = '';
-	$scope.options =
-	{
-		isCodeRunning: false,
-		code:          "",
-		error:         null
-	};
-
-	$scope.toggleCodeRun = toggleCodeRun;
-	$scope.toggleEditorOpen = toggleEditorOpen;
-	$scope.toggleDocOpen = toggleDocOpen;
-	$scope.aceChanged = aceChanged;
-	$scope.aceLoaded = aceLoaded;
-
-	$scope.$watch('options.error', onError);
-	$scope.$watch('$viewContentLoaded', onContentLoaded);
-
-	// ==================================================
-
-	/**
-	 * Переключение состояния кода.
-	 */
-	function toggleCodeRun() {
-
-		$scope.options.isCodeRunning = !$scope.options.isCodeRunning;
-
-		// Сохраняем код только при нажатии на кнопку 'play'
-		if ($scope.options.isCodeRunning) {
-
-			var code = $scope.options.code;
-
-			// Запуск кода в игре
-			CodeLauncher.run(code);
-
-			connection.saveCode(code);
-
-		} else {
-
-			// Остановка кода
-			CodeLauncher.stop();
-
-		}
-
-	}
-
-	/**
-	 * Переключение состояния окна редактора.
-	 */
-	function toggleEditorOpen() {
-
-		$scope.hideEditor = !$scope.hideEditor;
-
-	}
-
-	/**
-	 * Переключение состояния окна документации.
-	 */
-	function toggleDocOpen() {
-
-		$scope.hideDoc = !$scope.hideDoc;
-
-	}
-
-	/**
-	 * Обработчик изменения кода в Ace.
-	 */
-	function aceChanged() {
-
-		$scope.options.code = editorSession.getDocument().getValue();
-
-		service.setCode($scope.options.code);
-
-	}
-
-	/**
-	 * Инициализация Ace.
-	 */
-	function aceLoaded(editor) {
-
-		editorSession = editor.getSession();
-
-		aceService.initialize(editor, $scope.options.code);
-
-		markerService = aceService.getMarkerService();
-
-		// Установка кода
-		service.setCode($scope.options.code);
-
-		// Инициализация кода
-		service.initCode(function (data) {
-
-			editorSession.setValue(data);
-
-		});
-
-	}
-
-	/**
-	 * Обработка ошибки при запуске пользовательского кода.
-	 */
-	function onError(value) {
-
-		// Удаляем старый маркер
-		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
-
-		// Выводим текст
-		$scope.textBot = value;
-
-		if (value) {
-
-			// Номер ошибки кода
-			var errorLine = $scope.options.error.stack.split(':')[6] - 2;
-
-			// Выводим ошибку
-			$scope.textBot = errorWrapper(value);
-
-			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, $scope.options.error);
-
-		}
-
-	}
-
-	/**
-	 * При загрузке запускаем звук.
-	 */
-	function onContentLoaded() {
-
-		audioManager.createSoundtrack().play();
-
-	}
-
-	function errorWrapper(value) {
-
-		return '<p>Неисправность!! EГГ0Г!!</p> ' +
-			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
-			'<p class="red-label">0шибка: ' + value + '</p>' +
-			'<p>Пожалуйста исправте ситуацию.</p>';
-
-	}
-
-}
-
-},{"../../game/launcher":43}],51:[function(require,module,exports){
-'use strict';
-
-// Зависимости
-var Storage = require('../../utils/storage');
-
-GameService.$inject = ['connection'];
-
-module.exports = GameService;
-
-/**
- * Сервис бизнес-логики контроллера игры.
- *
- * Created by Ivan on 07.05.2016.
- *
- * @see GameController
- */
-function GameService(connection) {
-
-	var that = {};
-
-	var storage = Storage();
-
-	that.getCode = getCode;
-	that.setCode = setCode;
-	that.requestForCode = requestForCode;
-	that.initCode = initCode;
-
-	return that;
-
-	// Код из лок. хранилища
-	function getCode() {
-
-		return storage.local.getItem('code') || "";
-
-	}
-
-	// Установка кода в лок. хранилище
-	function setCode(code) {
-
-		storage.local.setItem('code', code);
-
-	}
-
-	/**
-	 * Запрос кода.
-	 *
-	 * @param callback, который выполняется при получении данных.
-	 */
-	function requestForCode(callback) {
-
-		// Обращаемся к базе за кодом
-		connection.getCodeFromDataBase(function (code) {
-
-			var data = code.data;
-
-			// Если пришел код из базы, выполняем callback
-			if (data) {
-
-				callback(data);
+				// В случае ошибки
+				CodeLauncher.onError(err);
 
 			}
-			else {
-
-				// Если его нет, берем из .js файла код и выполняем callback
-				connection.getGameCodeFromJs(function (data) {
-
-					callback(data);
-
-				});
-
-			}
-
-		});
+		}
 
 	}
-
 
 	/**
-	 * Инициализация кода.
-	 *
-	 * @param callback, в который будет передан полученный код.
+	 * Текст бота.
 	 */
-	function initCode(callback) {
+	function botDebug(text) {
 
-		// Получаем код из  локалного хранилища
-		var code = getCode();
-
-		// Если в локальном хранилище нет кода
-		if (!code) {
-
-			// Делаем запрос на получение кода от других источников
-			requestForCode(callback);
-
-		}
-		else {
-
-			// Если код есть выполняем передачу в callback
-			callback(code);
-
-		}
+		log += text + END_LN;
 
 	}
-
 }
 
-},{"../../utils/storage":86}],52:[function(require,module,exports){
-'use strict';
-
-/**
- * Модуль, включающий все зависмости, связанные с игрой.
- *
- * Created by vladthelittleone on 30.11.15.
- */
-var angular = require('angular');
-
-var app = angular.module('spacecraft.game.module', []);
-
-app.config(require('./game.config'));
-app.controller('GameController', require('./game.controller'));
-app.factory('gameService', require('./game.service'));
-
-},{"./game.config":49,"./game.controller":50,"./game.service":51,"angular":8}],53:[function(require,module,exports){
+},{"../launcher":56}],62:[function(require,module,exports){
 /**
  * Created by vladthelittleone on 08.06.16.
  *
  * Подключение модулей.
  */
-require('./game.module');
 require('./lesson.module');
 require('./lessons.module');
 require('./login.module');
@@ -43754,7 +44114,6 @@ require('./result.module');
 require('./welcome.module');
 
 require('angular').module('spacecraft.modules', [
-	'spacecraft.game.module',
 	'spacecraft.lesson.module',
 	'spacecraft.lessons.module',
 	'spacecraft.login.module',
@@ -43763,7 +44122,7 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.welcome.module'
 ]);
 
-},{"./game.module":52,"./lesson.module":54,"./lessons.module":60,"./login.module":63,"./quick.module":66,"./result.module":69,"./welcome.module":72,"angular":8}],54:[function(require,module,exports){
+},{"./lesson.module":63,"./lessons.module":69,"./login.module":72,"./quick.module":75,"./result.module":79,"./welcome.module":82,"angular":8}],63:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43779,7 +44138,7 @@ app.config(require('./lesson.config'));
 app.controller('LessonController', require('./lesson.controller'));
 app.factory('lessonService', require('./lesson.service'));
 
-},{"./lesson.config":55,"./lesson.controller":56,"./lesson.service":57,"angular":8}],55:[function(require,module,exports){
+},{"./lesson.config":64,"./lesson.controller":65,"./lesson.service":66,"angular":8}],64:[function(require,module,exports){
 'use strict';
 
 LessonConfig.$inject = ['$stateProvider'];
@@ -43799,8 +44158,11 @@ function LessonConfig($stateProvider) {
 
 }
 
-},{}],56:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
+
+// Зависимости
+var CodeLauncher = require('../../game/launcher');
 
 LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
 
@@ -43815,6 +44177,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	var markerService;
 
+	CodeLauncher.onError = onError;
+
 	$scope.starsHide = false;	// Переключатель окна оценки урока
 	$scope.hideEditor = false;	// Переключатель окна урока
 	$scope.audioPause = false;	// Переключатель кнопки паузы панели управления
@@ -43822,7 +44186,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.hint = false;		// Переключатель подсказок
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
-	$scope.options = service.options;						// Конфигурация кода и редактора
+	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
 	$scope.lesson = service.lessonContent($stateParams.id);	// Контент урока
 
 	$scope.toggleTextContent = toggleTextContent;
@@ -43831,9 +44195,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
-	$scope.run = service.run;
+	$scope.toggleCodeRun = toggleCodeRun;
 
-	$scope.$watch('options.error', onError);
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 
 	// ==================================================
@@ -43882,7 +44245,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	 */
 	function aceChanged() {
 
-		$scope.options.code = service.getCode();
+		//
 
 	}
 
@@ -43909,7 +44272,9 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Обработка ошибки при запуске пользовательского кода.
 	 */
-	function onError(value) {
+	function onError(error) {
+
+		CodeLauncher.isCodeRunning = false;
 
 		var editorSession = service.getEditorSession();
 
@@ -43919,24 +44284,26 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
 
 		// Выводим текст
-		$scope.textBot = value;
+		$scope.textBot = error;
 
-		if (value) {
+		if (error) {
 
 			// Номер ошибки кода
-			var errorLine = $scope.options.error.stack.split(':')[6] - 2;
+			var errorLine = error.stack.split(':')[6] - 2;
 
 			// Выводим ошибку
-			$scope.textBot = errorWrapper(value);
+			$scope.textBot = errorWrapper(error);
 
 			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, $scope.options.error);
+			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, error);
 
 			// Сохраняем в сервисе.
 			// В связи с использованием указаний в уроке.
 			service.setMarkerId(markerId);
 
 		}
+
+		$scope.$apply();
 
 	}
 
@@ -43946,6 +44313,24 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	function onContentLoaded() {
 
 		audioManager.createSoundtrack().play();
+
+	}
+
+	/**
+	 *    Запуск / Пауза кода.
+	 */
+	function toggleCodeRun() {
+
+		if (!CodeLauncher.isCodeRunning) {
+
+			service.run();
+
+		}
+		else {
+
+			service.stop();
+
+		}
 
 	}
 
@@ -43959,10 +44344,15 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 }
 
-},{}],57:[function(require,module,exports){
+},{"../../game/launcher":56}],66:[function(require,module,exports){
 'use strict';
 
-var ContentFactory = require('../../../content');
+// Зависимсоти
+var Game = require('../../../game');
+
+var CodeLauncher = Game.codeLauncher;
+var ContentFactory = Game.content;
+var EntitiesFactory = Game.world;
 
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
@@ -43987,7 +44377,6 @@ function LessonService(connection, audioManager, aceService) {
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
 	var audioIndex;		// Индекс текущиего трека
-	var options = {};	// Настройки запуска кода и редактора
 
 	var audioWrapper = AudioWrapper();
 	var storage = Storage();
@@ -43999,10 +44388,10 @@ function LessonService(connection, audioManager, aceService) {
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
 	that.run = run;
+	that.stop = stop;
 	that.getMarkerId = getMarkerId;
 	that.setMarkerId = setMarkerId;
 	that.audioManager = audioWrapper;
-	that.options = options;
 
 	return that;
 
@@ -44225,15 +44614,11 @@ function LessonService(connection, audioManager, aceService) {
 			// Сохранение в Ace.
 			editorSession.setValue(code);
 
-			options.code = code;
-
 			// Слова BBot'а
 			scope.textBot = current.defaultBBot && current.defaultBBot();
 
 			// Добавление кнопки 'Далее'
 			scope.nextSubLesson = nextSubLesson;
-
-			scope.isGameLesson = scope.lesson.isGameLesson;
 
 			initNextLessonContent();
 
@@ -44269,13 +44654,9 @@ function LessonService(connection, audioManager, aceService) {
 	function clearContent() {
 
 		// Обновляем игровые объекты на начальные значения или нет?
-		options.resetGame = currentSubLesson().handleUpdate;
+		currentSubLesson().gameHandler && Game.restart();
 
-		// Код не запущен
-		options.isCodeRunning = false;
-
-		// Обновлений в игре scope'а не происходит
-		options.update = false;
+		CodeLauncher.stop();
 
 		// Удаление маркеров
 		markers().deleteMarkerAndAnnotation(editorSession, markerId);
@@ -44299,9 +44680,12 @@ function LessonService(connection, audioManager, aceService) {
 		var size = scope.lesson.sub.length;
 
 		// Текущий объект статистики уроков
-		var statistic = storage.getLessons();
+		var statistics = storage.getLessons();
 
 		if (scope.subIndex !== size - 1) {
+
+			var subStatistic = statistics[lessonId];
+			var completed = subStatistic && subStatistic.completed;
 
 			++scope.subIndex;
 
@@ -44309,10 +44693,10 @@ function LessonService(connection, audioManager, aceService) {
 
 			saveStatistics({
 				current:   scope.subIndex + 1, // Прибавляем смещение
-				statistic: statistic,
+				statistic: statistics,
 				lessonId:  lessonId,
 				size:      size,
-				completed: statistic[lessonId].completed
+				completed: completed
 			});
 
 		}
@@ -44320,10 +44704,10 @@ function LessonService(connection, audioManager, aceService) {
 
 			saveStatistics({
 				current:   1,
-				statistic: statistic,
+				statistic: statistics,
 				lessonId:  lessonId,
 				size:      size,
-				completed:  true
+				completed: true
 			});
 
 			// Выводим доску оценки подурока
@@ -44334,7 +44718,7 @@ function LessonService(connection, audioManager, aceService) {
 
 	/**
 	 * Инициализация.
-     */
+	 */
 	function initialize(args) {
 
 		scope = args.scope;
@@ -44342,7 +44726,6 @@ function LessonService(connection, audioManager, aceService) {
 
 		scope.subIndex = 0;
 		audioIndex = 0;
-		options.code = '';
 
 		// Получаем урок из локального хранилища
 		var config = storage.getCurrent(lessonId);
@@ -44394,18 +44777,22 @@ function LessonService(connection, audioManager, aceService) {
 		// Добавляем ссылку на функцию и кнопку 'Далее'
 		scope.nextSubLesson = nextSubLesson;
 
+		// Если цикл не запущен, выполняем обновления scope
+		!scope.$$phase && scope.$apply();
+
 	}
 
 	function runNotGameLesson(current) {
 
-		options.isCodeRunning = true;
+		CodeLauncher.isCodeRunning = true;
 
-		if (current.result) {
+		if (current.interpreterHandler) {
 
 			// Запуск интерпретатора
-			options.result = Interpreter.execute(options.code);
+			var interpreted = Interpreter.execute(getCode());
 
-			var result = current.result(options.result);
+			// Обработка в хендлере урока
+			var result = current.interpreterHandler(interpreted);
 
 			scope.botCss = result.css;
 
@@ -44421,37 +44808,35 @@ function LessonService(connection, audioManager, aceService) {
 			}
 		}
 
-		options.isCodeRunning = false;
+		CodeLauncher.isCodeRunning = false;
 	}
 
 	function runGameLesson(current) {
 
-		// Если handleUpdate задан, то выполняем обработку кода
-		if (current.handleUpdate) {
+		// Если gameHandler задан, то выполняем обработку кода
+		if (current.gameHandler) {
 
-			// Меняем статус запуска кода
-			options.isCodeRunning = !options.isCodeRunning;
+			var code = getCode();
 
-			options.update = function (args) {
+			CodeLauncher.run(code, function (botText) {
 
-				var s = args.spaceCraft;
-				var w = args.world;
-				var t = args.text;
+				var world = EntitiesFactory.getWorld();
+				var player = world.getPlayer();
 
-				var result = current.handleUpdate(s, w, t);
+				var result = current.gameHandler(player.api, world, botText);
 
 				if (result && result.status) {
 
 					text(result.message, nextSubLesson);
 
 				}
-				else if (t) {
+				else if (botText) {
 
-					text(t);
+					text(botText);
 
 				}
 
-			}
+			});
 
 		}
 
@@ -44464,7 +44849,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		var current = currentSubLesson();
 
-		if (current.isNotGameLesson) {
+		if (current.interpreterHandler) {
 
 			runNotGameLesson(current);
 
@@ -44478,8 +44863,17 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
+	 * Остановка кода.
+	 */
+	function stop() {
+
+		CodeLauncher.stop();
+
+	}
+
+	/**
 	 * Контент урока
-     */
+	 */
 	function lessonContent(num) {
 
 		return ContentFactory.content(num).lessonContent;
@@ -44518,7 +44912,7 @@ function LessonService(connection, audioManager, aceService) {
 
 }
 
-},{"../../../content":11,"./interpreter":58,"./storage":59}],58:[function(require,module,exports){
+},{"../../../game":55,"./interpreter":67,"./storage":68}],67:[function(require,module,exports){
 'use strict';
 
 module.exports = Interpreter();
@@ -44578,7 +44972,7 @@ function Interpreter () {
 
 }
 
-},{}],59:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
 
 var Storage = require('../../../utils/storage');
@@ -44660,7 +45054,7 @@ function LessonStorage() {
 	}
 }
 
-},{"../../../utils/storage":86}],60:[function(require,module,exports){
+},{"../../../utils/storage":96}],69:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44675,7 +45069,7 @@ var app = angular.module('spacecraft.lessons.module', []);
 app.config(require('./lessons.config'));
 app.controller('LessonsController', require('./lessons.controller'));
 
-},{"./lessons.config":61,"./lessons.controller":62,"angular":8}],61:[function(require,module,exports){
+},{"./lessons.config":70,"./lessons.controller":71,"angular":8}],70:[function(require,module,exports){
 'use strict';
 
 LessonsConfig.$inject = ['$stateProvider'];
@@ -44695,7 +45089,7 @@ function LessonsConfig($stateProvider) {
 
 }
 
-},{}],62:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 LessonsController.$inject = ['$scope'];
@@ -44712,7 +45106,7 @@ function LessonsController($scope) {
 
 }
 
-},{}],63:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44727,7 +45121,7 @@ var app = angular.module('spacecraft.login.module', []);
 app.config(require('./login.config'));
 app.controller('LoginController', require('./login.controller'));
 
-},{"./login.config":64,"./login.controller":65,"angular":8}],64:[function(require,module,exports){
+},{"./login.config":73,"./login.controller":74,"angular":8}],73:[function(require,module,exports){
 'use strict';
 
 LoginConfig.$inject = ['$stateProvider'];
@@ -44747,7 +45141,7 @@ function LoginConfig($stateProvider) {
 
 }
 
-},{}],65:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 var ENTER = 13;
@@ -44853,7 +45247,7 @@ function LoginController($scope, $state, authentication) {
 
 }
 
-},{}],66:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44869,7 +45263,7 @@ app.config(require('./quick.config'));
 app.controller('QuickController', require('./quick.controller'));
 
 
-},{"./quick.config":67,"./quick.controller":68,"angular":8}],67:[function(require,module,exports){
+},{"./quick.config":76,"./quick.controller":77,"angular":8}],76:[function(require,module,exports){
 'use strict';
 
 QuickConfig.$inject = ['$stateProvider'];
@@ -44889,7 +45283,7 @@ function QuickConfig($stateProvider) {
 
 }
 
-},{}],68:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 QuickController.$inject = ['$scope', '$sce', 'authentication'];
 
 module.exports = QuickController;
@@ -44901,7 +45295,7 @@ module.exports = QuickController;
  */
 function QuickController($scope, $sce) {
 
-	$scope.slidesQuick = slides;
+	$scope.slidesQuick = require('./slides');
 
 	$scope.trustAsHtml = trustAsHtml;
 	$scope.$on('ngRepeatFinished', realization);
@@ -45206,7 +45600,71 @@ function QuickController($scope, $sce) {
 	}
 }
 
-},{}],69:[function(require,module,exports){
+},{"./slides":78}],78:[function(require,module,exports){
+/**
+ * Слайды презентации.
+ *
+ * Created by vladthelittleone on 08.12.15.
+ */
+module.exports = [{
+	title:       'Приветствуем вас!',
+	description: '<div class="img-huge-center">'
+				 + '<img src="images/logo.png">'
+				 + '</div> '
+				 + '<svg version="1.1" id="icon-keyboard" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="186px" height="60px" viewBox="0 0 186 60" enable-background="new 0 0 186 60" xml:space="preserve">'
+				 + '<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M119,59H67c-1.10457,0-2-0.89543-2-2V36'
+				 + 'c0-1.10457,0.89543-2,2-2h52c1.10457,0,2,0.89543,2,2v21C121,58.10457,120.10457,59,119,59z"/>'
+				 + '<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M119,26H67c-1.10457,0-2-0.89543-2-2V3'
+				 + 'c0-1.10457,0.89543-2,2-2h52c1.10457,0,2,0.89543,2,2v21C121,25.10457,120.10457,26,119,26z"/>'
+				 + '<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M55,59H3c-1.10457,0-2-0.89543-2-2V36'
+				 + 'c0-1.10457,0.89543-2,2-2h52c1.10457,0,2,0.89543,2,2v21C57,58.10457,56.10457,59,55,59z"/>'
+				 + '<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M183,59h-52c-1.10457,0-2-0.89543-2-2V36'
+				 + 'c0-1.10457,0.89543-2,2-2h52c1.10457,0,2,0.89543,2,2v21C185,58.10457,184.10457,59,183,59z"/>'
+				 + '<path fill="#FFFFFF" d="M92.54309,49.97196l-3.23061-7.26889C89.16552,42.37243,89.40755,42,89.76938,42h6.46124'
+				 + 'c0.36182,0,0.60386,0.37243,0.4569,0.70307l-3.23061,7.26889C93.28094,50.36787,92.71906,50.36787,92.54309,49.97196z"/>'
+				 + '<path fill="#FFFFFF" d="M92.54309,10.02804l-3.23061,7.26889C89.16552,17.62757,89.40755,18,89.76938,18h6.46124'
+				 + 'c0.36182,0,0.60386-0.37243,0.4569-0.70307l-3.23061-7.26889C93.28094,9.63213,92.71906,9.63213,92.54309,10.02804z"/>'
+				 + '<path fill="#FFFFFF" d="M25.02804,46.04309l7.26889-3.23062C32.62757,42.66552,33,42.90755,33,43.26938v6.46124'
+				 + 'c0,0.36183-0.37243,0.60386-0.70307,0.45691l-7.26889-3.23062C24.63213,46.78095,24.63213,46.21905,25.02804,46.04309z"/>'
+				 + '<path fill="#FFFFFF" d="M160.97197,46.04309l-7.26891-3.23062C153.37242,42.66552,153,42.90755,153,43.26938v6.46124'
+				 + 'c0,0.36183,0.37242,0.60386,0.70306,0.45691l7.26891-3.23062C161.36787,46.78095,161.36787,46.21905,160.97197,46.04309z"/>'
+				 + '</svg>'
+}, {
+	title:     'Наша дружная команда',
+	subSlides: [{
+		title:       'Александров Олег',
+		description: "<p></p>"
+	}, {
+		title:       'Скуришин Владислав',
+		description: "<p></p>"
+	},{
+		title:       'Маковчик Иван',
+		description: "<p></p>"
+	},{
+		title:       'Шинкаренко Евгений',
+		description: "<p></p>"
+	}]
+}, {
+	title:     'Отдельное спасибо',
+	subSlides: [{
+		title:       'MillionthVector',
+		description: "<p xmlns:cc='http://creativecommons.org/ns#' about='http://millionthvector.blogspot.ru/p/free-sprites.html'>За предоставленные спрайты от <a rel='cc:attributionURL' property='cc:attributionName' href='http://millionthvector.blogspot.com/p/free-sprites.html'>MillionthVector</a> / <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a></p>"
+	}, {
+		title:       'Freepik',
+		description: '<p>За иконки от <a href="http://ru.freepik.com">Freepik</a></p>'
+	}, {
+		title:       'Евгению Шинкоренко',
+		description: '<p>За музыку. <a href="https://soundcloud.com/awe-483543071">Ссылка на творчество.</a></p>'
+	}, {
+		title:       'Олегу Сальникову',
+		description: '<p>За предоставленные изображения. <a href="http://vk.com/oys_club">Ссылка на творчество.</a></p>'
+	}, {
+		title:       'Близким',
+		description: '<p>Нашим друзьям и близки за их поддержку, комментарии и советы</p>'
+	}]
+}];
+
+},{}],79:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45222,7 +45680,7 @@ app.config(require('./result.config'));
 app.controller('ResultController', require('./result.controller'));
 
 
-},{"./result.config":70,"./result.controller":71,"angular":8}],70:[function(require,module,exports){
+},{"./result.config":80,"./result.controller":81,"angular":8}],80:[function(require,module,exports){
 'use strict';
 
 ResultConfig.$inject = ['$stateProvider'];
@@ -45242,7 +45700,7 @@ function ResultConfig($stateProvider) {
 
 }
 
-},{}],71:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
 ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
@@ -45291,7 +45749,7 @@ function ResultController($scope, $state, statistics, connection) {
 	}
 }
 
-},{}],72:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45308,7 +45766,7 @@ var app = angular.module('spacecraft.welcome.module', ['chart.js']);
 app.config(require('./welcome.config'));
 app.controller('WelcomeController', require('./welcome.controller'));
 
-},{"./welcome.config":73,"./welcome.controller":74,"angular":8,"angular-chart.js":1}],73:[function(require,module,exports){
+},{"./welcome.config":83,"./welcome.controller":84,"angular":8,"angular-chart.js":1}],83:[function(require,module,exports){
 'use strict';
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
@@ -45340,7 +45798,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 }
 
 
-},{}],74:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -45368,22 +45826,15 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 
-	$scope.takeBonus = [[]];		// Количество полученных бонусов
-	$scope.killSpaceCraft = [[]];	// Колисчество убитых кораблей
-	$scope.totalScore = [[]];		// Общий счет
-
 	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
 
-	$scope.openGame = connection.metrics.hitOpenGame();
 	$scope.openLessons = connection.metrics.hitOpenLesson();
 
 	/**
 	 * Формирование статистики по всем параметрам.
 	 */
-	connection.getGameStatistics(onStatisticsLoad);
-	connection.getScore(onScoreLoad);
 	connection.getLessonsStatistics(formDataForChart);
 
 	// Инифиализация ВК
@@ -45414,78 +45865,6 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 			// При ошибке не показываем виджет
 			$scope.vkShow = false;
-
-		}
-
-	}
-
-	/**
-	 * Инициализация леблов графика.
-	 */
-	function makeLabels(statistics) {
-
-		$scope.labels = [];
-
-		if (statistics) {
-
-			for (var i = 1; i <= statistics.length; i++) {
-
-				$scope.labels.push(i);
-
-			}
-		}
-		else {
-
-			$scope.labels.push(0);
-
-		}
-
-	}
-
-	/**
-	 * Инициализация статистики.
-	 */
-	function makeStatistic(statistics) {
-
-		$scope.takeBonus[0] = [];
-		$scope.killSpaceCraft[0] = [];
-		$scope.totalScore[0] = [];
-
-		if (statistics) {
-
-			statistics.forEach(function (s) {
-
-				$scope.takeBonus[0].push(s.takenBonus);
-				$scope.killSpaceCraft[0].push(s.killEnemy);
-				$scope.totalScore[0].push(s.totalScore);
-
-			})
-
-		}
-
-	}
-
-	/**
-	 * При загрузки стаитстики вызываем инициализацию графиков.
-	 */
-	function onStatisticsLoad(statistics) {
-
-		makeStatistic(statistics);
-
-		makeLabels(statistics)
-
-	}
-
-	/**
-	 * По загрузке лидеров, выводим таблицу.
-	 */
-	function onScoreLoad(score) {
-
-		$scope.usersLead = score;
-
-		if (score.length) {
-
-			$scope.hideLead = false;
 
 		}
 
@@ -45592,7 +45971,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	}
 }
 
-},{"../../utils/storage":86}],75:[function(require,module,exports){
+},{"../../utils/storage":96}],85:[function(require,module,exports){
 module.exports=[
 	{"regExps": [" *spaceCraft.weapon.$"], "name": "weaponBlock"},
 	{"regExps": [" *spaceCraft.engine.$"], "name": "engineBlock"},
@@ -45613,7 +45992,7 @@ module.exports=[
 	}
 ]
 
-},{}],76:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 'use strict';
 
 module.exports = SpaceCraftCompleter;
@@ -45728,7 +46107,7 @@ function generateAutocomplete(bindings, line) {
 
 }
 
-},{"./autocomplete.json":75}],77:[function(require,module,exports){
+},{"./autocomplete.json":85}],87:[function(require,module,exports){
 'use strict';
 
 var autocompleter = require('./autocompleter');
@@ -45801,7 +46180,7 @@ function AceService() {
 	}
 }
 
-},{"./autocompleter":76,"./marker-service":78}],78:[function(require,module,exports){
+},{"./autocompleter":86,"./marker-service":88}],88:[function(require,module,exports){
 'use strict';
 
 module.exports = MarkerService;
@@ -45888,7 +46267,7 @@ function MarkerService(editor) {
 
 }
 
-},{}],79:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -46025,7 +46404,7 @@ function AudioManager($rootScope) {
 	}
 }
 
-},{"../utils/random":84}],80:[function(require,module,exports){
+},{"../utils/random":94}],90:[function(require,module,exports){
 'use strict';
 
 Authentication.$inject = ['connection'];
@@ -46121,7 +46500,7 @@ function Authentication(connection) {
 	}
 }
 
-},{}],81:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 'use strict';
 
 Connection.$inject = ['$http'];
@@ -46132,7 +46511,6 @@ module.exports = Connection;
  * Ссылки на ресурсы.
  */
 var resources = {
-	code:        'javascripts/code/game.js',
 	lessonsCode: 'javascripts/code/lesson'
 };
 
@@ -46145,7 +46523,6 @@ var links = {
 	 * Сбор статистики.
 	 */
 	statistic:   {
-		main:    '/statistic',
 		lessons: '/statistic/lessons',
 		code:    '/statistic/code',
 		stars:   '/statistic/lessons/stars',
@@ -46156,7 +46533,6 @@ var links = {
 	 * Сбор метрик.
 	 */
 	metrics: {
-		openGame:    'metrics/opengame',
 		openLessons: 'metrics/openlessons'
 	},
 
@@ -46182,11 +46558,8 @@ function Connection($http) {
 	that.saveCode = saveCode;
 	that.getCodeFromDataBase = getCodeFromDataBase;
 	that.getCodeFromJs = getCodeFromJs;
-	that.getGameCodeFromJs = getGameCodeFromJs;
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
 
-	that.saveGameStatistics = saveGameStatistics;
-	that.getGameStatistics = getGameStatistics;
 	that.getScore = getScore;
 
 	that.saveLessonsStatistics = saveLessonsStatistics;
@@ -46199,7 +46572,6 @@ function Connection($http) {
 	that.isLoggedIn = isLoggedIn;
 
 	that.metrics = {};
-	that.metrics.hitOpenGame = hitOpenGame;
 	that.metrics.hitOpenLesson = hitOpenLesson;
 
 	return that;
@@ -46261,18 +46633,6 @@ function Connection($http) {
 	}
 
 	/**
-	 * Получить код онлайн игры из .js файла.
-	 */
-	function getGameCodeFromJs(callback) {
-
-		$http({
-			method: 'GET',
-			url:    resources.code
-		}).then(callback);
-
-	}
-
-	/**
 	 * Получить код из .js файла.
 	 */
 	function getCodeFromJs(source, callback) {
@@ -46301,25 +46661,6 @@ function Connection($http) {
 	function getLessonsStatistics(callback) {
 
 		$http.get(links.statistic.lessons).then(callback);
-
-	}
-
-	/**
-	 * Статистика игры.
-	 */
-	function saveGameStatistics(player) {
-
-		$http({
-			url:    links.statistic.main,
-			method: 'POST',
-			data:   {
-				killEnemy:    player.getKillEnemy(),
-				takenBonus:   player.getTakenBonus(),
-				totalScore:   player.getTotalScore(),
-				acceptDamage: player.getAcceptDamage(),
-				takenDamage:  player.getTakenDamage()
-			}
-		});
 
 	}
 
@@ -46392,29 +46733,11 @@ function Connection($http) {
 	}
 
 	/**
-	 * Формирование игровой статистики.
-	 */
-	function getGameStatistics(callback) {
-
-		$http.get(links.statistic.main).success(callback);
-
-	}
-
-	/**
 	 * Получить информацию об очках лучших пользователей.
 	 */
 	function getScore(callback) {
 
 		$http.get(links.statistic.score).success(callback);
-
-	}
-
-	/**
-	 * Отправка информации о открытии игры пользователем.
-	 */
-	function hitOpenGame() {
-
-		$http.post(links.metrics.openGame);
 
 	}
 
@@ -46428,7 +46751,7 @@ function Connection($http) {
 	}
 }
 
-},{}],82:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 'use strict';
 
 /**
@@ -46444,7 +46767,7 @@ app.factory('authentication', require('./authentication.service'));
 app.factory('connection', require('./connection.service'));
 app.factory('statistics', require('./statistics.service'));
 
-},{"./ace.service":77,"./audio.service":79,"./authentication.service":80,"./connection.service":81,"./statistics.service":83,"angular":8}],83:[function(require,module,exports){
+},{"./ace.service":87,"./audio.service":89,"./authentication.service":90,"./connection.service":91,"./statistics.service":93,"angular":8}],93:[function(require,module,exports){
 'use strict';
 
 module.exports = Statistics;
@@ -46489,7 +46812,7 @@ function Statistics ()
 
 }
 
-},{}],84:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 'use strict';
 
 module.exports = RandomUtils();
@@ -46547,7 +46870,7 @@ function RandomUtils ()
 }
 
 
-},{}],85:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 module.exports = Sequence();
@@ -46572,7 +46895,7 @@ function Sequence ()
 	}
 }
 
-},{}],86:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;

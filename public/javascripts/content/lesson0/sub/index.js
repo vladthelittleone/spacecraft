@@ -1,10 +1,10 @@
 'use strict';
 
 // Зависимсоти
-var welcomeToAcademy = require('./welcome');
-var yourName = require('./name');
-var galaxyYear = require('./gy');
-var end = require('./end');
+var welcomeToAcademy = require('./1');
+var yourName = require('./2');
+var galaxyYear = require('./3');
+var end = require('./4');
 
 /**
  * Подуроки первого урокаж

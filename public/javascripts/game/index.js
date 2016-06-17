@@ -6,32 +6,37 @@
 var StatesFactory = require('./states');
 var ContentFactory = require('../content');
 var EntitiesFactory = require('./entities');
+var CodeLauncher = require('./launcher');
 
 // Экспорт
-module.exports = Game;
+module.exports = Game();
 
 /**
  * Модуль создания игры опредленного типа.
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function Game(id) {
+function Game() {
 
 	// that / this
 	var t = {};
 
-	t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
+	t.content = ContentFactory;		// Фабрика контента уроков
+	t.world = EntitiesFactory;		// Фабрика мира и объектов
+	t.codeLauncher = CodeLauncher;	// Синглтон заупска кода
 
 	t.destroy = destroy;
-
-	initialization();
+	t.initialization = initialization;
+	t.restart = restart;
 
 	return t;
 
 	/**
 	 * Инициализация состояний
 	 */
-	function initialization() {
+	function initialization(id) {
+
+		t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
 
 		// Выполняем инициализацию контейнера игровых объектов.
 		EntitiesFactory.initialization();
@@ -48,10 +53,22 @@ function Game(id) {
 	}
 
 	/**
+	 * Рестарт уже существующей игры.
+	 */
+	function restart() {
+
+		// Выполняем инициализацию контейнера игровых объектов.
+		EntitiesFactory.initialization();
+
+		// Стартуем boot состояние.
+		t.phaser.state.start('boot');
+
+	}
+
+	/**
 	 * Очистка кэша, памяти.
 	 */
 	function destroy() {
-
 
 		t.phaser.destroy();
 

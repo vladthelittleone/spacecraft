@@ -25,22 +25,15 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 
-	$scope.takeBonus = [[]];		// Количество полученных бонусов
-	$scope.killSpaceCraft = [[]];	// Колисчество убитых кораблей
-	$scope.totalScore = [[]];		// Общий счет
-
 	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
 
-	$scope.openGame = connection.metrics.hitOpenGame();
 	$scope.openLessons = connection.metrics.hitOpenLesson();
 
 	/**
 	 * Формирование статистики по всем параметрам.
 	 */
-	connection.getGameStatistics(onStatisticsLoad);
-	connection.getScore(onScoreLoad);
 	connection.getLessonsStatistics(formDataForChart);
 
 	// Инифиализация ВК
@@ -71,78 +64,6 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 			// При ошибке не показываем виджет
 			$scope.vkShow = false;
-
-		}
-
-	}
-
-	/**
-	 * Инициализация леблов графика.
-	 */
-	function makeLabels(statistics) {
-
-		$scope.labels = [];
-
-		if (statistics) {
-
-			for (var i = 1; i <= statistics.length; i++) {
-
-				$scope.labels.push(i);
-
-			}
-		}
-		else {
-
-			$scope.labels.push(0);
-
-		}
-
-	}
-
-	/**
-	 * Инициализация статистики.
-	 */
-	function makeStatistic(statistics) {
-
-		$scope.takeBonus[0] = [];
-		$scope.killSpaceCraft[0] = [];
-		$scope.totalScore[0] = [];
-
-		if (statistics) {
-
-			statistics.forEach(function (s) {
-
-				$scope.takeBonus[0].push(s.takenBonus);
-				$scope.killSpaceCraft[0].push(s.killEnemy);
-				$scope.totalScore[0].push(s.totalScore);
-
-			})
-
-		}
-
-	}
-
-	/**
-	 * При загрузки стаитстики вызываем инициализацию графиков.
-	 */
-	function onStatisticsLoad(statistics) {
-
-		makeStatistic(statistics);
-
-		makeLabels(statistics)
-
-	}
-
-	/**
-	 * По загрузке лидеров, выводим таблицу.
-	 */
-	function onScoreLoad(score) {
-
-		$scope.usersLead = score;
-
-		if (score.length) {
-
-			$scope.hideLead = false;
 
 		}
 

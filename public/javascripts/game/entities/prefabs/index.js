@@ -5,6 +5,7 @@ var Harvester = require('./harvester');
 var Transport = require('./transport');
 var Shield = require('./shield');
 var AcademyBase = require('./academy-base');
+var Meteor = require('./meteor');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -23,6 +24,7 @@ function PrefabsFactory() {
 	t.createHarvester = createHarvester;
 	t.createShield = createShield;
 	t.createAcademyBase = createAcademyBase;
+	t.createMeteor = createMeteor;
 
 	return t;
 
@@ -30,6 +32,13 @@ function PrefabsFactory() {
 	function createTransport(game, x, y) {
 
 		return Transport(game, x, y);
+
+	}
+
+	// Метеорит
+	function createMeteor(game, scale, x, y, n) {
+
+		return Meteor(game, scale, x, y, n);
 
 	}
 

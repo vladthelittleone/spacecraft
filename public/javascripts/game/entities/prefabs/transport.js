@@ -17,6 +17,8 @@ function Transport(game, x, y) {
 
 	game.physics.arcade.enableBody(t);
 
+	t.body.collideWorldBounds = true;
+
 	return t;
 
 }

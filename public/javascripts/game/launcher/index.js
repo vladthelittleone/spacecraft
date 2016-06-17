@@ -28,10 +28,13 @@ function CodeLauncher () {
 	 * Запуск кода.
 	 *
 	 * @param code код
-     */
-	function run(code) {
+	 * @param callback коллбек выполняющийся при обновлении игры
+	 */
+	function run(code, callback) {
 
-		runner && runner.runCode(code);
+		t.isCodeRunning = true;
+
+		runner && runner.runCode(code, callback);
 
 	}
 
@@ -39,6 +42,8 @@ function CodeLauncher () {
 	 * Остановить код.
 	 */
 	function stop() {
+
+		t.isCodeRunning = false;
 
 		runner && runner.stopCode();
 
@@ -51,5 +56,8 @@ function CodeLauncher () {
 
 		runner = v;
 
+		t.setArguments = runner.setArguments;
+
 	}
+
 }

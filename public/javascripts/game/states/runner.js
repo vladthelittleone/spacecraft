@@ -1,5 +1,8 @@
 'use strict';
 
+// Зависимости
+var CodeLauncher = require('../launcher');
+
 // Экспорт
 module.exports = CodeRunner;
 
@@ -8,13 +11,18 @@ module.exports = CodeRunner;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function CodeRunner (game) {
+function CodeRunner(game) {
 
 	// that / this
 	var t = {};
 
+	// Const
+	var END_LN = '</br>';
+
+	var logic;			// Коллбек обновления
 	var args;			// Аргументы передаваемые в функцию
-	var runFunction;	// Функция запуска кода
+	var userFunction;	// Функция запуска кода
+	var log = '';		// Логгирование выводимое ботом
 
 	t.runCode = runCode;
 	t.stopCode = stopCode;
@@ -27,14 +35,26 @@ function CodeRunner (game) {
 	/**
 	 * Функция запуска код.
 	 */
-	function runCode(code) {
+	function runCode(code, callback) {
 
-		var Class = new Function(code);
+		try {
 
-		// Функция пользователя.
-		runFunction = new Class();
+			var Class = new Function('BBotDebug', code);
 
-		game.paused = false;
+			// Функция пользователя.
+			userFunction = new Class(botDebug);
+
+		}
+		catch (err) {
+
+			userFunction = null;
+
+			// В случае ошибки
+			CodeLauncher.onError(err);
+
+		}
+
+		logic = callback;
 
 	}
 
@@ -43,15 +63,13 @@ function CodeRunner (game) {
 	 */
 	function stopCode() {
 
-		runFunction = null;
-
-		game.paused = true;
+		userFunction = null;
 
 	}
 
 	/**
 	 * Передача аргументов.
-     */
+	 */
 	function setArguments() {
 
 		args = Array.prototype.slice.call(arguments);
@@ -63,11 +81,31 @@ function CodeRunner (game) {
 	 */
 	function update() {
 
-		if (runFunction) {
+		if (userFunction) {
 
-			runFunction.run && runFunction.run.apply(null, args);
+			try {
 
+				// Отправляем в коллбек текст
+				logic && logic(log);
+
+				userFunction.run && userFunction.run.apply(null, args);
+
+			} catch (err) {
+
+				// В случае ошибки
+				CodeLauncher.onError(err);
+
+			}
 		}
+
+	}
+
+	/**
+	 * Текст бота.
+	 */
+	function botDebug(text) {
+
+		log += text + END_LN;
 
 	}
 }

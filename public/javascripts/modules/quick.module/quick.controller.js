@@ -9,7 +9,7 @@ module.exports = QuickController;
  */
 function QuickController($scope, $sce) {
 
-	$scope.slidesQuick = slides;
+	$scope.slidesQuick = require('./slides');
 
 	$scope.trustAsHtml = trustAsHtml;
 	$scope.$on('ngRepeatFinished', realization);

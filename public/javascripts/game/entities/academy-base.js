@@ -8,7 +8,7 @@ var BlocksFactory = require('./blocks');
 module.exports = AcademyBaseUnit;
 
 /**
- * Фабрика prefab'ов.
+ * Объект базы.
  *
  * Created by vladthelittleone on 21.10.15.
  */

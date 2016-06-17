@@ -7,6 +7,9 @@ var World = require('./world');
 var Transport = require('./transport');
 var Harvester = require('./harvester');
 var AcademyBase = require('./academy-base');
+var Meteor = require('./meteor');
+
+var Random = require('../../utils/random');
 
 // Экспорт
 module.exports = EntitiesFactory();
@@ -27,6 +30,8 @@ function EntitiesFactory() {
 	t.createTransport = createTransport;
 	t.createHarvester = createHarvester;
 	t.createAcademyBase = createAcademyBase;
+	t.createMeteor = createMeteor;
+	t.createMeteorField = createMeteorField;
 	t.getWorld = getWorld;
 
 	return t;
@@ -71,6 +76,45 @@ function EntitiesFactory() {
 		world.pushObject(base);
 
 		return base;
+
+	}
+
+	/**
+	 * Создать метеорит
+	 */
+	function createMeteor(game, x, y) {
+
+		var meteor = Meteor(game, x, y);
+
+		world.pushObject(meteor);
+
+		return meteor;
+
+	}
+
+	/**
+	 * Создать метеоритное поле
+	 */
+	function createMeteorField(game, x, y) {
+
+		var radius = Phaser.Point.distance(new Phaser.Point(x, y), new Phaser.Point(0, 0));
+
+		// Инициализация
+		var count = 1500;
+		var start = 0;
+		var shift = 10;
+
+		// Создаем объект мира
+		for (var i = start; i < count; i = i + shift)
+		{
+			var j = Math.sqrt(radius * radius - i * i);
+
+			var m = createMeteor(game, j + Random.randomInt(0, 200), i + Random.randomInt(0, 200));
+
+			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
+			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
+
+		}
 
 	}
 

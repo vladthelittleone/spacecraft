@@ -15,7 +15,7 @@ function World() {
 
 	var t = {};
 
-	var player;			// Игрок
+	var playerId;			// Игрок
 	var objects = [];	// Массив всех объектов
 
 	t.pushObject = pushObject;
@@ -89,7 +89,7 @@ function World() {
 	 */
 	function getPlayer() {
 
-		return get(player);
+		return get(playerId);
 	}
 
 	/**
@@ -100,7 +100,7 @@ function World() {
 		// Устанавливаем параметр игрока
 		objects[id].isPlayer = true;
 
-		player = id;
+		playerId = id;
 
 	}
 

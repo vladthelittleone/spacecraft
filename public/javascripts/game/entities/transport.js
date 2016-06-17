@@ -8,7 +8,7 @@ var BlocksFactory = require('./blocks');
 module.exports = TransportUnit;
 
 /**
- * Фабрика prefab'ов.
+ * Объект транспорта.
  *
  * Created by vladthelittleone on 21.10.15.
  */

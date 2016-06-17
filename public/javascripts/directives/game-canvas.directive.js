@@ -15,9 +15,6 @@ module.exports = GameCanvas;
 function GameCanvas($stateParams) {
 
 	var directive = {
-		scope:       {
-			editorOptions: '='
-		},
 		templateUrl: 'views/directives/game-canvas.html',
 		link:        link,
 		restrict:    'EA'
@@ -27,7 +24,7 @@ function GameCanvas($stateParams) {
 
 	function link($scope) {
 
-		var game = Game($stateParams.id);
+		Game.initialization($stateParams.id);
 
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
@@ -56,7 +53,7 @@ function GameCanvas($stateParams) {
 
 		function onDestroy() {
 
-			game.destroy(); // Очистка игры при удалении
+			Game.destroy(); // Очистка игры при удалении
 
 		}
 

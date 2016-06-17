@@ -1,6 +1,11 @@
 'use strict';
 
-var ContentFactory = require('../../../content');
+// Зависимсоти
+var Game = require('../../../game');
+
+var CodeLauncher = Game.codeLauncher;
+var ContentFactory = Game.content;
+var EntitiesFactory = Game.world;
 
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
@@ -25,7 +30,6 @@ function LessonService(connection, audioManager, aceService) {
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
 	var audioIndex;		// Индекс текущиего трека
-	var options = {};	// Настройки запуска кода и редактора
 
 	var audioWrapper = AudioWrapper();
 	var storage = Storage();
@@ -37,10 +41,10 @@ function LessonService(connection, audioManager, aceService) {
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
 	that.run = run;
+	that.stop = stop;
 	that.getMarkerId = getMarkerId;
 	that.setMarkerId = setMarkerId;
 	that.audioManager = audioWrapper;
-	that.options = options;
 
 	return that;
 
@@ -263,15 +267,11 @@ function LessonService(connection, audioManager, aceService) {
 			// Сохранение в Ace.
 			editorSession.setValue(code);
 
-			options.code = code;
-
 			// Слова BBot'а
 			scope.textBot = current.defaultBBot && current.defaultBBot();
 
 			// Добавление кнопки 'Далее'
 			scope.nextSubLesson = nextSubLesson;
-
-			scope.isGameLesson = scope.lesson.isGameLesson;
 
 			initNextLessonContent();
 
@@ -307,13 +307,9 @@ function LessonService(connection, audioManager, aceService) {
 	function clearContent() {
 
 		// Обновляем игровые объекты на начальные значения или нет?
-		options.resetGame = currentSubLesson().handleUpdate;
+		currentSubLesson().gameHandler && Game.restart();
 
-		// Код не запущен
-		options.isCodeRunning = false;
-
-		// Обновлений в игре scope'а не происходит
-		options.update = false;
+		CodeLauncher.stop();
 
 		// Удаление маркеров
 		markers().deleteMarkerAndAnnotation(editorSession, markerId);
@@ -337,9 +333,12 @@ function LessonService(connection, audioManager, aceService) {
 		var size = scope.lesson.sub.length;
 
 		// Текущий объект статистики уроков
-		var statistic = storage.getLessons();
+		var statistics = storage.getLessons();
 
 		if (scope.subIndex !== size - 1) {
+
+			var subStatistic = statistics[lessonId];
+			var completed = subStatistic && subStatistic.completed;
 
 			++scope.subIndex;
 
@@ -347,10 +346,10 @@ function LessonService(connection, audioManager, aceService) {
 
 			saveStatistics({
 				current:   scope.subIndex + 1, // Прибавляем смещение
-				statistic: statistic,
+				statistic: statistics,
 				lessonId:  lessonId,
 				size:      size,
-				completed: statistic[lessonId].completed
+				completed: completed
 			});
 
 		}
@@ -358,10 +357,10 @@ function LessonService(connection, audioManager, aceService) {
 
 			saveStatistics({
 				current:   1,
-				statistic: statistic,
+				statistic: statistics,
 				lessonId:  lessonId,
 				size:      size,
-				completed:  true
+				completed: true
 			});
 
 			// Выводим доску оценки подурока
@@ -372,7 +371,7 @@ function LessonService(connection, audioManager, aceService) {
 
 	/**
 	 * Инициализация.
-     */
+	 */
 	function initialize(args) {
 
 		scope = args.scope;
@@ -380,7 +379,6 @@ function LessonService(connection, audioManager, aceService) {
 
 		scope.subIndex = 0;
 		audioIndex = 0;
-		options.code = '';
 
 		// Получаем урок из локального хранилища
 		var config = storage.getCurrent(lessonId);
@@ -432,18 +430,22 @@ function LessonService(connection, audioManager, aceService) {
 		// Добавляем ссылку на функцию и кнопку 'Далее'
 		scope.nextSubLesson = nextSubLesson;
 
+		// Если цикл не запущен, выполняем обновления scope
+		!scope.$$phase && scope.$apply();
+
 	}
 
 	function runNotGameLesson(current) {
 
-		options.isCodeRunning = true;
+		CodeLauncher.isCodeRunning = true;
 
-		if (current.result) {
+		if (current.interpreterHandler) {
 
 			// Запуск интерпретатора
-			options.result = Interpreter.execute(options.code);
+			var interpreted = Interpreter.execute(getCode());
 
-			var result = current.result(options.result);
+			// Обработка в хендлере урока
+			var result = current.interpreterHandler(interpreted);
 
 			scope.botCss = result.css;
 
@@ -459,37 +461,35 @@ function LessonService(connection, audioManager, aceService) {
 			}
 		}
 
-		options.isCodeRunning = false;
+		CodeLauncher.isCodeRunning = false;
 	}
 
 	function runGameLesson(current) {
 
-		// Если handleUpdate задан, то выполняем обработку кода
-		if (current.handleUpdate) {
+		// Если gameHandler задан, то выполняем обработку кода
+		if (current.gameHandler) {
 
-			// Меняем статус запуска кода
-			options.isCodeRunning = !options.isCodeRunning;
+			var code = getCode();
 
-			options.update = function (args) {
+			CodeLauncher.run(code, function (botText) {
 
-				var s = args.spaceCraft;
-				var w = args.world;
-				var t = args.text;
+				var world = EntitiesFactory.getWorld();
+				var player = world.getPlayer();
 
-				var result = current.handleUpdate(s, w, t);
+				var result = current.gameHandler(player.api, world, botText);
 
 				if (result && result.status) {
 
 					text(result.message, nextSubLesson);
 
 				}
-				else if (t) {
+				else if (botText) {
 
-					text(t);
+					text(botText);
 
 				}
 
-			}
+			});
 
 		}
 
@@ -502,7 +502,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		var current = currentSubLesson();
 
-		if (current.isNotGameLesson) {
+		if (current.interpreterHandler) {
 
 			runNotGameLesson(current);
 
@@ -516,8 +516,17 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
+	 * Остановка кода.
+	 */
+	function stop() {
+
+		CodeLauncher.stop();
+
+	}
+
+	/**
 	 * Контент урока
-     */
+	 */
 	function lessonContent(num) {
 
 		return ContentFactory.content(num).lessonContent;

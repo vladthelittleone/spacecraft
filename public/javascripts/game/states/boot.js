@@ -43,9 +43,6 @@ function BootState(game) {
 		game.scale.pageAlignVertically = true;
 		game.scale.pageAlignHorizontally = true;
 
-		// Автомасштабирование окна игры
-		game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		// Переходим в состояние предзагрузки ресурсов

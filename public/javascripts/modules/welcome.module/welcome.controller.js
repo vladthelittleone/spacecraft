@@ -138,7 +138,8 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	// Изменить текущий график на следующий
 	function changeChart() {
 
-		$scope.chartIndex = ($scope.chartIndex + 1) % 2;
+		// Реализовать переключение графиков
+		//	$scope.chartIndex = ($scope.chartIndex + 1) % 2;
 
 	}
 

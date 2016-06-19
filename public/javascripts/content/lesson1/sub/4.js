@@ -54,13 +54,16 @@ function WhatDoesBBotSay() {
 			var t = '';
 			var r = false;
 
-			v.forEach(function (e) {
+			if (v && v.forEach)
+			{
+				v.forEach(function (e) {
 
-				t += e + '</br>';
+					t += e + '</br>';
 
-				r = (e === 'Всем привет!');
+					r = (e === 'Всем привет!');
 
-			});
+				});
+			}
 
 			var botText = BBotText({
 

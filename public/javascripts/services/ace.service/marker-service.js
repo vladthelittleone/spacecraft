@@ -70,7 +70,7 @@ function MarkerService(editor) {
 	 */
 	function setMarkerAndAnnotation (line, text, typeAnnotation) {
 
-		var markerId = paintMarker(session, line);
+		var markerId = paintMarker(line);
 
 		session.setAnnotations([{
 			row:    line - 1,

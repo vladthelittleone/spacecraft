@@ -28,9 +28,10 @@ function HarvesterUnit(game, x, y) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game: game,
 		unit: t,
-		drag: 150,				// Торможение корабля
+		drag: 30,				// Торможение корабля
+		angularDrag: 1,			// Торможение поворота
 		velocity: 20,			// Скорость корабля
-		angularVelocity: 10		// Скорость разворота
+		angularVelocity: 5		// Скорость разворота
 	});
 
 	/**

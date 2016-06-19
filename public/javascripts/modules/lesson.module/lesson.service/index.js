@@ -444,21 +444,40 @@ function LessonService(connection, audioManager, aceService) {
 			// Запуск интерпретатора
 			var interpreted = Interpreter.execute(getCode());
 
-			// Обработка в хендлере урока
-			var result = current.interpreterHandler(interpreted);
+			// interpreted может бырть раен undefined
+			var exception = interpreted && interpreted.exception;
 
-			scope.botCss = result.css;
+			// Обработка исключения
+			if (exception) {
 
-			if (result.status) {
+				// В случае исключения выводим ошибку
+				text(interpreted.message);
 
-				text(result.message, nextSubLesson);
+				// И меняем стиль бота.
+				scope.botCss = 'bbot-wow';
+
+			} else {
+
+				// Обработка в хендлере урока
+				var result = current.interpreterHandler(interpreted);
+
+				scope.botCss = result.css;
+
+				if (result.status) {
+
+					text(result.message, nextSubLesson);
+
+				}
+				else {
+
+					text(result.message);
+
+				}
 
 			}
-			else {
 
-				text(result.message);
-
-			}
+			// Если цикл не запущен, выполняем обновления scope
+			!scope.$$phase && scope.$apply();
 		}
 
 		CodeLauncher.isCodeRunning = false;

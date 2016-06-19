@@ -19,6 +19,7 @@ function EngineBlock(spec) {
 	var angularVelocity = spec.angularVelocity;
 	var velocity = spec.velocity;
 	var drag = spec.drag;
+	var angularDrag = spec.angularDrag;
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
@@ -35,11 +36,13 @@ function EngineBlock(spec) {
 	 */
 	function initialization() {
 
-		// Торможение
-		unit.sprite.body.drag.set(drag);
-
 		// Максимальная скорось - ограничение
 		unit.sprite.body.maxVelocity.set(velocity);
+		unit.sprite.body.maxAngular = 15;
+
+		// Торможение
+		unit.sprite.body.drag.set(drag);
+		unit.sprite.body.angularDrag = angularDrag;
 
 	}
 
@@ -74,10 +77,6 @@ function EngineBlock(spec) {
 	 * Обновление двигателя.
 	 */
 	function update() {
-
-		unit.sprite.body.velocity.x = 0;
-		unit.sprite.body.velocity.y = 0;
-		unit.sprite.body.angularVelocity = 0;
 
 	}
 }

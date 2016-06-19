@@ -40,6 +40,13 @@ function StateWrapper(state) {
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, sprite.x, sprite.y);
 
+		// Создать минное поле
+		for (var i = 0; i < 3; i ++) {
+
+			EntitiesFactory.createMine(game, x + 500, y + (10 * i), 0.15);
+
+		}
+
 		// Корабль на верх.
 		sprite.bringToTop();
 

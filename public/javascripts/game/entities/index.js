@@ -8,6 +8,7 @@ var Transport = require('./transport');
 var Harvester = require('./harvester');
 var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
+var Mine = require('./mine');
 
 var Random = require('../../utils/random');
 
@@ -32,6 +33,7 @@ function EntitiesFactory() {
 	t.createAcademyBase = createAcademyBase;
 	t.createMeteor = createMeteor;
 	t.createMeteorField = createMeteorField;
+	t.createMine = createMine;
 	t.getWorld = getWorld;
 
 	return t;
@@ -115,6 +117,15 @@ function EntitiesFactory() {
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
 
 		}
+
+	}
+
+	/**
+	 * Создать мину
+	 */
+	function createMine(game, x, y, scale) {
+
+		return Mine(game, x, y, scale);
 
 	}
 

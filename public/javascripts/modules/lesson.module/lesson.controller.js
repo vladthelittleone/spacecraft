@@ -35,6 +35,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
+	$scope.onError = onError;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 
@@ -109,18 +110,30 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 
 	/**
-	 * Обработка ошибки при запуске пользовательского кода.
+	 * Очистка маркеров.
 	 */
-	function onError(error) {
-
-		CodeLauncher.isCodeRunning = false;
-
-		var editorSession = service.getEditorSession();
+	function clearMarker() {
 
 		var markerId = service.getMarkerId();
 
 		// Удаляем старый маркер
-		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+		markerId && markerService.deleteMarkerAndAnnotation(markerId);
+
+		return markerId;
+
+	}
+
+	/**
+	 * Обработка ошибки при запуске пользовательского кода.
+	 */
+	function onError(error) {
+
+		// Очищаем 'Кнопку далее'
+		$scope.nextSubLesson = null;
+
+		CodeLauncher.stop();
+
+		var markerId = clearMarker();
 
 		// Выводим текст
 		$scope.textBot = error;
@@ -134,7 +147,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 			$scope.textBot = errorWrapper(error);
 
 			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, error);
+			markerId = markerService.setMarkerAndAnnotation(errorLine, error);
 
 			// Сохраняем в сервисе.
 			// В связи с использованием указаний в уроке.
@@ -159,6 +172,16 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	 *    Запуск / Пауза кода.
 	 */
 	function toggleCodeRun() {
+
+		clearMarker();
+
+		// Если нет ссылки на следующий урок,
+		// удаляем вывод бота
+		if (!$scope.nextSubLesson) {
+
+			$scope.textBot = null;
+
+		}
 
 		if (!CodeLauncher.isCodeRunning) {
 

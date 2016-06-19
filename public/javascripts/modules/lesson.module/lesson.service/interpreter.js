@@ -47,7 +47,7 @@ function Interpreter () {
 		catch (ex) {
 
 			return {
-				exception: true,
+				exception: ex,
 				message:   ex.message
 			}
 

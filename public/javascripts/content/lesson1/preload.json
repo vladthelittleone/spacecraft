@@ -5,6 +5,7 @@
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
 	"shield": "images/sprites/entities/shared/shield.png",
+	"mine": "images/sprites/entities/shared/mine.png",
 	"meteor1": "images/sprites/entities/meteors/meteor1.png",
 	"meteor2": "images/sprites/entities/meteors/meteor2.png",
 	"meteor3": "images/sprites/entities/meteors/meteor3.png",

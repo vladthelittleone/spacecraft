@@ -41249,7 +41249,7 @@ function runBlock(authentication, $rootScope, $state) {
 
 }
 
-},{"./directives":35,"./extends":39,"./modules":62,"./services":92,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
+},{"./directives":36,"./extends":40,"./modules":65,"./services":95,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = BBotText;
@@ -41483,7 +41483,7 @@ function StateWrapper(state) {
 	}
 }
 
-},{"../../game/entities":45,"../../utils/random":94}],16:[function(require,module,exports){
+},{"../../game/entities":46,"../../utils/random":97}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = WelcomeToAcademy();
@@ -41671,7 +41671,7 @@ function YourName() {
 	}
 }
 
-},{"../../../utils/storage":96,"../../bot-text":10}],18:[function(require,module,exports){
+},{"../../../utils/storage":99,"../../bot-text":10}],18:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41754,7 +41754,7 @@ function GalaxyYear() {
 	}
 }
 
-},{"../../../utils/storage":96,"../../bot-text":10}],19:[function(require,module,exports){
+},{"../../../utils/storage":99,"../../bot-text":10}],19:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41798,7 +41798,7 @@ function End() {
 	};
 }
 
-},{"../../../utils/storage":96}],20:[function(require,module,exports){
+},{"../../../utils/storage":99}],20:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41880,7 +41880,7 @@ function Content() {
 
 }
 
-},{"./sub":31}],24:[function(require,module,exports){
+},{"./sub":32}],24:[function(require,module,exports){
 module.exports={
 	"transport": "images/sprites/entities/transport.png",
 	"harvester": "images/sprites/entities/harvester.png",
@@ -41888,6 +41888,7 @@ module.exports={
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
 	"shield": "images/sprites/entities/shared/shield.png",
+	"mine": "images/sprites/entities/shared/mine.png",
 	"meteor1": "images/sprites/entities/meteors/meteor1.png",
 	"meteor2": "images/sprites/entities/meteors/meteor2.png",
 	"meteor3": "images/sprites/entities/meteors/meteor3.png",
@@ -41940,6 +41941,13 @@ function StateWrapper(state) {
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, sprite.x, sprite.y);
 
+		// Создать минное поле
+		for (var i = 0; i < 3; i ++) {
+
+			EntitiesFactory.createMine(game, x + 500, y + (10 * i), 0.15);
+
+		}
+
 		// Корабль на верх.
 		sprite.bringToTop();
 
@@ -41952,7 +41960,7 @@ function StateWrapper(state) {
 
 }
 
-},{"../../game/entities":45,"../../game/launcher":56,"./api":21}],26:[function(require,module,exports){
+},{"../../game/entities":46,"../../game/launcher":59,"./api":21}],26:[function(require,module,exports){
 'use strict';
 
 module.exports = AcademyProgram();
@@ -41975,7 +41983,7 @@ function AcademyProgram() {
 		content:      function () {
 
 			return '<p>Приятно вас видеть, кадет!</p>' +
-				'<p>Сегодня вам будет предоставлен первый урок программы подготовки пилота-инженера.</p>' +
+				'<p>Сегодня вам будет предоставлен первый урок программы подготовки пилота-инженера. Мы обсудим команды и комментарии.</p>' +
 				'<p>Программы, направленной на выпуск настоящих профессионалов, которые будут готовы выполнять поставленные задачи в любой части вселенной.</p>'
 
 		},
@@ -42183,13 +42191,16 @@ function WhatDoesBBotSay() {
 			var t = '';
 			var r = false;
 
-			v.forEach(function (e) {
+			if (v && v.forEach)
+			{
+				v.forEach(function (e) {
 
-				t += e + '</br>';
+					t += e + '</br>';
 
-				r = (e === 'Всем привет!');
+					r = (e === 'Всем привет!');
 
-			});
+				});
+			}
 
 			var botText = BBotText({
 
@@ -42230,7 +42241,7 @@ function Comments() {
 		title:        'Комментарии',
 		content:      function () {
 
-			return '<p>Хах, кадет, вы явно умнее космических пиратов! Отлично, идем дальше.</p>' +
+			return '<p>Хах, кадет, вы явно умнее космических пиратов! Отлично, перейдем к следующей части урока.</p>' +
 				'<p>Вы наверно уже заметили, что текст, который начинается с <span class="under-label">//</span>, является комментарием и преднзаначен для человека.</p>' +
 				'<p>Комментарии делают код более понятным для вас и вашей команды. Поэтому, если вдруг корабль летит в систему, принадлежащую фракции «PHP», комментарии помогут вам разобраться, где вы могли допустить ошибку.</p>' +
 				'<p><strong>JavaScript</strong> поддерживает два типа комментариев: однострочные и многострочныe.</p>';
@@ -42238,9 +42249,9 @@ function Comments() {
 		},
 		// BBot - проказник, не позорься!
 		// Нужно понизить его уровень юмора, а то этот Джордж Карлин переходит все границы.
-		// Закомментируйте кусок кода в строке 8, пока никто не видет.
+		// Закомментируйте кусок кода на строке 8 и 9, пока никто не видет.
 		instructions: '<ul>' +
-					  '<li>Закомментируйте кусок кода в строке <strong>8</strong>.</li>' +
+					  '<li>Закомментируйте кусок кода в строке <strong>8</strong> и <strong>9</strong>.</li>' +
 					  '<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
 					  '</ul>',
 		character:    [{
@@ -42280,20 +42291,118 @@ function Comments() {
 'use strict';
 
 // Зависимсоти
+var BBotText = require('../../bot-text');
+var CodeLauncher = require('../../../game/launcher');
+
+module.exports = Alert();
+
+/**
+ * Урок - 'Комментарии'.
+ *
+ * Created by vladthelittleone on 02.12.15.
+ */
+function Alert() {
+
+	var time;
+
+	return {
+		title:              'Тревога',
+		content:            function () {
+
+			return '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
+				+ '<p>Используйте все знания, которые вы приобрели, чтобы исправить ситуацию.</p>'
+				+ '<p>Черт, мы не можем отсановить обработку кода, у нас мало времени.</p>';
+
+		},
+		// Список команд задан в панели инструкций
+		instructions:       '<ul>' +
+							'<li>У вас мало времени. По расчетам BBot\'а осталось 30 секунд.</li>' +
+							'<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
+							'<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
+							'<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
+							'</ul>',
+		character:          [{
+			audio:  'audio/lesson1/3.mp3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Редактор кода',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
+			marker: {
+				x1:   6,
+				y2:   Infinity,
+				type: 'line'
+			}
+		}],
+		gameHandler: function (transport) {
+
+			var botText = BBotText({
+
+				failed: '<p>О нет, наш корабль уничтожили.</p>' +
+						'<p>Что ж одним больше, другим меньше!</p>',
+
+				correct: '<p>Ура! Корабль спасен!</p>' +
+						 '<p>Hasta la vista, baby!</p>',
+
+				text: '<p>Хьюстон, у нас проблема!</p>' +
+					  '<p>Осталось мало времени: ' + Math.floor(delta % 60) + '!</p>'
+
+			});
+
+			if (time) {
+
+				time = Date.now();
+
+			} else {
+
+				// Разница между текущим и записаным
+				var delta = time - Date.now();
+
+				// Если дельта больше 30 секунд
+				if (delta > 30000) {
+
+					return botText.resultCorrect();
+
+				}
+
+			}
+
+			// Если код не запущен,
+			// то выполняем запуск.
+			if (!CodeLauncher.isCodeRunning) {
+
+				CodeLauncher.run();
+
+			}
+
+		}
+
+	};
+
+}
+
+},{"../../../game/launcher":59,"../../bot-text":10}],32:[function(require,module,exports){
+'use strict';
+
+// Зависимсоти
 var academyProgram = require('./1');
 var javaScript = require('./2');
 var commands = require('./3');
-var bbotSay = require('./4');
+var bBotSay = require('./4');
 var comments = require('./5');
+var alert = require('./6');
 
 /**
  * Подуроки первого урокаж
  *
  * Created by vladthelittleone on 12.06.16.
  */
-module.exports = [academyProgram, javaScript, commands, bbotSay, comments];
+module.exports = [academyProgram, javaScript, commands, bBotSay, comments, alert];
 
-},{"./1":26,"./2":27,"./3":28,"./4":29,"./5":30}],32:[function(require,module,exports){
+},{"./1":26,"./2":27,"./3":28,"./4":29,"./5":30,"./6":31}],33:[function(require,module,exports){
 'use strict';
 
 BotBoard.$inject = ['$sce'];
@@ -42354,7 +42463,7 @@ function BotBoard($sce) {
 
 }
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 module.exports = Documentation;
@@ -42413,7 +42522,7 @@ function Documentation() {
 	}
 }
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42477,7 +42586,7 @@ function GameCanvas($stateParams) {
 
 }
 
-},{"../game":55}],35:[function(require,module,exports){
+},{"../game":58}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42494,7 +42603,7 @@ app.directive('lessonBoard', require('./lesson-board.directive'));
 app.directive('repeatFinished', require('./repeat-finished.directive'));
 app.directive('stars', require('./stars.directive'));
 
-},{"./bot-board.directive":32,"./documentation.directive":33,"./game-canvas.directive":34,"./lesson-board.directive":36,"./repeat-finished.directive":37,"./stars.directive":38,"angular":8}],36:[function(require,module,exports){
+},{"./bot-board.directive":33,"./documentation.directive":34,"./game-canvas.directive":35,"./lesson-board.directive":37,"./repeat-finished.directive":38,"./stars.directive":39,"angular":8}],37:[function(require,module,exports){
 'use strict';
 
 LessonBoard.$inject = ['$sce'];
@@ -42572,7 +42681,7 @@ function LessonBoard($sce) {
 
 }
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 RepeatFinished.$inject = ['$sce'];
@@ -42597,7 +42706,7 @@ function RepeatFinished() {
 
 }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 Stars.$inject = ['connection', '$state'];
@@ -42640,7 +42749,7 @@ function Stars(connection, $state) {
 
 }
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * Изменение прототипа функций.
  *
@@ -42660,7 +42769,7 @@ Array.prototype.removeElementByIndex = function (index)
 	}
 };
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42711,7 +42820,7 @@ function AcademyBaseUnit(game, x, y) {
 
 }
 
-},{"./blocks":42,"./prefabs":49}],41:[function(require,module,exports){
+},{"./blocks":43,"./prefabs":51}],42:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42733,6 +42842,7 @@ function EngineBlock(spec) {
 	var angularVelocity = spec.angularVelocity;
 	var velocity = spec.velocity;
 	var drag = spec.drag;
+	var angularDrag = spec.angularDrag;
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
@@ -42749,11 +42859,13 @@ function EngineBlock(spec) {
 	 */
 	function initialization() {
 
-		// Торможение
-		unit.sprite.body.drag.set(drag);
-
 		// Максимальная скорось - ограничение
 		unit.sprite.body.maxVelocity.set(velocity);
+		unit.sprite.body.maxAngular = 15;
+
+		// Торможение
+		unit.sprite.body.drag.set(drag);
+		unit.sprite.body.angularDrag = angularDrag;
 
 	}
 
@@ -42789,14 +42901,10 @@ function EngineBlock(spec) {
 	 */
 	function update() {
 
-		unit.sprite.body.velocity.x = 0;
-		unit.sprite.body.velocity.y = 0;
-		unit.sprite.body.angularVelocity = 0;
-
 	}
 }
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42841,7 +42949,7 @@ function BlocksFactory() {
 
 }
 
-},{"./engine":41,"./shield":43}],43:[function(require,module,exports){
+},{"./engine":42,"./shield":44}],44:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42884,7 +42992,7 @@ function ShieldBlock(spec) {
 	}
 }
 
-},{"../prefabs":49}],44:[function(require,module,exports){
+},{"../prefabs":51}],45:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42915,9 +43023,10 @@ function HarvesterUnit(game, x, y) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game: game,
 		unit: t,
-		drag: 150,				// Торможение корабля
+		drag: 30,				// Торможение корабля
+		angularDrag: 1,			// Торможение поворота
 		velocity: 20,			// Скорость корабля
-		angularVelocity: 10		// Скорость разворота
+		angularVelocity: 5		// Скорость разворота
 	});
 
 	/**
@@ -42946,7 +43055,7 @@ function HarvesterUnit(game, x, y) {
 
 }
 
-},{"./blocks":42,"./prefabs":49}],45:[function(require,module,exports){
+},{"./blocks":43,"./prefabs":51}],46:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42957,6 +43066,7 @@ var Transport = require('./transport');
 var Harvester = require('./harvester');
 var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
+var Mine = require('./mine');
 
 var Random = require('../../utils/random');
 
@@ -42981,6 +43091,7 @@ function EntitiesFactory() {
 	t.createAcademyBase = createAcademyBase;
 	t.createMeteor = createMeteor;
 	t.createMeteorField = createMeteorField;
+	t.createMine = createMine;
 	t.getWorld = getWorld;
 
 	return t;
@@ -43068,6 +43179,15 @@ function EntitiesFactory() {
 	}
 
 	/**
+	 * Создать мину
+	 */
+	function createMine(game, x, y, scale) {
+
+		return Mine(game, x, y, scale);
+
+	}
+
+	/**
 	 * Возвращаем объект всех сущностей.
      */
 	function getWorld() {
@@ -43086,7 +43206,7 @@ function EntitiesFactory() {
 	}
 }
 
-},{"../../utils/random":94,"./academy-base":40,"./harvester":44,"./meteor":46,"./transport":53,"./world":54}],46:[function(require,module,exports){
+},{"../../utils/random":97,"./academy-base":41,"./harvester":45,"./meteor":47,"./mine":48,"./transport":56,"./world":57}],47:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43114,7 +43234,34 @@ function Meteor(game, x, y) {
 	return t;
 }
 
-},{"../../utils/random":94,"./prefabs":49}],47:[function(require,module,exports){
+},{"../../utils/random":97,"./prefabs":51}],48:[function(require,module,exports){
+'use strict';
+
+// Зависимости
+var PrefabsFactory = require('./prefabs');
+
+// Экспорт
+module.exports = Mine;
+
+/**
+ * Объект мины.
+ *
+ * Created by vladthelittleone on 21.10.15.
+ */
+function Mine(game, x, y, scale) {
+
+	// that / this
+	var t = {};
+
+	/**
+	 * Создаем спрайт.
+	 */
+	t.sprite = PrefabsFactory.createMine(game, x, y, scale);
+
+	return t;
+}
+
+},{"./prefabs":51}],49:[function(require,module,exports){
 'use strict';
 
 module.exports = AcademyBase;
@@ -43138,7 +43285,7 @@ function AcademyBase(game, x, y) {
 
 }
 
-},{}],48:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 module.exports = Harvester;
@@ -43164,7 +43311,7 @@ function Harvester(game, x, y) {
 
 }
 
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43173,6 +43320,7 @@ var Transport = require('./transport');
 var Shield = require('./shield');
 var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
+var Mine = require('./mine');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -43192,6 +43340,7 @@ function PrefabsFactory() {
 	t.createShield = createShield;
 	t.createAcademyBase = createAcademyBase;
 	t.createMeteor = createMeteor;
+	t.createMine = createMine;
 
 	return t;
 
@@ -43223,6 +43372,13 @@ function PrefabsFactory() {
 
 	}
 
+	// Мина
+	function createMine(game, x, y, scale) {
+
+		return Mine(game, x, y, scale);
+
+	}
+
 	// База академии
 	function createAcademyBase(game, x, y) {
 
@@ -43231,7 +43387,7 @@ function PrefabsFactory() {
 	}
 }
 
-},{"./academy-base":47,"./harvester":48,"./meteor":50,"./shield":51,"./transport":52}],50:[function(require,module,exports){
+},{"./academy-base":49,"./harvester":50,"./meteor":52,"./mine":53,"./shield":54,"./transport":55}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = Meteor;
@@ -43255,7 +43411,31 @@ function Meteor(game, x, y, n) {
 
 }
 
-},{}],51:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
+'use strict';
+
+module.exports = Mine;
+
+/**
+ * Prefab мины.
+ *
+ * Created by vladthelittleone on 11.06.16.
+ */
+function Mine(game, x, y, scale) {
+
+	var t = game.add.sprite(x, y, 'mine');
+
+	// Центрирование
+	t.anchor.x = 0.5;
+	t.anchor.y = 0.5;
+
+	scale && t.scale.setTo(scale);
+
+	return t;
+
+}
+
+},{}],54:[function(require,module,exports){
 'use strict';
 
 module.exports = Shield;
@@ -43282,7 +43462,7 @@ function Shield(game, x, y, scale, player) {
 
 }
 
-},{}],52:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 module.exports = Transport;
@@ -43308,7 +43488,7 @@ function Transport(game, x, y) {
 
 }
 
-},{}],53:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43339,8 +43519,9 @@ function TransportUnit(game, x, y) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game:            game,
 		unit:            t,
-		drag:            100,				// Торможение корабля
-		velocity:        60,			// Скорость корабля
+		drag:            120,	// Торможение корабля
+		angularDrag:     20,	// Торможение поворота
+		velocity:        60,	// Скорость корабля
 		angularVelocity: 15		// Скорость разворота
 	});
 
@@ -43360,7 +43541,7 @@ function TransportUnit(game, x, y) {
 	}
 }
 
-},{"./blocks":42,"./prefabs":49}],54:[function(require,module,exports){
+},{"./blocks":43,"./prefabs":51}],57:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43469,7 +43650,7 @@ function World() {
 
 }
 
-},{"../../utils/sequence":95}],55:[function(require,module,exports){
+},{"../../utils/sequence":98}],58:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43508,7 +43689,7 @@ function Game() {
 	 */
 	function initialization(id) {
 
-		t.phaser = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game-canvas');
+		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.AUTO, 'game-canvas');
 
 		// Выполняем инициализацию контейнера игровых объектов.
 		EntitiesFactory.initialization();
@@ -43548,7 +43729,7 @@ function Game() {
 
 }
 
-},{"../content":11,"./entities":45,"./launcher":56,"./states":58}],56:[function(require,module,exports){
+},{"../content":11,"./entities":46,"./launcher":59,"./states":61}],59:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -43613,7 +43794,7 @@ function CodeLauncher () {
 
 }
 
-},{}],57:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 'use strict';
 
 module.exports = BootState;
@@ -43659,9 +43840,6 @@ function BootState(game) {
 		game.scale.pageAlignVertically = true;
 		game.scale.pageAlignHorizontally = true;
 
-		// Автомасштабирование окна игры
-		game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		// Переходим в состояние предзагрузки ресурсов
@@ -43671,7 +43849,7 @@ function BootState(game) {
 
 }
 
-},{}],58:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43774,7 +43952,7 @@ function StatesManager() {
 
 }
 
-},{"./boot":57,"./play":59,"./preload":60,"./runner":61}],59:[function(require,module,exports){
+},{"./boot":60,"./play":62,"./preload":63,"./runner":64}],62:[function(require,module,exports){
 'use strict';
 
 var CodeLauncher = require('../launcher');
@@ -43895,7 +44073,7 @@ function PlayState(game) {
 
 }
 
-},{"../entities":45,"../launcher":56}],60:[function(require,module,exports){
+},{"../entities":46,"../launcher":59}],63:[function(require,module,exports){
 'use strict';
 
 module.exports = PreloadState;
@@ -43987,7 +44165,7 @@ function PreloadState(game) {
 
 }
 
-},{}],61:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -44100,7 +44278,7 @@ function CodeRunner(game) {
 	}
 }
 
-},{"../launcher":56}],62:[function(require,module,exports){
+},{"../launcher":59}],65:[function(require,module,exports){
 /**
  * Created by vladthelittleone on 08.06.16.
  *
@@ -44122,7 +44300,7 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.welcome.module'
 ]);
 
-},{"./lesson.module":63,"./lessons.module":69,"./login.module":72,"./quick.module":75,"./result.module":79,"./welcome.module":82,"angular":8}],63:[function(require,module,exports){
+},{"./lesson.module":66,"./lessons.module":72,"./login.module":75,"./quick.module":78,"./result.module":82,"./welcome.module":85,"angular":8}],66:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44138,7 +44316,7 @@ app.config(require('./lesson.config'));
 app.controller('LessonController', require('./lesson.controller'));
 app.factory('lessonService', require('./lesson.service'));
 
-},{"./lesson.config":64,"./lesson.controller":65,"./lesson.service":66,"angular":8}],64:[function(require,module,exports){
+},{"./lesson.config":67,"./lesson.controller":68,"./lesson.service":69,"angular":8}],67:[function(require,module,exports){
 'use strict';
 
 LessonConfig.$inject = ['$stateProvider'];
@@ -44158,7 +44336,7 @@ function LessonConfig($stateProvider) {
 
 }
 
-},{}],65:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -44196,6 +44374,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
+	$scope.onError = onError;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 
@@ -44270,18 +44449,30 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 
 	/**
-	 * Обработка ошибки при запуске пользовательского кода.
+	 * Очистка маркеров.
 	 */
-	function onError(error) {
-
-		CodeLauncher.isCodeRunning = false;
-
-		var editorSession = service.getEditorSession();
+	function clearMarker() {
 
 		var markerId = service.getMarkerId();
 
 		// Удаляем старый маркер
-		markerId && markerService.deleteMarkerAndAnnotation(editorSession, markerId);
+		markerId && markerService.deleteMarkerAndAnnotation(markerId);
+
+		return markerId;
+
+	}
+
+	/**
+	 * Обработка ошибки при запуске пользовательского кода.
+	 */
+	function onError(error) {
+
+		// Очищаем 'Кнопку далее'
+		$scope.nextSubLesson = null;
+
+		CodeLauncher.stop();
+
+		var markerId = clearMarker();
 
 		// Выводим текст
 		$scope.textBot = error;
@@ -44295,7 +44486,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 			$scope.textBot = errorWrapper(error);
 
 			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(editorSession, errorLine, error);
+			markerId = markerService.setMarkerAndAnnotation(errorLine, error);
 
 			// Сохраняем в сервисе.
 			// В связи с использованием указаний в уроке.
@@ -44321,6 +44512,16 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	 */
 	function toggleCodeRun() {
 
+		clearMarker();
+
+		// Если нет ссылки на следующий урок,
+		// удаляем вывод бота
+		if (!$scope.nextSubLesson) {
+
+			$scope.textBot = null;
+
+		}
+
 		if (!CodeLauncher.isCodeRunning) {
 
 			service.run();
@@ -44344,7 +44545,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 }
 
-},{"../../game/launcher":56}],66:[function(require,module,exports){
+},{"../../game/launcher":59}],69:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -44791,21 +44992,40 @@ function LessonService(connection, audioManager, aceService) {
 			// Запуск интерпретатора
 			var interpreted = Interpreter.execute(getCode());
 
-			// Обработка в хендлере урока
-			var result = current.interpreterHandler(interpreted);
+			// interpreted может бырть раен undefined
+			var exception = interpreted && interpreted.exception;
 
-			scope.botCss = result.css;
+			// Обработка исключения
+			if (exception) {
 
-			if (result.status) {
+				// В случае исключения выводим ошибку
+				text(interpreted.message);
 
-				text(result.message, nextSubLesson);
+				// И меняем стиль бота.
+				scope.botCss = 'bbot-wow';
+
+			} else {
+
+				// Обработка в хендлере урока
+				var result = current.interpreterHandler(interpreted);
+
+				scope.botCss = result.css;
+
+				if (result.status) {
+
+					text(result.message, nextSubLesson);
+
+				}
+				else {
+
+					text(result.message);
+
+				}
 
 			}
-			else {
 
-				text(result.message);
-
-			}
+			// Если цикл не запущен, выполняем обновления scope
+			!scope.$$phase && scope.$apply();
 		}
 
 		CodeLauncher.isCodeRunning = false;
@@ -44912,7 +45132,7 @@ function LessonService(connection, audioManager, aceService) {
 
 }
 
-},{"../../../game":55,"./interpreter":67,"./storage":68}],67:[function(require,module,exports){
+},{"../../../game":58,"./interpreter":70,"./storage":71}],70:[function(require,module,exports){
 'use strict';
 
 module.exports = Interpreter();
@@ -44962,7 +45182,7 @@ function Interpreter () {
 		catch (ex) {
 
 			return {
-				exception: true,
+				exception: ex,
 				message:   ex.message
 			}
 
@@ -44972,7 +45192,7 @@ function Interpreter () {
 
 }
 
-},{}],68:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 var Storage = require('../../../utils/storage');
@@ -45054,7 +45274,7 @@ function LessonStorage() {
 	}
 }
 
-},{"../../../utils/storage":96}],69:[function(require,module,exports){
+},{"../../../utils/storage":99}],72:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45069,7 +45289,7 @@ var app = angular.module('spacecraft.lessons.module', []);
 app.config(require('./lessons.config'));
 app.controller('LessonsController', require('./lessons.controller'));
 
-},{"./lessons.config":70,"./lessons.controller":71,"angular":8}],70:[function(require,module,exports){
+},{"./lessons.config":73,"./lessons.controller":74,"angular":8}],73:[function(require,module,exports){
 'use strict';
 
 LessonsConfig.$inject = ['$stateProvider'];
@@ -45089,7 +45309,7 @@ function LessonsConfig($stateProvider) {
 
 }
 
-},{}],71:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 LessonsController.$inject = ['$scope'];
@@ -45106,7 +45326,7 @@ function LessonsController($scope) {
 
 }
 
-},{}],72:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45121,7 +45341,7 @@ var app = angular.module('spacecraft.login.module', []);
 app.config(require('./login.config'));
 app.controller('LoginController', require('./login.controller'));
 
-},{"./login.config":73,"./login.controller":74,"angular":8}],73:[function(require,module,exports){
+},{"./login.config":76,"./login.controller":77,"angular":8}],76:[function(require,module,exports){
 'use strict';
 
 LoginConfig.$inject = ['$stateProvider'];
@@ -45141,7 +45361,7 @@ function LoginConfig($stateProvider) {
 
 }
 
-},{}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 var ENTER = 13;
@@ -45247,7 +45467,7 @@ function LoginController($scope, $state, authentication) {
 
 }
 
-},{}],75:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45263,7 +45483,7 @@ app.config(require('./quick.config'));
 app.controller('QuickController', require('./quick.controller'));
 
 
-},{"./quick.config":76,"./quick.controller":77,"angular":8}],76:[function(require,module,exports){
+},{"./quick.config":79,"./quick.controller":80,"angular":8}],79:[function(require,module,exports){
 'use strict';
 
 QuickConfig.$inject = ['$stateProvider'];
@@ -45283,7 +45503,7 @@ function QuickConfig($stateProvider) {
 
 }
 
-},{}],77:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 QuickController.$inject = ['$scope', '$sce', 'authentication'];
 
 module.exports = QuickController;
@@ -45600,7 +45820,7 @@ function QuickController($scope, $sce) {
 	}
 }
 
-},{"./slides":78}],78:[function(require,module,exports){
+},{"./slides":81}],81:[function(require,module,exports){
 /**
  * Слайды презентации.
  *
@@ -45664,7 +45884,7 @@ module.exports = [{
 	}]
 }];
 
-},{}],79:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45680,7 +45900,7 @@ app.config(require('./result.config'));
 app.controller('ResultController', require('./result.controller'));
 
 
-},{"./result.config":80,"./result.controller":81,"angular":8}],80:[function(require,module,exports){
+},{"./result.config":83,"./result.controller":84,"angular":8}],83:[function(require,module,exports){
 'use strict';
 
 ResultConfig.$inject = ['$stateProvider'];
@@ -45700,7 +45920,7 @@ function ResultConfig($stateProvider) {
 
 }
 
-},{}],81:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
@@ -45749,7 +45969,7 @@ function ResultController($scope, $state, statistics, connection) {
 	}
 }
 
-},{}],82:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45766,7 +45986,7 @@ var app = angular.module('spacecraft.welcome.module', ['chart.js']);
 app.config(require('./welcome.config'));
 app.controller('WelcomeController', require('./welcome.controller'));
 
-},{"./welcome.config":83,"./welcome.controller":84,"angular":8,"angular-chart.js":1}],83:[function(require,module,exports){
+},{"./welcome.config":86,"./welcome.controller":87,"angular":8,"angular-chart.js":1}],86:[function(require,module,exports){
 'use strict';
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
@@ -45798,7 +46018,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 }
 
 
-},{}],84:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -45939,7 +46159,8 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	// Изменить текущий график на следующий
 	function changeChart() {
 
-		$scope.chartIndex = ($scope.chartIndex + 1) % 2;
+		// Реализовать переключение графиков
+		//	$scope.chartIndex = ($scope.chartIndex + 1) % 2;
 
 	}
 
@@ -45971,7 +46192,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	}
 }
 
-},{"../../utils/storage":96}],85:[function(require,module,exports){
+},{"../../utils/storage":99}],88:[function(require,module,exports){
 module.exports=[
 	{"regExps": [" *spaceCraft.weapon.$"], "name": "weaponBlock"},
 	{"regExps": [" *spaceCraft.engine.$"], "name": "engineBlock"},
@@ -45992,7 +46213,7 @@ module.exports=[
 	}
 ]
 
-},{}],86:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 module.exports = SpaceCraftCompleter;
@@ -46107,7 +46328,7 @@ function generateAutocomplete(bindings, line) {
 
 }
 
-},{"./autocomplete.json":85}],87:[function(require,module,exports){
+},{"./autocomplete.json":88}],90:[function(require,module,exports){
 'use strict';
 
 var autocompleter = require('./autocompleter');
@@ -46180,7 +46401,7 @@ function AceService() {
 	}
 }
 
-},{"./autocompleter":86,"./marker-service":88}],88:[function(require,module,exports){
+},{"./autocompleter":89,"./marker-service":91}],91:[function(require,module,exports){
 'use strict';
 
 module.exports = MarkerService;
@@ -46253,7 +46474,7 @@ function MarkerService(editor) {
 	 */
 	function setMarkerAndAnnotation (line, text, typeAnnotation) {
 
-		var markerId = paintMarker(session, line);
+		var markerId = paintMarker(line);
 
 		session.setAnnotations([{
 			row:    line - 1,
@@ -46267,7 +46488,7 @@ function MarkerService(editor) {
 
 }
 
-},{}],89:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -46404,7 +46625,7 @@ function AudioManager($rootScope) {
 	}
 }
 
-},{"../utils/random":94}],90:[function(require,module,exports){
+},{"../utils/random":97}],93:[function(require,module,exports){
 'use strict';
 
 Authentication.$inject = ['connection'];
@@ -46500,7 +46721,7 @@ function Authentication(connection) {
 	}
 }
 
-},{}],91:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 'use strict';
 
 Connection.$inject = ['$http'];
@@ -46751,7 +46972,7 @@ function Connection($http) {
 	}
 }
 
-},{}],92:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 /**
@@ -46767,7 +46988,7 @@ app.factory('authentication', require('./authentication.service'));
 app.factory('connection', require('./connection.service'));
 app.factory('statistics', require('./statistics.service'));
 
-},{"./ace.service":87,"./audio.service":89,"./authentication.service":90,"./connection.service":91,"./statistics.service":93,"angular":8}],93:[function(require,module,exports){
+},{"./ace.service":90,"./audio.service":92,"./authentication.service":93,"./connection.service":94,"./statistics.service":96,"angular":8}],96:[function(require,module,exports){
 'use strict';
 
 module.exports = Statistics;
@@ -46812,7 +47033,7 @@ function Statistics ()
 
 }
 
-},{}],94:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 'use strict';
 
 module.exports = RandomUtils();
@@ -46870,7 +47091,7 @@ function RandomUtils ()
 }
 
 
-},{}],95:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = Sequence();
@@ -46895,7 +47116,7 @@ function Sequence ()
 	}
 }
 
-},{}],96:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;

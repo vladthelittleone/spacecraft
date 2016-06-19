@@ -28,8 +28,9 @@ function TransportUnit(game, x, y) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game:            game,
 		unit:            t,
-		drag:            100,				// Торможение корабля
-		velocity:        60,			// Скорость корабля
+		drag:            120,	// Торможение корабля
+		angularDrag:     20,	// Торможение поворота
+		velocity:        60,	// Скорость корабля
 		angularVelocity: 15		// Скорость разворота
 	});
 

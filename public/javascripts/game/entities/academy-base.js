@@ -30,7 +30,7 @@ function AcademyBaseUnit(game, x, y) {
 		unit: t,
 		drag: 0,				// Торможение корабля
 		velocity: 0,			// Скорость корабля
-		angularVelocity: 0.25	// Скорость разворота
+		angularVelocity: 0.0025	// Скорость разворота
 	});
 
 	t.update = update;

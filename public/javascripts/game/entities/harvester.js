@@ -3,6 +3,7 @@
 // Зависимости
 var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
+var GameAudioFactory = require('../audio');
 
 // Экспорт
 module.exports = HarvesterUnit;
@@ -12,7 +13,7 @@ module.exports = HarvesterUnit;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function HarvesterUnit(game, x, y) {
+function HarvesterUnit(game, x, y, player) {
 
 	// that / this
 	var t = {};

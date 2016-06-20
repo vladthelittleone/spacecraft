@@ -18,6 +18,7 @@ function BBotText(messagesArray) {
 	t.resultNotCorrect = resultNotCorrect;
 	t.resultText = resultText;
 	t.result = result;
+	t.resultFaield = resultFaield;
 
 	return t;
 
@@ -28,6 +29,12 @@ function BBotText(messagesArray) {
 			message: message,
 			css:     css
 		};
+
+	}
+
+	function resultFaield(css) {
+
+		return formResult(true, getText('failed'), css || 'bbot-angry');
 
 	}
 

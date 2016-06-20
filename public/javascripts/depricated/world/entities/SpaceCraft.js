@@ -31,7 +31,7 @@ var SpaceCraft = function (spec)
 	t.statistic = Statistic();
 
 	// Аудио для персонажа
-	var audio = t.audio = new AudioManager(t.game, t.sprite, function()
+	var audio = t.audio = new GameAudioFactory(t.game, t.sprite, function()
 	{
 		return scope.spaceCraft.getId() === t.getId();
 	});

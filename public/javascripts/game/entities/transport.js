@@ -3,6 +3,7 @@
 // Зависимости
 var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
+var GameAudioFactory = require('../audio');
 
 // Экспорт
 module.exports = TransportUnit;
@@ -12,7 +13,7 @@ module.exports = TransportUnit;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function TransportUnit(game, x, y) {
+function TransportUnit(game, x, y, player) {
 
 	// that / this
 	var t = {};
@@ -21,6 +22,8 @@ function TransportUnit(game, x, y) {
 	 * Создаем спрайт.
 	 */
 	t.sprite = PrefabsFactory.createTransport(game, x, y);
+	t.sprite.health = 10;
+	t.sprite.maxHealth = 10;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -29,10 +32,14 @@ function TransportUnit(game, x, y) {
 		game:            game,
 		unit:            t,
 		drag:            120,	// Торможение корабля
-		angularDrag:     20,	// Торможение поворота
 		velocity:        60,	// Скорость корабля
-		angularVelocity: 15		// Скорость разворота
+		angularVelocity: 0.5	// Скорость разворота
 	});
+
+	/**
+	 * Аудио менеджер.
+	 */
+	t.audio = GameAudioFactory(game, t.sprite, player);
 
 	t.update = update;
 
@@ -48,4 +55,5 @@ function TransportUnit(game, x, y) {
 		t.logic && t.logic(t);
 
 	}
+
 }

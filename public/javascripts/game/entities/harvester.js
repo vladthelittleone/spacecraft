@@ -21,6 +21,8 @@ function HarvesterUnit(game, x, y) {
 	 * Создаем спрайт.
 	 */
 	t.sprite = PrefabsFactory.createHarvester(game, x, y);
+	t.sprite.health = 20;
+	t.sprite.maxHealth = 20;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -29,9 +31,8 @@ function HarvesterUnit(game, x, y) {
 		game: game,
 		unit: t,
 		drag: 30,				// Торможение корабля
-		angularDrag: 1,			// Торможение поворота
 		velocity: 20,			// Скорость корабля
-		angularVelocity: 5		// Скорость разворота
+		angularVelocity: 0.2	// Скорость разворота
 	});
 
 	/**
@@ -42,6 +43,11 @@ function HarvesterUnit(game, x, y) {
 		unit: t,
 		scale: 0.4
 	});
+
+	/**
+	 * Аудио менеджер.
+	 */
+	t.audio = GameAudioFactory(game, t.sprite, player);
 
 	t.update = update;
 

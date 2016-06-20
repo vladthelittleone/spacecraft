@@ -22,7 +22,7 @@ var Bonus = function (spec)
 		inherit: Prefab(spec)
     });
 
-	var audio = new AudioManager(game, t.sprite, function()
+	var audio = new GameAudioFactory(game, t.sprite, function()
 	{
 		return sc.scope.spaceCraft.getId() == t.sprite.name;
 	});

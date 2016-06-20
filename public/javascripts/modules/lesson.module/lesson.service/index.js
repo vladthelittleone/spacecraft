@@ -155,9 +155,18 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function initNextLessonContent() {
 
-		var ch = scope.char = currentSubLesson().character[audioIndex];
+		var current = currentSubLesson();
+
+		var ch = scope.char = current.character[audioIndex];
 
 		if (ch) {
+
+			// Запуск при старте
+			if (current.runOnStart) {
+
+				run();
+
+			}
 
 			// Получение маркера подурока
 			var m = ch.marker;
@@ -306,9 +315,6 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function clearContent() {
 
-		// Обновляем игровые объекты на начальные значения или нет?
-		currentSubLesson().gameHandler && Game.restart();
-
 		CodeLauncher.stop();
 
 		// Удаление маркеров
@@ -336,6 +342,9 @@ function LessonService(connection, audioManager, aceService) {
 		var statistics = storage.getLessons();
 
 		if (scope.subIndex !== size - 1) {
+
+			// Обновляем игровые объекты на начальные значения или нет?
+			currentSubLesson().gamePostUpdate && Game.restart();
 
 			var subStatistic = statistics[lessonId];
 			var completed = subStatistic && subStatistic.completed;
@@ -476,8 +485,6 @@ function LessonService(connection, audioManager, aceService) {
 
 			}
 
-			// Если цикл не запущен, выполняем обновления scope
-			!scope.$$phase && scope.$apply();
 		}
 
 		CodeLauncher.isCodeRunning = false;
@@ -485,30 +492,52 @@ function LessonService(connection, audioManager, aceService) {
 
 	function runGameLesson(current) {
 
-		// Если gameHandler задан, то выполняем обработку кода
-		if (current.gameHandler) {
+		// Если gamePostUpdate задан, то выполняем обработку кода
+		if (current.gamePostUpdate) {
 
 			var code = getCode();
 
-			CodeLauncher.run(code, function (botText) {
+			CodeLauncher.run(code, gamePostUpdate, gamePreUpdate);
 
-				var world = EntitiesFactory.getWorld();
-				var player = world.getPlayer();
+		}
 
-				var result = current.gameHandler(player.api, world, botText);
+	}
 
-				if (result && result.status) {
+	/**
+	 * Коллбек выполняющийся перед обновлением игры
+	 */
+	function gamePreUpdate() {
 
-					text(result.message, nextSubLesson);
+		var current = currentSubLesson();
 
-				}
-				else if (botText) {
+		current.gamePreUpdate && current.gamePreUpdate(audioIndex, run);
 
-					text(botText);
+	}
 
-				}
+	/**
+	 * Коллбек выполняющийся при обновлении игры
+     */
+	function gamePostUpdate(botText) {
 
-			});
+		var current = currentSubLesson();
+		var world = EntitiesFactory.getWorld();
+		var player = world.getPlayer();
+
+		var result = current.gamePostUpdate(player.api, world, botText);
+
+		if (result && result.status) {
+
+			text(result.message, nextSubLesson);
+
+			return true;
+
+		}
+
+		if (result && result.message) {
+
+			text(result.message);
+
+			return true;
 
 		}
 

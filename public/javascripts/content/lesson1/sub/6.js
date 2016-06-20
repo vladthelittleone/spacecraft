@@ -13,25 +13,30 @@ module.exports = Alert();
  */
 function Alert() {
 
-	var time;
+	var TIME = 20000;
+
+	var time = 0;
+	var delta = 0;
 
 	return {
-		title:              'Тревога',
-		content:            function () {
+		title:         'Тревога',
+		runOnStart: true,
+		content:       function () {
 
-			return '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
+			return '<p>Ну что ж первый урок подошел...</p>'
+				+ '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
 				+ '<p>Используйте все знания, которые вы приобрели, чтобы исправить ситуацию.</p>'
-				+ '<p>Черт, мы не можем отсановить обработку кода, у нас мало времени.</p>';
 
 		},
 		// Список команд задан в панели инструкций
-		instructions:       '<ul>' +
-							'<li>У вас мало времени. По расчетам BBot\'а осталось 30 секунд.</li>' +
-							'<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
-							'<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
-							'<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
-							'</ul>',
-		character:          [{
+		instructions:  '<ul>' +
+					   '<li>У вас мало времени. По расчетам BBot\'а осталось 20 секунд.</li>' +
+					   '<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
+					   '<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
+					   '<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
+					   '<li>Команды внутри комментариев не выполняются!</li>' +
+					   '</ul>',
+		character:     [{
 			audio:  'audio/lesson1/3.mp3',
 			css:    'astrogirl-img',
 			hint:   [
@@ -47,46 +52,55 @@ function Alert() {
 				type: 'line'
 			}
 		}],
-		gameHandler: function (transport) {
+		gamePreUpdate: function (index, callback) {
+
+			callback && callback();
+
+		},
+
+		gamePostUpdate:   function (transport) {
 
 			var botText = BBotText({
 
-				failed: '<p>О нет, наш корабль уничтожили.</p>' +
+				failed: '<p>О нет, наш корабль уничтожили!</p>' +
 						'<p>Что ж одним больше, другим меньше!</p>',
 
 				correct: '<p>Ура! Корабль спасен!</p>' +
 						 '<p>Hasta la vista, baby!</p>',
 
 				text: '<p>Хьюстон, у нас проблема!</p>' +
-					  '<p>Осталось мало времени: ' + Math.floor(delta % 60) + '!</p>'
+					  '<p>Осталось мало времени: ' + Math.floor(TIME / 1000 - delta / 1000) + '!</p>'
 
 			});
 
-			if (time) {
+			// Если транспорт уничтожен,
+			// результат отрицательный.
+			if (!transport.isAlive()) {
+
+				return botText.resultFaield();
+
+			}
+
+			if (!time) {
 
 				time = Date.now();
 
 			} else {
 
 				// Разница между текущим и записаным
-				var delta = time - Date.now();
+				delta = Date.now() - time;
 
-				// Если дельта больше 30 секунд
-				if (delta > 30000) {
+				// Если дельта больше TIME секунд
+				if (delta > TIME) {
 
+					// Победа!
 					return botText.resultCorrect();
 
 				}
 
 			}
 
-			// Если код не запущен,
-			// то выполняем запуск.
-			if (!CodeLauncher.isCodeRunning) {
-
-				CodeLauncher.run();
-
-			}
+			return botText.text();
 
 		}
 

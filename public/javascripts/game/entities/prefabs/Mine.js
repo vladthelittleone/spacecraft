@@ -7,9 +7,9 @@ module.exports = Mine;
  *
  * Created by vladthelittleone on 11.06.16.
  */
-function Mine(game, x, y, scale) {
+function Mine(game, x, y, scale, group) {
 
-	var t = game.add.sprite(x, y, 'mine');
+	var t = createSprite();
 
 	// Центрирование
 	t.anchor.x = 0.5;
@@ -17,6 +17,25 @@ function Mine(game, x, y, scale) {
 
 	scale && t.scale.setTo(scale);
 
+	game.physics.arcade.enableBody(t);
+
 	return t;
+
+	/**
+	 * Создаем спрайт в зависимости от существования переменнй группы.
+	 */
+	function createSprite() {
+
+		if (group) {
+
+			return group.create(x, y, 'mine');
+
+		} else {
+
+			return game.add.sprite(x, y, 'mine')
+
+		}
+
+	}
 
 }

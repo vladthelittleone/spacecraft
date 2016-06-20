@@ -26,6 +26,7 @@ function GameCanvas($stateParams) {
 
 		Game.initialization($stateParams.id);
 
+		$scope.world = Game.world.getWorld();
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
 

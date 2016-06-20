@@ -33,7 +33,7 @@ var Harvester = function (spec)
 	var graphics = game.add.graphics();
 	var line;
 
-	var audio = new AudioManager(game, sprite);
+	var audio = new GameAudioFactory(game, sprite);
 
 	//===================================
 	//============== THAT ===============

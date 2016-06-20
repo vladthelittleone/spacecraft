@@ -43,7 +43,7 @@ function EntitiesFactory() {
      */
 	function createTransport(game, x, y, player) {
 
-		var transport = Transport(game, x, y);
+		var transport = Transport(game, x, y, player);
 
 		var id = world.pushObject(transport);
 
@@ -58,7 +58,7 @@ function EntitiesFactory() {
 	 */
 	function createHarvester(game, x, y, player) {
 
-		var harvester = Harvester(game, x, y);
+		var harvester = Harvester(game, x, y, player);
 
 		var id = world.pushObject(harvester);
 
@@ -123,9 +123,9 @@ function EntitiesFactory() {
 	/**
 	 * Создать мину
 	 */
-	function createMine(game, x, y, scale) {
+	function createMine(game, x, y, scale, group) {
 
-		return Mine(game, x, y, scale);
+		return Mine(game, x, y, scale, group);
 
 	}
 

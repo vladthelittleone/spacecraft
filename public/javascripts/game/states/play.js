@@ -87,6 +87,11 @@ function PlayState(game) {
 
 		});
 
+		// Шаблонный метод,
+		// для возможности обновить
+		// логику с помощью оберки
+		t.logic && t.logic(game);
+
 		// Обновление background
 		background.tilePosition.set(game.camera.x * -0.3, game.camera.y * -0.3);
 
@@ -100,7 +105,7 @@ function PlayState(game) {
 		var view = game.camera.view;
 
 		var x = Math.max(object.width, 100);
-		var y = Math.max(object.height, 100);
+		var y = Math.max(object.height, 200);
 
 		var w = Math.round(view.halfWidth - 2 * x);
 		var h = Math.round(view.height - 2 * y);

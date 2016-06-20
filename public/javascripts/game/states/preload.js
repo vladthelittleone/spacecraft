@@ -49,7 +49,6 @@ function PreloadState(game) {
 		game.load.audio('explosion1', ['audio/explosion1.wav']);
 		game.load.audio('explosion2', ['audio/explosion2.wav']);
 		game.load.audio('shield1', ['audio/shieldvisible1.wav']);
-		game.load.audio('bonus1', ['audio/bonus1.wav']);
 		game.load.audio('harvest1', ['audio/harvest1.wav']);
 
 	}

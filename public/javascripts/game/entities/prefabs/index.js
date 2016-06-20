@@ -59,9 +59,9 @@ function PrefabsFactory() {
 	}
 
 	// Мина
-	function createMine(game, x, y, scale) {
+	function createMine(game, x, y, scale, group) {
 
-		return Mine(game, x, y, scale);
+		return Mine(game, x, y, scale, group);
 
 	}
 

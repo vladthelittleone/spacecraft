@@ -45,7 +45,7 @@ function JavaScript() {
 				type: 'line'
 			}
 		}],
-		gameHandler:  function () {
+		gamePostUpdate:  function () {
 
 			var botText = BBotText({
 				correct: '<p>Кадет это функция run, функция run это кадет!</p>' +

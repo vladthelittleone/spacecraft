@@ -11,7 +11,7 @@ module.exports = CodeRunner;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function CodeRunner(game) {
+function CodeRunner() {
 
 	// that / this
 	var t = {};
@@ -19,13 +19,13 @@ function CodeRunner(game) {
 	// Const
 	var END_LN = '</br>';
 
-	var logic;			// Коллбек обновления
+	var postUpdate;		// Коллбек обновления
+	var preUpdate;		// Коллбек перед обновлением
 	var args;			// Аргументы передаваемые в функцию
 	var userFunction;	// Функция запуска кода
 	var log = '';		// Логгирование выводимое ботом
 
 	t.runCode = runCode;
-	t.stopCode = stopCode;
 	t.update = update;
 	t.setArguments = setArguments;
 
@@ -35,7 +35,7 @@ function CodeRunner(game) {
 	/**
 	 * Функция запуска код.
 	 */
-	function runCode(code, callback) {
+	function runCode(code, post, pre) {
 
 		try {
 
@@ -54,16 +54,8 @@ function CodeRunner(game) {
 
 		}
 
-		logic = callback;
-
-	}
-
-	/**
-	 * Функция остановки кода.
-	 */
-	function stopCode() {
-
-		userFunction = null;
+		preUpdate = pre;
+		postUpdate = post;
 
 	}
 
@@ -81,12 +73,15 @@ function CodeRunner(game) {
 	 */
 	function update() {
 
-		if (userFunction) {
+		preUpdate && preUpdate();
+
+		// Код запущен и определена функция запуска
+		if (CodeLauncher.isCodeRunning && userFunction) {
 
 			try {
 
 				// Отправляем в коллбек текст
-				logic && logic(log);
+				postUpdate && postUpdate(log);
 
 				userFunction.run && userFunction.run.apply(null, args);
 

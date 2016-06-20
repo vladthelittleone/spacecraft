@@ -41249,7 +41249,7 @@ function runBlock(authentication, $rootScope, $state) {
 
 }
 
-},{"./directives":36,"./extends":40,"./modules":65,"./services":95,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
+},{"./directives":36,"./extends":40,"./modules":66,"./services":96,"angular":8,"angular-ui-ace":3,"angular-ui-layout":4,"angular-ui-router":6}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = BBotText;
@@ -41270,6 +41270,7 @@ function BBotText(messagesArray) {
 	t.resultNotCorrect = resultNotCorrect;
 	t.resultText = resultText;
 	t.result = result;
+	t.resultFaield = resultFaield;
 
 	return t;
 
@@ -41280,6 +41281,12 @@ function BBotText(messagesArray) {
 			message: message,
 			css:     css
 		};
+
+	}
+
+	function resultFaield(css) {
+
+		return formResult(true, getText('failed'), css || 'bbot-angry');
 
 	}
 
@@ -41483,7 +41490,7 @@ function StateWrapper(state) {
 	}
 }
 
-},{"../../game/entities":46,"../../utils/random":97}],16:[function(require,module,exports){
+},{"../../game/entities":47,"../../utils/random":98}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = WelcomeToAcademy();
@@ -41671,7 +41678,7 @@ function YourName() {
 	}
 }
 
-},{"../../../utils/storage":99,"../../bot-text":10}],18:[function(require,module,exports){
+},{"../../../utils/storage":100,"../../bot-text":10}],18:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41754,7 +41761,7 @@ function GalaxyYear() {
 	}
 }
 
-},{"../../../utils/storage":99,"../../bot-text":10}],19:[function(require,module,exports){
+},{"../../../utils/storage":100,"../../bot-text":10}],19:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41798,7 +41805,7 @@ function End() {
 	};
 }
 
-},{"../../../utils/storage":99}],20:[function(require,module,exports){
+},{"../../../utils/storage":100}],20:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -41825,16 +41832,20 @@ module.exports = Api;
  *
  * @param player
  */
-function Api (player) {
+function Api(player) {
 
 	var api = {};
 
 	var moveForwardCalled = false;
 
+	api.isAlive = isAlive;
 	api.moveForward = moveForward;
+	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
 	api.isMoveForwardCalled = isMoveForwardCalled;
+
+	return api;
 
 	function moveForward() {
 
@@ -41844,14 +41855,18 @@ function Api (player) {
 
 	}
 
-	function isMoveForwardCalled()
-	{
+	function isMoveForwardCalled() {
 
 		return moveForwardCalled;
 
 	}
 
-	return api;
+	function isAlive() {
+
+		return player.sprite.alive;
+
+	}
+
 }
 
 },{}],22:[function(require,module,exports){
@@ -41904,6 +41919,8 @@ module.exports={
 // Зависимости
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
+var Random = require('../../utils/random');
+
 var Api = require('./api');
 
 module.exports = StateWrapper;
@@ -41917,7 +41934,14 @@ function StateWrapper(state) {
 
 	var t = state;
 
+	var explosions;	// Группа анимации взрывов
+	var player;		// Игрок
+	var mines; 		// Мины
+
+	var mineXY;		// Координаты мин
+
 	t.entities = entities;
+	t.logic = logic;
 
 	return t;
 
@@ -41930,10 +41954,10 @@ function StateWrapper(state) {
 		var y = game.world.centerY;
 
 		// Создать транспорт
-		var player = EntitiesFactory.createTransport(game, x, y, true);
+		player = EntitiesFactory.createTransport(game, x, y, true);
 		var sprite = player.sprite;
 
-		sprite.angle = Math.PI / 2;
+		sprite.rotation = - Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
@@ -41941,12 +41965,7 @@ function StateWrapper(state) {
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, sprite.x, sprite.y);
 
-		// Создать минное поле
-		for (var i = 0; i < 3; i ++) {
-
-			EntitiesFactory.createMine(game, x + 500, y + (10 * i), 0.15);
-
-		}
+		mineField(game, x, y);
 
 		// Корабль на верх.
 		sprite.bringToTop();
@@ -41958,9 +41977,99 @@ function StateWrapper(state) {
 
 	}
 
+	/**
+	 * Создание минного поля.
+     */
+	function mineField(game) {
+
+		// Создать минное поле
+		mineXY = new Phaser.Point(1500, 1500);
+
+		// Создаем группу из мин
+		mines = game.add.group();
+
+		for (var i = 0; i < 10; i++)
+		{
+			var deltaY = Random.randomOf(-1, 1) * 20 * i;
+			var deltaX = Random.randomOf(-1, 1) * 20 * i;
+
+			EntitiesFactory.createMine(game, mineXY.x + deltaX, mineXY.y - deltaY, 0.15, mines);
+		}
+
+		// Группа анимации взрыва
+		explosions = game.add.group();
+		explosions.createMultiple(10, 'explosion');
+		explosions.forEach(initExplosion, this);
+
+	}
+
+	/**
+	 * Инициализация взрывов.
+     */
+	function initExplosion (explosion) {
+
+		explosion.anchor.x = 0.5;
+		explosion.anchor.y = 0.5;
+		explosion.animations.add('explosion');
+
+	}
+
+	/**
+	 * Обновление логики минного поля.
+     */
+	function logic(game) {
+
+		// В случае близкого положения мин,
+		// летим к кораблю
+		if (Phaser.Point.distance(mineXY, player.sprite) < 100) {
+
+			mines.forEach(function (e) {
+
+				if (!player.sprite.alive) {
+
+					// Если игрок погиб, мины
+					// прекращают движение.
+					e.body.velocity.x = 0;
+					e.body.velocity.y = 0;
+
+				} else {
+
+					game.physics.arcade.moveToObject(e, player.sprite, 100);
+
+					// При пересечении обрабатываем в overlapHandler
+					game.physics.arcade.overlap(player.sprite, e, overlapHandler);
+
+				}
+
+			});
+
+		}
+
+	}
+
+	/**
+	 * Обработка пересечений.
+	 */
+	function overlapHandler(transport, mine) {
+
+		// Наносим два урона
+		transport.damage(2);
+
+		var explosion = explosions.getFirstExists(false);
+
+		explosion.scale.setTo(0.5);
+		explosion.reset(transport.body.x, transport.body.y);
+		explosion.play('explosion', 30, false, true);
+
+		player.audio.playExplosion();
+
+		mine.kill();
+
+	}
+
 }
 
-},{"../../game/entities":46,"../../game/launcher":59,"./api":21}],26:[function(require,module,exports){
+},{"../../game/entities":47,"../../game/launcher":60,"../../utils/random":98,"./api":21}],26:[function(require,module,exports){
 'use strict';
 
 module.exports = AcademyProgram();
@@ -42056,7 +42165,7 @@ function JavaScript() {
 				type: 'line'
 			}
 		}],
-		gameHandler:  function () {
+		gamePostUpdate:  function () {
 
 			var botText = BBotText({
 				correct: '<p>Кадет это функция run, функция run это кадет!</p>' +
@@ -42116,7 +42225,7 @@ function Command() {
 				type: 'line'
 			}
 		}],
-		gameHandler:  function (spaceCraft) {
+		gamePostUpdate:  function (spaceCraft) {
 
 			var botText = BBotText({
 				correct: '<p>Осуществляю подачу топлива!</p>' +
@@ -42303,25 +42412,30 @@ module.exports = Alert();
  */
 function Alert() {
 
-	var time;
+	var TIME = 20000;
+
+	var time = 0;
+	var delta = 0;
 
 	return {
-		title:              'Тревога',
-		content:            function () {
+		title:         'Тревога',
+		runOnStart: true,
+		content:       function () {
 
-			return '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
+			return '<p>Ну что ж первый урок подошел...</p>'
+				+ '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
 				+ '<p>Используйте все знания, которые вы приобрели, чтобы исправить ситуацию.</p>'
-				+ '<p>Черт, мы не можем отсановить обработку кода, у нас мало времени.</p>';
 
 		},
 		// Список команд задан в панели инструкций
-		instructions:       '<ul>' +
-							'<li>У вас мало времени. По расчетам BBot\'а осталось 30 секунд.</li>' +
-							'<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
-							'<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
-							'<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
-							'</ul>',
-		character:          [{
+		instructions:  '<ul>' +
+					   '<li>У вас мало времени. По расчетам BBot\'а осталось 20 секунд.</li>' +
+					   '<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
+					   '<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
+					   '<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
+					   '<li>Команды внутри комментариев не выполняются!</li>' +
+					   '</ul>',
+		character:     [{
 			audio:  'audio/lesson1/3.mp3',
 			css:    'astrogirl-img',
 			hint:   [
@@ -42337,46 +42451,55 @@ function Alert() {
 				type: 'line'
 			}
 		}],
-		gameHandler: function (transport) {
+		gamePreUpdate: function (index, callback) {
+
+			callback && callback();
+
+		},
+
+		gamePostUpdate:   function (transport) {
 
 			var botText = BBotText({
 
-				failed: '<p>О нет, наш корабль уничтожили.</p>' +
+				failed: '<p>О нет, наш корабль уничтожили!</p>' +
 						'<p>Что ж одним больше, другим меньше!</p>',
 
 				correct: '<p>Ура! Корабль спасен!</p>' +
 						 '<p>Hasta la vista, baby!</p>',
 
 				text: '<p>Хьюстон, у нас проблема!</p>' +
-					  '<p>Осталось мало времени: ' + Math.floor(delta % 60) + '!</p>'
+					  '<p>Осталось мало времени: ' + Math.floor(TIME / 1000 - delta / 1000) + '!</p>'
 
 			});
 
-			if (time) {
+			// Если транспорт уничтожен,
+			// результат отрицательный.
+			if (!transport.isAlive()) {
+
+				return botText.resultFaield();
+
+			}
+
+			if (!time) {
 
 				time = Date.now();
 
 			} else {
 
 				// Разница между текущим и записаным
-				var delta = time - Date.now();
+				delta = Date.now() - time;
 
-				// Если дельта больше 30 секунд
-				if (delta > 30000) {
+				// Если дельта больше TIME секунд
+				if (delta > TIME) {
 
+					// Победа!
 					return botText.resultCorrect();
 
 				}
 
 			}
 
-			// Если код не запущен,
-			// то выполняем запуск.
-			if (!CodeLauncher.isCodeRunning) {
-
-				CodeLauncher.run();
-
-			}
+			return botText.text();
 
 		}
 
@@ -42384,7 +42507,7 @@ function Alert() {
 
 }
 
-},{"../../../game/launcher":59,"../../bot-text":10}],32:[function(require,module,exports){
+},{"../../../game/launcher":60,"../../bot-text":10}],32:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -42551,6 +42674,7 @@ function GameCanvas($stateParams) {
 
 		Game.initialization($stateParams.id);
 
+		$scope.world = Game.world.getWorld();
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
 
@@ -42586,7 +42710,7 @@ function GameCanvas($stateParams) {
 
 }
 
-},{"../game":58}],36:[function(require,module,exports){
+},{"../game":59}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -42772,6 +42896,85 @@ Array.prototype.removeElementByIndex = function (index)
 },{}],41:[function(require,module,exports){
 'use strict';
 
+// Экспорт
+module.exports = GameAudioFactory;
+
+/**
+ * Фабрика звуков спрайта.
+ */
+function GameAudioFactory(game, sprite, player) {
+
+	var t = {};
+
+	t.playLaser = playLaser;
+	t.playExplosion = playExplosion;
+	t.playSmallExplosion = playSmallExplosion;
+	t.playDestructionShield = playDestructionShield;
+	t.playTakeBonus = playTakeBonus;
+	t.playHarvest = playHarvest;
+
+	return t;
+
+	function play(audioName, min, max) {
+
+		var volume;
+
+		volume = player ? max : min;
+
+		if (volume > 0 && sprite.inCamera) {
+
+			var audio = game.add.audio(audioName);
+
+			audio.volume = volume;
+
+			audio.play();
+
+		}
+
+	}
+
+	function playLaser() {
+
+		play('laser1', 0.01, 0.015);
+
+	}
+
+	function playExplosion() {
+
+		play('explosion2', 0.05, 0.2);
+
+	}
+
+	function playSmallExplosion () {
+
+		play('explosion2', 0.001, 0.005);
+
+	}
+
+	function playDestructionShield () {
+
+		play('shield1', 0, 0.01);
+
+	}
+
+	function playTakeBonus () {
+
+		play('bonus1', 0, 0.03);
+
+	}
+
+	function playHarvest () {
+
+		play('harvest1', 0.01, 0.01);
+
+	}
+
+}
+
+
+},{}],42:[function(require,module,exports){
+'use strict';
+
 // Зависимости
 var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
@@ -42820,7 +43023,7 @@ function AcademyBaseUnit(game, x, y) {
 
 }
 
-},{"./blocks":43,"./prefabs":51}],42:[function(require,module,exports){
+},{"./blocks":44,"./prefabs":52}],43:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -42842,11 +43045,11 @@ function EngineBlock(spec) {
 	var angularVelocity = spec.angularVelocity;
 	var velocity = spec.velocity;
 	var drag = spec.drag;
-	var angularDrag = spec.angularDrag;
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
 	unit.rotateRight = rotateRight;
+	unit.moveToXY = moveToXY;
 
 	t.update = update;
 
@@ -42861,11 +43064,9 @@ function EngineBlock(spec) {
 
 		// Максимальная скорось - ограничение
 		unit.sprite.body.maxVelocity.set(velocity);
-		unit.sprite.body.maxAngular = 15;
 
 		// Торможение
 		unit.sprite.body.drag.set(drag);
-		unit.sprite.body.angularDrag = angularDrag;
 
 	}
 
@@ -42879,11 +43080,71 @@ function EngineBlock(spec) {
 	}
 
 	/**
+	 * Движение к координатам.
+	 */
+	function moveToXY(x, y) {
+
+		var distance = game.math.distance(unit.sprite.x, unit.sprite.y, x, y);
+
+		// Если дистанция меньше 10,
+		// то ничего не выполняем.
+		if (distance < 10) {
+
+			return;
+
+		}
+
+		// Calculate the angle from the missile to the mouse cursor game.input.x
+		// and game.input.y are the mouse position; substitute with whatever
+		// target coordinates you need.
+		var targetAngle = game.math.angleBetween(
+			unit.sprite.x, unit.sprite.y,
+			x, y
+		);
+
+		// Gradually (angularVelocity) aim the missile towards the target angle
+		if (unit.sprite.rotation !== targetAngle) {
+
+			// Calculate difference between the current angle and targetAngle
+			var delta = targetAngle - unit.sprite.rotation;
+
+			// Keep it in range from -180 to 180 to make the most efficient turns.
+			if (delta > Math.PI) delta -= Math.PI * 2;
+			if (delta < -Math.PI) delta += Math.PI * 2;
+
+			if (delta > 0) {
+
+				// Turn clockwise
+				unit.sprite.angle += angularVelocity;
+
+			} else {
+
+				// Turn counter-clockwise
+				unit.sprite.angle -= angularVelocity;
+
+			}
+
+			// Just set angle to target angle if they are close
+			if (Math.abs(delta) < game.math.degToRad(angularVelocity)) {
+
+				unit.sprite.rotation = targetAngle;
+
+			}
+
+		}
+
+		// Calculate velocity vector based on rotation and velocity
+		unit.sprite.body.velocity.x = Math.cos(unit.sprite.rotation) * velocity;
+		unit.sprite.body.velocity.y = Math.sin(unit.sprite.rotation) * velocity;
+
+	}
+
+	/**
 	 * Поворот влево.
 	 */
 	function rotateLeft() {
 
-		unit.sprite.body.angularVelocity = -angularVelocity;
+		unit.sprite.angle -= angularVelocity;
 
 	}
 
@@ -42892,7 +43153,7 @@ function EngineBlock(spec) {
 	 */
 	function rotateRight() {
 
-		unit.sprite.body.angularVelocity = angularVelocity;
+		unit.sprite.angle += angularVelocity;
 
 	}
 
@@ -42904,7 +43165,7 @@ function EngineBlock(spec) {
 	}
 }
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42949,7 +43210,7 @@ function BlocksFactory() {
 
 }
 
-},{"./engine":42,"./shield":44}],44:[function(require,module,exports){
+},{"./engine":43,"./shield":45}],45:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -42992,7 +43253,7 @@ function ShieldBlock(spec) {
 	}
 }
 
-},{"../prefabs":51}],45:[function(require,module,exports){
+},{"../prefabs":52}],46:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43016,6 +43277,8 @@ function HarvesterUnit(game, x, y) {
 	 * Создаем спрайт.
 	 */
 	t.sprite = PrefabsFactory.createHarvester(game, x, y);
+	t.sprite.health = 20;
+	t.sprite.maxHealth = 20;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -43024,9 +43287,8 @@ function HarvesterUnit(game, x, y) {
 		game: game,
 		unit: t,
 		drag: 30,				// Торможение корабля
-		angularDrag: 1,			// Торможение поворота
 		velocity: 20,			// Скорость корабля
-		angularVelocity: 5		// Скорость разворота
+		angularVelocity: 0.2	// Скорость разворота
 	});
 
 	/**
@@ -43037,6 +43299,11 @@ function HarvesterUnit(game, x, y) {
 		unit: t,
 		scale: 0.4
 	});
+
+	/**
+	 * Аудио менеджер.
+	 */
+	t.audio = GameAudioFactory(game, t.sprite, player);
 
 	t.update = update;
 
@@ -43055,7 +43322,7 @@ function HarvesterUnit(game, x, y) {
 
 }
 
-},{"./blocks":43,"./prefabs":51}],46:[function(require,module,exports){
+},{"./blocks":44,"./prefabs":52}],47:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43101,7 +43368,7 @@ function EntitiesFactory() {
      */
 	function createTransport(game, x, y, player) {
 
-		var transport = Transport(game, x, y);
+		var transport = Transport(game, x, y, player);
 
 		var id = world.pushObject(transport);
 
@@ -43116,7 +43383,7 @@ function EntitiesFactory() {
 	 */
 	function createHarvester(game, x, y, player) {
 
-		var harvester = Harvester(game, x, y);
+		var harvester = Harvester(game, x, y, player);
 
 		var id = world.pushObject(harvester);
 
@@ -43181,9 +43448,9 @@ function EntitiesFactory() {
 	/**
 	 * Создать мину
 	 */
-	function createMine(game, x, y, scale) {
+	function createMine(game, x, y, scale, group) {
 
-		return Mine(game, x, y, scale);
+		return Mine(game, x, y, scale, group);
 
 	}
 
@@ -43206,7 +43473,7 @@ function EntitiesFactory() {
 	}
 }
 
-},{"../../utils/random":97,"./academy-base":41,"./harvester":45,"./meteor":47,"./mine":48,"./transport":56,"./world":57}],47:[function(require,module,exports){
+},{"../../utils/random":98,"./academy-base":42,"./harvester":46,"./meteor":48,"./mine":49,"./transport":57,"./world":58}],48:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43234,7 +43501,7 @@ function Meteor(game, x, y) {
 	return t;
 }
 
-},{"../../utils/random":97,"./prefabs":51}],48:[function(require,module,exports){
+},{"../../utils/random":98,"./prefabs":52}],49:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43248,7 +43515,7 @@ module.exports = Mine;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function Mine(game, x, y, scale) {
+function Mine(game, x, y, scale, group) {
 
 	// that / this
 	var t = {};
@@ -43256,12 +43523,12 @@ function Mine(game, x, y, scale) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createMine(game, x, y, scale);
+	t.sprite = PrefabsFactory.createMine(game, x, y, scale,group);
 
 	return t;
 }
 
-},{"./prefabs":51}],49:[function(require,module,exports){
+},{"./prefabs":52}],50:[function(require,module,exports){
 'use strict';
 
 module.exports = AcademyBase;
@@ -43285,7 +43552,7 @@ function AcademyBase(game, x, y) {
 
 }
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = Harvester;
@@ -43311,7 +43578,7 @@ function Harvester(game, x, y) {
 
 }
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43373,9 +43640,9 @@ function PrefabsFactory() {
 	}
 
 	// Мина
-	function createMine(game, x, y, scale) {
+	function createMine(game, x, y, scale, group) {
 
-		return Mine(game, x, y, scale);
+		return Mine(game, x, y, scale, group);
 
 	}
 
@@ -43387,7 +43654,7 @@ function PrefabsFactory() {
 	}
 }
 
-},{"./academy-base":49,"./harvester":50,"./meteor":52,"./mine":53,"./shield":54,"./transport":55}],52:[function(require,module,exports){
+},{"./academy-base":50,"./harvester":51,"./meteor":53,"./mine":54,"./shield":55,"./transport":56}],53:[function(require,module,exports){
 'use strict';
 
 module.exports = Meteor;
@@ -43411,7 +43678,7 @@ function Meteor(game, x, y, n) {
 
 }
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 module.exports = Mine;
@@ -43421,9 +43688,9 @@ module.exports = Mine;
  *
  * Created by vladthelittleone on 11.06.16.
  */
-function Mine(game, x, y, scale) {
+function Mine(game, x, y, scale, group) {
 
-	var t = game.add.sprite(x, y, 'mine');
+	var t = createSprite();
 
 	// Центрирование
 	t.anchor.x = 0.5;
@@ -43431,11 +43698,30 @@ function Mine(game, x, y, scale) {
 
 	scale && t.scale.setTo(scale);
 
+	game.physics.arcade.enableBody(t);
+
 	return t;
+
+	/**
+	 * Создаем спрайт в зависимости от существования переменнй группы.
+	 */
+	function createSprite() {
+
+		if (group) {
+
+			return group.create(x, y, 'mine');
+
+		} else {
+
+			return game.add.sprite(x, y, 'mine')
+
+		}
+
+	}
 
 }
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 module.exports = Shield;
@@ -43462,7 +43748,7 @@ function Shield(game, x, y, scale, player) {
 
 }
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 module.exports = Transport;
@@ -43488,12 +43774,13 @@ function Transport(game, x, y) {
 
 }
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 // Зависимости
 var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
+var GameAudioFactory = require('../audio');
 
 // Экспорт
 module.exports = TransportUnit;
@@ -43503,7 +43790,7 @@ module.exports = TransportUnit;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function TransportUnit(game, x, y) {
+function TransportUnit(game, x, y, player) {
 
 	// that / this
 	var t = {};
@@ -43512,6 +43799,8 @@ function TransportUnit(game, x, y) {
 	 * Создаем спрайт.
 	 */
 	t.sprite = PrefabsFactory.createTransport(game, x, y);
+	t.sprite.health = 10;
+	t.sprite.maxHealth = 10;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -43520,10 +43809,14 @@ function TransportUnit(game, x, y) {
 		game:            game,
 		unit:            t,
 		drag:            120,	// Торможение корабля
-		angularDrag:     20,	// Торможение поворота
 		velocity:        60,	// Скорость корабля
-		angularVelocity: 15		// Скорость разворота
+		angularVelocity: 0.5	// Скорость разворота
 	});
+
+	/**
+	 * Аудио менеджер.
+	 */
+	t.audio = GameAudioFactory(game, t.sprite, player);
 
 	t.update = update;
 
@@ -43539,9 +43832,10 @@ function TransportUnit(game, x, y) {
 		t.logic && t.logic(t);
 
 	}
+
 }
 
-},{"./blocks":43,"./prefabs":51}],57:[function(require,module,exports){
+},{"../audio":41,"./blocks":44,"./prefabs":52}],58:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43650,7 +43944,7 @@ function World() {
 
 }
 
-},{"../../utils/sequence":98}],58:[function(require,module,exports){
+},{"../../utils/sequence":99}],59:[function(require,module,exports){
 'use strict';
 
 /**
@@ -43729,7 +44023,7 @@ function Game() {
 
 }
 
-},{"../content":11,"./entities":46,"./launcher":59,"./states":61}],59:[function(require,module,exports){
+},{"../content":11,"./entities":47,"./launcher":60,"./states":62}],60:[function(require,module,exports){
 'use strict';
 
 // Экспорт
@@ -43760,13 +44054,14 @@ function CodeLauncher () {
 	 * Запуск кода.
 	 *
 	 * @param code код
-	 * @param callback коллбек выполняющийся при обновлении игры
+	 * @param post коллбек выполняющийся при обновлении игры
+	 * @param pre коллбек выполняющийся перед обновлением
 	 */
-	function run(code, callback) {
+	function run(code, post, pre) {
 
 		t.isCodeRunning = true;
 
-		runner && runner.runCode(code, callback);
+		runner && runner.runCode(code, post, pre);
 
 	}
 
@@ -43776,8 +44071,6 @@ function CodeLauncher () {
 	function stop() {
 
 		t.isCodeRunning = false;
-
-		runner && runner.stopCode();
 
 	}
 
@@ -43794,7 +44087,7 @@ function CodeLauncher () {
 
 }
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 module.exports = BootState;
@@ -43849,7 +44142,7 @@ function BootState(game) {
 
 }
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -43952,7 +44245,7 @@ function StatesManager() {
 
 }
 
-},{"./boot":60,"./play":62,"./preload":63,"./runner":64}],62:[function(require,module,exports){
+},{"./boot":61,"./play":63,"./preload":64,"./runner":65}],63:[function(require,module,exports){
 'use strict';
 
 var CodeLauncher = require('../launcher');
@@ -44042,6 +44335,11 @@ function PlayState(game) {
 
 		});
 
+		// Шаблонный метод,
+		// для возможности обновить
+		// логику с помощью оберки
+		t.logic && t.logic(game);
+
 		// Обновление background
 		background.tilePosition.set(game.camera.x * -0.3, game.camera.y * -0.3);
 
@@ -44055,7 +44353,7 @@ function PlayState(game) {
 		var view = game.camera.view;
 
 		var x = Math.max(object.width, 100);
-		var y = Math.max(object.height, 100);
+		var y = Math.max(object.height, 200);
 
 		var w = Math.round(view.halfWidth - 2 * x);
 		var h = Math.round(view.height - 2 * y);
@@ -44073,7 +44371,7 @@ function PlayState(game) {
 
 }
 
-},{"../entities":46,"../launcher":59}],63:[function(require,module,exports){
+},{"../entities":47,"../launcher":60}],64:[function(require,module,exports){
 'use strict';
 
 module.exports = PreloadState;
@@ -44125,7 +44423,6 @@ function PreloadState(game) {
 		game.load.audio('explosion1', ['audio/explosion1.wav']);
 		game.load.audio('explosion2', ['audio/explosion2.wav']);
 		game.load.audio('shield1', ['audio/shieldvisible1.wav']);
-		game.load.audio('bonus1', ['audio/bonus1.wav']);
 		game.load.audio('harvest1', ['audio/harvest1.wav']);
 
 	}
@@ -44165,7 +44462,7 @@ function PreloadState(game) {
 
 }
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -44179,7 +44476,7 @@ module.exports = CodeRunner;
  *
  * Created by vladthelittleone on 21.10.15.
  */
-function CodeRunner(game) {
+function CodeRunner() {
 
 	// that / this
 	var t = {};
@@ -44187,13 +44484,13 @@ function CodeRunner(game) {
 	// Const
 	var END_LN = '</br>';
 
-	var logic;			// Коллбек обновления
+	var postUpdate;		// Коллбек обновления
+	var preUpdate;		// Коллбек перед обновлением
 	var args;			// Аргументы передаваемые в функцию
 	var userFunction;	// Функция запуска кода
 	var log = '';		// Логгирование выводимое ботом
 
 	t.runCode = runCode;
-	t.stopCode = stopCode;
 	t.update = update;
 	t.setArguments = setArguments;
 
@@ -44203,7 +44500,7 @@ function CodeRunner(game) {
 	/**
 	 * Функция запуска код.
 	 */
-	function runCode(code, callback) {
+	function runCode(code, post, pre) {
 
 		try {
 
@@ -44222,16 +44519,8 @@ function CodeRunner(game) {
 
 		}
 
-		logic = callback;
-
-	}
-
-	/**
-	 * Функция остановки кода.
-	 */
-	function stopCode() {
-
-		userFunction = null;
+		preUpdate = pre;
+		postUpdate = post;
 
 	}
 
@@ -44249,12 +44538,15 @@ function CodeRunner(game) {
 	 */
 	function update() {
 
-		if (userFunction) {
+		preUpdate && preUpdate();
+
+		// Код запущен и определена функция запуска
+		if (CodeLauncher.isCodeRunning && userFunction) {
 
 			try {
 
 				// Отправляем в коллбек текст
-				logic && logic(log);
+				postUpdate && postUpdate(log);
 
 				userFunction.run && userFunction.run.apply(null, args);
 
@@ -44278,7 +44570,7 @@ function CodeRunner(game) {
 	}
 }
 
-},{"../launcher":59}],65:[function(require,module,exports){
+},{"../launcher":60}],66:[function(require,module,exports){
 /**
  * Created by vladthelittleone on 08.06.16.
  *
@@ -44300,7 +44592,7 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.welcome.module'
 ]);
 
-},{"./lesson.module":66,"./lessons.module":72,"./login.module":75,"./quick.module":78,"./result.module":82,"./welcome.module":85,"angular":8}],66:[function(require,module,exports){
+},{"./lesson.module":67,"./lessons.module":73,"./login.module":76,"./quick.module":79,"./result.module":83,"./welcome.module":86,"angular":8}],67:[function(require,module,exports){
 'use strict';
 
 /**
@@ -44316,7 +44608,7 @@ app.config(require('./lesson.config'));
 app.controller('LessonController', require('./lesson.controller'));
 app.factory('lessonService', require('./lesson.service'));
 
-},{"./lesson.config":67,"./lesson.controller":68,"./lesson.service":69,"angular":8}],67:[function(require,module,exports){
+},{"./lesson.config":68,"./lesson.controller":69,"./lesson.service":70,"angular":8}],68:[function(require,module,exports){
 'use strict';
 
 LessonConfig.$inject = ['$stateProvider'];
@@ -44336,7 +44628,7 @@ function LessonConfig($stateProvider) {
 
 }
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -44545,7 +44837,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 }
 
-},{"../../game/launcher":59}],69:[function(require,module,exports){
+},{"../../game/launcher":60}],70:[function(require,module,exports){
 'use strict';
 
 // Зависимсоти
@@ -44703,9 +44995,18 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function initNextLessonContent() {
 
-		var ch = scope.char = currentSubLesson().character[audioIndex];
+		var current = currentSubLesson();
+
+		var ch = scope.char = current.character[audioIndex];
 
 		if (ch) {
+
+			// Запуск при старте
+			if (current.runOnStart) {
+
+				run();
+
+			}
 
 			// Получение маркера подурока
 			var m = ch.marker;
@@ -44854,9 +45155,6 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function clearContent() {
 
-		// Обновляем игровые объекты на начальные значения или нет?
-		currentSubLesson().gameHandler && Game.restart();
-
 		CodeLauncher.stop();
 
 		// Удаление маркеров
@@ -44884,6 +45182,9 @@ function LessonService(connection, audioManager, aceService) {
 		var statistics = storage.getLessons();
 
 		if (scope.subIndex !== size - 1) {
+
+			// Обновляем игровые объекты на начальные значения или нет?
+			currentSubLesson().gamePostUpdate && Game.restart();
 
 			var subStatistic = statistics[lessonId];
 			var completed = subStatistic && subStatistic.completed;
@@ -45024,8 +45325,6 @@ function LessonService(connection, audioManager, aceService) {
 
 			}
 
-			// Если цикл не запущен, выполняем обновления scope
-			!scope.$$phase && scope.$apply();
 		}
 
 		CodeLauncher.isCodeRunning = false;
@@ -45033,30 +45332,52 @@ function LessonService(connection, audioManager, aceService) {
 
 	function runGameLesson(current) {
 
-		// Если gameHandler задан, то выполняем обработку кода
-		if (current.gameHandler) {
+		// Если gamePostUpdate задан, то выполняем обработку кода
+		if (current.gamePostUpdate) {
 
 			var code = getCode();
 
-			CodeLauncher.run(code, function (botText) {
+			CodeLauncher.run(code, gamePostUpdate, gamePreUpdate);
 
-				var world = EntitiesFactory.getWorld();
-				var player = world.getPlayer();
+		}
 
-				var result = current.gameHandler(player.api, world, botText);
+	}
 
-				if (result && result.status) {
+	/**
+	 * Коллбек выполняющийся перед обновлением игры
+	 */
+	function gamePreUpdate() {
 
-					text(result.message, nextSubLesson);
+		var current = currentSubLesson();
 
-				}
-				else if (botText) {
+		current.gamePreUpdate && current.gamePreUpdate(audioIndex, run);
 
-					text(botText);
+	}
 
-				}
+	/**
+	 * Коллбек выполняющийся при обновлении игры
+     */
+	function gamePostUpdate(botText) {
 
-			});
+		var current = currentSubLesson();
+		var world = EntitiesFactory.getWorld();
+		var player = world.getPlayer();
+
+		var result = current.gamePostUpdate(player.api, world, botText);
+
+		if (result && result.status) {
+
+			text(result.message, nextSubLesson);
+
+			return true;
+
+		}
+
+		if (result && result.message) {
+
+			text(result.message);
+
+			return true;
 
 		}
 
@@ -45132,7 +45453,7 @@ function LessonService(connection, audioManager, aceService) {
 
 }
 
-},{"../../../game":58,"./interpreter":70,"./storage":71}],70:[function(require,module,exports){
+},{"../../../game":59,"./interpreter":71,"./storage":72}],71:[function(require,module,exports){
 'use strict';
 
 module.exports = Interpreter();
@@ -45192,7 +45513,7 @@ function Interpreter () {
 
 }
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
 
 var Storage = require('../../../utils/storage');
@@ -45274,7 +45595,7 @@ function LessonStorage() {
 	}
 }
 
-},{"../../../utils/storage":99}],72:[function(require,module,exports){
+},{"../../../utils/storage":100}],73:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45289,7 +45610,7 @@ var app = angular.module('spacecraft.lessons.module', []);
 app.config(require('./lessons.config'));
 app.controller('LessonsController', require('./lessons.controller'));
 
-},{"./lessons.config":73,"./lessons.controller":74,"angular":8}],73:[function(require,module,exports){
+},{"./lessons.config":74,"./lessons.controller":75,"angular":8}],74:[function(require,module,exports){
 'use strict';
 
 LessonsConfig.$inject = ['$stateProvider'];
@@ -45309,7 +45630,7 @@ function LessonsConfig($stateProvider) {
 
 }
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 LessonsController.$inject = ['$scope'];
@@ -45326,7 +45647,7 @@ function LessonsController($scope) {
 
 }
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45341,7 +45662,7 @@ var app = angular.module('spacecraft.login.module', []);
 app.config(require('./login.config'));
 app.controller('LoginController', require('./login.controller'));
 
-},{"./login.config":76,"./login.controller":77,"angular":8}],76:[function(require,module,exports){
+},{"./login.config":77,"./login.controller":78,"angular":8}],77:[function(require,module,exports){
 'use strict';
 
 LoginConfig.$inject = ['$stateProvider'];
@@ -45361,7 +45682,7 @@ function LoginConfig($stateProvider) {
 
 }
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 'use strict';
 
 var ENTER = 13;
@@ -45467,7 +45788,7 @@ function LoginController($scope, $state, authentication) {
 
 }
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45483,7 +45804,7 @@ app.config(require('./quick.config'));
 app.controller('QuickController', require('./quick.controller'));
 
 
-},{"./quick.config":79,"./quick.controller":80,"angular":8}],79:[function(require,module,exports){
+},{"./quick.config":80,"./quick.controller":81,"angular":8}],80:[function(require,module,exports){
 'use strict';
 
 QuickConfig.$inject = ['$stateProvider'];
@@ -45503,7 +45824,7 @@ function QuickConfig($stateProvider) {
 
 }
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 QuickController.$inject = ['$scope', '$sce', 'authentication'];
 
 module.exports = QuickController;
@@ -45820,7 +46141,7 @@ function QuickController($scope, $sce) {
 	}
 }
 
-},{"./slides":81}],81:[function(require,module,exports){
+},{"./slides":82}],82:[function(require,module,exports){
 /**
  * Слайды презентации.
  *
@@ -45884,7 +46205,7 @@ module.exports = [{
 	}]
 }];
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45900,7 +46221,7 @@ app.config(require('./result.config'));
 app.controller('ResultController', require('./result.controller'));
 
 
-},{"./result.config":83,"./result.controller":84,"angular":8}],83:[function(require,module,exports){
+},{"./result.config":84,"./result.controller":85,"angular":8}],84:[function(require,module,exports){
 'use strict';
 
 ResultConfig.$inject = ['$stateProvider'];
@@ -45920,7 +46241,7 @@ function ResultConfig($stateProvider) {
 
 }
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 'use strict';
 
 ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
@@ -45969,7 +46290,7 @@ function ResultController($scope, $state, statistics, connection) {
 	}
 }
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 'use strict';
 
 /**
@@ -45986,7 +46307,7 @@ var app = angular.module('spacecraft.welcome.module', ['chart.js']);
 app.config(require('./welcome.config'));
 app.controller('WelcomeController', require('./welcome.controller'));
 
-},{"./welcome.config":86,"./welcome.controller":87,"angular":8,"angular-chart.js":1}],86:[function(require,module,exports){
+},{"./welcome.config":87,"./welcome.controller":88,"angular":8,"angular-chart.js":1}],87:[function(require,module,exports){
 'use strict';
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
@@ -46018,7 +46339,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 }
 
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -46192,7 +46513,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	}
 }
 
-},{"../../utils/storage":99}],88:[function(require,module,exports){
+},{"../../utils/storage":100}],89:[function(require,module,exports){
 module.exports=[
 	{"regExps": [" *spaceCraft.weapon.$"], "name": "weaponBlock"},
 	{"regExps": [" *spaceCraft.engine.$"], "name": "engineBlock"},
@@ -46213,7 +46534,7 @@ module.exports=[
 	}
 ]
 
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 'use strict';
 
 module.exports = SpaceCraftCompleter;
@@ -46328,7 +46649,7 @@ function generateAutocomplete(bindings, line) {
 
 }
 
-},{"./autocomplete.json":88}],90:[function(require,module,exports){
+},{"./autocomplete.json":89}],91:[function(require,module,exports){
 'use strict';
 
 var autocompleter = require('./autocompleter');
@@ -46401,7 +46722,7 @@ function AceService() {
 	}
 }
 
-},{"./autocompleter":89,"./marker-service":91}],91:[function(require,module,exports){
+},{"./autocompleter":90,"./marker-service":92}],92:[function(require,module,exports){
 'use strict';
 
 module.exports = MarkerService;
@@ -46488,7 +46809,7 @@ function MarkerService(editor) {
 
 }
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 'use strict';
 
 // Зависимости
@@ -46625,7 +46946,7 @@ function AudioManager($rootScope) {
 	}
 }
 
-},{"../utils/random":97}],93:[function(require,module,exports){
+},{"../utils/random":98}],94:[function(require,module,exports){
 'use strict';
 
 Authentication.$inject = ['connection'];
@@ -46721,7 +47042,7 @@ function Authentication(connection) {
 	}
 }
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 Connection.$inject = ['$http'];
@@ -46972,7 +47293,7 @@ function Connection($http) {
 	}
 }
 
-},{}],95:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 'use strict';
 
 /**
@@ -46988,7 +47309,7 @@ app.factory('authentication', require('./authentication.service'));
 app.factory('connection', require('./connection.service'));
 app.factory('statistics', require('./statistics.service'));
 
-},{"./ace.service":90,"./audio.service":92,"./authentication.service":93,"./connection.service":94,"./statistics.service":96,"angular":8}],96:[function(require,module,exports){
+},{"./ace.service":91,"./audio.service":93,"./authentication.service":94,"./connection.service":95,"./statistics.service":97,"angular":8}],97:[function(require,module,exports){
 'use strict';
 
 module.exports = Statistics;
@@ -47033,7 +47354,7 @@ function Statistics ()
 
 }
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = RandomUtils();
@@ -47091,7 +47412,7 @@ function RandomUtils ()
 }
 
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 module.exports = Sequence();
@@ -47116,7 +47437,7 @@ function Sequence ()
 	}
 }
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 'use strict';
 
 module.exports = Storage;

@@ -43,7 +43,7 @@ function Command() {
 				type: 'line'
 			}
 		}],
-		gameHandler:  function (spaceCraft) {
+		gamePostUpdate:  function (spaceCraft) {
 
 			var botText = BBotText({
 				correct: '<p>Осуществляю подачу топлива!</p>' +

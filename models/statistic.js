@@ -3,7 +3,6 @@
  */
 var mongoose = require('utils/mongoose');
 var async = require('async');
-var config = require('config');
 
 var Schema = mongoose.Schema;
 
@@ -14,39 +13,10 @@ var schema = new Schema({
 		unique: true,
 		required: true
 	},
-	stat: {
-		type: Array
-	},
-	maxScore: {
-		type: Number
-	},
 	lessons: {
 		type: Array
-	},
-	code: {
-		type: String
 	}
 });
-
-// выберамем пользователей, сортирую по количеству очков набраных в игре
-schema.statics.getUserWithBestScore = function (callback)
-{
-	var Statistic = this;
-
-	async.waterfall(
-	[
-		function (callback)
-		{
-			// Join запрос, соедниям 2 таблицы статистику и юзеров
-			// Берем не пустые поля макс очков и сортируем по убыванию
-			Statistic.find(({ maxScore: { $ne: null } }))
-				.populate('idUser')
-				.sort('-maxScore')
-				.exec(callback);
-		}
-	], callback);
-};
-
 
 // заносим инфу о том сколько звездочек
 // какому уроку было поставленно пользователем
@@ -96,30 +66,6 @@ schema.statics.getUserStatistics = function (id, callback)
 	], callback);
 };
 
-// сохроняем код, который пользователь запускал в игре
-schema.statics.updateUserCode = function(req, callback)
-{
-	var Statistic = this;
-
-	async.waterfall(
-	[
-		function(callback)
-		{
-			Statistic.update(
-			{
-				idUser: req.session.user
-			},
-			{
-				code: req.body.code
-			},
-			{
-				upsert: true,
-				multi: true
-			}, callback);
-		}
-	], callback);
-};
-
 // обновение инфы о прохождении пользователем уроков
 schema.statics.updateLessonStatistics = function (id, req, callback)
 {
@@ -156,57 +102,6 @@ schema.statics.updateLessonStatistics = function (id, req, callback)
 			}, callback);
 		}],
 		callback);
-};
-
-// Обновление статистики по играм пользователей
-schema.statics.updateGameStatistics = function (id, req, callback)
-{
-	var Statistic = this;
-
-	async.waterfall(
-	[
-		function (callback)
-		{
-			// Ищем статистику юзера в базе
-			Statistic.findOne({idUser: id}, callback);
-		},
-		function (result, callback)
-		{
-			if (result)
-			{
-				var stat = result.stat;
-				// Максимальное чилос очков за все игры пользователя
-				var maxScore = req.body.totalScore;
-
-				if (result.maxScore > maxScore)
-				{
-					maxScore = result.maxScore;
-				}
-
-				// Если нашли проверяем сколько игр он сыграл
-				if (stat.length === config.get('maxStatisticsCount'))
-				{
-					stat.splice(0,1);
-				}
-
-				stat.push(req.body);
-			}
-
-			// Апдейт записи о статистики. создание новой записи если ее нет
-			Statistic.update(
-			{
-				idUser: id
-			},
-			{
-				stat: stat,
-				maxScore: maxScore
-			},
-			{
-				upsert: true,
-				multi: true
-
-			}, callback);
-		}], callback);
 };
 
 exports.Statistic = mongoose.model('Statistic', schema);

@@ -49,18 +49,15 @@
 <div stars id-lesson="idLesson" ng-if="starsHide"></div>
 
 <!-- Директива игры -->
-<div game-canvas
-	 editor-options="options"
-	 class="lesson-canvas">
-</div>
+<div game-canvas class="lesson-canvas"></div>
 
 <div class="right-toolbar">
 
 	<div class="right-toolbar-button right-toolbar-icon" ui-sref="welcome"></div>
 
 	<div class="right-toolbar-button glyphicon"
-		 ng-click="run()"
-		 ng-class="{'glyphicon-stop right-toolbar-red' : options.isCodeRunning, 'glyphicon-play right-toolbar-green' : !options.isCodeRunning}"></div>
+		 ng-click="toggleCodeRun()"
+		 ng-class="{'glyphicon-stop right-toolbar-red' : CodeLauncher.isCodeRunning, 'glyphicon-play right-toolbar-green' : !CodeLauncher.isCodeRunning}"></div>
 
 	<div class="right-toolbar-button glyphicon"
 		 ng-click="toggleEditorOpen()"

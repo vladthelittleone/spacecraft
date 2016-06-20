@@ -2,83 +2,9 @@
  * Created by Ivan on 29.02.2016.
  */
 var express = require('express');
-var async = require('async');
-var config = require('config');
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var router = express.Router();
-
-// Сохранение статистики по играм пользователей
-router.post('/', function (req, res, next)
-{
-	var id = req.session.user;
-
-	if (id)
-	{
-		Statistic.updateGameStatistics(id, req, function (err)
-		{
-			if (err)
-			{
-				return next(new HttpError(500, "Ошибка с сохранением статистики"));
-			}
-		});
-	}
-
-	res.send([]);
-});
-
-// Получение статисик юзера
-router.get('/', function (req, res, next)
-{
-	Statistic.getUserStatistics(req.session.user, function (err, data)
-	{
-		if (err)
-		{
-			return next(new HttpError(400, "Нет такой статистики"));
-		}
-
-		if (data)
-		{
-			res.json(data.stat);
-		}
-		else
-		{
-			res.send([]);
-		}
-	});
-});
-
-// Получаем из базы стату по максимальным очкам юзеров
-router.get('/score', function (req, res, next)
-{
-	Statistic.getUserWithBestScore(function (err, user)
-	{
-		if (err)
-		{
-			return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
-		}
-
-		if (user)
-		{
-			var bestUsers = [];
-			// Делаем массив из 10 лучших юзеров и выкидываем из
-			// выборки лишнии данные
-			user.slice(0, 9).forEach(function(item)
-			{
-				bestUsers.push({
-					username: item.idUser.username || item.idUser.email,
-					maxScore: item.maxScore
-				});
-			});
-
-			res.json(bestUsers);
-		}
-		else
-		{
-			res.send();
-		}
-	});
-});
 
 // Запись статы о прохождении уроков юзером
 router.post('/lessons', function(req, res, next)
@@ -130,34 +56,6 @@ router.post('/lessons/stars', function(req, res, next)
 		}
 
 		res.sendStatus(200);
-	});
-});
-
-// Сохраняем код в базе
-router.post('/code', function(req, res, next)
-{
-	Statistic.updateUserCode(req, function(err)
-	{
-		if (err)
-		{
-			return next(new HttpError(500, "Ошибка сохранения кода"));
-		}
-
-		res.sendStatus(200);
-	});
-});
-
-// Ищем код в базе
-router.get('/code', function(req, res, next)
-{
-	Statistic.getUserStatistics(req.session.user, function(err, result)
-	{
-		if (err)
-		{
-			return next(new HttpError(500, "Ошибка поиска кода"));
-		}
-
-		res.json(result ? result.code : null);
 	});
 });
 

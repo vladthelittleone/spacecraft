@@ -7,9 +7,16 @@ body {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	left: 50px;
-	right: 0;
+	left: 0;
+	right: 50px;
 	z-index: -1;
+}
+
+pre {
+	background-color: rgb(21, 43, 57);
+	border: 0;
+	font-weight: bold;
+	color: #C0C3C1;
 }
 
 .toolbar-min {
@@ -32,6 +39,32 @@ body {
 
 .ace-tomorrow-night {
 	background-color: rgba(29, 31, 33, 0.8) !important;
+}
+
+.ace_gutter-layer {
+	z-index: 1000;
+}
+
+.ace_editor.ace_autocomplete {
+	background-color: #1A262F !important;
+	color: #E1E2E2;
+}
+
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line,
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
+	background-color: #0C181F;
+	z-index: 1;
+}
+
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
+	border: 0;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+
+.ace_editor.ace_autocomplete .ace_completion-highlight {
+	color: #D08A5A;
+	text-shadow: 0 0 0.01em;
 }
 
 .ui-splitbar .glyphicon {
@@ -92,13 +125,26 @@ body {
 	height: 100%;
 }
 
-.points-bar {
+.game-canvas-points-bar {
+	top: 10px;
+}
+
+.game-canvas-params-bar {
+	bottom: 0;
+}
+
+.game-canvas-group {
 	position: fixed;
-	width: 30%;
-	right: 0;
-	left: 0;
-	height: 25px;
 	margin-left: 10px;
+	width: 30%;
+	left: 0;
+}
+
+.points-bar {
+	display: inline-block;
+	height: 25px;
+	width: 100%;
+	float: left;
 }
 
 .points-hint {
@@ -107,101 +153,36 @@ body {
 	right: 0;
 	left: 0;
 	height: 150px;
-	bottom: 100px;
+	top: 0;
 	margin-left: 10px;
-}
-
-.damage-points {
-	bottom: 100px;
-}
-
-.range-points {
-	bottom: 125px;
-}
-
-.rate-points {
-	bottom: 150px;
-}
-
-.move-speed-points {
-	bottom: 175px;
-}
-
-.regen-points {
-	bottom: 200px;
-}
-
-.free-points {
-	bottom: 225px;
 }
 
 .params-hint {
 	position: fixed;
 	bottom: 0;
 	width: 100px;
-	right: 0;
 	left: 0;
 	height: 75px;
 	margin-left: 10px;
 }
 
-.damage {
-	position: fixed;
-	bottom: 50px;
-	width: 30%;
-	right: 0;
-	left: 0;
+.params-bar {
+	width: 100%;
 	height: 25px;
-	margin-left: 10px;
-}
-
-.tank {
-	position: fixed;
-	bottom: 50px;
-	width: 30%;
-	right: 0;
-	left: 0;
-	height: 25px;
-	margin-left: 10px;
-}
-
-.health {
-	position: fixed;
-	bottom: 0;
-	width: 30%;
-	right: 0;
-	left: 0;
-	height: 25px;
-	margin-left: 10px;
-}
-
-.shield {
-	position: fixed;
-	bottom: 25px;
-	width: 30%;
-	right: 0;
-	left: 0;
-	height: 25px;
-	margin-left: 10px;
 }
 
 .red-label {
-	background: rgb(196, 32, 15);
-	border: 1px solid rgb(230, 70, 70);
+	background: rgba(198, 31, 14, 0.55);
 }
 
 .under-label {
-	padding: 1px;
 	white-space: pre;
-	border-bottom: 2px solid rgb(200, 29, 20);
-	font-weight: bold;
+	border-bottom: 2px solid rgba(198, 31, 14, 0.55);
 }
 
-.under-label-blue {
-	padding: 1px;
+.under-label-gray {
 	white-space: pre;
-	border-bottom: 2px solid rgb(21, 43, 57);
-	font-weight: bold;
+	border-bottom: 2px solid #C0C3C1;
 }
 
 .red {
@@ -210,6 +191,10 @@ body {
 
 .green {
 	color: #39C139;
+}
+
+.dark-green {
+	color: #113811
 }
 
 .blue {
@@ -533,7 +518,7 @@ body {
 
 .right-toolbar .right-toolbar-icon {
 	margin: 0 0 10px;
-	background-image: url(../images/pages/rocket56fwhite.png);
+	background-image: url(../images/pages/rocket-white-2.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
@@ -644,9 +629,8 @@ body {
 	background: #1D3C50 !important;
 }
 
-.ace_gutter-layer {
-	border-left: 1px solid rgba(0, 0, 0, 0.45) !important;
-	border-right: 1px solid rgba(0, 0, 0, 0.45) !important;
+.ace-gutter-layer {
+	border: 0 !important;
 }
 
 .lesson-board {
@@ -707,9 +691,7 @@ body {
 .main-editor {
 	width: 100%;
 	height: 100%;
-	border-top: 1px solid #0C181F;
-	border-right: 1px solid #0C181F;
-	border-bottom: 1px solid #0C181F;
+	border: 1px solid #152B39;
 }
 
 .logo {
@@ -803,14 +785,12 @@ body {
 	float: right;
 	margin-right: 72px;
 	border-width: 45px 0 300px 100px;
-	border-color: transparent transparent transparent rgba(40, 42, 46, 0.5);
+	border-color: transparent transparent transparent rgba(10, 12, 16, 0.5);
 }
 
 .bbot-board {
-	z-index: 500;
 	width: 100%;
 	height: 100%;
-	border-left: 39px solid #152B39;
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
@@ -832,9 +812,7 @@ body {
 	background: #152B39;
 	color: #fff;
 	height: 25px;
-	border-right: 1px solid #0C181F;
 	outline: 0;
-	border-top: 1px solid rgb(12, 24, 31) !important;
 }
 
 .bbot-header .button-gradient {
@@ -849,14 +827,14 @@ body {
 }
 
 .bbot-header .quote {
-	left: 50px;
+	left: 60px;
 	width: auto;
 	background: #152B39;
 	cursor: default;
 }
 
 .bbot-header .quote:hover {
-	left: 50px;
+	left: 60px;
 	width: auto;
 	background: #152B39;
 	cursor: default;
@@ -903,8 +881,6 @@ body {
 
 .bbot-board .bbot-msg {
 	padding-right: 22px;
-	border-left: 1px solid rgb(12, 24, 31) !important;
-	border-top: 1px solid rgb(12, 24, 31) !important;
 	height: 100%;
 	width: 100%;
 }
@@ -935,7 +911,7 @@ body {
 .astrogirl-img {
 	height: 400px;
 	width: 144px;
-	background-image: url(../images/pages/serg.png);
+	background-image: url(../images/pages/astrogirl.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 50% 50%;
@@ -965,19 +941,18 @@ body {
 }
 
 .bbot-happy {
-	background-image: url(../images/pages/happy.png);
+	background-image: url(../images/pages/bbot-happy.png);
 }
 
 .bbot-wow {
-	background-image: url(../images/pages/wow.png);
+	background-image: url(../images/pages/bbot-wow.png);
 }
 
 .bbot-angry {
-	background-image: url(../images/pages/angry.png);
+	background-image: url(../images/pages/bbot-angry.png);
 }
 
 .bbot-border {
-	z-index: 500;
 	position: absolute;
 	height: 175px;
 	bottom: 0;
@@ -986,24 +961,24 @@ body {
 }
 
 .bbot-hologram {
-	padding: 20px;
 	height: 100%;
 	margin-right: 170px;
-	background: rgba(40, 42, 46, 0.5);
+	padding: 20px 20px 20px 70px;
+	background: rgba(10, 12, 16, 0.5);
 	overflow-y: auto;
 }
 
 .bbot-hologram p {
-	color: white;
+	color: #C0C3C1;
 	margin: 0;
 }
 
 .quick-img {
-	background-image: url(../images/pages/galaxy2white.png);
+	background-image: url(../images/pages/galaxy.png);
 }
 
 .rocket-white-img {
-	background-image: url(../images/pages/rocket56white.png);
+	background-image: url(../images/pages/rocket-white-shadow.png);
 }
 
 .js-img {
@@ -1011,19 +986,19 @@ body {
 }
 
 .learn-img {
-	background-image: url(../images/pages/stars4white.png);
+	background-image: url(../images/pages/stars.png);
 }
 
 .send-img {
-	background-image: url(../images/pages/astronaut6white.png);
+	background-image: url(../images/pages/astrnaut.png);
 }
 
 .game-img {
-	background-image: url(../images/pages/rocket55white.png);
+	background-image: url(../images/pages/rocket-white.png);
 }
 
 .vk-img {
-	background-image: url(../images/pages/vkwhite.png);
+	background-image: url(../images/pages/vk-white.png);
 }
 
 .pages-footer-img {
@@ -1165,7 +1140,7 @@ body {
 .content-center {
 	max-width: none;
 	width: 85%;
-	margin: 30px auto 0;
+	margin: 30px auto 20px;
 }
 
 .lesson-title {
@@ -1181,29 +1156,29 @@ body {
 
 .lesson-hint {
 	font-family: "Courier New", serif;
-	color: white;
-	background-color: rgba(198, 31, 14, 0.55);
-	border-bottom: 1px solid #E1E2E2;
-	border-top: 1px solid rgba(198, 31, 14, 0.55);
+	color: #C0C3C1;
+	background-color: rgba(198, 31, 14, 0.54);
+	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
+	border-top: 1px solid rgba(29, 31, 33, 0.54);
 	padding-bottom: 20px;
 }
 
 .lesson-hint-button {
 	font-family: "Courier New", serif;
-	color: #FFFFFF;
+	color: #CBCECB;
 	text-align: center;
-	background-color: rgba(198, 31, 14, 0.55);
-	border-bottom: 1px solid #E1E2E2;
+	background-color: rgba(198, 31, 14, 0.54);
+	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
 	padding: 10px;
 	cursor: pointer;
 }
 
 .lesson-instructions {
 	font-family: "Courier New", serif;
-	color: white;
-	background-color: rgba(29, 31, 33, 0.54);
-	border-bottom: 1px solid #E1E2E2;
-	border-top: 1px solid #E1E2E2;
+	color: #FFFFFF;
+	background-color: rgb(21, 43, 57);
+	border-bottom: 1px solid rgb(21, 43, 57);
+	border-top: 1px solid rgb(21, 43, 57);
 	margin-top: 35px;
 	padding-bottom: 20px;
 }
@@ -1213,16 +1188,16 @@ body {
 }
 
 .lesson-instructions .lesson-content {
-	color: white;
+	color: #FFFFFF;
 }
 
 .lesson-content-overflow {
 	height: 100%;
-	border: 1px solid #0C181F;
+	border: 1px solid #152B39;
 	width: 100%;
 	position: absolute;
-	color: white;
-	background: rgba(29, 60, 80, 0.8);
+	color: #C0C3C1;
+	background: rgba(29, 31, 33, 0.8);
 }
 
 div.thought {

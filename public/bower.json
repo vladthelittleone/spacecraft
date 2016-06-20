@@ -2,9 +2,6 @@
   "name": "spacecraft",
   "version": "0.0.0",
   "homepage": "http://spacecraft.launchrock.com",
-  "authors": [
-    "Skurishin Vladislav <vskurishin@marathonbet.ru>"
-  ],
   "description": "Learn how to code your own spacecraft and fight against other players online!",
   "main": "",
   "moduleType": [],

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/vladthelittleone/spacecraft",
   "dependencies": {
+    "angular": "^1.5.7",
     "angular-chart.js": "^0.8.8",
     "angular-ui-ace": "^0.2.3",
     "angular-ui-layout": "^1.4.2",

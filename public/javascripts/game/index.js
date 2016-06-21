@@ -36,7 +36,7 @@ function Game() {
 	 */
 	function initialization(id) {
 
-		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.AUTO, 'game-canvas');
+		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.CANVAS, 'game-canvas');
 
 		// Выполняем инициализацию контейнера игровых объектов.
 		EntitiesFactory.initialization();

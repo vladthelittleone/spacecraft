@@ -27,7 +27,9 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
 	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
 	$scope.lesson = service.lessonContent($stateParams.id);	// Контент урока
-
+	
+	var lessonRules = $scope.lesson.rules;
+	
 	$scope.toggleTextContent = toggleTextContent;
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
@@ -96,7 +98,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 		service.setEditorSession(editor.getSession());
 
-		aceService.initialize(editor);
+		aceService.initialize(editor, lessonRules);
 
 		markerService = aceService.getMarkerService();
 

@@ -7,7 +7,7 @@ module.exports = SpaceCraftCompleter;
  *
  * Created by vladthelittleone on 08.12.15.
  */
-function SpaceCraftCompleter(editor) {
+function SpaceCraftCompleter(editor, rules) {
 
 	var that = {};
 
@@ -21,7 +21,7 @@ function SpaceCraftCompleter(editor) {
 		var line = session.getLine(editor.getCursorPosition().row);
 
 		// Массив сопостовления
-		var binding = require('./autocomplete.json');
+		var binding = require(rules);
 
 		callback(null, generateAutocomplete(binding, line));
 

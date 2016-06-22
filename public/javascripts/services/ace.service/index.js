@@ -26,13 +26,13 @@ function AceService() {
 	 * Инициализация в Ace автодополнения.
 	 * @param editor
 	 */
-	function autocomplete(editor) {
+	function autocomplete(editor, rules) {
 
 		// Добавление
 		var langTools = ace.require('ace/ext/language_tools');
 
 		// Автодополнение
-		var completer = autocompleter(editor);
+		var completer = autocompleter(editor, rules);
 
 		editor.completers = [completer];
 
@@ -49,7 +49,7 @@ function AceService() {
 	 *
 	 * @param edx Ace класс
      */
-	function initialize (edx)
+	function initialize (edx, rules)
 	{
 		editor = edx;
 
@@ -58,7 +58,7 @@ function AceService() {
 		// Скролл до конца - скролл присутствует всегда.
 		editor.setOption("scrollPastEnd", true);
 
-		autocomplete(editor);
+		autocomplete(editor, rules);
 
 		markerService = MarkerService(editor);
 

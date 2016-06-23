@@ -14,7 +14,7 @@ function Content() {
 		text:  'Поступление в академию',
 		label: 'Основы JavaScript',
 		quote: 'Знания свет — путь укажет нам',
-		rules: '../../../content/lesson0/autocomplete.json',
+		rules: require('./autocomplete.json'),
 		sub:   require('./sub')
 	};
 

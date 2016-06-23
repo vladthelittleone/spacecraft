@@ -10,7 +10,9 @@ module.exports = SpaceCraftCompleter;
 function SpaceCraftCompleter(editor, rules) {
 
 	var that = {};
-
+	
+	var documentation = require('./autocomplete.json');
+	
 	that.getCompletions = getCompletions;
 
 	return that;
@@ -21,7 +23,7 @@ function SpaceCraftCompleter(editor, rules) {
 		var line = session.getLine(editor.getCursorPosition().row);
 
 		// Массив сопостовления
-		var binding = require(rules);
+		var binding = rules;
 
 		callback(null, generateAutocomplete(binding, line));
 

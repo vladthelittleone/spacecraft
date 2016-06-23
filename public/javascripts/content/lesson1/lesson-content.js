@@ -14,7 +14,7 @@ function Content() {
 		text: 'Первое занятие',
 		label: 'Основы JavaScript',
 		quote: 'Преодоление трудного начинается с легкого',
-		rules: '../../../content/lesson1/autocomplete.json',
+		rules: require('./autocomplete.json'),
 		startCode: '',
 		isGameLesson: true,
 		sub:   require('./sub')

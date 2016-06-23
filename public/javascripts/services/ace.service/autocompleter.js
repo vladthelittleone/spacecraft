@@ -68,7 +68,7 @@ function getMethodsFrom(objName) {
 
 	var array = [];
 
-	var functions = documentation[objName].functions;
+	var functions = documentation.objName;
 
 	functions.forEach(function (value) {
 

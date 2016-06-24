@@ -25,6 +25,7 @@ function AceService() {
 	/**
 	 * Инициализация в Ace автодополнения.
 	 * @param editor
+	 * @param rules
 	 */
 	function autocomplete(editor, rules) {
 
@@ -48,9 +49,10 @@ function AceService() {
 	 * Инициализация Ace
 	 *
 	 * @param edx Ace класс
-     */
-	function initialize (edx, rules)
-	{
+	 * @param rules регулярные правила
+	 */
+	function initialize(edx, rules) {
+
 		editor = edx;
 
 		editor.$blockScrolling = Infinity;
@@ -58,14 +60,15 @@ function AceService() {
 		// Скролл до конца - скролл присутствует всегда.
 		editor.setOption("scrollPastEnd", true);
 
-		autocomplete(editor, rules);
+		rules && autocomplete(editor, rules);
 
 		markerService = MarkerService(editor);
 
 	}
 
-	function getMarkerService ()
-	{
+	function getMarkerService() {
+
 		return markerService;
+
 	}
 }

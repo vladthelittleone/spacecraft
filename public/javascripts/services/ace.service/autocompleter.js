@@ -36,7 +36,7 @@ function SpaceCraftCompleter(editor, rules) {
  */
 function test(string, value) {
 
-	var functions = value.functions;
+	var autocomplete = value.autocomplete;
 
 	var result = [];
 
@@ -48,7 +48,7 @@ function test(string, value) {
 		// Если строка соответсвует регулярному выраению получаем методы для объекта
 		if (regExp.test(string)) {
 
-			result = result.concat(functions);
+			result = result.concat(autocomplete);
 
 		}
 
@@ -67,28 +67,24 @@ function test(string, value) {
  */
 function generateAutocomplete(bindings, line) {
 
-	var functionsNames = [];
+	var autocompleteNames = [];
 
 	bindings.forEach(function (value) {
 
-		functionsNames = functionsNames.concat(test(line, value));
+		autocompleteNames = autocompleteNames.concat(test(line, value));
 
 	});
 
-	if (!functionsNames.length) {
-    
+	if (!autocompleteNames.length) {
+
 		bindings.forEach(function (value) {
-    
-			functionsNames = functionsNames.concat(value.functions);
-    
+
+			autocompleteNames = autocompleteNames.concat(value.autocomplete);
+
 		});
-    
-		functionsNames.push({value: 'spaceCraft', meta: 'local'});
-    
-		functionsNames.push({value: 'world', meta: 'local'});
-    
+
 	}
 
-	return functionsNames;
+	return autocompleteNames;
 
 }

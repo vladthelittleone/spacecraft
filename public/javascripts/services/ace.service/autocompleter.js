@@ -7,12 +7,14 @@ module.exports = SpaceCraftCompleter;
  *
  * Created by vladthelittleone on 08.12.15.
  */
+
+// Массив объектов и их функций
+var documentation = require('./documentation.js');
+
 function SpaceCraftCompleter(editor, rules) {
 
 	var that = {};
-	
-	var documentation = require('./autocomplete.json');
-	
+
 	that.getCompletions = getCompletions;
 
 	return that;
@@ -25,6 +27,7 @@ function SpaceCraftCompleter(editor, rules) {
 		// Массив сопостовления
 		var binding = rules;
 
+		// Создание списка автодополнения
 		callback(null, generateAutocomplete(binding, line));
 
 	}
@@ -48,6 +51,7 @@ function test(string, value) {
 
 		var regExp = new RegExp(r);
 
+		// Если строка соответсвует регулярному выраению получаем методы для объекта
 		if (regExp.test(string)) {
 
 			result = result.concat(getMethodsFrom(name));
@@ -68,7 +72,8 @@ function getMethodsFrom(objName) {
 
 	var array = [];
 
-	var functions = documentation.objName;
+	// Взятие всех функций для имени объекта
+	var functions = documentation[objName].functions;
 
 	functions.forEach(function (value) {
 

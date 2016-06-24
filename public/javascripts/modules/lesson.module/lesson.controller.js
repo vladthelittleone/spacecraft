@@ -96,7 +96,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 		service.setEditorSession(editor.getSession());
 
-		aceService.initialize(editor);
+		aceService.initialize(editor, $scope.lesson.rules);
 
 		markerService = aceService.getMarkerService();
 

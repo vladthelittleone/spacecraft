@@ -1,4 +1,4 @@
 [
-	{"regExps": [".+$"], "name": "world"}
+	{"regExps": [".+$"], "functions":[{"name": "BbotDebug(string)"}] }
 ]
 

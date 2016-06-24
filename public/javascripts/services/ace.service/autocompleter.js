@@ -8,9 +8,6 @@ module.exports = SpaceCraftCompleter;
  * Created by vladthelittleone on 08.12.15.
  */
 
-// Массив объектов и их функций
-var documentation = require('./documentation.js');
-
 function SpaceCraftCompleter(editor, rules) {
 
 	var that = {};
@@ -24,11 +21,8 @@ function SpaceCraftCompleter(editor, rules) {
 		// Текушая строка
 		var line = session.getLine(editor.getCursorPosition().row);
 
-		// Массив сопостовления
-		var binding = rules;
-
 		// Создание списка автодополнения
-		callback(null, generateAutocomplete(binding, line));
+		callback(null, generateAutocomplete(rules, line));
 
 	}
 
@@ -42,7 +36,7 @@ function SpaceCraftCompleter(editor, rules) {
  */
 function test(string, value) {
 
-	var name = value.name;
+	var functions = value.functions;
 
 	var result = [];
 
@@ -54,7 +48,7 @@ function test(string, value) {
 		// Если строка соответсвует регулярному выраению получаем методы для объекта
 		if (regExp.test(string)) {
 
-			result = result.concat(getMethodsFrom(name));
+			result = result.concat(functions);
 
 		}
 
@@ -62,26 +56,6 @@ function test(string, value) {
 
 	return result;
 
-}
-
-/**
- * @param objName имя объекта
- * @returns {Array} список функций объекта
- */
-function getMethodsFrom(objName) {
-
-	var array = [];
-
-	// Взятие всех функций для имени объекта
-	var functions = documentation[objName].functions;
-
-	functions.forEach(function (value) {
-
-		array = array.concat({value: value, meta: objName});
-
-	});
-
-	return array;
 }
 
 /**
@@ -102,17 +76,17 @@ function generateAutocomplete(bindings, line) {
 	});
 
 	if (!functionsNames.length) {
-
+    
 		bindings.forEach(function (value) {
-
-			functionsNames = functionsNames.concat(getMethodsFrom(value.name));
-
+    
+			functionsNames = functionsNames.concat(value.functions);
+    
 		});
-
+    
 		functionsNames.push({value: 'spaceCraft', meta: 'local'});
-
+    
 		functionsNames.push({value: 'world', meta: 'local'});
-
+    
 	}
 
 	return functionsNames;

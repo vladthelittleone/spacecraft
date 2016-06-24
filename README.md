@@ -16,8 +16,8 @@
 * Перед слиянием в мастер вашей ветки создается pull request
 
 ## Стиль кода
-Стиль кода вы можете посмотреть на http://nodeguide.ru/doc/felix/style/
-и на https://github.com/johnpapa/angular-styleguide
+Стиль кода вы можете посмотреть на [этой странице](http://nodeguide.ru/doc/felix/style/)
+и на [этой](https://github.com/johnpapa/angular-styleguide).
 
 ## Запуск
 * Устанавливаем базу данных mongoDB.

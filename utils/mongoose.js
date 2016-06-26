@@ -3,8 +3,8 @@
  * @author Skurishin Vladislav
  */
 var mongoose = require('mongoose');
-var config = require('config');
+var config = require('../config/config');
 
-mongoose.connect(config.get('database:uri'), config.get('database:options'));
+mongoose.connect(config.database.uri, config.database.options);
 
 module.exports = mongoose;

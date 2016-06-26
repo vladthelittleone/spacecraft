@@ -1,0 +1,33 @@
+{
+  "name": "models",
+  "id": "models",
+  "version": "0.2.0",
+  "description": "M form MVC",
+  "keywords": [ "mvc", "model", "commonjs" ],
+  "author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gozala/models.git",
+    "web": "https://github.com/Gozala/models"
+  },
+  "bugs": {
+    "web": "http://github.com/Gozala/models/issues/"
+  },
+  "dependencies": {
+    "graphquire": ">=0.8.0"
+  },
+  "devDependencies": {
+    "test": ">=0.0.10"
+  },
+  "main": "./models.js",
+  "engines": {
+    "node": "0.4.x"
+  },
+  "scripts": {
+    "test": "node tests/test-models.js"
+  },
+  "licenses": [{
+    "type" : "MIT",
+    "url" : "http://jeditoolkit.com/LICENSE"
+  }]
+}

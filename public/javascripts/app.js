@@ -16,6 +16,9 @@ require('./extends');
  */
 require('./modules');
 
+
+require( './emitters' );
+
 /**
  * @description Главный модуль angularJS,
  * описывающий все модули.

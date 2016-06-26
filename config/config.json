@@ -1,5 +1,5 @@
 {
-	"port": 3000,
+	"port": 27017,
 	"database": {
 		"uri":  "mongodb://localhost/spacecraft",
 		"options": {

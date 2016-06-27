@@ -140,4 +140,23 @@ schema.statics.registration = function (email, password, callback)
 	], callback);
 };
 
+// возвращает дату создание акка пользователся
+schema.statics.getUserCreationDate = function (userID, callback)
+{
+	var User = this;
+
+	async.waterfall(
+	[
+		function (callback)
+		{
+			User.findOne({_id: userID}, callback);
+		},
+		function (user, callback)
+		{
+			callback(user? user.created: null);
+		}
+
+	], callback)
+};
+
 exports.User = mongoose.model('User', schema);

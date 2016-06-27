@@ -1,6 +1,7 @@
 var express = require('express');
 var Metrics = require('models/metrics').Metrics;
 var Stat = require('models/statistic').Statistic;
+var Cohorts = require('models/cohorts').Cohorts;
 var router = express.Router();
 
 router.post('/opengame', function (req, res, next)
@@ -11,6 +12,14 @@ router.post('/opengame', function (req, res, next)
 
 		metrics.save();
 	});
+
+	Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
+
+		if (cohort) {
+
+			cohort.cohorts[cohortID].numbClicksOnGame += 1;
+		}
+	});
 });
 
 router.post('/openlessons', function (req, res, next)
@@ -20,6 +29,14 @@ router.post('/openlessons', function (req, res, next)
 		metrics.numbClicksOnLesson += 1;
 
 		metrics.save();
+	});
+
+	Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
+
+		if (cohort) {
+
+			cohort.cohorts[cohortID].numbClicksOnLesson += 1;
+		}
 	});
 });
 

@@ -94,9 +94,9 @@ schema.statics.updateCohort = function (userID, callback) {
 
 						console.log(cohort.date + " dff " + todayDate);
 
-						Cohort.update(cohort, function(value)
-						{
-							console.log(value);
+						Cohort.update(cohort, { cohorts: cohort.cohorts }, {
+							upsert: true,
+							multi: true
 						});
 					}
 				}

@@ -1,6 +1,5 @@
-var tabHandler = require( './tabHandler.js' );
-
-// Подписываемся на событие смены вкладки.
-tabHandler.start();
-
-module.exports = tabHandler;
+/**
+ * tabHandler занимается вызовом "подписчиков" (коллбэки) на события
+ * по скрытию/появлению текущей вкладки в браузере.
+ */
+module.exports = require( './tabHandler.js' );

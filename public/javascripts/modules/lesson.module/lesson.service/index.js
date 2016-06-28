@@ -9,9 +9,7 @@ var EntitiesFactory = Game.world;
 
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
-
-// Подключаем TabHandler
-var tabHandler = require( '../../../emitters' );
+var TabHandler = require( '../../../emitters' );
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
@@ -57,8 +55,6 @@ function LessonService(connection, audioManager, aceService) {
 	function AudioWrapper() {
 
 		var audio;
-
-		var currentAudioIndex;
 
 		var that = {};
 
@@ -135,11 +131,13 @@ function LessonService(connection, audioManager, aceService) {
 		that.onEnd = function (callback) {
 
 			audio.onended = callback;
+
 		};
 
 		that.create = function (a) {
 
 			audio = audioManager.createVoice(a);
+
 		};
 
 		return that;
@@ -181,10 +179,8 @@ function LessonService(connection, audioManager, aceService) {
 			audioWrapper.play();
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
-			tabHandler.subscribeOnTabHidden( audioWrapper.pause );
-			tabHandler.subscribeOnTabShow( audioWrapper.play );
-
-
+			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
+			TabHandler.subscribeOnTabShow( audioWrapper.play );
 
 			// Постановка на паузу
 			scope.audioPause = false;
@@ -393,9 +389,10 @@ function LessonService(connection, audioManager, aceService) {
 			// на экране не останавливает звук.
 			// Наверное имеет смысл оставить эту проблему на обсуждение, ровно также, как
 			// и проблему с повторным воспроизведением голоса.
-			tabHandler.clear();
-
+			TabHandler.clear();
+			
 		}
+
 	}
 
 	/**

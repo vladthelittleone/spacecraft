@@ -16,7 +16,9 @@ require('./extends');
  */
 require('./modules');
 
-
+/**
+ * Загружаем "оповещатели" (эмиттеры) событий. 
+ */
 require( './emitters' );
 
 /**

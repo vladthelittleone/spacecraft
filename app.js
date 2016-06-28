@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 // Наши модули
-const config = require('./config');
+const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
 

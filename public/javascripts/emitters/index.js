@@ -2,4 +2,4 @@
  * tabHandler занимается вызовом "подписчиков" (коллбэки) на события
  * по скрытию/появлению текущей вкладки в браузере.
  */
-module.exports = require( './tabHandler.js' );
+module.exports = require( './tab-handler.js' );

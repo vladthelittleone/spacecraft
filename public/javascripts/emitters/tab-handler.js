@@ -262,4 +262,5 @@ function TabHandler() {
 		updateCurrentTabStatus();
 
 	}
+	
 }

@@ -399,6 +399,7 @@ function LessonService(connection, audioManager, aceService) {
 		// что вкладка с уроком будто бы СКРЫТА.
 		// А по факту - мы просто останавливаем ВСЕ звуки.
 		TabHandler.executeHiddenCallbacks();
+		
 		// Очищаем подписичиков на вкладу
 		TabHandler.clear();
 

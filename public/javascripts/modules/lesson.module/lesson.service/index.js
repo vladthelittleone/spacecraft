@@ -153,16 +153,6 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
-	function startSoundtrack() {
-
-		audioManager.createSoundtrack().play();
-
-		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
-		TabHandler.subscribeOnTabHidden( audioManager.pauseSoundtrack );
-		TabHandler.subscribeOnTabShow( audioManager.resumeSoundtrack );
-
-	}
-
 	/**
 	 * Формирование аудио и подсказок для следующего подурока.
 	 */
@@ -388,6 +378,7 @@ function LessonService(connection, audioManager, aceService) {
 				completed: true
 			});
 
+			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
 			endLesson();
 
 		}
@@ -402,16 +393,17 @@ function LessonService(connection, audioManager, aceService) {
 
 		// Выводим доску оценки подурока
 		scope.starsHide = true;
+
+		// Вызываем коллбэки, которые подписались на скрытие вкладки,
+		// так как на данном этапе урок закончен, и можно считать,
+		// что вкладка с уроком будто бы СКРЫТА.
+		// А по факту - мы просто останавливаем ВСЕ звуки.
+		TabHandler.executeHiddenCallbacks();
 		// Очищаем подписичиков на вкладу
 		TabHandler.clear();
 
-		// Останавливаем саундтрэк.
-		audioManager.pauseSoundtrack();
-
-		// Здесь надо еще останавливать голос.
-
 	}
-	
+
 	/**
 	 * Инициализация.
 	 */

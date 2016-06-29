@@ -41,6 +41,8 @@ function TabHandler() {
 	tabHandler.subscribeOnTabShowOnce = subscribeOnTabShowOnce;
 	tabHandler.subscribeOnTabHidden = subscribeOnTabHidden;
 	tabHandler.subscribeOnTabShow = subscribeOnTabShow;
+	tabHandler.executeHiddenCallbacks = executeHiddenCallbacks;
+	tabHandler.executeShowCallbacks = executeShowCallbacks;
 
 	// Подписываемся на событие по вкладке.
 	tabHandler.start();
@@ -65,6 +67,24 @@ function TabHandler() {
 
 		return _callbackWrapper;
 
+	}
+
+	/**
+	 * Явно инициируем вызов коллбэков, которые подписались на событие
+	 * СКРЫТИЯ вкладки.
+	 */
+	function executeHiddenCallbacks() {
+
+		prepareCallbackWrapperList( hiddenList );
+	}
+
+	/**
+	 * Явно инициируем вызов коллбэков, которые подписались на событие
+	 * ПОЯВЛЕНИЯ вкладки.
+	 */
+	function executeShowCallbacks() {
+
+		prepareCallbackWrapperList( showList );
 	}
 
 	/**

@@ -38,6 +38,14 @@ function AudioManager($rootScope) {
 	that.createVoice = createVoice;
 	that.createSoundtrack = createSoundtrack;
 
+	that.pauseAllSounds = pauseAllSounds;
+	that.pauseVoice = pauseVoice;
+	that.pauseSoundtrack = pauseSoundtrack;
+
+	that.resumeAllSounds = resumeAllSounds;
+	that.resumeVoice = resumeVoice;
+	that.resumeSoundtrack = resumeSoundtrack;
+
 	return that;
 
 	/**
@@ -82,6 +90,42 @@ function AudioManager($rootScope) {
 
 		audio.volume = config.volume;
 
+	}
+
+
+
+	function pauseSoundtrack() {
+
+		 soundtrack.pause();
+	}
+
+	function resumeSoundtrack() {
+
+		soundtrack.play();
+	}
+
+	function pauseVoice() {
+
+ 		voice.pause();
+	}
+
+	function resumeVoice() {
+
+
+		voice.play();
+	}
+
+
+	function pauseAllSounds() {
+
+		pauseSoundtrack();
+		pauseVoice();
+	}
+
+	function resumeAllSounds() {
+
+		resumeSoundtrack();
+		resumeVoice();
 	}
 
 	/**

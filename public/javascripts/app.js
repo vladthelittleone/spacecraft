@@ -17,6 +17,11 @@ require('./extends');
 require('./modules');
 
 /**
+ * Загружаем "оповещатели" (эмиттеры) событий. 
+ */
+require( './emitters' );
+
+/**
  * @description Главный модуль angularJS,
  * описывающий все модули.
  */

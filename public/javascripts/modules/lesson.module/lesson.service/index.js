@@ -9,6 +9,7 @@ var EntitiesFactory = Game.world;
 
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
+var TabHandler = require( '../../../emitters' );
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
@@ -113,11 +114,13 @@ function LessonService(connection, audioManager, aceService) {
 
 		};
 
+
 		that.play = function () {
 
 			audio.play();
 
 		};
+
 
 		that.pause = function () {
 
@@ -172,9 +175,12 @@ function LessonService(connection, audioManager, aceService) {
 			var m = ch.marker;
 
 			// Создание аудио
-			audioWrapper.create(ch.audio);
-
+			audioWrapper.create(ch.audio)
 			audioWrapper.play();
+
+			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
+			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
+			TabHandler.subscribeOnTabShow( audioWrapper.play );
 
 			// Постановка на паузу
 			scope.audioPause = false;
@@ -307,7 +313,6 @@ function LessonService(connection, audioManager, aceService) {
 		storage.set('lessons', args.statistic);
 
 		connection.saveLessonsStatistics(args);
-
 	}
 
 	/**
@@ -325,6 +330,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		// Сокрытие панели инструкций
 		scope.textContent = false;
+
 	}
 
 	/**
@@ -375,7 +381,18 @@ function LessonService(connection, audioManager, aceService) {
 			// Выводим доску оценки подурока
 			scope.starsHide = true;
 
+			// Я предполагаю, что здесь уже конец урока.
+			// Очищаем коллбэки на обработку событий по вкладке.
+			// ЗДЕСЬ ПРОБЛЕМА.
+			// В момент появления на экране "звездочек"
+			// все подписчики удаляются, и соотв. смена влкадки при "звездочках"
+			// на экране не останавливает звук.
+			// Наверное имеет смысл оставить эту проблему на обсуждение, ровно также, как
+			// и проблему с повторным воспроизведением голоса.
+			TabHandler.clear();
+			
 		}
+
 	}
 
 	/**

@@ -57,6 +57,9 @@ function AceService() {
 
 		editor.$blockScrolling = Infinity;
 
+		// Скрываем линию в редакторе
+		editor.setShowPrintMargin( false );
+		
 		// Скролл до конца - скролл присутствует всегда.
 		editor.setOption("scrollPastEnd", true);
 

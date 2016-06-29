@@ -167,11 +167,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	 */
 	function onContentLoaded() {
 
-		audioManager.createSoundtrack().play();
-
-		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
-		TabHandler.subscribeOnTabHidden( audioManager.pauseSoundtrack );
-		TabHandler.subscribeOnTabShow( audioManager.resumeSoundtrack );
+		service.startSoundtrack();
+		
 	}
 
 	/**

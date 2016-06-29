@@ -153,6 +153,16 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
+	function startSoundtrack() {
+
+		audioManager.createSoundtrack().play();
+
+		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
+		TabHandler.subscribeOnTabHidden( audioManager.pauseSoundtrack );
+		TabHandler.subscribeOnTabShow( audioManager.resumeSoundtrack );
+
+	}
+
 	/**
 	 * Формирование аудио и подсказок для следующего подурока.
 	 */
@@ -378,23 +388,30 @@ function LessonService(connection, audioManager, aceService) {
 				completed: true
 			});
 
-			// Выводим доску оценки подурока
-			scope.starsHide = true;
+			endLesson();
 
-			// Я предполагаю, что здесь уже конец урока.
-			// Очищаем коллбэки на обработку событий по вкладке.
-			// ЗДЕСЬ ПРОБЛЕМА.
-			// В момент появления на экране "звездочек"
-			// все подписчики удаляются, и соотв. смена влкадки при "звездочках"
-			// на экране не останавливает звук.
-			// Наверное имеет смысл оставить эту проблему на обсуждение, ровно также, как
-			// и проблему с повторным воспроизведением голоса.
-			TabHandler.clear();
-			
 		}
 
 	}
 
+	/**
+	 * Окончание урока.
+	 * Метод вызывается после того, как урок полностью окончен.
+	 */
+	function endLesson() {
+
+		// Выводим доску оценки подурока
+		scope.starsHide = true;
+		// Очищаем подписичиков на вкладу
+		TabHandler.clear();
+
+		// Останавливаем саундтрэк.
+		audioManager.pauseSoundtrack();
+
+		// Здесь надо еще останавливать голос.
+
+	}
+	
 	/**
 	 * Инициализация.
 	 */

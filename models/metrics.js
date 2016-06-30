@@ -27,23 +27,23 @@ var schema = new Schema({
 	}
 });
 
-schema.statics.update = function (idUser, callback)
-{
+schema.statics.update = function (idUser, callback) {
+
 	var Metrics = this;
 
 	async.waterfall([
-			function (callback)
-			{
+			function (callback) {
+
 				Metrics.findOne({idUser: idUser}, callback)
 			},
-			function (metrics, callback)
-			{
-				if (metrics)
-				{
+			function (metrics, callback) {
+
+				if (metrics) {
+
 					callback(metrics);
 				}
-				else
-				{
+				else {
+
 					var newMetrics = new Metrics({idUser: idUser});
 
 					newMetrics.save();
@@ -53,30 +53,32 @@ schema.statics.update = function (idUser, callback)
 		], callback);
 };
 
-schema.statics.calcMetrics = function (callback)
-{
+// выпоняет подсчет метрик
+schema.statics.calcMetrics = function (callback) {
+
 	var Metrics = this;
 
-	async.waterfall(
-	[
-		function (callback)
-		{
-			Metrics.find(callback);
+	async.waterfall([
+
+		function (callback) {
+
+			Metrics.find({idUser: idUser}, callback);
 		},
-		function (metrics)
-		{
-			if (metrics.length == 0)
-			{
+		function (metrics) {
+
+			// проверяем удалось ли обнаружить метрики
+			if (metrics.length == 0) {
+
 				callback();
 			}
-			else
-			{
+			else {
+
 				var sumVisits = 0;
 				var sumClickOnLesson = 0;
 				var sumClickOnGame = 0;
 
-				metrics.forEach(function (item)
-				{
+				metrics.forEach(function (item) {
+
 					sumVisits += item.visits;
 					sumClickOnLesson += item.numbClicksOnLesson;
 					sumClickOnGame += item.numbClicksOnGame;

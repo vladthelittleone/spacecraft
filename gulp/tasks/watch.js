@@ -11,5 +11,5 @@ module.exports = function ()
             'public/*.html',
             'public/resources/styles/*.css'
         ],
-        ['packaging']);
+        ['browserify']);
 };

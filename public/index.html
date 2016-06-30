@@ -22,113 +22,14 @@
 	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/ace-builds/src-min/ace.js"></script>
 	<script type="text/javascript" src="bower_components/ace-builds/src-min/ext-language_tools.js"></script>
-	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-ui-ace/ui-ace.min.js"></script>
 	<script type="text/javascript" src="bower_components/phaser/build/phaser.min.js"></script>
 	<script type="text/javascript" src="bower_components/enjoyhint/enjoyhint.min.js"></script>
 	<script type="text/javascript" src="bower_components/raf/index.js"></script>
-	<script type="text/javascript" src="bower_components/angular-ui-layout/ui-layout.js"></script>
-	<script type="text/javascript" src="bower_components/Chart.js/Chart.js"></script>
-	<script type="text/javascript" src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
 	<script type="text/javascript" src="lib/presentation-slideshow/js/modernizr.js"></script>
 
 	<!-- build:js javascripts/spacecraft.min.js -->
-	<script type="text/javascript" src="javascripts/code/game.js"></script>
-	<script type="text/javascript" src="javascripts/code/lesson0/0.js"></script>
-	<script type="text/javascript" src="javascripts/code/lesson0/1.js"></script>
 
-	<script type="text/javascript" src="javascripts/game/SpaceCraftGame.js"></script>
-	<script type="text/javascript" src="javascripts/game/LessonGame.js"></script>
-	<script type="text/javascript" src="javascripts/game/OnlineGame.js"></script>
-	<script type="text/javascript" src="javascripts/game/Utils.js"></script>
-
-	<script type="text/javascript" src="javascripts/game/states/Boot.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/Menu.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/Play.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/online/OnlinePlay.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/online/OnlinePreload.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/lesson0/LessonPlayState0.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/lesson0/LessonPreloadState0.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/lesson0/LessonGameInit0.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/lesson1/LessonPlayState1.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/lesson1/LessonPreloadState1.js"></script>
-	<script type="text/javascript" src="javascripts/game/states/lesson1/shared/HarvesterApi.js"></script>
-
-	<script type="text/javascript" src="javascripts/game/modules/Module.js"></script>
-	<script type="text/javascript" src="javascripts/game/modules/ModulesManager.js"></script>
-	<script type="text/javascript" src="javascripts/game/modules/Weapon.js"></script>
-	<script type="text/javascript" src="javascripts/game/modules/Engine.js"></script>
-	<script type="text/javascript" src="javascripts/game/modules/Protection.js"></script>
-
-	<script type="text/javascript" src="javascripts/game/world/World.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/Decorations.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/EntitiesFactory.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/GameObject.js"></script>
-
-	<script type="text/javascript" src="javascripts/game/world/entities/SpaceCraft.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/entities/Harvester.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/entities/Explosion.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/entities/Bonus.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/entities/Meteor.js"></script>
-	<script type="text/javascript" src="javascripts/game/world/entities/AcademyBase.js"></script>
-
-    <script type="text/javascript" src="javascripts/game/shared/Documentation.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/Slides.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/Api.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/BotStrategy.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/Statistic.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/AnimationManager.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/AudioManager.js"></script>
-
-	<script type="text/javascript" src="javascripts/game/shared/lessons/BBotText.js"></script>
-	<script type="text/javascript" src="javascripts/game/shared/lessons/Lesson0.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/services/Storage.js"></script>
-	<script type="text/javascript" src="javascripts/angular/services/Autocompleter.js"></script>
-	<script type="text/javascript" src="javascripts/angular/services/Statistics.js"></script>
-	<script type="text/javascript" src="javascripts/angular/services/Interpreter.js"></script>
-	<script type="text/javascript" src="javascripts/angular/services/LessonProvider.js"></script>
-	<script type="text/javascript" src="javascripts/angular/services/Authentication.js"></script>
-	<script type="text/javascript" src="javascripts/angular/services/AudioManager.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/game/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/game/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/game/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/lessons/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/lessons/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/lessons/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/lesson/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/lesson/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/lesson/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/result/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/result/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/result/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/welcome/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/welcome/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/welcome/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/login/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/login/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/login/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/directives/StarsDirective.js"></script>
-	<script type="text/javascript" src="javascripts/angular/directives/GameCanvasDirective.js"></script>
-	<script type="text/javascript" src="javascripts/angular/directives/BBotBoardDirective.js"></script>
-	<script type="text/javascript" src="javascripts/angular/directives/LessonBoardDirective.js"></script>
-	<script type="text/javascript" src="javascripts/angular/directives/DocumentationDirective.js"></script>
-	<script type="text/javascript" src="javascripts/angular/directives/RepeatFinished.js"></script>
-	<script type="text/javascript" src="javascripts/angular/directives/StarsDirective.js"></script>
-
-	<script type="text/javascript" src="javascripts/angular/quick/Index.js"></script>
-	<script type="text/javascript" src="javascripts/angular/quick/Config.js"></script>
-	<script type="text/javascript" src="javascripts/angular/quick/Controller.js"></script>
-
-	<script type="text/javascript" src="javascripts/App.js"></script>
+	<script type="text/javascript" src="javascripts/bundle.js"></script>
 
 	<!-- endbuild -->
 
@@ -158,7 +59,7 @@
 	your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div ui-view ></div>
+<div ui-view></div>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
@@ -169,7 +70,6 @@
 
 	ga('create', 'UA-70078179-1', 'auto');
 	ga('send', 'pageview');
-
 </script>
 
 </body>

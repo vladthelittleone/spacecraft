@@ -5,89 +5,90 @@
 <div class="points-hint"></div>
 
 <!-- Points bar-->
+<div class="game-canvas-group game-canvas-points-bar" ng-if="spaceCraft.modulesManager">
+	<div class="points-bar">
+		<span class="glyphicon glyphicon-flash green"></span>
+		<div class="points-block">
+			<span ng-repeat="i in fillArray(spaceCraft.modulesManager.getMaxPoints())"
+				  class="point"
+				  ng-class="{'point-full': spaceCraft.modulesManager.getFreePoints() > i}">
+			</span>
+		</div>
+	</div>
 
-<div class="points-bar free-points" ng-if="spaceCraft.getFreePoints()">
-    <span class="glyphicon glyphicon-flash green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.modulesManager.getMaxPoints())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.modulesManager.getFreePoints() > i}">
-        </span>
-    </div>
-</div>
+	<div class="points-bar" ng-if="spaceCraft.protection">
+		<span class="glyphicon glyphicon-wrench green"></span>
+		<div class="points-block">
+			<span ng-repeat="i in fillArray(spaceCraft.protection.regeneration.getMax())"
+				  class="point"
+				  ng-class="{'point-full': spaceCraft.protection.regeneration.getEnergyPoints() > i}">
+			</span>
+		</div>
+	</div>
 
-<div class="points-bar regen-points" ng-if="spaceCraft.protection">
-    <span class="glyphicon glyphicon-wrench green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.protection.regeneration.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.protection.regeneration.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
+	<div class="points-bar" ng-if="spaceCraft.engine">
+		<span class="glyphicon glyphicon-forward green"></span>
+		<div class="points-block">
+			<span ng-repeat="i in fillArray(spaceCraft.engine.moveSpeed.getMax())"
+				  class="point"
+				  ng-class="{'point-full': spaceCraft.engine.moveSpeed.getEnergyPoints() > i}">
+			</span>
+		</div>
+	</div>
 
-<div class="points-bar move-speed-points" ng-if="spaceCraft.engine">
-    <span class="glyphicon glyphicon-forward green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.engine.moveSpeed.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.engine.moveSpeed.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
+	<div class="points-bar" ng-if="spaceCraft.weapon">
+		<span class="glyphicon glyphicon-refresh green"></span>
+		<div class="points-block">
+			<span ng-repeat="i in fillArray(spaceCraft.weapon.rate.getMax())"
+				  class="point"
+				  ng-class="{'point-full': spaceCraft.weapon.rate.getEnergyPoints() > i}">
+			</span>
+		</div>
+	</div>
 
-<div class="points-bar rate-points" ng-if="spaceCraft.weapon">
-    <span class="glyphicon glyphicon-refresh green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.weapon.rate.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.weapon.rate.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
+	<div class="points-bar" ng-if="spaceCraft.weapon">
+		<span class="glyphicon glyphicon-record green"></span>
+		<div class="points-block">
+			<span ng-repeat="i in fillArray(spaceCraft.weapon.range.getMax())"
+				  class="point"
+				  ng-class="{'point-full': spaceCraft.weapon.range.getEnergyPoints() > i}">
+			</span>
+		</div>
+	</div>
 
-<div class="points-bar range-points" ng-if="spaceCraft.weapon">
-    <span class="glyphicon glyphicon-record green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.weapon.range.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.weapon.range.getEnergyPoints() > i}">
-        </span>
-    </div>
-</div>
-
-<div class="points-bar damage-points" ng-if="spaceCraft.weapon">
-    <span class="glyphicon glyphicon-screenshot green"></span>
-    <div class="points-block">
-        <span ng-repeat="i in getNumber(spaceCraft.weapon.damage.getMax())"
-              class="point"
-              ng-class="{'point-full': spaceCraft.weapon.damage.getEnergyPoints() > i}">
-        </span>
-    </div>
+	<div class="points-bar" ng-if="spaceCraft.weapon">
+		<span class="glyphicon glyphicon-screenshot green"></span>
+		<div class="points-block">
+			<span ng-repeat="i in fillArray(spaceCraft.weapon.damage.getMax())"
+				  class="point"
+				  ng-class="{'point-full': spaceCraft.weapon.damage.getEnergyPoints() > i}">
+			</span>
+		</div>
+	</div>
 </div>
 
 <!-- Points bar-->
 
 <!-- DSH bar -->
+<div class="game-canvas-group game-canvas-params-bar">
+	<div class="params-bar" ng-if="spaceCraft.getCurrentTank">
+		<span class="glyphicon glyphicon-scale yellow"></span>
+		<span class="yellow">{{spaceCraft.getCurrentTank()}} / {{spaceCraft.getMaxTank()}}</span>
+	</div>
 
-<div class="tank" ng-if="spaceCraft.getCurrentTank">
-	<span class="glyphicon glyphicon-scale yellow"></span>
-	<span class="yellow">{{spaceCraft.getCurrentTank()}} / {{spaceCraft.getMaxTank()}}</span>
+	<div class="params-bar" ng-if="spaceCraft.weapon">
+		<span class="glyphicon glyphicon-screenshot green"></span>
+		<span class="green">{{spaceCraft.weapon.getDamage()}}</span>
+	</div>
+
+	<div class="params-bar" ng-if="spaceCraft.protection">
+		<span class="glyphicon glyphicon-adjust blue"></span>
+		<span class="blue">{{spaceCraft.protection.getShield()}} / {{spaceCraft.protection.getMaxShield()}}</span>
+	</div>
+
+	<div class="params-bar" ng-if="world.getPlayer().sprite.health">
+		<span class="glyphicon glyphicon-heart red"></span>
+		<span class="red">{{world.getPlayer().sprite.health}} / {{world.getPlayer().sprite.maxHealth}}</span>
+	</div>
 </div>
-
-<div class="damage" ng-if="spaceCraft.weapon">
-    <span class="glyphicon glyphicon-screenshot green"></span>
-    <span class="green">{{spaceCraft.weapon.getDamage()}}</span>
-</div>
-
-<div class="shield" ng-if="spaceCraft.protection">
-    <span class="glyphicon glyphicon-adjust blue"></span>
-    <span class="blue">{{spaceCraft.protection.getShield()}} / {{spaceCraft.protection.getMaxShield()}}</span>
-</div>
-
-<div class="health" ng-if="spaceCraft.protection">
-    <span class="glyphicon glyphicon-heart red"></span>
-    <span class="red">{{spaceCraft.protection.getHealth()}} / {{spaceCraft.protection.getMaxHealth()}}</span>
-</div>
-
 <!-- DSH bar -->

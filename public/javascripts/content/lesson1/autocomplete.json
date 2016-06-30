@@ -1,0 +1,34 @@
+[
+	{
+		"regExps": [
+			" *transport.$"
+		],
+		"autocomplete": [
+			{
+				"value": "moveForward()",
+				"meta": "transport"
+			},
+			{
+				"value": "rotateLeft()",
+				"meta": "transport"
+			},
+			{
+				"value": "rotateRight()",
+				"meta": "transport"
+			}
+		]
+	},
+	{
+		"regExps": [
+			".+$"
+		],
+		"autocomplete": [
+			{
+				"value": "BBotDebug()"
+			},
+			{
+				"value": "transport"
+			}
+		]
+	}
+]

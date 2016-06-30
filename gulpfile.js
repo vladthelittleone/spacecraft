@@ -11,5 +11,5 @@ var gulp = require('./gulp')([
 	'rev'
 ]);
 
-gulp.task('build', ['packaging', 'bower', 'images', 'move']);
+gulp.task('build', ['browserify', 'packaging', 'bower', 'images', 'move', 'rev']);
 gulp.task('default', ['build', 'server', 'watch']);

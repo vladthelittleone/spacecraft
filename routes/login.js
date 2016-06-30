@@ -64,11 +64,11 @@ router.post('/', function (req, res, next)
 
 		req.session.user = user._id;
 
-		Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
+		Cohorts.updateCohort(req.session.user, function(data, cohortID) {
 
-			if (cohort) {
+			if (data) {
 
-				cohort.cohorts[cohortID].visits += 1;
+				data.cohorts[cohortID].visits += 1;
 			}
 		});
 

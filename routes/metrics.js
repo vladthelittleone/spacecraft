@@ -4,40 +4,40 @@ var Stat = require('models/statistic').Statistic;
 var Cohorts = require('models/cohorts').Cohorts;
 var router = express.Router();
 
-router.post('/openlessons', function (req, res, next)
-{
-	Metrics.update(req.session.user, function (metrics)
-	{
+router.post('/openlessons', function (req, res, next) {
+	
+	Cohorts.updateCohort(req.session.user, function(data, cohortID) {
+
+		if (data) {
+
+			data.cohorts[cohortID].numbClicksOnLesson += 1;
+		}
+	});
+	
+	Metrics.update(req.session.user, function (metrics) {
+		
 		metrics.numbClicksOnLesson += 1;
 
 		metrics.save();
 
 		res.send({});
 	});
-
-	Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
-
-		if (cohort) {
-
-			cohort.cohorts[cohortID].numbClicksOnLesson += 1;
-		}
-	});
 });
 
-router.get('/stat', function(req, res, next)
-{
-	Metrics.calcMetrics(function(userMetrics)
-	{
-		if (userMetrics)
-		{
-			Stat.calcMetrics(function(statistic)
-			{
+router.get('/stat', function(req, res, next) {
+	
+	Metrics.calcMetrics(function(userMetrics) {
+		
+		if (userMetrics) {
+			
+			Stat.calcMetrics(function(statistic) {
+				
 				var lessonMetrics = {};
 
-				if (statistic.starStatForLesson)
-				{
-					lessonMetrics =
-					{
+				if (statistic.starStatForLesson) {
+					
+					lessonMetrics = {
+						
 						// параметры звезд для каждого урока в отдельности
 						// параметры
 						// sum: суммарная оценка урока
@@ -57,8 +57,8 @@ router.get('/stat', function(req, res, next)
 				});
 			});
 		}
-		else
-		{
+		else {
+			
 			res.send({error: "Не получилось собрать статистику."});
 		}
 	});

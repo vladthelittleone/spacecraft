@@ -9,12 +9,11 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
 
 	date: {
-		type: Date,
-		default: Date.now
+		type: Date
 	},
 	cohorts: {
 		type: Array
-		//	lessons: [{lessonID:, stars: }],
+		//	lessons: [{numb:, starsNumb: }],
 		//	numbClicksOnLesson: ,
 		//	visits:
 	}
@@ -34,6 +33,7 @@ function dateToInt (date) {
 	return date.getMonth();
 }
 
+// возвращает набор полей, которые должны быть в когорте
 function getEmptyCohorts (date, arr) {
 
 	var array = arr? arr : [];
@@ -56,53 +56,58 @@ schema.statics.updateCohort = function (userID, callback) {
 
 		if (createdDate) {
 
+			// сегоднящняя дата
 			var todayDate = getTodayDate();
 
 			async.waterfall(
 			[
-				function (callback) {
+				function (_callback) {
 
-					Cohort.findOne ({date: todayDate}, callback);
+					Cohort.findOne ({date: todayDate}, _callback);
 				},
-				function (cohort) {
+				function (data) {
 
 					var cohortID = dateToInt(createdDate);
 
-					if (!cohort) {
+					if (!data) {
 
-						var newCohort = new Cohort({
+						// создает когорту
+						var newData = new Cohort({
 
 							date: todayDate,
 							cohorts: getEmptyCohorts(cohortID)
 						});
 
-						callback(newCohort, cohortID);
+						// выполняем необходимые опреции над данными
+						callback(newData, cohortID);
 
-						newCohort.save();
+						newData.save();
 					}
 					else {
 
-						var data = cohort.cohorts;
+						var _cohorts = data.cohorts;
+						
+						// проверяем наличие необходимой кагорты
+						if (!_cohorts[cohortID]) {
 
-						if (!data[cohortID]) {
-
-							cohort.cohorts = getEmptyCohorts(cohortID, data);
+							data.cohorts = getEmptyCohorts(cohortID, _cohorts);
 						}
-
-						callback(cohort, cohortID);
+						
+						// выполняем необходимые опреции над данными
+						callback(data, cohortID);
 
 						// TODO: исправить при оптимизации
-						var cohortToUpdate = {};
-						cohortToUpdate = Object.assign(cohortToUpdate, cohort._doc);
-						delete cohortToUpdate._id;
+						var dataToUpdate = {};
+						dataToUpdate = Object.assign(dataToUpdate, data._doc);
+						delete dataToUpdate._id;
 
-						Cohort.update({_id: cohort._id}, cohortToUpdate, {upsert: true}, function (err) {});
+						Cohort.update({_id: data._id}, dataToUpdate, {upsert: true}, function (err) {});
 					}
 				}
 			]);
 		}
-		else
-		{
+		else {
+
 			callback(null);
 		}
 	});

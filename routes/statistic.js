@@ -8,16 +8,15 @@ var router = express.Router();
 var Cohorts = require('models/cohorts').Cohorts;
 
 // Запись статы о прохождении уроков юзером
-router.post('/lessons', function(req, res, next)
-{
+router.post('/lessons', function(req, res, next) {
+	
 	var id = req.session.user;
 
-	if (id)
-	{
-		Statistic.updateLessonStatistics(id, req, function(err)
-		{
-			if(err)
-			{
+	if (id) {
+		Statistic.updateLessonStatistics(id, req, function(err) {
+			
+			if(err) {
+				
 				next(new HttpError(500, "Ошибка с сохранением урока"));
 			}
 		});
@@ -27,60 +26,58 @@ router.post('/lessons', function(req, res, next)
 });
 
 // Получение статистики юзера о прохождении уроков
-router.get('/lessons', function(req, res, next)
-{
-	Statistic.getUserStatistics(req.session.user, function(err, result)
-	{
-		if (err)
-		{
+router.get('/lessons', function(req, res, next) {
+	
+	Statistic.getUserStatistics(req.session.user, function(err, result) {
+		
+		if (err) {
+			
 			return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
 		}
 
-		if (result)
-		{
+		if (result) {
+			
 			res.json(result.lessons);
 		}
-		else
-		{
+		else {
+			
 			res.send([]);
 		}
 	});
 });
 
-router.post('/lessons/stars', function(req, res, next)
-{
-	Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
+router.post('/lessons/stars', function(req, res, next) {
+	
+	Cohorts.updateCohort(req.session.user, function(data, cohortID) {
 
-		if (cohort) {
+		if (data) {
 
 			var lessonsID = req.body.idLesson;
-			var lessons = cohort.cohorts[cohortID].lessons;
+			var lessons = data.cohorts[cohortID].lessons;
 			var lesson = lessons[lessonsID];
+			
 			var star = req.body.stars;
 
-			if (lesson)
-			{
+			if (lesson) {
 
 				lesson.numb += 1;
 				lesson.starsSum += star;
 			}
-			else
-			{
+			else {
 
-				lessons[lessonsID] =
-				{
+				lessons[lessonsID] = {
+					
 					numb: 1,
 					starsSum: star
 				}
 			}
-			// cohort.cohorts[cohortID].lessons[lesId] += req.body.stars;
 		}
 	});
 
-	Statistic.updateLessonStarStatistics(req, function(err)
-	{
-		if (err)
-		{
+	Statistic.updateLessonStarStatistics(req, function(err) {
+		
+		if (err) {
+			
 			return next(new HttpError(500, "Ошибка сохранения оценки урока"));
 		}
 

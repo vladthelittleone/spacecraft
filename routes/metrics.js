@@ -12,14 +12,6 @@ router.post('/opengame', function (req, res, next)
 
 		metrics.save();
 	});
-
-	Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
-
-		if (cohort) {
-
-			cohort.cohorts[cohortID].numbClicksOnGame += 1;
-		}
-	});
 });
 
 router.post('/openlessons', function (req, res, next)

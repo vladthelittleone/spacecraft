@@ -16,7 +16,6 @@ var schema = new Schema({
 		type: Array
 		//	lessons: [{lessonID:, stars: }],
 		//	numbClicksOnLesson: ,
-		//	numbClicksOnGame:,
 		//	visits:
 	}
 });
@@ -42,8 +41,8 @@ function getEmptyCohorts (date, arr) {
 	array[date] = {
 
 		numbClicksOnLesson: 0,
-		numbClicksOnGame: 0,
-		visits: 0
+		visits: 0,
+		lessons: []
 	};
 
 	return array;
@@ -92,12 +91,12 @@ schema.statics.updateCohort = function (userID, callback) {
 
 						callback(cohort, cohortID);
 
-						console.log(cohort.date + " dff " + todayDate);
+						// TODO: исправить при оптимизации
+						var cohortToUpdate = {};
+						cohortToUpdate = Object.assign(cohortToUpdate, cohort._doc);
+						delete cohortToUpdate._id;
 
-						Cohort.update(cohort, { cohorts: cohort.cohorts }, {
-							upsert: true,
-							multi: true
-						});
+						Cohort.update({_id: cohort._id}, cohortToUpdate, {upsert: true}, function (err) {});
 					}
 				}
 			]);
@@ -108,6 +107,5 @@ schema.statics.updateCohort = function (userID, callback) {
 		}
 	});
 };
-
 
 exports.Cohorts = mongoose.model('Cohorts', schema);

@@ -7,6 +7,7 @@ var valid = require('validator');
 var router = express.Router();
 
 var User = require('models/user').User;
+var Cohorts = require('models/cohorts').Cohorts;
 var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
@@ -62,6 +63,14 @@ router.post('/', function (req, res, next)
 		}
 
 		req.session.user = user._id;
+
+		Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
+
+			if (cohort) {
+
+				cohort.cohorts[cohortID].visits += 1;
+			}
+		});
 
 		res.send({
 			email: normalizedEmail

@@ -7,6 +7,7 @@ var config = require('config');
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var router = express.Router();
+var Cohorts = require('models/cohorts').Cohorts;
 
 // Сохранение статистики по играм пользователей
 router.post('/', function (req, res, next)
@@ -122,6 +123,34 @@ router.get('/lessons', function(req, res, next)
 
 router.post('/lessons/stars', function(req, res, next)
 {
+	Cohorts.updateCohort(req.session.user, function(cohort, cohortID) {
+
+		if (cohort) {
+
+			var lessonsID = req.body.idLesson;
+			var lessons = cohort.cohorts[cohortID].lessons;
+			var lesson = lessons[lessonsID];
+			var star = req.body.stars;
+
+			if (lesson)
+			{
+
+				lesson.numb += 1;
+				lesson.starsSum += star;
+			}
+			else
+			{
+
+				lessons[lessonsID] =
+				{
+					numb: 1,
+					starsSum: star
+				}
+			}
+			// cohort.cohorts[cohortID].lessons[lesId] += req.body.stars;
+		}
+	});
+
 	Statistic.updateLessonStarStatistics(req, function(err)
 	{
 		if (err)

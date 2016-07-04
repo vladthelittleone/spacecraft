@@ -18,7 +18,7 @@ var schema = new Schema({
 		//	numbClicksOnLesson: ,
 		//	visits:
 	}
-	
+
 });
 
 // функция возвращает сегоднешнюю дату,
@@ -38,15 +38,16 @@ function dateToInt (date) {
 }
 
 // возвращает набор полей, которые должны быть в когорте
-function getEmptyCohorts (date, arr) {
+function createEmptyCohorts (date, arr) {
 
-	var array = arr? arr : [];
+	var array = arr ? arr : [];
 
 	array[date] = {
 
 		numbClicksOnLesson: 0,
 		visits: 0,
 		lessons: []
+
 	};
 
 	return array;
@@ -80,7 +81,8 @@ schema.statics.updateCohort = function (userID, callback) {
 						var newData = new Cohort({
 
 							date: todayDate,
-							cohorts: getEmptyCohorts(cohortID)
+							cohorts: createEmptyCohorts(cohortID)
+
 						});
 
 						// выполняем необходимые опреции над данными
@@ -95,7 +97,8 @@ schema.statics.updateCohort = function (userID, callback) {
 						// проверяем наличие необходимой кагорты
 						if (!_cohorts[cohortID]) {
 
-							data.cohorts = getEmptyCohorts(cohortID, _cohorts);
+							data.cohorts = createEmptyCohorts(cohortID, _cohorts);
+
 						}
 
 						// выполняем необходимые опреции над данными
@@ -109,11 +112,17 @@ schema.statics.updateCohort = function (userID, callback) {
 						Cohort.update({_id: data._id}, dataToUpdate, {upsert: true}, function (err) {});
 					}
 				}
-			]);
+			], function (err) {
+
+					if (err) {
+						console.warn("Cohort can't update.");
+					}
+				});
 		}
 		else {
 
 			callback(null);
+			
 		}
 	});
 

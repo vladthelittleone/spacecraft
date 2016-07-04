@@ -13,6 +13,7 @@ router.post('/lessons', function(req, res, next) {
 	var id = req.session.user;
 
 	if (id) {
+		
 		Statistic.updateLessonStatistics(id, req, function(err) {
 			
 			if(err) {

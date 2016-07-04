@@ -71,7 +71,7 @@ schema.statics.updateCohort = function (userID, callback) {
 
 					Cohort.findOne ({date: todayDate}, _callback);
 				},
-				function (data) {
+				function (data,_callback) {
 
 					var cohortID = dateToInt(createdDate);
 
@@ -109,12 +109,13 @@ schema.statics.updateCohort = function (userID, callback) {
 						dataToUpdate = Object.assign(dataToUpdate, data._doc);
 						delete dataToUpdate._id;
 
-						Cohort.update({_id: data._id}, dataToUpdate, {upsert: true}, function (err) {});
+						Cohort.update({_id: data._id}, dataToUpdate, {upsert: true}, _callback);
 					}
 				}
 			], function (err) {
 
 					if (err) {
+						
 						console.warn("Cohort can't update.");
 					}
 				});
@@ -122,7 +123,7 @@ schema.statics.updateCohort = function (userID, callback) {
 		else {
 
 			callback(null);
-			
+
 		}
 	});
 

@@ -25,6 +25,7 @@ var schema = new Schema({
 		required: true,
 		default: 0
 	}
+	
 });
 
 schema.statics.update = function (idUser, callback) {
@@ -51,6 +52,7 @@ schema.statics.update = function (idUser, callback) {
 			}
 
 		], callback);
+	
 };
 
 // выпоняет подсчет метрик
@@ -104,6 +106,7 @@ schema.statics.calcMetrics = function (callback) {
 		}
 
 	]);
+	
 };
 
 exports.Metrics = mongoose.model('Metrics', schema);

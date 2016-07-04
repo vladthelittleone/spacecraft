@@ -23,6 +23,7 @@ router.post('/lessons', function(req, res, next) {
 	}
 
 	res.send([]);
+	
 });
 
 // Получение статистики юзера о прохождении уроков
@@ -44,6 +45,7 @@ router.get('/lessons', function(req, res, next) {
 			res.send([]);
 		}
 	});
+	
 });
 
 router.post('/lessons/stars', function(req, res, next) {
@@ -83,6 +85,7 @@ router.post('/lessons/stars', function(req, res, next) {
 
 		res.sendStatus(200);
 	});
+	
 });
 
 module.exports = router;

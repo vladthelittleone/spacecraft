@@ -22,6 +22,7 @@ router.post('/openlessons', function (req, res, next) {
 
 		res.send({});
 	});
+	
 });
 
 router.get('/stat', function(req, res, next) {

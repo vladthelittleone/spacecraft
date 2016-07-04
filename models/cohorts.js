@@ -13,10 +13,12 @@ var schema = new Schema({
 	},
 	cohorts: {
 		type: Array
+		//  структура каждого из элементов массива
 		//	lessons: [{numb:, starsNumb: }],
 		//	numbClicksOnLesson: ,
 		//	visits:
 	}
+	
 });
 
 // функция возвращает сегоднешнюю дату,
@@ -24,6 +26,7 @@ var schema = new Schema({
 function getTodayDate () {
 
 	return (new Date()).setHours(0, 0, 0, 0);
+
 }
 
 // превращаем дату в число, по которому
@@ -31,6 +34,7 @@ function getTodayDate () {
 function dateToInt (date) {
 
 	return date.getMonth();
+
 }
 
 // возвращает набор полей, которые должны быть в когорте
@@ -46,6 +50,7 @@ function getEmptyCohorts (date, arr) {
 	};
 
 	return array;
+
 }
 
 schema.statics.updateCohort = function (userID, callback) {
@@ -86,13 +91,13 @@ schema.statics.updateCohort = function (userID, callback) {
 					else {
 
 						var _cohorts = data.cohorts;
-						
+
 						// проверяем наличие необходимой кагорты
 						if (!_cohorts[cohortID]) {
 
 							data.cohorts = getEmptyCohorts(cohortID, _cohorts);
 						}
-						
+
 						// выполняем необходимые опреции над данными
 						callback(data, cohortID);
 
@@ -111,6 +116,7 @@ schema.statics.updateCohort = function (userID, callback) {
 			callback(null);
 		}
 	});
+
 };
 
 exports.Cohorts = mongoose.model('Cohorts', schema);

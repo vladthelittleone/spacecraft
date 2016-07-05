@@ -3,6 +3,9 @@
 // Зависимости
 var CodeLauncher = require('../../game/launcher');
 
+// Подключаем TabHandler
+var TabHandler = require('../../emitters');
+
 LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
 
 module.exports = LessonController;
@@ -96,7 +99,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 		service.setEditorSession(editor.getSession());
 
-		aceService.initialize(editor);
+		aceService.initialize(editor, $scope.lesson.rules);
 
 		markerService = aceService.getMarkerService();
 
@@ -165,6 +168,10 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	function onContentLoaded() {
 
 		audioManager.createSoundtrack().play();
+
+		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
+		TabHandler.subscribeOnTabHidden( audioManager.pauseSoundtrack );
+		TabHandler.subscribeOnTabShow( audioManager.resumeSoundtrack );
 
 	}
 

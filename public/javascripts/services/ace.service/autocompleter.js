@@ -7,7 +7,8 @@ module.exports = SpaceCraftCompleter;
  *
  * Created by vladthelittleone on 08.12.15.
  */
-function SpaceCraftCompleter(editor) {
+
+function SpaceCraftCompleter(editor, rules) {
 
 	var that = {};
 
@@ -20,10 +21,8 @@ function SpaceCraftCompleter(editor) {
 		// Текушая строка
 		var line = session.getLine(editor.getCursorPosition().row);
 
-		// Массив сопостовления
-		var binding = require('./autocomplete.json');
-
-		callback(null, generateAutocomplete(binding, line));
+		// Создание списка автодополнения
+		callback(null, generateAutocomplete(rules, line));
 
 	}
 
@@ -37,7 +36,7 @@ function SpaceCraftCompleter(editor) {
  */
 function test(string, value) {
 
-	var name = value.name;
+	var autocomplete = value.autocomplete;
 
 	var result = [];
 
@@ -46,9 +45,10 @@ function test(string, value) {
 
 		var regExp = new RegExp(r);
 
+		// Если строка соответсвует регулярному выраению получаем методы для объекта
 		if (regExp.test(string)) {
 
-			result = result.concat(getMethodsFrom(name));
+			result = result.concat(autocomplete);
 
 		}
 
@@ -56,25 +56,6 @@ function test(string, value) {
 
 	return result;
 
-}
-
-/**
- * @param objName имя объекта
- * @returns {Array} список функций объекта
- */
-function getMethodsFrom(objName) {
-
-	var array = [];
-
-	var functions = documentation[objName].functions;
-
-	functions.forEach(function (value) {
-
-		array = array.concat({value: value, meta: objName});
-
-	});
-
-	return array;
 }
 
 /**
@@ -86,28 +67,24 @@ function getMethodsFrom(objName) {
  */
 function generateAutocomplete(bindings, line) {
 
-	var functionsNames = [];
+	var autocompleteNames = [];
 
 	bindings.forEach(function (value) {
 
-		functionsNames = functionsNames.concat(test(line, value));
+		autocompleteNames = autocompleteNames.concat(test(line, value));
 
 	});
 
-	if (!functionsNames.length) {
+	if (!autocompleteNames.length) {
 
 		bindings.forEach(function (value) {
 
-			functionsNames = functionsNames.concat(getMethodsFrom(value.name));
+			autocompleteNames = autocompleteNames.concat(value.autocomplete);
 
 		});
 
-		functionsNames.push({value: 'spaceCraft', meta: 'local'});
-
-		functionsNames.push({value: 'world', meta: 'local'});
-
 	}
 
-	return functionsNames;
+	return autocompleteNames;
 
 }

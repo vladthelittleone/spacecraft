@@ -27,6 +27,10 @@ function Command() {
 					  '<li>Добавте команду <span class="red-label">transport.moveForward()</span> на <strong>11</strong> строку.</li>' +
 					  '<li>Не забудьте про точку с запятой.</li>' +
 					  '</ul>',
+		hint:         '<ul>' +
+					  '<li>Вы можете воспользоваться автодополнением, нажав <span class="under-label-gray">Space + Alt</span>.</li>' +
+					  '<li>Если нажать <span class="under-label-gray">Space + Alt</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
+					  '</ul>',
 		character:    [{
 			audio:  'audio/lesson1/3.mp3',
 			css:    'astrogirl-img',

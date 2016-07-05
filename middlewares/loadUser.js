@@ -2,6 +2,7 @@
  * @since 03.02.16
  * @author Skurishin Vladislav
  */
+
 var User = require('models/user').User;
 
 module.exports = function (req, res, next)

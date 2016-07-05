@@ -3,6 +3,7 @@
 var mongoose = require('utils/mongoose');
 var async = require('async');
 var User = require('models/user').User;
+var log = require('utils/log')(module);
 
 var Schema = mongoose.Schema;
 
@@ -116,7 +117,7 @@ schema.statics.updateCohort = function (userID, callback) {
 
 					if (err) {
 						
-						console.warn("Cohort can't update.");
+						log.warn("Cohort can't update.");
 					}
 				});
 		}

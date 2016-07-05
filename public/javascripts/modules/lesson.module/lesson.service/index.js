@@ -31,6 +31,8 @@ function LessonService(connection, audioManager, aceService) {
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
 	var audioIndex;		// Индекс текущиего трека
+	var lessonPoints;  	// Очки по уроку
+	var currentPoints;  // Текущее число очков в уроке
 
 	var audioWrapper = AudioWrapper();
 	var storage = Storage();
@@ -364,18 +366,21 @@ function LessonService(connection, audioManager, aceService) {
 				statistic: statistics,
 				lessonId:  lessonId,
 				size:      size,
-				completed: completed
+				completed: completed,
+				totalPoints: currentPoints
 			});
 
 		}
 		else {
 
+			// Также сохраняем очки за урок.
 			saveStatistics({
 				current:   1,
 				statistic: statistics,
 				lessonId:  lessonId,
 				size:      size,
-				completed: true
+				completed: true,
+				totalPoints: currentPoints
 			});
 
 			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
@@ -399,7 +404,7 @@ function LessonService(connection, audioManager, aceService) {
 		// что вкладка с уроком будто бы СКРЫТА.
 		// А по факту - мы просто останавливаем ВСЕ звуки.
 		TabHandler.executeHiddenCallbacks();
-		
+
 		// Очищаем подписичиков на вкладу
 		TabHandler.clear();
 
@@ -412,6 +417,9 @@ function LessonService(connection, audioManager, aceService) {
 
 		scope = args.scope;
 		lessonId = args.lessonId;
+
+		lessonPoints = lessonContent(lessonId).points;
+		currentPoints = lessonPoints.totalPoints;
 
 		scope.subIndex = 0;
 		audioIndex = 0;
@@ -492,9 +500,13 @@ function LessonService(connection, audioManager, aceService) {
 				// И меняем стиль бота.
 				scope.botCss = 'bbot-wow';
 
+				// И не забываем про штрафные очки за исключение.
+				currentPoints = currentPoints - lessonPoints.exception;
+
 			} else {
 
 				// Обработка в хендлере урока
+				// result.score!!!!! будет возвращаться!
 				var result = current.interpreterHandler(interpreted);
 
 				scope.botCss = result.css;
@@ -505,6 +517,9 @@ function LessonService(connection, audioManager, aceService) {
 
 				}
 				else {
+
+					// Снимаем очки за ошибку в исполнении присланного кода.
+					currentPoints = currentPoints - lessonPoints.runError;
 
 					text(result.message);
 

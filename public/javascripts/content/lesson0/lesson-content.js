@@ -10,11 +10,18 @@ module.exports = Content();
  */
 function Content() {
 
+	var points = {
+		totalPoints: 1000,
+		exception: 100,
+		runError: 50
+	};
+
 	return {
 		text:  'Поступление в академию',
 		label: 'Основы JavaScript',
 		quote: 'Знания свет — путь укажет нам',
-		sub:   require('./sub')
+		sub:   require('./sub'),
+		points: points
 	};
 
 }

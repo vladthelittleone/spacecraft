@@ -48,7 +48,7 @@ function Statistics ()  {
 
 	function incRunCount(subIndex)  {
 
-		if (runCount[subIndex] === "undefined")  {
+		if (runCount[subIndex] === undefined)  {
 
 			runCount[subIndex] = 1;
 

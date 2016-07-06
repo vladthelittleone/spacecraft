@@ -493,6 +493,9 @@ function LessonService(connection, audioManager, aceService) {
 			// Обработка исключения
 			if (exception) {
 
+				// WARNING!!!
+				lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.exception;
+
 				// В случае исключения выводим ошибку
 				text(interpreted.message);
 

@@ -11,9 +11,14 @@ module.exports = Content();
 function Content() {
 
 	var points = {
+		// Изначальное число очков у игрока на уроке.
 		totalPoints: 1000,
+		// Штрафные очки за действия на уроке.
 		exception: 100,
-		runError: 50
+		runError: 50,
+		incorrectInput: 40,
+		//Текущее число очков по уроку.
+		currentPoints: this.totalPoints
 	};
 
 	return {

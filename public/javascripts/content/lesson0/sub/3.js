@@ -16,6 +16,7 @@ function GalaxyYear() {
 	var storage = Storage();
 
 	return {
+
 		title:              'Галактическая единица',
 		content:            function () {
 
@@ -42,7 +43,7 @@ function GalaxyYear() {
 				'showSkip':               false
 			}]
 		}],
-		interpreterHandler: function (value) {
+		interpreterHandler: function (value, lessonPoints) {
 
 			var botText = BBotText({
 				correct: '<p>Ура! BBot разобрал человеческий возраст, транслирую:</p>'
@@ -59,6 +60,9 @@ function GalaxyYear() {
 
 				if (value.exception) {
 
+					// Отнимаем очки за exception
+					lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.exception;
+
 					return botText.unknownError();
 
 				}
@@ -70,12 +74,16 @@ function GalaxyYear() {
 
 			}
 
+			lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.incorrectInput;
+
 			return botText.resultNotCorrect('emptyInput');
 
 		}
 	};
 
 	function isNumeric(n) {
+
 		return !isNaN(parseFloat(n)) && isFinite(n);
+
 	}
 }

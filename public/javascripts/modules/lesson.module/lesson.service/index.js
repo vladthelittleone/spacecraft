@@ -10,6 +10,7 @@ var EntitiesFactory = Game.world;
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 var TabHandler = require( '../../../emitters' );
+var Statistics = require('../../../services/statistics.service');
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
@@ -31,8 +32,7 @@ function LessonService(connection, audioManager, aceService) {
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
 	var audioIndex;		// Индекс текущиего трека
-	var lessonPoints;  	// Очки по уроку
-	var currentPoints;  // Текущее число очков в уроке
+	var lessonPoints;  	// Объект по работе с очками урока.
 
 	var audioWrapper = AudioWrapper();
 	var storage = Storage();
@@ -367,7 +367,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:  lessonId,
 				size:      size,
 				completed: completed,
-				totalPoints: currentPoints
+				totalPoints: lessonPoints.currentPoints
 			});
 
 		}
@@ -380,7 +380,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:  lessonId,
 				size:      size,
 				completed: true,
-				totalPoints: currentPoints
+				totalPoints: lessonPoints.currentPoints
 			});
 
 			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
@@ -419,7 +419,6 @@ function LessonService(connection, audioManager, aceService) {
 		lessonId = args.lessonId;
 
 		lessonPoints = lessonContent(lessonId).points;
-		currentPoints = lessonPoints.totalPoints;
 
 		scope.subIndex = 0;
 		audioIndex = 0;
@@ -500,14 +499,12 @@ function LessonService(connection, audioManager, aceService) {
 				// И меняем стиль бота.
 				scope.botCss = 'bbot-wow';
 
-				// И не забываем про штрафные очки за исключение.
-				currentPoints = currentPoints - lessonPoints.exception;
-
 			} else {
 
 				// Обработка в хендлере урока
-				// result.score!!!!! будет возвращаться!
-				var result = current.interpreterHandler(interpreted);
+				// Также передаем в обработчик объект по работе с очками текущего урока,
+				// чтобы у него была возможность изменять текущее число очков по уроку.
+				var result = current.interpreterHandler(interpreted, lessonPoints);
 
 				scope.botCss = result.css;
 
@@ -517,9 +514,6 @@ function LessonService(connection, audioManager, aceService) {
 
 				}
 				else {
-
-					// Снимаем очки за ошибку в исполнении присланного кода.
-					currentPoints = currentPoints - lessonPoints.runError;
 
 					text(result.message);
 
@@ -593,6 +587,9 @@ function LessonService(connection, audioManager, aceService) {
 		var current = currentSubLesson();
 
 		if (current.interpreterHandler) {
+
+			// Увечличиваем счетчик числа запусков кода.
+			Statistics.incRunCount(scope.subIndex);
 
 			runNotGameLesson(current);
 

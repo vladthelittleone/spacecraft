@@ -46,7 +46,7 @@ function YourName() {
 				'showSkip':               false
 			}]
 		}],
-		interpreterHandler: function (value) {
+		interpreterHandler: function (value, lessonPoints) {
 
 			var botText = BBotText({
 				correct: '<p>Ура! BBot понял человек0-имя, транслирую:</p>'
@@ -70,12 +70,16 @@ function YourName() {
 				// Если нет " ", будет выброшено исключение
 				if (value.exception) {
 
+					lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.exception;
+
 					return botText.resultNotCorrect('noQuotes');
 
 				}
 
 				// Если введено число, то результат отрицательный
 				if (isNumeric(value)) {
+
+					lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.incorrectInput;
 
 					return botText.resultNotCorrect('isNumeric');
 
@@ -90,6 +94,8 @@ function YourName() {
 				return botText.result(reg.test(value));
 
 			}
+
+			lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.incorrectInput;
 
 			return botText.resultNotCorrect('emptyInput');
 

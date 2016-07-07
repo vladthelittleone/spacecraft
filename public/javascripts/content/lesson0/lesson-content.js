@@ -18,10 +18,18 @@ function Content() {
 		runError: 50,
 		incorrectInput: 40,
 		//Текущее число очков по уроку.
-		currentPoints: "undefined"
+		currentPoints: "undefined",
+		// метод уменьшения текущего числа очков по уроку.
+		takeAwayFromCurrentPoints: takeAwayFromCurrentPoints
 	};
 
 	points.currentPoints = points.totalPoints;
+
+	function takeAwayFromCurrentPoints(value) {
+
+		this.currentPoints = this.currentPoints - value;
+
+	}
 
 	return {
 		text:  'Поступление в академию',

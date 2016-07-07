@@ -60,9 +60,6 @@ function GalaxyYear() {
 
 				if (value.exception) {
 
-					// Отнимаем очки за exception
-					lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.exception;
-
 					return botText.unknownError();
 
 				}
@@ -74,7 +71,7 @@ function GalaxyYear() {
 
 			}
 
-			lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.incorrectInput;
+			lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
 
 			return botText.resultNotCorrect('emptyInput');
 

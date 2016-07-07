@@ -34,6 +34,9 @@ function LessonService(connection, audioManager, aceService) {
 	var audioIndex;		// Индекс текущиего трека
 	var lessonPoints;  	// Объект по работе с очками урока.
 
+	// Число запусков интерпретатора.
+	var runCount = 0;
+
 	var audioWrapper = AudioWrapper();
 	var storage = Storage();
 	var markers = aceService.getMarkerService;
@@ -362,11 +365,12 @@ function LessonService(connection, audioManager, aceService) {
 			initNextLesson();
 
 			saveStatistics({
-				current:   scope.subIndex + 1, // Прибавляем смещение
-				statistic: statistics,
-				lessonId:  lessonId,
-				size:      size,
-				completed: completed,
+				current:     scope.subIndex + 1, // Прибавляем смещение
+				statistic:   statistics,
+				lessonId:    lessonId,
+				size:        size,
+				completed:   completed,
+				runCount:    runCount,
 				totalPoints: lessonPoints.currentPoints
 			});
 
@@ -375,11 +379,12 @@ function LessonService(connection, audioManager, aceService) {
 
 			// Также сохраняем очки за урок.
 			saveStatistics({
-				current:   1,
-				statistic: statistics,
-				lessonId:  lessonId,
-				size:      size,
-				completed: true,
+				current:     1,
+				statistic:   statistics,
+				lessonId:    lessonId,
+				size:        size,
+				completed: 	 true,
+				runCount:    runCount,
 				totalPoints: lessonPoints.currentPoints
 			});
 
@@ -493,8 +498,8 @@ function LessonService(connection, audioManager, aceService) {
 			// Обработка исключения
 			if (exception) {
 
-				// WARNING!!!
-				lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.exception;
+				// Отнимаем очки за исключение.
+				lessonPoints.takeAwayFromCurrentPoints(lessonPoints.exception);
 
 				// В случае исключения выводим ошибку
 				text(interpreted.message);
@@ -502,7 +507,8 @@ function LessonService(connection, audioManager, aceService) {
 				// И меняем стиль бота.
 				scope.botCss = 'bbot-wow';
 
-			} else {
+			}
+			else {
 
 				// Обработка в хендлере урока
 				// Также передаем в обработчик объект по работе с очками текущего урока,
@@ -591,8 +597,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		if (current.interpreterHandler) {
 
-			// Увечличиваем счетчик числа запусков кода.
-			Statistics.incRunCount(scope.subIndex);
+			runCount++;
 
 			runNotGameLesson(current);
 

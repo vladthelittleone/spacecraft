@@ -70,8 +70,6 @@ function YourName() {
 				// Если нет " ", будет выброшено исключение
 				if (value.exception) {
 
-					lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.exception;
-
 					return botText.resultNotCorrect('noQuotes');
 
 				}
@@ -79,7 +77,7 @@ function YourName() {
 				// Если введено число, то результат отрицательный
 				if (isNumeric(value)) {
 
-					lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.incorrectInput;
+					lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
 
 					return botText.resultNotCorrect('isNumeric');
 
@@ -95,7 +93,7 @@ function YourName() {
 
 			}
 
-			lessonPoints.currentPoints = lessonPoints.currentPoints - lessonPoints.incorrectInput;
+			lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
 
 			return botText.resultNotCorrect('emptyInput');
 

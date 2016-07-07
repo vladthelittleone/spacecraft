@@ -310,9 +310,11 @@ function LessonService(connection, audioManager, aceService) {
 		// Устанавливаем текущий урок
 		args.statistic[id] =
 		{
-			current:   args.current,
-			size:      args.size,
-			completed: completed
+			current:       args.current,
+			size:          args.size,
+			completed:     completed,
+			runCount:      args.runCount,
+			currentPoints: args.currentPoints
 		};
 
 		storage.set('lessons', args.statistic);
@@ -365,13 +367,13 @@ function LessonService(connection, audioManager, aceService) {
 			initNextLesson();
 
 			saveStatistics({
-				current:     scope.subIndex + 1, // Прибавляем смещение
-				statistic:   statistics,
-				lessonId:    lessonId,
-				size:        size,
-				completed:   completed,
-				runCount:    runCount,
-				totalPoints: lessonPoints.currentPoints
+				current:       scope.subIndex + 1, // Прибавляем смещение
+				statistic:     statistics,
+				lessonId:      lessonId,
+				size:          size,
+				completed:     completed,
+				runCount:      runCount,
+				currentPoints: lessonPoints.currentPoints
 			});
 
 		}
@@ -379,13 +381,13 @@ function LessonService(connection, audioManager, aceService) {
 
 			// Также сохраняем очки за урок.
 			saveStatistics({
-				current:     1,
-				statistic:   statistics,
-				lessonId:    lessonId,
-				size:        size,
-				completed: 	 true,
-				runCount:    runCount,
-				totalPoints: lessonPoints.currentPoints
+				current:       1,
+				statistic:     statistics,
+				lessonId:      lessonId,
+				size:          size,
+				completed: 	   true,
+				runCount:      runCount,
+				currentPoints: lessonPoints.currentPoints
 			});
 
 			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
@@ -412,6 +414,13 @@ function LessonService(connection, audioManager, aceService) {
 
 		// Очищаем подписичиков на вкладу
 		TabHandler.clear();
+
+	}
+
+	function restoreSubStatistics(objStatistics) {
+
+		runCount = objStatistics.runCount;
+		lessonPoints.currentPoints = objStatistics.currentPoints;
 
 	}
 
@@ -445,6 +454,11 @@ function LessonService(connection, audioManager, aceService) {
 					// Индекс подурока сервера
 					var serverIndex = parseInt(statistics.current);
 
+					// восстанавлвиаем всю статистку по текущему уроку:
+					// - число запусков интерпретатора;
+					// - очки за урок.
+					restoreSubStatistics(statistics);
+
 					// Индекс подурока (% используется на случай изменений в размерах)
 					scope.subIndex = serverIndex % size;
 
@@ -458,6 +472,15 @@ function LessonService(connection, audioManager, aceService) {
 		else {
 
 			scope.subIndex = config - 1;
+
+			// восстанавлвиаем всю статистку по текущему уроку:
+			// - число запусков интерпретатора;
+			// - очки за урок.
+			var jsonStatistics = storage.getString('lessons');
+			// В JSON'e лежал массив статистик по урокам.
+			var arrStatistics = JSON.parse(jsonStatistics);
+
+			restoreSubStatistics(arrStatistics[lessonId]);
 
 			initNextLesson();
 

@@ -34,6 +34,13 @@ function LessonService(connection, audioManager, aceService) {
 	var audioIndex;		// Индекс текущиего трека
 	var lessonPoints;  	// Объект по работе с очками урока.
 
+	// ФАСАД
+	// в service statistics переносим логику работы с очками.
+	// тудаже кидаем всю инфу по штрафным очкам.
+	// Далее юзаем аля - subPointsForExceptions()
+	// runCount прячу тоже в statistics.service
+	// и реализую доступ к нему.
+
 	// Число запусков интерпретатора.
 	var runCount = 0;
 
@@ -472,14 +479,12 @@ function LessonService(connection, audioManager, aceService) {
 		else {
 
 			scope.subIndex = config - 1;
+			
+			var arrStatistics = storage.getLessons();
 
 			// восстанавлвиаем всю статистку по текущему уроку:
 			// - число запусков интерпретатора;
 			// - очки за урок.
-			var jsonStatistics = storage.getString('lessons');
-			// В JSON'e лежал массив статистик по урокам.
-			var arrStatistics = JSON.parse(jsonStatistics);
-
 			restoreSubStatistics(arrStatistics[lessonId]);
 
 			initNextLesson();
@@ -546,6 +551,8 @@ function LessonService(connection, audioManager, aceService) {
 
 				}
 				else {
+
+					lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
 
 					text(result.message);
 

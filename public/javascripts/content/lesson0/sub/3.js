@@ -69,9 +69,7 @@ function GalaxyYear() {
 				// Если выведено число, то результат положительный
 				return botText.result(isNumeric(value));
 
-			}
-
-			lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
+			}				
 
 			return botText.resultNotCorrect('emptyInput');
 

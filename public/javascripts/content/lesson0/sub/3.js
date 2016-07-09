@@ -43,7 +43,7 @@ function GalaxyYear() {
 				'showSkip':               false
 			}]
 		}],
-		interpreterHandler: function (value, lessonPoints) {
+		interpreterHandler: function (value) {
 
 			var botText = BBotText({
 				correct: '<p>Ура! BBot разобрал человеческий возраст, транслирую:</p>'
@@ -69,7 +69,7 @@ function GalaxyYear() {
 				// Если выведено число, то результат положительный
 				return botText.result(isNumeric(value));
 
-			}
+			}				
 
 			return botText.resultNotCorrect('emptyInput');
 

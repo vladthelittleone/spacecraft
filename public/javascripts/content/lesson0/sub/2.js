@@ -46,7 +46,7 @@ function YourName() {
 				'showSkip':               false
 			}]
 		}],
-		interpreterHandler: function (value, lessonPoints) {
+		interpreterHandler: function (value) {
 
 			var botText = BBotText({
 				correct: '<p>Ура! BBot понял человек0-имя, транслирую:</p>'

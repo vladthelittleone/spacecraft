@@ -445,7 +445,7 @@ function LessonService(connection, audioManager, aceService) {
 					// восстанавлвиаем всю статистку по текущему уроку:
 					// - число запусков интерпретатора;
 					// - очки за урок.
-					//restoreSubStatistics(statistics);
+					// - и т.д.
 					currentStatistics.restore(statistics);
 
 					// Индекс подурока (% используется на случай изменений в размерах)
@@ -462,6 +462,10 @@ function LessonService(connection, audioManager, aceService) {
 
 			scope.subIndex = config - 1;
 
+			// восстанавлвиаем всю статистку по текущему уроку:
+			// - число запусков интерпретатора;
+			// - очки за урок.
+			// - и т.д.
 			var arrStatistics = storage.getLessons();
 			currentStatistics.restore(arrStatistics[lessonId]);
 

@@ -12,8 +12,8 @@ function Statistics ()  {
 	var lessonPoints;
 
 	var that = {
-		//Текущее число очков по уроку.
-		bestPoints:                 0,
+		// СТРОГО undefined!
+		bestPoints:                 undefined,
 		currentPoints:			    0,
 		// Число запусков интерпретатора.
 		bestRunCount:               0,
@@ -34,20 +34,51 @@ function Statistics ()  {
 
 		lessonPoints = _lessonPoints;
 
-		// Устанавливаем текущее число очков,
-		// как настроено по самому уроку.
-		that.currentPoints = lessonPoints.totalPoints;
+		reset();
 
 	}
 
 	/**
 	 * Обновляем ЛУЧШИЙ результат по очкам, в соответствиии с набранными
 	 * очками по уроку.
+	 *
+	 * Маленький комментарий к работе метода.
+	 * Нулевой результат это тоже результат! Не стоит забывать, результат по очкам может
+	 * быть и отрицательным.
+	 * Поэтому, первоначальная инициализация поля bestPoints нулем НЕДОПУСТИМА.
+	 * Представим следующую ситауцию. Ниже представлена последовательность действий
+	 * для перезаписи текущего максимума по очкам за урок:
+	 *
+	 * if ( currentPoints > bestPoints ) then {
+	 *
+	 * 	 bestPoints = currentPoints;
+	 *
+	 * }
+	 *
+	 * В случае, когда пользователь проходит урок в самый первый раз, и значение
+	 * поля bestPoints инициализировано нулем, отрицательные очки за урок не будут записаны
+	 * в максимум, как первоначальный результат, так как нуль будет считаться
+	 * НАИЛУЧШИМ результатом (в сравнении с текущим отрицательным), хотя по факту это совершенно не так.
+	 * Наилучшего результат мы не имеем. И в таком случае мы просто должны записать в него текущий результат.
+	 *
+	 * Именно поэтому bestPoints следует инициализировать значением undefined - это
+	 * некий флаг того, что лучший результат еще не назначался.
+	 *
 	 */
 	function updateBestPoints() {
 
-		that.bestPoints = ( that.currentPoints > that.bestPoints ) ? that.currentPoints:
-																	 that.bestPoints;
+		if (that.bestPoints === undefined) {
+			// Просто переписываем имеющееся число очков как НАИЛУЧШИЙ результат,
+			// так как это самый первый результат по уроку.
+			that.bestPoints = that.currentPoints;
+		}
+		else {
+
+			// В этом случае, если текущий результат по очкам больше,
+			// то считаем его наилучшим.
+			that.bestPoints = ( that.currentPoints > that.bestPoints ) ? that.currentPoints :
+																		 that.bestPoints;
+		}
 
 	}
 
@@ -57,18 +88,33 @@ function Statistics ()  {
 	 */
 	function updateBestRunCount() {
 
-		that.bestRunCount = ( that.currentRunCount > that.bestRunCount ) ? that.currentRunCount:
-																		   that.bestRunCount;
+		if ( that.bestRunCount === 0 ) {
+
+			// Мы еще не имеем лучшего результата.
+			// Поэтому текущий результат и есть наилучший.
+			that.bestRunCount = that.currentRunCount;
+
+		}
+		else {
+
+			// Нужно не забывать, что именно НАИМЕНЬШЕЕ число
+			// запусков интерпретатора будет считаться ЛУЧШИМ.
+			that.bestRunCount = ( that.currentRunCount > that.bestRunCount ) ? that.bestRunCount:
+																			   that.currentRunCount;
+		}
 
 	}
 
 	/**
 	 * Сброс ТЕКУЩИХ результатов по уроку.
+	 * Текущие очки сбрасываются в значение, которое
+	 * назначено по уроку!
+	 *
 	 * Лучшие результаты не трогаем.
 	 */
 	function reset() {
 
-		that.currentPoints = 0;
+		that.currentPoints = lessonPoints.totalPoints;
 		that.currentRunCount = 0;
 
 	}

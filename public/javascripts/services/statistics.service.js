@@ -68,9 +68,11 @@ function Statistics ()  {
 	function updateBestPoints() {
 
 		if (that.bestPoints === undefined) {
+
 			// Просто переписываем имеющееся число очков как НАИЛУЧШИЙ результат,
 			// так как это самый первый результат по уроку.
 			that.bestPoints = that.currentPoints;
+
 		}
 		else {
 
@@ -78,6 +80,7 @@ function Statistics ()  {
 			// то считаем его наилучшим.
 			that.bestPoints = ( that.currentPoints > that.bestPoints ) ? that.currentPoints :
 																		 that.bestPoints;
+
 		}
 
 	}
@@ -101,6 +104,7 @@ function Statistics ()  {
 			// запусков интерпретатора будет считаться ЛУЧШИМ.
 			that.bestRunCount = ( that.currentRunCount > that.bestRunCount ) ? that.bestRunCount:
 																			   that.currentRunCount;
+
 		}
 
 	}

@@ -304,6 +304,17 @@ function LessonService(connection, audioManager, aceService) {
 		var id = args.lessonId;
 		var completed = args.completed;
 
+		// Если урок окончен, то обновляем ЛУЧШИЕ результаты.
+		if (completed) {
+
+			currentStatistics.updateBestPoints();
+			currentStatistics.updateBestRunCount();
+
+			currentStatistics.reset();
+
+			args.statistics = currentStatistics;
+		}
+
 		// Устанавливаем текущий урок
 		args.statistic[id] =
 		{

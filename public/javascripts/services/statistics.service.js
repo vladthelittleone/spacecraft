@@ -13,10 +13,15 @@ function Statistics ()  {
 
 	var that = {
 		//Текущее число очков по уроку.
-		currentPoints:			    undefined,
+		bestPoints:                 0,
+		currentPoints:			    0,
 		// Число запусков интерпретатора.
-		runCount: 					0,
+		bestRunCount:               0,
+		currentRunCount: 			0,
 		initialize: 		        initialize,
+		updateBestPoints:           updateBestPoints,
+		updateBestRunCount:			updateBestRunCount,
+		reset:                      reset,
 		restore:                    restore,
 		incRunCount:                incRunCount,
 		subPointsForException:      subPointsForException,
@@ -29,7 +34,42 @@ function Statistics ()  {
 
 		lessonPoints = _lessonPoints;
 
+		// Устанавливаем текущее число очков,
+		// как настроено по самому уроку.
 		that.currentPoints = lessonPoints.totalPoints;
+
+	}
+
+	/**
+	 * Обновляем ЛУЧШИЙ результат по очкам, в соответствиии с набранными
+	 * очками по уроку.
+	 */
+	function updateBestPoints() {
+
+		that.bestPoints = ( that.currentPoints > that.bestPoints ) ? that.currentPoints:
+																	 that.bestPoints;
+
+	}
+
+	/**
+	 * Обновляем ЛУЧШЕЕ число запусков интерпретатора, в соответствии с числом
+	 * его запусков по уроку.
+	 */
+	function updateBestRunCount() {
+
+		that.bestRunCount = ( that.currentRunCount > that.bestRunCount ) ? that.currentRunCount:
+																		   that.bestRunCount;
+
+	}
+
+	/**
+	 * Сброс ТЕКУЩИХ результатов по уроку.
+	 * Лучшие результаты не трогаем.
+	 */
+	function reset() {
+
+		that.currentPoints = 0;
+		that.currentRunCount = 0;
 
 	}
 
@@ -37,14 +77,16 @@ function Statistics ()  {
 
 		var restoreStatistics = restoreObj.statistics;
 
-		that.runCount = restoreStatistics.runCount;
+		that.bestRunCount = restoreStatistics.bestRunCount;
+		that.bestPoints = restoreStatistics.bestPoints;
+		that.currentRunCount = restoreStatistics.currentRunCount;
 		that.currentPoints = restoreStatistics.currentPoints;
 
 	}
 
 	function incRunCount() {
 
-		that.runCount++;
+		that.currentRunCount++;
 
 	}
 

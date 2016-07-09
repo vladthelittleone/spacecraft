@@ -9,6 +9,7 @@ var EntitiesFactory = Game.world;
 
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
+var TabHandler = require( '../../../emitters' );
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
@@ -113,11 +114,13 @@ function LessonService(connection, audioManager, aceService) {
 
 		};
 
+
 		that.play = function () {
 
 			audio.play();
 
 		};
+
 
 		that.pause = function () {
 
@@ -172,9 +175,12 @@ function LessonService(connection, audioManager, aceService) {
 			var m = ch.marker;
 
 			// Создание аудио
-			audioWrapper.create(ch.audio);
-
+			audioWrapper.create(ch.audio)
 			audioWrapper.play();
+
+			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
+			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
+			TabHandler.subscribeOnTabShow( audioWrapper.play );
 
 			// Постановка на паузу
 			scope.audioPause = false;
@@ -307,7 +313,6 @@ function LessonService(connection, audioManager, aceService) {
 		storage.set('lessons', args.statistic);
 
 		connection.saveLessonsStatistics(args);
-
 	}
 
 	/**
@@ -325,6 +330,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		// Сокрытие панели инструкций
 		scope.textContent = false;
+
 	}
 
 	/**
@@ -372,10 +378,31 @@ function LessonService(connection, audioManager, aceService) {
 				completed: true
 			});
 
-			// Выводим доску оценки подурока
-			scope.starsHide = true;
+			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
+			endLesson();
 
 		}
+
+	}
+
+	/**
+	 * Окончание урока.
+	 * Метод вызывается после того, как урок полностью окончен.
+	 */
+	function endLesson() {
+
+		// Выводим доску оценки подурока
+		scope.starsHide = true;
+
+		// Вызываем коллбэки, которые подписались на скрытие вкладки,
+		// так как на данном этапе урок закончен, и можно считать,
+		// что вкладка с уроком будто бы СКРЫТА.
+		// А по факту - мы просто останавливаем ВСЕ звуки.
+		TabHandler.executeHiddenCallbacks();
+		
+		// Очищаем подписичиков на вкладу
+		TabHandler.clear();
+
 	}
 
 	/**

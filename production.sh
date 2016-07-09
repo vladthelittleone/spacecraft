@@ -2,7 +2,6 @@
 # This is sample deploy script
 # You can run this on server after git push or
 # locally before you put new version of website via FTP
-
 if [ $1 = "build" ]; then
 	echo "[Build] Running npm install"
 	npm install
@@ -28,20 +27,19 @@ if [ $1 = "build" ]; then
 	  echo "[Build] Npm install failed, aborting build"
 	fi
 fi
-
 if [ $1 = "start" ]; then
 	echo "[Start] Running server"
 	NODE_ENV=production NODE_PATH=. PORT=80 DEBUG=spacecraft forever --uid SpaceCraftServer -a start bin/www
 fi
-
 if [ $1 = "stop" ]; then
 	echo "[Stop] Stop server"
  	forever stop SpaceCraftServer
 fi
-
 if [ $1 = "tools" ]; then
 	npm install forever -g
 	npm install -g bower
 	npm install --g gulp-cli
 	npm install --save-dev gulp
 fi
+
+exit 0

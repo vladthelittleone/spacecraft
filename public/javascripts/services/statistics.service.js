@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = Statistics();
+module.exports = Statistics;
 
 /**
  * Сервис хранения статистики пользователя по игре.
@@ -9,55 +9,54 @@ module.exports = Statistics();
  */
 function Statistics ()  {
 
-	var that = {};
-	var statistic = [];
-	var player = null;
-	var runCount = [];
+	var lessonPoints;
 
-	that.setPlayer = setPlayer;
-	that.getPlayer = getPlayer;
-	that.addInformation = addInformation;
-	that.getInformation = getInformation;
-	that.incRunCount = incRunCount;
+	var that = {
+		//Текущее число очков по уроку.
+		currentPoints:			    undefined,
+		// Число запусков интерпретатора.
+		runCount: 					0,
+		initialize: 		        initialize,
+		restore:                    restore,
+		incRunCount:                incRunCount,
+		subPointsForException:      subPointsForException,
+		subPointsForIncorrectInput: subPointsForIncorrectInput
+	};
 
 	return that;
 
-	function setPlayer (p)  {
+	function initialize( _lessonPoints ) {
 
-		player = p;
+		lessonPoints = _lessonPoints;
 
-	}
-
-	function getPlayer ()  {
-
-		return player;
+		that.currentPoints = lessonPoints.totalPoints;
 
 	}
 
-	function addInformation (s)  {
+	function restore(restoreObj) {
 
-		statistic.push(s);
+		var restoreStatistics = restoreObj.statistics;
 
-	}
-
-	function getInformation ()  {
-
-		return statistic;
+		that.runCount = restoreStatistics.runCount;
+		that.currentPoints = restoreStatistics.currentPoints;
 
 	}
 
-	function incRunCount(subIndex)  {
+	function incRunCount() {
 
-		if (runCount[subIndex] === undefined)  {
+		that.runCount++;
 
-			runCount[subIndex] = 1;
+	}
 
-		}
-		else  {
+	function subPointsForException() {
 
-			runCount[subIndex]++;
+		that.currentPoints = that.currentPoints - lessonPoints.exception;
 
-		}
+	}
+
+	function subPointsForIncorrectInput() {
+
+		that.currentPoints = that.currentPoints - lessonPoints.incorrectInput;
 
 	}
 

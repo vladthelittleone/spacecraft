@@ -71,8 +71,6 @@ function GalaxyYear() {
 
 			}
 
-			lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
-
 			return botText.resultNotCorrect('emptyInput');
 
 		}

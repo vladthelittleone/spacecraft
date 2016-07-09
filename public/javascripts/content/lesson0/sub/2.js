@@ -77,8 +77,6 @@ function YourName() {
 				// Если введено число, то результат отрицательный
 				if (isNumeric(value)) {
 
-					lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
-
 					return botText.resultNotCorrect('isNumeric');
 
 				}
@@ -92,8 +90,6 @@ function YourName() {
 				return botText.result(reg.test(value));
 
 			}
-
-			lessonPoints.takeAwayFromCurrentPoints(lessonPoints.incorrectInput);
 
 			return botText.resultNotCorrect('emptyInput');
 

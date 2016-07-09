@@ -32,14 +32,11 @@ function LessonService(connection, audioManager, aceService) {
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
 	var audioIndex;		// Индекс текущиего трека
-	var lessonPoints;  	// Объект по работе с очками урока.
-
-	// Число запусков интерпретатора.
-	var runCount = 0;
 
 	var audioWrapper = AudioWrapper();
 	var storage = Storage();
 	var markers = aceService.getMarkerService;
+	var currentStatistics = Statistics();
 
 	that.setEditorSession = setEditorSession;
 	that.getEditorSession = getEditorSession;
@@ -313,8 +310,7 @@ function LessonService(connection, audioManager, aceService) {
 			current:       args.current,
 			size:          args.size,
 			completed:     completed,
-			runCount:      args.runCount,
-			currentPoints: args.currentPoints
+			statistics:    args.statistics
 		};
 
 		storage.set('lessons', args.statistic);
@@ -372,8 +368,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:      lessonId,
 				size:          size,
 				completed:     completed,
-				runCount:      runCount,
-				currentPoints: lessonPoints.currentPoints
+				statistics:    currentStatistics
 			});
 
 		}
@@ -386,8 +381,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:      lessonId,
 				size:          size,
 				completed: 	   true,
-				runCount:      runCount,
-				currentPoints: lessonPoints.currentPoints
+				statistics:    currentStatistics
 			});
 
 			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
@@ -417,13 +411,6 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
-	function restoreSubStatistics(objStatistics) {
-
-		runCount = objStatistics.runCount;
-		lessonPoints.currentPoints = objStatistics.currentPoints;
-
-	}
-
 	/**
 	 * Инициализация.
 	 */
@@ -432,7 +419,8 @@ function LessonService(connection, audioManager, aceService) {
 		scope = args.scope;
 		lessonId = args.lessonId;
 
-		lessonPoints = lessonContent(lessonId).points;
+		var lessonPoints = lessonContent(lessonId).points;
+		currentStatistics.initialize(lessonPoints);
 
 		scope.subIndex = 0;
 		audioIndex = 0;
@@ -457,7 +445,8 @@ function LessonService(connection, audioManager, aceService) {
 					// восстанавлвиаем всю статистку по текущему уроку:
 					// - число запусков интерпретатора;
 					// - очки за урок.
-					restoreSubStatistics(statistics);
+					//restoreSubStatistics(statistics);
+					currentStatistics.restore(statistics);
 
 					// Индекс подурока (% используется на случай изменений в размерах)
 					scope.subIndex = serverIndex % size;
@@ -473,14 +462,8 @@ function LessonService(connection, audioManager, aceService) {
 
 			scope.subIndex = config - 1;
 
-			// восстанавлвиаем всю статистку по текущему уроку:
-			// - число запусков интерпретатора;
-			// - очки за урок.
-			var jsonStatistics = storage.getString('lessons');
-			// В JSON'e лежал массив статистик по урокам.
-			var arrStatistics = JSON.parse(jsonStatistics);
-
-			restoreSubStatistics(arrStatistics[lessonId]);
+			var arrStatistics = storage.getLessons();
+			currentStatistics.restore(arrStatistics[lessonId]);
 
 			initNextLesson();
 
@@ -522,7 +505,7 @@ function LessonService(connection, audioManager, aceService) {
 			if (exception) {
 
 				// Отнимаем очки за исключение.
-				lessonPoints.takeAwayFromCurrentPoints(lessonPoints.exception);
+				currentStatistics.subPointsForException();
 
 				// В случае исключения выводим ошибку
 				text(interpreted.message);
@@ -536,7 +519,7 @@ function LessonService(connection, audioManager, aceService) {
 				// Обработка в хендлере урока
 				// Также передаем в обработчик объект по работе с очками текущего урока,
 				// чтобы у него была возможность изменять текущее число очков по уроку.
-				var result = current.interpreterHandler(interpreted, lessonPoints);
+				var result = current.interpreterHandler(interpreted);
 
 				scope.botCss = result.css;
 
@@ -548,6 +531,8 @@ function LessonService(connection, audioManager, aceService) {
 				else {
 
 					text(result.message);
+
+					currentStatistics.subPointsForIncorrectInput();
 
 				}
 
@@ -620,7 +605,8 @@ function LessonService(connection, audioManager, aceService) {
 
 		if (current.interpreterHandler) {
 
-			runCount++;
+			// Увеличиваем счетчик запуска интерпретатора.
+			currentStatistics.incRunCount();
 
 			runNotGameLesson(current);
 

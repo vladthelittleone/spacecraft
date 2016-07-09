@@ -15,21 +15,8 @@ function Content() {
 		totalPoints: 1000,
 		// Штрафные очки за действия на уроке.
 		exception: 100,
-		runError: 50,
-		incorrectInput: 40,
-		//Текущее число очков по уроку.
-		currentPoints: "undefined",
-		// метод уменьшения текущего числа очков по уроку.
-		takeAwayFromCurrentPoints: takeAwayFromCurrentPoints
+		incorrectInput: 40
 	};
-
-	points.currentPoints = points.totalPoints;
-
-	function takeAwayFromCurrentPoints(value) {
-
-		this.currentPoints = this.currentPoints - value;
-
-	}
 
 	return {
 		text:  'Поступление в академию',

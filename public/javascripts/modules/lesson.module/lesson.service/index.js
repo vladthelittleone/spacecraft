@@ -10,7 +10,7 @@ var EntitiesFactory = Game.world;
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 var TabHandler = require( '../../../emitters' );
-var Statistics = require('../../../services/statistics.service');
+var Statistics = require('../../../utils/statistics.service');
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
@@ -305,7 +305,7 @@ function LessonService(connection, audioManager, aceService) {
 		var completed = args.completed;
 
 		// Устанавливаем текущий урок
-		args.statistic[id] =
+		args.lessonContext[id] =
 		{
 			current:       args.current,
 			size:          args.size,
@@ -313,7 +313,7 @@ function LessonService(connection, audioManager, aceService) {
 			statistics:    args.statistics
 		};
 
-		storage.set('lessons', args.statistic);
+		storage.set('lessons', args.lessonContext);
 
 		connection.saveLessonsStatistics(args);
 	}
@@ -348,15 +348,15 @@ function LessonService(connection, audioManager, aceService) {
 		var size = scope.lesson.sub.length;
 
 		// Текущий объект статистики уроков
-		var statistics = storage.getLessons();
+		var lessonContext = storage.getLessons();
 
 		if (scope.subIndex !== size - 1) {
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate && Game.restart();
 
-			var subStatistic = statistics[lessonId];
-			var completed = subStatistic && subStatistic.completed;
+			var subLessonContext = lessonContext[lessonId];
+			var completed = subLessonContext && subLessonContext.completed;
 
 			++scope.subIndex;
 
@@ -364,7 +364,7 @@ function LessonService(connection, audioManager, aceService) {
 
 			saveStatistics({
 				current:       scope.subIndex + 1, // Прибавляем смещение
-				statistic:     statistics,
+				lessonContext: lessonContext,
 				lessonId:      lessonId,
 				size:          size,
 				completed:     completed,
@@ -373,16 +373,13 @@ function LessonService(connection, audioManager, aceService) {
 
 		}
 		else {
-			
-			currentStatistics.updateBestPoints();
-			currentStatistics.updateBestRunCount();
 
-			currentStatistics.reset();
-			
+			currentStatistics.updateBestResults();
+
 			// Также сохраняем очки за урок.
 			saveStatistics({
 				current:       1,
-				statistic:     statistics,
+				lessonContext: lessonContext,
 				lessonId:      lessonId,
 				size:          size,
 				completed: 	   true,
@@ -507,7 +504,7 @@ function LessonService(connection, audioManager, aceService) {
 			// Запуск интерпретатора
 			var interpreted = Interpreter.execute(getCode());
 
-			// interpreted может бырть раен undefined
+			// interpreted может быть равен undefined
 			var exception = interpreted && interpreted.exception;
 
 			// Обработка исключения
@@ -525,9 +522,6 @@ function LessonService(connection, audioManager, aceService) {
 			}
 			else {
 
-				// Обработка в хендлере урока
-				// Также передаем в обработчик объект по работе с очками текущего урока,
-				// чтобы у него была возможность изменять текущее число очков по уроку.
 				var result = current.interpreterHandler(interpreted);
 
 				scope.botCss = result.css;
@@ -541,6 +535,7 @@ function LessonService(connection, audioManager, aceService) {
 
 					text(result.message);
 
+					//Отнимаем очки по уроку за некорректный ввод.
 					currentStatistics.subPointsForIncorrectInput();
 
 				}

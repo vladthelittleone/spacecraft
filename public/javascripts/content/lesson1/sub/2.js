@@ -30,8 +30,8 @@ function JavaScript() {
 					  '<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Introduction">клац</a>.</li>' +
 					  '</ul>',
 		character:    [{
-			audio:  'audio/lesson1/3.mp3',
-			css:    'astrogirl-img',
+			audio:  'audio/lesson2/2-1.mp3',
+			css:    'astromen-img',
 			hint:   [
 				{
 					'next .ace_scroller': 'Редактор кода',

@@ -20,14 +20,8 @@ function Alert() {
 
 	return {
 		title:         'Тревога',
-		runOnStart: true,
-		content:       function () {
-
-			return '<p>Ну что ж первый урок подошел...</p>'
-				+ '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
-				+ '<p>Используйте все знания, которые вы приобрели, чтобы исправить ситуацию.</p>'
-
-		},
+		runOnStart:    true,
+		content:       content,
 		// Список команд задан в панели инструкций
 		instructions:  '<ul>' +
 					   '<li>У вас мало времени. По расчетам BBot\'а осталось 20 секунд.</li>' +
@@ -52,58 +46,71 @@ function Alert() {
 				type: 'line'
 			}
 		}],
-		gamePreUpdate: function (index, callback) {
 
-			callback && callback();
+		gamePreUpdate: gamePreUpdate,
 
-		},
+		gamePostUpdate: gamePostUpdate
 
-		gamePostUpdate:   function (transport) {
+	};
 
-			var botText = BBotText({
+	function gamePreUpdate(index, callback) {
 
-				failed: '<p>О нет, наш корабль уничтожили!</p>' +
-						'<p>Что ж одним больше, другим меньше!</p>',
+		callback && callback();
 
-				correct: '<p>Ура! Корабль спасен!</p>' +
-						 '<p>Hasta la vista, baby!</p>',
+	}
 
-				text: '<p>Хьюстон, у нас проблема!</p>' +
-					  '<p>Осталось мало времени: ' + Math.floor(TIME / 1000 - delta / 1000) + '!</p>'
+	function gamePostUpdate(transport) {
 
-			});
+		var botText = BBotText({
 
-			// Если транспорт уничтожен,
-			// результат отрицательный.
-			if (!transport.isAlive()) {
+			failed: '<p>О нет, наш корабль уничтожили!</p>' +
+					'<p>Что ж одним больше, другим меньше!</p>',
 
-				return botText.resultFaield();
+			correct: '<p>Ура! Корабль спасен!</p>' +
+					 '<p>Hasta la vista, baby!</p>',
 
-			}
+			text: '<p>Хьюстон, у нас проблема!</p>' +
+				  '<p>Осталось мало времени: ' + Math.floor(TIME / 1000 - delta / 1000) + '!</p>'
 
-			if (!time) {
+		});
 
-				time = Date.now();
+		// Если транспорт уничтожен,
+		// результат отрицательный.
+		if (!transport.isAlive()) {
 
-			} else {
-
-				// Разница между текущим и записаным
-				delta = Date.now() - time;
-
-				// Если дельта больше TIME секунд
-				if (delta > TIME) {
-
-					// Победа!
-					return botText.resultCorrect();
-
-				}
-
-			}
-
-			return botText.text();
+			return botText.resultFaield();
 
 		}
 
-	};
+		if (!time) {
+
+			time = Date.now();
+
+		} else {
+
+			// Разница между текущим и записаным
+			delta = Date.now() - time;
+
+			// Если дельта больше TIME секунд
+			if (delta > TIME) {
+
+				// Победа!
+				return botText.resultCorrect();
+
+			}
+
+		}
+
+		return botText.text();
+
+	}
+
+	function content() {
+
+		return '<p>Ну что ж первый урок подошел...</p>'
+			+ '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
+			+ '<p>Используйте все знания, которые вы приобрели, чтобы исправить ситуацию.</p>'
+
+	}
 
 }

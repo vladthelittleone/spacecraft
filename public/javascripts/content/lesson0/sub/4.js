@@ -16,14 +16,7 @@ function End() {
 
 	return {
 		title:        'Да начнется долгий путь...',
-		defaultBBot:  function () {
-
-			return '<p>Статус: ЗАЧИСЛЕН</p>' +
-				'<p>Имя: ' + storage.local.getItem('userName').toUpperCase() + '</p>' +
-				'<p>Раса: ЧЕЛОВЕК</p>' +
-				'<p>Возраст: ' + storage.local.getItem('userAge') + 'GY</p>'
-
-		},
+		defaultBBot:  defaultBBot,
 		content:      function () {
 
 			return '<p>Поздравляю, теперь вы официально числитесь в академии, кадет!</p>' +
@@ -39,4 +32,13 @@ function End() {
 			css:   'astromen-img'
 		}]
 	};
+
+	function defaultBBot() {
+
+		return '<p>Статус: ЗАЧИСЛЕН</p>' +
+			'<p>Имя: ' + storage.local.getItem('userName').toUpperCase() + '</p>' +
+			'<p>Раса: ЧЕЛОВЕК</p>' +
+			'<p>Возраст: ' + storage.local.getItem('userAge') + 'GY</p>'
+
+	}
 }

@@ -13,8 +13,7 @@ function Statistics ()  {
 
 	var that = {};
 
-	// СТРОГО undefined!
-	that.bestScore = undefined;
+	that.bestScore = 0;
 	that.currentScore =  0;
 	// Число запусков интерпретатора.
 	that.bestRunCount = 0;
@@ -24,64 +23,35 @@ function Statistics ()  {
 	that.updateBestRunCount = updateBestRunCount;
 	that.updateBestResults = updateBestResults;
 	that.reset = reset;
-	that.restore = restore;
 	that.incRunCount = incRunCount;
 	that.subPointsForException = subPointsForException;
 	that.subPointsForIncorrectInput = subPointsForIncorrectInput;
 
 	return that;
 
-	function initialize( _lessonPoints ) {
+	function initialize( _lessonPoints, restoredStatistics ) {
 
 		lessonPoints = _lessonPoints;
 
-		reset();
+		if (!restoredStatistics) {
+
+			reset();
+
+		}
+		else {
+
+			restore(restoredStatistics);
+		}
 
 	}
 
 	/**
 	 * Обновляем ЛУЧШИЙ результат по очкам, в соответствиии с набранными
 	 * очками по уроку.
-	 *
-	 * Маленький комментарий к работе метода.
-	 * Нулевой результат это тоже результат! Не стоит забывать, результат по очкам может
-	 * быть и отрицательным.
-	 * Поэтому, первоначальная инициализация поля bestScore нулем НЕДОПУСТИМА.
-	 * Представим следующую ситауцию. Ниже представлена последовательность действий
-	 * для перезаписи текущего максимума по очкам за урок:
-	 *
-	 * if ( currentScore > bestScore ) then {
-	 *
-	 * 	 bestScore = currentScore;
-	 *
-	 * }
-	 *
-	 * В случае, когда пользователь проходит урок в самый первый раз, и значение
-	 * поля bestScore инициализировано нулем, отрицательные очки за урок не будут записаны
-	 * в максимум, как первоначальный результат, так как нуль будет считаться
-	 * НАИЛУЧШИМ результатом (в сравнении с текущим отрицательным), хотя по факту это совершенно не так.
-	 * Наилучшего результат мы не имеем. И в таком случае мы просто должны записать в него текущий результат.
-	 *
-	 * Именно поэтому bestScore следует инициализировать значением undefined - это
-	 * некий флаг того, что лучший результат еще не назначался.
-	 *
 	 */
 	function updateBestScore() {
 
-		if (!that.bestScore) {
-
-			// Просто переписываем имеющееся число очков как НАИЛУЧШИЙ результат,
-			// так как это самый первый результат по уроку.
-			that.bestScore = that.currentScore;
-
-		}
-		else {
-
-			// В этом случае, если текущий результат по очкам больше,
-			// то считаем его наилучшим.
-			that.bestScore = Math.max( that.currentScore, that.bestScore );
-
-		}
+		that.bestScore = Math.max( that.currentScore, that.bestScore );
 
 	}
 

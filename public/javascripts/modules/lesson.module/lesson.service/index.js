@@ -435,20 +435,20 @@ function LessonService(connection, audioManager, aceService) {
 			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
 			connection.getLessonsStatistics(function (result) {
 
-				var statistics = result.data[lessonId];
+				var restoredStatistics = result.data[lessonId];
 
-				if (statistics) {
+				if (restoredStatistics) {
 
 					var size = scope.lesson.sub.length;
 
 					// Индекс подурока сервера
-					var serverIndex = parseInt(statistics.current);
+					var serverIndex = parseInt(restoredStatistics.current);
 
 					// восстанавлвиаем всю статистку по текущему уроку:
 					// - число запусков интерпретатора;
 					// - очки за урок.
 					// - и т.д.
-					currentStatistics.restore(statistics);
+					currentStatistics.initialize(lessonPoints, restoredStatistics);
 
 					// Индекс подурока (% используется на случай изменений в размерах)
 					scope.subIndex = serverIndex % size;
@@ -468,8 +468,8 @@ function LessonService(connection, audioManager, aceService) {
 			// - число запусков интерпретатора;
 			// - очки за урок.
 			// - и т.д.
-			var arrStatistics = storage.getLessons();
-			currentStatistics.restore(arrStatistics[lessonId]);
+			var arrRestoredStatistics = storage.getLessons();
+			currentStatistics.initialize(lessonPoints, arrRestoredStatistics[lessonId]);
 
 			initNextLesson();
 

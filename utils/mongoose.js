@@ -7,4 +7,6 @@ var config = require('config');
 
 mongoose.connect(config.get('database:uri'), config.get('database:options'));
 
+mongoose.set('debug', "database:debug");
+
 module.exports = mongoose;

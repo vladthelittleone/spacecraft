@@ -49,6 +49,15 @@ router.post('/', function (req, res, next) {
 
 	}
 
+	Cohorts.updateCohort(req.session.user, function(data, cohortID) {
+
+		if (data) {
+
+			data.cohorts[cohortID].visits++;
+
+		}
+	});
+
 	var normalizedEmail = valid.normalizeEmail(email);
 
 	User.authorize(normalizedEmail, password, function (err, user) {
@@ -69,15 +78,6 @@ router.post('/', function (req, res, next) {
 		}
 
 		req.session.user = user._id;
-
-		Cohorts.updateCohort(req.session.user, function(data, cohortID) {
-
-			if (data) {
-
-				data.cohorts[cohortID].visits++;
-
-			}
-		});
 
 		res.send({
 

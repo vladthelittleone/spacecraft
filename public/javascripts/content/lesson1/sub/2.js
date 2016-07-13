@@ -13,14 +13,8 @@ module.exports = JavaScript();
 function JavaScript() {
 
 	return {
-		title:        'JavaScript',
-		content:      function () {
-
-			return '<p>Все космические корабли нашего флота управляются с помощью древней земной технологии - <strong>JavaScript</strong>.</p>' +
-				'<p><strong>JavaScript</strong> - язык программирования, который был создан в 1995, за 31 год до колонизации Марса компанией EnoSam.</p>' +
-				'<p>Основная задача академии заключается в освоении кадетами данного инструмента.</p>'
-
-		},
+		title:          'JavaScript',
+		content:        content,
 		// Справа показан пример управления транспортным кораблем с помощью JavaScript.
 		// Функция run в бесконечном цикле последовательно раз за разом выполняет написанный код управления
 		// в данном случае команду поворота налево.
@@ -45,16 +39,26 @@ function JavaScript() {
 				type: 'line'
 			}
 		}],
-		gamePostUpdate:  function () {
-
-			var botText = BBotText({
-				correct: '<p>Кадет это функция run, функция run это кадет!</p>' +
-						 '<p>Приятно познакомиться! </p>'
-			});
-
-			return botText.resultCorrect();
-
-		}
+		gamePostUpdate: gamePostUpdate
 	};
+
+	function gamePostUpdate() {
+
+		var botText = BBotText({
+			correct: '<p>Кадет это функция run, функция run это кадет!</p>' +
+					 '<p>Приятно познакомиться! </p>'
+		});
+
+		return botText.resultCorrect();
+
+	}
+
+	function content() {
+
+		return '<p>Все космические корабли нашего флота управляются с помощью древней земной технологии - <strong>JavaScript</strong>.</p>' +
+			'<p><strong>JavaScript</strong> - язык программирования, который был создан в 1995, за 31 год до колонизации Марса компанией EnoSam.</p>' +
+			'<p>Основная задача академии заключается в освоении кадетами данного инструмента.</p>'
+
+	}
 
 }

@@ -11,18 +11,18 @@ function SpaceCraftTrail (game, spaceCraft){
 
 	var sprite = spaceCraft.sprite;
 
-	t.emitter = game.add.emitter(sprite.x, sprite.y, 100);
+	t.emitter = game.add.emitter(sprite.x - 25, sprite.y - 26, 50);
 
 	t.emitter.gravity = 0;
-	t.emitter.setAlpha(1, 0, 3000);
-	//t.emitter.setScale(0.8, 0, 0.8, 0, 3000);
+	t.emitter.setAlpha(1, 0, 1000);
+	t.emitter.setScale(0.8, 0, 0.8, 0, 1000);
 
-	//t.emitter.setXSpeed(0, 0);
-	//t.emitter.setYSpeed(-80, -50);
+	t.emitter.setXSpeed(0, 0);
+	t.emitter.setYSpeed(50, 50);
 
 	t.emitter.makeParticles('fire');
 
-	t.emitter.start(false, 3000, 50);
+	t.emitter.start(false, 1000, 30);
 
 	t.update = update;
 

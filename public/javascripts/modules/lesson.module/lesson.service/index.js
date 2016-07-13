@@ -410,6 +410,8 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function initialize(args) {
 
+		CodeLauncher.isCodeRunning = false;
+
 		scope = args.scope;
 		lessonId = args.lessonId;
 

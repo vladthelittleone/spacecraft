@@ -175,7 +175,7 @@ function LessonService(connection, audioManager, aceService) {
 			var m = ch.marker;
 
 			// Создание аудио
-			audioWrapper.create(ch.audio)
+			audioWrapper.create(ch.audio);
 			audioWrapper.play();
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
@@ -399,7 +399,7 @@ function LessonService(connection, audioManager, aceService) {
 		// что вкладка с уроком будто бы СКРЫТА.
 		// А по факту - мы просто останавливаем ВСЕ звуки.
 		TabHandler.executeHiddenCallbacks();
-		
+
 		// Очищаем подписичиков на вкладу
 		TabHandler.clear();
 

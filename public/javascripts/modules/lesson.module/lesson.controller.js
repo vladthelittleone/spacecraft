@@ -41,6 +41,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.onError = onError;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
+	$scope.$on('$destroy', onDestroy);
 
 	// ==================================================
 
@@ -200,6 +201,12 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 			service.stop();
 
 		}
+
+	}
+
+	function onDestroy() {
+
+		TabHandler.clear();
 
 	}
 

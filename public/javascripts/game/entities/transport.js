@@ -36,13 +36,24 @@ function TransportUnit(game, x, y, player) {
 		velocity:        60,	// Скорость корабля
 		angularVelocity: 0.5	// Скорость разворота
 	});
-	
+
 	/**
 	 * Аудио менеджер.
 	 */
 	t.audio = GameAudioFactory(game, t.sprite, player);
-	
-	t.emitterFire = SpaceCraftTrail(game, t);
+
+	// t.emitter = game.add.emitter(t.sprite.x, t.sprite.y, 400);
+	// t.emitter.gravity = 200;
+	// t.emitter.setAlpha(1, 0, 3000);
+	// //t.emitter.setScale(0.8, 0, 0.8, 0, 3000);
+	// t.emitter.setXSpeed(0, 0);
+	// t.emitter.setYSpeed(-80, -50);
+    //
+	// t.emitter.makeParticles('fire');
+    //
+	// t.emitter.start(false, 3000, 50);
+
+	t.trail = SpaceCraftTrail(game, t);
 
 	t.update = update;
 
@@ -56,8 +67,11 @@ function TransportUnit(game, x, y, player) {
 		t.engine.update();
 
 		t.logic && t.logic(t);
-		
-		t.emitterFire.update(t.sprite.x, t.sprite.y);
+
+		// t.emitter.x = t.sprite.x;
+		// t.emitter.y = t.sprite.y;
+
+		t.trail.update();
 	}
 
 }

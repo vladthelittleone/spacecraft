@@ -5,22 +5,33 @@
 
 module.exports = SpaceCraftTrail;
 
-function SpaceCraftTrail (game, transport){
+function SpaceCraftTrail (game, spaceCraft){
 
-	var emitter = game.add.emitter(transport.sprite.x,transport.sprite.y, 400);
+	var t = {};
 
-	emitter.gravity = 200;
-	emitter.setAlpha(1, 0, 3000);
-	emitter.setScale(0.8, 0, 0.8, 0, 3000);
+	var sprite = spaceCraft.sprite;
 
-	emitter.makeParticles(['fire']);
+	t.emitter = game.add.emitter(sprite.x, sprite.y, 100);
 
-	emitter.start(false, 3000, 50);
-	
-	return emitter;
-	
-	function update(x, y) {
-		emitter.x = x;
-		emitter.y = y;
+	t.emitter.gravity = 0;
+	t.emitter.setAlpha(1, 0, 3000);
+	//t.emitter.setScale(0.8, 0, 0.8, 0, 3000);
+
+	//t.emitter.setXSpeed(0, 0);
+	//t.emitter.setYSpeed(-80, -50);
+
+	t.emitter.makeParticles('fire');
+
+	t.emitter.start(false, 3000, 50);
+
+	t.update = update;
+
+	return t;
+
+	function update() {
+
+		t.emitter.x = sprite.x;
+		t.emitter.y = sprite.y;
+
 	}
 }

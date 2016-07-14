@@ -10,7 +10,7 @@ var EntitiesFactory = Game.world;
 var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 var TabHandler = require( '../../../emitters' );
-var Statistics = require('../../../utils/statistics.service');
+var Statistics = require('../../../utils/statistics');
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 

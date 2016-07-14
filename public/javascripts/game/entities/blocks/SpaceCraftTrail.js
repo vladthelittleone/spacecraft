@@ -10,10 +10,12 @@ function SpaceCraftTrail (game, spaceCraft){
 	var t = {};
 
 	var sprite = spaceCraft.sprite;
+	var pointBottomRight = sprite.bottomRight();
+	var pointCenter = sprite.center;
 
-	t.emitter = game.add.emitter(sprite.x - 25, sprite.y - 26, 50);
+	t.emitter = game.add.emitter(pointCenter, pointBottomRight.y, 50);
 
-	t.emitter.gravity = 0;
+	t.emitter.gravity = -20;
 	t.emitter.setAlpha(1, 0, 1000);
 	t.emitter.setScale(0.8, 0, 0.8, 0, 1000);
 
@@ -22,9 +24,9 @@ function SpaceCraftTrail (game, spaceCraft){
 
 	t.emitter.makeParticles('fire');
 
-	t.emitter.start(false, 1000, 30);
-
 	t.update = update;
+	t.start = start;
+	t.end = end;
 
 	return t;
 
@@ -32,6 +34,16 @@ function SpaceCraftTrail (game, spaceCraft){
 
 		t.emitter.x = sprite.x;
 		t.emitter.y = sprite.y;
+
+	}
+
+	function start() {
+
+		t.emitter.start(false, 1000, 30);
+
+	}
+
+	function end() {
 
 	}
 }

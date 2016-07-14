@@ -53,6 +53,8 @@ function EngineBlock(spec) {
 	 */
 	function moveForward() {
 
+		t.trail.start();
+		
 		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
 
 	}
@@ -61,7 +63,9 @@ function EngineBlock(spec) {
 	 * Движение к координатам.
 	 */
 	function moveToXY(x, y) {
-
+		
+		t.trail.start();
+		
 		var distance = game.math.distance(unit.sprite.x, unit.sprite.y, x, y);
 
 		// Если дистанция меньше 10,
@@ -139,6 +143,7 @@ function EngineBlock(spec) {
 	 * Обновление двигателя.
 	 */
 	function update() {
-
+		
+		t.trail.update();
 	}
 }

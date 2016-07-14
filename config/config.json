@@ -9,7 +9,7 @@
 				}
 			}
 		},
-		"debug": true
+		"debug": false
 	},
 	"session": {
 		"secret": "HustleHardCode",

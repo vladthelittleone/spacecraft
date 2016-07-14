@@ -435,20 +435,20 @@ function LessonService(connection, audioManager, aceService) {
 			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
 			connection.getLessonsStatistics(function (result) {
 
-				var restoredStatistics = result.data[lessonId];
+				var context = result.data[lessonId];
 
-				if (restoredStatistics) {
+				if (context) {
 
 					var size = scope.lesson.sub.length;
 
 					// Индекс подурока сервера
-					var serverIndex = parseInt(restoredStatistics.current);
+					var serverIndex = parseInt(context.current);
 
 					// восстанавлвиаем всю статистку по текущему уроку:
 					// - число запусков интерпретатора;
 					// - очки за урок.
 					// - и т.д.
-					currentStatistics.initialize(lessonPoints, restoredStatistics);
+					currentStatistics.initialize(lessonPoints, context);
 
 					// Индекс подурока (% используется на случай изменений в размерах)
 					scope.subIndex = serverIndex % size;
@@ -468,8 +468,8 @@ function LessonService(connection, audioManager, aceService) {
 			// - число запусков интерпретатора;
 			// - очки за урок.
 			// - и т.д.
-			var arrRestoredStatistics = storage.getLessons();
-			currentStatistics.initialize(lessonPoints, arrRestoredStatistics[lessonId]);
+			var lessons = storage.getLessons();
+			currentStatistics.initialize(lessonPoints, lessons[lessonId]);
 
 			initNextLesson();
 
@@ -500,6 +500,9 @@ function LessonService(connection, audioManager, aceService) {
 		CodeLauncher.isCodeRunning = true;
 
 		if (current.interpreterHandler) {
+
+			// Увеличиваем счетчик запуска интерпретатора.
+			currentStatistics.incRunCount();
 
 			// Запуск интерпретатора
 			var interpreted = Interpreter.execute(getCode());
@@ -608,9 +611,6 @@ function LessonService(connection, audioManager, aceService) {
 		var current = currentSubLesson();
 
 		if (current.interpreterHandler) {
-
-			// Увеличиваем счетчик запуска интерпретатора.
-			currentStatistics.incRunCount();
 
 			runNotGameLesson(current);
 

@@ -29,18 +29,19 @@ function Statistics ()  {
 
 	return that;
 
-	function initialize( _lessonPoints, restoredStatistics ) {
+	function initialize( _lessonPoints, ctx ) {
 
 		lessonPoints = _lessonPoints;
 
-		if (!restoredStatistics) {
+		if (!ctx) {
 
 			reset();
 
 		}
 		else {
 
-			restore(restoredStatistics);
+			restore(ctx.statistics);
+
 		}
 
 	}
@@ -105,15 +106,16 @@ function Statistics ()  {
 
 	}
 
-	function restore(restoreObj) {
+	function restore(statistics) {
 
-		var restoreStatistics = restoreObj.statistics;
+		if (statistics)
+		{
+			that.bestRunCount = statistics.bestRunCount;
+			that.currentRunCount = statistics.currentRunCount;
 
-		that.bestRunCount = restoreStatistics.bestRunCount;
-		that.currentRunCount = restoreStatistics.currentRunCount;
-
-		that.bestScore = restoreStatistics.bestScore;
-		that.currentScore = restoreStatistics.currentScore;
+			that.bestScore = statistics.bestScore;
+			that.currentScore = statistics.currentScore;
+		}
 
 	}
 

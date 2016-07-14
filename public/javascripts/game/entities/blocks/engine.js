@@ -1,5 +1,7 @@
 'use strict';
 
+var SpaceCraftTrail = require('./SpaceCraftTrail');
+
 // Экспорт
 module.exports = EngineBlock;
 
@@ -19,6 +21,8 @@ function EngineBlock(spec) {
 	var angularVelocity = spec.angularVelocity;
 	var velocity = spec.velocity;
 	var drag = spec.drag;
+
+	t.trail = SpaceCraftTrail(game,  unit);
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;

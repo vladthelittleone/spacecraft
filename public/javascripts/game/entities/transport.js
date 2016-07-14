@@ -4,7 +4,6 @@
 var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
 var GameAudioFactory = require('../audio');
-var SpaceCraftTrail = require('./SpaceCraftTrail');
 
 // Экспорт
 module.exports = TransportUnit;
@@ -42,19 +41,6 @@ function TransportUnit(game, x, y, player) {
 	 */
 	t.audio = GameAudioFactory(game, t.sprite, player);
 
-	// t.emitter = game.add.emitter(t.sprite.x, t.sprite.y, 400);
-	// t.emitter.gravity = 200;
-	// t.emitter.setAlpha(1, 0, 3000);
-	// //t.emitter.setScale(0.8, 0, 0.8, 0, 3000);
-	// t.emitter.setXSpeed(0, 0);
-	// t.emitter.setYSpeed(-80, -50);
-    //
-	// t.emitter.makeParticles('fire');
-    //
-	// t.emitter.start(false, 3000, 50);
-
-	t.trail = SpaceCraftTrail(game, t);
-
 	t.update = update;
 
 	return t;
@@ -67,11 +53,7 @@ function TransportUnit(game, x, y, player) {
 		t.engine.update();
 
 		t.logic && t.logic(t);
-
-		// t.emitter.x = t.sprite.x;
-		// t.emitter.y = t.sprite.y;
-
-		t.trail.update();
+		
 	}
 
 }

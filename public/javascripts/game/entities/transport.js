@@ -33,7 +33,8 @@ function TransportUnit(game, x, y, player) {
 		unit:            t,
 		drag:            120,	// Торможение корабля
 		velocity:        60,	// Скорость корабля
-		angularVelocity: 0.5	// Скорость разворота
+		angularVelocity: 0.5,	// Скорость разворота
+		trail: true				// Использование огня двигателя
 	});
 
 	/**

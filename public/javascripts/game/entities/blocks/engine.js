@@ -22,7 +22,12 @@ function EngineBlock(spec) {
 	var velocity = spec.velocity;
 	var drag = spec.drag;
 
-	t.trail = SpaceCraftTrail(game,  unit);
+	if(spec.trail){
+
+		t.trail = SpaceCraftTrail(game,  unit);
+
+	}
+
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
@@ -53,8 +58,7 @@ function EngineBlock(spec) {
 	 */
 	function moveForward() {
 
-		t.trail.start();
-		
+		useTrail();
 		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
 
 	}
@@ -63,9 +67,8 @@ function EngineBlock(spec) {
 	 * Движение к координатам.
 	 */
 	function moveToXY(x, y) {
-		
-		t.trail.start();
-		
+
+		useTrail();
 		var distance = game.math.distance(unit.sprite.x, unit.sprite.y, x, y);
 
 		// Если дистанция меньше 10,
@@ -126,6 +129,7 @@ function EngineBlock(spec) {
 	 */
 	function rotateLeft() {
 
+		useTrail();
 		unit.sprite.angle -= angularVelocity;
 
 	}
@@ -135,15 +139,24 @@ function EngineBlock(spec) {
 	 */
 	function rotateRight() {
 
+		useTrail();
 		unit.sprite.angle += angularVelocity;
 
+	}
+
+	function useTrail(){
+
+		if(spec.trail) {
+
+			t.trail.start();
+
+		}
 	}
 
 	/**
 	 * Обновление двигателя.
 	 */
 	function update() {
-		
-		t.trail.update();
+
 	}
 }

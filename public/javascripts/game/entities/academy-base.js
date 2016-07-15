@@ -28,9 +28,10 @@ function AcademyBaseUnit(game, x, y) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game: game,
 		unit: t,
-		drag: 0,				// Торможение корабля
-		velocity: 0,			// Скорость корабля
-		angularVelocity: 0.0025	// Скорость разворота
+		drag: 0,					// Торможение корабля
+		velocity: 0,				// Скорость корабля
+		angularVelocity: 0.0025,	// Скорость разворота
+		trail: false				// Использование огня двигателя
 	});
 
 	t.update = update;

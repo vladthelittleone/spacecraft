@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
+var AuthError = require('error').AuthError;
 
 var Schema = mongoose.Schema;
 
@@ -27,32 +28,38 @@ var schema = new Schema({
 	}
 });
 
-schema.methods.encryptPassword = function (password) {
-	
-	return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-	
-};
-
 schema.virtual('password')
 	.set(function (password) {
-		
+
 		this._plainPassword = password;
 		this.salt = Math.random() + '';
 		this.hashedPassword = this.encryptPassword(password);
 	})
 	.get(function () {
-		
+
 		return this._plainPassword;
-		
+
 	});
 
-schema.methods.checkPassword = function (password) {
-	
-	return this.encryptPassword(password) === this.hashedPassword;
-	
-};
+schema.methods.encryptPassword = encryptPassword;
+schema.methods.checkPassword = checkPassword;
+schema.statics.authorize = authorize;
+schema.statics.registration = registration;
+schema.statics.getUserCreationDate = getUserCreationDate;
 
-var AuthError = require('error').AuthError;
+exports.User = mongoose.model('User', schema);
+
+function encryptPassword(password) {
+
+	return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+
+}
+
+function checkPassword(password) {
+
+	return this.encryptPassword(password) === this.hashedPassword;
+
+}
 
 /**
  * 1. Получить юзера с таким email из базы.
@@ -66,90 +73,98 @@ var AuthError = require('error').AuthError;
  * @param password
  * @param callback
  */
-schema.statics.authorize = function (email, password, callback) {
-	
+function authorize(email, password, callback) {
+
 	var User = this;
 
 	async.waterfall([
-		
+
 		function (callback) {
-			
+
 			User.findOne({email: email}, callback);
+			
 		},
 		function (user, callback) {
-			
+
 			if (user) {
-				
+
 				if (user.checkPassword(password)) {
-					
+
 					callback(null, user);
 				}
 				else {
-					
+
 					callback(new AuthError('Пароль неверен'));
+					
 				}
 			}
 			else {
-				
+
 				callback(new AuthError('Пользователь не найден'));
+				
 			}
 		}
+		
 	], callback);
-	
-};
 
-schema.statics.registration = function (email, password, callback) {
-	
+}
+
+function registration(email, password, callback) {
+
 	var User = this;
 
 	async.waterfall([
-		
+
 		function (callback) {
-			
-			User.find({email: email}, callback);
+
+			User.findOne({email: email}, callback);
+
 		},
 		function (user, callback) {
-			
-			if (!user.length) {
-				
+
+			if (user) {
+
 				var newbie = new User({email: email, password: password});
 
 				newbie.save(function (err) {
-					
+
 					if (err) {
-						
+
 						return callback(err);
 					}
 
 					callback(null, newbie);
+
 				});
 			}
 			else {
-				
+
 				callback(new AuthError('Пользователь уже существует'));
+
 			}
 		}
 	], callback);
-};
+
+}
 
 // возвращает дату создание акка пользователся
-schema.statics.getUserCreationDate = function (userID, callback) {
-	
+function getUserCreationDate(userID, callback) {
+
 	var User = this;
 
 	async.waterfall([
-		
+
 		function (callback) {
-			
-			User.findOne({_id: userID}, callback);
+
+			User.findById(userID, callback);
+
 		},
 		function (user, callback) {
-			
+
 			callback(user? user.created: null);
+
 		}
 
 	], callback)
-	
-};
 
-exports.User = mongoose.model('User', schema);
+}

@@ -2,7 +2,7 @@
 # This is sample deploy script
 # You can run this on server after git push or
 # locally before you put new version of website via FTP
-if [ $1 = "build" ]; then
+if [ $1 = "build" ] then
 	echo "[Build] Running npm install"
 	npm install
 	if [ $? = "0" ]; then

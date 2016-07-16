@@ -10,13 +10,21 @@ module.exports = Content();
  */
 function Content() {
 
+	var points = {
+		// Изначальное число очков у игрока на уроке.
+		totalPoints: 1000,
+		// Штрафные очки за действия на уроке.
+		exception: 100,
+		incorrectInput: 40
+	};
+
 	return {
 		text: 'Первое занятие',
 		label: 'Основы JavaScript',
 		quote: 'Преодоление трудного начинается с легкого',
 		rules: require('./autocomplete.json'),
-		startCode: '',
 		isGameLesson: true,
+		points: points,
 		sub:   require('./sub')
 	};
 

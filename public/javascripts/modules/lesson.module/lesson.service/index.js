@@ -201,12 +201,12 @@ function LessonService(connection, audioManager, aceService) {
 			// Обработка отрисовки маркеров
 			if (m) {
 
-				markerId = markers().paintMarker(editorSession, m.x1, m.y1, m.x2, m.y2, m.type);
+				markerId = markers().paintMarker(m.x1, m.y1, m.x2, m.y2, m.type);
 
 			}
 			else {
 
-				markers().deleteMarkerAndAnnotation(editorSession, markerId);
+				markers().deleteMarkerAndAnnotation(markerId);
 
 			}
 

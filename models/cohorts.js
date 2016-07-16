@@ -105,18 +105,18 @@ schema.statics.updateCohort = function (userID, callback) {
 						// выполняем необходимые опреции над данными
 						callback(data, cohortID);
 
-						// TODO: исправить при оптимизации
-						var dataToUpdate = {};
-						dataToUpdate = Object.assign(dataToUpdate, data._doc);
-						delete dataToUpdate._id;
-
-						Cohort.update({_id: data._id}, dataToUpdate, {upsert: true}, _callback);
+						//// TODO: исправить при оптимизации
+						//var dataToUpdate = {};
+						//dataToUpdate = Object.assign(dataToUpdate, data._doc);
+						//delete dataToUpdate._id;
+                        //
+						//Cohort.update({_id: data._id}, dataToUpdate, {upsert: true}, _callback);
 					}
 				}
 			], function (err) {
 
 					if (err) {
-						
+
 						log.warn("Cohort can't update.");
 					}
 				});

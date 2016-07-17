@@ -28,21 +28,39 @@ function JavaScript() {
 			css:    'astromen-img'
 		}, {
 			audio:  'audio/lesson2/2-2.mp3',
-			css:    'astrogirl-img'
-		}, {
-			audio:  'audio/lesson2/2-3.mp3',
 			css:    'astrogirl-img',
 			hint:   [
 				{
-					'next .ace_scroller': 'Функция run исполняет ваш код в цикле',
+					'next .ace_scroller': 'Пример управления транспортным кораблем',
 					'nextButton':         {text: 'Далее'},
 					'showSkip':           false
 				}
-			],
+			]
+		}, {
+			audio:  'audio/lesson2/2-3.mp3',
+			css:    'astrogirl-img',
 			marker: {
 				x1:   6,
 				y2:   Infinity
 			}
+		}, {
+			audio:  'audio/lesson2/2-4.mp3',
+			css:    'astrogirl-img',
+			marker: {
+				x1:   9,
+				y2:   Infinity
+			}
+		}, {
+			audio:  'audio/lesson2/2-5.mp3',
+			css:    'astrogirl-img',
+			waitForHint: true,
+			hint:   [
+				{
+					'click .enhoyhint-play': 'Запустите код',
+					'nextButton':             false,
+					'showSkip':               false
+				}
+			]
 		}],
 		gamePostUpdate: gamePostUpdate
 	};

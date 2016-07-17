@@ -200,15 +200,12 @@ function LessonService(connection, audioManager, aceService) {
 
 			});
 
+			markers().deleteMarkerAndAnnotation(markerId);
+
 			// Обработка отрисовки маркеров
 			if (m) {
 
 				markerId = markers().paintMarker(m.x1, m.y1, m.x2, m.y2, m.type);
-
-			}
-			else {
-
-				markers().deleteMarkerAndAnnotation(markerId);
 
 			}
 

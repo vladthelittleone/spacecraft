@@ -182,7 +182,17 @@ function LessonService(connection, audioManager, aceService) {
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
 			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
-			TabHandler.subscribeOnTabShow( audioWrapper.play );
+			TabHandler.subscribeOnTabShow( function () {
+
+				var last = current.character.length;
+
+				// Если не последняя реплика
+				if (audioIndex < last)
+				{
+					audioWrapper.play()
+				}
+
+			} );
 
 			// Постановка на паузу
 			scope.audioPause = false;

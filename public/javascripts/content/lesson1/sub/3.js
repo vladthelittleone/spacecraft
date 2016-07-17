@@ -34,7 +34,6 @@ function Command() {
 				x1:   8,
 				y2:   Infinity
 			}
-
 		},{
 			audio:  'audio/lesson2/3-3.mp3',
 			css:    'astromen-img',

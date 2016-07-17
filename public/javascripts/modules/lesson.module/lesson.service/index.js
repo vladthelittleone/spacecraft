@@ -11,6 +11,7 @@ var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 var TabHandler = require( '../../../emitters' );
 var Statistics = require('../../../utils/statistics');
+var AudioWrapper = require('./audio');
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService'];
 
@@ -31,9 +32,8 @@ function LessonService(connection, audioManager, aceService) {
 	var markerId; 		// Маркер
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
-	var audioIndex;		// Индекс текущиего трека
 
-	var audioWrapper = AudioWrapper();
+	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
 	var storage = Storage();
 	var markers = aceService.getMarkerService;
 	var currentStatistics = Statistics();
@@ -52,101 +52,6 @@ function LessonService(connection, audioManager, aceService) {
 	return that;
 
 	/**
-	 * Обертка доп. функционала вокруг AudioManager.
-	 */
-	function AudioWrapper() {
-
-		var audio;
-
-		var that = {};
-
-		/**
-		 * Открытие предыдущего урока.
-		 */
-		function previous() {
-
-			audioIndex = Math.max(audioIndex - 2, 0);
-
-			initNextLessonContent();
-
-		}
-
-		/**
-		 * Включить предыдущую дорожку.
-		 */
-		that.previousAudio = function () {
-
-			// При определенном значение времени текущего трека
-			// не переклчюаемся на предыдущий трек,
-			// а начинаем сначала текущий.
-			if (audio.currentTime / 5 < 1) {
-
-				audio.pause();
-
-				audio.currentTime = 0;
-
-				previous();
-
-				return true;
-
-			}
-			else {
-
-				audio.currentTime = 0;
-
-			}
-
-		};
-
-		/**
-		 * Переключатель аудио.
-		 */
-		that.toggleAudio = function (audioPause) {
-
-			if (audioPause) {
-
-				audio.play();
-
-			}
-			else {
-
-				audio.pause();
-
-			}
-
-		};
-
-
-		that.play = function () {
-
-			audio.play();
-
-		};
-
-
-		that.pause = function () {
-
-			audio.pause();
-
-		};
-
-		that.onEnd = function (callback) {
-
-			audio.onended = callback;
-
-		};
-
-		that.create = function (a) {
-
-			audio = audioManager.createVoice(a);
-
-		};
-
-		return that;
-
-	}
-
-	/**
 	 * Текущий подурок.
 	 */
 	function currentSubLesson() {
@@ -162,7 +67,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		var current = currentSubLesson();
 
-		var ch = scope.char = current.character[audioIndex];
+		var ch = scope.char = current.character[audioWrapper.audioIndex];
 
 		if (ch) {
 
@@ -184,11 +89,9 @@ function LessonService(connection, audioManager, aceService) {
 			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
 			TabHandler.subscribeOnTabShow( function () {
 
-				var last = current.character.length;
-
 				// Если не последняя реплика
-				if (audioIndex < last)
-				{
+				if (!scope.audioPause) {
+
 					audioWrapper.play()
 				}
 
@@ -202,7 +105,7 @@ function LessonService(connection, audioManager, aceService) {
 				scope.audioPause = true;
 
 				// Увеличение счетчиа номера трека
-				audioIndex++;
+				audioWrapper.audioIndex++;
 
 				initNextLessonContent();
 
@@ -232,6 +135,8 @@ function LessonService(connection, audioManager, aceService) {
 
 		if (hint) {
 
+			console.log(hint);
+
 			var enjoyHint = new EnjoyHint({
 
 				onEnd: function () {
@@ -240,6 +145,8 @@ function LessonService(connection, audioManager, aceService) {
 
 					// В случае  true - ждем нажатия на подсказку
 					if (char.waitForHint) {
+
+						console.log("ssssssss");
 
 						audioWrapper.onEnd(callback);
 
@@ -336,7 +243,7 @@ function LessonService(connection, audioManager, aceService) {
 		markers().deleteMarkerAndAnnotation(editorSession, markerId);
 
 		// Установка трека в 0
-		audioIndex = 0;
+		audioWrapper.audioIndex = 0;
 
 		// Сокрытие панели инструкций
 		scope.textContent = false;
@@ -434,7 +341,7 @@ function LessonService(connection, audioManager, aceService) {
 		currentStatistics.initialize(lessonPoints);
 
 		scope.subIndex = 0;
-		audioIndex = 0;
+		audioWrapper.audioIndex = 0;
 
 		// Получаем урок из локального хранилища
 		var config = storage.getCurrent(lessonId);
@@ -579,7 +486,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		var current = currentSubLesson();
 
-		current.gamePreUpdate && current.gamePreUpdate(audioIndex, run);
+		current.gamePreUpdate && current.gamePreUpdate(audioWrapper.audioIndex, run);
 
 	}
 

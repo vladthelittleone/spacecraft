@@ -3,9 +3,9 @@
  */
 'use strict';
 
-module.exports = SpaceCraftTrail;
+module.exports = Trail;
 
-function SpaceCraftTrail (game, spaceCraft, trailX, trailY){
+function Trail (game, spaceCraft, trailX, trailY){
 
 	var t = {};
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var SpaceCraftTrail = require('./SpaceCraftTrail');
+var Trail = require('./trail');
 
 // Экспорт
 module.exports = EngineBlock;
@@ -24,7 +24,7 @@ function EngineBlock(spec) {
 
 	if(spec.trail){
 
-		t.trail = SpaceCraftTrail(game,  unit, spec.trailX, spec.trailY);
+		t.trail = Trail(game,  unit, spec.trailX, spec.trailY);
 
 	}
 

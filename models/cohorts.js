@@ -50,12 +50,12 @@ function updateCohort(userID, callback) {
 
 						if (!data) {
 
-							addNewCohort(todayDate, monthInt, callback);
+							addNewCohort(todayDate, monthInt, Cohort, callback);
 
 						}
 						else {
 
-							update(data, monthInt, callback, _callback);
+							update(data, monthInt, Cohort, callback, _callback);
 
 						}
 					}
@@ -76,7 +76,7 @@ function updateCohort(userID, callback) {
 
 }
 
-function update(data, cohortID, callback, _callback) {
+function update(data, cohortID, Cohort, callback, _callback) {
 
 	var _cohorts = data.cohorts;
 
@@ -90,14 +90,10 @@ function update(data, cohortID, callback, _callback) {
 	// выполняем необходимые опреции над данными
 	callback(data, cohortID);
 
-	var Cohort = this;
-
 	Cohort.findByIdAndUpdate(data._id, {cohorts: data.toObject().cohorts}, {upsert: true}, _callback);
 }
 
-function addNewCohort(todayDate, cohortID, callback) {
-
-	var Cohort = this;
+function addNewCohort(todayDate, cohortID, Cohort, callback) {
 
 	var newData = new Cohort({
 

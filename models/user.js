@@ -122,7 +122,7 @@ function registration(email, password, callback) {
 		},
 		function (user, callback) {
 
-			if (user) {
+			if (!user) {
 
 				var newbie = new User({email: email, password: password});
 

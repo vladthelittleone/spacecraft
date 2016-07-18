@@ -27,19 +27,38 @@ function WhatDoesBBotSay() {
 							'<li>Добавьте команду <span class="under-label-gray">BBotDebug(\'Всем привет!\');</span> на <strong>5</strong> строку.</li>' +
 							'</ul>',
 		character:          [{
-			audio:  'audio/lesson1/3.mp3',
+			audio: 'audio/lesson2/4-1.mp3',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson2/4-2.mp3',
+			css:   'astromen-img',
+			marker:      {
+				x1: 2,
+				y2: Infinity
+			}
+		}, {
+			audio:       'audio/lesson2/4-3.mp3',
+			css:         'astrogirl-img',
+			waitForHint: true,
+			marker:      {
+				x1: 2,
+				y2: Infinity
+			}
+		}, {
+			audio:       'audio/lesson2/4-4.mp3',
+			css:         'astrogirl-img',
+			waitForHint: true,
+			hint:        [{
+				'click .enhoyhint-play': 'Запустите код и увидите результат',
+				'nextButton':            false,
+				'showSkip':              false
+			}]
+		}, {
+			audio:  'audio/lesson2/4-5.mp3',
 			css:    'astrogirl-img',
-			hint:   [
-				{
-					'next .ace_scroller': 'Редактор кода',
-					'nextButton':         {text: 'Далее'},
-					'showSkip':           false
-				}
-			],
 			marker: {
-				x1:   6,
-				y2:   Infinity,
-				type: 'line'
+				x1: 5,
+				y2: Infinity
 			}
 		}],
 		interpreterHandler: interpreterHandler

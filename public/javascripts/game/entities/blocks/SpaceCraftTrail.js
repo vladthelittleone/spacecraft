@@ -5,7 +5,7 @@
 
 module.exports = SpaceCraftTrail;
 
-function SpaceCraftTrail (game, spaceCraft){
+function SpaceCraftTrail (game, spaceCraft, trailX, trailY){
 
 	var t = {};
 
@@ -16,8 +16,9 @@ function SpaceCraftTrail (game, spaceCraft){
 
 	sprite.addChild(t.emitter);
 
-	t.emitter.y = 0;
-	t.emitter.x = - sprite.width / 2;
+	t.emitter.y = trailY || 0;
+	t.emitter.x = - trailX || sprite.width / 2;
+	
 	t.emitter.lifespan = 100;
 	t.emitter.maxParticleSpeed = new Phaser.Point(-50,25);
 	t.emitter.minParticleSpeed = new Phaser.Point(-100,-25);

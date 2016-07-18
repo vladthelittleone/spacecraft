@@ -24,7 +24,7 @@ function EngineBlock(spec) {
 
 	if(spec.trail){
 
-		t.trail = SpaceCraftTrail(game,  unit);
+		t.trail = SpaceCraftTrail(game,  unit, spec.trailX, spec.trailY);
 
 	}
 

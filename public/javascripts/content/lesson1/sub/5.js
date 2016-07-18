@@ -23,19 +23,46 @@ function Comments() {
 							'<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
 							'</ul>',
 		character:          [{
-			audio:  'audio/lesson1/3.mp3',
-			css:    'astrogirl-img',
+			audio:  'audio/lesson2/5-1.mp3',
+			css:    'astromen-img'
+		},{
+			audio:  'audio/lesson2/5-2.mp3',
+			css:    'astromen-img',
 			hint:   [
 				{
-					'next .ace_scroller': 'Редактор кода',
+					'next .ace_scroller': 'Текст, который начинается с // - комментарий',
 					'nextButton':         {text: 'Далее'},
 					'showSkip':           false
 				}
-			],
-			marker: {
-				x1:   6,
-				y2:   Infinity,
-				type: 'line'
+			]
+		},{
+			audio:  'audio/lesson2/5-3.mp3',
+			css:    'astromen-img'
+		},{
+			audio:  'audio/lesson2/5-4.mp3',
+			css:    'astromen-img',
+			marker:      {
+				x1: 1,
+				y2: Infinity
+			}
+		},{
+			audio:  'audio/lesson2/5-5.mp3',
+			css:    'astromen-img',
+			marker:      {
+				x1: 3,
+				x2: 5,
+				y2: Infinity
+			}
+		},{
+			audio:  'audio/lesson2/5-6.mp3',
+			css:    'astrogirl-img'
+		},{
+			audio:  'audio/lesson2/5-7.mp3',
+			css:    'astrogirl-img',
+			marker:      {
+				x1: 8,
+				x2: 8,
+				y2: Infinity
 			}
 		}],
 		interpreterHandler: interpreterHandler

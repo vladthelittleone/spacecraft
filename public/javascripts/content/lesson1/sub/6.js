@@ -19,32 +19,23 @@ function Alert() {
 	var delta = 0;
 
 	return {
-		title:         'Тревога',
-		runOnStart:    true,
-		content:       content,
+		title:        'Тревога',
+		runOnStart:   true,
+		content:      content,
 		// Список команд задан в панели инструкций
-		instructions:  '<ul>' +
-					   '<li>У вас мало времени. По расчетам BBot\'а осталось 20 секунд.</li>' +
-					   '<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
-					   '<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
-					   '<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
-					   '<li>Команды внутри комментариев не выполняются!</li>' +
-					   '</ul>',
-		character:     [{
-			audio:  'audio/lesson1/3.mp3',
-			css:    'astrogirl-img',
-			hint:   [
-				{
-					'next .ace_scroller': 'Редактор кода',
-					'nextButton':         {text: 'Далее'},
-					'showSkip':           false
-				}
-			],
-			marker: {
-				x1:   6,
-				y2:   Infinity,
-				type: 'line'
-			}
+		instructions: '<ul>' +
+					  '<li>У вас мало времени. По расчетам BBot\'а осталось 20 секунд.</li>' +
+					  '<li><span class="red-label">transport.moveForward()</span> - полет вперед.</li>' +
+					  '<li><span class="red-label">transport.rotateLeft()</span> - поворот влево.</li>' +
+					  '<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
+					  '<li>Команды внутри комментариев не выполняются!</li>' +
+					  '</ul>',
+		character:    [{
+			audio: 'audio/lesson2/6-1.mp3',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson2/6-2.mp3',
+			css:   'astrogirl-img'
 		}],
 
 		gamePreUpdate: gamePreUpdate,
@@ -55,7 +46,17 @@ function Alert() {
 
 	function gamePreUpdate(index, callback) {
 
-		callback && callback();
+		// Если подурок первый
+		if (index > 0) {
+
+			callback && callback();
+
+		}
+		else {	// Иначе останавилваем.
+
+			CodeLauncher.stop();
+
+		}
 
 	}
 

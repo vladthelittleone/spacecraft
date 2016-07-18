@@ -16,14 +16,9 @@ function GalaxyYear() {
 	var storage = Storage();
 
 	return {
+
 		title:              'Галактическая единица',
-		content:            function () {
-
-			return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
-				'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
-				'<p>Высылаю вам инструкции.</p>';
-
-		},
+		content:            content,
 		instructions:       '<ul>' +
 							'<li>Введите свой возраст и поделите на 250 (является периодом вращения систем вокруг центра нашей галактики в млн. лет).</li>' +
 							'<li>Для деления используется оператор <span class="under-label">/</span>.</li>' +
@@ -68,14 +63,24 @@ function GalaxyYear() {
 				// Если выведено число, то результат положительный
 				return botText.result(isNumeric(value));
 
-			}
+			}				
 
 			return botText.resultNotCorrect('emptyInput');
 
 		}
 	};
 
+	function content() {
+
+		return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
+			'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
+			'<p>Высылаю вам инструкции.</p>';
+
+	}
+
 	function isNumeric(n) {
+
 		return !isNaN(parseFloat(n)) && isFinite(n);
+
 	}
 }

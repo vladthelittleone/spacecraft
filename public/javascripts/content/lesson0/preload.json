@@ -4,5 +4,5 @@
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
 	"shield": "images/sprites/entities/shared/shield.png",
-	"fire": "images/sprites/entities/fire1.png"
+	"trail": "images/sprites/entities/trail.png"
 }

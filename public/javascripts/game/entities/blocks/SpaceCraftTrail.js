@@ -17,7 +17,7 @@ function SpaceCraftTrail (game, spaceCraft, trailX, trailY){
 	sprite.addChild(t.emitter);
 
 	t.emitter.y = trailY || 0;
-	t.emitter.x = - trailX || sprite.width / 2;
+	t.emitter.x = - trailX || - sprite.width / 2;
 	
 	t.emitter.lifespan = 100;
 	t.emitter.maxParticleSpeed = new Phaser.Point(-50,25);

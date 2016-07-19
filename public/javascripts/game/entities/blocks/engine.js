@@ -24,7 +24,7 @@ function EngineBlock(spec) {
 
 	if(spec.trail){
 
-		t.trail = Trail(game,  unit, spec.trailX, spec.trailY);
+		t.trail = Trail(game, unit, spec.trailX, spec.trailY);
 
 	}
 
@@ -59,6 +59,7 @@ function EngineBlock(spec) {
 	function moveForward() {
 
 		useTrail();
+
 		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
 
 	}
@@ -69,6 +70,7 @@ function EngineBlock(spec) {
 	function moveToXY(x, y) {
 
 		useTrail();
+
 		var distance = game.math.distance(unit.sprite.x, unit.sprite.y, x, y);
 
 		// Если дистанция меньше 10,

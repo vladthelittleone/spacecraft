@@ -12,5 +12,6 @@
 	"meteor4": "images/sprites/entities/meteors/meteor4.png",
 	"meteor5": "images/sprites/entities/meteors/meteor5.png",
 	"meteor6": "images/sprites/entities/meteors/meteor6.png",
-	"meteor7": "images/sprites/entities/meteors/meteor7.png"
+	"meteor7": "images/sprites/entities/meteors/meteor7.png",
+	"trail": "images/sprites/entities/trail.png"
 }

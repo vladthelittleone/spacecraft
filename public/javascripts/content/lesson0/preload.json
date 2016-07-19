@@ -3,5 +3,6 @@
 	"harvester": "images/sprites/entities/harvester.png",
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
-	"shield": "images/sprites/entities/shared/shield.png"
+	"shield": "images/sprites/entities/shared/shield.png",
+	"trail": "images/sprites/entities/trail.png"
 }

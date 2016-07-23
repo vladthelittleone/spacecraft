@@ -1,5 +1,7 @@
 'use strict';
 
+var Trail = require('./trail');
+
 // Экспорт
 module.exports = EngineBlock;
 
@@ -19,6 +21,13 @@ function EngineBlock(spec) {
 	var angularVelocity = spec.angularVelocity;
 	var velocity = spec.velocity;
 	var drag = spec.drag;
+
+	if(spec.trail){
+
+		t.trail = Trail(game, unit, spec.trailX, spec.trailY);
+
+	}
+
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
@@ -49,6 +58,8 @@ function EngineBlock(spec) {
 	 */
 	function moveForward() {
 
+		useTrail();
+
 		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
 
 	}
@@ -57,6 +68,8 @@ function EngineBlock(spec) {
 	 * Движение к координатам.
 	 */
 	function moveToXY(x, y) {
+
+		useTrail();
 
 		var distance = game.math.distance(unit.sprite.x, unit.sprite.y, x, y);
 
@@ -118,6 +131,7 @@ function EngineBlock(spec) {
 	 */
 	function rotateLeft() {
 
+		useTrail();
 		unit.sprite.angle -= angularVelocity;
 
 	}
@@ -127,8 +141,18 @@ function EngineBlock(spec) {
 	 */
 	function rotateRight() {
 
+		useTrail();
 		unit.sprite.angle += angularVelocity;
 
+	}
+
+	function useTrail(){
+
+		if(spec.trail) {
+
+			t.trail.start();
+
+		}
 	}
 
 	/**

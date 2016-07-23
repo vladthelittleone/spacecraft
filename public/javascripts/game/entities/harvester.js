@@ -33,7 +33,8 @@ function HarvesterUnit(game, x, y, player) {
 		unit: t,
 		drag: 30,				// Торможение корабля
 		velocity: 20,			// Скорость корабля
-		angularVelocity: 0.2	// Скорость разворота
+		angularVelocity: 0.2,	// Скорость разворота
+		trail: true				// Использование огня двигателя
 	});
 
 	/**

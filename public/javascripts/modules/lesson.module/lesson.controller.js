@@ -150,12 +150,16 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 			// Выводим ошибку
 			$scope.textBot = errorWrapper(error);
 
-			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(errorLine, error);
+			if (errorLine) {
 
-			// Сохраняем в сервисе.
-			// В связи с использованием указаний в уроке.
-			service.setMarkerId(markerId);
+				// Указываем маркер
+				markerId = markerService.setMarkerAndAnnotation(errorLine, error);
+
+				// Сохраняем в сервисе.
+				// В связи с использованием указаний в уроке.
+				service.setMarkerId(markerId);
+
+			}
 
 		}
 

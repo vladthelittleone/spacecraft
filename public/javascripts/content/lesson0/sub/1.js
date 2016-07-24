@@ -19,9 +19,12 @@ function WelcomeToAcademy() {
 					  '<li>Правее находится панель управления, с помощью которой вы сможете управлять записями, запускать код и вывести текстовый материал.</li>' +
 					  '<li>Нажмите "Далее" для продолжения.</li>' +
 					  '</ul>',
+		rightToolbarStatus: {
+			codeRunIsActive: false
+		},
 		character:    [{
 			audio: 'audio/lesson1/1.mp3',
-			css:   'astromen-img'
+			css:   'astromen-img',
 		}, {
 			audio: 'audio/lesson1/2.mp3',
 			css:   'astrogirl-img'
@@ -63,7 +66,8 @@ function WelcomeToAcademy() {
 				'click .enjoy-hint-next': 'Нажмите для перехода к следующему уроку',
 				'nextButton':             false,
 				'showSkip':               false
-			}]
+			}],
+
 		}]
 	};
 

@@ -30,6 +30,9 @@ function Alert() {
 					  '<li><span class="red-label">transport.rotateRight()</span> - поворот вправо.</li>' +
 					  '<li>Команды внутри комментариев не выполняются!</li>' +
 					  '</ul>',
+		rightToolbarStatus: {
+			codeRunIsActive: false
+		},
 		character:    [{
 			audio: 'audio/lesson2/6-1.mp3',
 			css:   'astromen-img'

@@ -24,6 +24,9 @@ function GalaxyYear() {
 							'<li>Для деления используется оператор <span class="under-label">/</span>.</li>' +
 							'<li>Например: <span class="under-label">21 / 250</span>.</li>' +
 							'</ul>',
+		rightToolbarStatus: {
+			codeRunIsActive: true
+		},
 		character:          [{
 			audio: 'audio/lesson1/2-1.mp3',
 			css:   'astromen-img'
@@ -35,7 +38,7 @@ function GalaxyYear() {
 				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
 				'nextButton':             false,
 				'showSkip':               false
-			}]
+			}],
 		}],
 		interpreterHandler: function (value) {
 
@@ -63,7 +66,7 @@ function GalaxyYear() {
 				// Если выведено число, то результат положительный
 				return botText.result(isNumeric(value));
 
-			}				
+			}
 
 			return botText.resultNotCorrect('emptyInput');
 

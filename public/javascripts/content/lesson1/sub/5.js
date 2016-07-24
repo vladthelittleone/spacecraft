@@ -22,6 +22,9 @@ function Comments() {
 							'<li>Закомментируйте кусок кода в строке <strong>8</strong> и <strong>9</strong>.</li>' +
 							'<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
 							'</ul>',
+		rightToolbarStatus: {
+			codeRunIsActive: false
+		},
 		character:          [{
 			audio:  'audio/lesson2/5-1.mp3',
 			css:    'astromen-img'
@@ -59,6 +62,10 @@ function Comments() {
 		},{
 			audio:  'audio/lesson2/5-7.mp3',
 			css:    'astrogirl-img',
+			rightToolbarStatusChanger: function(rightToolbarStatus) {
+
+				rightToolbarStatus.codeRunIsActive = true;
+			},
 			marker:      {
 				x1: 8,
 				x2: 8,

@@ -24,9 +24,6 @@ function Command() {
 						'<li>Вы можете воспользоваться автодополнением, нажав <span class="under-label-gray">Space + Alt</span>.</li>' +
 						'<li>Если нажать <span class="under-label-gray">Space + Alt</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
 						'</ul>',
-		rightToolbarStatus: {
-			codeRunIsActive: false
-		},
 		character:      [{
 			audio:  'audio/lesson2/3-1.mp3',
 			css:    'astromen-img'
@@ -48,10 +45,6 @@ function Command() {
 		},{
 			audio:  'audio/lesson2/3-4.mp3',
 			css:    'astrogirl-img',
-			rightToolbarStatusChanger: function(rightToolbarStatus) {
-
-				rightToolbarStatus.codeRunIsActive = true;
-			},
 			hint:        [{
 				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
 				'nextButton':             false,

@@ -24,9 +24,6 @@ function End() {
 				'<p>Желаю удачи!</p>';
 
 		},
-		rightToolbarStatus: {
-			codeRunIsActive: false
-		},
 		instructions: '<ul>' +
 					  '<li>Нажмите "Далее" для продолжения.</li>' +
 					  '</ul>',

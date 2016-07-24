@@ -26,9 +26,6 @@ function WhatDoesBBotSay() {
 		hint:               '<ul>' +
 							'<li>Добавьте команду <span class="under-label-gray">BBotDebug(\'Всем привет!\');</span> на <strong>5</strong> строку.</li>' +
 							'</ul>',
-		rightToolbarStatus: {
-			codeRunIsActive: false
-		},
 		character:          [{
 			audio: 'audio/lesson2/4-1.mp3',
 			css:   'astromen-img'
@@ -51,10 +48,6 @@ function WhatDoesBBotSay() {
 			audio:       'audio/lesson2/4-4.mp3',
 			css:         'astrogirl-img',
 			waitForHint: true,
-			rightToolbarStatusChanger: function(rightToolbarStatus) {
-
-				rightToolbarStatus.codeRunIsActive = true;
-			},
 			hint:        [{
 				'click .enhoyhint-play': 'Запустите код и увидите результат',
 				'nextButton':            false,

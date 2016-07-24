@@ -20,9 +20,6 @@ function AcademyProgram() {
 		instructions: '<ul>' +
 					  '<li>Нажмите "Далее" для продолжения.</li>' +
 					  '</ul>',
-		rightToolbarStatus: {
-			codeRunIsActive: false
-		},
 		character:    [{
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img'

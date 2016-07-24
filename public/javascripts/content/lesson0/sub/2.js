@@ -22,9 +22,6 @@ function YourName() {
 							'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">"Нилар"</span>.</li>' +
 							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 							'</ul>',
-		rightToolbarStatus: {
-			codeRunIsActive: true
-		},
 		character:          [{
 			audio: 'audio/lesson1/1-1.mp3',
 			css:   'astromen-img',
@@ -32,7 +29,7 @@ function YourName() {
 				'next .ace_scroller': 'Введите свое имя в кавычках',
 				'nextButton':         {text: 'Далее'},
 				'showSkip':           false
-			}],
+			}]
 		}, {
 			audio:       'audio/lesson1/1-2.mp3',
 			css:         'astrogirl-img',

@@ -125,13 +125,6 @@ function LessonService(connection, audioManager, aceService) {
 
 			}
 
-			var rightToolbarStatusChanger = ch.rightToolbarStatusChanger;
-
-			if (rightToolbarStatusChanger)
-			{
-				rightToolbarStatusChanger(scope.curretSubLesson.rightToolbarStatus);
-			}
-
 		}
 
 	}

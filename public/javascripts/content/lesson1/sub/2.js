@@ -23,9 +23,6 @@ function JavaScript() {
 						'<li>Функция <span class="under-label">run</span> в бесконечном цикле последовательно раз за разом выполняет написанный код управления. Являтеся одной из самых важных функций SpaceCraft.</li>' +
 						'<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Introduction">клац</a>.</li>' +
 						'</ul>',
-		rightToolbarStatus: {
-			codeRunIsActive: false
-		},
 		character:      [{
 			audio:  'audio/lesson2/2-1.mp3',
 			css:    'astromen-img'
@@ -57,10 +54,6 @@ function JavaScript() {
 			audio:  'audio/lesson2/2-5.mp3',
 			css:    'astrogirl-img',
 			waitForHint: true,
-			rightToolbarStatusChanger: function(rightToolbarStatus) {
-
-				rightToolbarStatus.codeRunIsActive = true;
-			},
 			hint:   [
 				{
 					'click .enhoyhint-play': 'Запустите код',

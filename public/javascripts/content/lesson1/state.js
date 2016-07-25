@@ -48,7 +48,6 @@ function StateWrapper(state) {
 
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x - 500, y - 500);
-		console.log(x + " " + sprite.x );
 
 		mineField(game, x, y);
 

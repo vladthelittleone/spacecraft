@@ -138,8 +138,6 @@ function LessonService(connection, audioManager, aceService) {
 
 		if (hint) {
 
-			console.log(hint);
-
 			var enjoyHint = new EnjoyHint({
 
 				onEnd: function () {

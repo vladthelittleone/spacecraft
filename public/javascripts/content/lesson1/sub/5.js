@@ -20,6 +20,7 @@ function Comments() {
 		// Закомментируйте кусок кода на строке 8 и 9, пока никто не видет.
 		instructions:       '<ul>' +
 							'<li>Закомментируйте кусок кода в строке <strong>8</strong> и <strong>9</strong>.</li>' +
+							'<li>Заметим, что код внутри комментариев не выполняется!</li>' +
 							'<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
 							'</ul>',
 		character:          [{

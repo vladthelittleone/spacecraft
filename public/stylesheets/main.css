@@ -910,8 +910,8 @@ pre {
 
 .astrogirl-img {
 	height: 400px;
-	width: 144px;
-	background-image: url(../images/pages/astrogirl.png);
+	width: 120px;
+	background-image: url(../images/pages/astrogirl-hologram.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 50% 50%;
@@ -921,7 +921,7 @@ pre {
 .astromen-img {
 	height: 400px;
 	width: 120px;
-	background-image: url(../images/pages/officer.png);
+	background-image: url(../images/pages/officer-hologram.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 50% 50%;

@@ -47,7 +47,7 @@ function StateWrapper(state) {
 		player.api = Api(player);
 
 		// Создать метеоритное поле
-		EntitiesFactory.createMeteorField(game, x - 500, y - 500);
+		EntitiesFactory.createMeteorField(game, x, y);
 
 		mineField(game, x, y);
 

@@ -47,7 +47,7 @@ function StateWrapper(state) {
 		player.api = Api(player);
 
 		// Создать метеоритное поле
-		EntitiesFactory.createMeteorField(game, sprite.x, sprite.y);
+		EntitiesFactory.createMeteorField(game, x, y);
 
 		mineField(game, x, y);
 
@@ -65,9 +65,8 @@ function StateWrapper(state) {
 	 * Создание минного поля.
      */
 	function mineField(game) {
-
 		// Создать минное поле
-		mineXY = new Phaser.Point(1500, 1500);
+		mineXY = new Phaser.Point(1100, 1100);
 
 		// Создаем группу из мин
 		mines = game.add.group();

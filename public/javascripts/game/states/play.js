@@ -36,8 +36,8 @@ function PlayState(game) {
 		var bounds = {
 			x:      0,
 			y:      0,
-			width:  1920,
-			height: 1920
+			width:  4000,
+			height: 4000
 		};
 
 		game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.width);

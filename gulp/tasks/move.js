@@ -5,6 +5,6 @@ var gulp = require('gulp');
 var rev = require('gulp-rev');
 
 module.exports = function() {
-	return gulp.src(['./public/javascripts/code/**', './public/lib/**'], { base: './public' })
+	return gulp.src(['./public/javascripts/code/**', './public/lib/**', './public/favicon.ico'], { base: './public' })
 		.pipe(gulp.dest('./build/'));
 };

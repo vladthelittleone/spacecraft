@@ -26,6 +26,8 @@ function Statistics ()  {
 	that.incRunCount = incRunCount;
 	that.subPointsForException = subPointsForException;
 	that.subPointsForIncorrectInput = subPointsForIncorrectInput;
+	that.getLessonPoints = getLessonPoints;
+	that.subCurrentScore = subCurrentScore;
 
 	return that;
 
@@ -143,6 +145,12 @@ function Statistics ()  {
 	function subPointsForIncorrectInput() {
 
 		subCurrentScore(lessonPoints.incorrectInput);
+
+	}
+
+	function getLessonPoints() {
+
+		return lessonPoints;
 
 	}
 

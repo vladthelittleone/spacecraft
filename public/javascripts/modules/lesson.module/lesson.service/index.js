@@ -500,7 +500,7 @@ function LessonService(connection, audioManager, aceService) {
 		var world = EntitiesFactory.getWorld();
 		var player = world.getPlayer();
 
-		var result = current.gamePostUpdate(player.api, world, botText);
+		var result = current.gamePostUpdate(player.api, currentStatistics, world, botText);
 
 		if (result && result.status) {
 

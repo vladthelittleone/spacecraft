@@ -13,6 +13,14 @@ module.exports = Alert();
  */
 function Alert() {
 
+	var missionStatus = {
+		IN_PROGRESS: 0,
+		SUCCESS: 1,
+		FAILED: -1
+	};
+
+	var currentMissionStatus = missionStatus.IN_PROGRESS;
+
 	var TIME = 20000;
 
 	var time = 0;
@@ -60,7 +68,7 @@ function Alert() {
 
 	}
 
-	function gamePostUpdate(transport) {
+	function gamePostUpdate(transport, currentStatistics) {
 
 		var botText = BBotText({
 
@@ -79,6 +87,16 @@ function Alert() {
 		// результат отрицательный.
 		if (!transport.isAlive()) {
 
+			// Дабы избавиться от многократного отнимания очков.
+			if (currentMissionStatus === missionStatus.IN_PROGRESS) {
+
+				currentMissionStatus = missionStatus.FAILED;
+
+				var lessonPoints = currentStatistics.getLessonPoints();
+
+				currentStatistics.subCurrentScore(lessonPoints.missionStopTransportFail);
+			}
+
 			return botText.resultFaield();
 
 		}
@@ -94,6 +112,8 @@ function Alert() {
 
 			// Если дельта больше TIME секунд
 			if (delta > TIME) {
+
+				// currentMissionStatus = missionStatus.SUCCESS;
 
 				// Победа!
 				return botText.resultCorrect();

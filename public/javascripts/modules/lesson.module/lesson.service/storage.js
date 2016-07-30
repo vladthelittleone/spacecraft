@@ -15,6 +15,7 @@ function LessonStorage() {
 
 	that.set = set;
 	that.getLessons = getLessons;
+	that.isLessonsExists = isLessonsExists;
 	that.getCurrentSubLesson = getCurrentSubLesson;
 	that.setString = setString;
 	that.getString = getString;
@@ -58,7 +59,15 @@ function LessonStorage() {
 		return json && JSON.parse(json) || [];
 
 	}
+н
+	/**
+	 * true
+	 * @returns {boolean}
+     */
+	function isLessonsExists() {
 
+		return storage.local.getItem('lessons');
+	}
 	/**
 	 * Задать строку в лок. хранилище.
 	 */
@@ -76,4 +85,5 @@ function LessonStorage() {
 		return storage.local.getItem(name);
 
 	}
+
 }

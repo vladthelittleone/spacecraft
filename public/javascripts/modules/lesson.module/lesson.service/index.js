@@ -34,10 +34,8 @@ function LessonService(connection, audioManager, aceService) {
 	var scope;			// scope
 	var lessons;		// массив уроков. Содержит данные по ВСЕМ урокам пользователя.
 
-	// Константа для указания окончания урока.
-	// Хорошо бы писать сюда строку, для удобства интерпретации в базе.
-	var LESSON_IS_FINISHED = 1;
-
+	// Константа для указания окончания урока в поле currentSubLesson статистики.
+	var LESSON_IS_FINISHED = "Lesson is finished";
 
 	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
 	var storage = Storage();
@@ -178,6 +176,7 @@ function LessonService(connection, audioManager, aceService) {
 				});
 
 			}
+
 		}
 		else {
 
@@ -225,6 +224,7 @@ function LessonService(connection, audioManager, aceService) {
 		storage.set('lessons', lessons);
 
 		connection.saveLessonsStatistics(args);
+
 	}
 
 	/**
@@ -256,7 +256,9 @@ function LessonService(connection, audioManager, aceService) {
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;
 
-		if (scope.subIndex !== size - 1) {
+		var lessonIsNotFinished = scope.subIndex !== size - 1;
+
+		if (lessonIsNotFinished) {
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate && Game.restart();
@@ -266,7 +268,7 @@ function LessonService(connection, audioManager, aceService) {
 			initNextLesson();
 
 			saveStatistics({
-				currentSubLesson:       scope.subIndex + 1,
+				currentSubLesson:       scope.subIndex,
 				lessonId:      			lessonId,
 				size:          			size,
 				completed:     			false, // мы еще не закончили урок до конца, поэтому false.
@@ -314,6 +316,103 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
+
+	/**
+	 * Достает номер подурока с учетом возможной установки флага completed.
+	 * Если completed установлен, то считается, что урок был завершен.
+	 * Соотв. начальный индекс подурока будет возвращатся в виде 0.
+	 * В противном случае, в lesson, а точнее в поле currentSubLesson, лежит
+	 * индекс текущего подурока.
+	 */
+	function getSubLessonId(lesson) {
+
+		var subLessonId = 0;
+
+		// Если текущий пудрок не равен значению "УРОК ОКОНЧЕН" и флаг
+		// completed НЕ установлен (урок НЕ окончен).
+		var isLessonCanBeContinued = lesson.currentSubLesson !== LESSON_IS_FINISHED && !lesson.completed;
+
+		if (isLessonCanBeContinued) {
+
+			subLessonId = lesson.currentSubLesson;
+
+		}
+
+		return subLessonId;
+
+	}
+
+	/**
+	 * Метод обработки данных по урокам, которые были выгружены либо
+	 * с локального хранилища либо с сервера.
+	 * На самом деле, совершенно не важно, откуда они были получены,
+	 * так как алгоритм их обработки един для всех случаев.
+	 * Поэтому он и был вынесен в отдельный метод :)
+	 *
+	 * @param lessons массив уроков.
+	 * @param lessonId номер обрабатываемого урока.
+     */
+	function prepareLesson(lessons, lessonId) {
+
+		if (lessons) {
+
+			var currentLesson = lessons[lessonId];
+
+			if (currentLesson) {
+
+				var lessonPoints = lessonContent(lessonId).points;
+
+				// Реинициализируем текущую статистику по уроку с учетом только что
+				// выгруженных данных из хранилища.
+				currentStatistics.initialize(lessonPoints, currentLesson);
+
+				var size = scope.lesson.sub.length;
+
+				scope.subIndex = getSubLessonId(currentLesson);
+
+				// Индекс подурока (% используется на случай изменений в размерах)
+				scope.subIndex = scope.subIndex % size;
+
+			}
+
+		}
+
+		initNextLesson();
+
+	}
+
+	/**
+	 * Загрузка уроков из локального хранилища или удаленного.
+	 * Метод сперва пытается выгрузить уроки из локального хранилища (local storage браузера).
+	 * Если в браузере отсутствуют данные, то осуществляется попытка выгрузки уроков с сервера.
+	 */
+	function loadLessons() {
+
+		// Если в локальном хранилище есть инофрмация о уроках.
+		if (storage.isLessonsExists()) {
+
+			// Достаем массив уроков из локального хранилища.
+			// lessons ВНЕШНЯЯ ССЫЛКА по отношению к текущему контексту функции!!!
+			lessons = storage.getLessons();
+
+			prepareLesson(lessons, lessonId);
+
+		}
+		else {
+
+			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
+			connection.getLessonsStatistics(function (result) {
+
+				// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
+				lessons = result.data;
+
+				prepareLesson(lessons, lessonId);
+
+			});
+		}
+
+	}
+
 	/**
 	 * Инициализация.
 	 */
@@ -331,56 +430,8 @@ function LessonService(connection, audioManager, aceService) {
 		scope.subIndex = 0;
 		audioWrapper.audioIndex = 0;
 
-		// Получаем урок из локального хранилища.
-		var currentSubLesson = storage.getCurrentSubLesson(lessonId);
-
-		if (!currentSubLesson) {
-
-			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-			connection.getLessonsStatistics(function (result) {
-
-				// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-				lessons = result.data;
-
-				var currentLesson = lessons[lessonId];
-
-				if (currentLesson) {
-
-					var size = scope.lesson.sub.length;
-
-					// Индекс подурока сервера.
-					// Не забываем отнимать единичку, т.к. в currentSubLesson лежит не индекс
-					// массива подуроков, а попросту номер начинающийся с 1.
-					var serverIndex = parseInt(currentLesson.currentSubLesson) - 1;
-
-					// восстанавлвиаем всю статистку по текущему уроку:
-					// - число запусков интерпретатора;
-					// - очки за урок.
-					// - и т.д.
-					currentStatistics.initialize(lessonPoints, currentLesson);
-
-					// Индекс подурока (% используется на случай изменений в размерах)
-					scope.subIndex = serverIndex % size;
-
-				}
-
-				initNextLesson();
-
-			});
-
-		}
-		else {
-
-			scope.subIndex = currentSubLesson - 1;
-
-			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-			lessons = storage.getLessons();
-
-			currentStatistics.initialize(lessonPoints, lessons[lessonId]);
-
-			initNextLesson();
-
-		}
+		// Загружаем уроки из хранилища (локального или удаленного).
+		loadLessons();
 
 	}
 

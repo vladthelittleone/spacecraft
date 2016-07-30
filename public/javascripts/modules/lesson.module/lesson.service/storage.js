@@ -3,7 +3,6 @@
 var Storage = require('../../../utils/storage');
 
 module.exports = LessonStorage;
-
 /**
  * Интерфейс локального хранилища
  *
@@ -16,7 +15,7 @@ function LessonStorage() {
 
 	that.set = set;
 	that.getLessons = getLessons;
-	that.getCurrent = getCurrent;
+	that.getCurrentSubLesson = getCurrentSubLesson;
 	that.setString = setString;
 	that.getString = getString;
 
@@ -34,7 +33,7 @@ function LessonStorage() {
 	/**
 	 * Вернуть текущий номер подурока.
 	 */
-	function getCurrent(lessonId) {
+	function getCurrentSubLesson(lessonId) {
 
 		var json = storage.local.getItem('lessons');
 
@@ -42,7 +41,7 @@ function LessonStorage() {
 
 		if (lessons && lessons[lessonId]) {
 
-			return parseInt(lessons[lessonId].current);
+			return parseInt(lessons[lessonId].currentSubLesson);
 
 		}
 

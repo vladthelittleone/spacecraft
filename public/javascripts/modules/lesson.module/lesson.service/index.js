@@ -7,7 +7,6 @@ var CodeLauncher = Game.codeLauncher;
 var ContentFactory = Game.content;
 var EntitiesFactory = Game.world;
 
-var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 var TabHandler = require( '../../../emitters' );
 var Statistics = require('../../../utils/statistics');
@@ -34,7 +33,6 @@ function LessonService(connection, audioManager, aceService) {
 	var scope;			// scope
 
 	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
-	var storage = Storage();
 	var markers = aceService.getMarkerService;
 	var currentStatistics = Statistics();
 
@@ -226,8 +224,6 @@ function LessonService(connection, audioManager, aceService) {
 			statistics:    args.statistics
 		};
 
-		storage.set('lessons', args.lessonContext);
-
 		connection.saveLessonsStatistics(args);
 	}
 
@@ -261,7 +257,11 @@ function LessonService(connection, audioManager, aceService) {
 		var size = scope.lesson.sub.length;
 
 		// Текущий объект статистики уроков
-		var lessonContext = storage.getLessons();
+		var lessonContext = [];
+
+		connection.getLessonsStatistics(function (res) {
+			lessonContext = res.data;
+		});
 
 		if (scope.subIndex !== size - 1) {
 
@@ -343,53 +343,33 @@ function LessonService(connection, audioManager, aceService) {
 		audioWrapper.audioIndex = 0;
 
 		// Получаем урок из локального хранилища
-		var config = storage.getCurrent(lessonId);
 
-		if (!config) {
+		// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
+		connection.getLessonsStatistics(function (result) {
 
-			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-			connection.getLessonsStatistics(function (result) {
+			var context = result.data[lessonId];
 
-				var context = result.data[lessonId];
+			if (context) {
 
-				if (context) {
+				var size = scope.lesson.sub.length;
 
-					var size = scope.lesson.sub.length;
+				// Индекс подурока сервера
+				var serverIndex = parseInt(context.current);
 
-					// Индекс подурока сервера
-					var serverIndex = parseInt(context.current);
+				// восстанавлвиаем всю статистку по текущему уроку:
+				// - число запусков интерпретатора;
+				// - очки за урок.
+				// - и т.д.
+				currentStatistics.initialize(lessonPoints, context);
 
-					// восстанавлвиаем всю статистку по текущему уроку:
-					// - число запусков интерпретатора;
-					// - очки за урок.
-					// - и т.д.
-					currentStatistics.initialize(lessonPoints, context);
+				// Индекс подурока (% используется на случай изменений в размерах)
+				scope.subIndex = serverIndex % size - 1;
 
-					// Индекс подурока (% используется на случай изменений в размерах)
-					scope.subIndex = serverIndex % size;
-
-				}
-
-				initNextLesson();
-
-			});
-
-		}
-		else {
-
-			scope.subIndex = config - 1;
-
-			// восстанавлвиаем всю статистку по текущему уроку:
-			// - число запусков интерпретатора;
-			// - очки за урок.
-			// - и т.д.
-			var lessons = storage.getLessons();
-			currentStatistics.initialize(lessonPoints, lessons[lessonId]);
+			}
 
 			initNextLesson();
 
-		}
-
+		});
 	}
 
 	/**

@@ -15,9 +15,6 @@ function ResultController($scope, $state, statistics, connection) {
 	// Формируется в игровых компонентах.
 	$scope.player = statistics.getPlayer();
 
-	// Сохраняем на сервере
-	connection.saveGameStatistics($scope.player);
-
 	try
 	{
 		// Инициализация виджета ВК.

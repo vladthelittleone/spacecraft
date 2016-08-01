@@ -7,7 +7,6 @@ var CodeLauncher = Game.codeLauncher;
 var ContentFactory = Game.content;
 var EntitiesFactory = Game.world;
 
-var Storage = require('./storage');
 var Interpreter = require('./interpreter');
 var TabHandler = require( '../../../emitters' );
 var Statistics = require('../../../utils/statistics');
@@ -35,10 +34,9 @@ function LessonService(connection, audioManager, aceService) {
 	var lessons;		// массив уроков. Содержит данные по ВСЕМ урокам пользователя.
 
 	// Константа для указания окончания урока в поле currentSubLesson статистики.
-	var LESSON_IS_FINISHED = "Lesson is finished";
+	var LESSON_IS_FINISHED = 0;
 
 	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
-	var storage = Storage();
 	var markers = aceService.getMarkerService;
 	var currentStatistics = Statistics();
 
@@ -221,8 +219,6 @@ function LessonService(connection, audioManager, aceService) {
 
 		lessons[ args.lessonId ] = args;
 
-		storage.set('lessons', lessons);
-
 		connection.saveLessonsStatistics(args);
 
 	}
@@ -316,32 +312,6 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
-
-	/**
-	 * Достает номер подурока с учетом возможной установки флага completed.
-	 * Если completed установлен, то считается, что урок был завершен.
-	 * Соотв. начальный индекс подурока будет возвращатся в виде 0.
-	 * В противном случае, в lesson, а точнее в поле currentSubLesson, лежит
-	 * индекс текущего подурока.
-	 */
-	function getSubLessonId(lesson) {
-
-		var subLessonId = 0;
-
-		// Если текущий пудрок не равен значению "УРОК ОКОНЧЕН" и флаг
-		// completed НЕ установлен (урок НЕ окончен).
-		var isLessonCanBeContinued = lesson.currentSubLesson !== LESSON_IS_FINISHED && !lesson.completed;
-
-		if (isLessonCanBeContinued) {
-
-			subLessonId = lesson.currentSubLesson;
-
-		}
-
-		return subLessonId;
-
-	}
-
 	/**
 	 * Метод обработки данных по урокам, которые были выгружены либо
 	 * с локального хранилища либо с сервера.
@@ -368,7 +338,7 @@ function LessonService(connection, audioManager, aceService) {
 
 				var size = scope.lesson.sub.length;
 
-				scope.subIndex = getSubLessonId(currentLesson);
+				scope.subIndex = currentLesson.currentSubLesson;
 
 				// Индекс подурока (% используется на случай изменений в размерах)
 				scope.subIndex = scope.subIndex % size;
@@ -388,28 +358,15 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function loadLessons() {
 
-		// Если в локальном хранилище есть инофрмация о уроках.
-		if (storage.isLessonsExists()) {
+		// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
+		connection.getLessonsStatistics(function (result) {
 
-			// Достаем массив уроков из локального хранилища.
-			// lessons ВНЕШНЯЯ ССЫЛКА по отношению к текущему контексту функции!!!
-			lessons = storage.getLessons();
+			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
+			lessons = result.data;
 
 			prepareLesson(lessons, lessonId);
 
-		}
-		else {
-
-			// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-			connection.getLessonsStatistics(function (result) {
-
-				// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-				lessons = result.data;
-
-				prepareLesson(lessons, lessonId);
-
-			});
-		}
+		});
 
 	}
 

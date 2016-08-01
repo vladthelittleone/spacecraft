@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = BBotText;
+module.exports = LessonResults;
 
 /**
  * Соотношение текста и результата.
@@ -8,7 +8,7 @@ module.exports = BBotText;
  * @since 23.03.16
  * @author Skurishin Vladislav
  */
-function BBotText(messagesArray) {
+function LessonResults(messagesArray) {
 
 	var t = {};
 
@@ -27,7 +27,8 @@ function BBotText(messagesArray) {
 		return {
 			status:  status,
 			message: message,
-			css:     css
+			css:     css,
+			penaltyPointsForGame: t.penaltyPointsForGame
 		};
 
 	}

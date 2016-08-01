@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 
 module.exports = Comments();
 
@@ -70,8 +70,8 @@ function Comments() {
 	};
 
 	function interpreterHandler(value) {
-
-		var botText = BBotText({
+		
+		var lessonResults = LessonResults({
 
 			correct: '<p>Что-т0 преднозначенное для человека! Комментарии?</p>',
 
@@ -81,7 +81,7 @@ function Comments() {
 		});
 
 		// При комментировании результат будет возвращен ввиде 'undefined'
-		return botText.result(!value);
+		return lessonResults.result(!value);
 	}
 
 	function content() {

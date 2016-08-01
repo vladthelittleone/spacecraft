@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 var Storage = require('../../../utils/storage');
 
 module.exports = YourName();
@@ -58,8 +58,8 @@ function YourName() {
 	}
 
 	function interpreterHandler(value) {
-
-		var botText = BBotText({
+		
+		var lessonResults = LessonResults({
 
 			correct: '<p>Ура! BBot понял человек0-имя, транслирую:</p>'
 					 + '<p class="bbot-output">' + value + '</p>',
@@ -82,14 +82,14 @@ function YourName() {
 			// Если нет " ", будет выброшено исключение
 			if (value.exception) {
 
-				return botText.resultNotCorrect('noQuotes');
+				return lessonResults.resultNotCorrect('noQuotes');
 
 			}
 
 			// Если введено число, то результат отрицательный
 			if (isNumeric(value)) {
 
-				return botText.resultNotCorrect('isNumeric');
+				return lessonResults.resultNotCorrect('isNumeric');
 
 			}
 
@@ -99,11 +99,11 @@ function YourName() {
 
 			storage.local.setItem('userName', value);
 
-			return botText.result(reg.test(value));
+			return lessonResults.result(reg.test(value));
 
 		}
 
-		return botText.resultNotCorrect('emptyInput');
+		return lessonResults.resultNotCorrect('emptyInput');
 
 	}
 }

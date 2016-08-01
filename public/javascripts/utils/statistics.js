@@ -18,6 +18,8 @@ function Statistics ()  {
 	// Число запусков интерпретатора.
 	that.bestRunCount = 0;
 	that.currentRunCount = 0;
+	that.penaltyPointsForGame = 0;
+
 	that.initialize = initialize;
 	that.updateBestScore = updateBestScore;
 	that.updateBestRunCount = updateBestRunCount;
@@ -28,6 +30,8 @@ function Statistics ()  {
 	that.subPointsForIncorrectInput = subPointsForIncorrectInput;
 	that.getLessonPoints = getLessonPoints;
 	that.subCurrentScore = subCurrentScore;
+	that.setPenaltyPointsForGame = setPenaltyPointsForGame;
+	that.subPenaltyPointsForGame = subPenaltyPointsForGame;
 
 	return that;
 
@@ -154,4 +158,15 @@ function Statistics ()  {
 
 	}
 
+	function setPenaltyPointsForGame(penaltyPointsForGame) {
+
+		that.penaltyPointsForGame = penaltyPointsForGame;
+
+	}
+
+	function subPenaltyPointsForGame() {
+
+		subCurrentScore(that.penaltyPointsForGame);
+
+	}
 }

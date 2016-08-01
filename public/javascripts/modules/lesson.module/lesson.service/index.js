@@ -232,9 +232,10 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
-	 * Очистка контента.
+	 * По окончаниб подурока очищаем контект
+	 * и отнимаем штрафные очки.
 	 */
-	function clearContent() {
+	function endCurrentSubLesson() {
 
 		CodeLauncher.stop();
 
@@ -247,6 +248,9 @@ function LessonService(connection, audioManager, aceService) {
 		// Сокрытие панели инструкций
 		scope.textContent = false;
 
+		// Работа с очками по подуроку.
+		currentStatistics.subPenaltyPointsForGame();
+
 	}
 
 	/**
@@ -255,7 +259,7 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function nextSubLesson() {
 
-		clearContent();
+		endCurrentSubLesson();
 
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;
@@ -384,6 +388,7 @@ function LessonService(connection, audioManager, aceService) {
 			// - очки за урок.
 			// - и т.д.
 			var lessons = storage.getLessons();
+
 			currentStatistics.initialize(lessonPoints, lessons[lessonId]);
 
 			initNextLesson();
@@ -453,7 +458,7 @@ function LessonService(connection, audioManager, aceService) {
 
 					text(result.message);
 
-					//Отнимаем очки по уроку за некорректный ввод.
+					// Отнимаем очки по уроку за некорректный ввод.
 					currentStatistics.subPointsForIncorrectInput();
 
 				}
@@ -463,6 +468,7 @@ function LessonService(connection, audioManager, aceService) {
 		}
 
 		CodeLauncher.isCodeRunning = false;
+
 	}
 
 	function runGameLesson(current) {

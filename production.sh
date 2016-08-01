@@ -4,6 +4,7 @@
 # locally before you put new version of website via FTP
 if [ $1 = "build" ]; then
 	echo "[Build] Running npm install"
+	rm -rf build
 	npm install
 	if [ $? = "0" ]; then
 	  echo "[Build] Npm install success, running Bower install"
@@ -13,6 +14,7 @@ if [ $1 = "build" ]; then
 		cd ..
 		echo "[Build] Bower install success, running gulp build"
 		rm -rf build
+		gulp browserify
 		gulp build
 		gulp rev
 		if [ $? = "0" ]; then

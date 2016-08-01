@@ -67,6 +67,9 @@ function LessonService(connection, audioManager, aceService) {
 
 		var current = currentSubLesson();
 
+		// Регистрируем текущий подурок урока в scope.
+		scope.curretSubLesson = current;
+
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
 
 		if (ch) {
@@ -135,8 +138,6 @@ function LessonService(connection, audioManager, aceService) {
 
 		if (hint) {
 
-			console.log(hint);
-
 			var enjoyHint = new EnjoyHint({
 
 				onEnd: function () {
@@ -145,8 +146,6 @@ function LessonService(connection, audioManager, aceService) {
 
 					// В случае  true - ждем нажатия на подсказку
 					if (char.waitForHint) {
-
-						console.log("ssssssss");
 
 						audioWrapper.onEnd(callback);
 

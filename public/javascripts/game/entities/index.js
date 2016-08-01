@@ -102,7 +102,7 @@ function EntitiesFactory() {
 		var radius = Phaser.Point.distance(new Phaser.Point(x, y), new Phaser.Point(0, 0));
 
 		// Инициализация
-		var count = 1500;
+		var count = 2 * x;
 		var start = 0;
 		var shift = 10;
 

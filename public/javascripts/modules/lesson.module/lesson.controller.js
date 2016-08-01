@@ -150,12 +150,16 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 			// Выводим ошибку
 			$scope.textBot = errorWrapper(error);
 
-			// Указываем маркер
-			markerId = markerService.setMarkerAndAnnotation(errorLine, error);
+			if (errorLine) {
 
-			// Сохраняем в сервисе.
-			// В связи с использованием указаний в уроке.
-			service.setMarkerId(markerId);
+				// Указываем маркер
+				markerId = markerService.setMarkerAndAnnotation(errorLine, error);
+
+				// Сохраняем в сервисе.
+				// В связи с использованием указаний в уроке.
+				service.setMarkerId(markerId);
+
+			}
 
 		}
 
@@ -215,7 +219,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		return '<p>Неисправность!! EГГ0Г!!</p> ' +
 			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
 			'<p class="red-label">0шибка: ' + value + '</p>' +
-			'<p>Пожалуйста исправте ситуацию.</p>';
+			'<p>Пожалуйста, исправьте ситуацию.</p>';
 
 	}
 }

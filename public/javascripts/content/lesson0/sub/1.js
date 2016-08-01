@@ -64,6 +64,7 @@ function WelcomeToAcademy() {
 				'nextButton':             false,
 				'showSkip':               false
 			}]
+
 		}]
 	};
 

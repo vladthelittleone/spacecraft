@@ -249,6 +249,12 @@ function LessonService(connection, audioManager, aceService) {
 
 		clearContent();
 
+		connection.getLessonsStatistics(saveAndInitializeNext);
+		
+	}
+
+	function saveAndInitializeNext(lessonContext){
+
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;
 
@@ -383,7 +389,7 @@ function LessonService(connection, audioManager, aceService) {
 		scope.subIndex = 0;
 		audioWrapper.audioIndex = 0;
 
-		// Загружаем уроки из хранилища (локального или удаленного).
+		// Загружаем уроки из хранилища (на данный момент только удаленного).
 		loadLessons();
 
 	}

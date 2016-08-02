@@ -324,26 +324,22 @@ function LessonService(connection, audioManager, aceService) {
      */
 	function prepareLesson(lessons, lessonId) {
 
-		if (lessons) {
+		var currentLesson = lessons && lessons[lessonId];
 
-			var currentLesson = lessons[lessonId];
+		if (currentLesson) {
 
-			if (currentLesson) {
+			var lessonPoints = lessonContent(lessonId).points;
 
-				var lessonPoints = lessonContent(lessonId).points;
+			// Реинициализируем текущую статистику по уроку с учетом только что
+			// выгруженных данных из хранилища.
+			currentStatistics.initialize(lessonPoints, currentLesson);
 
-				// Реинициализируем текущую статистику по уроку с учетом только что
-				// выгруженных данных из хранилища.
-				currentStatistics.initialize(lessonPoints, currentLesson);
+			var size = scope.lesson.sub.length;
 
-				var size = scope.lesson.sub.length;
+			scope.subIndex = currentLesson.currentSubLesson;
 
-				scope.subIndex = currentLesson.currentSubLesson;
-
-				// Индекс подурока (% используется на случай изменений в размерах)
-				scope.subIndex = scope.subIndex % size;
-
-			}
+			// Индекс подурока (% используется на случай изменений в размерах)
+			scope.subIndex = scope.subIndex % size;
 
 		}
 

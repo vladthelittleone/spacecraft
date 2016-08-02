@@ -228,9 +228,10 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
-	 * Очистка контента.
+	 * По окончаниб подурока очищаем контект
+	 * и отнимаем штрафные очки.
 	 */
-	function clearContent() {
+	function endCurrentSubLesson() {
 
 		CodeLauncher.stop();
 
@@ -243,6 +244,9 @@ function LessonService(connection, audioManager, aceService) {
 		// Сокрытие панели инструкций
 		scope.textContent = false;
 
+		// Работа с очками по подуроку.
+		currentStatistics.subPenaltyPointsForGame();
+
 	}
 
 	/**
@@ -251,7 +255,7 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function nextSubLesson() {
 
-		clearContent();
+		endCurrentSubLesson();
 
 		connection.getLessonsStatistics(saveAndInitializeNext);
 		
@@ -302,6 +306,7 @@ function LessonService(connection, audioManager, aceService) {
 			endLesson();
 
 		}
+
 	}
 
 	/**
@@ -431,7 +436,7 @@ function LessonService(connection, audioManager, aceService) {
 
 					text(result.message);
 
-					//Отнимаем очки по уроку за некорректный ввод.
+					// Отнимаем очки по уроку за некорректный ввод.
 					currentStatistics.subPointsForIncorrectInput();
 
 				}
@@ -441,6 +446,7 @@ function LessonService(connection, audioManager, aceService) {
 		}
 
 		CodeLauncher.isCodeRunning = false;
+
 	}
 
 	function runGameLesson(current) {
@@ -476,7 +482,7 @@ function LessonService(connection, audioManager, aceService) {
 		var world = EntitiesFactory.getWorld();
 		var player = world.getPlayer();
 
-		var result = current.gamePostUpdate(player.api, world, botText);
+		var result = current.gamePostUpdate(player.api, currentStatistics, world, botText);
 
 		if (result && result.status) {
 

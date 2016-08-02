@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 var Storage = require('../../../utils/storage');
 
 module.exports = GalaxyYear();
@@ -38,8 +38,8 @@ function GalaxyYear() {
 			}]
 		}],
 		interpreterHandler: function (value) {
-
-			var botText = BBotText({
+			
+			var lessonResults = LessonResults({
 				correct: '<p>Ура! BBot разобрал человеческий возраст, транслирую:</p>'
 						 + '<p class="bbot-output">' + value + 'GY</p>',
 
@@ -54,18 +54,18 @@ function GalaxyYear() {
 
 				if (value.exception) {
 
-					return botText.unknownError();
+					return lessonResults.unknownError();
 
 				}
 
 				storage.local.setItem('userAge', value);
 
 				// Если выведено число, то результат положительный
-				return botText.result(isNumeric(value));
+				return lessonResults.result(isNumeric(value));
 
 			}
 
-			return botText.resultNotCorrect('emptyInput');
+			return lessonResults.resultNotCorrect('emptyInput');
 
 		}
 	};

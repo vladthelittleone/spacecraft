@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 
 module.exports = WhatDoesBBotSay();
 
@@ -89,8 +89,8 @@ function WhatDoesBBotSay() {
 			});
 
 		}
-
-		var botText = BBotText({
+		
+		var lessonResults = LessonResults({
 
 			correct: '<p>Хах, я п0лучил нужные данные! Транслирую:</p>' +
 					 '<p class="bbot-output">' + t + '</p>',
@@ -101,10 +101,10 @@ function WhatDoesBBotSay() {
 
 		if (r) {
 
-			return botText.resultCorrect();
+			return lessonResults.resultCorrect();
 
 		}
 
-		return botText.text();
+		return lessonResults.text();
 	}
 }

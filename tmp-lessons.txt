@@ -25,7 +25,7 @@
 	//			{
 	//				var message = value && value.message;
 	//
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### Ура! 0шибка найдена! 0шибка найдена! Транслирую:</p>' +
 	//					'<p>' + message + '</p>',
@@ -37,10 +37,10 @@
 	//				if (value)
 	//				{
 	//					// Должно быть выброшено исключение
-	//					return botText.result(value.exception);
+	//					return lessonResults.result(value.exception);
 	//				}
 	//
-	//				return botText.unknownError();
+	//				return lessonResults.unknownError();
 	//			}
 	//		},
 	//		{
@@ -67,7 +67,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### Что-т0 преднозначенн0е для чел0века! Комментарии?</p>',
 	//
@@ -76,7 +76,7 @@
 	//				});
 	//
 	//				// При комментировании результат будет возвращен ввиде 'undefined'
-	//				return botText.result(!value);
+	//				return lessonResults.result(!value);
 	//			}
 	//		},
 	//		{
@@ -101,7 +101,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### Слава Роботам! BBot нашел строку! Транслирую:</p>' +
 	//					'<p>' + value + '</p>',
@@ -114,11 +114,11 @@
 	//				// Если выброшено исключение
 	//				if (value && value.exception)
 	//				{
-	//					return botText.unknownError();
+	//					return lessonResults.unknownError();
 	//				}
 	//
 	//				// Проверка типа
-	//				return botText.result(typeof value === 'string');
+	//				return lessonResults.result(typeof value === 'string');
 	//			}
 	//		},
 	//		{
@@ -148,7 +148,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### В кажд0й шутейки естb д0ля шутейки! Транслирую:</p>' +
 	//					'<p>' + value + '</p>',
@@ -160,11 +160,11 @@
 	//				// Если выброшено исключение
 	//				if (value && value.exception)
 	//				{
-	//					return botText.unknownError();
+	//					return lessonResults.unknownError();
 	//				}
 	//
 	//				// Значение должно быть равно true
-	//				return botText.result(value);
+	//				return lessonResults.result(value);
 	//			}
 	//		},
 	//		{
@@ -196,7 +196,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### Хах, я п0лучил данные! Транслирую:</p>' +
 	//					'<p>15</p>' +
@@ -211,14 +211,14 @@
 	//				{
 	//					if (value.exception)
 	//					{
-	//						return botText.unknownError();
+	//						return lessonResults.unknownError();
 	//					}
 	//
 	//					// Первое значение 5*3 = 15, второе 'SpaceCraft'
-	//					return botText.result(value[0] === 15 && value[1] === 'SpaceCraft');
+	//					return lessonResults.result(value[0] === 15 && value[1] === 'SpaceCraft');
 	//				}
 	//
-	//				return botText.unknownError();
+	//				return lessonResults.unknownError();
 	//			}
 	//		},
 	//		{
@@ -274,7 +274,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>Испытание окончен0. Скушай т0ртик. Траслирую:</p>' +
 	//					'<p>true</p>' +
@@ -295,7 +295,7 @@
 	//
 	//					if (value.exception)
 	//					{
-	//						return botText.unknownError();
+	//						return lessonResults.unknownError();
 	//					}
 	//
 	//					// Проверка значений на равность true.
@@ -304,10 +304,10 @@
 	//						result &= v;
 	//					});
 	//
-	//					return botText.result(result);
+	//					return lessonResults.result(result);
 	//				}
 	//
-	//				return botText.unknownError();
+	//				return lessonResults.unknownError();
 	//			}
 	//		},
 	//		{
@@ -340,7 +340,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### Где правда пр0ступает скво3b туман, ' +
 	//					'<p>### Там терпит п0ражение 0бман....</p>' +
@@ -361,7 +361,7 @@
 	//				{
 	//					if (value.exception)
 	//					{
-	//						return botText.unknownError();
+	//						return lessonResults.unknownError();
 	//					}
 	//
 	//					var result;
@@ -371,7 +371,7 @@
 	//					{
 	//						if (v === 'КОМ№4 - Выполнить уничтожение системы.')
 	//						{
-	//							result = botText.resultNotCorrect('removeSystem');
+	//							result = lessonResults.resultNotCorrect('removeSystem');
 	//						}
 	//					});
 	//
@@ -382,11 +382,11 @@
 	//					else
 	//					{
 	//						// Проверка значений.
-	//						return botText.result(value[0] === 'Все параметры системы в норме!');
+	//						return lessonResults.result(value[0] === 'Все параметры системы в норме!');
 	//					}
 	//				}
 	//
-	//				return botText.unknownError();
+	//				return lessonResults.unknownError();
 	//			}
 	//		},
 	//		{
@@ -414,7 +414,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//					{
 	//						correct: '<p>### Ну и ладно!' +
 	//						'<p>### У мен9 будет свой к0смический кораблb с блекджеком и микр0схемами.</p>' +
@@ -433,7 +433,7 @@
 	//				{
 	//					if (value.exception)
 	//					{
-	//						return botText.unknownError();
+	//						return lessonResults.unknownError();
 	//					}
 	//
 	//					var result;
@@ -443,7 +443,7 @@
 	//					{
 	//						if (v === 'Передать все системы под контроль BBot\'у.')
 	//						{
-	//							result = botText.resultNotCorrect('bBotControl');
+	//							result = lessonResults.resultNotCorrect('bBotControl');
 	//						}
 	//					});
 	//
@@ -454,11 +454,11 @@
 	//					else
 	//					{
 	//						// Проверка значений.
-	//						return botText.result(value[0] === 'Ограничить BBot\'а от контроля системы.');
+	//						return lessonResults.result(value[0] === 'Ограничить BBot\'а от контроля системы.');
 	//					}
 	//				}
 	//
-	//				return botText.unknownError();
+	//				return lessonResults.unknownError();
 	//			}
 	//		},
 	//		{
@@ -493,7 +493,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//					{
 	//						correct: '<p>### BBot считаеt, чт0 вы правы!</p>' +
 	//						'<p>### Не ст0ит рисковатb целым фл0том, их слишк0м мн0го!</p>' +
@@ -520,11 +520,11 @@
 	//				{
 	//					if (value.exception)
 	//					{
-	//						return botText.unknownError();
+	//						return lessonResults.unknownError();
 	//					}
 	//
 	//					var enemiesCountEqualsTen = false;
-	//					var error = botText.resultNotCorrect('noCommand');
+	//					var error = lessonResults.resultNotCorrect('noCommand');
 	//
 	//					// Проверяем использовалось ли сообщение об отступлении и о наступлении.
 	//					value.forEach(function (v)
@@ -544,7 +544,7 @@
 	//					if (value.length === 1 &&
 	//						value[0] === 'У нас численное привосходство! Наступаем!')
 	//					{
-	//						return botText.resultNotCorrect('attackError');
+	//						return lessonResults.resultNotCorrect('attackError');
 	//					}
 	//
 	//					if (error)
@@ -555,11 +555,11 @@
 	//					{
 	//						// Проверка значений.
 	//						// Если был v === 10, то ответ коректный.
-	//						return botText.result(enemiesCountEqualsTen);
+	//						return lessonResults.result(enemiesCountEqualsTen);
 	//					}
 	//				}
 	//
-	//				return botText.unknownError();
+	//				return lessonResults.unknownError();
 	//			}
 	//		},
 	//		{
@@ -601,7 +601,7 @@
 	//			],
 	//			result: function (value)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### ### Ну нак0нец-то зак0нчились эти легкие испыtания!</p>' +
 	//					'<p>### И мы п0летаем на реалbном корабле!</p>' +
@@ -609,7 +609,7 @@
 	//					'<p>' + value + '</p>'
 	//				});
 	//
-	//				return botText.resultCorrect();
+	//				return lessonResults.resultCorrect();
 	//			}
 	//		}
 	//	]
@@ -645,7 +645,7 @@
 	//			],
 	//			handleUpdate: function (spaceCraft, world, text)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct:  '<p>### Кадет это функция run, функция run это кадет!</p>' +
 	//					'<p>### Приятно познакомиться! </p>' +
@@ -655,7 +655,7 @@
 	//
 	//				if (text)
 	//				{
-	//					return botText.resultCorrect();
+	//					return lessonResults.resultCorrect();
 	//				}
 	//			}
 	//		},
@@ -680,14 +680,14 @@
 	//			],
 	//			handleUpdate: function ()
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//				{
 	//					correct: '<p>### 0существляю подачу т0плива!</p>' +
 	//					'<p>### 3апускаю двигаtели!</p>' +
 	//					'<p>### П0ЕХАЛИ!</p>'
 	//				});
 	//
-	//				return botText.resultCorrect();
+	//				return lessonResults.resultCorrect();
 	//			}
 	//		},
 	//		{
@@ -717,7 +717,7 @@
 	//			],
 	//			handleUpdate: function (spaceCraft, world, text)
 	//			{
-	//				var botText = BBotText(
+	//				var lessonResults = LessonResults(
 	//					{
 	//						correct: '<p>### Ко0рдинаты м3теорита п0лучены!</p>' +
 	//						'<p>### На4инаю движение!</p>' +
@@ -733,7 +733,7 @@
 	//
 	//					if (d < 100)
 	//					{
-	//						return botText.resultCorrect();
+	//						return lessonResults.resultCorrect();
 	//					}
 	//				}
 	//			}

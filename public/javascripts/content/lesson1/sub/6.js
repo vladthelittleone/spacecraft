@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 var CodeLauncher = require('../../../game/launcher');
 
 module.exports = Alert();
@@ -60,9 +60,9 @@ function Alert() {
 
 	}
 
-	function gamePostUpdate(transport) {
+	function gamePostUpdate(transport, currentStatistics) {
 
-		var botText = BBotText({
+		var lessonResults = LessonResults({
 
 			failed: '<p>О нет, наш корабль уничтожили!</p>' +
 					'<p>Что ж одним больше, другим меньше!</p>',
@@ -79,7 +79,12 @@ function Alert() {
 		// результат отрицательный.
 		if (!transport.isAlive()) {
 
-			return botText.resultFaield();
+			var lessonPoints = currentStatistics.getLessonPoints();
+
+			// Устанавливаем штрафные очки за не остановку корабля :)
+			currentStatistics.setPenaltyPointsForGame(lessonPoints.missionStopTransportFail);
+
+			return lessonResults.resultFaield();
 
 		}
 
@@ -95,21 +100,23 @@ function Alert() {
 			// Если дельта больше TIME секунд
 			if (delta > TIME) {
 
+				// currentMissionStatus = missionStatus.SUCCESS;
+
 				// Победа!
-				return botText.resultCorrect();
+				return lessonResults.resultCorrect();
 
 			}
 
 		}
 
-		return botText.text();
+		return lessonResults.text();
 
 	}
 
 	function content() {
 
 		return '<p>Ну что ж первый урок подошел...</p>'
-			+ '<p>Кадет, кто-то захватил управление над наши кораблем! Он летит к минному полю!</p>'
+			+ '<p>Кадет, кто-то захватил управление над нашим кораблем! Он летит к минному полю!</p>'
 			+ '<p>Используйте все знания, которые вы приобрели, чтобы исправить ситуацию.</p>'
 
 	}

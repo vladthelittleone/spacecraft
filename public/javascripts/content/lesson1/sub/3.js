@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 
 module.exports = Command();
 
@@ -56,8 +56,8 @@ function Command() {
 	};
 
 	function gamePostUpdate(spaceCraft) {
-
-		var botText = BBotText({
+		
+		var lessonResults = LessonResults({
 			correct: '<p>Осуществляю подачу топлива!</p>' +
 					 '<p>3апускаю двигатели!</p>' +
 					 '<p>ПОЕХАЛИ!</p>'
@@ -65,7 +65,7 @@ function Command() {
 
 		if (spaceCraft.isMoveForwardCalled()) {
 
-			return botText.resultCorrect();
+			return lessonResults.resultCorrect();
 
 		}
 

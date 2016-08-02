@@ -197,7 +197,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 		if (!CodeLauncher.isCodeRunning) {
 
-			service.run();
+			service.intiateRunByUserClick();
 
 		}
 		else {

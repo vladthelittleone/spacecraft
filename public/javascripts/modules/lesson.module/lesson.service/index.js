@@ -27,24 +27,25 @@ function LessonService(connection, audioManager, aceService) {
 
 	var that = {};
 
-	var editorSession;	// Сессия Ace
-	var markerId; 		// Маркер
-	var lessonId;		// Идентификатор урока
-	var scope;			// scope
-	var lessons;		// массив уроков. Содержит данные по ВСЕМ урокам пользователя.
-
 	// Константа для указания окончания урока в поле currentSubLesson статистики.
 	var LESSON_IS_FINISHED = 0;
 
+	var editorSession;					  // Сессия Ace
+	var markerId; 						  // Маркер
+	var lessonId;						  // Идентификатор урока
+	var scope;							  // scope
+	var lessons;						  // массив уроков. Содержит данные по ВСЕМ урокам пользователя.
+
 	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
 	var markers = aceService.getMarkerService;
-	var currentStatistics = Statistics();
+	var currentStatistics;
 
 	that.setEditorSession = setEditorSession;
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
+	that.intiateRunByUserClick = intiateRunByUserClick;
 	that.run = run;
 	that.stop = stop;
 	that.getMarkerId = getMarkerId;
@@ -246,18 +247,12 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
-	 * Переход на следующий урок.
+	 * Переход на следующий подурок.
 	 * Обновление всей информации и очистка старой.
 	 */
 	function nextSubLesson() {
 
 		endCurrentSubLesson();
-
-		connection.getLessonsStatistics(saveAndInitializeNext);
-		
-	}
-
-	function saveAndInitializeNext(lessonContext){
 
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;
@@ -278,7 +273,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:      			lessonId,
 				size:          			size,
 				completed:     			false, // мы еще не закончили урок до конца, поэтому false.
-				statistics:    			currentStatistics
+				statistics:    			currentStatistics,
 			});
 
 		}
@@ -292,7 +287,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:      			lessonId,
 				size:          			size,
 				completed: 	  			true,
-				statistics:    			currentStatistics
+				statistics:    			currentStatistics,
 			});
 
 			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
@@ -301,7 +296,7 @@ function LessonService(connection, audioManager, aceService) {
 		}
 
 	}
-
+	
 	/**
 	 * Окончание урока.
 	 * Метод вызывается после того, как урок полностью окончен.
@@ -332,9 +327,7 @@ function LessonService(connection, audioManager, aceService) {
 	 * @param lessons массив уроков.
 	 * @param lessonId номер обрабатываемого урока.
      */
-	function prepareLesson(lessons, lessonId) {
-
-		var currentLesson = lessons && lessons[lessonId];
+	function prepareLesson(currentLesson) {
 
 		if (currentLesson) {
 
@@ -343,7 +336,7 @@ function LessonService(connection, audioManager, aceService) {
 			// Реинициализируем текущую статистику по уроку с учетом только что
 			// выгруженных данных из хранилища.
 			currentStatistics.initialize(lessonPoints, currentLesson);
-
+			
 			var size = scope.lesson.sub.length;
 
 			scope.subIndex = currentLesson.currentSubLesson;
@@ -370,7 +363,7 @@ function LessonService(connection, audioManager, aceService) {
 			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
 			lessons = result.data;
 
-			prepareLesson(lessons, lessonId);
+			prepareLesson(lessons[lessonId]);
 
 		});
 
@@ -383,6 +376,12 @@ function LessonService(connection, audioManager, aceService) {
 
 		CodeLauncher.isCodeRunning = false;
 
+		// В каждом случае запуска урока необходимо создавать
+		// новый объект currentStatistics, в противном случае,
+		// мы будем изменять значение по ссылке, которая уже привязана
+		// в массиве к какому-либо уроку.
+		currentStatistics = Statistics();
+
 		scope = args.scope;
 		lessonId = args.lessonId;
 
@@ -393,8 +392,21 @@ function LessonService(connection, audioManager, aceService) {
 		scope.subIndex = 0;
 		audioWrapper.audioIndex = 0;
 
-		// Загружаем уроки из хранилища (на данный момент только удаленного).
-		loadLessons();
+		// Если статистика по урокам уже была выгружена из хранилища,
+		// то просто осуществляем подготовку данных текущего урока
+		// перед его началом.
+		// В противном случае - осуществляем выгрузку данных,
+		// которая в последующем спровоцирует их подготовку перед началом урока.
+		if ( lessons ) {
+
+			prepareLesson(lessons[lessonId]);
+
+		}
+		else {
+
+			loadLessons();
+
+		}
 
 	}
 
@@ -421,9 +433,6 @@ function LessonService(connection, audioManager, aceService) {
 		CodeLauncher.isCodeRunning = true;
 
 		if (current.interpreterHandler) {
-
-			// Увеличиваем счетчик запуска интерпретатора.
-			currentStatistics.incRunCount();
 
 			// Запуск интерпретатора
 			var interpreted = Interpreter.execute(getCode());
@@ -526,7 +535,24 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
+	 * Вызов данного метода осуществляется только и только по факту
+	 * нажатия пользователем кнопки запуска кода.
+	 */
+	function intiateRunByUserClick() {
+
+		// Увеличиваем счетчик запуска кода пользователем.
+		currentStatistics.incRunCount();
+
+		run();
+
+	}
+
+	/**
 	 * Запуск кода пользователя.
+	 * Вызов данного метода может инициировать не только нажатие пользователем на
+	 * кнопку запуска кода.
+	 * К примеру, на некоторых подуроках, необходимо осуществлять выполнение кода ПРОГРАММНО,
+	 * без предварительного клика по кнопке от пользователя.
 	 */
 	function run() {
 

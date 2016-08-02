@@ -68,7 +68,7 @@ function JavaScript() {
 	function gamePostUpdate() {
 
 		var botText = BBotText({
-			correct: '<p>Кадет это функция run, функция run это кадет!</p>' +
+			correct: '<p>Кадет, это функция "run". Функция "run" - это кадет!</p>' +
 					 '<p>Приятно познакомиться! </p>'
 		});
 

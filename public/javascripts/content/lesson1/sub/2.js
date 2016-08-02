@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var BBotText = require('../../bot-text');
+var LessonResults = require('../../lesson-results');
 
 module.exports = JavaScript();
 
@@ -64,15 +64,15 @@ function JavaScript() {
 		}],
 		gamePostUpdate: gamePostUpdate
 	};
-
+	
 	function gamePostUpdate() {
 
-		var botText = BBotText({
-			correct: '<p>Кадет, это функция "run". Функция "run" - это кадет!</p>' +
+		var lessonResults = LessonResults({
+			correct: '<p>Кадет это функция run, функция run это кадет!</p>' +
 					 '<p>Приятно познакомиться! </p>'
 		});
 
-		return botText.resultCorrect();
+		return lessonResults.resultCorrect();
 
 	}
 

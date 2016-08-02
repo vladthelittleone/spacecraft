@@ -15,7 +15,8 @@ function Content() {
 		totalPoints: 1000,
 		// Штрафные очки за действия на уроке.
 		exception: 100,
-		incorrectInput: 40
+		incorrectInput: 40,
+		missionStopTransportFail: 100
 	};
 
 	return {

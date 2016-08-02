@@ -253,15 +253,14 @@ function LessonService(connection, audioManager, aceService) {
 
 		clearContent();
 
+		connection.getLessonsStatistics(saveAndInitializeNext);
+		
+	}
+
+	function saveAndInitializeNext(lessonContext){
+
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;
-
-		// Текущий объект статистики уроков
-		var lessonContext = [];
-
-		connection.getLessonsStatistics(function (res) {
-			lessonContext = res.data;
-		});
 
 		if (scope.subIndex !== size - 1) {
 
@@ -303,7 +302,6 @@ function LessonService(connection, audioManager, aceService) {
 			endLesson();
 
 		}
-
 	}
 
 	/**

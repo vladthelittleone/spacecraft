@@ -258,10 +258,12 @@ function LessonService(connection, audioManager, aceService) {
 		endCurrentSubLesson();
 
 		connection.getLessonsStatistics(saveAndInitializeNext);
-		
+
 	}
 
-	function saveAndInitializeNext(lessonContext){
+	function saveAndInitializeNext(result){
+
+		var lessonContext = result.data;
 
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;

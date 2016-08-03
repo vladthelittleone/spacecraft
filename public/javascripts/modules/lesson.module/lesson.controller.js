@@ -199,6 +199,11 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 			service.run();
 
+			// При запуске кода
+			// выключаем окно инструкции.
+			// Оно зависит от поля textContent.
+			// ng-show = "textContent"
+			$scope.textContent = false;
 		}
 		else {
 

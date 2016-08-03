@@ -273,7 +273,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:      			lessonId,
 				size:          			size,
 				completed:     			false, // мы еще не закончили урок до конца, поэтому false.
-				statistics:    			currentStatistics,
+				statistics:    			currentStatistics
 			});
 
 		}
@@ -287,7 +287,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonId:      			lessonId,
 				size:          			size,
 				completed: 	  			true,
-				statistics:    			currentStatistics,
+				statistics:    			currentStatistics
 			});
 
 			// Вызываем метод обработки ситуации ОКОНЧАНИЯ урока.
@@ -296,7 +296,7 @@ function LessonService(connection, audioManager, aceService) {
 		}
 
 	}
-	
+
 	/**
 	 * Окончание урока.
 	 * Метод вызывается после того, как урок полностью окончен.
@@ -324,8 +324,7 @@ function LessonService(connection, audioManager, aceService) {
 	 * так как алгоритм их обработки един для всех случаев.
 	 * Поэтому он и был вынесен в отдельный метод :)
 	 *
-	 * @param lessons массив уроков.
-	 * @param lessonId номер обрабатываемого урока.
+	 * @param currentLesson обрабатываемый урок.
      */
 	function prepareLesson(currentLesson) {
 
@@ -336,7 +335,7 @@ function LessonService(connection, audioManager, aceService) {
 			// Реинициализируем текущую статистику по уроку с учетом только что
 			// выгруженных данных из хранилища.
 			currentStatistics.initialize(lessonPoints, currentLesson);
-			
+
 			var size = scope.lesson.sub.length;
 
 			scope.subIndex = currentLesson.currentSubLesson;

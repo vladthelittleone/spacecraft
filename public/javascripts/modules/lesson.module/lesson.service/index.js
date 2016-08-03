@@ -218,7 +218,7 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function saveStatistics(args) {
 
-		lessons[ args.lessonId ] = args;
+		lessons[args.lessonId] = args;
 
 		connection.saveLessonsStatistics(args);
 

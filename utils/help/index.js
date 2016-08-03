@@ -4,15 +4,12 @@ var mongoose = require('mongoose');
 var config = require('../../config');
 var log = require('../log')(module);
 
-var Schema = mongoose.Schema;
-var User = mongoose.model('Users', new Schema());
-var Statistics = mongoose.model('Statistic', new Schema());
-
-const helpScript = require('./dataBaseHelpScript');
+const emailHelpScript = require('./email/help');
+const starsHelpScript = require('./stars/help');
 
 mongoose.connect(config.get('database:uri'), config.get('database:options'));
 
-helpScript.getEmailAllRegisteredUsers(User, function (value) {
+emailHelpScript.getEmailAllRegisteredUsers(function (value) {
 
 	checkArraySize(value, "Users email.", "Users can't find");
 
@@ -23,7 +20,7 @@ helpScript.getEmailAllRegisteredUsers(User, function (value) {
 	});
 });
 
-helpScript.getStarsSummary(Statistics, function (value) {
+starsHelpScript.getStarsSummary(function (value) {
 
 	checkArraySize(value, "Star statistics find", "Star statistics can't find");
 

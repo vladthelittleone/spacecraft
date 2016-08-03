@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 var config = require('../../config');
 var log = require('../log')(module);
 
-const emailHelpScript = require('./email/help');
-const starsHelpScript = require('./stars/help');
+const emailHelpScript = require('./email.help');
+const starsHelpScript = require('./stars.help');
 
 mongoose.connect(config.get('database:uri'), config.get('database:options'));
 

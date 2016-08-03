@@ -8,11 +8,11 @@ var Schema = mongoose.Schema;
 var User = mongoose.model('Users', new Schema());
 var Statistics = mongoose.model('Statistic', new Schema());
 
-const emails = require('./dataBaseHelpScript');
+const helpScript = require('./dataBaseHelpScript');
 
 mongoose.connect(config.get('database:uri'), config.get('database:options'));
 
-emails.getEmailAllRegisteredUsers(User, function (value) {
+helpScript.getEmailAllRegisteredUsers(User, function (value) {
 
 	checkArraySize(value, "Users email.", "Users can't find");
 
@@ -23,7 +23,7 @@ emails.getEmailAllRegisteredUsers(User, function (value) {
 	});
 });
 
-emails.getStarsSummary(Statistics, function (value) {
+helpScript.getStarsSummary(Statistics, function (value) {
 
 	checkArraySize(value, "Star statistics find", "Star statistics can't find");
 
@@ -42,9 +42,9 @@ emails.getStarsSummary(Statistics, function (value) {
 	mongoose.disconnect();
 });
 
-function checkArraySize(arg, messageCorrect, messageNotCorrect) {
+function checkArraySize(array, messageCorrect, messageNotCorrect) {
 
-	if (arg.length) {
+	if (array.length) {
 
 		log.info(messageCorrect);
 

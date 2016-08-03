@@ -25,6 +25,7 @@ dataBaseRequest.getEmailAllRegisteredUsers = function (User, callback) {
 				// выкидываем всю лишнюю инфу
 				// оставляя только емайлы
 
+				// делаем то что пришло из базы объектом
 				var user = value.toObject();
 
 				results.push(user.email);
@@ -37,6 +38,7 @@ dataBaseRequest.getEmailAllRegisteredUsers = function (User, callback) {
 	], callback);
 };
 
+// возвращает оценки пользователей за уроки
 dataBaseRequest.getStarsSummary = function (Statistics, callback) {
 
 	async.waterfall([
@@ -55,13 +57,13 @@ dataBaseRequest.getStarsSummary = function (Statistics, callback) {
 			// нет смысла
 			data.forEach(function (item) {
 
+				// делаем то что пришло из базы объектом
 				var value = item.toObject();
-
 				var lessons = value.lessons;
-
+				
 				if (lessons) {
 
-					value.lessons.forEach(function (_item, i) {
+					lessons.forEach(function (_item, i) {
 
 						var stars = _item.stars;
 
@@ -90,7 +92,7 @@ dataBaseRequest.getStarsSummary = function (Statistics, callback) {
 					});
 
 				}
-				
+
 			});
 
 			_callback(results);
@@ -99,6 +101,5 @@ dataBaseRequest.getStarsSummary = function (Statistics, callback) {
 
 	], callback);
 };
-
 
 module.exports = dataBaseRequest;

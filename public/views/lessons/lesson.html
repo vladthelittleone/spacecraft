@@ -10,8 +10,10 @@
 			<div lesson-board
 				 ng-if="lesson.sub[subIndex]"
 				 lesson="lesson.sub[subIndex]"
-				 text-content="textContent">
+				 ng-show="showTextContent">
 			</div>
+			<div settings
+				 ng-show="showSettings"></div>
 		</div>
 
 		<div ui-layout-container
@@ -74,7 +76,11 @@
 
 	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
 		 ng-click="toggleTextContent()"
-		 ng-class="{'glyphicon-chevron-right' : textContent}"></div>
+		 ng-class="{'glyphicon-chevron-right' : showTextContent}"></div>
+
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-list-alt"
+		 ng-click="toggleSettings()"
+		 ng-class="{'glyphicon-chevron-right' : showSettings}"></div>
 
 </div>
 

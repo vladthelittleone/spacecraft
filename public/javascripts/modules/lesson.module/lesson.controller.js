@@ -21,17 +21,19 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	CodeLauncher.onError = onError;
 
-	$scope.starsHide = false;	// Переключатель окна оценки урока
-	$scope.hideEditor = false;	// Переключатель окна урока
-	$scope.audioPause = false;	// Переключатель кнопки паузы панели управления
-	$scope.textContent = false; // Переключатель текстового контента урока
-	$scope.hint = false;		// Переключатель подсказок
+	$scope.starsHide = false;		// Переключатель окна оценки урока
+	$scope.hideEditor = false;		// Переключатель окна урока
+	$scope.audioPause = false;		// Переключатель кнопки паузы панели управления
+	$scope.showTextContent = false; // Переключатель текстового контента урока
+	$scope.showSettings = false;	// Переключатель натсроек
+	$scope.hint = false;			// Переключатель подсказок
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
 	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
 	$scope.lesson = service.lessonContent($stateParams.id);	// Контент урока
 
 	$scope.toggleTextContent = toggleTextContent;
+	$scope.toggleSettings = toggleSettings;
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
 	$scope.toggleEditorOpen = toggleEditorOpen;
@@ -56,7 +58,17 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	function toggleTextContent() {
 
-		$scope.textContent = !$scope.textContent;
+		$scope.showTextContent = !$scope.showTextContent;
+
+		$scope.showSettings = false;
+
+	}
+
+	function toggleSettings() {
+
+		$scope.showSettings = !$scope.showSettings;
+
+		$scope.showTextContent = false;
 
 	}
 
@@ -201,9 +213,10 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 			// При запуске кода
 			// выключаем окно инструкции.
-			// Оно зависит от поля textContent.
-			// ng-show = "textContent"
-			$scope.textContent = false;
+			// Оно зависит от поля showTextContent.
+			// ng-show = "showTextContent"
+			$scope.showTextContent = false;
+			$scope.showSettings = false;
 		}
 		else {
 

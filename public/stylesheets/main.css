@@ -641,21 +641,21 @@ pre {
 	cursor: default;
 }
 
-.documentation {
+.settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;
 	bottom: 0;
 	height: 100%;
 	width: 100%;
-	border: 1px solid #152B39;
+	cursor: default;
 }
 
-.documentation h3,
-.documentation h5 {
+.settings h3,
+.settings h5 {
 	text-align: center;
 }
 
-.documentation ul {
+.settings ul {
 	font-style: italic;
 	font-family: Georgia, Times, serif;
 	font-size: 24px;
@@ -665,7 +665,7 @@ pre {
 	padding: 0;
 }
 
-.documentation ul li p {
+.settings ul li p {
 	margin: 0;
 	padding: 8px;
 	font-family: Arial, serif;
@@ -674,11 +674,11 @@ pre {
 	font-style: normal;
 }
 
-.documentation ul li p:hover {
+.settings ul li p:hover {
 	background-color: rgb(21, 43, 57);
 }
 
-.documentation ul li p em {
+.settings ul li p em {
 	display: block;
 	font-size: 1.4em;
 	font-style: normal;
@@ -1128,11 +1128,6 @@ pre {
 	font-weight: bold;
 }
 
-.content-overflow {
-	height: 100%;
-	overflow-y: auto;
-}
-
 .content-description {
 	height: 100%;
 }
@@ -1191,7 +1186,8 @@ pre {
 	color: #FFFFFF;
 }
 
-.lesson-content-overflow {
+.content-overflow {
+	overflow-y: auto;
 	height: 100%;
 	border: 1px solid #152B39;
 	width: 100%;
@@ -1626,7 +1622,7 @@ div.helper {
 		position: inherit;
 	}
 
-	.lesson-content-overflow {
+	.content-overflow {
 		top: 0;
 	}
 
@@ -1645,7 +1641,8 @@ div.helper {
 }
 
 @media (max-height: 400px) {
-	.lesson-content-overflow {
+
+	.content-overflow {
 		bottom: 0;
 	}
 

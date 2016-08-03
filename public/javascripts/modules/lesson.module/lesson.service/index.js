@@ -242,7 +242,7 @@ function LessonService(connection, audioManager, aceService) {
 		audioWrapper.audioIndex = 0;
 
 		// Сокрытие панели инструкций
-		scope.textContent = false;
+		scope.showTextContent = false;
 
 		// Работа с очками по подуроку.
 		currentStatistics.subPenaltyPointsForGame();
@@ -258,7 +258,7 @@ function LessonService(connection, audioManager, aceService) {
 		endCurrentSubLesson();
 
 		connection.getLessonsStatistics(saveAndInitializeNext);
-		
+
 	}
 
 	function saveAndInitializeNext(lessonContext){

@@ -173,6 +173,9 @@ function LessonService(connection, audioManager, aceService) {
 		}
 		else {
 
+			// Удаляем подсказку
+			enjoyHint && enjoyHint.trigger("skip");
+
 			audioWrapper.onEnd(callback);
 
 		}
@@ -258,7 +261,7 @@ function LessonService(connection, audioManager, aceService) {
 		endCurrentSubLesson();
 
 		connection.getLessonsStatistics(saveAndInitializeNext);
-		
+
 	}
 
 	function saveAndInitializeNext(lessonContext){

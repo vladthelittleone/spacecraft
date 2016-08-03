@@ -32,6 +32,9 @@ function LessonService(connection, audioManager, aceService) {
 	var lessonId;		// Идентификатор урока
 	var scope;			// scope
 
+	// Ссылка на подсказку в процессе урока.
+	var enjoyHint;
+
 	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
 	var markers = aceService.getMarkerService;
 	var currentStatistics = Statistics();
@@ -136,7 +139,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		if (hint) {
 
-			var enjoyHint = new EnjoyHint({
+			 enjoyHint = new EnjoyHint({
 
 				onEnd: function () {
 

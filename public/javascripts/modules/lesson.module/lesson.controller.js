@@ -192,13 +192,14 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		if (!$scope.nextSubLesson) {
 
 			$scope.textBot = null;
-
+			
 		}
 
 		if (!CodeLauncher.isCodeRunning) {
 
 			service.run();
-
+			
+			$scope.textContent = false;
 		}
 		else {
 

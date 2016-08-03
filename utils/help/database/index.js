@@ -1,11 +1,11 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var config = require('../../config');
-var log = require('../log')(module);
+var config = require('../../../config');
+var log = require('../../log')(module);
 
-const emailHelpScript = require('./email.help');
-const starsHelpScript = require('./stars.help');
+var emailHelpScript = require('./email.help');
+var starsHelpScript = require('./stars.help');
 
 mongoose.connect(config.get('database:uri'), config.get('database:options'));
 
@@ -15,7 +15,7 @@ emailHelpScript.getEmailAllRegisteredUsers(function (value) {
 
 	value.forEach(function (item) {
 
-		log.info(item);
+		console.log(item);
 
 	});
 });
@@ -29,9 +29,9 @@ starsHelpScript.getStarsSummary(function (value) {
 		var userCount = item.userCount;
 		var mean = item.sum / userCount;
 
-		log.info("Lesson №" + i +
+		console.log("Lesson №" + i +
 			     " mean " + mean +
-			     " userNumb " + userCount);
+			     " userCount " + userCount);
 
 	});
 
@@ -43,12 +43,12 @@ function checkArraySize(array, messageCorrect, messageNotCorrect) {
 
 	if (array.length) {
 
-		log.info(messageCorrect);
+		console.log(messageCorrect);
 
 	}
 	else {
 
-		log.info(messageNotCorrect);
+		console.log(messageNotCorrect);
 
 	}
 

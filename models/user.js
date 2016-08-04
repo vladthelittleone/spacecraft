@@ -82,7 +82,7 @@ function authorize(email, password, callback) {
 		function (callback) {
 
 			User.findOne({email: email}, callback);
-			
+
 		},
 		function (user, callback) {
 
@@ -95,16 +95,16 @@ function authorize(email, password, callback) {
 				else {
 
 					callback(new AuthError('Пароль неверен'));
-					
+
 				}
 			}
 			else {
 
 				callback(new AuthError('Пользователь не найден'));
-				
+
 			}
 		}
-		
+
 	], callback);
 
 }

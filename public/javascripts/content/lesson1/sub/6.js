@@ -99,9 +99,7 @@ function Alert() {
 
 			// Если дельта больше TIME секунд
 			if (delta > TIME) {
-
-				// currentMissionStatus = missionStatus.SUCCESS;
-
+				
 				// Победа!
 				return lessonResults.resultCorrect();
 

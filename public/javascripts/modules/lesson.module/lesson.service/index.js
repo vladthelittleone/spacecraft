@@ -70,9 +70,7 @@ function LessonService(connection, audioManager, aceService) {
 	 * Формирование аудио и подсказок для следующего подурока.
 	 */
 	function initNextLessonContent() {
-		
-		enjoyHint = null;
-		
+
 		var current = currentSubLesson();
 
 		// Регистрируем текущий подурок урока в scope.
@@ -142,6 +140,9 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function tryShowHint(char, callback) {
 
+		// Удаляем подсказку
+		enjoyHint && enjoyHint.trigger("skip");
+
 		var hint = char.hint;
 
 		if (hint) {
@@ -183,9 +184,6 @@ function LessonService(connection, audioManager, aceService) {
 
 		}
 		else {
-
-			// Удаляем подсказку
-			enjoyHint && enjoyHint.trigger("skip");
 
 			audioWrapper.onEnd(callback);
 

@@ -36,6 +36,9 @@ function LessonService(connection, audioManager, aceService) {
 	var scope;							  // scope
 	var lessons;						  // массив уроков. Содержит данные по ВСЕМ урокам пользователя.
 
+	// Ссылка на подсказку в процессе урока.
+	var enjoyHint;
+
 	var audioWrapper = AudioWrapper(audioManager, initNextLessonContent);
 	var markers = aceService.getMarkerService;
 	var currentStatistics;
@@ -137,11 +140,14 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function tryShowHint(char, callback) {
 
+		// Удаляем подсказку
+		enjoyHint && enjoyHint.trigger("skip");
+
 		var hint = char.hint;
 
 		if (hint) {
 
-			var enjoyHint = new EnjoyHint({
+			 enjoyHint = new EnjoyHint({
 
 				onEnd: function () {
 

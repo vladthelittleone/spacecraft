@@ -294,10 +294,7 @@ function LessonService(connection, audioManager, aceService) {
 
 		endCurrentSubLesson();
 
-		// Размер массива подуроков
-		var subLessonCount = getSubLessonCount();
-
-		var lessonIsNotFinished = scope.subIndex !== subLessonCount - 1;
+		var lessonIsNotFinished = scope.subIndex !== (getSubLessonCount() - 1);
 
 		if (lessonIsNotFinished) {
 

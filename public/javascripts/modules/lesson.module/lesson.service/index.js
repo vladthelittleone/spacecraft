@@ -265,10 +265,16 @@ function LessonService(connection, audioManager, aceService) {
 	 * Задача данного метода выполнить все действия, которые присуще ситуации
 	 * окончания текущего подурока.
 	 */
-	function endCurrentSubLesson() {
+	function endLastSubLesson() {
+
+		// Увеличиваем индекс текущего подурока на следующий,
+		// так как в saveStatisticsWrapper должен передавать индекс
+		// именно следующего урока, а не текущего, который пользователь прошел.
+		// Именно этим и обусловлено расположение этого выражения здесь.
+		++scope.subIndex;
 
 		// Сохраняем статистику текущего положения по уроку.
-		saveStatisticsWrapper( scope.subIndex, false );
+		saveStatisticsWrapper(scope.subIndex , false);
 
 		CodeLauncher.stop();
 
@@ -292,19 +298,17 @@ function LessonService(connection, audioManager, aceService) {
 	 */
 	function nextSubLesson() {
 
-		endCurrentSubLesson();
-
-		// Размер массива подуроков
-		var subLessonCount = getSubLessonCount();
-
-		var lessonIsNotFinished = scope.subIndex !== subLessonCount - 1;
+		var subLessonCountByIndex = getSubLessonCount() - 1;
+		var lessonIsNotFinished = scope.subIndex !== subLessonCountByIndex;
 
 		if (lessonIsNotFinished) {
 
+			// Если урок еще не окончен, завершаем текущий подурок,
+			// чтобы корректно перейти к следующему.
+			endLastSubLesson();
+
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate && Game.restart();
-
-			++scope.subIndex;
 
 			initNextLesson();
 

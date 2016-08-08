@@ -35,7 +35,7 @@ function Statistics ()  {
 	that.subCurrentScore = subCurrentScore;
 	that.setPenaltyPointsForGame = setPenaltyPointsForGame;
 	that.subPenaltyPointsForGame = subPenaltyPointsForGame;
-	that.checkForBonusPoints = checkForBonusScore;
+	that.tryAddBonusScore = tryAddBonusScore;
 	that.calculateScoreForLessonEnd = calculateScoreForLessonEnd;
 
 	return that;
@@ -68,8 +68,8 @@ function Statistics ()  {
 	}
 
 	/**
-	 * Обновляем ЛУЧШИЙ результат по очкам, в соответствиии с набранными
-	 * очками по уроку.
+	 * Обновляем ЛУЧШИЙ результат по очкам (bestScore), в соответствиии с набранными
+	 * очками по уроку (currentScore).
 	 */
 	function updateBestScore() {
 
@@ -78,8 +78,8 @@ function Statistics ()  {
 	}
 
 	/**
-	 * Обновляем ЛУЧШЕЕ число запусков интерпретатора, в соответствии с числом
-	 * его запусков по уроку.
+	 * Обновляем ЛУЧШЕЕ число запусков интерпретатора (bestRunCount), в соответствии с числом
+	 * его запусков по уроку (currentRunCount).
 	 */
 	function updateBestRunCount() {
 
@@ -112,12 +112,16 @@ function Statistics ()  {
 
 			updateBestResults();
 
-			checkForUserGetMaxScoreForLesson();
+			if (isUserHasMaxBestScoreForLesson()) {
+
+				setUserCanGetBonusScore(false);
+
+			}
 
 		}
 		else {
 
-			checkForBonusScore();
+			tryAddBonusScore();
 
 		}
 
@@ -127,8 +131,10 @@ function Statistics ()  {
 	}
 
 	/**
-	 * Подразумевает обновление всех имеющихся
-	 * полей по лучшим результатам.
+	 * Подразумевает обновление лучших результатов
+	 * опираясь на состояние полей:
+	 * - currentScore;
+	 * - currentRunCount.
 	 */
 	function updateBestResults() {
 
@@ -147,7 +153,7 @@ function Statistics ()  {
 	function resetCurrentResults() {
 
 		that.currentScore = lessonPoints ? lessonPoints.totalPoints:
-										   0;
+			0;
 		that.currentRunCount = 0;
 
 	}
@@ -172,7 +178,7 @@ function Statistics ()  {
 		// Число попыток прохождения урока.
 		that.attemptLessonCount = 0;
 
-		that.isUserCanGetBonusScore = true;
+		setUserCanGetBonusScore(true);
 
 		resetPenaltyPointsForGame();
 
@@ -190,7 +196,7 @@ function Statistics ()  {
 
 			that.attemptLessonCount = statistics.attemptLessonCount;
 
-			that.isUserCanGetBonusScore = statistics.isUserCanGetBonusScore;
+			setUserCanGetBonusScore(statistics.isUserCanGetBonusScore);
 
 		}
 
@@ -203,93 +209,107 @@ function Statistics ()  {
 	}
 
 	/**
-	 * Начисление бонусов предполагает изменение состояния
-	 * currentScore, чтобы  в последующем, метод updateBestResutls
-	 * корректно обновил лучшие результаты (в currentScore должны лежать очки,
-	 * которые установят новое значение bestScore, с учетом бонусных начислений).
+	 * Метод возвращает число возможных бонусных очков, которые
+	 * может получить пользователь.
 	 */
 	function calculateBonusScore() {
 
-		// Устаналиваем текущие очки в прошлый лучший результат, чтобы
-		// затем к ним прибавить бонусы.
-		that.currentScore = that.bestScore;
-
-		var difference = lessonPoints.totalPoints - that.currentScore;
+		// Разница между максимально возможными очками за урок и текущим
+		// лучшим результатом.
+		var difference = lessonPoints.totalPoints - that.bestScore;
 
 		// Пока что просто условились на том, что бонусные очки это есть
 		// "разница" (между максимально возможными очками за урок и текущим лучшим результатом) пополам.
-		// Также, не забываем устанавливать точность результата, чтобы избежать
-		// непредставимых чисел. 2 знака после запятой для результатов самое оптимальное :)
-		var bonusScore = Number((difference / 2).toFixed(2));
-
-		that.currentScore = that.currentScore + bonusScore;
-
-		// Пользователь больше не может получать бонусные очки.
-		that.isUserCanGetBonusScore = false;
-
-		// Обновляем лучшие результаты, в связи с начислением бонусов.
-		updateBestResults();
+		return parseInt(difference / 2);
 
 	}
 
 	/**
-	 * Метод проверки и обработки на достижение пользователем последней попытки
-	 * получения бонусных очков.
+	 * Метод проверки - достиг ли пользотваель предельного числа прохождения
+	 * урока для получения бонуса.
+	 *
+	 * @return boolean true пользователь превысил число попыток прохждения урока
+	 * 						для получения бонуса;
+	 * 				   false пользователь не превысил число попыток прохождения.
 	 */
-	function checkForLastAttemptOnBonusScore() {
+	function isUserHasExceededAttemptOnBonusScore() {
 
-		var isUserExceededMaxAttemptCountForBonus = ( that.attemptLessonCount ) >
-													maxAttemptLessonCountForBonus;
-
-		if (isUserExceededMaxAttemptCountForBonus) {
-
-			that.isUserCanGetBonusScore = false;
-
-		}
+		return that.attemptLessonCount > maxAttemptLessonCountForBonus;
 
 	}
 
 	/**
-	 * Метод осуществляет проверку - а нуждается ли пользователь в принципе в каких-либо
-	 * бонусных очках.
-	 * Состоние флага isUserCanGetBonusScore должно быть актуальным.
-	 * Ведь именно на этот флаг мы опираемся перед какими-либо вычислениями для бонусов.
+	 * Метод сообщает - достиг ли пользователь максимальных очков в ЛУЧШЕМ (that.bestScore)
+	 * своем результате по уроку.
+	 *
+	 * @return boolean true у пользователя максимальное число очков в лучшем результате.
+	 * 		   		   false пользователь не достиг максимума в лучщем результате.
 	 */
-	function checkForUserGetMaxScoreForLesson() {
+	function isUserHasMaxBestScoreForLesson() {
 
-		// Нуждается ли пользователь в каких либо бонусных очках.
-		var isNeededInBonusScore = that.bestScore < lessonPoints.totalPoints;
+		return that.bestScore === lessonPoints.totalPoints;
 
-		if (!isNeededInBonusScore) {
-
-			that.isUserCanGetBonusScore = false;
-
-		}
-		
 	}
 
 	/**
-	 * Метод начисления бонусных очков пользователю, если это возможно.
+	 * Метод сообщает - достиг ли пользователь максимальных очков в ТЕКУЩЕМ (that.currentScore)
+	 * результате по уроку.
+	 *
+	 * @return boolean true у пользователя максимальное число очков в текущем результате.
+	 * 		   		   false пользователь не достиг максимума в текущем результате.
 	 */
-	function checkForBonusScore() {
+	function isUserHasMaxCurrentScoreForLesson() {
+
+		return lessonPoints.totalPoints === that.currentScore;
+
+	}
+
+	/**
+	 * Метод добавления дополнительных очков к лучшему результату.
+     */
+	function addToBestScore(value) {
+
+		that.bestScore = that.bestScore + value;
+
+	}
+
+	/**
+	 * Метод попытки зачисления бонусных очков пользователю за урок.
+	 * Если такая возможность имеется - метод зачисляет бонусные очки пользователю.
+	 * Для зачисления бонусных очков - необходимо выполнение ряда условий. Их проверка
+	 * возлагается на данный метод.
+	 * Кроме того, данный метод учитывает, что бонусные очки пользователь может получать
+	 * только 1 раз.
+	 * Также, метод берет на себя ответственность за установку запрета получения пользователем
+	 * бонусных очков при достижении им максимального числа попыток прохождения урока.
+	 */
+	function tryAddBonusScore() {
 
 		// Если пользователь может получать бонусные очки.
 		if ( that.isUserCanGetBonusScore ) {
 
-			// Проверяем, получил ли пользотваель максимум очков по уроку.
+			// Проверяем, получил ли пользователь максимум очков по текущим результатам за урок.
 			// По текущему соглашению - пользователь имеет право на бонусы только
 			// в случае прохождения урока на максимальный результат.
-			var isUserGetMaxScoreForCurrentLesson = !(lessonPoints.totalPoints - that.currentScore);
+			if (isUserHasMaxCurrentScoreForLesson()) {
 
-			if (isUserGetMaxScoreForCurrentLesson) {
+				var bonusScore = calculateBonusScore();
 
-				calculateBonusScore();
+				addToBestScore(bonusScore);
+
+				// Пользователь больше не может получать бонусные очки.
+				setUserCanGetBonusScore(false);
 
 			}
 
 			// Также, не забываем о проверке на последнюю
 			// попытку получения бонусов.
-			checkForLastAttemptOnBonusScore();
+			if (isUserHasExceededAttemptOnBonusScore()) {
+
+				// Пользователь больше не может получать бонусные очки.
+				setUserCanGetBonusScore(false);
+
+			}
 		}
 
 	}
@@ -333,6 +353,12 @@ function Statistics ()  {
 	function setPenaltyPointsForGame(penaltyPoints) {
 
 		penaltyPointsForGame = penaltyPoints;
+
+	}
+
+	function setUserCanGetBonusScore(isUserCanGetBonusScore) {
+
+		that.isUserCanGetBonusScore = isUserCanGetBonusScore;
 
 	}
 

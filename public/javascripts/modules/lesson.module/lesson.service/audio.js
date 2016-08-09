@@ -5,7 +5,7 @@ module.exports = AudioWrapper;
 /**
  * Обертка доп. функционала вокруг AudioManager.
  */
-function AudioWrapper(audioManager, previousCallback) {
+function AudioWrapper(audioManager, initNextLessonContent) {
 
 	var audio;
 
@@ -31,7 +31,7 @@ function AudioWrapper(audioManager, previousCallback) {
 
 	return t;
 
-	function previousAudio(callback) {
+	function previousAudio() {
 
 		// При определенном значение времени текущего трека
 		// не переклчюаемся на предыдущий трек,

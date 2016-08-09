@@ -51,7 +51,9 @@
 <div stars id-lesson="idLesson" ng-if="starsHide"></div>
 
 <!-- Директива игры -->
-<div game-canvas class="lesson-canvas"></div>
+<div game-canvas
+	 class="lesson-canvas"
+	 hide-dhs="char.css"></div>
 
 <div class="right-toolbar">
 
@@ -78,7 +80,7 @@
 		 ng-click="toggleTextContent()"
 		 ng-class="{'glyphicon-chevron-right' : showTextContent}"></div>
 
-	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-list-alt"
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-wrench"
 		 ng-click="toggleSettings()"
 		 ng-class="{'glyphicon-chevron-right' : showSettings}"></div>
 

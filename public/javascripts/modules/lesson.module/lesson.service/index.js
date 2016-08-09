@@ -8,11 +8,12 @@ var ContentFactory = Game.content;
 var EntitiesFactory = Game.world;
 
 var Interpreter = require('./interpreter');
-var TabHandler = require( '../../../emitters' );
 var Statistics = require('../../../utils/statistics');
 var AudioWrapper = require('./audio');
 
-LessonService.$inject = ['connection', 'audioManager', 'aceService'];
+var TabHandler = require('../../../emitters/tab-handler');
+
+LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings'];
 
 module.exports = LessonService;
 
@@ -23,7 +24,7 @@ module.exports = LessonService;
  *
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService) {
+function LessonService(connection, audioManager, aceService, settings) {
 
 	var that = {};
 
@@ -59,14 +60,11 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
-	 * Формирование аудио и подсказок для следующего подурока.
-	 */
-	function initNextLessonContent() {
-
-		var current = currentSubLesson();
-
-		// Регистрируем текущий подурок урока в scope.
-		scope.curretSubLesson = current;
+	 * Инициализация интерактивного контента: голоса, маркеров редактора, подсказок.
+	 *
+	 * @param current текущий контекст урока - подурок.
+     */
+	function initInteractiveContent(current) {
 
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
 
@@ -87,8 +85,8 @@ function LessonService(connection, audioManager, aceService) {
 			audioWrapper.play();
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
-			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
-			TabHandler.subscribeOnTabShow( function () {
+			TabHandler.subscribeOnTabHidden(audioWrapper.pause);
+			TabHandler.subscribeOnTabShow(function () {
 
 				// Если не последняя реплика
 				if (!scope.audioPause) {
@@ -96,7 +94,7 @@ function LessonService(connection, audioManager, aceService) {
 					audioWrapper.play()
 				}
 
-			} );
+			});
 
 			// Постановка на паузу
 			scope.audioPause = false;
@@ -122,6 +120,38 @@ function LessonService(connection, audioManager, aceService) {
 				markerId = markers().paintMarker(m.x1, m.y1, m.x2, m.y2, m.type);
 
 			}
+
+		}
+
+	}
+
+	function tryInitNextLessonContent() {
+
+		settings.onChange();
+
+	}
+
+	/**
+	 * Формирование аудио и подсказок для следующего подурока.
+	 */
+	function initNextLessonContent() {
+
+		var current = currentSubLesson();
+
+		// Регистрируем текущий подурок урока в scope.
+		scope.curretSubLesson = current;
+
+		// Если включена интерактивность в настройках,
+		// то выполняем ее подгрузку.
+		if (settings.isActive(settings.INTERACTIVE)) {
+
+			initInteractiveContent(current);
+
+		} else {
+
+			// Очищаем обработку вкладок,
+			// так как настройка не активна.
+			TabHandler.clear();
 
 		}
 
@@ -216,12 +246,13 @@ function LessonService(connection, audioManager, aceService) {
 		var completed = args.completed;
 
 		// Устанавливаем текущий урок
-		args.lessonContext[id] =
-		{
-			current:       args.current,
-			size:          args.size,
-			completed:     completed,
-			statistics:    args.statistics
+		args.lessonContext[id] = {
+
+			current:    args.current,
+			size:       args.size,
+			completed:  completed,
+			statistics: args.statistics
+
 		};
 
 		connection.saveLessonsStatistics(args);
@@ -261,7 +292,7 @@ function LessonService(connection, audioManager, aceService) {
 
 	}
 
-	function saveAndInitializeNext(lessonContext){
+	function saveAndInitializeNext(lessonContext) {
 
 		// Размер массива подуроков
 		var size = scope.lesson.sub.length;
@@ -298,7 +329,7 @@ function LessonService(connection, audioManager, aceService) {
 				lessonContext: lessonContext,
 				lessonId:      lessonId,
 				size:          size,
-				completed: 	   true,
+				completed:     true,
 				statistics:    currentStatistics
 			});
 
@@ -475,7 +506,7 @@ function LessonService(connection, audioManager, aceService) {
 
 	/**
 	 * Коллбек выполняющийся при обновлении игры
-     */
+	 */
 	function gamePostUpdate(botText) {
 
 		var current = currentSubLesson();

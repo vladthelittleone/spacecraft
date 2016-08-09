@@ -4,9 +4,16 @@
 var CodeLauncher = require('../../game/launcher');
 
 // Подключаем TabHandler
-var TabHandler = require('../../emitters');
+var TabHandler = require('../../emitters/tab-handler');
 
-LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
+LessonController.$inject = ['$scope',
+	'$stateParams',
+	'$state',
+	'lessonService',
+	'audioManager',
+	'aceService',
+	'settings'
+];
 
 module.exports = LessonController;
 
@@ -15,18 +22,21 @@ module.exports = LessonController;
  *
  * Created by vladthelittleone on 30.11.15.
  */
-function LessonController($scope, $stateParams, $state, service, audioManager, aceService) {
+function LessonController($scope, $stateParams, $state, service, audioManager, aceService, settings) {
 
 	var markerService;
+	var soundtrack;
 
 	CodeLauncher.onError = onError;
 
 	$scope.starsHide = false;		// Переключатель окна оценки урока
 	$scope.hideEditor = false;		// Переключатель окна урока
-	$scope.audioPause = false;		// Переключатель кнопки паузы панели управления
 	$scope.showTextContent = false; // Переключатель текстового контента урока
 	$scope.showSettings = false;	// Переключатель натсроек
 	$scope.hint = false;			// Переключатель подсказок
+
+	// Переключатель кнопки паузы панели управления
+	$scope.audioPause = !isInteractiveActivated();
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
 	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
@@ -56,6 +66,16 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	// ==================================================
 
+	/**
+	 * Проверка активности настройки интерактвиности.
+	 * Если интерактивность включена: используется голос, маркеры и подсказки.
+	 */
+	function isInteractiveActivated() {
+
+		return settings.isActive(settings.INTERACTIVE);
+
+	}
+
 	function toggleTextContent() {
 
 		$scope.showTextContent = !$scope.showTextContent;
@@ -74,15 +94,21 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	function toggleAudioPause() {
 
-		service.audioManager.toggleAudio($scope.audioPause);
+		if (isInteractiveActivated()) {
 
-		$scope.audioPause = !$scope.audioPause;
+			service.audioManager.toggleAudio($scope.audioPause);
+
+			$scope.audioPause = !$scope.audioPause;
+
+		}
 
 	}
 
 	function previousAudio() {
 
-		if (service.audioManager.previousAudio()) {
+		var interactive = isInteractiveActivated();
+
+		if (interactive && service.audioManager.previousAudio()) {
 
 			$scope.audioPause = false;
 
@@ -180,15 +206,41 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 
 	/**
+	 * Выключение / Включение фоновой музыки.
+	 */
+	function setSoundtrackEnable(enable) {
+
+		if (enable) {
+
+			playSoundtrack();
+
+		} else {
+
+			soundtrack && soundtrack.pause();
+			TabHandler.clear();
+
+		}
+
+	}
+
+	/**
 	 * При загрузке запускаем звук.
 	 */
 	function onContentLoaded() {
 
-		audioManager.createSoundtrack().play();
+		// Если настройка музыки активна,
+		settings.onSettingsChange(setSoundtrackEnable, settings.SOUNDTRACK, true);
+
+	}
+
+	function playSoundtrack() {
+
+		soundtrack = audioManager.createSoundtrack();
+		soundtrack.play();
 
 		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
-		TabHandler.subscribeOnTabHidden( audioManager.pauseSoundtrack );
-		TabHandler.subscribeOnTabShow( audioManager.resumeSoundtrack );
+		TabHandler.subscribeOnTabHidden(audioManager.pauseSoundtrack);
+		TabHandler.subscribeOnTabShow(audioManager.resumeSoundtrack);
 
 	}
 

@@ -3,8 +3,12 @@
 	<div class="content-description">
 		<div class="content-overflow">
 			<ul>
-				<li><p><em>Музыка</em>Вы можете выключить музыку заднего фона.</p></li>
-				<li><p><em>Аудиодорожка</em>Вы можете отключить аудиодорожку урока и читать текст самостоятельно.</p></li>
+				<li ng-repeat="item in settings" ng-click="toggle(item)">
+					<em class="settings-title">{{item.title}}</em>
+					<span class="settings-checkbox glyphicon"
+						  ng-class="{'glyphicon-unchecked' : !item.value,
+						   'glyphicon-check': item.value}"></span>
+					<p>{{item.description}}</p>
 			</ul>
 		</div>
 	</div>

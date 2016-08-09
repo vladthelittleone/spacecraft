@@ -15,6 +15,7 @@ function Statistics ()  {
 
 	that.bestScore = 0;
 	that.currentScore =  0;
+
 	// Число запусков интерпретатора.
 	that.bestRunCount = 0;
 	that.currentRunCount = 0;

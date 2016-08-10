@@ -10,7 +10,7 @@
 				<div class="login-sub-title">Запрограммируй свой космический корабль и сражайся с другими игроками онлайн!</div>
 			</div>
 
-			<div class="login-right-container">
+			<div class="login-right-container" ng-show="toggleForm">
 				<div class="login-input-title">Войдите в систему:</div>
 				<div class="login-input">
 					<label>
@@ -36,6 +36,49 @@
 					</button>
 
 					<button class="login-button float-right"
+							ng-click="changeForm()">
+						<span>Регистрация</span>
+					</button>
+				</div>
+
+				<div class="login-input-title login-error">{{error}}</div>
+
+			</div>
+
+			<div class="login-right-container" ng-show="!toggleForm">
+				<div class="login-input-title">Зарегестрируйтесь в системе:</div>
+				<div class="login-input">
+					<label>
+						<input type="text"
+							   ng-model="email"
+							   class="login-email"
+							   placeholder="Email">
+					</label>
+				</div>
+
+				<div class="login-input">
+					<label>
+						<input type="password"
+							   ng-model="password"
+							   placeholder="Пароль">
+					</label>
+				</div>
+
+				<div class="login-input">
+					<input type="checkbox"
+						   ng-model="delivery"
+						   placeholder="получать звездные новости на e-mail"
+						   class="login-checkbox">
+					<div class="login-checkbox-title">получать звёздные новости на e-mail</div>
+				</div>
+
+				<div class="login-button-group">
+					<button class="login-button"
+							ng-click="changeForm()">
+						<span>Войти</span>
+					</button>
+
+					<button class="login-button float-right"
 							ng-click="register()">
 						<span>Регистрация</span>
 					</button>
@@ -44,6 +87,7 @@
 				<div class="login-input-title login-error">{{error}}</div>
 
 			</div>
+
 		</div>
 	</div>
 	<div class="login-container login-about">

@@ -14,18 +14,30 @@ module.exports = LoginController;
  */
 function LoginController($scope, $state, authentication) {
 
+	// Переменная отвечающая за отображение нужной формы
+	$scope.toggleForm = true;
+	
+	// По дефолту считаем, что человек согласен на рассылку
+	$scope.delivery = true;
+	
 	// Если пользователь авторизован,
 	// отправляем на welcome состояние.
 	authentication.isLoggedIn({
 		success: toWelcome
 	});
-
+	
+	$scope.changeForm = changeForm; 
 	$scope.loginByKey = loginByKey;
 	$scope.register = register;
 	$scope.login = function () { login(toWelcome); };
 
 	// ==================================================
-
+	
+	function changeForm(){
+		
+		$scope.toggleForm = !$scope.toggleForm;
+		
+	}
 	// Переход на состояние welcome
 	function toWelcome() {
 
@@ -63,10 +75,13 @@ function LoginController($scope, $state, authentication) {
 		var email = $scope.email;
 
 		var pass = $scope.password;
-
+		
+		var del = $scope.delivery;
+		
 		authentication.register({
 			email:    email,
 			password: pass,
+			delivery: del,
 			success:  toLesson,
 			error:    error
 		});

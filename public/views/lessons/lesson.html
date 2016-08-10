@@ -45,8 +45,9 @@
 	</div>
 </div>
 
-<!-- Директива звезд рейтинга урока-->
-<div stars id-lesson="idLesson" ng-if="starsHide"></div>
+
+<!-- Вывод статистики по окончанию урока -->
+<div statistics-lesson-end lesson="getCurrentLesson()" ng-if ="lessonIsCompleted"></div>
 
 <!-- Директива игры -->
 <div game-canvas class="lesson-canvas"></div>

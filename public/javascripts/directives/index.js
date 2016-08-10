@@ -13,3 +13,4 @@ app.directive('gameCanvas', require('./game-canvas.directive'));
 app.directive('lessonBoard', require('./lesson-board.directive'));
 app.directive('repeatFinished', require('./repeat-finished.directive'));
 app.directive('stars', require('./stars.directive'));
+app.directive('statisticsLessonEnd', require('./statistics-lesson-end.directive'));

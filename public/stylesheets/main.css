@@ -209,8 +209,16 @@ pre {
 	color: #f88e36;
 }
 
+.lesson-end-content {
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	color: #FFFFFF;
+	top: 30%;
+}
+
 .container-white-board,
-.stars-background,
+.lesson-end-background,
 .result-background,
 .pages-background,
 .login-background {
@@ -236,7 +244,7 @@ pre {
 	background-size: cover;
 }
 
-.stars-background {
+.lesson-end-background {
 	z-index: 3000;
 	background-size: cover;
 	background-color: rgba(21, 43, 57, 0.9);
@@ -1706,12 +1714,4 @@ fieldset, label { padding: 0; }
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
 
-.stars-conteiner
-{
-	width: 100%;
-	text-align: center;
-	position: absolute;
-	color: #FFFFFF;
-	top: 30%;
-}
 

@@ -21,7 +21,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	CodeLauncher.onError = onError;
 
-	$scope.starsHide = false;	// Переключатель окна оценки урока
+	$scope.lessonIsCompleted = false;	// Переключатель окна оценки урока
 	$scope.hideEditor = false;	// Переключатель окна урока
 	$scope.audioPause = false;	// Переключатель кнопки паузы панели управления
 	$scope.textContent = false; // Переключатель текстового контента урока

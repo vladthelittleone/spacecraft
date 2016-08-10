@@ -1,0 +1,25 @@
+<div class="lesson-end-background">
+	<div class ="lesson-end-content">
+
+		<!-- Показ звездочек -->
+		<div stars id-lesson="lesson.lessonId"></div>
+
+		<h4>Число очков набранных Вами за урок: {{statistics.getCurrentScore()}} из
+			{{statistics.getMaxLimitScoreForLesson()}}</h4>
+
+		<h4>Ваш окончательный результат за урок: {{statistics.getFinalScore()}}</h4>
+
+		<!-- Пользователь не набрал максимальное число очков. Сообщаем ему о возможности получить бонусы,
+		а также напоминаем о ограниченном числе попыток. -->
+		<div ng-if="statistics.isUserCanGetBonusScore">
+			<h4 ng-if="statistics.getAttemptCountForBonus() > 1">Количество попыток для получения бонуса: {{statistics.getAttemptCountForBonus()}}</h4>
+			<h4 ng-if="statistics.getAttemptCountForBonus() === 1">У Вас последняя попытка, чтобы получить бонусные очки</h4>
+		</div>
+
+		<!-- Если пользователь заработал бонусные очки, сообщаем ему о их количестве. -->
+		<div ng-if="statistics.getBonusScore()">
+			<h4>Вы заработали бонусные очки: {{statistics.getBonusScore()}}</h4>
+		</div>
+
+	</div>
+</div>

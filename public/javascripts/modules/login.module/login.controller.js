@@ -83,12 +83,12 @@ function LoginController($scope, $state, authentication) {
 
 		var pass = $scope.password;
 		
-		var del = $scope.isSubscribeOnEmail;
+		var subscribe = $scope.isSubscribeOnEmail;
 		
 		authentication.register({
 			email:    email,
 			password: pass,
-			isSubscribeOnEmail: del,
+			isSubscribeOnEmail: subscribe,
 			success:  toLesson,
 			error:    error
 		});

@@ -1422,9 +1422,10 @@ div.helper {
 
 .login-checkbox-title {
 	font-family: "Courier New", serif;
-	font-size: 0.8em;
+	font-size: 1.0em;
 	color: white;
 	text-align: center;
+	cursor: pointer;
 }
 
 .login-input {

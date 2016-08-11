@@ -22,7 +22,7 @@ var schema = new Schema({
 		type: String,
 		required: true
 	},
-	delivery: {
+	isSubscribeOnEmail: {
 		type: Boolean,
 		required: true
 	},
@@ -113,7 +113,7 @@ function authorize(email, password, callback) {
 
 }
 
-function registration(email, password, delivery, callback) {
+function registration(email, password, isSubscribeOnEmail, callback) {
 
 	var User = this;
 
@@ -128,7 +128,7 @@ function registration(email, password, delivery, callback) {
 
 			if (!user) {
 
-				var newbie = new User({email: email, password: password, delivery: delivery});
+				var newbie = new User({email: email, password: password, isSubscribeOnEmail: isSubscribeOnEmail});
 
 				newbie.save(function (err) {
 

@@ -34,7 +34,7 @@ router.post('/', function (req, res, next)
 {
 	var email = req.body.email;
 	var password = req.body.password;
-	var delivery = req.body.delivery;
+	var isSubscribeOnEmail = req.body.isSubscribeOnEmail;
 		
 	if (!isEmail(email))
 	{
@@ -48,7 +48,7 @@ router.post('/', function (req, res, next)
 
 	var normalizeEmail = valid.normalizeEmail(email);
 
-	User.registration(normalizeEmail, password, delivery, function (err, user)
+	User.registration(normalizeEmail, password, isSubscribeOnEmail, function (err, user)
 	{
 		if (err)
 		{

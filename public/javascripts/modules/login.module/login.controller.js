@@ -18,7 +18,7 @@ function LoginController($scope, $state, authentication) {
 	$scope.toggleForm = true;
 	
 	// По дефолту считаем, что человек согласен на рассылку
-	$scope.delivery = true;
+	$scope.isSubscribeOnEmail = true;
 	
 	// Если пользователь авторизован,
 	// отправляем на welcome состояние.
@@ -27,11 +27,18 @@ function LoginController($scope, $state, authentication) {
 	});
 	
 	$scope.changeForm = changeForm; 
+	$scope.changeSubscribe = changeSubscribe;
 	$scope.loginByKey = loginByKey;
 	$scope.register = register;
 	$scope.login = function () { login(toWelcome); };
 
 	// ==================================================
+	
+	function changeSubscribe(){
+		
+		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
+		
+	}
 	
 	function changeForm(){
 		
@@ -76,12 +83,12 @@ function LoginController($scope, $state, authentication) {
 
 		var pass = $scope.password;
 		
-		var del = $scope.delivery;
+		var del = $scope.isSubscribeOnEmail;
 		
 		authentication.register({
 			email:    email,
 			password: pass,
-			delivery: del,
+			isSubscribeOnEmail: del,
 			success:  toLesson,
 			error:    error
 		});

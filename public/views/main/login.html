@@ -10,8 +10,13 @@
 				<div class="login-sub-title">Запрограммируй свой космический корабль и сражайся с другими игроками онлайн!</div>
 			</div>
 
-			<div class="login-right-container" ng-show="toggleForm">
-				<div class="login-input-title">Войдите в систему:</div>
+			<div class="login-right-container">
+				<div class="login-input-title" ng-show="toggleForm">
+					Войдите в систему:
+				</div>
+				<div class="login-input-title"  ng-show="!toggleForm">
+					Зарегестрируйтесь в системе:
+				</div>
 				<div class="login-input">
 					<label>
 						<input type="text"
@@ -29,7 +34,7 @@
 					</label>
 				</div>
 
-				<div class="login-button-group">
+				<div class="login-button-group" ng-show="toggleForm">
 					<button class="login-button"
 							ng-click="login()">
 						<span>Войти</span>
@@ -41,53 +46,32 @@
 					</button>
 				</div>
 
-				<div class="login-input-title login-error">{{error}}</div>
+				<div ng-show="!toggleForm">
+					<div class="login-input">
+						<div class="login-checkbox-title" ng-click = changeSubscribe()>
+							<span ng-class = "{'glyphicon glyphicon-check' : isSubscribeOnEmail,
+											'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
+							</span>
+							получать звёздные новости на e-mail
+						</div>
+					</div>
 
-			</div>
+					<div class="login-button-group">
+						<button class="login-button"
+								ng-click="changeForm()">
+							<span>Войти</span>
+						</button>
 
-			<div class="login-right-container" ng-show="!toggleForm">
-				<div class="login-input-title">Зарегестрируйтесь в системе:</div>
-				<div class="login-input">
-					<label>
-						<input type="text"
-							   ng-model="email"
-							   class="login-email"
-							   placeholder="Email">
-					</label>
-				</div>
-
-				<div class="login-input">
-					<label>
-						<input type="password"
-							   ng-model="password"
-							   placeholder="Пароль">
-					</label>
-				</div>
-
-				<div class="login-input">
-					<input type="checkbox"
-						   ng-model="delivery"
-						   placeholder="получать звездные новости на e-mail"
-						   class="login-checkbox">
-					<div class="login-checkbox-title">получать звёздные новости на e-mail</div>
-				</div>
-
-				<div class="login-button-group">
-					<button class="login-button"
-							ng-click="changeForm()">
-						<span>Войти</span>
-					</button>
-
-					<button class="login-button float-right"
-							ng-click="register()">
-						<span>Регистрация</span>
-					</button>
+						<button class="login-button float-right"
+								ng-click="register()">
+							<span>Регистрация</span>
+						</button>
+					</div>
 				</div>
 
 				<div class="login-input-title login-error">{{error}}</div>
 
 			</div>
-
 		</div>
 	</div>
 	<div class="login-container login-about">

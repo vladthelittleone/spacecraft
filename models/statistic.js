@@ -59,22 +59,31 @@ function updateLessonStarStatistics(req, callback) {
 		},
 		function(result, callback) {
 
-			var lessons = result.lessons;
-			var lesId = req.body.idLesson;
+			try {
 
-			lessons[lesId].stars = req.body.stars;
-			
-			Statistic.update(
-			{
-				idUser: req.session.user
-			},
-			{
-				lessons: lessons
-			},
-			{
-				multi: true
+				var lessons = result.lessons;
+				var lesId = req.body.idLesson;
 
-			}, callback);
+				lessons[lesId].stars = req.body.stars;
+
+				Statistic.update(
+					{
+						idUser: req.session.user
+					},
+					{
+						lessons: lessons
+					},
+					{
+						multi: true
+
+					}, callback);
+
+			}
+			catch(e) {
+
+				callback(e);
+
+			}
 
 
 		}],
@@ -96,27 +105,36 @@ function updateLessonStatistics(id, req, callback) {
 		},
 		function(result, callback) {
 
-			var lessons = req.body;
-			var lesId = req.body.lessonId;
+			try {
 
-			// Если в базе была стата об уроках
-			if(result && result.lessons) {
+				var lessons = req.body;
+				var lesId = req.body.lessonId;
 
-				lessons = result.lessons;
-				lessons[lesId] = req.body;
-				lessons[lesId].completed = req.body.completed || lessons[lesId].completed;
+				// Если в базе была стата об уроках
+				if (result && result.lessons) {
+
+					lessons = result.lessons;
+					lessons[lesId] = req.body;
+					lessons[lesId].completed = req.body.completed || lessons[lesId].completed;
+
+				}
+
+				// Апдейт записи о статистики. создание новой записи если ее нет
+				Statistic.update({idUser: id},
+					{
+						lessons: lessons
+					},
+					{
+						upsert: true,
+						multi: true
+					}, callback);
 
 			}
+			catch(e) {
 
-			// Апдейт записи о статистики. создание новой записи если ее нет
-			Statistic.update({idUser: id},
-			{
-				lessons: lessons
-			},
-			{
-				upsert: true,
-				multi: true
-			}, callback);
+				callback(e);
+
+			}
 		}],
 		callback);
 

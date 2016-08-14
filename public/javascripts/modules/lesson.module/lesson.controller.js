@@ -33,10 +33,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.hideEditor = false;		// Переключатель окна урока
 	$scope.showTextContent = false; // Переключатель текстового контента урока
 	$scope.showSettings = false;	// Переключатель натсроек
+	$scope.audioPause = false;		// Переключатель кнопки паузы панели управления
 	$scope.hint = false;			// Переключатель подсказок
-
-	// Переключатель кнопки паузы панели управления
-	$scope.audioPause = !isInteractiveActivated();
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
 	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
@@ -66,16 +64,6 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	// ==================================================
 
-	/**
-	 * Проверка активности настройки интерактвиности.
-	 * Если интерактивность включена: используется голос, маркеры и подсказки.
-	 */
-	function isInteractiveActivated() {
-
-		return settings.isActive(settings.INTERACTIVE);
-
-	}
-
 	function toggleTextContent() {
 
 		$scope.showTextContent = !$scope.showTextContent;
@@ -94,21 +82,15 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	function toggleAudioPause() {
 
-		if (isInteractiveActivated()) {
+		service.audioManager.toggleAudio($scope.audioPause);
 
-			service.audioManager.toggleAudio($scope.audioPause);
-
-			$scope.audioPause = !$scope.audioPause;
-
-		}
+		$scope.audioPause = !$scope.audioPause;
 
 	}
 
 	function previousAudio() {
 
-		var interactive = isInteractiveActivated();
-
-		if (interactive && service.audioManager.previousAudio()) {
+		if (service.audioManager.previousAudio()) {
 
 			$scope.audioPause = false;
 

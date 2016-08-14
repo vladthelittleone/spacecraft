@@ -17,7 +17,7 @@ function Settings() {
 	t.onSettingsChange = onSettingsChange;
 
 	t.SOUNDTRACK = "soundtrack";
-	t.INTERACTIVE = "interactive";
+	t.AUTORUN = "autorun";
 
 	return t;
 

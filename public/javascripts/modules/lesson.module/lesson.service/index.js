@@ -82,7 +82,14 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 			// Создание аудио
 			audioWrapper.create(ch.audio);
-			audioWrapper.play();
+
+			// Если включен автозапуск в настройках,
+			// то выполняем урока подгрузку.
+			if (settings.isActive(settings.AUTORUN)) {
+
+				audioWrapper.play();
+
+			}
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
 			TabHandler.subscribeOnTabHidden(audioWrapper.pause);
@@ -96,7 +103,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 			});
 
-			// Постановка на паузу
+			// Постановка на иконку паузы
 			scope.audioPause = false;
 
 			tryShowHint(ch, function () {
@@ -125,12 +132,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	}
 
-	function tryInitNextLessonContent() {
-
-		settings.onChange();
-
-	}
-
 	/**
 	 * Формирование аудио и подсказок для следующего подурока.
 	 */
@@ -141,13 +142,12 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// Регистрируем текущий подурок урока в scope.
 		scope.curretSubLesson = current;
 
-		// Если включена интерактивность в настройках,
-		// то выполняем ее подгрузку.
-		if (settings.isActive(settings.INTERACTIVE)) {
-
 			initInteractiveContent(current);
 
 		} else {
+
+			// Иконка запуска добавляется.
+			scope.audioPause = true;
 
 			// Очищаем обработку вкладок,
 			// так как настройка не активна.

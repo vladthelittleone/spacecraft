@@ -82,8 +82,10 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 
 	}
 
-	function onEnd(callback) {
+	function onEnd(callback, checkOnStart) {
 
+		// По логике аудиозапись уже может быть закончена
+		// в момент вызова onEnd.
 		if (audio.paused) {
 
 			callback();

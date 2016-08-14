@@ -199,7 +199,6 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		} else {
 
 			soundtrack && soundtrack.pause();
-			TabHandler.clear();
 
 		}
 
@@ -222,12 +221,31 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
 		TabHandler.subscribeOnTabHidden(audioManager.pauseSoundtrack);
-		TabHandler.subscribeOnTabShow(audioManager.resumeSoundtrack);
+		TabHandler.subscribeOnTabShow(resumeSoundtrackWrapper);
+
+	}
+
+
+	/**
+	 * Обертка вокруг метода audioManager.
+	 * Проверяет не отключен ли уже саундтрек в настройках.
+	 * Если он отключен, то не подписываемся на запуск при
+	 * смене закладки.
+	 */
+	function resumeSoundtrackWrapper() {
+
+		// Аналогичная проверка ведется в service
+		// с аудиодорожкой. (НА ПАУЗУ)
+		if (settings.isActive(settings.SOUNDTRACK)) {
+
+			audioManager.resumeSoundtrackWrapper();
+
+		}
 
 	}
 
 	/**
-	 *    Запуск / Пауза кода.
+	 * Запуск / Пауза кода.
 	 */
 	function toggleCodeRun() {
 

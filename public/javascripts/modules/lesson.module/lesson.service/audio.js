@@ -7,9 +7,12 @@ module.exports = AudioWrapper;
  */
 function AudioWrapper(audioManager, initNextLessonContent) {
 
-	var audio;
+	var audio;			// Сама аудиозапись
+	var onEndCallback;	// Вызываемый в конце аудио коллбек
+	var isAudioEnd;		// Закончилось ли аудио
 
 	var t = {};
+
 
 	t.audioIndex = 0; 	// Индекс текущиего трека
 
@@ -82,35 +85,59 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 
 	}
 
-	function onEnd(callback, checkOnStart) {
+	/**
+	 * Функция подписки на конкц аудиозаписи.
+     */
+	function onEnd(callback) {
 
 		// По логике аудиозапись уже может быть закончена
 		// в момент вызова onEnd.
-		if (audio.paused) {
+		if (isAudioEnd) {
 
 			callback();
 
 		}
 
-		audio.onended = function () {
-
-			audio.onended = null;
-
-			callback();
-
-		};
+		onEndCallback = callback;
 
 	}
 
+	/**
+	 * Закончилась ли аудиозапись?
+     */
 	function isEnd() {
 
-		return !audio.currentTime;
+		return isAudioEnd;
 
 	}
 
+	/**
+	 * Создание новой аудиозаписи.
+     */
 	function create(a) {
 
 		audio = audioManager.createVoice(a);
+
+		// Аудио не закончено
+		isAudioEnd = false;
+
+		// Присваиваем коллек
+		// конца аудиозаписи.
+		audio.onended = onEndCall;
+
+	}
+
+	/**
+	 * Вызов коллбека конца и установка флага конца в true.
+	 */
+	function onEndCall() {
+
+		onEndCallback && onEndCallback();
+
+		// Очищаем onEnded
+		audio.onended = null;
+
+		isAudioEnd = true;
 
 	}
 

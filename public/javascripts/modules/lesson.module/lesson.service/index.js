@@ -89,6 +89,14 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 				audioWrapper.play();
 
+				// Постановка на иконку паузы
+				scope.audioPause = false;
+
+			} else {
+
+				// Иконка запуска добавляется.
+				scope.audioPause = true;
+
 			}
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
@@ -96,15 +104,13 @@ function LessonService(connection, audioManager, aceService, settings) {
 			TabHandler.subscribeOnTabShow(function () {
 
 				// Если не последняя реплика
+				// и если не стоит пауза.
 				if (!scope.audioPause) {
 
 					audioWrapper.play()
 				}
 
 			});
-
-			// Постановка на иконку паузы
-			scope.audioPause = false;
 
 			tryShowHint(ch, function () {
 
@@ -142,18 +148,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// Регистрируем текущий подурок урока в scope.
 		scope.curretSubLesson = current;
 
-			initInteractiveContent(current);
-
-		} else {
-
-			// Иконка запуска добавляется.
-			scope.audioPause = true;
-
-			// Очищаем обработку вкладок,
-			// так как настройка не активна.
-			TabHandler.clear();
-
-		}
+		initInteractiveContent(current);
 
 	}
 

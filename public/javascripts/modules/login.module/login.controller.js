@@ -34,13 +34,13 @@ function LoginController($scope, $state, authentication) {
 
 	// ==================================================
 	
-	function changeSubscribe(){
+	function changeSubscribe() {
 		
 		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
 		
 	}
 	
-	function changeForm(){
+	function changeForm() {
 		
 		$scope.toggleForm = !$scope.toggleForm;
 		

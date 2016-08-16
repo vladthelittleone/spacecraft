@@ -15,7 +15,7 @@ module.exports = LoginController;
 function LoginController($scope, $state, authentication) {
 
 	// Переменная отвечающая за отображение нужной формы
-	$scope.toggleForm = true;
+	$scope.isEnterForm = true;
 	
 	// По дефолту считаем, что человек согласен на рассылку
 	$scope.isSubscribeOnEmail = true;
@@ -42,7 +42,7 @@ function LoginController($scope, $state, authentication) {
 	
 	function changeForm() {
 		
-		$scope.toggleForm = !$scope.toggleForm;
+		$scope.isEnterForm = !$scope.isEnterForm;
 		
 	}
 	// Переход на состояние welcome

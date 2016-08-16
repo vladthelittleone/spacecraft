@@ -11,21 +11,18 @@ function Statistics ()  {
 
 	var lessonPoints;
 
+	var penaltyPointsForGame = 0;
+
 	var that = {};
 
-	that.bestScore = 0;
-	that.currentScore =  0;
-
-	// Число запусков интерпретатора.
-	that.bestRunCount = 0;
-	that.currentRunCount = 0;
-	that.penaltyPointsForGame = 0;
+	// Инициализируем начальное значение параметров статистики.
+	resetAllResults();
 
 	that.initialize = initialize;
 	that.updateBestScore = updateBestScore;
 	that.updateBestRunCount = updateBestRunCount;
 	that.updateBestResults = updateBestResults;
-	that.reset = reset;
+	that.reset = resetAllResults;
 	that.incRunCount = incRunCount;
 	that.subPointsForException = subPointsForException;
 	that.subPointsForIncorrectInput = subPointsForIncorrectInput;
@@ -36,20 +33,29 @@ function Statistics ()  {
 
 	return that;
 
-	function initialize( _lessonPoints, ctx ) {
+
+	function initialize(_lessonPoints, ctx) {
 
 		lessonPoints = _lessonPoints;
 
-		if (!ctx) {
+		resetAllResults();
 
-			reset();
-
-		}
-		else {
+		if (ctx) {
 
 			restore(ctx.statistics);
 
 		}
+
+	}
+
+	/**
+	 * Метод сброса состояния очков по игре.
+	 * Реализация инкапсулирована в отдельную сущность,
+	 * так как ее наличие требуется в нескольких участках исходного кода.
+	 */
+	function resetPenaltyPointsForGame() {
+
+		penaltyPointsForGame = 0;
 
 	}
 
@@ -59,7 +65,7 @@ function Statistics ()  {
 	 */
 	function updateBestScore() {
 
-		that.bestScore = Math.max( that.currentScore, that.bestScore );
+		that.bestScore = Math.max(that.currentScore, that.bestScore);
 
 	}
 
@@ -88,28 +94,48 @@ function Statistics ()  {
 
 	/**
 	 * Подразумевает обновление всех имеющихся
-	 * полей по лучшим результатам.
+	 * полей по лучшим результатам и сброс текущих.
 	 */
 	function updateBestResults() {
 
 		updateBestScore();
 		updateBestRunCount();
 
-		reset();
+		// Обновив ЛУЧШИЕ результаты урока, сбрасываем текущие, т.к. их значения
+		// уже не потребуются в дальнейшем (достигнут конец урока).
+		resetCurrentResults()
+
+	}
+
+
+	/**
+	 * Сброс ТЕКУЩИХ результатов по уроку.
+	 * Т.е. сбрасываются только те результаты, которые были набраны
+	 * по ходу прохождения урока.
+	 * Лучшие результаты НЕ изменяются!
+	 */
+	function resetCurrentResults() {
+
+		that.currentScore = lessonPoints ? lessonPoints.totalPoints:
+										   0;
+		that.currentRunCount = 0;
 
 	}
 
 	/**
-	 * Сброс ТЕКУЩИХ результатов по уроку.
+	 * Сброс ВСЕХ результатов по уроку.
 	 * Текущие очки сбрасываются в значение, которое
-	 * назначено по уроку!
+	 * назначено по уроку (если очки самого урока имеются -> т.е. ссылка lessonPoints определена).
 	 *
-	 * Лучшие результаты не трогаем.
 	 */
-	function reset() {
+	function resetAllResults() {
 
-		that.currentScore = lessonPoints.totalPoints;
-		that.currentRunCount = 0;
+		resetCurrentResults();
+
+		that.bestScore = 0;
+		that.bestRunCount = 0;
+
+		resetPenaltyPointsForGame();
 
 	}
 
@@ -122,6 +148,7 @@ function Statistics ()  {
 
 			that.bestScore = statistics.bestScore;
 			that.currentScore = statistics.currentScore;
+
 		}
 
 	}
@@ -159,15 +186,19 @@ function Statistics ()  {
 
 	}
 
-	function setPenaltyPointsForGame(penaltyPointsForGame) {
+	function setPenaltyPointsForGame(penaltyPoints) {
 
-		that.penaltyPointsForGame = penaltyPointsForGame;
+		penaltyPointsForGame = penaltyPoints;
 
 	}
 
 	function subPenaltyPointsForGame() {
 
-		subCurrentScore(that.penaltyPointsForGame);
+		subCurrentScore(penaltyPointsForGame);
+
+		// Сбрасываем значение штрафных очков за игру,
+		// так как предполагается, что установленное значение отнимается СТРОГО 1 раз.
+		resetPenaltyPointsForGame();
 
 	}
 }

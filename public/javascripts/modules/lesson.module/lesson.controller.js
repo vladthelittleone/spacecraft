@@ -238,7 +238,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		// с аудиодорожкой. (НА ПАУЗУ)
 		if (settings.isActive(settings.SOUNDTRACK)) {
 
-			audioManager.resumeSoundtrackWrapper();
+			audioManager.resumeSoundtrack();
 
 		}
 

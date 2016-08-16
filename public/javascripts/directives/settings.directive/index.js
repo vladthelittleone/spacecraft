@@ -39,6 +39,8 @@ function Settings(service) {
 
 			storage.local.setItem('settings', JSON.stringify(settings));
 
+			// Установка настроек в сервисе хранения настроек.
+			// Из сервиса они доступны из вне.
 			service.setSettings(settings);
 
 		}
@@ -53,14 +55,19 @@ function Settings(service) {
 
 		function initialize() {
 
+			// Формирование настроек из стореджа.
 			var stored = storage.local.getItem('settings');
 
+			// Если настройки были найдены
+			// в локальном сторедже.
 			if (stored) {
 
+				// То парсим их и устанавливаем.
 				setSettings(JSON.parse(stored));
 
 			} else {
 
+				// Иначе устанавливаем по-умолчанию.
 				setSettings(settings);
 
 			}

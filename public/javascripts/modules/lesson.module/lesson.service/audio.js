@@ -121,7 +121,7 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 		// Аудио не закончено
 		isAudioEnd = false;
 
-		// Присваиваем коллек
+		// Присваиваем коллбек
 		// конца аудиозаписи.
 		audio.onended = onEndCall;
 
@@ -132,12 +132,15 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 	 */
 	function onEndCall() {
 
-		onEndCallback && onEndCallback();
-
 		// Очищаем onEnded
 		audio.onended = null;
 
 		isAudioEnd = true;
+
+		// Коллбек после очистки.
+		// Так как может быть добавлен новый
+		// audio.onended коллбек.
+		onEndCallback && onEndCallback();
 
 	}
 

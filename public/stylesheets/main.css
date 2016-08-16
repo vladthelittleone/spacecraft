@@ -1449,6 +1449,8 @@ div.helper {
 }
 
 .login-checkbox {
+	width: 100%;
+	margin-top: 10px;
 }
 
 .login-logo {

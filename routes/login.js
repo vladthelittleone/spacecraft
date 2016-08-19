@@ -11,6 +11,11 @@ var Cohorts = require('models/cohorts').Cohorts;
 var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
+function isAuthorized(session) {
+
+	return session.user;
+}
+
 function isEmail(email) {
 
 	if (!email) {
@@ -45,7 +50,7 @@ router.post('/', function (req, res, next) {
 
 	if (!isPassword(password)) {
 
-		return next(new HttpError(400, 'Пароль неверен'));
+		return next(new HttpError(400, 'Некорректный пароль'));
 
 	}
 
@@ -90,7 +95,7 @@ router.post('/', function (req, res, next) {
 
 router.get('/check', function (req, res, next) {
 
-	if (!req.session.user) {
+	if (!isAuthorized(req.session)) {
 
 		return next(new HttpError(401, "Вы не авторизованы"));
 
@@ -104,3 +109,6 @@ router.get('/check', function (req, res, next) {
 });
 
 module.exports = router;
+// Экспортируем метод проверки на авторизацию,
+// так как он может потребоваться из вне.
+module.exports.isAuthorized = isAuthorized;

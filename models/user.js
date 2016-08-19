@@ -86,23 +86,20 @@ function authorize(email, password, callback) {
 		},
 		function (user, callback) {
 
+			var incorrectAuthDataMessage = 'Неверные данные аутентификации';
+
+			var error = new AuthError(incorrectAuthDataMessage);
+
 			if (user) {
 
 				if (user.checkPassword(password)) {
 
-					callback(null, user);
-				}
-				else {
-
-					callback(new AuthError('Пароль неверен'));
+					error = null;
 
 				}
 			}
-			else {
 
-				callback(new AuthError('Пользователь не найден'));
-
-			}
+			callback(error, user);
 		}
 
 	], callback);

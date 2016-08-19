@@ -11,6 +11,8 @@ const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
 
+const isAuthorized = require('./routes/login').isAuthorized;
+
 const app = express();
 
 var maxHeap = 0;
@@ -18,6 +20,11 @@ var maxHeap = 0;
 // view engine setup (Т.к. у нас уже написан html, лучше пока не юзать движки)
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
+
+// Инициализация метода sendHttpError.
+// Иницализация должна происходить именно в начале, так как
+// на данный метод мы ссылаемся в функции обработчике ошибок.
+app.use(require('./middlewares/sendHttpError'));
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(httpLogger('dev'));
@@ -37,13 +44,30 @@ app.use(session({
 	store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-if (app.get('env') === 'development')
-{
+// Настраиваем контроль доступа к некоторым папкам со статическими файлами.
+app.use(['/views/lessons', '/views/directives'], function(req, resp, next) {
+
+	if (!isAuthorized(req.session)) {
+
+		resp.redirect("/");
+
+		return;
+
+	}
+
+	next();
+
+});
+
+if (app.get('env') === 'development')  {
+
 	app.use(express.static(path.join(__dirname, 'public')));
+
 }
-else
-{
+else {
+
 	app.use(express.static(path.join(__dirname, 'build')));
+
 }
 
 app.use(require('./middlewares/sendHttpError'));
@@ -52,43 +76,49 @@ app.use(require('./middlewares/loadUser'));
 require('./routes')(app);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next)
-{
+app.use(function (req, res, next) {
+
 	var err = new Error('На просторах вселенной страница не найдена!');
 	err.status = 404;
 	next(err);
+
 });
 
 const HttpError = require('error').HttpError;
 
-app.use(function (err, req, res, next)
-{
+app.use(function (err, req, res, next) {
+
 	// Проверка на error/HttpError
-	if (typeof err == 'number')
-	{
+	if (typeof err == 'number') {
+
 		err = new HttpError(err);
+
 	}
 
-	if (app.get('env') === 'development')
-	{
+	if (app.get('env') === 'development') {
+
 		logger.error(err);
+
 	}
 
 	// middlewares/sendHttpError
 	res.sendHttpError(err);
+
 });
 
-if (app.get('env') === 'development')
-{
-	setInterval(function ()
-	{
+if (app.get('env') === 'development') {
+
+	setInterval(function () {
+
 		var heap = process.memoryUsage().heapUsed;
 
 		maxHeap = maxHeap < heap ? heap : maxHeap;
 
 		logger.info('Heap size: '  + heap + ', maximum heap size: ' + maxHeap);
+
 	},
 	10000);
+
 }
 
 module.exports = app;

@@ -5,7 +5,8 @@ module.exports = Harvester;
 /**
  * Prefab транспорта.
  *
- * Created by vladthelittleone on 11.06.16.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function Harvester(game, x, y) {
 

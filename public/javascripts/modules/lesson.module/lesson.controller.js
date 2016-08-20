@@ -20,7 +20,8 @@ module.exports = LessonController;
 /**
  * Контрллер окна урока.
  *
- * Created by vladthelittleone on 30.11.15.
+ * @author Skurishin Vladislav
+ * @since 30.11.2015
  */
 function LessonController($scope, $stateParams, $state, service, audioManager, aceService, settings) {
 

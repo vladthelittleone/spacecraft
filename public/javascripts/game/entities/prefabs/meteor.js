@@ -5,7 +5,8 @@ module.exports = Meteor;
 /**
  * Prefab метеора.
  *
- * Created by vladthelittleone on 11.06.16.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function Meteor(game, x, y, n) {
 

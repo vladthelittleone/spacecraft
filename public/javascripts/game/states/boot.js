@@ -5,7 +5,8 @@ module.exports = BootState;
 /**
  * Состояние инициализации физики и других компонент игры.
  *
- * Created by vladthelittleone on 02.12.15.
+ * @author Skurishin Vladislav
+ * @since 02.12.15
  */
 function BootState(game) {
 

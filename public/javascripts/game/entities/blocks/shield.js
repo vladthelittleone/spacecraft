@@ -9,7 +9,8 @@ module.exports = ShieldBlock;
 /**
  * Блок щита, который может быть добавлен к кораблю.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function ShieldBlock(spec) {
 

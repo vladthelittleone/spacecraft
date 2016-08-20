@@ -3,7 +3,8 @@
 /**
  * Модуль, включающий все зависмости, связанные с игрой.
  *
- * Created by vladthelittleone on 30.11.15.
+ * @author Skurishin Vladislav
+ * @since 30.11.2015
  */
 var angular = require('angular');
 

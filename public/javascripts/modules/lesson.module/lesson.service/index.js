@@ -20,8 +20,8 @@ module.exports = LessonService;
 /**
  * Сервис бизнес-логики контроллера уроков.
  *
- * Created by Ivan on 07.05.2016.
- *
+ * @author Ivan Mackovchik
+ * @since 07.05.2016
  * @see LessonController
  */
 function LessonService(connection, audioManager, aceService, settings) {

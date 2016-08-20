@@ -8,22 +8,23 @@ var ContentFactory = Game.content;
 var EntitiesFactory = Game.world;
 
 var Interpreter = require('./interpreter');
-var TabHandler = require( '../../../emitters' );
 var Statistics = require('../../../utils/statistics');
 var AudioWrapper = require('./audio');
 
-LessonService.$inject = ['connection', 'audioManager', 'aceService'];
+var TabHandler = require('../../../emitters/tab-handler');
+
+LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings'];
 
 module.exports = LessonService;
 
 /**
  * Сервис бизнес-логики контроллера уроков.
  *
- * Created by Ivan on 07.05.2016.
- *
+ * @author Ivan Mackovchik
+ * @since 07.05.2016
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService) {
+function LessonService(connection, audioManager, aceService, settings) {
 
 	var that = {};
 
@@ -67,14 +68,11 @@ function LessonService(connection, audioManager, aceService) {
 	}
 
 	/**
-	 * Формирование аудио и подсказок для следующего подурока.
-	 */
-	function initNextLessonContent() {
-
-		var current = currentSubLesson();
-
-		// Регистрируем текущий подурок урока в scope.
-		scope.curretSubLesson = current;
+	 * Инициализация интерактивного контента: голоса, маркеров редактора, подсказок.
+	 *
+	 * @param current текущий контекст урока - подурок.
+     */
+	function initInteractiveContent(current) {
 
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
 
@@ -92,22 +90,35 @@ function LessonService(connection, audioManager, aceService) {
 
 			// Создание аудио
 			audioWrapper.create(ch.audio);
-			audioWrapper.play();
+
+			// Если включен автозапуск в настройках,
+			// то выполняем урока подгрузку.
+			if (settings.isActive(settings.AUTORUN)) {
+
+				audioWrapper.play();
+
+				// Постановка на иконку паузы
+				scope.audioPause = false;
+
+			} else {
+
+				// Иконка запуска добавляется.
+				scope.audioPause = true;
+
+			}
 
 			// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ
-			TabHandler.subscribeOnTabHidden( audioWrapper.pause );
-			TabHandler.subscribeOnTabShow( function () {
+			TabHandler.subscribeOnTabHidden(audioWrapper.pause);
+			TabHandler.subscribeOnTabShow(function () {
 
 				// Если не последняя реплика
+				// и если не стоит пауза.
 				if (!scope.audioPause) {
 
 					audioWrapper.play()
 				}
 
-			} );
-
-			// Постановка на паузу
-			scope.audioPause = false;
+			});
 
 			tryShowHint(ch, function () {
 
@@ -132,6 +143,20 @@ function LessonService(connection, audioManager, aceService) {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Формирование аудио и подсказок для следующего подурока.
+	 */
+	function initNextLessonContent() {
+
+		var current = currentSubLesson();
+
+		// Регистрируем текущий подурок урока в scope.
+		scope.curretSubLesson = current;
+
+		initInteractiveContent(current);
 
 	}
 
@@ -245,7 +270,7 @@ function LessonService(connection, audioManager, aceService) {
 		audioWrapper.audioIndex = 0;
 
 		// Сокрытие панели инструкций
-		scope.textContent = false;
+		scope.showTextContent = false;
 
 		// Работа с очками по подуроку.
 		currentStatistics.subPenaltyPointsForGame();
@@ -512,7 +537,7 @@ function LessonService(connection, audioManager, aceService) {
 
 	/**
 	 * Коллбек выполняющийся при обновлении игры
-     */
+	 */
 	function gamePostUpdate(botText) {
 
 		var current = currentSubLesson();

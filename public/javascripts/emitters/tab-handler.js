@@ -63,7 +63,7 @@ function TabHandler() {
 		var _callbackWrapper = {
 			callbackType: _callbackType,
 			callbackFunc:_callbackFunc
-		}
+		};
 
 		return _callbackWrapper;
 
@@ -262,5 +262,5 @@ function TabHandler() {
 		updateCurrentTabStatus();
 
 	}
-	
+
 }

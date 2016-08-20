@@ -6,7 +6,8 @@ module.exports = CodeLauncher();
 /**
  * Сервис запуска кода в игре.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
 function CodeLauncher () {
 

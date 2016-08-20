@@ -10,7 +10,8 @@ module.exports = Meteor;
 /**
  * Объект метеора.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
 function Meteor(game, x, y) {
 

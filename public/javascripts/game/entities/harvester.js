@@ -11,7 +11,8 @@ module.exports = HarvesterUnit;
 /**
  * Объект харвестра.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
 function HarvesterUnit(game, x, y, player) {
 

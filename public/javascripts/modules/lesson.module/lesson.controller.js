@@ -4,34 +4,45 @@
 var CodeLauncher = require('../../game/launcher');
 
 // Подключаем TabHandler
-var TabHandler = require('../../emitters');
+var TabHandler = require('../../emitters/tab-handler');
 
-LessonController.$inject = ['$scope', '$stateParams', '$state', 'lessonService', 'audioManager', 'aceService'];
+LessonController.$inject = ['$scope',
+	'$stateParams',
+	'$state',
+	'lessonService',
+	'audioManager',
+	'aceService',
+	'settings'
+];
 
 module.exports = LessonController;
 
 /**
  * Контрллер окна урока.
  *
- * Created by vladthelittleone on 30.11.15.
+ * @author Skurishin Vladislav
+ * @since 30.11.2015
  */
-function LessonController($scope, $stateParams, $state, service, audioManager, aceService) {
+function LessonController($scope, $stateParams, $state, service, audioManager, aceService, settings) {
 
 	var markerService;
+	var soundtrack;
 
 	CodeLauncher.onError = onError;
 
-	$scope.starsHide = false;	// Переключатель окна оценки урока
-	$scope.hideEditor = false;	// Переключатель окна урока
-	$scope.audioPause = false;	// Переключатель кнопки паузы панели управления
-	$scope.textContent = false; // Переключатель текстового контента урока
-	$scope.hint = false;		// Переключатель подсказок
+	$scope.starsHide = false;		// Переключатель окна оценки урока
+	$scope.hideEditor = false;		// Переключатель окна урока
+	$scope.showTextContent = false; // Переключатель текстового контента урока
+	$scope.showSettings = false;	// Переключатель натсроек
+	$scope.audioPause = false;		// Переключатель кнопки паузы панели управления
+	$scope.hint = false;			// Переключатель подсказок
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
 	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
 	$scope.lesson = service.lessonContent($stateParams.id);	// Контент урока
 
 	$scope.toggleTextContent = toggleTextContent;
+	$scope.toggleSettings = toggleSettings;
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
 	$scope.toggleEditorOpen = toggleEditorOpen;
@@ -56,7 +67,17 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	function toggleTextContent() {
 
-		$scope.textContent = !$scope.textContent;
+		$scope.showTextContent = !$scope.showTextContent;
+
+		$scope.showSettings = false;
+
+	}
+
+	function toggleSettings() {
+
+		$scope.showSettings = !$scope.showSettings;
+
+		$scope.showTextContent = false;
 
 	}
 
@@ -168,20 +189,64 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	}
 
 	/**
-	 * При загрузке запускаем звук.
+	 * Выключение / Включение фоновой музыки.
 	 */
-	function onContentLoaded() {
+	function setSoundtrackEnable(enable) {
 
-		audioManager.createSoundtrack().play();
+		if (enable) {
 
-		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
-		TabHandler.subscribeOnTabHidden( audioManager.pauseSoundtrack );
-		TabHandler.subscribeOnTabShow( audioManager.resumeSoundtrack );
+			playSoundtrack();
+
+		} else {
+
+			soundtrack && soundtrack.pause();
+
+		}
 
 	}
 
 	/**
-	 *    Запуск / Пауза кода.
+	 * При загрузке запускаем звук.
+	 */
+	function onContentLoaded() {
+
+		// Если настройка музыки активна,
+		settings.onSettingsChange(setSoundtrackEnable, settings.SOUNDTRACK, true);
+
+	}
+
+	function playSoundtrack() {
+
+		soundtrack = audioManager.createSoundtrack();
+		soundtrack.play();
+
+		// ПОДПИСЫВАЕМСЯ НА СОСТОЯНИЕ ВКЛАДКИ.
+		TabHandler.subscribeOnTabHidden(audioManager.pauseSoundtrack);
+		TabHandler.subscribeOnTabShow(resumeSoundtrackWrapper);
+
+	}
+
+
+	/**
+	 * Обертка вокруг метода audioManager.
+	 * Проверяет не отключен ли уже саундтрек в настройках.
+	 * Если он отключен, то не подписываемся на запуск при
+	 * смене закладки.
+	 */
+	function resumeSoundtrackWrapper() {
+
+		// Аналогичная проверка ведется в service
+		// с аудиодорожкой. (НА ПАУЗУ)
+		if (settings.isActive(settings.SOUNDTRACK)) {
+
+			audioManager.resumeSoundtrack();
+
+		}
+
+	}
+
+	/**
+	 * Запуск / Пауза кода.
 	 */
 	function toggleCodeRun() {
 
@@ -201,9 +266,10 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 			// При запуске кода
 			// выключаем окно инструкции.
-			// Оно зависит от поля textContent.
-			// ng-show = "textContent"
-			$scope.textContent = false;
+			// Оно зависит от поля showTextContent.
+			// ng-show = "showTextContent"
+			$scope.showTextContent = false;
+			$scope.showSettings = false;
 		}
 		else {
 

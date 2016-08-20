@@ -11,7 +11,8 @@ module.exports = TransportUnit;
 /**
  * Объект транспорта.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
 function TransportUnit(game, x, y, player) {
 
@@ -54,7 +55,7 @@ function TransportUnit(game, x, y, player) {
 		t.engine.update();
 
 		t.logic && t.logic(t);
-		
+
 	}
 
 }

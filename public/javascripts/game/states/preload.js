@@ -5,7 +5,8 @@ module.exports = PreloadState;
 /**
  * Состояние инициализации ресурсов, картинок, аудио игры.
  *
- * Created by vladthelittleone on 02.12.15.
+ * @author Skurishin Vladislav
+ * @since 02.12.15
  */
 function PreloadState(game) {
 

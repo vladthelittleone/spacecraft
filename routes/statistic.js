@@ -18,9 +18,11 @@ router.post('/lessons', function(req, res, next) {
 
 			if(err) {
 
-				next(new HttpError(500, "Ошибка с сохранением урока"));
+				next(new HttpError(400, "Ошибка с сохранением урока"));
 			}
+
 		});
+
 	}
 
 	res.send([]);
@@ -34,14 +36,14 @@ router.get('/lessons', function(req, res, next) {
 
 		if (err) {
 
-			return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
+			return next(new HttpError(400, "Ошибка с поиском лучших пользователей"));
 		}
 
 		if (result) {
 
 			res.json(result.lessons);
-		}
-		else {
+
+		} else {
 
 			res.send([]);
 		}
@@ -65,14 +67,15 @@ router.post('/lessons/stars', function(req, res, next) {
 
 				lesson.numb += 1;
 				lesson.starsSum += star;
-			}
-			else {
+
+			} else {
 
 				lessons[lessonsID] = {
 
 					numb: 1,
 					starsSum: star
 				}
+
 			}
 		}
 	});
@@ -81,7 +84,7 @@ router.post('/lessons/stars', function(req, res, next) {
 
 		if (err) {
 
-			return next(new HttpError(500, "Ошибка сохранения оценки урока"));
+			return next(new HttpError(400, "Ошибка сохранения оценки урока"));
 		}
 
 		res.sendStatus(200);

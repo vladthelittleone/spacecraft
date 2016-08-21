@@ -49,7 +49,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 	that.getCode = getCode;
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
-	that.intiateRunByUserClick = intiateRunByUserClick;
+	that.intiateRunByUserClick = initiateRunByUserClick;
 	that.run = run;
 	that.stop = stop;
 	that.getMarkerId = getMarkerId;
@@ -568,7 +568,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 	 * Вызов данного метода осуществляется только и только по факту
 	 * нажатия пользователем кнопки запуска кода.
 	 */
-	function intiateRunByUserClick() {
+	function initiateRunByUserClick() {
 
 		// Увеличиваем счетчик запуска кода пользователем.
 		currentStatistics.incRunCount();

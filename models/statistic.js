@@ -89,6 +89,7 @@ function updateLessonStarStatistics(req, callback) {
 			}, callback);
 
 		}], callback);
+
 }
 
 // обновение инфы о прохождении пользователем уроков
@@ -142,7 +143,7 @@ function updateLessonStatistics(id, req, callback) {
 
 function validateRequest(expression, callback) {
 
-	if (expression) {
+	if (!expression) {
 
 		callback(new Error('Can\'t get lessons by request'));
 

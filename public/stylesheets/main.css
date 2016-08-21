@@ -284,6 +284,10 @@ pre {
 	background: rgba(255, 255, 255, 0.95);
 }
 
+.pages-board .vk-container-inside {
+	padding: 2px;
+}
+
 .pages-board .chart-inside {
 	padding: 20px;
 	max-width: 600px;

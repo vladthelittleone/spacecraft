@@ -82,7 +82,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 		// Добавляем полное кол-во уроков, если он уже был пройден,
 		// иначе номер текущего урока.
-		var end = sum(statistics, 'current', 'size', 'completed');
+		var end = sum(statistics, 'currentSubLesson', 'size', 'completed');
 
 		// Вычитаем из общего размера.
 		var notEnd = size - end;

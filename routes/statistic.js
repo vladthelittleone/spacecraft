@@ -20,7 +20,9 @@ router.post('/lessons', function(req, res, next) {
 
 				next(new HttpError(400, "Ошибка с сохранением урока"));
 			}
+
 		});
+
 	}
 
 	res.send([]);
@@ -40,8 +42,8 @@ router.get('/lessons', function(req, res, next) {
 		if (result) {
 
 			res.json(result.lessons);
-		}
-		else {
+
+		} else {
 
 			res.send([]);
 		}
@@ -65,14 +67,15 @@ router.post('/lessons/stars', function(req, res, next) {
 
 				lesson.numb += 1;
 				lesson.starsSum += star;
-			}
-			else {
+
+			} else {
 
 				lessons[lessonsID] = {
 
 					numb: 1,
 					starsSum: star
 				}
+
 			}
 		}
 	});

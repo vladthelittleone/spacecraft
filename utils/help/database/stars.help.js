@@ -25,43 +25,39 @@ dataBaseRequest.getStarsSummary = function (callback) {
 			// вызов find в любом случае вернет коллекцию
 			// так что проверять есть ли там что то или нет
 			// нет смысла
-			data.forEach(function (item) {
+			data && data.forEach(function (item) {
 
 				// делаем то что пришло из базы объектом
 				var value = item.toObject();
 				var lessons = value.lessons;
 
-				if (lessons) {
+				lessons && lessons.forEach(function (_item, i) {
 
-					lessons.forEach(function (_item, i) {
+					var stars = _item.stars;
 
-						var stars = _item.stars;
+					// чекаем проставил ли пользователь звездочки уроку
+					if (stars) {
 
-						// чекаем проставил ли пользователь звездочки уроку
-						if (stars) {
+						if (results[i]) {
 
-							if (results[i]) {
+							results[i].sum += stars;
+							results[i].userCount++;
 
-								results[i].sum += stars;
-								results[i].userCount++;
+						}
+						else {
 
-							}
-							else {
+							results[i] = {
 
-								results[i] = {
+								sum: stars,
+								userCount: 1
 
-									sum: stars,
-									userCount: 1
-
-								};
-
-							}
+							};
 
 						}
 
-					});
+					}
 
-				}
+				});
 
 			});
 

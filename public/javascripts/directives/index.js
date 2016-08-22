@@ -14,3 +14,4 @@ app.directive('lessonBoard', require('./lesson-board.directive'));
 app.directive('repeatFinished', require('./repeat-finished.directive'));
 app.directive('settings', require('./settings.directive'));
 app.directive('stars', require('./stars.directive'));
+app.directive('statisticsLessonEnd', require('./statistics-lesson-end.directive'));

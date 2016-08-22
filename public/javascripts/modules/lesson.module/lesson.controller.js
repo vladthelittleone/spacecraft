@@ -30,12 +30,13 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	CodeLauncher.onError = onError;
 
-	$scope.starsHide = false;		// Переключатель окна оценки урока
-	$scope.hideEditor = false;		// Переключатель окна урока
-	$scope.showTextContent = false; // Переключатель текстового контента урока
-	$scope.showSettings = false;	// Переключатель натсроек
-	$scope.audioPause = false;		// Переключатель кнопки паузы панели управления
-	$scope.hint = false;			// Переключатель подсказок
+	$scope.lessonIsCompleted = false;	// Переключатель окна оценки урока
+	$scope.starsHide = false;		    // Переключатель окна оценки урока
+	$scope.hideEditor = false;		    // Переключатель окна урока
+	$scope.showTextContent = false;     // Переключатель текстового контента урока
+	$scope.showSettings = false;	    // Переключатель натсроек
+	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
+	$scope.hint = false;			    // Переключатель подсказок
 
 	$scope.idLesson = $stateParams.id;						// Идентификатор урока
 	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора

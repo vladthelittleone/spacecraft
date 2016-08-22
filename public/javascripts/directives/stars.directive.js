@@ -13,7 +13,7 @@ module.exports = Stars;
 function Stars(connection, $state) {
 
 	var directive = {
-		scope:       {
+		scope:      {
 			idLesson: '='
 		},
 		templateUrl: 'views/directives/stars.html',
@@ -23,15 +23,15 @@ function Stars(connection, $state) {
 
 	return directive;
 
-	function link($scope) {
+	function link(scope) {
 
 		/**
 		 * При изменении radio-кнопки, выполняется запрос на сервер и
 		 * переход на lessons ссылку.
 		 */
-		$scope.radioChange = function (value) {
+		scope.radioChange = function (value) {
 
-			connection.lessonRate($scope.idLesson, value);
+			connection.lessonRate(scope.idLesson, value);
 
 			$state.go('lessons');
 

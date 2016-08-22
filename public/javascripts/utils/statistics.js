@@ -53,6 +53,7 @@ function Statistics ()  {
 
 	that.isItFirstLessonAttempt = isItFirstLessonAttempt;
 	that.isUserHasMaxFinalScoreForLesson = isUserHasMaxFinalScoreForLesson;
+	that.isFinalScoreInitialized = isFinalScoreInitialized;
 
 	that.setPenaltyPointsForGame = setPenaltyPointsForGame;
 
@@ -217,7 +218,7 @@ function Statistics ()  {
 	function calculateScoreForLessonEnd() {
 
 		// Если финальный результат по уроку еще НЕ рассчитывался.
-		if (that.finalScore === INITIAL_FINAL_SCORE_VALUE) {
+		if (!isFinalScoreInitialized()) {
 
 			updateFinalResults();
 
@@ -330,6 +331,18 @@ function Statistics ()  {
 		// Пока что просто условились на том, что бонусные очки это есть
 		// "разница" (между максимально возможными очками за урок и текущим лучшим результатом) пополам.
 		return parseInt(difference / 2);
+
+	}
+
+	/**
+	 * Метод проверки - была ли уже выполнена первая расчет очков урока.
+	 *
+	 * @return boolean true первый расчет был;
+	 * 				   false первого расчета не было.
+	 */
+	function isFinalScoreInitialized() {
+
+		return that.finalScore !== INITIAL_FINAL_SCORE_VALUE;
 
 	}
 

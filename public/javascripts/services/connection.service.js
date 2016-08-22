@@ -205,7 +205,8 @@ function Connection($http) {
 			method: 'POST',
 			data:   {
 				email:    args.email,
-				password: args.password
+				password: args.password,
+				isSubscribeOnEmail: args.isSubscribeOnEmail
 			},
 			url:    links.register
 		});

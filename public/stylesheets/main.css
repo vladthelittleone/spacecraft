@@ -1424,6 +1424,14 @@ div.helper {
 	text-align: center;
 }
 
+.login-checkbox-title {
+	font-family: "Courier New", serif;
+	font-size: 1.0em;
+	color: white;
+	text-align: center;
+	cursor: pointer;
+}
+
 .login-input {
 	width: 60%;
 	margin: auto;
@@ -1442,6 +1450,11 @@ div.helper {
 	padding: 10px;
 	font-weight: 300;
 	font-family: "Courier New", serif;
+}
+
+.login-checkbox {
+	width: 100%;
+	margin-top: 10px;
 }
 
 .login-logo {

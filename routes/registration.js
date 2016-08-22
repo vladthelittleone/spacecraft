@@ -34,7 +34,8 @@ router.post('/', function (req, res, next)
 {
 	var email = req.body.email;
 	var password = req.body.password;
-
+	var isSubscribeOnEmail = req.body.isSubscribeOnEmail;
+		
 	if (!isEmail(email))
 	{
 		return next(new HttpError(400, 'Некорректный email'));
@@ -47,7 +48,7 @@ router.post('/', function (req, res, next)
 
 	var normalizeEmail = valid.normalizeEmail(email);
 
-	User.registration(normalizeEmail, password, function (err, user)
+	User.registration(normalizeEmail, password, isSubscribeOnEmail, function (err, user)
 	{
 		if (err)
 		{

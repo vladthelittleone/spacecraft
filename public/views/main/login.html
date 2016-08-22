@@ -7,7 +7,9 @@
 					<img class="login-logo" src="images/logo.png"/>
 				</div>
 				<div class="login-title">СРАЖАЙСЯ. УЧИСЬ. СОВЕРШЕНСТВУЙСЯ.</div>
-				<div class="login-sub-title">Запрограммируй свой космический корабль и сражайся с другими игроками онлайн!</div>
+				<div class="login-sub-title">Запрограммируй свой космический корабль и сражайся с другими игроками
+					онлайн!
+				</div>
 			</div>
 
 			<div class="login-right-container">
@@ -32,15 +34,6 @@
 					</label>
 				</div>
 
-				<div class="login-input" ng-show="!isEnterForm">
-					<div class="login-checkbox-title" ng-click = changeSubscribe()>
-							<span ng-class = "{'glyphicon glyphicon-check' : isSubscribeOnEmail,
-											'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
-							</span>
-						получать звёздные новости на e-mail
-					</div>
-				</div>
-
 				<div class="login-button-group">
 					<button class="login-button"
 							ng-click="isEnterForm ? login() : register()">
@@ -52,6 +45,16 @@
 						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 					</button>
 				</div>
+
+				<div class="login-input login-checkbox">
+					<div class="login-checkbox-title" ng-click=changeSubscribe()>
+						<span ng-class="{'glyphicon glyphicon-check' : isSubscribeOnEmail,
+										 'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
+						</span>
+						получать звёздные новости на e-mail
+					</div>
+				</div>
+
 				<div class="login-input-title login-error">{{error}}</div>
 
 			</div>
@@ -70,7 +73,9 @@
 				<img src="images/pages/login/astronaut.png">
 			</div>
 			<div class="login-about-title">Играй в онлайне</div>
-			<div class="login-about-description">Соревнуйся с другими игроками в онлайне, захватывай планеты, создавай альянсы</div>
+			<div class="login-about-description">Соревнуйся с другими игроками в онлайне, захватывай планеты, создавай
+				альянсы
+			</div>
 		</div>
 		<div class="login-about-block">
 			<div class="login-about-img">

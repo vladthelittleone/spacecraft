@@ -10,20 +10,15 @@ var Cohorts = require('models/cohorts').Cohorts;
 // Запись статы о прохождении уроков юзером
 router.post('/lessons', function(req, res, next) {
 
-	var id = req.session.user;
+	Statistic.updateLessonStatistics(req, function(err) {
 
-	if (id) {
+		if(err) {
 
-		Statistic.updateLessonStatistics(id, req, function(err) {
+			next(new HttpError(400, "Ошибка с сохранением урока"));
+		}
 
-			if(err) {
+	});
 
-				next(new HttpError(400, "Ошибка с сохранением урока"));
-			}
-
-		});
-
-	}
 
 	res.send([]);
 
@@ -37,6 +32,7 @@ router.get('/lessons', function(req, res, next) {
 		if (err) {
 
 			return next(new HttpError(400, "Ошибка с поиском лучших пользователей"));
+
 		}
 
 		if (result) {

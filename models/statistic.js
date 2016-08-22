@@ -23,7 +23,7 @@ var schema = new Schema({
 // какому уроку было поставленно пользователем
 schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
 
-// возвращает статистуку пользователя
+// возвращает статистику пользователя
 schema.statics.getUserStatistics = getUserStatistics;
 
 // обновение инфы о прохождении пользователем уроков
@@ -31,7 +31,9 @@ schema.statics.updateLessonStatistics = updateLessonStatistics;
 
 exports.Statistic = mongoose.model('Statistic', schema);
 
-// возвращает статистуку пользователя
+/**
+ * возвращает статистику пользователя
+ */
 function getUserStatistics(id, callback) {
 
 	var Statistic = this;
@@ -48,56 +50,61 @@ function getUserStatistics(id, callback) {
 
 }
 
-// заносим инфу о том сколько звездочек
-// какому уроку было поставленно пользователем
+/**
+ * Заносим инфу о том сколько звездочек
+ * какому уроку было поставленно пользователем.
+ */
 function updateLessonStarStatistics(req, callback) {
 
 	var Statistic = this;
+	var id = req.session.user;
 
-	async.waterfall([
+	// Проверка коректности Id.
+	if (validateParam(id, callback)) {
 
-		function (callback) {
+		async.waterfall([
 
-			Statistic.findOne({idUser: req.session.user}, callback);
+			function (callback) {
 
-		},
-		function (result, callback) {
+				Statistic.findOne({idUser: id}, callback);
 
-			var lessons = result.lessons;
-			var lesId = req.body.idLesson;
+			},
 
-			// Проверка на изменение запроса.
-			// Если по заданному lesId нет урока,
-			// то выдаем ошибку.
-			// IMPORTANT
-			validateRequest(lessons[lesId], callback);
+			function (statistics, callback) {
 
-			lessons[lesId].stars = req.body.stars;
+				var lessons = statistics && statistics.lessons;
+				var lesId = req.body.idLesson;
 
-			Statistic.update({
+				// Если запрос корректен, выполняем обновление
+				// Иначе выкидывается ошибка в async
+				if (validateParam(lessons && lessons[lesId], callback)) {
 
-				idUser: req.session.user
+					updateStarStatisticsByLessonId({
+						req:      req,
+						lessons:  lessons,
+						update:   Statistic.update,
+						callback: callback
+					});
 
-			}, {
+				}
 
-				lessons: lessons
-
-			}, {
-
-				multi: true
-
-			}, callback);
-
-		}], callback);
+			}], callback);
+	}
 
 }
 
-// обновение инфы о прохождении пользователем уроков
-function updateLessonStatistics(id, req, callback) {
+/**
+ * Обновение инфы о прохождении пользователем уроков.
+ */
+function updateLessonStatistics(req, callback) {
 
 	var Statistic = this;
+	var id = req.session.user;
 
-	async.waterfall([
+	// Проверка коректности Id.
+	if (validateParam(id, callback)) {
+
+		async.waterfall([
 
 			function (callback) {
 
@@ -105,50 +112,120 @@ function updateLessonStatistics(id, req, callback) {
 				Statistic.findOne({idUser: id}, callback);
 
 			},
-			function (result, callback) {
+			function (statistics, callback) {
 
 				var lessons = req.body;
 				var lesId = req.body.lessonId;
 
-				// Проверка на изменение запроса.
-				// Если по заданному lesId нет урока,
-				// то выдаем ошибку.
-				// IMPORTANT
-				validateRequest(lessons[lesId], callback);
+				// Если запрос корректен, выполняем обновление
+				// Иначе выкидывается ошибка в async
+				if (validateParam(lessons && lessons[lesId], callback)) {
 
-				// Если в базе была стата об уроках
-				if (result && result.lessons) {
-
-					lessons = result.lessons;
-					lessons[lesId] = req.body;
-					lessons[lesId].completed = req.body.completed || lessons[lesId].completed;
+					updateLessonStatisticsByLessonId({
+						req: req,
+						statistics: statistics,
+						update: Statistic.update,
+						callback: callback
+					});
 
 				}
 
-				// Апдейт записи о статистики. создание новой записи если ее нет
-				Statistic.update({idUser: id}, {
-
-					lessons: lessons
-
-				}, {
-
-					upsert: true,
-					multi:  true
-
-				}, callback);
-
 			}], callback);
+
+	}
 
 }
 
-function validateRequest(expression, callback) {
+/**
+ * Обвноляем инфомрацию о рейтинге в базе данных.
+ *
+ * @param args.lessons информация о уроке
+ * @param args.req параметр запроса
+ * @param args.callback коллбек async
+ * @param args.update функция обновления статистики
+ */
+function updateStarStatisticsByLessonId(args) {
+
+	var lessonId = args.req.body.idLesson;
+
+	args.lessons[lessonId].stars = args.req.body.stars;
+
+	args.update({
+
+		idUser: args.req.session.user
+
+	}, {
+
+		lessons: args.lessons
+
+	}, {
+
+		multi: true
+
+	}, args.callback);
+
+}
+
+/**
+ * Обвноляем инфомрацию о статитстике в базе данных.
+ *
+ * @param args.req параметр запроса
+ * @param args.statistics найденная статистика в базе
+ * @param args.callback коллбек async
+ * @param args.update функция обновления статистики
+ */
+function updateLessonStatisticsByLessonId(args) {
+
+	//var req = args.req, statistics, update, callback
+	var lessons = args.req.body;
+	var lessonId = args.req.body.lessonId;
+	var id = args.req.session.user;
+
+	// Если в базе была статистика об уроках
+	if (args.statistics && args.statistics.lessons) {
+
+		lessons = args.statistics.lessons;
+		lessons[lessonId] = args.req.body;
+		lessons[lessonId].completed = args.req.body.completed || lessons[lessonId].completed;
+
+	}
+
+	// Апдейт записи о статистики.
+	// Создание новой записи если ее нет.
+	args.update({idUser: id}, {
+
+		lessons: lessons
+
+	}, {
+
+		upsert: true,
+		multi:  true
+
+	}, args.callback);
+
+}
+
+/**
+ * Проверка выражения. В случае отрицательного результата пробрасываем ошибку.
+ *
+ * @param expression выражение
+ * @param callback обработки ошибки
+ * @return boolean результат проверки
+ */
+function validateParam(expression, callback) {
+
+	var result = true;
 
 	if (!expression) {
 
-		callback(new Error('Can\'t get lessons by request'));
-
 		logger.warn('Bad request. Possible fraudster!');
 
+		callback(new Error('Can\'t get lessons by request'));
+
+		result = false;
+
 	}
+
+	return result;
 
 }

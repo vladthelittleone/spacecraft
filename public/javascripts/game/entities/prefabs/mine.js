@@ -5,7 +5,8 @@ module.exports = Mine;
 /**
  * Prefab мины.
  *
- * Created by vladthelittleone on 11.06.16.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function Mine(game, x, y, scale, group) {
 

@@ -1,0 +1,14 @@
+[
+	{
+		"type": "soundtrack",
+		"title": "Музыка",
+		"description": "Вы можете отключить музыку заднего фона.",
+		"value": true
+	},
+	{
+		"type": "autorun",
+		"title": "Автозапуск",
+		"description": "Вы можете отключить автозапуск аудиодорожки урока.",
+		"value": true
+	}
+]

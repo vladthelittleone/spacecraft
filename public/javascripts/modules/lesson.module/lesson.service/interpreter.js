@@ -5,7 +5,8 @@ module.exports = Interpreter();
 /**
  * Интерпретатор команд JavaScript.
  *
- * Created by vladthelittleone on 07.01.16.
+ * @author Skurishin Vladislav
+ * @since 07.01.2016
  */
 function Interpreter () {
 

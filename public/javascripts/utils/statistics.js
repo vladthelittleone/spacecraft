@@ -41,6 +41,8 @@ function Statistics ()  {
 	that.subCurrentScore = subCurrentScore;
 	that.subPenaltyPointsForGame = subPenaltyPointsForGame;
 
+	that.tryAddBonusScore = tryAddBonusScore;
+
 	that.getLessonPoints = getLessonPoints;
 	that.getMaxLimitScoreForLesson = getMaxLimitScoreForLesson;
 	that.getCurrentScore = getCurrentScore;
@@ -51,10 +53,9 @@ function Statistics ()  {
 
 	that.isItFirstLessonAttempt = isItFirstLessonAttempt;
 	that.isUserHasMaxFinalScoreForLesson = isUserHasMaxFinalScoreForLesson;
+	that.isFinalScoreInitialized = isFinalScoreInitialized;
 
 	that.setPenaltyPointsForGame = setPenaltyPointsForGame;
-
-	that.checkForBonusPoints = checkForBonusScore;
 
 	that.calculateScoreForLessonEnd = calculateScoreForLessonEnd;
 	that.calculateBonusScore = calculateBonusScore;
@@ -175,6 +176,8 @@ function Statistics ()  {
 	}
 
 	/**
+	 * Обновляем ФИНАЛЬНОЕ число запусков интерпретатора (finalRunCount), в соответствии с числом
+	 * его запусков по уроку (currentRunCount).
 	 * Обновляем ФИНАЛЬНЫЙ результат по очкам (finalScore), в соответствиии с набранными
 	 * очками по уроку (currentScore).
 	 */
@@ -215,7 +218,7 @@ function Statistics ()  {
 	function calculateScoreForLessonEnd() {
 
 		// Если финальный результат по уроку еще НЕ рассчитывался.
-		if (that.finalScore === INITIAL_FINAL_SCORE_VALUE) {
+		if (!isFinalScoreInitialized()) {
 
 			updateFinalResults();
 
@@ -228,7 +231,7 @@ function Statistics ()  {
 		}
 		else {
 
-			checkForBonusScore();
+			tryAddBonusScore();
 
 		}
 
@@ -257,7 +260,7 @@ function Statistics ()  {
 	function resetCurrentResults() {
 
 		that.currentScore = lessonPoints ? lessonPoints.totalPoints:
-										   0;
+			                0;
 		that.currentRunCount = 0;
 
 	}
@@ -322,14 +325,24 @@ function Statistics ()  {
 	function calculateBonusScore() {
 
 		// Разница между максимально возможными очками за урок и текущим
-		// финальным результатом.
+		// лучшим результатом.
 		var difference = lessonPoints.totalPoints - that.finalScore;
 
 		// Пока что просто условились на том, что бонусные очки это есть
-		// "разница" (между максимально возможными очками за урок и текущим финальным результатом) пополам.
-		// Также, не забываем устанавливать точность результата, чтобы избежать
-		// непредставимых чисел. 2 знака после запятой для результатов самое оптимальное :)
-		return Number((difference / 2).toFixed(2));
+		// "разница" (между максимально возможными очками за урок и текущим лучшим результатом) пополам.
+		return parseInt(difference / 2);
+
+	}
+
+	/**
+	 * Метод проверки - была ли уже выполнена первая расчет очков урока.
+	 *
+	 * @return boolean true первый расчет был;
+	 * 				   false первого расчета не было.
+	 */
+	function isFinalScoreInitialized() {
+
+		return that.finalScore !== INITIAL_FINAL_SCORE_VALUE;
 
 	}
 
@@ -374,43 +387,25 @@ function Statistics ()  {
 	}
 
 	/**
-	 * Необходимо понимать, что в метод addBonusScore мы попадаем,
-	 * когда в that.CurrentScore находится максимум очков по уроку!
-	 * Это логика работы нашего алгоритма зачисления бонусных очков
-	 * (пользователь может получить бонусы только тогда, когда заработает
-	 * максимальное количество очков за урок).
-	 * Поэтому, дабы updateFinalResults обновлял финальные результаты только на основании
-	 * бонусных очков (бонус в данном случае - это есть сложение самого бонуса с прошлым финальным
-	 * результатом) необходимо that.currentScore установить сперва именно в это значение (значение бонуса).
-	 * А затем, возвращаем значение that.сurrentScore в первоначальное состояние.
-	 */
-	function addBonusScore(_bonusScore) {
+	 * Метод добавления дополнительных очков к лучшему результату.
+     */
+	function addToFinalScore(value) {
 
-		var currentScore = that.currentScore;
-
-		that.currentScore = that.finalScore + _bonusScore;
-
-		// Запоминаем начисленные бонусные очки.
-		bonusScore = bonusScore + _bonusScore;
-
-		// Обновляем финальные результаты, в связи с начислением бонусов.
-		updateFinalResults();
-
-		that.currentScore = currentScore;
+		that.finalScore = that.finalScore + value;
 
 	}
 
 	/**
-	 * Метод проверки возможности зачисления бонусных очков пользователю за урок.
+	 * Метод попытки зачисления бонусных очков пользователю за урок.
 	 * Если такая возможность имеется - метод зачисляет бонусные очки пользователю.
 	 * Для зачисления бонусных очков - необходимо выполнение ряда условий. Их проверка
-	 * также возлагается на данный метод.
+	 * возлагается на данный метод.
 	 * Кроме того, данный метод учитывает, что бонусные очки пользователь может получать
 	 * только 1 раз.
 	 * Также, метод берет на себя ответственность за установку запрета получения пользователем
 	 * бонусных очков при достижении им максимального числа попыток прохождения урока.
 	 */
-	function checkForBonusScore() {
+	function tryAddBonusScore() {
 
 		// Если пользователь может получать бонусные очки.
 		if ( that.isUserCanGetBonusScore ) {
@@ -420,9 +415,10 @@ function Statistics ()  {
 			// в случае прохождения урока на максимальный результат.
 			if (isUserHasMaxCurrentScoreForLesson()) {
 
-				var bonusScore = calculateBonusScore();
+				// Запоминаем бонусные очки для текущего урока.
+				bonusScore = calculateBonusScore();
 
-				addBonusScore(bonusScore);
+				addToFinalScore(bonusScore);
 
 				// Пользователь больше не может получать бонусные очки.
 				setUserCanGetBonusScore(false);
@@ -477,6 +473,10 @@ function Statistics ()  {
 
 	}
 
+	/**
+	 * Предполагается, что данный метод устанавливает штрафные очки
+	 * за урок, которые в последующем будут сняты методом subPenaltyPointsForGame.
+     */
 	function setPenaltyPointsForGame(penaltyPoints) {
 
 		penaltyPointsForGame = penaltyPoints;
@@ -489,12 +489,16 @@ function Statistics ()  {
 
 	}
 
+	/**
+	 * Снимает штрафные очки, которые были установлены
+	 * последним вызовом setPenaltyPointsForGame.
+	 * В последующем, метод сбрасывает текущие штрафные очки,
+	 * так как предполагается, что они отнимаются строго 1 раз.
+	 */
 	function subPenaltyPointsForGame() {
 
 		subCurrentScore(penaltyPointsForGame);
 
-		// Сбрасываем значение штрафных очков за игру,
-		// так как предполагается, что установленное значение отнимается СТРОГО 1 раз.
 		resetPenaltyPointsForGame();
 
 	}

@@ -15,6 +15,9 @@ module.exports = GameCanvas;
 function GameCanvas($stateParams) {
 
 	var directive = {
+		scope:       {
+			hideDhs: '=' // Показывать параметры
+		},
 		templateUrl: 'views/directives/game-canvas.html',
 		link:        link,
 		restrict:    'EA'

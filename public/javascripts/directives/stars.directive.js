@@ -7,7 +7,8 @@ module.exports = Stars;
 /**
  * Директива, отвечающиая за оценку урока.
  *
- * Created by Ivan on 23.03.2016.
+ * @author Ivan Makovchik
+ * @since 23.03.2016
  */
 function Stars(connection, $state) {
 

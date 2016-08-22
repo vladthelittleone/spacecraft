@@ -5,7 +5,8 @@ module.exports = AcademyBase;
 /**
  * Prefab базы академии.
  *
- * Created by vladthelittleone on 11.06.16.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function AcademyBase(game, x, y) {
 

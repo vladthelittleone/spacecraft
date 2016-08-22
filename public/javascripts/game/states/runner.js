@@ -9,7 +9,8 @@ module.exports = CodeRunner;
 /**
  * Сервис запуска кода в игре.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 02.12.15
  */
 function CodeRunner() {
 

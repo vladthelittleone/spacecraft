@@ -85,9 +85,13 @@ function Authentication(connection) {
 	function currentUser(callback) {
 
 		isLoggedIn({
+
 			success: function (res) {
+
 				callback(res.data);
+
 			}
+
 		})
 
 	}

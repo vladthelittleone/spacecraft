@@ -5,11 +5,14 @@ module.exports = AudioWrapper;
 /**
  * Обертка доп. функционала вокруг AudioManager.
  */
-function AudioWrapper(audioManager, previousCallback) {
+function AudioWrapper(audioManager, initNextLessonContent) {
 
-	var audio;
+	var audio;			// Сама аудиозапись
+	var onEndCallback;	// Вызываемый в конце аудио коллбек
+	var isAudioEnd;		// Закончилось ли аудио
 
 	var t = {};
+
 
 	t.audioIndex = 0; 	// Индекс текущиего трека
 
@@ -31,7 +34,7 @@ function AudioWrapper(audioManager, previousCallback) {
 
 	return t;
 
-	function previousAudio(callback) {
+	function previousAudio() {
 
 		// При определенном значение времени текущего трека
 		// не переклчюаемся на предыдущий трек,
@@ -82,33 +85,62 @@ function AudioWrapper(audioManager, previousCallback) {
 
 	}
 
+	/**
+	 * Функция подписки на конкц аудиозаписи.
+     */
 	function onEnd(callback) {
 
-		if (audio.paused) {
+		// По логике аудиозапись уже может быть закончена
+		// в момент вызова onEnd.
+		if (isAudioEnd) {
 
 			callback();
 
 		}
 
-		audio.onended = function () {
-
-			audio.onended = null;
-
-			callback();
-
-		};
+		onEndCallback = callback;
 
 	}
 
+	/**
+	 * Закончилась ли аудиозапись?
+     */
 	function isEnd() {
 
-		return !audio.currentTime;
+		return isAudioEnd;
 
 	}
 
+	/**
+	 * Создание новой аудиозаписи.
+     */
 	function create(a) {
 
 		audio = audioManager.createVoice(a);
+
+		// Аудио не закончено
+		isAudioEnd = false;
+
+		// Присваиваем коллбек
+		// конца аудиозаписи.
+		audio.onended = onEndCall;
+
+	}
+
+	/**
+	 * Вызов коллбека конца и установка флага конца в true.
+	 */
+	function onEndCall() {
+
+		// Очищаем onEnded
+		audio.onended = null;
+
+		isAudioEnd = true;
+
+		// Коллбек после очистки.
+		// Так как может быть добавлен новый
+		// audio.onended коллбек.
+		onEndCallback && onEndCallback();
 
 	}
 

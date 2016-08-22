@@ -5,7 +5,8 @@ module.exports = Transport;
 /**
  * Prefab транспорта.
  *
- * Created by vladthelittleone on 11.06.16.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function Transport(game, x, y) {
 

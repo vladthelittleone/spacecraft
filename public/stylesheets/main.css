@@ -292,6 +292,10 @@ pre {
 	background: rgba(255, 255, 255, 0.95);
 }
 
+.pages-board .vk-container-inside {
+	padding: 2px;
+}
+
 .pages-board .chart-inside {
 	padding: 20px;
 	max-width: 600px;
@@ -649,21 +653,20 @@ pre {
 	cursor: default;
 }
 
-.documentation {
+.settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;
 	bottom: 0;
 	height: 100%;
 	width: 100%;
-	border: 1px solid #152B39;
+	cursor: default;
 }
 
-.documentation h3,
-.documentation h5 {
-	text-align: center;
+.settings-checkbox {
+	float: right;
 }
 
-.documentation ul {
+.settings ul {
 	font-style: italic;
 	font-family: Georgia, Times, serif;
 	font-size: 24px;
@@ -673,27 +676,23 @@ pre {
 	padding: 0;
 }
 
-.documentation ul li p {
-	margin: 0;
+.settings ul li {
 	padding: 8px;
+	margin: 0;
 	font-family: Arial, serif;
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
 }
 
-.documentation ul li p:hover {
+.settings ul li:hover {
 	background-color: rgb(21, 43, 57);
 }
 
-.documentation ul li p em {
-	display: block;
+.settings ul li em,
+.settings-checkbox {
 	font-size: 1.4em;
 	font-style: normal;
-}
-
-.objects li:hover {
-	cursor: pointer;
 }
 
 .main-editor {
@@ -918,7 +917,7 @@ pre {
 
 .astrogirl-img {
 	height: 400px;
-	width: 120px;
+	width: 140px;
 	background-image: url(../images/pages/astrogirl-hologram.png);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -928,7 +927,7 @@ pre {
 
 .astromen-img {
 	height: 400px;
-	width: 120px;
+	width: 140px;
 	background-image: url(../images/pages/officer-hologram.png);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -1136,11 +1135,6 @@ pre {
 	font-weight: bold;
 }
 
-.content-overflow {
-	height: 100%;
-	overflow-y: auto;
-}
-
 .content-description {
 	height: 100%;
 }
@@ -1199,13 +1193,15 @@ pre {
 	color: #FFFFFF;
 }
 
-.lesson-content-overflow {
+.content-overflow {
+	overflow-y: auto;
 	height: 100%;
 	border: 1px solid #152B39;
 	width: 100%;
 	position: absolute;
 	color: #C0C3C1;
 	background: rgba(29, 31, 33, 0.8);
+	cursor: pointer;
 }
 
 div.thought {
@@ -1634,7 +1630,7 @@ div.helper {
 		position: inherit;
 	}
 
-	.lesson-content-overflow {
+	.content-overflow {
 		top: 0;
 	}
 
@@ -1653,7 +1649,8 @@ div.helper {
 }
 
 @media (max-height: 400px) {
-	.lesson-content-overflow {
+
+	.content-overflow {
 		bottom: 0;
 	}
 

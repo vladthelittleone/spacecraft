@@ -14,8 +14,7 @@ function LessonBoard($sce) {
 
 	var directive = {
 		scope:       {
-			lesson:      '=', // информация о уроке
-			textContent: '='  // true -  выводим текстовы контент урока
+			lesson:      '=' // информация о уроке
 		},
 		templateUrl: 'views/directives/lesson-board.html',
 		link:        link,

@@ -10,8 +10,10 @@
 			<div lesson-board
 				 ng-if="lesson.sub[subIndex]"
 				 lesson="lesson.sub[subIndex]"
-				 text-content="textContent">
+				 ng-show="showTextContent">
 			</div>
+			<div settings
+				 ng-show="showSettings"></div>
 		</div>
 
 		<div ui-layout-container
@@ -47,10 +49,14 @@
 
 
 <!-- Вывод статистики по окончанию урока -->
-<div statistics-lesson-end lesson="getCurrentLesson()" ng-if ="lessonIsCompleted"></div>
+<div statistics-lesson-end
+	 lesson="getCurrentLesson()"
+	 ng-if="lessonIsCompleted"></div>
 
 <!-- Директива игры -->
-<div game-canvas class="lesson-canvas"></div>
+<div game-canvas
+	 class="lesson-canvas"
+	 hide-dhs="char.css"></div>
 
 <div class="right-toolbar">
 
@@ -75,7 +81,11 @@
 
 	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
 		 ng-click="toggleTextContent()"
-		 ng-class="{'glyphicon-chevron-right' : textContent}"></div>
+		 ng-class="{'glyphicon-chevron-right' : showTextContent}"></div>
+
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-wrench"
+		 ng-click="toggleSettings()"
+		 ng-class="{'glyphicon-chevron-right' : showSettings}"></div>
 
 </div>
 

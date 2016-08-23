@@ -1453,6 +1453,7 @@ div.helper {
 }
 
 .login-checkbox {
+	height: 35px;
 	width: 100%;
 	margin-top: 10px;
 }

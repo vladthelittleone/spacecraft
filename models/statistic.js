@@ -82,7 +82,7 @@ function updateLessonStarStatistics(req, callback) {
 					updateStarStatisticsByLessonId({
 						req:      req,
 						lessons:  lessons,
-						update:   Statistic.update,
+						model:    Statistic,
 						callback: callback
 					});
 
@@ -114,18 +114,15 @@ function updateLessonStatistics(req, callback) {
 			},
 			function (statistics, callback) {
 
-				var lessons = req.body;
-				var lesId = req.body.lessonId;
-
 				// Если запрос корректен, выполняем обновление
 				// Иначе выкидывается ошибка в async
-				if (validateParam(lessons && lessons[lesId], callback)) {
+				if (validateParam(req.body, callback)) {
 
 					updateLessonStatisticsByLessonId({
-						req: req,
+						req:        req,
 						statistics: statistics,
-						update: Statistic.update,
-						callback: callback
+						model:      Statistic,
+						callback:   callback
 					});
 
 				}
@@ -142,7 +139,7 @@ function updateLessonStatistics(req, callback) {
  * @param args.lessons информация о уроке
  * @param args.req параметр запроса
  * @param args.callback коллбек async
- * @param args.update функция обновления статистики
+ * @param args.model модель статистики
  */
 function updateStarStatisticsByLessonId(args) {
 
@@ -150,7 +147,7 @@ function updateStarStatisticsByLessonId(args) {
 
 	args.lessons[lessonId].stars = args.req.body.stars;
 
-	args.update({
+	args.model.update({
 
 		idUser: args.req.session.user
 
@@ -172,27 +169,31 @@ function updateStarStatisticsByLessonId(args) {
  * @param args.req параметр запроса
  * @param args.statistics найденная статистика в базе
  * @param args.callback коллбек async
- * @param args.update функция обновления статистики
+ * @param args.model модель статистики
  */
 function updateLessonStatisticsByLessonId(args) {
 
-	//var req = args.req, statistics, update, callback
-	var lessons = args.req.body;
+	var lessons = [];
 	var lessonId = args.req.body.lessonId;
 	var id = args.req.session.user;
+	var statistics = args.statistics;
 
-	// Если в базе была статистика об уроках
-	if (args.statistics && args.statistics.lessons) {
+	// Если в базе была статистика об уроках.
+	if (statistics && statistics.lessons) {
 
 		lessons = args.statistics.lessons;
 		lessons[lessonId] = args.req.body;
-		lessons[lessonId].completed = args.req.body.completed || lessons[lessonId].completed;
+
+		args.req.body.completed |= statistics.lessons.completed;
 
 	}
 
+	// Добавление урок в массив.
+	lessons[lessonId] = args.req.body;
+
 	// Апдейт записи о статистики.
 	// Создание новой записи если ее нет.
-	args.update({idUser: id}, {
+	args.model.update({idUser: id}, {
 
 		lessons: lessons
 

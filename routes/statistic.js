@@ -2,10 +2,13 @@
  * Created by Ivan on 29.02.2016.
  */
 var express = require('express');
+var logger = require('../utils/log')(module);
+
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
-var router = express.Router();
 var Cohorts = require('models/cohorts').Cohorts;
+
+var router = express.Router();
 
 // Запись статы о прохождении уроков юзером
 router.post('/lessons', function(req, res, next) {
@@ -13,6 +16,8 @@ router.post('/lessons', function(req, res, next) {
 	Statistic.updateLessonStatistics(req, function(err) {
 
 		if(err) {
+
+			logger.warn(err);
 
 			next(new HttpError(400, "Ошибка с сохранением урока"));
 		}

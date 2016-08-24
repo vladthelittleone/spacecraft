@@ -2,6 +2,7 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var AuthError = require('error').AuthError;
+var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
@@ -50,6 +51,8 @@ schema.methods.checkPassword = checkPassword;
 schema.statics.authorize = authorize;
 schema.statics.registration = registration;
 schema.statics.getUserCreationDate = getUserCreationDate;
+schema.statics.getNicknamesByUsersId = getNicknamesByUsersId;
+schema.statics.getEmailsByUsersId = getEmailsByUsersId;
 
 exports.User = mongoose.model('User', schema);
 
@@ -62,6 +65,19 @@ function encryptPassword(password) {
 function checkPassword(password) {
 
 	return this.encryptPassword(password) === this.hashedPassword;
+
+}
+
+/**
+ * Метод получения имени из электронного почтового адреса.
+ * @param email имя электронного почтового адреса пользователя.
+ * Ожидается, что на вход подается корректная строка:
+ * - она определена;
+ * - содержит в себе символ @.
+ */
+function getNameFromEmail(email) {
+
+	return email.substr(0, email.indexOf('@'));
 
 }
 
@@ -95,6 +111,7 @@ function authorize(email, password, callback) {
 				if (user.checkPassword(password)) {
 
 					callback(null, user);
+					
 				}
 				else {
 
@@ -151,7 +168,9 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 }
 
-// возвращает дату создание акка пользователся
+/**
+ * Возвращает дату создания акка пользователя.
+ */
 function getUserCreationDate(userID, callback) {
 
 	var User = this;
@@ -170,5 +189,49 @@ function getUserCreationDate(userID, callback) {
 		}
 
 	], callback)
+
+}
+
+/**
+ * Метод получения электронных адресов пользователей по заданным идентификаторам.
+ * ПЕРЕИМЕНОВАТЬ!
+ * @param callback
+ */
+function getEmailsByUsersId(usersId, callback) {
+
+	this.find( { _id: { "$in" : usersId} }, function(err, usersList) {
+
+		var idUsersAndEmailsArr = usersList.map(function(value) {
+
+			return Lodash.pick(value, '_id', 'email');
+
+		});
+
+		callback(err, idUsersAndEmailsArr);
+
+	});
+
+}
+
+/**
+ * Возвращает список прозвщих для указанных пользователей в usersId.
+ * @param usersId массив идентификаторов пользователей.
+ * @param callback
+ */
+function getNicknamesByUsersId(usersId, callback) {
+
+	this.getEmailsByUsersId(usersId, function(err, idUsersAndEmailsArr) {
+
+		idUsersAndEmailsArr.forEach(function(currentValue){
+
+			currentValue.nickname = getNameFromEmail(currentValue.email);
+
+			delete currentValue.email;
+
+		});
+
+		callback(err, idUsersAndEmailsArr);
+
+	} );
 
 }

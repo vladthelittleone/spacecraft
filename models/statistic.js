@@ -26,6 +26,9 @@ schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
 // возвращает статистику пользователя
 schema.statics.getUserStatistics = getUserStatistics;
 
+// Возврат всей статистики.
+schema.statics.getUsersWithTotalFinalScores = getUsersWithTotalFinalScores;
+
 // обновение инфы о прохождении пользователем уроков
 schema.statics.updateLessonStatistics = updateLessonStatistics;
 
@@ -47,6 +50,50 @@ function getUserStatistics(id, callback) {
 		}
 
 	], callback);
+
+}
+
+/**
+ * Метод получения
+ */
+function getUsersWithTotalFinalScores(callback) {
+
+	this.aggregate([
+		{
+
+			$unwind: "$lessons"
+
+		},
+		{
+			$match: {
+
+				"lessons.statistics.finalScore": {
+
+					$gte: 0
+
+				}
+			}
+
+		},
+		{
+			$group: {
+
+				_id: '$idUser',
+				totalFinalScore: {
+
+					$sum: '$lessons.statistics.finalScore'
+
+				}
+			}
+		},
+		{
+			$sort: {
+
+				totalFinalScore: -1
+			}
+		}
+	], callback);
+
 
 }
 

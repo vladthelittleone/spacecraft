@@ -20,10 +20,11 @@ var links = {
 	 * Сбор статистики.
 	 */
 	statistic:   {
-		lessons: '/statistic/lessons',
-		code:    '/statistic/code',
-		stars:   '/statistic/lessons/stars',
-		score:   '/statistic/score'
+		lessons: 	  '/statistic/lessons',
+		code:    	  '/statistic/code',
+		stars:   	  '/statistic/lessons/stars',
+		score:   	  '/statistic/score',
+		leaderboard: '/statistic/lessons/leaderboard'
 	},
 
 	/**
@@ -61,7 +62,10 @@ function Connection($http) {
 
 	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
+
 	that.lessonRate = lessonRate;
+
+	that.getLeaderboard = getLeaderboard;
 
 	that.login = login;
 	that.logout = logout;
@@ -72,6 +76,15 @@ function Connection($http) {
 	that.metrics.hitOpenLesson = hitOpenLesson;
 
 	return that;
+
+	function getLeaderboard(callback) {
+
+		$http({
+			url: links.statistic.leaderboard,
+			method: 'POST'
+		}).then(callback);
+
+	}
 
 	/**
 	 * Сохранение статистики урока.

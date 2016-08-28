@@ -11,50 +11,62 @@ var Cohorts = require('models/cohorts').Cohorts;
 var router = express.Router();
 
 // Запись статы о прохождении уроков юзером
-router.post('/lessons', function(req, res, next) {
+router.post('/lessons', function (req, res, next) {
 
-	Statistic.updateLessonStatistics(req, function(err) {
+	let userId = req.session.user;
+	let dataForUpdate = req.body;
 
-		if(err) {
+	Statistic.updateLessonStatistics(userId, dataForUpdate, function (err) {
+
+		if (err) {
 
 			logger.warn(err);
 
 			next(new HttpError(400, "Ошибка с сохранением урока"));
+
 		}
 
 	});
-
 
 	res.send([]);
 
 });
 
 // Получение статистики юзера о прохождении уроков
-router.get('/lessons', function(req, res, next) {
+router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.session.user, function(err, result) {
+	Statistic.getUserStatistics(req.session.user, function (err, result) {
 
 		if (err) {
 
-			return next(new HttpError(400, "Ошибка с поиском лучших пользователей"));
+			return next(new HttpError(400, "Ошибка с получением статистики пользователя."));
 
 		}
 
 		if (result) {
 
-			res.json(result.lessons);
+			// Отправляем массив уроков и финальное число очков по всем урокам
+			// отделными полями.
+			res.json({
+
+				lessons:         result.lessons,
+				totalFinalScore: result.totalFinalScore
+
+			});
 
 		} else {
 
 			res.send([]);
+
 		}
+
 	});
 
 });
 
-router.post('/lessons/stars', function(req, res, next) {
+router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.session.user, function(data, cohortID) {
+	Cohorts.updateCohort(req.session.user, function (data, cohortID) {
 
 		if (data) {
 
@@ -73,22 +85,30 @@ router.post('/lessons/stars', function(req, res, next) {
 
 				lessons[lessonsID] = {
 
-					numb: 1,
+					numb:     1,
 					starsSum: star
+
 				}
 
 			}
+
 		}
+
 	});
 
-	Statistic.updateLessonStarStatistics(req, function(err) {
+	let userId = req.session.user;
+	let dataForUpdate = req.body;
+
+	Statistic.updateLessonStarStatistics(userId, dataForUpdate, function (err) {
 
 		if (err) {
 
 			return next(new HttpError(400, "Ошибка сохранения оценки урока"));
+
 		}
 
 		res.sendStatus(200);
+
 	});
 
 });

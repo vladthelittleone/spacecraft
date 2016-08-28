@@ -60,7 +60,7 @@ function Alert() {
 
 	}
 
-	function gamePostUpdate(transport, currentStatistics) {
+	function gamePostUpdate(transport, lessonStatistics) {
 
 		var lessonResults = LessonResults({
 
@@ -79,10 +79,10 @@ function Alert() {
 		// результат отрицательный.
 		if (!transport.isAlive()) {
 
-			var lessonPoints = currentStatistics.getLessonPoints();
+			var lessonPoints = lessonStatistics.getLessonContentPoints();
 
 			// Устанавливаем штрафные очки за не остановку корабля :)
-			currentStatistics.setPenaltyPointsForGame(lessonPoints.missionStopTransportFail);
+			lessonStatistics.setPenaltyPointsForGame(lessonPoints.missionStopTransportFail);
 
 			return lessonResults.resultFaield();
 

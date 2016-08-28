@@ -2,26 +2,26 @@
 	<div class ="lesson-end-content">
 
 		<!-- Показ звездочек -->
-		<div stars id-lesson="lesson.lessonId"></div>
+		<div stars lesson-id="lesson.lessonId"></div>
 
 		<!-- Если пользователь проходит урок первый раз-->
 		<!-- Выводим количество набранных очков -->
-		<div ng-if="statistics.isItFirstLessonAttempt()">
-			<h4>Число набранных очков: {{statistics.getCurrentScore()}} из
-				{{statistics.getMaxLimitScoreForLesson()}}</h4>
+		<div ng-if="lessonStatistics.isItFirstLessonAttempt()">
+			<h4>Число набранных очков: {{lessonStatistics.getCurrentScore()}} из
+				{{lessonStatistics.getMaxLimitScoreForLesson()}}</h4>
 		</div>
 
 		<!-- Если пользователь проходит урок не первый раз и может получить бонус-->
 		<!-- Выводим количество бонусных очков -->
-		<div ng-if="!statistics.isItFirstLessonAttempt() && statistics.getBonusScore()">
-			<h4>Число набранных бонусных очков: {{statistics.getBonusScore()}}</h4>
+		<div ng-if="!lessonStatistics.isItFirstLessonAttempt() && lessonStatistics.getBonusScore()">
+			<h4>Число набранных бонусных очков: {{lessonStatistics.getBonusScore()}}</h4>
 		</div>
 
 		<!-- Пользователь не набрал максимальное число очков. Сообщаем ему о возможности получить бонусы, -->
 		<!--а также напоминаем о ограниченном числе попыток. -->
-		<div ng-if="statistics.isUserCanGetBonusScore">
-			<h4 ng-if="statistics.getAttemptCountForBonus() > 1">Количество попыток для получения бонуса: {{statistics.getAttemptCountForBonus()}}</h4>
-			<h4 ng-if="statistics.getAttemptCountForBonus() === 1">У Вас последняя попытка, чтобы получить бонусные очки</h4>
+		<div ng-if="lessonStatistics.isUserCanGetBonusScore">
+			<h4 ng-if="lessonStatistics.getAttemptCountForBonus() > 1">Количество попыток для получения бонуса: {{lessonStatistics.getAttemptCountForBonus()}}</h4>
+			<h4 ng-if="lessonStatistics.getAttemptCountForBonus() === 1">У Вас последняя попытка, чтобы получить бонусные очки</h4>
 		</div>
 
 	</div>

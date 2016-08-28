@@ -67,7 +67,9 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	/**
 	 * Формирование данных для графика.
 	 *
-	 * statistics имеет формат: subLessonCount, currentSubLesson, completed.
+	 * lessons это массив элементов, каждый из которых,
+	 * по крайней мере, имеет следующие поля:
+	 * subLessonCount, currentSubLesson, completed.
 	 *
 	 * subLessonCount - кодичество подуроков.
 	 * currentSubLesson - текущий подурок.
@@ -75,14 +77,16 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 */
 	function formDataForChart(res) {
 
-		var statistics = res.data;
+		// Забираем уроки из ответа.
+		// Ответ может быть и пустым.
+		var lessons = res.data.lessons || [];
 
 		// Кол-во подуроков
-		var subLessonCount = sum(statistics, 'subLessonCount') || 100;
+		var subLessonCount = sum(lessons, 'subLessonCount') || 100;
 
 		// Добавляем полное кол-во уроков, если он уже был пройден,
 		// иначе номер текущего урока.
-		var end = sum(statistics, 'currentSubLesson', 'subLessonCount', 'completed');
+		var end = sum(lessons, 'currentSubLesson', 'subLessonCount', 'completed');
 
 		// Вычитаем из общего размера.
 		var notEnd = subLessonCount - end;

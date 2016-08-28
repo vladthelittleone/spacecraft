@@ -24,7 +24,7 @@ function StatisticsLessonEnd() {
 
 		// Дабы каждый раз в шаблоне не ходить за statistics через lesson,
 		// создаем отдельную ссылку. Для удобства, не более того.
-		scope.statistics = scope.lesson.statistics;
+		scope.lessonStatistics = scope.lesson.lessonStatistics;
 
 	}
 

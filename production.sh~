@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # This is sample deploy script
 # You can run this on server after git push or
 # locally before you put new version of website via FTP
@@ -40,6 +40,7 @@ if [ $1 = "tools" ]; then
 	npm install forever -g
 	npm install -g bower
 	npm install --g gulp-cli
+	npm install --save-dev gulp
 fi
 
 exit 0

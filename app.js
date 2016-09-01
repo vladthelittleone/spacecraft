@@ -46,8 +46,8 @@ else
 	app.use(express.static(path.join(__dirname, 'build')));
 }
 
-app.use(require('./middlewares/sendHttpError'));
-app.use(require('./middlewares/loadUser'));
+app.use(require('./middlewares/send-http-error'));
+app.use(require('./middlewares/load-user'));
 
 require('./routes')(app);
 

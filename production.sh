@@ -40,7 +40,6 @@ if [ $1 = "tools" ]; then
 	npm install forever -g
 	npm install -g bower
 	npm install --g gulp-cli
-	npm install --save-dev gulp
 fi
 
 exit 0

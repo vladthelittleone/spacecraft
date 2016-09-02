@@ -199,6 +199,11 @@ function LessonStatistics() {
 	function calculateScoreForLessonEnd() {
 
 		// Если текущие очки за урок можно учитывать.
+		// По текущей логике - бонусы начисляем ТОЛЬКО в попытках, которые
+		// идут ПОСЛЕ получения основных очков за урок.
+		// Т.е. на первой попытке прохождения урока, начисляются только
+		// заработанные очки за урок (currentScore), а уже в последующих,
+		// пытаемся начислить бонусные очки.
 		if (that.isCurrentScoreCanBeConsidered) {
 
 			// По текущей логике - учитываем заработанные очки
@@ -211,9 +216,11 @@ function LessonStatistics() {
 			// когда текущий счет за урок может учитываться.
 			updateFinalRunCount();
 
-		}
+		} else {
 
-		tryAddLessonBonusScore();
+			tryAddLessonBonusScore();
+
+		}
 
 	}
 
@@ -226,7 +233,7 @@ function LessonStatistics() {
 	function resetCurrentResults() {
 
 		that.currentScore = lessonContentPoints ? lessonContentPoints.totalPoints :
-												  0;
+			0;
 		that.currentRunCount = 0;
 
 	}

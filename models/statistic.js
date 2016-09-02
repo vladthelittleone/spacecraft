@@ -23,6 +23,13 @@ var schema = new Schema({
 	}
 });
 
+var initStatisticsValue = {
+
+	totalFinalScore: 0,
+	lessons:         []
+
+};
+
 // заносим инфу о том сколько звездочек
 // какому уроку было поставленно пользователем
 schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
@@ -57,9 +64,9 @@ function getUserStatistics(idUser, callback) {
  * (по крайней мере не null и не undefined).
  *
  * @param modelStatistics модель коллекции статистики, по отношению к которой
- *                          и будет производиться выборка.
+ *                        и будет производиться выборка.
  * @param idUser идентификатор пользователя, по которому будет осуществляться выборка
- *                 статистики из БД.
+ *               статистики из БД.
  * @param callback Ожидаемая сигнатура метода callback:
  *                      - error если прозошла какая либо ошибка;
  *                      - statistics статистика, выбранная из БД по указанному пользователю.
@@ -73,13 +80,6 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 			function (callback) {
 
 				modelStatistics.findOne({idUser: idUser}, callback);
-
-			},
-			function (statistics) {
-
-				// worker сам знает как ему продолжить цепочку вызовов,
-				// поэтому коллбэк от async ему не нужен.
-				callback(null, statistics);
 
 			}
 
@@ -112,7 +112,7 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 			$set: {['lessons.' + dataForUpdate.lessonId + '.stars']: dataForUpdate.stars}
 
-		},callback);
+		}, callback);
 
 	}
 
@@ -120,43 +120,28 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 function updateTotalFinalScore(idUser, additionalTotalFinalScoreValue, callback) {
 
-	var modelStatistics = this;
+	if (validateParam(additionalTotalFinalScoreValue, callback)) {
 
-	prepareCurrentUserStatistics(modelStatistics, idUser, function (error, userStatistics) {
 
-		if (error) {
-
-			callback(error);
-
-		}
-
-		// additionalTotalFinalScoreValue может быть недействительным,
-		// к примеру, если в данный метод напрямую передавать значение,
-		// которое ожидается от пользователя.
-		var totalFinalScore = additionalTotalFinalScoreValue || 0;
-
-		if (userStatistics && userStatistics.totalFinalScore) {
-
-			totalFinalScore = totalFinalScore + userStatistics.totalFinalScore;
-
-		}
-
-		modelStatistics.update({
+		// TODO
+		// MongoError: Cannot update 'totalFinalScore' and 'totalFinalScore' at the same time.
+		this.update({
 
 			idUser: idUser
 
 		}, {
 
-			$setOnInsert: { lessons: [] },
-			$set: { totalFinalScore: totalFinalScore }
+			$setOnInsert: initStatisticsValue,
+			$inc:         {totalFinalScore: additionalTotalFinalScoreValue}
 
 		}, {
 
 			upsert: true
 
-		}, callback)
+		}, callback);
 
-	});
+
+	}
 
 }
 
@@ -179,11 +164,10 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
 		}, {
 
-			$setOnInsert: { lessons: [] },
-			$set: {['lessons.' + lessonId]: lesson}
+			$setOnInsert: initStatisticsValue,
+			$set:         {['lessons.' + lessonId]: lesson}
 
-		},
-		{
+		}, {
 
 			upsert: true
 
@@ -210,7 +194,8 @@ function validateParam(expression, callback) {
 
 		logger.warn('Bad request. Possible fraudster!');
 
-		callback(new Error('Can\'t get lessons by request'));
+		// Сообщаем о плохом запросе клиента.
+		callback(new Error('Bad request.'));
 
 		result = false;
 

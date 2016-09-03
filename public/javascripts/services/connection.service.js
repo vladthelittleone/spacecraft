@@ -108,7 +108,7 @@ function Connection($http) {
 			url:    links.statistic.stars,
 			method: 'POST',
 			data:   {
-				idLesson: lessonId,
+				lessonId: lessonId,
 				stars:    stars
 			}
 		});

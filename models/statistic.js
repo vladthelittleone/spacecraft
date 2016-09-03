@@ -4,18 +4,39 @@
 const logger = require('utils/log')(module);
 var mongoose = require('utils/mongoose');
 var async = require('async');
+var lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	idUser:  {
+	idUser:          {
 		type:     mongoose.Schema.Types.ObjectId,
 		ref:      'User',
 		unique:   true,
 		required: true
 	},
-	lessons: {
-		type: Array
+	totalFinalScore: {
+		type:    Number,
+		default: 0
+	},
+	lessons:         {
+		type:    [{
+			_id : false,
+			currentSubLesson: Number,
+			lessonId:         String,
+			subLessonCount:   Number,
+			completed:        Boolean,
+			stars:            Number,
+			lessonStatistics: {
+				currentScore:       Number,
+				currentRunCount:    Number,
+				finalScore:         Number,
+				finalRunCount:      Number,
+				attemptLessonCount: Number,
+				isUserCanGetBonusScore:  Boolean
+			}
+		}],
+		default: []
 	}
 });
 
@@ -29,6 +50,8 @@ schema.statics.getUserStatistics = getUserStatistics;
 // Возврат всей статистики.
 schema.statics.getUsersWithTotalFinalScores = getUsersWithTotalFinalScores;
 
+schema.statics.updateTotalFinalScore = updateTotalFinalScore;
+
 // обновение инфы о прохождении пользователем уроков
 schema.statics.updateLessonStatistics = updateLessonStatistics;
 
@@ -37,19 +60,45 @@ exports.Statistic = mongoose.model('Statistic', schema);
 /**
  * возвращает статистику пользователя
  */
-function getUserStatistics(id, callback) {
+function getUserStatistics(idUser, callback) {
 
-	var Statistic = this;
 
-	async.waterfall([
+	var modelStatistics = this;
 
-		function (callback) {
+	prepareCurrentUserStatistics(modelStatistics, idUser, callback);
 
-			Statistic.findOne({idUser: id}, callback);
+}
 
-		}
+/**
+ * Данный метод обращается к БД за имеющейся статистикой, а после
+ * осущ. вызов метода callback, который должен обработать ее по своему усмотрению.
+ *
+ * Ожидается, что все параметры на входе функции корректны
+ * (по крайней мере не null и не undefined).
+ *
+ * @param modelStatistics модель коллекции статистики, по отношению к которой
+ *                        и будет производиться выборка.
+ * @param idUser идентификатор пользователя, по которому будет осуществляться выборка
+ *               статистики из БД.
+ * @param callback Ожидаемая сигнатура метода callback:
+ *                      - error если прозошла какая либо ошибка;
+ *                      - statistics статистика, выбранная из БД по указанному пользователю.
+ */
+function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 
-	], callback);
+	if (validateParam(idUser, callback)) {
+
+		async.waterfall([
+
+			function (callback) {
+
+				modelStatistics.findOne({idUser: idUser}, callback);
+
+			}
+
+		], callback);
+
+	}
 
 }
 
@@ -97,45 +146,44 @@ function getUsersWithTotalFinalScores(callback) {
 
 }
 
+
 /**
  * Заносим инфу о том сколько звездочек
  * какому уроку было поставленно пользователем.
  */
-function updateLessonStarStatistics(req, callback) {
+function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
-	var Statistic = this;
-	var id = req.session.user;
+	var modelStatistics = this;
 
-	// Проверка коректности Id.
-	if (validateParam(id, callback)) {
+	// Проверка коректности пришедших данных для обновления.
+	// Проверять поля: idUser, dataForUpdate.lessonId и
+	// dataForUpdate.stars на undefined или null нет необходимости.
+	// Метод update в mongoose сам проверяет параметры на корректность.
+	if (validateParam(dataForUpdate, callback)) {
 
-		async.waterfall([
+		modelStatistics.update({
+			idUser: idUser
+		}, {
+			$set: {['lessons.' + dataForUpdate.lessonId + '.stars']: dataForUpdate.stars}
+		}, callback);
 
-			function (callback) {
+	}
 
-				Statistic.findOne({idUser: id}, callback);
+}
 
-			},
+function updateTotalFinalScore(idUser, additionalTotalFinalScoreValue, callback) {
 
-			function (statistics, callback) {
+	if (validateParam(additionalTotalFinalScoreValue, callback)) {
 
-				var lessons = statistics && statistics.lessons;
-				var lesId = req.body.idLesson;
+		this.update({
+			idUser: idUser
+		}, {
+			$inc: {totalFinalScore: additionalTotalFinalScoreValue}
+		}, {
+			setDefaultsOnInsert: true,
+			upsert:              true
+		}, callback);
 
-				// Если запрос корректен, выполняем обновление
-				// Иначе выкидывается ошибка в async
-				if (validateParam(lessons && lessons[lesId], callback)) {
-
-					updateStarStatisticsByLessonId({
-						req:      req,
-						lessons:  lessons,
-						model:    Statistic,
-						callback: callback
-					});
-
-				}
-
-			}], callback);
 	}
 
 }
@@ -143,118 +191,46 @@ function updateLessonStarStatistics(req, callback) {
 /**
  * Обновение инфы о прохождении пользователем уроков.
  */
-function updateLessonStatistics(req, callback) {
+function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
-	var Statistic = this;
-	var id = req.session.user;
+	var isDataForUpdateExists = validateParam(dataForUpdate, callback);
+	var fieldsAreCorrect = validateParam(dataForUpdate.lesson, callback);
 
-	// Проверка коректности Id.
-	if (validateParam(id, callback)) {
+	if (isDataForUpdateExists && fieldsAreCorrect) {
 
-		async.waterfall([
+		let modelStatistics = this;
 
-			function (callback) {
+		let lesson = dataForUpdate.lesson;
+		let lessonId = dataForUpdate.lesson.lessonId;
 
-				// Ищем статистику юзера в базе
-				Statistic.findOne({idUser: id}, callback);
+		// Обновляем  общее число очков пользователя.
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalScoreForLesson, function(error) {
 
-			},
-			function (statistics, callback) {
+			if (error) {
 
-				// Если запрос корректен, выполняем обновление
-				// Иначе выкидывается ошибка в async
-				if (validateParam(req.body, callback)) {
+				callback(error);
 
-					updateLessonStatisticsByLessonId({
-						req:        req,
-						statistics: statistics,
-						model:      Statistic,
-						callback:   callback
-					});
+				return;
+			}
 
-				}
+			modelStatistics.update({
+				idUser: idUser
+			}, {
+				$set: {['lessons.' + lessonId]: lesson}
+			}, {
+				setDefaultsOnInsert: true,
+				upsert:              true
+			}, callback);
 
-			}], callback);
-
-	}
-
-}
-
-/**
- * Обвноляем инфомрацию о рейтинге в базе данных.
- *
- * @param args.lessons информация о уроке
- * @param args.req параметр запроса
- * @param args.callback коллбек async
- * @param args.model модель статистики
- */
-function updateStarStatisticsByLessonId(args) {
-
-	var lessonId = args.req.body.idLesson;
-
-	args.lessons[lessonId].stars = args.req.body.stars;
-
-	args.model.update({
-
-		idUser: args.req.session.user
-
-	}, {
-
-		lessons: args.lessons
-
-	}, {
-
-		multi: true
-
-	}, args.callback);
-
-}
-
-/**
- * Обвноляем инфомрацию о статитстике в базе данных.
- *
- * @param args.req параметр запроса
- * @param args.statistics найденная статистика в базе
- * @param args.callback коллбек async
- * @param args.model модель статистики
- */
-function updateLessonStatisticsByLessonId(args) {
-
-	var lessons = [];
-	var lessonId = args.req.body.lessonId;
-	var id = args.req.session.user;
-	var statistics = args.statistics;
-
-	// Если в базе была статистика об уроках.
-	if (statistics && statistics.lessons) {
-
-		lessons = args.statistics.lessons;
-		lessons[lessonId] = args.req.body;
-
-		args.req.body.completed |= statistics.lessons.completed;
+		});
 
 	}
 
-	// Добавление урок в массив.
-	lessons[lessonId] = args.req.body;
-
-	// Апдейт записи о статистики.
-	// Создание новой записи если ее нет.
-	args.model.update({idUser: id}, {
-
-		lessons: lessons
-
-	}, {
-
-		upsert: true,
-		multi:  true
-
-	}, args.callback);
-
 }
 
 /**
- * Проверка выражения. В случае отрицательного результата пробрасываем ошибку.
+ * Проверка выражения на null или undefined.
+ * В случае равенства, пробрасываем ошибку.
  *
  * @param expression выражение
  * @param callback обработки ошибки
@@ -264,11 +240,13 @@ function validateParam(expression, callback) {
 
 	var result = true;
 
-	if (!expression) {
+	// Если null или undefined.
+	if (lodash.isNil(expression)) {
 
 		logger.warn('Bad request. Possible fraudster!');
 
-		callback(new Error('Can\'t get lessons by request'));
+		// Сообщаем о плохом запросе клиента.
+		callback(new Error('Bad request.'));
 
 		result = false;
 

@@ -7,28 +7,28 @@ var Lodash = require('lodash');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email: {
-		type: String,
-		unique: true,
+	email:              {
+		type:     String,
+		unique:   true,
 		required: true
 	},
-	username: {
+	username:           {
 		type: String
 	},
-	hashedPassword: {
-		type: String,
+	hashedPassword:     {
+		type:     String,
 		required: true
 	},
-	salt: {
-		type: String,
+	salt:               {
+		type:     String,
 		required: true
 	},
 	isSubscribeOnEmail: {
-		type: Boolean,
+		type:     Boolean,
 		required: true
 	},
-	created: {
-		type: Date,
+	created:            {
+		type:    Date,
 		default: Date.now
 	}
 });
@@ -184,7 +184,7 @@ function getUserCreationDate(userID, callback) {
 		},
 		function (user, callback) {
 
-			callback(user? user.created: null);
+			callback(user ? user.created : null);
 
 		}
 

@@ -48,10 +48,8 @@ router.get('/lessons', function (req, res, next) {
 			// Отправляем массив уроков и финальное число очков по всем урокам
 			// отделными полями.
 			res.json({
-
 				lessons:         result.lessons,
 				totalFinalScore: result.totalFinalScore
-
 			});
 
 		} else {

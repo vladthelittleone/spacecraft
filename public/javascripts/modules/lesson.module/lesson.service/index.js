@@ -49,15 +49,22 @@ function LessonService(connection, audioManager, aceService, settings) {
 	var currentLessonStatistics;
 
 	that.setEditorSession = setEditorSession;
+	that.setMarkerId = setMarkerId;
+
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
-	that.lessonContent = lessonContent;
-	that.initialize = initialize;
-	that.intiateRunByUserClick = initiateRunByUserClick;
-	that.run = run;
-	that.stop = stop;
 	that.getMarkerId = getMarkerId;
-	that.setMarkerId = setMarkerId;
+
+	that.lessonContent = lessonContent;
+
+	that.initialize = initialize;
+
+	that.intiateRunByUserClick = initiateRunByUserClick;
+
+	that.run = run;
+
+	that.stop = stop;
+
 	that.audioManager = audioWrapper;
 
 	return that;
@@ -279,7 +286,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 	function saveStatisticsWrapper(currentSubLesson, isLessonCompleted) {
 
 		saveStatistics({
-			finalScoreForLesson: currentLessonStatistics.getFinalScoreForLesson(),
+			totalScoreForLesson: currentLessonStatistics.getTotalScoreForLesson(),
 			lesson:              {
 				currentSubLesson: currentSubLesson,
 				lessonId:         lessonId,

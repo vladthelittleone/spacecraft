@@ -16,19 +16,29 @@ var schema = new Schema({
 		required: true
 	},
 	totalFinalScore: {
-		type: Number
+		type:    Number,
+		default: 0
 	},
 	lessons:         {
-		type: Array
+		type:    [{
+			_id : false,
+			currentSubLesson: Number,
+			lessonId:         String,
+			subLessonCount:   Number,
+			completed:        Boolean,
+			stars:            Number,
+			lessonStatistics: {
+				currentScore:       Number,
+				currentRunCount:    Number,
+				finalScore:         Number,
+				finalRunCount:      Number,
+				attemptLessonCount: Number,
+				isUserCanGetBonusScore:  Boolean
+			}
+		}],
+		default: []
 	}
 });
-
-var initStatisticsValue = {
-
-	totalFinalScore: 0,
-	lessons:         []
-
-};
 
 // заносим инфу о том сколько звездочек
 // какому уроку было поставленно пользователем
@@ -105,13 +115,9 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 	if (validateParam(dataForUpdate, callback)) {
 
 		modelStatistics.update({
-
 			idUser: idUser
-
 		}, {
-
 			$set: {['lessons.' + dataForUpdate.lessonId + '.stars']: dataForUpdate.stars}
-
 		}, callback);
 
 	}
@@ -122,24 +128,14 @@ function updateTotalFinalScore(idUser, additionalTotalFinalScoreValue, callback)
 
 	if (validateParam(additionalTotalFinalScoreValue, callback)) {
 
-
-		// TODO
-		// MongoError: Cannot update 'totalFinalScore' and 'totalFinalScore' at the same time.
 		this.update({
-
 			idUser: idUser
-
 		}, {
-
-			$setOnInsert: initStatisticsValue,
-			$inc:         {totalFinalScore: additionalTotalFinalScoreValue}
-
+			$inc: {totalFinalScore: additionalTotalFinalScoreValue}
 		}, {
-
-			upsert: true
-
+			setDefaultsOnInsert: true,
+			upsert:              true
 		}, callback);
-
 
 	}
 
@@ -150,28 +146,36 @@ function updateTotalFinalScore(idUser, additionalTotalFinalScoreValue, callback)
  */
 function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
-	if (validateParam(dataForUpdate, callback) && validateParam(dataForUpdate.lesson, callback)) {
+	var isDataForUpdateExists = validateParam(dataForUpdate, callback);
+	var fieldsAreCorrect = validateParam(dataForUpdate.lesson, callback);
 
-		var lesson = dataForUpdate.lesson;
-		var lessonId = dataForUpdate.lesson.lessonId;
+	if (isDataForUpdateExists && fieldsAreCorrect) {
+
+		let modelStatistics = this;
+
+		let lesson = dataForUpdate.lesson;
+		let lessonId = dataForUpdate.lesson.lessonId;
 
 		// Обновляем  общее число очков пользователя.
-		this.updateTotalFinalScore(idUser, dataForUpdate.finalScoreForLesson, callback);
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalScoreForLesson, function(error) {
 
-		this.update({
+			if (error) {
 
-			idUser: idUser
+				callback(error);
 
-		}, {
+				return;
+			}
+			
+			modelStatistics.update({
+				idUser: idUser
+			}, {
+				$set: {['lessons.' + lessonId]: lesson}
+			}, {
+				setDefaultsOnInsert: true,
+				upsert:              true
+			}, callback);
 
-			$setOnInsert: initStatisticsValue,
-			$set:         {['lessons.' + lessonId]: lesson}
-
-		}, {
-
-			upsert: true
-
-		}, callback);
+		});
 
 	}
 

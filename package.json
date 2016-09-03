@@ -37,7 +37,8 @@
     "serve-favicon": "~2.3.0",
     "validator": "^5.1.0",
     "visibilityjs": "^1.2.3",
-    "winston": "^2.1.1"
+    "winston": "^2.1.1",
+    "lodash": "^4.15.0"
   },
   "devDependencies": {
     "browserify": "^12.0.1",
@@ -55,7 +56,6 @@
     "gulp-uglify": "^1.5.1",
     "gulp-uncss": "^1.0.4",
     "gulp-useref": "^3.0.3",
-    "lodash": "^4.15.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

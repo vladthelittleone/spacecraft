@@ -16,8 +16,7 @@ function Content() {
 		// Штрафные очки за действия на уроке.
 		exception: 50,
 		incorrectInput: 50,
-		missionStopTransportFail: 100,
-		bonusScore: 50
+		missionStopTransportFail: 100
 	};
 
 	return {

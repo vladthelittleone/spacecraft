@@ -13,7 +13,7 @@ function LessonStatistics() {
 
 	// Число очков, которое будет начислено
 	// в конечном итоге за текущий урок.
-	var finalScoreForLesson = 0;
+	var totalScoreForLesson = 0;
 
 	var maxAttemptLessonCountForBonus;
 
@@ -44,7 +44,7 @@ function LessonStatistics() {
 	that.getMaxLimitScoreForLesson = getMaxLimitScoreForLesson;
 	that.getCurrentScore = getCurrentScore;
 	that.getAttemptCountForBonus = getAttemptCountForBonus;
-	that.getFinalScoreForLesson = getFinalScoreForLesson;
+	that.getTotalScoreForLesson = getTotalScoreForLesson;
 	that.getBonusScore = getBonusScore;
 
 	that.isItFirstLessonAttempt = isItFirstLessonAttempt;
@@ -99,11 +99,11 @@ function LessonStatistics() {
 	}
 
 	/**
-	 * Возвращает финальный результат по уроку.
+	 * Возвращает окончательный результат по уроку.
 	 */
-	function getFinalScoreForLesson() {
+	function getTotalScoreForLesson() {
 
-		return finalScoreForLesson;
+		return totalScoreForLesson;
 
 	}
 
@@ -198,29 +198,27 @@ function LessonStatistics() {
 	 */
 	function calculateScoreForLessonEnd() {
 
-		// Если текущие очки за урок можно учитывать.
-		// По текущей логике - бонусы начисляем ТОЛЬКО в попытках, которые
-		// идут ПОСЛЕ получения основных очков за урок.
-		// Т.е. на первой попытке прохождения урока, начисляются только
-		// заработанные очки за урок (currentScore), а уже в последующих,
-		// пытаемся начислить бонусные очки.
-		if (that.isCurrentScoreCanBeConsidered) {
+		// Если финальные очки еще не были назначены за урок.
+		if (!that.finalScore) {
 
-			// По текущей логике - учитываем заработанные очки
-			// за урок (currentScore) только 1 раз.
-			that.isCurrentScoreCanBeConsidered = false;
+			setTotalScoreForLesson(that.currentScore);
 
-			setFinalScoreForLesson(that.currentScore);
-
-			// Обновляем число запусков интерпретатора только в случае,
-			// когда текущий счет за урок может учитываться.
+			// Обновляем число запусков интерпретатора только
+			// в случае назначения окончательного числа очков за урок.
 			updateFinalRunCount();
 
-		} else {
+			// Если пользователь заработал максимум
+			// при начислении очков за урок, то запрещаем ему
+			// получение бонусов.
+			if(isUserHasMaxCurrentScoreForLesson()) {
 
-			tryAddLessonBonusScore();
+				setUserCanGetBonusScore(false);
+
+			}
 
 		}
+
+		tryAddLessonBonusScore();
 
 	}
 
@@ -233,7 +231,7 @@ function LessonStatistics() {
 	function resetCurrentResults() {
 
 		that.currentScore = lessonContentPoints ? lessonContentPoints.totalPoints :
-			0;
+			                                      0;
 		that.currentRunCount = 0;
 
 	}
@@ -248,11 +246,10 @@ function LessonStatistics() {
 
 		resetCurrentResults();
 
+		that.finalScore = 0;
+
 		// Финальное число запуска кода пользователем за урок.
 		that.finalRunCount = 0;
-
-		// Флаг разрешения рассчета финального результата за урок.
-		that.isCurrentScoreCanBeConsidered = true;
 
 		// Число попыток прохождения урока.
 		that.attemptLessonCount = 0;
@@ -276,7 +273,7 @@ function LessonStatistics() {
 
 			that.attemptLessonCount = lessonStatistics.attemptLessonCount;
 
-			that.isCurrentScoreCanBeConsidered = lessonStatistics.isCurrentScoreCanBeConsidered;
+			that.finalScore = lessonStatistics.finalScore;
 
 			setUserCanGetBonusScore(lessonStatistics.isUserCanGetBonusScore);
 
@@ -284,14 +281,22 @@ function LessonStatistics() {
 
 	}
 
-	/**
-	 * Метод установки значения финальных очков за урок.
-	 * Метод введен по причине использования данной логики в нескольких местах.
-	 * @param finalScore очки, которые установят текущий финальный результат за урок.
-	 */
-	function setFinalScoreForLesson(value) {
+	function addToFinalScore(value) {
 
-		finalScoreForLesson = value;
+		that.finalScore = that.finalScore + value;
+
+	}
+
+	/**
+	 * Метод установки значения окончательных очков за урок.
+	 * Метод введен по причине использования данной логики в нескольких местах.
+	 * @param value очки, которые установят окончательный результат за урок.
+	 */
+	function setTotalScoreForLesson(value) {
+
+		totalScoreForLesson = value;
+
+		addToFinalScore(value);
 
 	}
 
@@ -309,7 +314,13 @@ function LessonStatistics() {
 	 */
 	function calculateBonusScore() {
 
-		return lessonContentPoints.bonusScore;
+		// Разница между максимально возможными очками за урок и текущим
+		// лучшим результатом.
+		var difference = lessonContentPoints.totalPoints - that.finalScore;
+
+		// Пока что просто условились на том, что бонусные очки это есть
+		// "разница" (между максимально возможными очками за урок и текущим лучшим результатом) пополам.
+		return parseInt(difference / 2);
 
 	}
 
@@ -356,7 +367,7 @@ function LessonStatistics() {
 			bonusScore = calculateBonusScore();
 
 			// Начисляем бонусные очки.
-			setFinalScoreForLesson(bonusScore);
+			setTotalScoreForLesson(bonusScore);
 
 			// Пользователь больше не может получать бонусные очки.
 			setUserCanGetBonusScore(false);

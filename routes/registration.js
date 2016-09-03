@@ -3,68 +3,19 @@
  * @author Skurishin Vladislav
  */
 var express = require('express');
-var valid = require('validator');
 var router = express.Router();
 
-var User = require('models/user').User;
-var AuthError = require('error').AuthError;
-var HttpError = require('error').HttpError;
+var passport = require('passport');
 
-function isEmail(email)
-{
-	if (!email)
-	{
-		return false;
-	}
+var authHelp = require('../utils/passport/auth');
 
-	return valid.isEmail(email);
-}
+// сначало запрос будет обработан в методе checkEmailAndPassword
+// а затем управление передей в passport
+router.post('/', authHelp.checkEmailAndPassword, passport.authenticate('local-registration', {
 
-function isPassword(password)
-{
-	if (!password)
-	{
-		return false;
-	}
+		successRedirect: '/',
+		session: false
 
-	return valid.isLength(valid.trim(password), {min: 8});
-}
-
-router.post('/', function (req, res, next)
-{
-	var email = req.body.email;
-	var password = req.body.password;
-
-	if (!isEmail(email))
-	{
-		return next(new HttpError(400, 'Некорректный email'));
-	}
-
-	if (!isPassword(password))
-	{
-		return next(new HttpError(400, 'Длина пароля слишком мала'));
-	}
-
-	var normalizeEmail = valid.normalizeEmail(email);
-
-	User.registration(normalizeEmail, password, function (err, user)
-	{
-		if (err)
-		{
-			if (err instanceof AuthError)
-			{
-				return next(new HttpError(409, err.message));
-			}
-			else
-			{
-				return next(err);
-			}
-		}
-
-		res.send({
-			email: normalizeEmail
-		});
-	});
-});
+}));
 
 module.exports = router;

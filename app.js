@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const path = require('path');
 const favicon = require('serve-favicon');
 const httpLogger = require('morgan');
@@ -10,10 +11,14 @@ const session = require('express-session');
 const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
+require('./utils/passport/passport')(passport);
+var localStrategy = require('./utils/passport/passport-local');
 
 const app = express();
 
 var maxHeap = 0;
+
+app.use(require('./middlewares/sendHttpError'));
 
 // view engine setup (Т.к. у нас уже написан html, лучше пока не юзать движки)
 //app.set('views', path.join(__dirname, 'views'));
@@ -37,58 +42,73 @@ app.use(session({
 	store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-if (app.get('env') === 'development')
-{
-	app.use(express.static(path.join(__dirname, 'public')));
-}
-else
-{
-	app.use(express.static(path.join(__dirname, 'build')));
-}
-
-app.use(require('./middlewares/sendHttpError'));
 app.use(require('./middlewares/loadUser'));
+
+// init passportJS
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use ('local-login', localStrategy.login);
+passport.use ('local-registration', localStrategy.registration);
+
+
+if (app.get('env') === 'development') {
+
+	app.use(express.static(path.join(__dirname, 'public')));
+
+}
+else {
+
+	app.use(express.static(path.join(__dirname, 'build')));
+
+}
 
 require('./routes')(app);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next)
-{
+app.use(function (req, res, next) {
+
 	var err = new Error('На просторах вселенной страница не найдена!');
 	err.status = 404;
 	next(err);
+
 });
 
 const HttpError = require('error').HttpError;
 
-app.use(function (err, req, res, next)
-{
+app.use(function (err, req, res, next) {
+
 	// Проверка на error/HttpError
-	if (typeof err == 'number')
-	{
+	if (typeof err == 'number') {
+
 		err = new HttpError(err);
+
 	}
 
-	if (app.get('env') === 'development')
-	{
+	if (app.get('env') === 'development') {
+
 		logger.error(err);
+
 	}
 
 	// middlewares/sendHttpError
 	res.sendHttpError(err);
+
 });
 
-if (app.get('env') === 'development')
-{
-	setInterval(function ()
-	{
+if (app.get('env') === 'development') {
+
+	setInterval(function () {
+
 		var heap = process.memoryUsage().heapUsed;
 
 		maxHeap = maxHeap < heap ? heap : maxHeap;
 
 		logger.info('Heap size: '  + heap + ', maximum heap size: ' + maxHeap);
+
 	},
 	10000);
+
 }
 
 module.exports = app;

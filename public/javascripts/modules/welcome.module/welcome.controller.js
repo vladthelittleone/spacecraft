@@ -10,8 +10,8 @@ module.exports = WelcomeController;
  */
 function WelcomeController($scope, $state, $sce, authentication, connection) {
 
-	$scope.usersLead = [];	// Лидеры игры
-	$scope.hideLead = true;	// Переключатель таблицы лидеров
+	$scope.leadersList = [];	// Лидеры игры
+	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
 	$scope.vkShow = true; 	// Переключатель виджета ВК
 
 	$scope.chartIndex = 0;	// Номер текущего графика
@@ -30,6 +30,8 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 * Формирование статистики по всем параметрам.
 	 */
 	connection.getLessonsStatistics(formDataForChart);
+
+	connection.getLeaderboard(formLeaderboard);
 
 	// Инифиализация ВК
 	initVK();
@@ -61,6 +63,16 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 			$scope.vkShow = false;
 
 		}
+
+	}
+
+	function formLeaderboard(res) {
+
+		$scope.leadersList = res.data;
+
+		// Открываем таблицу лидеров, так как все
+		// данные загрузились
+		$scope.showLeaderboard = true;
 
 	}
 

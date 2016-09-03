@@ -51,8 +51,6 @@ schema.methods.checkPassword = checkPassword;
 schema.statics.authorize = authorize;
 schema.statics.registration = registration;
 schema.statics.getUserCreationDate = getUserCreationDate;
-schema.statics.getNicknamesByUsersId = getNicknamesByUsersId;
-schema.statics.getEmailsByUsersId = getEmailsByUsersId;
 
 exports.User = mongoose.model('User', schema);
 
@@ -65,19 +63,6 @@ function encryptPassword(password) {
 function checkPassword(password) {
 
 	return this.encryptPassword(password) === this.hashedPassword;
-
-}
-
-/**
- * Метод получения имени из электронного почтового адреса.
- * @param email имя электронного почтового адреса пользователя.
- * Ожидается, что на вход подается корректная строка:
- * - она определена;
- * - содержит в себе символ @.
- */
-function getNameFromEmail(email) {
-
-	return email.substr(0, email.indexOf('@'));
 
 }
 
@@ -111,7 +96,7 @@ function authorize(email, password, callback) {
 				if (user.checkPassword(password)) {
 
 					callback(null, user);
-					
+
 				}
 				else {
 
@@ -189,49 +174,5 @@ function getUserCreationDate(userID, callback) {
 		}
 
 	], callback)
-
-}
-
-/**
- * Метод получения электронных адресов пользователей по заданным идентификаторам.
- * ПЕРЕИМЕНОВАТЬ!
- * @param callback
- */
-function getEmailsByUsersId(usersId, callback) {
-
-	this.find( { _id: { "$in" : usersId} }, function(err, usersList) {
-
-		var idUsersAndEmailsArr = usersList.map(function(value) {
-
-			return Lodash.pick(value, '_id', 'email');
-
-		});
-
-		callback(err, idUsersAndEmailsArr);
-
-	});
-
-}
-
-/**
- * Возвращает список прозвщих для указанных пользователей в usersId.
- * @param usersId массив идентификаторов пользователей.
- * @param callback
- */
-function getNicknamesByUsersId(usersId, callback) {
-
-	this.getEmailsByUsersId(usersId, function(err, idUsersAndEmailsArr) {
-
-		idUsersAndEmailsArr.forEach(function(currentValue){
-
-			currentValue.nickname = getNameFromEmail(currentValue.email);
-
-			delete currentValue.email;
-
-		});
-
-		callback(err, idUsersAndEmailsArr);
-
-	} );
 
 }

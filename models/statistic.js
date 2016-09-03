@@ -21,19 +21,19 @@ var schema = new Schema({
 	},
 	lessons:         {
 		type:    [{
-			_id : false,
+			_id:              false,
 			currentSubLesson: Number,
 			lessonId:         String,
 			subLessonCount:   Number,
 			completed:        Boolean,
 			stars:            Number,
 			lessonStatistics: {
-				currentScore:       Number,
-				currentRunCount:    Number,
-				finalScore:         Number,
-				finalRunCount:      Number,
-				attemptLessonCount: Number,
-				isUserCanGetBonusScore:  Boolean
+				currentScore:           Number,
+				currentRunCount:        Number,
+				finalScore:             Number,
+				finalRunCount:          Number,
+				attemptLessonCount:     Number,
+				isUserCanGetBonusScore: Boolean
 			}
 		}],
 		default: []
@@ -48,7 +48,7 @@ schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
 schema.statics.getUserStatistics = getUserStatistics;
 
 // Возврат всей статистики.
-schema.statics.getUsersWithTotalFinalScores = getUsersWithTotalFinalScores;
+schema.statics.getLeaderboard = getLeaderboard;
 
 schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 
@@ -103,46 +103,76 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 }
 
 /**
- * Метод получения
+ * Метод получения таблицы лидеров для указанного пользователя.
+ * Указанный пользователь будет помечен в конечной таблице в поле
+ * isItMe значением true.
+ * Выходной формат таблицы:
+ * 1)name имя пользователя в системе;
+ * 2)totalFinalScore общее число очков пользователя;
+ * 3)isItMe флаг сообщающий пользователю о том, где он расположен
+ * в таблице.
+ * Коллбэк формирующий из email адресов имена пользователей определен именно в контексте данного
+ * метода, так как формирование нужных данных по таблице лидеров целесообразно
+ * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
  */
-function getUsersWithTotalFinalScores(callback) {
+function getLeaderboard(idUser, callback) {
 
-	this.aggregate([
-		{
+	// Не строим таблицу для неавторизованных пользователей.
+	if (validateParam(idUser, callback)) {
 
-			$unwind: "$lessons"
-
-		},
-		{
-			$match: {
-
-				"lessons.statistics.finalScore": {
-
-					$gte: 0
-
+		this.aggregate([{
+			$lookup: {
+				from:         'users',
+				localField:   'idUser',
+				foreignField: '_id',
+				as:           'user'
+			}
+		}, {
+			$project: {
+				totalFinalScore: true,
+				isItMe:          {
+					$eq: ["$idUser", mongoose.Types.ObjectId(idUser)]
+				},
+				name:            {
+					$arrayElemAt: ['$user.email', 0]
+				},
+				regDate:         {
+					$arrayElemAt: ['$user.created', 0]
 				}
 			}
-
-		},
-		{
-			$group: {
-
-				_id: '$idUser',
-				totalFinalScore: {
-
-					$sum: '$lessons.statistics.finalScore'
-
-				}
-			}
-		},
-		{
+		}, {
 			$sort: {
-
-				totalFinalScore: -1
+				totalFinalScore: -1, // сперва сортируем по очкам (по убыванию).
+				regDate:         1   // а уже после, с учетом предыдущей ранжировки, по дате регистрации (по возрастанию).
 			}
-		}
-	], callback);
+		}, {
+			$limit: 10
+		}, {
+			$project: {
+				_id:             false,
+				name:            true,
+				totalFinalScore: true,
+				isItMe:          true
+			}
+		}], function (error, results) {
 
+				if (error) {
+
+					return callback(error);
+
+				}
+
+				results.forEach(function (item) {
+
+					item.name = lodash.first(item.name.split('@'));
+
+				});
+
+				callback(error, results);
+
+			});
+
+	}
 
 }
 
@@ -204,7 +234,7 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 		let lessonId = dataForUpdate.lesson.lessonId;
 
 		// Обновляем  общее число очков пользователя.
-		this.updateTotalFinalScore(idUser, dataForUpdate.totalScoreForLesson, function(error) {
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalScoreForLesson, function (error) {
 
 			if (error) {
 

@@ -81,7 +81,7 @@ function Connection($http) {
 
 		$http({
 			url: links.statistic.leaderboard,
-			method: 'POST'
+			method: 'GET'
 		}).then(callback);
 
 	}

@@ -79,8 +79,8 @@
 						<td class="table-content-score"><span class="glyphicon glyphicon-flag orange"></span></td>
 					</tr>
 					<tr ng-repeat="u in leadersList">
-						<td class="table-number glyphicon">{{u._id}}</td>
-						<td class="table-content-name">{{u.nickname}} <span ng-if="u.isItMe">(Вы)</span></td>
+						<td class="table-number">{{$index + 1}}</td>
+						<td class="table-content-name">{{u.name}}<span ng-if="u.isItMe">(Вы)</span></td>
 						<td class="table-content-score">{{u.totalFinalScore}}</td>
 					</tr>
 				</table>

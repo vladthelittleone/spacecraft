@@ -14,7 +14,7 @@ function Stars(connection, $state) {
 
 	var directive = {
 		scope:      {
-			idLesson: '='
+			lessonId: '='
 		},
 		templateUrl: 'views/directives/stars.html',
 		link:        link,
@@ -31,7 +31,7 @@ function Stars(connection, $state) {
 		 */
 		scope.radioChange = function (value) {
 
-			connection.lessonRate(scope.idLesson, value);
+			connection.lessonRate(scope.lessonId, value);
 
 			$state.go('lessons');
 

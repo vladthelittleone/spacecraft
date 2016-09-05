@@ -21,19 +21,19 @@ var schema = new Schema({
 	},
 	lessons:         {
 		type:    [{
-			_id : false,
+			_id:              false,
 			currentSubLesson: Number,
 			lessonId:         String,
 			subLessonCount:   Number,
 			completed:        Boolean,
 			stars:            Number,
 			lessonStatistics: {
-				currentScore:       Number,
-				currentRunCount:    Number,
-				finalScore:         Number,
-				finalRunCount:      Number,
-				attemptLessonCount: Number,
-				isUserCanGetBonusScore:  Boolean
+				currentScore:           Number,
+				currentRunCount:        Number,
+				finalScore:             Number,
+				finalRunCount:          Number,
+				attemptLessonCount:     Number,
+				isUserCanGetBonusScore: Boolean
 			}
 		}],
 		default: []
@@ -46,6 +46,9 @@ schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
 
 // возвращает статистику пользователя
 schema.statics.getUserStatistics = getUserStatistics;
+
+// Возврат всей статистики.
+schema.statics.getLeaderboard = getLeaderboard;
 
 schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 
@@ -99,6 +102,80 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 
 }
 
+/**
+ * Метод получения таблицы лидеров для указанного пользователя.
+ * Указанный пользователь будет помечен в конечной таблице в поле
+ * isItMe значением true.
+ * Выходной формат таблицы:
+ * 1)name имя пользователя в системе;
+ * 2)totalFinalScore общее число очков пользователя;
+ * 3)isItMe флаг сообщающий пользователю о том, где он расположен
+ * в таблице.
+ * Коллбэк формирующий из email адресов имена пользователей определен именно в контексте данного
+ * метода, так как формирование нужных данных по таблице лидеров целесообразно
+ * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
+ */
+function getLeaderboard(idUser, callback) {
+
+	// Не строим таблицу для неавторизованных пользователей.
+	if (validateParam(idUser, callback)) {
+
+		this.aggregate([{
+			$lookup: {
+				from:         'users',
+				localField:   'idUser',
+				foreignField: '_id',
+				as:           'user'
+			}
+		}, {
+			$project: {
+				totalFinalScore: true,
+				isItMe:          {
+					$eq: ["$idUser", mongoose.Types.ObjectId(idUser)]
+				},
+				name:            {
+					$arrayElemAt: ['$user.email', 0]
+				},
+				regDate:         {
+					$arrayElemAt: ['$user.created', 0]
+				}
+			}
+		}, {
+			$sort: {
+				totalFinalScore: -1, // сперва сортируем по очкам (по убыванию).
+				regDate:         1   // а уже после, с учетом предыдущей ранжировки, по дате регистрации (по возрастанию).
+			}
+		}, {
+			$limit: 10
+		}, {
+			$project: {
+				_id:             false,
+				name:            true,
+				totalFinalScore: true,
+				isItMe:          true
+			}
+		}], function (error, results) {
+
+				if (error) {
+
+					return callback(error);
+
+				}
+
+				results.forEach(function (item) {
+
+					item.name = lodash.first(item.name.split('@'));
+
+				});
+
+				callback(error, results);
+
+			});
+
+	}
+
+}
+
 
 /**
  * Заносим инфу о том сколько звездочек
@@ -107,6 +184,7 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 	var modelStatistics = this;
+
 	// Проверка коректности пришедших данных для обновления.
 	// Проверять поля: idUser, dataForUpdate.lessonId и
 	// dataForUpdate.stars на undefined или null нет необходимости.

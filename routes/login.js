@@ -16,6 +16,7 @@ function isEmail(email) {
 	if (!email) {
 
 		return false;
+
 	}
 
 	return valid.isEmail(email);
@@ -26,6 +27,7 @@ function isPassword(password) {
 	if (!password) {
 
 		return false;
+
 	}
 
 	return valid.isLength(valid.trim(password), {min: 8});

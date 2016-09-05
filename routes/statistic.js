@@ -5,8 +5,11 @@ var express = require('express');
 var logger = require('../utils/log')(module);
 
 var Statistic = require('models/statistic').Statistic;
+var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
+var Lodash = require('lodash');
+var async = require('async');
 
 var router = express.Router();
 
@@ -106,6 +109,23 @@ router.post('/lessons/stars', function (req, res, next) {
 		}
 
 		res.sendStatus(200);
+
+	});
+
+});
+
+router.get('/lessons/leaderboard', function (req, res, next) {
+
+
+	Statistic.getLeaderboard(req.session.user, function(error, leaderBoard) {
+
+		if (error) {
+
+			return next(error);
+
+		}
+
+		res.send(leaderBoard);
 
 	});
 

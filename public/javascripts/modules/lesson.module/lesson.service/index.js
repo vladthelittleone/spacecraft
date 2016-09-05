@@ -285,9 +285,11 @@ function LessonService(connection, audioManager, aceService, settings) {
 	 */
 	function saveStatisticsWrapper(currentSubLesson, isLessonCompleted) {
 
+		totalFinalScore = totalFinalScore + currentLessonStatistics.getTotalScoreForLesson();
+
 		saveStatistics({
-			totalScoreForLesson: currentLessonStatistics.getTotalScoreForLesson(),
-			lesson:              {
+			totalFinalScore: totalFinalScore,
+			lesson:          {
 				currentSubLesson: currentSubLesson,
 				lessonId:         lessonId,
 				subLessonCount:   getSubLessonCount(),

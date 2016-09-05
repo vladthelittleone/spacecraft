@@ -95,7 +95,7 @@ function Connection($http) {
 			url:    links.statistic.stars,
 			method: 'POST',
 			data:   {
-				idLesson: lessonId,
+				lessonId: lessonId,
 				stars:    stars
 			}
 		});
@@ -205,7 +205,8 @@ function Connection($http) {
 			method: 'POST',
 			data:   {
 				email:    args.email,
-				password: args.password
+				password: args.password,
+				isSubscribeOnEmail: args.isSubscribeOnEmail
 			},
 			url:    links.register
 		});

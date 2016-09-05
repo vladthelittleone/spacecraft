@@ -19,7 +19,7 @@ module.exports = function (passport) {
 	// лезть в базу
 	passport.deserializeUser (function (user, next) {
 
-		 next (null, user);
+		next (null, user);
 
 	});
 

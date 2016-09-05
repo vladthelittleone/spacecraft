@@ -10,7 +10,8 @@ module.exports = AcademyBaseUnit;
 /**
  * Объект базы.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
 function AcademyBaseUnit(game, x, y) {
 

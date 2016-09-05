@@ -209,8 +209,16 @@ pre {
 	color: #f88e36;
 }
 
+.lesson-end-content {
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	color: #FFFFFF;
+	top: 30%;
+}
+
 .container-white-board,
-.stars-background,
+.lesson-end-background,
 .result-background,
 .pages-background,
 .login-background {
@@ -236,7 +244,7 @@ pre {
 	background-size: cover;
 }
 
-.stars-background {
+.lesson-end-background {
 	z-index: 3000;
 	background-size: cover;
 	background-color: rgba(21, 43, 57, 0.9);
@@ -282,6 +290,10 @@ pre {
 	height: 100%;
 	width: 100%;
 	background: rgba(255, 255, 255, 0.95);
+}
+
+.pages-board .vk-container-inside {
+	padding: 2px;
 }
 
 .pages-board .chart-inside {
@@ -641,21 +653,20 @@ pre {
 	cursor: default;
 }
 
-.documentation {
+.settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;
 	bottom: 0;
 	height: 100%;
 	width: 100%;
-	border: 1px solid #152B39;
+	cursor: default;
 }
 
-.documentation h3,
-.documentation h5 {
-	text-align: center;
+.settings-checkbox {
+	float: right;
 }
 
-.documentation ul {
+.settings ul {
 	font-style: italic;
 	font-family: Georgia, Times, serif;
 	font-size: 24px;
@@ -665,27 +676,23 @@ pre {
 	padding: 0;
 }
 
-.documentation ul li p {
-	margin: 0;
+.settings ul li {
 	padding: 8px;
+	margin: 0;
 	font-family: Arial, serif;
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
 }
 
-.documentation ul li p:hover {
+.settings ul li:hover {
 	background-color: rgb(21, 43, 57);
 }
 
-.documentation ul li p em {
-	display: block;
+.settings ul li em,
+.settings-checkbox {
 	font-size: 1.4em;
 	font-style: normal;
-}
-
-.objects li:hover {
-	cursor: pointer;
 }
 
 .main-editor {
@@ -910,7 +917,7 @@ pre {
 
 .astrogirl-img {
 	height: 400px;
-	width: 120px;
+	width: 140px;
 	background-image: url(../images/pages/astrogirl-hologram.png);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -920,7 +927,7 @@ pre {
 
 .astromen-img {
 	height: 400px;
-	width: 120px;
+	width: 140px;
 	background-image: url(../images/pages/officer-hologram.png);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -1128,11 +1135,6 @@ pre {
 	font-weight: bold;
 }
 
-.content-overflow {
-	height: 100%;
-	overflow-y: auto;
-}
-
 .content-description {
 	height: 100%;
 }
@@ -1191,13 +1193,15 @@ pre {
 	color: #FFFFFF;
 }
 
-.lesson-content-overflow {
+.content-overflow {
+	overflow-y: auto;
 	height: 100%;
 	border: 1px solid #152B39;
 	width: 100%;
 	position: absolute;
 	color: #C0C3C1;
 	background: rgba(29, 31, 33, 0.8);
+	cursor: pointer;
 }
 
 div.thought {
@@ -1420,6 +1424,14 @@ div.helper {
 	text-align: center;
 }
 
+.login-checkbox-title {
+	font-family: "Courier New", serif;
+	font-size: 1.0em;
+	color: white;
+	text-align: center;
+	cursor: pointer;
+}
+
 .login-input {
 	width: 60%;
 	margin: auto;
@@ -1438,6 +1450,12 @@ div.helper {
 	padding: 10px;
 	font-weight: 300;
 	font-family: "Courier New", serif;
+}
+
+.login-checkbox {
+	height: 35px;
+	width: 100%;
+	margin-top: 10px;
 }
 
 .login-logo {
@@ -1626,7 +1644,7 @@ div.helper {
 		position: inherit;
 	}
 
-	.lesson-content-overflow {
+	.content-overflow {
 		top: 0;
 	}
 
@@ -1645,7 +1663,8 @@ div.helper {
 }
 
 @media (max-height: 400px) {
-	.lesson-content-overflow {
+
+	.content-overflow {
 		bottom: 0;
 	}
 
@@ -1706,12 +1725,4 @@ fieldset, label { padding: 0; }
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
 
-.stars-conteiner
-{
-	width: 100%;
-	text-align: center;
-	position: absolute;
-	color: #FFFFFF;
-	top: 30%;
-}
 

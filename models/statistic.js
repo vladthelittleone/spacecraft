@@ -1,123 +1,213 @@
 /**
  * Created by Ivan on 01.03.2016.
  */
+const logger = require('utils/log')(module);
 var mongoose = require('utils/mongoose');
 var async = require('async');
+var lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	idUser: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		unique: true,
+	idUser:          {
+		type:     mongoose.Schema.Types.ObjectId,
+		ref:      'User',
+		unique:   true,
 		required: true
 	},
-	lessons: {
-		type: Array
+	totalFinalScore: {
+		type:    Number,
+		default: 0
+	},
+	lessons:         {
+		type:    [{
+			_id : false,
+			currentSubLesson: Number,
+			lessonId:         String,
+			subLessonCount:   Number,
+			completed:        Boolean,
+			stars:            Number,
+			lessonStatistics: {
+				currentScore:       Number,
+				currentRunCount:    Number,
+				finalScore:         Number,
+				finalRunCount:      Number,
+				attemptLessonCount: Number,
+				isUserCanGetBonusScore:  Boolean
+			}
+		}],
+		default: []
 	}
 });
+
 // заносим инфу о том сколько звездочек
 // какому уроку было поставленно пользователем
 schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
-// возвращает статистуку пользователя
+
+// возвращает статистику пользователя
 schema.statics.getUserStatistics = getUserStatistics;
+
+schema.statics.updateTotalFinalScore = updateTotalFinalScore;
+
 // обновение инфы о прохождении пользователем уроков
 schema.statics.updateLessonStatistics = updateLessonStatistics;
 
 exports.Statistic = mongoose.model('Statistic', schema);
 
-// возвращает статистуку пользователя
-function getUserStatistics(id, callback) {
+/**
+ * возвращает статистику пользователя
+ */
+function getUserStatistics(idUser, callback) {
 
-	var Statistic = this;
 
-	async.waterfall([
+	var modelStatistics = this;
 
-		function (callback) {
-
-			Statistic.findOne({idUser: id}, callback);
-
-		}
-
-	], callback);
+	prepareCurrentUserStatistics(modelStatistics, idUser, callback);
 
 }
 
-// заносим инфу о том сколько звездочек
-// какому уроку было поставленно пользователем
-function updateLessonStarStatistics(req, callback) {
+/**
+ * Данный метод обращается к БД за имеющейся статистикой, а после
+ * осущ. вызов метода callback, который должен обработать ее по своему усмотрению.
+ *
+ * Ожидается, что все параметры на входе функции корректны
+ * (по крайней мере не null и не undefined).
+ *
+ * @param modelStatistics модель коллекции статистики, по отношению к которой
+ *                        и будет производиться выборка.
+ * @param idUser идентификатор пользователя, по которому будет осуществляться выборка
+ *               статистики из БД.
+ * @param callback Ожидаемая сигнатура метода callback:
+ *                      - error если прозошла какая либо ошибка;
+ *                      - statistics статистика, выбранная из БД по указанному пользователю.
+ */
+function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 
-	var Statistic = this;
+	if (validateParam(idUser, callback)) {
 
-	async.waterfall([
+		async.waterfall([
 
-		function(callback) {
+			function (callback) {
 
-			Statistic.findOne({idUser: req.session.user}, callback);
-
-		},
-		function(result, callback) {
-
-			var lessons = result.lessons;
-			var lesId = req.body.idLesson;
-
-			lessons[lesId].stars = req.body.stars;
-			
-			Statistic.update(
-			{
-				idUser: req.session.user
-			},
-			{
-				lessons: lessons
-			},
-			{
-				multi: true
-
-			}, callback);
-
-
-		}],
-		callback);
-}
-
-// обновение инфы о прохождении пользователем уроков
-function updateLessonStatistics(id, req, callback) {
-
-	var Statistic = this;
-
-	async.waterfall([
-
-		function (callback) {
-
-			// Ищем статистику юзера в базе
-			Statistic.findOne({idUser: id}, callback);
-
-		},
-		function(result, callback) {
-
-			var lessons = req.body;
-			var lesId = req.body.lessonId;
-
-			// Если в базе была стата об уроках
-			if(result && result.lessons) {
-
-				lessons = result.lessons;
-				lessons[lesId] = req.body;
-				lessons[lesId].completed = req.body.completed || lessons[lesId].completed;
+				modelStatistics.findOne({idUser: idUser}, callback);
 
 			}
 
-			// Апдейт записи о статистики. создание новой записи если ее нет
-			Statistic.update({idUser: id},
-			{
-				lessons: lessons
-			},
-			{
-				upsert: true,
-				multi: true
+		], callback);
+
+	}
+
+}
+
+
+/**
+ * Заносим инфу о том сколько звездочек
+ * какому уроку было поставленно пользователем.
+ */
+function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
+
+	var modelStatistics = this;
+	// Проверка коректности пришедших данных для обновления.
+	// Проверять поля: idUser, dataForUpdate.lessonId и
+	// dataForUpdate.stars на undefined или null нет необходимости.
+	// Метод update в mongoose сам проверяет параметры на корректность.
+	if (validateParam(dataForUpdate, callback)) {
+
+		let fieldStarOfLesson = 'lessons.' + dataForUpdate.lessonId + '.stars';
+
+		modelStatistics.update({
+			idUser: idUser
+		}, {
+			$set: {[fieldStarOfLesson]: dataForUpdate.stars}
+		}, callback);
+
+	}
+
+}
+
+function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
+
+	if (validateParam(totalFinalScoreValue, callback)) {
+
+		this.update({
+			idUser: idUser
+		}, {
+			$set: {totalFinalScore: totalFinalScoreValue}
+		}, {
+			setDefaultsOnInsert: true,
+			upsert:              true
+		}, callback);
+
+	}
+
+}
+
+/**
+ * Обновение инфы о прохождении пользователем уроков.
+ */
+function updateLessonStatistics(idUser, dataForUpdate, callback) {
+
+	var isDataForUpdateExists = validateParam(dataForUpdate, callback);
+	var fieldsAreCorrect = validateParam(dataForUpdate.lesson, callback);
+
+	if (isDataForUpdateExists && fieldsAreCorrect) {
+
+		let modelStatistics = this;
+
+		let lesson = dataForUpdate.lesson;
+		let lessonId = dataForUpdate.lesson.lessonId;
+
+		// Обновляем  общее число очков пользователя.
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function(error) {
+
+			if (error) {
+
+				callback(error);
+
+				return;
+			}
+
+			let elemOfNecessaryLesson = 'lessons.' + lessonId;
+
+			modelStatistics.update({
+				idUser: idUser
+			}, {
+				$set: {[elemOfNecessaryLesson]: lesson}
+			}, {
+				setDefaultsOnInsert: true,
+				upsert:              true
 			}, callback);
-		}],
-		callback);
+
+		});
+
+	}
+
+}
+
+/**
+ * Проверка выражения на null или undefined.
+ * В случае равенства, пробрасываем ошибку.
+ *
+ * @param expression выражение
+ * @param callback обработки ошибки
+ * @return boolean результат проверки
+ */
+function validateParam(expression, callback) {
+
+	var result = true;
+
+	// Если null или undefined.
+	if (lodash.isNil(expression)) {
+
+		logger.warn('Bad request. Possible fraudster!');
+
+		// Сообщаем о плохом запросе клиента.
+		callback(new Error('Bad request.'));
+
+		result = false;
+
+	}
+
+	return result;
 
 }

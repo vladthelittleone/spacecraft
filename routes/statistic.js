@@ -2,56 +2,69 @@
  * Created by Ivan on 29.02.2016.
  */
 var express = require('express');
+var logger = require('../utils/log')(module);
+
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
-var router = express.Router();
 var Cohorts = require('models/cohorts').Cohorts;
 
+var router = express.Router();
+
 // Запись статы о прохождении уроков юзером
-router.post('/lessons', function(req, res, next) {
+router.post('/lessons', function (req, res, next) {
 
-	var id = req.session.user;
+	let userId = req.user;
+	let dataForUpdate = req.body;
 
-	if (id) {
+	Statistic.updateLessonStatistics(userId, dataForUpdate, function (err) {
 
-		Statistic.updateLessonStatistics(id, req, function(err) {
+		if (err) {
 
-			if(err) {
+			logger.warn(err);
 
-				next(new HttpError(500, "Ошибка с сохранением урока"));
-			}
-		});
-	}
+			next(new HttpError(400, "Ошибка с сохранением урока"));
+
+		}
+
+	});
 
 	res.send([]);
 
 });
 
 // Получение статистики юзера о прохождении уроков
-router.get('/lessons', function(req, res, next) {
+router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.session.user, function(err, result) {
+	Statistic.getUserStatistics(req.user, function (err, result) {
 
 		if (err) {
 
-			return next(new HttpError(500, "Ошибка с поиском лучших пользователей"));
+			return next(new HttpError(400, "Ошибка с получением статистики пользователя."));
+
 		}
 
 		if (result) {
 
-			res.json(result.lessons);
-		}
-		else {
+			// Отправляем массив уроков и финальное число очков по всем урокам
+			// отделными полями.
+			res.json({
+				lessons:         result.lessons,
+				totalFinalScore: result.totalFinalScore
+			});
+
+		} else {
 
 			res.send([]);
+
 		}
+
 	});
 
 });
 
-router.post('/lessons/stars', function(req, res, next) {
+router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.session.user, function(data, cohortID) {
+	Cohorts.updateCohort(req.user, function (data, cohortID) {
 
 		if (data) {
 
@@ -65,26 +78,35 @@ router.post('/lessons/stars', function(req, res, next) {
 
 				lesson.numb += 1;
 				lesson.starsSum += star;
-			}
-			else {
+
+			} else {
 
 				lessons[lessonsID] = {
 
-					numb: 1,
+					numb:     1,
 					starsSum: star
+
 				}
+
 			}
+
 		}
+
 	});
 
-	Statistic.updateLessonStarStatistics(req, function(err) {
+	let userId = req.user;
+	let dataForUpdate = req.body;
+
+	Statistic.updateLessonStarStatistics(userId, dataForUpdate, function (err) {
 
 		if (err) {
 
-			return next(new HttpError(500, "Ошибка сохранения оценки урока"));
+			return next(new HttpError(400, "Ошибка сохранения оценки урока"));
+
 		}
 
 		res.sendStatus(200);
+
 	});
 
 });

@@ -1,0 +1,16 @@
+<div class="settings">
+
+	<div class="content-description">
+		<div class="content-overflow">
+			<ul>
+				<li ng-repeat="item in settings" ng-click="toggle(item)">
+					<em class="settings-title">{{item.title}}</em>
+					<span class="settings-checkbox glyphicon"
+						  ng-class="{'glyphicon-unchecked' : !item.value,
+						   'glyphicon-check': item.value}"></span>
+					<p>{{item.description}}</p>
+			</ul>
+		</div>
+	</div>
+
+</div>

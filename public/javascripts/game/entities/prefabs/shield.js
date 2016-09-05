@@ -5,7 +5,8 @@ module.exports = Shield;
 /**
  * Prefab щита.
  *
- * Created by vladthelittleone on 11.06.16.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function Shield(game, x, y, scale, player) {
 

@@ -70,7 +70,7 @@
 <!-- Points bar-->
 
 <!-- DSH bar -->
-<div class="game-canvas-group game-canvas-params-bar">
+<div class="game-canvas-group game-canvas-params-bar" ng-hide="hideDhs">
 	<div class="params-bar" ng-if="spaceCraft.getCurrentTank">
 		<span class="glyphicon glyphicon-scale yellow"></span>
 		<span class="yellow">{{spaceCraft.getCurrentTank()}} / {{spaceCraft.getMaxTank()}}</span>

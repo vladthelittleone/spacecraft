@@ -6,24 +6,28 @@ var AuthError = require('error').AuthError;
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email: {
-		type: String,
-		unique: true,
+	email:              {
+		type:     String,
+		unique:   true,
 		required: true
 	},
-	username: {
+	username:           {
 		type: String
 	},
-	hashedPassword: {
-		type: String,
+	hashedPassword:     {
+		type:     String,
 		required: true
 	},
-	salt: {
-		type: String,
+	salt:               {
+		type:     String,
 		required: true
 	},
-	created: {
-		type: Date,
+	isSubscribeOnEmail: {
+		type:     Boolean,
+		required: true
+	},
+	created:            {
+		type:    Date,
 		default: Date.now
 	}
 });
@@ -109,7 +113,7 @@ function authorize(email, password, callback) {
 
 }
 
-function registration(email, password, callback) {
+function registration(email, password, isSubscribeOnEmail, callback) {
 
 	var User = this;
 
@@ -124,7 +128,7 @@ function registration(email, password, callback) {
 
 			if (!user) {
 
-				var newbie = new User({email: email, password: password});
+				var newbie = new User({email: email, password: password, isSubscribeOnEmail: isSubscribeOnEmail});
 
 				newbie.save(function (err) {
 
@@ -161,7 +165,7 @@ function getUserCreationDate(userID, callback) {
 		},
 		function (user, callback) {
 
-			callback(user? user.created: null);
+			callback(user ? user.created : null);
 
 		}
 

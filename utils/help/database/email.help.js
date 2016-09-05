@@ -25,7 +25,7 @@ dataBaseRequest.getEmailAllRegisteredUsers = function (callback) {
 			// вызов find в любом случае вернет коллекцию
 			// так что проверять есть ли там что то или нет
 			// нет смысла
-			data.forEach(function (value) {
+			data && data.forEach(function (value) {
 				// выкидываем всю лишнюю инфу
 				// оставляя только емайлы
 

@@ -14,7 +14,8 @@ module.exports = PrefabsFactory();
 /**
  * Фабрика prefab'ов.
  *
- * Created by vladthelittleone on 21.10.15.
+ * @author Skurishin Vladislav
+ * @since 11.06.16
  */
 function PrefabsFactory() {
 

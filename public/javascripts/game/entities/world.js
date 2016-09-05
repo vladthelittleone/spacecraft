@@ -8,8 +8,8 @@ module.exports = World;
 /**
  * Объект, хранящий все объекты мира.
  *
- * Created by vladthelittleone on 21.10.15.
- * @constructor
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
 function World() {
 

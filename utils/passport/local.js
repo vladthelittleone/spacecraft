@@ -1,8 +1,12 @@
 'use strict';
 
-var Cohorts = require('../../models/cohorts').Cohorts;
+var Cohorts = require ('../../models/cohorts').Cohorts;
 var User = require ('../../models/user').User;
 var LocalStrategy = require ('passport-local').Strategy;
+var Statistic = require ('models/statistic').Statistic;
+var valid = require('validator');
+
+const logger = require ('utils/log') (module);
 
 var AuthError = require ('error').AuthError;
 var HttpError = require ('error').HttpError;
@@ -15,7 +19,8 @@ module.exports = local;
 var localStrategyReqParam = {
 
 	usernameField: 'email',
-	passwordField: 'password'
+	passwordField: 'password',
+	passReqToCallback: true
 
 };
 
@@ -33,12 +38,14 @@ function changeErrorType (err) {
 
 // стратегия для локальной авторизации
 local.login = new LocalStrategy (localStrategyReqParam,
-	function (email, password, next) {
+	(req, email, password, next) => {
 
-		User.authorize (email, password, function (err, user) {
+		var normalizeEmail = valid.normalizeEmail(email);
+
+		User.authorize (normalizeEmail, password, (err, user) => {
 
 			// проверяем прошла ли авторизация успешно
-			if (!err) {
+			if(!err) {
 
 				Cohorts.updateCohort (user._id, function (data, cohortID) {
 
@@ -55,15 +62,41 @@ local.login = new LocalStrategy (localStrategyReqParam,
 
 		});
 
-});
+	});
 
 // стратегия для регистрации пользователя
 local.registration = new LocalStrategy (localStrategyReqParam,
-	function (email, password, next) {
+	(req, email, password, next) => {
 
-		User.registration (email, password, function (err) {
+		var normalizeEmail = valid.normalizeEmail(email);
+		var isSubscribeOnEmail = req.body.isSubscribeOnEmail;
 
-			next (changeErrorType (err), email);
+		User.registration (normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
+
+			if(err) {
+
+				return 	next (changeErrorType (err), email);
+
+			}
+
+			let userId = user._doc._id;
+			let initTotalFinalScore = 0;
+
+			// Регистрируем пользователя в статистике с начальной историей прохождения уроков.
+			Statistic.updateTotalFinalScore (userId, initTotalFinalScore, (error) => {
+
+				// Если произошла ошибка в процессе сохранения статистики, достаточно лишь
+				// отписать об этом в лог.
+				// На сам процесс регистрации это никак не повлияет, так что спокойно отвечаем
+				// пользователю, даже при ошибке.
+				if(error) {
+
+					logger.info ('some problem with save of statistics for the new registered user: ',
+								 error);
+
+				}
+			});
 
 		});
-});
+
+	});

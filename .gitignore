@@ -28,3 +28,6 @@ public/javascripts/bundle.js
 */.tmp
 */.sass-cache
 */bower_components
+
+## Common ignore
+*~

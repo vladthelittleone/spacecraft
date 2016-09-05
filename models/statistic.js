@@ -107,31 +107,32 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 	var modelStatistics = this;
-
 	// Проверка коректности пришедших данных для обновления.
 	// Проверять поля: idUser, dataForUpdate.lessonId и
 	// dataForUpdate.stars на undefined или null нет необходимости.
 	// Метод update в mongoose сам проверяет параметры на корректность.
 	if (validateParam(dataForUpdate, callback)) {
 
+		let fieldStarOfLesson = 'lessons.' + dataForUpdate.lessonId + '.stars';
+
 		modelStatistics.update({
 			idUser: idUser
 		}, {
-			$set: {['lessons.' + dataForUpdate.lessonId + '.stars']: dataForUpdate.stars}
+			$set: {[fieldStarOfLesson]: dataForUpdate.stars}
 		}, callback);
 
 	}
 
 }
 
-function updateTotalFinalScore(idUser, additionalTotalFinalScoreValue, callback) {
+function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 
-	if (validateParam(additionalTotalFinalScoreValue, callback)) {
+	if (validateParam(totalFinalScoreValue, callback)) {
 
 		this.update({
 			idUser: idUser
 		}, {
-			$inc: {totalFinalScore: additionalTotalFinalScoreValue}
+			$set: {totalFinalScore: totalFinalScoreValue}
 		}, {
 			setDefaultsOnInsert: true,
 			upsert:              true
@@ -157,7 +158,7 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 		let lessonId = dataForUpdate.lesson.lessonId;
 
 		// Обновляем  общее число очков пользователя.
-		this.updateTotalFinalScore(idUser, dataForUpdate.totalScoreForLesson, function(error) {
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function(error) {
 
 			if (error) {
 
@@ -165,11 +166,13 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
 				return;
 			}
-			
+
+			let elemOfNecessaryLesson = 'lessons.' + lessonId;
+
 			modelStatistics.update({
 				idUser: idUser
 			}, {
-				$set: {['lessons.' + lessonId]: lesson}
+				$set: {[elemOfNecessaryLesson]: lesson}
 			}, {
 				setDefaultsOnInsert: true,
 				upsert:              true

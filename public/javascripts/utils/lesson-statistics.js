@@ -203,6 +203,8 @@ function LessonStatistics() {
 
 			setTotalScoreForLesson(that.currentScore);
 
+			addToFinalScore(that.currentScore);
+
 			// Обновляем число запусков интерпретатора только
 			// в случае назначения окончательного числа очков за урок.
 			updateFinalRunCount();
@@ -247,7 +249,6 @@ function LessonStatistics() {
 		resetCurrentResults();
 
 		that.finalScore = 0;
-
 		// Финальное число запуска кода пользователем за урок.
 		that.finalRunCount = 0;
 
@@ -267,13 +268,12 @@ function LessonStatistics() {
 		if (lessonStatistics) {
 
 			that.finalRunCount = lessonStatistics.finalRunCount;
-			that.currentRunCount = lessonStatistics.currentRunCount;
+			that.finalScore = lessonStatistics.finalScore;
 
+			that.currentRunCount = lessonStatistics.currentRunCount;
 			that.currentScore = lessonStatistics.currentScore;
 
 			that.attemptLessonCount = lessonStatistics.attemptLessonCount;
-
-			that.finalScore = lessonStatistics.finalScore;
 
 			setUserCanGetBonusScore(lessonStatistics.isUserCanGetBonusScore);
 
@@ -290,13 +290,14 @@ function LessonStatistics() {
 	/**
 	 * Метод установки значения окончательных очков за урок.
 	 * Метод введен по причине использования данной логики в нескольких местах.
+	 * Данный метод сообщает скольк очков пользователь получил за урок
+	 * (бонусы и currentScore через этот метод по текущей логике назначаются раздельно,
+	 * поэтому они друг друга не перезапишут).
 	 * @param value очки, которые установят окончательный результат за урок.
 	 */
 	function setTotalScoreForLesson(value) {
 
 		totalScoreForLesson = value;
-
-		addToFinalScore(value);
 
 	}
 
@@ -368,6 +369,8 @@ function LessonStatistics() {
 
 			// Начисляем бонусные очки.
 			setTotalScoreForLesson(bonusScore);
+
+			addToFinalScore(bonusScore);
 
 			// Пользователь больше не может получать бонусные очки.
 			setUserCanGetBonusScore(false);

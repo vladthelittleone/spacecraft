@@ -7,9 +7,9 @@
 var valid = require('validator');
 var HttpError = require('error').HttpError;
 
-var authHelp = {};
+var validation = {};
 
-module.exports = authHelp;
+module.exports = validation;
 
 // выполняем проверку логина и пароля
 // параметры функции
@@ -20,20 +20,20 @@ module.exports = authHelp;
 //   next: калбэк в который в который, если пользователь не верно указал логин или
 // пароль будет переданно сообщени об ошибке}
 
-authHelp.checkEmailAndPassword = function(res, req, next) {
+validation.checkEmailAndPassword = (res, req, next) => {
 
-	var email = res.body.email;
-	var password = res.body.password;
+	let email = res.body.email;
+	let password = res.body.password;
 
 	if (!email) {
 
-		next(new HttpError(400, 'Вы забыли указать email.'));
+		return next(new HttpError(400, 'Вы забыли указать email.'));
 
 	}
 
 	if (!password) {
 
-		next(new HttpError(400, 'Вы забыли указать пароль.'));
+		return next(new HttpError(400, 'Вы забыли указать пароль.'));
 
 	}
 
@@ -41,13 +41,13 @@ authHelp.checkEmailAndPassword = function(res, req, next) {
 
 	if (!valid.isEmail(normalizedEmail)) {
 
-		next(new HttpError(400, 'Некорректный email.'));
+		return next(new HttpError(400, 'Некорректный email.'));
 
 	}
 
 	if (!valid.isLength(valid.trim(password), {min: 8})) {
 
-		next(new HttpError(400, "Минимальная длина пароля 8 символов."));
+		return next(new HttpError(400, "Минимальная длина пароля 8 символов."));
 
 	}
 

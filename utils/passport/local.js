@@ -4,7 +4,7 @@ var Cohorts = require ('../../models/cohorts').Cohorts;
 var User = require ('../../models/user').User;
 var LocalStrategy = require ('passport-local').Strategy;
 var Statistic = require ('models/statistic').Statistic;
-var valid = require('validator');
+var valid = require ('validator');
 
 const logger = require ('utils/log') (module);
 
@@ -40,14 +40,14 @@ function changeErrorType (err) {
 local.login = new LocalStrategy (localStrategyReqParam,
 	(req, email, password, next) => {
 
-		var normalizeEmail = valid.normalizeEmail(email);
+		let normalizeEmail = valid.normalizeEmail (email);
 
 		User.authorize (normalizeEmail, password, (err, user) => {
 
 			// проверяем прошла ли авторизация успешно
 			if(!err) {
 
-				Cohorts.updateCohort (user._id, function (data, cohortID) {
+				Cohorts.updateCohort (user._id, (data, cohortID) => {
 
 					if(data) {
 
@@ -68,14 +68,14 @@ local.login = new LocalStrategy (localStrategyReqParam,
 local.registration = new LocalStrategy (localStrategyReqParam,
 	(req, email, password, next) => {
 
-		var normalizeEmail = valid.normalizeEmail(email);
-		var isSubscribeOnEmail = req.body.isSubscribeOnEmail;
+		let normalizeEmail = valid.normalizeEmail (email);
+		let isSubscribeOnEmail = req.body.isSubscribeOnEmail;
 
 		User.registration (normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
 
 			if(err) {
 
-				return 	next (changeErrorType (err), email);
+				return next (changeErrorType (err), email);
 
 			}
 

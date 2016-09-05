@@ -1,13 +1,13 @@
 'use strict';
 
-module.exports = function (passport) {
+module.exports = (passport) => {
 
 	// passport используя куки может опознать пользователя, и достать его данные из сессии.
 	// Для того, чтобы сохранять или доставать пользовательские данные из сессии,
 	// паспорт использует функции #serializeUser() и #deserializeUser().
 
 	// серилизация сессии пользователя.
-	passport.serializeUser (function (user, next) {
+	passport.serializeUser ((user, next) => {
 
 		next (null, user);
 
@@ -17,7 +17,7 @@ module.exports = function (passport) {
 	// если потребуеться как то обновлять данные пользователя
 	// то необходимо переписать сию функцию, скорей всего придеться
 	// лезть в базу
-	passport.deserializeUser (function (user, next) {
+	passport.deserializeUser ((user, next) => {
 
 		next (null, user);
 

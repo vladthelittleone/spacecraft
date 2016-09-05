@@ -23,7 +23,7 @@ router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-
 }));
 
 // проверяем авторизован ли пользователь
-router.get('/check', function (req, res, next) {
+router.get('/check', (req, res, next) => {
 
 	if (!req.isAuthenticated()) {
 

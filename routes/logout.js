@@ -8,8 +8,9 @@ var router = express.Router();
 
 module.exports = router;
 
-router.post('/', function (req, res, next)
-{
+router.post('/', (req, res, next) => {
+	
 	req.logout();
 	res.send({});
+	
 });

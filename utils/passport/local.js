@@ -1,3 +1,5 @@
+'use strict';
+
 var Cohorts = require('../../models/cohorts').Cohorts;
 var User = require ('../../models/user').User;
 var LocalStrategy = require ('passport-local').Strategy;
@@ -6,6 +8,8 @@ var AuthError = require ('error').AuthError;
 var HttpError = require ('error').HttpError;
 
 var local = {};
+
+module.exports = local;
 
 // имена полей в которых приходят мыло и пароль
 var localStrategyReqParam = {
@@ -35,7 +39,7 @@ local.login = new LocalStrategy (localStrategyReqParam,
 
 			// проверяем прошла ли авторизация успешно
 			if (!err) {
-					
+
 				Cohorts.updateCohort (user._id, function (data, cohortID) {
 
 					if(data) {
@@ -63,5 +67,3 @@ local.registration = new LocalStrategy (localStrategyReqParam,
 
 		});
 });
-
-module.exports = local;

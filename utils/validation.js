@@ -1,10 +1,15 @@
+'use strict';
+
 /**
  * @since 28.08.16
  * @author Aleksandrov Oleg
  */
 var valid = require('validator');
 var HttpError = require('error').HttpError;
+
 var authHelp = {};
+
+module.exports = authHelp;
 
 // выполняем проверку логина и пароля
 // параметры функции
@@ -25,7 +30,7 @@ authHelp.checkEmailAndPassword = function(res, req, next) {
 		next(new HttpError(400, 'Вы забыли указать email.'));
 
 	}
-	
+
 	if (!password) {
 
 		next(new HttpError(400, 'Вы забыли указать пароль.'));
@@ -48,5 +53,3 @@ authHelp.checkEmailAndPassword = function(res, req, next) {
 
 	next();
 };
-
-module.exports = authHelp;

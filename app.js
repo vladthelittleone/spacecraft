@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
@@ -11,8 +13,8 @@ const session = require('express-session');
 const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
-require('./utils/passport/passport')(passport);
-var localStrategy = require('./utils/passport/passport-local');
+require('./utils/passport/index')(passport);
+var localStrategy = require('./utils/passport/local');
 
 const app = express();
 
@@ -42,7 +44,14 @@ app.use(session({
 	store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-app.use(require('./middlewares/loadUser'));
+if (app.get('env') === 'development') {
+
+	app.use(express.static(path.join(__dirname, 'public')));
+} else {
+
+	app.use(express.static(path.join(__dirname, 'build')));
+
+}
 
 // init passportJS
 app.use(passport.initialize());
@@ -51,17 +60,6 @@ app.use(passport.session());
 passport.use ('local-login', localStrategy.login);
 passport.use ('local-registration', localStrategy.registration);
 
-
-if (app.get('env') === 'development') {
-
-	app.use(express.static(path.join(__dirname, 'public')));
-
-}
-else {
-
-	app.use(express.static(path.join(__dirname, 'build')));
-
-}
 
 require('./routes')(app);
 

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @since 29.02.16
  * @author Skurishin Vladislav
@@ -8,16 +10,19 @@ var passport = require('passport');
 
 var HttpError = require('error').HttpError;
 
-var authHelp = require('../utils/passport/auth');
+var validation = require('../utils/validation');
+
+module.exports = router;
 
 // сначало запрос будет обработан в методе checkEmailAndPassword
 // а затем управление передей в passport
-router.post("/", authHelp.checkEmailAndPassword, passport.authenticate('local-login', {
+router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 
 	successRedirect: '/'
 
 }));
 
+// проверяем авторизован ли пользователь
 router.get('/check', function (req, res, next) {
 
 	if (!req.isAuthenticated()) {
@@ -33,5 +38,3 @@ router.get('/check', function (req, res, next) {
 	});
 
 });
-
-module.exports = router;

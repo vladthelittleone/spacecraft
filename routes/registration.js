@@ -2,7 +2,6 @@
  * @since 02.03.16
  * @author Skurishin Vladislav
  */
-
 var express = require('express');
 var valid = require('validator');
 var router = express.Router();

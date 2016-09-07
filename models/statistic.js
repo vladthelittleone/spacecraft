@@ -179,7 +179,6 @@ function getLeaderboard(idUser, callback) {
 function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 	var modelStatistics = this;
-
 	// Проверка коректности пришедших данных для обновления.
 	// Проверять поля: idUser, dataForUpdate.lessonId и
 	// dataForUpdate.stars на undefined или null нет необходимости.
@@ -274,7 +273,7 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 		let lessonId = dataForUpdate.lesson.lessonId;
 
 		// Обновляем  общее число очков пользователя.
-		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function (error) {
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function(error) {
 
 			if (error) {
 

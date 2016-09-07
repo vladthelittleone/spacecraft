@@ -1,96 +1,35 @@
+'use strict';
+
 /**
  * @since 29.02.16
  * @author Skurishin Vladislav
  */
 var express = require('express');
-var valid = require('validator');
 var router = express.Router();
+var passport = require('passport');
 
-var User = require('models/user').User;
-var Cohorts = require('models/cohorts').Cohorts;
-var AuthError = require('error').AuthError;
 var HttpError = require('error').HttpError;
 
-function isEmail(email) {
+var validation = require('../utils/validation');
 
-	if (!email) {
+module.exports = router;
 
-		return false;
-	}
+/**
+ * сначало запрос будет обработан в методе checkEmailAndPassword
+ * а затем управление передей в passport 
+ */
+router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 
-	return valid.isEmail(email);
-}
+	successRedirect: '/'
 
-function isPassword(password) {
+}));
 
-	if (!password) {
+/**
+ * проверяем авторизован ли пользователь
+ */
+router.get('/check', (req, res, next) => {
 
-		return false;
-	}
-
-	return valid.isLength(valid.trim(password), {min: 8});
-
-}
-
-router.post('/', function (req, res, next) {
-
-	var email = req.body.email;
-	var password = req.body.password;
-
-	if (!isEmail(email)) {
-
-		return next(new HttpError(400, 'Некорректный email'));
-
-	}
-
-	if (!isPassword(password)) {
-
-		return next(new HttpError(400, 'Пароль неверен'));
-
-	}
-
-	var normalizedEmail = valid.normalizeEmail(email);
-
-	User.authorize(normalizedEmail, password, function (err, user) {
-
-		if (err) {
-
-			if (err instanceof AuthError) {
-
-				return next(new HttpError(403, err.message));
-
-			}
-			else {
-
-				return next(err);
-
-			}
-
-		}
-
-		req.session.user = user._id;
-
-		Cohorts.updateCohort(user._id, function(data, cohortID) {
-
-			if (data) {
-
-				data.cohorts[cohortID].visits++;
-
-			}
-		});
-
-		res.send({
-
-			email: normalizedEmail
-
-		});
-	});
-
-});
-
-router.get('/check', function (req, res, next) {
-
-	if (!req.session.user) {
+	if (!req.isAuthenticated()) {
 
 		return next(new HttpError(401, "Вы не авторизованы"));
 
@@ -101,6 +40,5 @@ router.get('/check', function (req, res, next) {
 		email: req.user.email
 
 	});
-});
 
-module.exports = router;
+});

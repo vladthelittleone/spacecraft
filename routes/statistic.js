@@ -8,12 +8,15 @@ var Statistic = require('models/statistic').Statistic;
 var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
-var Lodash = require('lodash');
 var async = require('async');
 
 var router = express.Router();
 
-// Запись статы о прохождении уроков юзером
+module.exports = router;
+
+/**
+ * Запись статы о прохождении уроков юзером.
+ */
 router.post('/lessons', function (req, res, next) {
 
 	let userId = req.session.user;
@@ -35,7 +38,9 @@ router.post('/lessons', function (req, res, next) {
 
 });
 
-// Получение статистики юзера о прохождении уроков
+/**
+ * Получение статистики юзера о прохождении уроков.
+ */
 router.get('/lessons', function (req, res, next) {
 
 	Statistic.getUserStatistics(req.session.user, function (err, result) {
@@ -131,4 +136,3 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
-module.exports = router;

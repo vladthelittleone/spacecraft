@@ -79,7 +79,7 @@ router.post('/', function (req, res, next) {
 		let initTotalFinalScore = 0;
 
 		// Регистрируем пользователя в статистике с начальной историей прохождения уроков.
-		Statistic.updateTotalFinalScore(userId, initTotalFinalScore, function (error) {
+		Statistic.updateTotalFinalScore(userId, initTotalFinalScore, function (error, data) {
 
 			// Если произошла ошибка в процессе сохранения статистики, достаточно лишь
 			// отписать об этом в лог.

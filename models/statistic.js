@@ -141,11 +141,6 @@ function getLeaderboard(idUser, callback) {
 				}
 			}
 		}, {
-			$sort: {
-				totalFinalScore: -1, // сперва сортируем по очкам (по убыванию).
-				regDate:         1   // а уже после, с учетом предыдущей ранжировки, по дате регистрации (по возрастанию).
-			}
-		}, {
 			$limit: 10
 		}, {
 			$project: {
@@ -156,26 +151,26 @@ function getLeaderboard(idUser, callback) {
 			}
 		}], function (error, results) {
 
-				if (error) {
+			if (error) {
 
-					return callback(error);
+				return callback(error);
 
-				}
+			}
 
-				results.forEach(function (item) {
+			results.forEach(function (item) {
 
-					item.name = lodash.first(item.name.split('@'));
-
-				});
-
-				callback(error, results);
+				// TypeError: Cannot read property 'split' of undefined
+				item.name = lodash.first(item.name.split('@'));
 
 			});
+
+			callback(error, results);
+
+		});
 
 	}
 
 }
-
 
 /**
  * Заносим инфу о том сколько звездочек
@@ -207,6 +202,8 @@ function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 
 	if (validateParam(totalFinalScoreValue, callback)) {
 
+		let modelStatistics = this;
+
 		this.update({
 			idUser: idUser
 		}, {
@@ -214,7 +211,48 @@ function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 		}, {
 			setDefaultsOnInsert: true,
 			upsert:              true
-		}, callback);
+		}, function (error, resultUpdate) {
+
+			// В случае ошибки, resultUpdate.nModified также
+			// будет равен нулю.
+			if (resultUpdate.nModified) {
+
+				modelStatistics.aggregate([{
+					$lookup: {
+						from:         'users',
+						localField:   'idUser',
+						foreignField: '_id',
+						as:           'user'
+					}
+				}, {
+					$project: {
+						idUser: true,
+						lessons: true,
+						totalFinalScore: true,
+						regDate:         {
+							$arrayElemAt: ['$user.created', 0]
+						}
+					}
+				}, {
+					$sort: {
+						totalFinalScore: -1,
+						regDate:         1
+					}
+				}, {
+					$project: {
+						idUser: true,
+						totalFinalScore: true,
+						lessons: true
+					}
+				}, {
+					$out: 'statistics'
+				}], callback);
+
+			};
+
+			callback(error);
+
+		});
 
 	}
 
@@ -236,7 +274,7 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 		let lessonId = dataForUpdate.lesson.lessonId;
 
 		// Обновляем  общее число очков пользователя.
-		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function(error) {
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function (error) {
 
 			if (error) {
 

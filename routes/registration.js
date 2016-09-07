@@ -13,8 +13,10 @@ var validation = require('../utils/validation');
 
 module.exports = router;
 
-// сначало запрос будет обработан в методе checkEmailAndPassword
-// а затем управление передей в passport
+/**
+ * сначало запрос будет обработан в методе #checkEmailAndPassword
+ * а затем управление передаеться в passport
+ */
 router.post('/', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
 
 		successRedirect: '/',

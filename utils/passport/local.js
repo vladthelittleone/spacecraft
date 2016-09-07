@@ -15,7 +15,9 @@ var local = {};
 
 module.exports = local;
 
-// имена полей в которых приходят мыло и пароль
+/**
+ * имена полей в которых приходят мыло и пароль
+ */
 var localStrategyReqParam = {
 
 	usernameField: 'email',
@@ -24,7 +26,9 @@ var localStrategyReqParam = {
 
 };
 
-// если пришла AuthError меняем ее тип на HttpError
+/**
+ * если пришла AuthError меняем ее тип на HttpError
+ */
 function changeErrorType (err) {
 
 	if(err instanceof AuthError) {
@@ -36,7 +40,9 @@ function changeErrorType (err) {
 	return err;
 }
 
-// стратегия для локальной авторизации
+/**
+ * стратегия для локальной авторизации
+ */
 local.login = new LocalStrategy (localStrategyReqParam,
 	(req, email, password, next) => {
 
@@ -64,7 +70,9 @@ local.login = new LocalStrategy (localStrategyReqParam,
 
 	});
 
-// стратегия для регистрации пользователя
+/**
+ * стратегия для регистрации пользователя
+ */
 local.registration = new LocalStrategy (localStrategyReqParam,
 	(req, email, password, next) => {
 
@@ -82,7 +90,9 @@ local.registration = new LocalStrategy (localStrategyReqParam,
 			let userId = user._doc._id;
 			let initTotalFinalScore = 0;
 
-			// Регистрируем пользователя в статистике с начальной историей прохождения уроков.
+			/**
+			 * Регистрируем пользователя в статистике с начальной историей прохождения уроков.
+			 */
 			Statistic.updateTotalFinalScore (userId, initTotalFinalScore, (error) => {
 
 				// Если произошла ошибка в процессе сохранения статистики, достаточно лишь

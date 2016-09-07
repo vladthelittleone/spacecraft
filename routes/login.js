@@ -14,15 +14,19 @@ var validation = require('../utils/validation');
 
 module.exports = router;
 
-// сначало запрос будет обработан в методе checkEmailAndPassword
-// а затем управление передей в passport
+/**
+ * сначало запрос будет обработан в методе checkEmailAndPassword
+ * а затем управление передей в passport 
+ */
 router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 
 	successRedirect: '/'
 
 }));
 
-// проверяем авторизован ли пользователь
+/**
+ * проверяем авторизован ли пользователь
+ */
 router.get('/check', (req, res, next) => {
 
 	if (!req.isAuthenticated()) {

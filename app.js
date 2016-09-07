@@ -13,7 +13,7 @@ const session = require('express-session');
 const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
-require('./utils/passport/index')(passport);
+require('./utils/passport')();
 var localStrategy = require('./utils/passport/local');
 
 const app = express();
@@ -47,7 +47,8 @@ app.use(session({
 if (app.get('env') === 'development') {
 
 	app.use(express.static(path.join(__dirname, 'public')));
-} else {
+}
+else {
 
 	app.use(express.static(path.join(__dirname, 'build')));
 

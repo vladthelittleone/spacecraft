@@ -78,10 +78,10 @@
 						<td class="table-content-name">Пользователь</td>
 						<td class="table-content-score"><span class="glyphicon glyphicon-flag orange"></span></td>
 					</tr>
-					<tr ng-repeat="u in leadersList">
+					<tr ng-repeat="u in leadersList" ng-class="{'leadboard-mark' : u.isItMe}">
 						<td class="table-number">{{$index + 1}}</td>
-						<td class="table-content-name">{{u.name}}<span ng-if="u.isItMe">(Вы)</span></td>
-						<td class="table-content-score">{{u.totalFinalScore}}</td>
+						<td class="table-content-name">{{u.name}}</td>
+						<td class="table-content-score">{{u.totalFinalScore || 0}}</td>
 					</tr>
 				</table>
 			</div>

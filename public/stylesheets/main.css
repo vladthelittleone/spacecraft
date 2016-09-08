@@ -1062,6 +1062,10 @@ pre {
 	margin-bottom: 8px;
 }
 
+.leadboard-mark {
+	background-color: rgba(21, 43, 57, 0.15);
+}
+
 .table-titles {
 	font-weight: bold;
 }

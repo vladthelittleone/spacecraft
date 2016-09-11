@@ -19,7 +19,7 @@ module.exports = router;
  */
 router.post('/lessons', function (req, res, next) {
 
-	let userId = req.session.user;
+	let userId = req.user;
 	let dataForUpdate = req.body;
 
 	Statistic.updateLessonStatistics(userId, dataForUpdate, function (err) {
@@ -43,7 +43,7 @@ router.post('/lessons', function (req, res, next) {
  */
 router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.session.user, function (err, result) {
+	Statistic.getUserStatistics(req.user, function (err, result) {
 
 		if (err) {
 
@@ -72,7 +72,7 @@ router.get('/lessons', function (req, res, next) {
 
 router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.session.user, function (data, cohortID) {
+	Cohorts.updateCohort(req.user, function (data, cohortID) {
 
 		if (data) {
 
@@ -102,7 +102,7 @@ router.post('/lessons/stars', function (req, res, next) {
 
 	});
 
-	let userId = req.session.user;
+	let userId = req.user;
 	let dataForUpdate = req.body;
 
 	Statistic.updateLessonStarStatistics(userId, dataForUpdate, function (err) {

@@ -33,7 +33,7 @@ pre {
 }
 
 .ui-splitbar {
-	background-color: rgba(0,0,0,0);
+	background-color: rgba(0, 0, 0, 0);
 	overflow: hidden;
 }
 
@@ -1063,7 +1063,7 @@ pre {
 }
 
 .leadboard-mark {
-	background-color: rgba(21, 43, 57, 0.15);
+	background-color: rgba(21, 43, 57, 0.05);
 }
 
 .table-titles {
@@ -1673,7 +1673,7 @@ div.helper {
 	}
 
 	div.helper,
-	div.lesson-img-wrapper{
+	div.lesson-img-wrapper {
 		display: none;
 	}
 }
@@ -1687,7 +1687,9 @@ div.helper {
 ********Stars rating******
 **************************/
 
-fieldset, label { padding: 0; }
+fieldset, label {
+	padding: 0;
+}
 
 /****** Style Star Rating Widget *****/
 
@@ -1698,7 +1700,10 @@ fieldset, label { padding: 0; }
 	text-align: left;
 }
 
-.rating > input { display: none; }
+.rating > input {
+	display: none;
+}
+
 .rating > label:before {
 	margin: 10px;
 	font-size: 4.5em;
@@ -1718,15 +1723,45 @@ fieldset, label { padding: 0; }
 	float: right;
 }
 
+/*.leadboard-table tr:nth-child(1) .table-number span,*/
+/*.leadboard-table tr:nth-child(2) .table-number span,*/
+/*.leadboard-table tr:nth-child(3) .table-number span {*/
+	/*display: none;*/
+/*}*/
+
+/*.leadboard-table tr:nth-child(1) .table-number:after {*/
+	/*content: '●';*/
+	/*font-size: 18px;*/
+	/*color: #fdfd2f;*/
+/*}*/
+
+/*.leadboard-table tr:nth-child(2) .table-number:after {*/
+	/*content: '●';*/
+	/*font-size: 18px;*/
+	/*color: #cbd7cd;*/
+/*}*/
+
+/*.leadboard-table tr:nth-child(3) .table-number:after {*/
+	/*content: '●';*/
+	/*font-size: 18px;*/
+	/*color: #fd913f;*/
+/*}*/
+
 /***** CSS Magic to Highlight Stars on Hover *****/
 
 .rating > input:checked ~ label, /* show gold star when clicked */
 .rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+.rating:not(:checked) > label:hover ~ label {
+	color: #FFD700;
+}
+
+/* hover previous stars in list */
 
 .rating > input:checked + label:hover, /* hover current star when changing rating */
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+.rating > input:checked ~ label:hover ~ label {
+	color: #FFED85;
+}
 
 

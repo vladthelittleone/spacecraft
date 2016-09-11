@@ -2,6 +2,7 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var AuthError = require('error').AuthError;
+var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
@@ -95,6 +96,7 @@ function authorize(email, password, callback) {
 				if (user.checkPassword(password)) {
 
 					callback(null, user);
+
 				}
 				else {
 
@@ -151,7 +153,9 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 }
 
-// возвращает дату создание акка пользователся
+/**
+ * Возвращает дату создания акка пользователя.
+ */
 function getUserCreationDate(userID, callback) {
 
 	var User = this;

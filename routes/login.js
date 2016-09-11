@@ -16,7 +16,7 @@ module.exports = router;
 
 /**
  * сначало запрос будет обработан в методе checkEmailAndPassword
- * а затем управление передей в passport 
+ * а затем управление передей в passport
  */
 router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 

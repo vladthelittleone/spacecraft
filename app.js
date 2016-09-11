@@ -15,6 +15,7 @@ const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
 require('./utils/passport')();
 var localStrategy = require('./utils/passport/local');
+var vkStrategy = require('./utils/passport/vk');
 
 const app = express();
 
@@ -60,7 +61,7 @@ app.use(passport.session());
 
 passport.use ('local-login', localStrategy.login);
 passport.use ('local-registration', localStrategy.registration);
-
+passport.use ('vk-login', vkStrategy.login);
 
 require('./routes')(app);
 

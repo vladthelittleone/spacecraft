@@ -18,6 +18,11 @@ var schema = new Schema({
 		type:     String,
 		required: true
 	},
+	vkId:		        {
+		type:     String,
+		unique:   true,
+		required: true
+	},
 	salt:               {
 		type:     String,
 		required: true

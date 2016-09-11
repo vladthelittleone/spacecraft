@@ -11,6 +11,7 @@ var Interpreter = require('./interpreter');
 var Statistics = require('../../../utils/statistics');
 var AudioWrapper = require('./audio');
 
+var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings'];
@@ -97,6 +98,16 @@ function LessonService(connection, audioManager, aceService, settings) {
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
 
 		if (ch) {
+
+			// Если урок с диграммой, то добавляем панель диаграммы
+			if (ch.diagram) {
+
+				scope.showDiagram = true;
+
+				// Изменяем диаграмму
+				Diagram.change(ch.diagram);
+
+			}
 
 			// Запуск при старте
 			if (current.runOnStart) {

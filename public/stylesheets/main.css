@@ -1375,6 +1375,14 @@ div.helper {
 	background: rgba(0, 0, 0, 0.50);
 }
 
+.diagram {
+	bottom: 0;
+	overflow-y: hidden;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
 .login-vertical-center {
 	width: 80%;
 	margin: auto;

@@ -1,6 +1,7 @@
 'use strict';
 
-DiagramBoard.$inject = [];
+// Зависимости
+var joint = require('jointjs');
 
 module.exports = DiagramBoard;
 
@@ -13,19 +14,21 @@ module.exports = DiagramBoard;
 function DiagramBoard() {
 
 	var directive = {
-		scope:       {
-			lesson: '=' // информация о уроке
-		},
 		templateUrl: 'views/directives/diagram-board.html',
-		link:        link,
+		controller: controller,
 		restrict:    'EA'
 	};
 
 	return directive;
 
-	function link($scope) {
+	function controller($scope) {
 
+		var graph = new joint.dia.Graph;
 
+		$scope.diagramParams = {
+			gridSize: 1,
+			graph:    graph
+		};
 	}
 
 }

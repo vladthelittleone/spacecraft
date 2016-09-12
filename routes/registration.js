@@ -19,8 +19,6 @@ module.exports = router;
  */
 router.post('/', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
 
-		successRedirect: '/',
-		// неиспользуем так как она будет подрубленна при авторизации
-		session: false
+		successRedirect: '/'
 
 }));

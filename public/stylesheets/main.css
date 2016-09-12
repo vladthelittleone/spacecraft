@@ -240,7 +240,7 @@ pre {
 
 .login-background {
 	z-index: -1000;
-	background-image: url('../images/space.png');
+	background-image: url('../images/space.jpg');
 	background-size: cover;
 }
 
@@ -251,7 +251,7 @@ pre {
 }
 
 .result-background {
-	background-image: url('../images/space.png');
+	background-image: url('../images/space.jpg');
 	background-size: cover;
 	padding-top: 5%;
 	padding-bottom: 60px;
@@ -259,7 +259,7 @@ pre {
 
 .pages-background {
 	padding: 30px 100px;
-	background-image: url('../images/space.png');
+	background-image: url('../images/space.jpg');
 	background-size: cover;
 }
 

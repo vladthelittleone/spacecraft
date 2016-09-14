@@ -67,8 +67,20 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	that.audioManager = audioWrapper;
 
+	that.clear = clear;
+
 	return that;
 
+	/**
+	 * Метод очистки содержимого сервиса.
+	 * К примеру, очистка содержимого может понадобиться
+	 * в момент прекращения текущей сессии пользователя.
+	 */
+	function clear() {
+
+		lessons = [];
+
+	}
 
 	/**
 	 * Возвращает текущий урок.
@@ -487,12 +499,11 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// перед его началом.
 		// В противном случае - осуществляем выгрузку данных,
 		// которая в последующем спровоцирует их подготовку перед началом урока.
-		if (lessons) {
+		if (lessons && lessons.length) {
 
 			prepareLesson(getCurrentLesson());
 
-		}
-		else {
+		} else {
 
 			loadLessons();
 

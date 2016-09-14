@@ -38,6 +38,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	authentication.currentUser(initUser);
 
+	fromDataForLineChart();
 	// ==================================================
 
 	/**
@@ -107,6 +108,21 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	}
 
+	function fromDataForLineChart()
+	{
+		var date = new Date();
+
+		console.log(date);
+		console.log(date.getHours());
+
+		var date2 = new Date();
+
+		console.log(date2);
+		console.log(date2.getHours());
+		
+		console.log(date.getHours() < date2.getHours());
+	}
+
 	/**
 	 * Суммирование по параметру элементов массива массива.
 	 *
@@ -150,7 +166,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	function changeChart() {
 
 		// Реализовать переключение графиков
-		//	$scope.chartIndex = ($scope.chartIndex + 1) % 2;
+		$scope.chartIndex = ($scope.chartIndex + 1) % 2;
 
 	}
 

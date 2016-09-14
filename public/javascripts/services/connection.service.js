@@ -24,7 +24,8 @@ var links = {
 		code:    	  '/statistic/code',
 		stars:   	  '/statistic/lessons/stars',
 		score:   	  '/statistic/score',
-		leaderboard: '/statistic/lessons/leaderboard'
+		leaderboard:  '/statistic/lessons/leaderboard',
+		userScore:	  '/statistic/userscore' 
 	},
 
 	/**

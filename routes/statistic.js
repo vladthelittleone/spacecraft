@@ -136,3 +136,62 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
+router.post('userscore', function (req, res, next) {
+
+	Statistic.getUserScore(req.session.user, function (error, userScore) {
+
+		if(error){
+
+			return next(error);
+
+		}
+
+		if(userScore){
+
+			let lastDate = userScore.date;
+			let requestDate = req.body.date;
+			let userScoreLength = userScore.score.length;
+
+			if(lastDate.getDay() === requestDate.getDay()){
+
+				userScore.score[userScoreLength] = req.body.score;
+
+			}else{
+
+				userScore.date = requestDate;
+
+				if(userScoreLength === 30){
+
+					userScore.score.shift();
+
+				}
+
+				userScore.score.push(req.body.score);
+			}
+
+			Statistic.updateUserScore(req.session.user, userScore, function (error) {
+
+				if(error)
+				{
+					return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
+				}
+
+				res.sendStatus(200);
+			} )
+		}
+	})
+});
+
+router.get('userscore', function (req, res, next) {
+
+	Statistic.getUserScore(req.session.user, function (error, userScore) {
+
+		if(error){
+
+			return next(error)
+		}
+
+		res.send(userScore);
+
+	})
+});

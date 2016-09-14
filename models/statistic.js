@@ -19,6 +19,12 @@ var schema = new Schema({
 		type:    Number,
 		default: 0
 	},
+	userScoreArray: {
+		type: [{
+			score: Array,
+			lastUpdate: Date
+		}]
+	},
 	lessons:         {
 		type:    [{
 			_id:              false,
@@ -54,6 +60,10 @@ schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 
 // обновение инфы о прохождении пользователем уроков
 schema.statics.updateLessonStatistics = updateLessonStatistics;
+
+schema.statics.getUserScore = getUserScore;
+
+schema.statics.updateUserScore = updateUserScore;
 
 exports.Statistic = mongoose.model('Statistic', schema);
 
@@ -300,6 +310,47 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
 		});
 
+	}
+
+}
+
+function getUserScore(idUser, callback) {
+
+	if (validateParam(idUser, callback)) {
+
+		getUserStatistics(idUser, function (result, callback) {
+
+			var userScore = [];
+
+			if(result && result.userScoreArray){
+
+				userScore = result.userScoreArray;
+
+			}
+
+			callback(userScore);
+		})
+
+	}
+}
+
+function updateUserScore(idUser, dataForUpdate, callback){
+
+	var isIdUserExist = validateParam(idUser, callback);
+	var isDataCorrect = validateParam(dataForUpdate, callback);
+
+	if(isIdUserExist && isDataCorrect){
+
+		let modelStatistics = this;
+
+		modelStatistics.update({
+			idUser: idUser
+		}, {
+			$set: {['userScoreArray']: dataForUpdate}
+		}, {
+			setDefaultsOnInsert: true,
+			upsert:              true
+		}, callback);
 	}
 
 }

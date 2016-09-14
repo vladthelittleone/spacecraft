@@ -20,7 +20,7 @@ const app = express();
 
 var maxHeap = 0;
 
-app.use(require('./middlewares/sendHttpError'));
+app.use(require('./middlewares/send-http-error'));
 
 // view engine setup (Т.к. у нас уже написан html, лучше пока не юзать движки)
 //app.set('views', path.join(__dirname, 'views'));

@@ -25,7 +25,7 @@ var links = {
 		stars:   	  '/statistic/lessons/stars',
 		score:   	  '/statistic/score',
 		leaderboard:  '/statistic/lessons/leaderboard',
-		userScore:	  '/statistic/userscore' 
+		userScore:	  '/statistic/userscore'
 	},
 
 	/**
@@ -72,6 +72,9 @@ function Connection($http) {
 	that.logout = logout;
 	that.register = register;
 	that.isLoggedIn = isLoggedIn;
+	
+	that.getUserScore = getUserScore;
+	that.updateUserScore = updateUserScore;
 
 	that.metrics = {};
 	that.metrics.hitOpenLesson = hitOpenLesson;
@@ -261,4 +264,23 @@ function Connection($http) {
 		$http.post(links.metrics.openLessons);
 
 	}
+
+	function getUserScore(callback)	{
+
+		$http.get(links.statistic.userScore).success(callback);
+
+	}
+
+	function updateUserScore(score) {
+
+		$http({
+			  url: 		links.statistic.userScore,
+			  method: 	'POST',
+			  data:{
+				    score: 	score,
+				    date:   new Date()
+			  }
+		 });
+	}
+
 }

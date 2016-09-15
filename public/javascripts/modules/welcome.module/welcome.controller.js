@@ -31,6 +31,8 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 */
 	connection.getLessonsStatistics(formDataForChart);
 
+	connection.getUserScore(fromDataForLineChart);
+
 	connection.getLeaderboard(formLeaderboard);
 
 	// Инифиализация ВК
@@ -38,7 +40,6 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	authentication.currentUser(initUser);
 
-	fromDataForLineChart();
 	// ==================================================
 
 	/**
@@ -108,19 +109,14 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	}
 
-	function fromDataForLineChart()
+	function fromDataForLineChart(result)
 	{
-		var date = new Date();
+		var now = new Date();
 
-		console.log(date);
-		console.log(date.getHours());
+		$scope.totalScore = result.score;
 
-		var date2 = new Date();
-
-		console.log(date2);
-		console.log(date2.getHours());
 		
-		console.log(date.getHours() < date2.getHours());
+
 	}
 
 	/**

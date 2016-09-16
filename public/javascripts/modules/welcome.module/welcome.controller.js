@@ -111,12 +111,17 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	function fromDataForLineChart(result)
 	{
-		var now = new Date();
-
 		$scope.totalScore = result.score;
 
-		
+		$scope.labels = [];
 
+		for(var i =1; i <= $scope.totalScore.length; i++){
+
+			$scope.labels.push(i);
+
+		}
+
+		$scope.seriesT = ['Игровой успех']
 	}
 
 	/**

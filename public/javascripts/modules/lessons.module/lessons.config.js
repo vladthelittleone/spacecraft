@@ -14,8 +14,7 @@ function LessonsConfig($stateProvider) {
 		templateUrl: 'views/lessons/lessons.html',
 		controller: 'LessonsController as ctrl',
 		data: {
-			authorization: true,
-			redirectTo: 'login'
+			authorizationRedirect: 'login'
 		}
 	});
 

@@ -2,54 +2,79 @@
  * Created by Ivan on 29.02.2016.
  */
 var express = require('express');
+var logger = require('../utils/log')(module);
+
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
-var router = express.Router();
 var Cohorts = require('models/cohorts').Cohorts;
 
-// Запись статы о прохождении уроков юзером
-router.post('/lessons', function(req, res, next) {
+var router = express.Router();
 
-	Statistic.updateLessonStatistics(req, function(err) {
+module.exports = router;
 
-		if(err) {
+/**
+ * Запись статы о прохождении уроков юзером.
+ */
+router.post('/lessons', function (req, res, next) {
+
+	let idUser = req.user._id;
+	let dataForUpdate = req.body;
+
+	Statistic.updateLessonStatistics(idUser, dataForUpdate, function (err) {
+
+		if (err) {
+
+			logger.warn(err);
 
 			next(new HttpError(400, "Ошибка с сохранением урока"));
+
 		}
 
 	});
-
 
 	res.send([]);
 
 });
 
-// Получение статистики юзера о прохождении уроков
-router.get('/lessons', function(req, res, next) {
+/**
+ * Получение статистики юзера о прохождении уроков.
+ */
+router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.session.user, function(err, result) {
+	let idUser = req.user._id;
+
+	Statistic.getUserStatistics(idUser, function (err, result) {
 
 		if (err) {
 
-			return next(new HttpError(400, "Ошибка с поиском лучших пользователей"));
+			return next(new HttpError(400, "Ошибка с получением статистики пользователя."));
 
 		}
 
 		if (result) {
 
-			res.json(result.lessons);
+			// Отправляем массив уроков и финальное число очков по всем урокам
+			// отделными полями.
+			res.json({
+				lessons:         result.lessons,
+				totalFinalScore: result.totalFinalScore
+			});
 
 		} else {
 
 			res.send([]);
+
 		}
+
 	});
 
 });
 
-router.post('/lessons/stars', function(req, res, next) {
+router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.session.user, function(data, cohortID) {
+	let idUser = req.user._id;
+
+	Cohorts.updateCohort(idUser, function (data, cohortID) {
 
 		if (data) {
 
@@ -68,24 +93,48 @@ router.post('/lessons/stars', function(req, res, next) {
 
 				lessons[lessonsID] = {
 
-					numb: 1,
+					numb:     1,
 					starsSum: star
+
 				}
 
 			}
-		}
-	});
 
-	Statistic.updateLessonStarStatistics(req, function(err) {
+		}
+
+	});
+	
+	let dataForUpdate = req.body;
+
+	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
 			return next(new HttpError(400, "Ошибка сохранения оценки урока"));
+
 		}
 
 		res.sendStatus(200);
+
 	});
 
 });
 
-module.exports = router;
+router.get('/lessons/leaderboard', function (req, res, next) {
+
+	let idUser = req.user._id;
+
+	Statistic.getLeaderboard(idUser, function(error, leaderBoard) {
+
+		if (error) {
+
+			return next(error);
+
+		}
+
+		res.send(leaderBoard);
+
+	});
+
+});
+

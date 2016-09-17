@@ -1,8 +1,11 @@
 'use strict';
 
-Authentication.$inject = ['connection', '$state'];
+Authentication.$inject = ['connection', 'lessonService', '$rootScope', '$cookies', '$state'];
 
 module.exports = Authentication;
+
+// Для управления состоянием хранилища.
+var storage = require('./../utils/storage')();
 
 /**
  * Сервис аутентификации.
@@ -10,44 +13,63 @@ module.exports = Authentication;
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
-function Authentication(connection, $state) {
+function Authentication(connection, lessonService, $rootScope, $cookies, $state) {
 
 	var that = {};
 
-	var authenticated = false;
+	// Если в куках есть сессия - считаем, что пользователь авторизован.
+	that.isAuthenticated = $cookies.get('sid');
 
-	that.authenticated = authenticated;
-	that.go = go;
-	that.clear = clear;
 	that.login = login;
 	that.logout = logout;
-	that.isLoggedIn = isLoggedIn;
 	that.currentUser = currentUser;
 	that.register = register;
 
+	// Подписываемся на событие успешной аутентификации на сервере.
+	$rootScope.$on('event:auth-loginConfirmed', function() {
+
+		that.isAuthenticated = true;
+
+		// Переход на главную страницу после аутентификации.
+		$state.go('welcome');
+
+	});
+
+	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
+	$rootScope.$on('event:auth-loginRequired', function() {
+
+		processingUnauthorized();
+
+	});
+
+	// Подписываемся на событие логаута пользователем.
+	$rootScope.$on('event:auth-loginCancelled', function() {
+
+		processingUnauthorized();
+
+	});
+
 	return that;
 
+	/**
+	 * Обработка ситуации потери пользователем права на авторизацию.
+	 */
+	function processingUnauthorized() {
 
-	function clear()  {
+		// Очищаем сервис урока, так как его состояние больше
+		// не является актуальным в момент редиректа на страницу логина.
+		lessonService.clear();
 
-		authenticated = false;
+		// Если storage поддерживается текущей реализацией браузера.
+		// В противном случае заботиться о очистке не нужно :)
+		storage.local && storage.local.clear();
 
-	}
+		// Удаляем сессию из кук.
+		$cookies.remove('sid');
 
+		that.isAuthenticated = false;
 
-	function go(fallback) {
-
-		isLoggedIn({
-
-			success: function () {
-
-				authenticated = true;
-
-				$state.go(fallback);
-
-			}
-
-		});
+		$state.go('login');
 
 	}
 
@@ -95,33 +117,17 @@ function Authentication(connection, $state) {
 	}
 
 	/**
-	 * Проверка авторизации пользователя.
-	 *
-	 * @param args.success коллбек успешного выполнения запроса
-	 * @param args.error коллбек ошибочного выполнения запроса
-	 */
-	function isLoggedIn(args) {
-
-		connection.isLoggedIn(args);
-
-	}
-
-	/**
 	 * Текущий пользователь и инфомрация о нем.
 	 *
 	 * @param callback
 	 */
 	function currentUser(callback) {
 
-		isLoggedIn({
+		connection.getUserInfo(function(res){
 
-			success: function (res) {
+			callback(res.data);
 
-				callback(res.data);
-
-			}
-
-		})
+		});
 
 	}
 }

@@ -20,10 +20,15 @@ var links = {
 	 * Сбор статистики.
 	 */
 	statistic:   {
-		lessons: '/statistic/lessons',
-		code:    '/statistic/code',
-		stars:   '/statistic/lessons/stars',
-		score:   '/statistic/score'
+		lessons: 	  '/statistic/lessons',
+		code:    	  '/statistic/code',
+		stars:   	  '/statistic/lessons/stars',
+		score:   	  '/statistic/score',
+		leaderboard: '/statistic/lessons/leaderboard'
+	},
+
+	user: {
+		info:  '/user/info'
 	},
 
 	/**
@@ -53,25 +58,49 @@ function Connection($http) {
 	var that = {};
 
 	that.saveCode = saveCode;
+
 	that.getCodeFromDataBase = getCodeFromDataBase;
 	that.getCodeFromJs = getCodeFromJs;
+
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
 
 	that.getScore = getScore;
 
 	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
+
 	that.lessonRate = lessonRate;
+
+	that.getLeaderboard = getLeaderboard;
 
 	that.login = login;
 	that.logout = logout;
 	that.register = register;
-	that.isLoggedIn = isLoggedIn;
+
+	that.getUserInfo = getUserInfo;
 
 	that.metrics = {};
 	that.metrics.hitOpenLesson = hitOpenLesson;
 
 	return that;
+
+	function getUserInfo(callback) {
+
+		$http({
+			url: links.user.info,
+			method: 'GET'
+		}).then(callback);
+
+	}
+
+	function getLeaderboard(callback) {
+
+		$http({
+			url: links.statistic.leaderboard,
+			method: 'GET'
+		}).then(callback);
+
+	}
 
 	/**
 	 * Сохранение статистики урока.
@@ -95,7 +124,7 @@ function Connection($http) {
 			url:    links.statistic.stars,
 			method: 'POST',
 			data:   {
-				idLesson: lessonId,
+				lessonId: lessonId,
 				stars:    stars
 			}
 		});
@@ -212,21 +241,6 @@ function Connection($http) {
 		});
 
 		p.then(success, error);
-
-	}
-
-	/**
-	 * Проверка авторизации пользователя в системе.
-	 */
-	function isLoggedIn(args) {
-
-		var success = args.success;
-		var error = args.error;
-
-		$http({
-			method: 'GET',
-			url:    links.loginCheck
-		}).then(success, error);
 
 	}
 

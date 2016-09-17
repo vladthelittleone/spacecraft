@@ -2,32 +2,33 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var AuthError = require('error').AuthError;
+var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email: {
-		type: String,
-		unique: true,
+	email:              {
+		type:     String,
+		unique:   true,
 		required: true
 	},
-	username: {
+	username:           {
 		type: String
 	},
-	hashedPassword: {
-		type: String,
+	hashedPassword:     {
+		type:     String,
 		required: true
 	},
-	salt: {
-		type: String,
+	salt:               {
+		type:     String,
 		required: true
 	},
 	isSubscribeOnEmail: {
-		type: Boolean,
+		type:     Boolean,
 		required: true
 	},
-	created: {
-		type: Date,
+	created:            {
+		type:    Date,
 		default: Date.now
 	}
 });
@@ -90,20 +91,24 @@ function authorize(email, password, callback) {
 		},
 		function (user, callback) {
 
-			var incorrectAuthDataMessage = 'Неверные данные аутентификации';
-
-			var error = new AuthError(incorrectAuthDataMessage);
-
 			if (user) {
 
 				if (user.checkPassword(password)) {
 
-					error = null;
+					callback(null, user);
+
+				}
+				else {
+
+					callback(new AuthError('Пароль неверен'));
 
 				}
 			}
+			else {
 
-			callback(error, user);
+				callback(new AuthError('Пользователь не найден'));
+
+			}
 		}
 
 	], callback);
@@ -148,7 +153,9 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 }
 
-// возвращает дату создание акка пользователся
+/**
+ * Возвращает дату создания акка пользователя.
+ */
 function getUserCreationDate(userID, callback) {
 
 	var User = this;
@@ -162,7 +169,7 @@ function getUserCreationDate(userID, callback) {
 		},
 		function (user, callback) {
 
-			callback(user? user.created: null);
+			callback(user ? user.created : null);
 
 		}
 

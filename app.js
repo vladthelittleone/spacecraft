@@ -1,4 +1,7 @@
+'use strict';
+
 const express = require('express');
+const passport = require('passport');
 const path = require('path');
 const favicon = require('serve-favicon');
 const httpLogger = require('morgan');
@@ -10,21 +13,18 @@ const session = require('express-session');
 const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
-
-const isAuthorized = require('./routes/login').isAuthorized;
+require('./utils/passport')();
+var localStrategy = require('./utils/passport/local');
 
 const app = express();
 
 var maxHeap = 0;
 
+app.use(require('./middlewares/send-http-error'));
+
 // view engine setup (Т.к. у нас уже написан html, лучше пока не юзать движки)
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
-
-// Инициализация метода sendHttpError.
-// Иницализация должна происходить именно в начале, так как
-// на данный метод мы ссылаемся в функции обработчике ошибок.
-app.use(require('./middlewares/sendHttpError'));
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(httpLogger('dev'));
@@ -36,42 +36,30 @@ app.use(cookieParser());
 const MongoStore = require('connect-mongo/es5')(session);
 
 app.use(session({
-	secret: config.get('session:secret'), // ABCDE242342342314123421.SHA256
-	key: config.get('session:key'),
-	resave: config.get('session:resave'),
+	secret:            config.get('session:secret'), // ABCDE242342342314123421.SHA256
+	key:               config.get('session:key'),
+	resave:            config.get('session:resave'),
 	saveUninitialized: config.get('session:saveUninitialized'),
-	cookie: config.get('session:cookie'),
-	store: new MongoStore({mongooseConnection: mongoose.connection})
+	cookie:            config.get('session:cookie'),
+	store:             new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-// Настраиваем контроль доступа к некоторым папкам со статическими файлами.
-app.use(['/views/lessons', '/views/directives'], function(req, resp, next) {
-
-	if (!isAuthorized(req.session)) {
-
-		resp.redirect("/");
-
-		return;
-
-	}
-
-	next();
-
-});
-
-if (app.get('env') === 'development')  {
+if (app.get('env') === 'development') {
 
 	app.use(express.static(path.join(__dirname, 'public')));
 
-}
-else {
+} else {
 
 	app.use(express.static(path.join(__dirname, 'build')));
 
 }
 
-app.use(require('./middlewares/sendHttpError'));
-app.use(require('./middlewares/loadUser'));
+// init passportJS
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use('local-login', localStrategy.login);
+passport.use('local-registration', localStrategy.registration);
 
 require('./routes')(app);
 
@@ -110,14 +98,14 @@ if (app.get('env') === 'development') {
 
 	setInterval(function () {
 
-		var heap = process.memoryUsage().heapUsed;
+			var heap = process.memoryUsage().heapUsed;
 
-		maxHeap = maxHeap < heap ? heap : maxHeap;
+			maxHeap = maxHeap < heap ? heap : maxHeap;
 
-		logger.info('Heap size: '  + heap + ', maximum heap size: ' + maxHeap);
+			logger.info('Heap size: ' + heap + ', maximum heap size: ' + maxHeap);
 
-	},
-	10000);
+		},
+		10000);
 
 }
 

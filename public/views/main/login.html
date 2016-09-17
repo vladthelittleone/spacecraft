@@ -14,7 +14,7 @@
 
 			<div class="login-right-container">
 				<div class="login-input-title">
-					{{isEnterForm ? "Войдите в систему:" : "Зарегестрируйтесь в системе:"}}
+					{{isEnterForm ? "Войдите в систему:" : "Зарегистрируйтесь в системе:"}}
 				</div>
 
 				<div class="login-input">
@@ -47,7 +47,8 @@
 				</div>
 
 				<div class="login-input login-checkbox">
-					<div class="login-checkbox-title" ng-click=changeSubscribe()>
+					<div ng-show="!isEnterForm"
+						 class="login-checkbox-title" ng-click=changeSubscribe()>
 						<span ng-class="{'glyphicon glyphicon-check' : isSubscribeOnEmail,
 										 'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
 						</span>

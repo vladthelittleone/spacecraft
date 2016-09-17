@@ -25,8 +25,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		templateUrl: 'views/main/welcome.html',
 		controller: 'WelcomeController as ctrl',
 		data: {
-			authorization: true,
-			redirectTo: 'login'
+			authorizationRedirect: 'login'
 		}
 	});
 

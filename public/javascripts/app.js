@@ -6,6 +6,9 @@ var lodash = require('lodash');
 require('angular-ui-router');
 require('angular-ui-layout');
 require('angular-ui-ace');
+require('angular-http-auth');
+require('angular-cookies')
+
 /**
  * Подключаем изменение прототипа.
  */
@@ -24,7 +27,9 @@ angular.module('spacecraft', [
 		'ui.router',
 		'ui.ace',
 		'ui.layout',
-		'spacecraft.modules'
+		'spacecraft.modules',
+		'http-auth-interceptor',
+		'ngCookies'
 	])
 	.config(configBlock)
 	.run(runBlock);
@@ -56,61 +61,18 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
  */
 function runBlock(authentication, $rootScope, $state) {
 
-	// Имя страницы, на которую ожидается переход.
-	// Под именем понимается завершающее слово в url-пути.
-	// Пример:
-	// localhost/home/page/login
-	// Именем в данном случае является: login.
-	var transitionPage = '';
+	$rootScope.$on("$stateChangeStart", function(event, toState) {
 
-	var mainPage = 'welcome';
-	var loginPage = 'login';
+		// Если мы не авторизованы и отсутствуют куки.
+		if (!authentication.isAuthenticated && lodash.has(toState, 'data.authorizationRedirect')) {
 
-	/**
-	 * При изменении текущей страницы - state, выполняется callback.
-	 */
-
-	$rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
-
-		if (!authentication.authenticated && lodash.has(toState, 'data.authorization') && lodash.has(toState, 'data.redirectTo')) {
-
-			$state.go(toState.data.redirectTo);
-
-		}
-
-/*			if (transitionPage !== loginPage) {
-			// Прерываем текущее событие перехода на страницу.
+			// Отменяем маршрутизацию.
 			event.preventDefault();
 
-			// Запоминаем имя страницы перехода.
-			transitionPage = toState.name;
-
-			// Выполняем проверку авторизации пользователя
-			authentication.isLoggedIn({
-
-				// Если пользователь авторизован - осущ. переход.
-				success: function () {
-
-					if (transitionPage === loginPage) {
-
-						// Если авторизованный пользователь пытался попасть
-						// на страницу аутентификации - перебрасываем
-						// его на главную страницу.
-						$state.go(mainPage);
-
-					}
-					else {
-
-						$urlRouterProvider.sync();
-
-					}
-
-				}
-
-			});
+			$state.go(toState.data.authorizationRedirect);
 
 		}
-*/
+
 	});
 
 }

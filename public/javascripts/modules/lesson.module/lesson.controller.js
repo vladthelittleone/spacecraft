@@ -5,6 +5,7 @@ var CodeLauncher = require('../../game/launcher');
 
 // Подключаем TabHandler
 var TabHandler = require('../../emitters/tab-handler');
+var Diagram = require('../../directives/diagram.directive/diagram');
 
 LessonController.$inject = ['$scope',
                             '$stateParams',
@@ -34,6 +35,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.starsHide = false;		    // Переключатель окна оценки урока
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.showTextContent = false;     // Переключатель текстового контента урока
+	$scope.showDiagram = false;			// Переключатель окна диаграммы
 	$scope.showSettings = false;	    // Переключатель натсроек
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 	$scope.hint = false;			    // Переключатель подсказок
@@ -47,6 +49,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
 	$scope.toggleEditorOpen = toggleEditorOpen;
+	$scope.isLessonWithDiagram = isLessonWithDiagram;
+	$scope.toggleDiagram = toggleDiagram;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
@@ -71,7 +75,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		$scope.showTextContent = !$scope.showTextContent;
 
 		$scope.showSettings = false;
-
+		$scope.showDiagram = false;
 	}
 
 	function toggleSettings() {
@@ -79,6 +83,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		$scope.showSettings = !$scope.showSettings;
 
 		$scope.showTextContent = false;
+		$scope.showDiagram = false;
 
 	}
 
@@ -87,6 +92,15 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		service.audioManager.toggleAudio($scope.audioPause);
 
 		$scope.audioPause = !$scope.audioPause;
+
+	}
+
+	function toggleDiagram() {
+
+		$scope.showDiagram = !$scope.showDiagram;
+
+		$scope.showSettings = false;
+		$scope.showTextContent = false;
 
 	}
 
@@ -103,6 +117,12 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	function toggleEditorOpen() {
 
 		$scope.hideEditor = !$scope.hideEditor;
+
+	}
+
+	function isLessonWithDiagram() {
+
+		return Diagram.isHaveChanges();
 
 	}
 

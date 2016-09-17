@@ -2,7 +2,7 @@
 
 var ENTER = 13;
 
-LoginController.$inject = ['$scope', '$state', 'authentication'];
+LoginController.$inject = ['$scope', '$state', 'authentication', 'authService'];
 
 module.exports = LoginController;
 
@@ -12,43 +12,31 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication) {
+function LoginController($scope, $state, authentication, authService) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;
-	
+
 	// По дефолту считаем, что человек согласен на рассылку
 	$scope.isSubscribeOnEmail = true;
-	
-	// Если пользователь авторизован,
-	// отправляем на welcome состояние.
-	authentication.isLoggedIn({
-		success: toWelcome
-	});
-	
-	$scope.changeForm = changeForm; 
+
+	$scope.changeForm = changeForm;
 	$scope.changeSubscribe = changeSubscribe;
 	$scope.loginByKey = loginByKey;
 	$scope.register = register;
-	$scope.login = function () { login(toWelcome); };
+	$scope.login = login;
 
 	// ==================================================
-	
-	function changeSubscribe() {
-		
-		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
-		
-	}
-	
-	function changeForm() {
-		
-		$scope.isEnterForm = !$scope.isEnterForm;
-		
-	}
-	// Переход на состояние welcome
-	function toWelcome() {
 
-		$state.go('welcome');
+	function changeSubscribe() {
+
+		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
+
+	}
+
+	function changeForm() {
+
+		$scope.isEnterForm = !$scope.isEnterForm;
 
 	}
 
@@ -82,9 +70,9 @@ function LoginController($scope, $state, authentication) {
 		var email = $scope.email;
 
 		var pass = $scope.password;
-		
+
 		var subscribe = $scope.isSubscribeOnEmail;
-		
+
 		authentication.register({
 			email:    email,
 			password: pass,
@@ -105,19 +93,22 @@ function LoginController($scope, $state, authentication) {
 
 	/**
 	 * Вход в систему.
-	 *
-	 * @param callback выполняется в случае успешного запроса
      */
-	function login(callback) {
+	function login() {
 
 		var email = $scope.email;
 
-		var pswrd = $scope.password;
+		var password = $scope.password;
 
 		authentication.login({
 			email:    email,
-			password: pswrd,
-			success:  callback,
+			password: password,
+			success:  function(data) {
+
+				// Оповещаем сервис аутентификации о усещной аутентификации.
+				authService.loginConfirmed();
+
+			},
 			error:    error
 		});
 

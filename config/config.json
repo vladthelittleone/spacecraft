@@ -22,5 +22,12 @@
 			"maxAge": null
 		}
 	},
+	"vkStrategySettings": {
+		"clientID":     "5624932",
+		"clientSecret": "7SItUJV1h4mDSC0PiXkc",
+		"callbackURL":  "http://localhost:3000/login/vk/callback",
+		"apiVersion": "5.17",
+		"scope": ["email"]
+	},
 	"maxStatisticsCount": 50
 }

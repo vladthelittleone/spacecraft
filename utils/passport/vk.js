@@ -1,25 +1,55 @@
 'use strict';
 
 const VKStrategy = require('passport-vkontakte').Strategy;
+const config = require('config');
+var Cohorts = require ('../../models/cohorts').Cohorts;
+var User = require ('../../models/user').User;
+
+var AuthError = require ('error').AuthError;
+var HttpError = require ('error').HttpError;
 
 var vk = {};
 
 module.exports = vk;
 
-vk.login = new VKStrategy({
+/**
+ * если пришла AuthError меняем ее тип на HttpError
+ */
+function changeErrorType (err) {
 
-		clientID:     "5624932",
-		clientSecret: "7SItUJV1h4mDSC0PiXkc",
-		callbackURL:  "http://localhost:3000/vk/callback",
-		apiVersion: '5.17',
-		scope: ['email'],
-		profileFields: ['email']
-	},
-	(accessToken, refreshToken, params, profile, done) => {
+	if(err instanceof AuthError) {
 
-		console.log(" FUCK " + accessToken + " " + refreshToken + " " + profile + " ");
+		return new HttpError (403, err.message);
 
-		done(null, profile);
+	}
+
+	return err;
+}
+
+vk.login = new VKStrategy(config.get('vkStrategySettings'),
+
+	(accessToken, refreshToken, params, profile, next) => {
+
+		User.findOrCreateVKUser(profile.id, params.email, (err, user, isNeedUpdateCohort) => {
+
+			// проверяем прошла ли авторизация успешно
+			if(!err && isNeedUpdateCohort) {
+
+				Cohorts.updateCohort (user._id, (data, cohortID) => {
+
+					if(data) {
+
+						data.cohorts[cohortID].visits++;
+
+					}
+
+				});
+
+			}
+
+			next (changeErrorType (err), user);
+
+		});
 
 	}
 );

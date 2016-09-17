@@ -16,12 +16,13 @@ var schema = new Schema({
 	},
 	hashedPassword:     {
 		type:     String,
-		required: true
+		required: true //Этот момент стоит обсудить
+		// если это поле будет обязательным,
+		// то при реге чувака через вк то что сюда писать
 	},
 	vkId:		        {
 		type:     String,
-		unique:   true,
-		required: true
+		unique:   true
 	},
 	salt:               {
 		type:     String,
@@ -38,13 +39,13 @@ var schema = new Schema({
 });
 
 schema.virtual('password')
-	.set(function (password) {
+	.set((password) => {
 
 		this._plainPassword = password;
 		this.salt = Math.random() + '';
 		this.hashedPassword = this.encryptPassword(password);
 	})
-	.get(function () {
+	.get( () => {
 
 		return this._plainPassword;
 
@@ -55,6 +56,7 @@ schema.methods.checkPassword = checkPassword;
 schema.statics.authorize = authorize;
 schema.statics.registration = registration;
 schema.statics.getUserCreationDate = getUserCreationDate;
+schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 
 exports.User = mongoose.model('User', schema);
 
@@ -88,26 +90,31 @@ function authorize(email, password, callback) {
 
 	async.waterfall([
 
-		function (callback) {
+		(callback) => {
 
 			User.findOne({email: email}, callback);
 
 		},
-		function (user, callback) {
+		(user, callback) => {
 
 			if (user) {
 
-				if (user.checkPassword(password)) {
+				if (user.vkId)
+				{
+					// todo исравкить текст
+					callback(new AuthError("Войд"));
+				}
+				else if (user.checkPassword(password)) {
 
 					callback(null, user);
-				}
-				else {
+
+				} else {
 
 					callback(new AuthError('Пароль неверен'));
 
 				}
-			}
-			else {
+
+			} else {
 
 				callback(new AuthError('Пользователь не найден'));
 
@@ -124,22 +131,29 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 	async.waterfall([
 
-		function (callback) {
+		(callback) => {
 
 			User.findOne({email: email}, callback);
 
 		},
-		function (user, callback) {
+		(user, callback) => {
 
 			if (!user) {
 
-				var newbie = new User({email: email, password: password, isSubscribeOnEmail: isSubscribeOnEmail});
+				var newbie = new User({
 
-				newbie.save(function (err) {
+					email: email,
+					password: password,
+					isSubscribeOnEmail: isSubscribeOnEmail
+
+				});
+
+				newbie.save((err) => {
 
 					if (err) {
 
 						return callback(err);
+
 					}
 
 					callback(null, newbie);
@@ -156,6 +170,50 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 }
 
+function findOrCreateVKUser (vkId, email, callback) {
+
+	var User = this;
+
+	async.waterfall([
+
+			(callback) => {
+
+				User.findOne({vkId: vkId}, callback);
+
+			},
+			(user, callback) => {
+
+				if (!user) {
+
+					var newbie = new User ({
+
+						email: email,
+						vkId: vkId,
+						password: email,
+						isSubscribeOnEmail: false
+
+					});
+
+					newbie.save((err) => {
+
+						if (err) {
+
+							return callback(err);
+
+						}
+
+						callback(null, newbie, false);
+
+					});
+				}
+
+				callback(null, user, true);
+			}
+
+	], callback);
+
+}
+
 // возвращает дату создание акка пользователся
 function getUserCreationDate(userID, callback) {
 
@@ -163,12 +221,12 @@ function getUserCreationDate(userID, callback) {
 
 	async.waterfall([
 
-		function (callback) {
+		(callback) => {
 
 			User.findById(userID, callback);
 
 		},
-		function (user, callback) {
+		(user, callback) => {
 
 			callback(user ? user.created : null);
 

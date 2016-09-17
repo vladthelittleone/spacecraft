@@ -2,6 +2,7 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var AuthError = require('error').AuthError;
+var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
@@ -21,8 +22,7 @@ var schema = new Schema({
 		// то при реге чувака через вк то что сюда писать
 	},
 	vkId:		        {
-		type:     String,
-		unique:   true
+		type:     String
 	},
 	salt:               {
 		type:     String,
@@ -39,13 +39,13 @@ var schema = new Schema({
 });
 
 schema.virtual('password')
-	.set((password) => {
+	.set(function (password) {
 
 		this._plainPassword = password;
 		this.salt = Math.random() + '';
 		this.hashedPassword = this.encryptPassword(password);
 	})
-	.get( () => {
+	.get(function () {
 
 		return this._plainPassword;
 
@@ -90,12 +90,12 @@ function authorize(email, password, callback) {
 
 	async.waterfall([
 
-		(callback) => {
+		function (callback) {
 
 			User.findOne({email: email}, callback);
 
 		},
-		(user, callback) => {
+		function (user, callback) {
 
 			if (user) {
 
@@ -131,12 +131,12 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 	async.waterfall([
 
-		(callback) => {
+		function (callback) {
 
 			User.findOne({email: email}, callback);
 
 		},
-		(user, callback) => {
+		function (user, callback) {
 
 			if (!user) {
 
@@ -148,7 +148,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 				});
 
-				newbie.save((err) => {
+				newbie.save(function (err) {
 
 					if (err) {
 
@@ -170,6 +170,11 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 }
 
+/**
+ * Функция ищет пользователя по его vk id
+ * если пользователь не найдет функция создает нового пользователя 
+ * в базе
+ */
 function findOrCreateVKUser (vkId, email, callback) {
 
 	var User = this;
@@ -189,7 +194,14 @@ function findOrCreateVKUser (vkId, email, callback) {
 
 						email: email,
 						vkId: vkId,
+						// Вот тут хз как быть, вроде бы в это поле ничего не надо писать
+						// но тогда поля отвечающие за хранение хэшированого пароля
+						// и соли нужно сделать не обязательными, что тоже не очень то и хорошо
 						password: email,
+						// и не понятно как быть с этим параметром
+						// ибо его задание через вк тот еще геммор
+						// к томуже у вк юзера может быть не привязанно мыло
+						// в общем это стоит обсудить
 						isSubscribeOnEmail: false
 
 					});
@@ -202,31 +214,33 @@ function findOrCreateVKUser (vkId, email, callback) {
 
 						}
 
-						callback(null, newbie, false);
+						callback(null, newbie, true);
 
 					});
 				}
 
-				callback(null, user, true);
+				callback(null, user, false);
 			}
 
 	], callback);
 
 }
 
-// возвращает дату создание акка пользователся
+/**
+ * Возвращает дату создания акка пользователя.
+ */
 function getUserCreationDate(userID, callback) {
 
 	var User = this;
 
 	async.waterfall([
 
-		(callback) => {
+		function (callback) {
 
 			User.findById(userID, callback);
 
 		},
-		(user, callback) => {
+		function (user, callback) {
 
 			callback(user ? user.created : null);
 

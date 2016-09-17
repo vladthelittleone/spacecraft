@@ -21,19 +21,19 @@ var schema = new Schema({
 	},
 	lessons:         {
 		type:    [{
-			_id : false,
+			_id:              false,
 			currentSubLesson: Number,
 			lessonId:         String,
 			subLessonCount:   Number,
 			completed:        Boolean,
 			stars:            Number,
 			lessonStatistics: {
-				currentScore:       Number,
-				currentRunCount:    Number,
-				finalScore:         Number,
-				finalRunCount:      Number,
-				attemptLessonCount: Number,
-				isUserCanGetBonusScore:  Boolean
+				currentScore:           Number,
+				currentRunCount:        Number,
+				finalScore:             Number,
+				finalRunCount:          Number,
+				attemptLessonCount:     Number,
+				isUserCanGetBonusScore: Boolean
 			}
 		}],
 		default: []
@@ -46,6 +46,9 @@ schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
 
 // возвращает статистику пользователя
 schema.statics.getUserStatistics = getUserStatistics;
+
+// Возврат всей статистики.
+schema.statics.getLeaderboard = getLeaderboard;
 
 schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 
@@ -99,6 +102,94 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 
 }
 
+/**
+ * Метод формирования имен пользователей по электронным адресам.
+ * Предполагается, что сами электронные адреса задаются в поле name каждого пользователя.
+ * @param listOfUsers список пользователей.
+ */
+function takeNameFromEmail(listOfUsers) {
+
+	listOfUsers.forEach(function (item) {
+
+		if (!item.name) {
+
+			logger.warn('Problem with generating name of user for leaderboard request!!!');
+
+		} else {
+
+			item.name = lodash.first(item.name.split('@'));
+
+		}
+
+	});
+
+}
+
+/**
+ * Метод получения таблицы лидеров для указанного пользователя.
+ * Указанный пользователь будет помечен в конечной таблице в поле
+ * isItMe значением true.
+ * Выходной формат таблицы:
+ * 1)name имя пользователя в системе;
+ * 2)totalFinalScore общее число очков пользователя;
+ * 3)isItMe флаг сообщающий пользователю о том, где он расположен
+ * в таблице.
+ * Коллбэк формирующий из email адресов имена пользователей определен именно в контексте данного
+ * метода, так как формирование нужных данных по таблице лидеров целесообразно
+ * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
+ */
+function getLeaderboard(idUser, callback) {
+
+	// Не строим таблицу для неавторизованных пользователей.
+	if (validateParam(idUser, callback)) {
+
+		this.aggregate([{
+			$lookup: {
+				from:         'users',
+				localField:   'idUser',
+				foreignField: '_id',
+				as:           'user'
+			}
+		}, {
+			$project: {
+				totalFinalScore: true,
+				isItMe:          {
+					$eq: ["$idUser", mongoose.Types.ObjectId(idUser)]
+				},
+				name:            {
+					$arrayElemAt: ['$user.email', 0]
+				},
+				regDate:         {
+					$arrayElemAt: ['$user.created', 0]
+				}
+			}
+		}, {
+			$limit: 10
+		}, {
+			$project: {
+				_id:             false,
+				name:            true,
+				totalFinalScore: true,
+				isItMe:          true
+			}
+		}], function (error, results) {
+
+			if (!error) {
+
+				// Обрабатываем поле с именем (name) каждого пользователя.
+				// На данный момент мы складываем туда email адреса, из которых
+				// и нужно "вырезать" имена.
+				takeNameFromEmail(results);
+
+			}
+
+			callback(error, results);
+
+		});
+
+	}
+
+}
 
 /**
  * Заносим инфу о том сколько звездочек
@@ -125,9 +216,26 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 }
 
+/**
+ * Метод сортировки имеющейся статистики по пользователям по следующему критерию:
+ *  - сортировка (по убыванию) осуществляется по полю totalFinalScore. Пользователь,
+ * с наибольшим числом totalFinalScore, является лучшим.
+ * @param modelStatistics модель коллекции статистики, по отношению к которой и будет
+ * производиться сортировка.
+ * @param callback
+ */
+function sortStatistics(modelStatistics, callback) {
+
+	// Сортируем данные в statistics по убыванию значения в поле totalFinalScore.
+	modelStatistics.aggregate([{$sort: {totalFinalScore: -1}}, {$out:'statistics'}], callback);
+
+}
+
 function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 
 	if (validateParam(totalFinalScoreValue, callback)) {
+
+		let modelStatistics = this;
 
 		this.update({
 			idUser: idUser
@@ -136,7 +244,20 @@ function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 		}, {
 			setDefaultsOnInsert: true,
 			upsert:              true
-		}, callback);
+		}, function (error, resultOfUpdate) {
+
+			// В случае ошибки, resultUpdate.nModified будет равен нулю.
+			if (resultOfUpdate.nModified) {
+
+				// Сортируем данные в statistics по убыванию значения в поле totalFinalScore.
+				sortStatistics(modelStatistics, callback);
+
+			} else {
+
+				callback(error);
+			}
+
+		});
 
 	}
 
@@ -158,13 +279,12 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 		let lessonId = dataForUpdate.lesson.lessonId;
 
 		// Обновляем  общее число очков пользователя.
-		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function(error) {
+		this.updateTotalFinalScore(idUser, dataForUpdate.totalFinalScore, function (error) {
 
 			if (error) {
 
-				callback(error);
+				return callback(error);
 
-				return;
 			}
 
 			let elemOfNecessaryLesson = 'lessons.' + lessonId;

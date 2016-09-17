@@ -10,13 +10,17 @@ var Cohorts = require('models/cohorts').Cohorts;
 
 var router = express.Router();
 
-// Запись статы о прохождении уроков юзером
+module.exports = router;
+
+/**
+ * Запись статы о прохождении уроков юзером.
+ */
 router.post('/lessons', function (req, res, next) {
 
-	let userId = req.user;
+	let idUser = req.user._id;
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStatistics(userId, dataForUpdate, function (err) {
+	Statistic.updateLessonStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
@@ -32,10 +36,14 @@ router.post('/lessons', function (req, res, next) {
 
 });
 
-// Получение статистики юзера о прохождении уроков
+/**
+ * Получение статистики юзера о прохождении уроков.
+ */
 router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.user, function (err, result) {
+	let idUser = req.user._id;
+
+	Statistic.getUserStatistics(idUser, function (err, result) {
 
 		if (err) {
 
@@ -64,7 +72,9 @@ router.get('/lessons', function (req, res, next) {
 
 router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.user, function (data, cohortID) {
+	let idUser = req.user._id;
+
+	Cohorts.updateCohort(idUser, function (data, cohortID) {
 
 		if (data) {
 
@@ -93,11 +103,10 @@ router.post('/lessons/stars', function (req, res, next) {
 		}
 
 	});
-
-	let userId = req.user;
+	
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStarStatistics(userId, dataForUpdate, function (err) {
+	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
@@ -111,4 +120,21 @@ router.post('/lessons/stars', function (req, res, next) {
 
 });
 
-module.exports = router;
+router.get('/lessons/leaderboard', function (req, res, next) {
+
+	let idUser = req.user._id;
+
+	Statistic.getLeaderboard(idUser, function(error, leaderBoard) {
+
+		if (error) {
+
+			return next(error);
+
+		}
+
+		res.send(leaderBoard);
+
+	});
+
+});
+

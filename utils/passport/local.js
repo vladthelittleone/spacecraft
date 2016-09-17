@@ -107,7 +107,7 @@ local.registration = new LocalStrategy (localStrategyReqParam,
 				}
 			});
 
-			return next (null, email);
+			next (null, user);
 
 		});
 

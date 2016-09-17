@@ -62,27 +62,31 @@
 				</div>
 			</a>
 		</div>
-		<div class="container-25" ui-sref="quick" >
+		<div class="container-25" ui-sref="quick">
 			<div class="container-inside">
 				<div class="pages-img quick-img"></div>
 				<div class="pages-label">О нас</div>
 				<div class="pages-text">Начать просмотр</div>
 			</div>
 		</div>
-		<div class="container-25" ng-hide="hideLead">
+		<div class="container-25" ng-if="showLeaderboard">
 			<div class="container-inside">
 				<div class="pages-leadboard-title">ЛУЧШИЕ ИГРОКИ</div>
 				<table style="width: 100%">
-					<tr class="table-titles">
-						<td class="table-number">№</td>
-						<td class="table-content-name">Пользователь</td>
-						<td class="table-content-score"><span class="glyphicon glyphicon-flag orange"></span></td>
-					</tr>
-					<tr ng-repeat="u in usersLead">
-						<td class="table-number">{{$index + 1}}</td>
-						<td class="table-content-name">{{u.username}}</td>
-						<td class="table-content-score">{{u.maxScore}}</td>
-					</tr>
+					<thead>
+						<tr class="table-titles">
+							<td class="table-number">№</td>
+							<td class="table-content-name">Пользователь</td>
+							<td class="table-content-score"><span class="glyphicon glyphicon-flag orange"></span></td>
+						</tr>
+					</thead>
+					<tbody class="leadboard-table">
+						<tr ng-repeat="u in leadersList" ng-class="{'leadboard-mark' : u.isItMe}">
+							<td class="table-number"><span>{{$index + 1}}</span></td>
+							<td class="table-content-name">{{u.name}}</td>
+							<td class="table-content-score">{{u.totalFinalScore || 0}}</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>

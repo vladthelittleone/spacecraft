@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+var lodash = require('lodash');
 
 require('angular-ui-router');
 require('angular-ui-layout');
@@ -69,18 +70,15 @@ function runBlock(authentication, $rootScope, $state) {
 	 * При изменении текущей страницы - state, выполняется callback.
 	 */
 
-	$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+	$rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
 
-		// Пояснения к условиям:
-		// 1. toState.name !== transitionPage страница, на которую сейчас желает произвести
-		// переход ui-router, не является страницей, которую мы ожидаем в качестве перехода.
-		var isItNewPageForTransition = toState.name !== transitionPage;
+		if (!authentication.authenticated && lodash.has(toState, 'data.authorization') && lodash.has(toState, 'data.redirectTo')) {
 
-		// Если страница, на которую в данный момент осуществляется переход, новая,
-		// значит необходимо произвести проверку авторизации пользователя на сервере.
-		// В противном случае, пользователь уже авторизован - делаем переход на желаемую страницу :)
-		if (isItNewPageForTransition) {
+			$state.go(toState.data.redirectTo);
 
+		}
+
+/*			if (transitionPage !== loginPage) {
 			// Прерываем текущее событие перехода на страницу.
 			event.preventDefault();
 
@@ -103,26 +101,16 @@ function runBlock(authentication, $rootScope, $state) {
 					}
 					else {
 
-						$state.go(toState, toParams);
+						$urlRouterProvider.sync();
 
 					}
-
-				},
-
-				// В противном случае - перекидываем на страницу аутентификации.
-				error: function () {
-
-					transitionPage = loginPage;
-
-					// В случае ошибки переходим на страницу логина.
-					$state.go(loginPage);
 
 				}
 
 			});
 
 		}
-
+*/
 	});
 
 }

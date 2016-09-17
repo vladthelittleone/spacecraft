@@ -122,7 +122,7 @@ router.post('/lessons/stars', function (req, res, next) {
 router.get('/lessons/leaderboard', function (req, res, next) {
 
 
-	Statistic.getLeaderboard(req.session.user, function(error, leaderBoard) {
+	Statistic.getLeaderboard(req.user, function(error, leaderBoard) {
 
 		if (error) {
 
@@ -136,9 +136,9 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
-router.post('userscore', function (req, res, next) {
+router.post('/userscore', function (req, res, next) {
 
-	Statistic.getUserScore(req.session.user, function (error, userScore) {
+	Statistic.getUserScore(req.user, function (error, userScore) {
 
 		if(error){
 
@@ -169,7 +169,7 @@ router.post('userscore', function (req, res, next) {
 				userScore.score.push(req.body.score);
 			}
 
-			Statistic.updateUserScore(req.session.user, userScore, function (error) {
+			Statistic.updateUserScore(req.user, userScore, function (error) {
 
 				if(error)
 				{
@@ -182,9 +182,9 @@ router.post('userscore', function (req, res, next) {
 	})
 });
 
-router.get('userscore', function (req, res, next) {
+router.get('/userscore', function (req, res, next) {
 
-	Statistic.getUserScore(req.session.user, function (error, userScore) {
+	Statistic.getUserScore(req.user, function (error, userScore) {
 
 		if(error){
 

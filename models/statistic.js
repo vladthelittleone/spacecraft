@@ -61,8 +61,7 @@ schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 // обновение инфы о прохождении пользователем уроков
 schema.statics.updateLessonStatistics = updateLessonStatistics;
 
-schema.statics.getUserScore = getUserScore;
-
+// Обновление инфы о полученных очках за сегодня
 schema.statics.updateUserScore = updateUserScore;
 
 exports.Statistic = mongoose.model('Statistic', schema);
@@ -314,25 +313,9 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
 }
 
-function getUserScore(idUser, callback) {
-
-	if (validateParam(idUser, callback)) {
-
-		getUserStatistics(idUser, function (result, callback) {
-
-			var userScore = [];
-
-			if(result && result.userScoreArray){
-
-				userScore = result.userScoreArray;
-
-			}
-
-			callback(userScore);
-		})
-
-	}
-}
+/**
+ * Обновение инфы о полученных очках пользователя за сегодня.
+ */
 
 function updateUserScore(idUser, dataForUpdate, callback){
 

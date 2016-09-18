@@ -5,10 +5,8 @@ var express = require('express');
 var logger = require('../utils/log')(module);
 
 var Statistic = require('models/statistic').Statistic;
-var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
-var async = require('async');
 
 var router = express.Router();
 
@@ -19,10 +17,10 @@ module.exports = router;
  */
 router.post('/lessons', function (req, res, next) {
 
-	let userId = req.user;
+	let idUser = req.user._id;
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStatistics(userId, dataForUpdate, function (err) {
+	Statistic.updateLessonStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
@@ -43,7 +41,9 @@ router.post('/lessons', function (req, res, next) {
  */
 router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.user, function (err, result) {
+	let idUser = req.user._id;
+
+	Statistic.getUserStatistics(idUser, function (err, result) {
 
 		if (err) {
 
@@ -72,7 +72,9 @@ router.get('/lessons', function (req, res, next) {
 
 router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.user, function (data, cohortID) {
+	let idUser = req.user._id;
+
+	Cohorts.updateCohort(idUser, function (data, cohortID) {
 
 		if (data) {
 
@@ -102,10 +104,9 @@ router.post('/lessons/stars', function (req, res, next) {
 
 	});
 
-	let userId = req.user;
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStarStatistics(userId, dataForUpdate, function (err) {
+	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
@@ -121,8 +122,9 @@ router.post('/lessons/stars', function (req, res, next) {
 
 router.get('/lessons/leaderboard', function (req, res, next) {
 
+	let idUser = req.user._id;
 
-	Statistic.getLeaderboard(req.user, function(error, leaderBoard) {
+	Statistic.getLeaderboard(idUser, function(error, leaderBoard) {
 
 		if (error) {
 
@@ -138,7 +140,9 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 router.post('/userscore', function (req, res, next) {
 
-	Statistic.getUserScore(req.user, function (error, userScore) {
+	let idUser =  req.user._id;
+
+	Statistic.getUserStatistics(idUser, function (error, userStatistics) {
 
 		if(error){
 
@@ -146,12 +150,16 @@ router.post('/userscore', function (req, res, next) {
 
 		}
 
-		if(userScore){
+		let userScore = [];
+		let requestDate = req.body.date;
 
-			let lastDate = userScore.date;
-			let requestDate = req.body.date;
-			let userScoreLength = userScore.score.length;
+		if(userStatistics && userStatistics.userScoreArray.score){
 
+			let lastDate = userStatistics.userScoreArray.date;
+			let userScoreLength = userStatistics.userScoreArray.score.length;
+			userScore = userStatistics.userScoreArray;
+
+			// Если все еще тот же день то обновляем очки
 			if(lastDate.getDay() === requestDate.getDay()){
 
 				userScore.score[userScoreLength] = req.body.score;
@@ -160,6 +168,7 @@ router.post('/userscore', function (req, res, next) {
 
 				userScore.date = requestDate;
 
+				// Не храним больше 30 записей
 				if(userScoreLength === 30){
 
 					userScore.score.shift();
@@ -168,27 +177,45 @@ router.post('/userscore', function (req, res, next) {
 
 				userScore.score.push(req.body.score);
 			}
+		}else{
 
-			Statistic.updateUserScore(req.user, userScore, function (error) {
-
-				if(error)
-				{
-					return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
-				}
-
-				res.sendStatus(200);
-			} )
+			// Формируем первую запись об очках
+			userScore = {
+				score: [req.body.score],
+				lastUpdate: requestDate
+			}
 		}
+
+		Statistic.updateUserScore(idUser, userScore, function (error) {
+
+			if(error)
+			{
+				return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
+			}
+
+			res.sendStatus(200);
+		} )
 	})
 });
 
 router.get('/userscore', function (req, res, next) {
 
-	Statistic.getUserScore(req.user, function (error, userScore) {
+	let idUser =  req.user._id;
+
+	Statistic.getUserStatistics(idUser, function (error, result) {
 
 		if(error){
 
 			return next(error)
+		}
+
+		var userScore = [];
+
+		// Если что-то есть в базе
+		if(result && result.userScoreArray){
+
+			userScore = result.userScoreArray;
+
 		}
 
 		res.send(userScore);

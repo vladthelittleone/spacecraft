@@ -7,6 +7,7 @@
 			 min-size="30%"
 			 max-size="70%"
 			 size="50%">
+			<div diagram-board ng-if="showDiagram"/>
 			<div lesson-board
 				 ng-if="lesson.sub[subIndex]"
 				 lesson="lesson.sub[subIndex]"
@@ -68,24 +69,29 @@
 		 ng-class="{'glyphicon-stop right-toolbar-red' : CodeLauncher.isCodeRunning, 'glyphicon-play right-toolbar-green' : !CodeLauncher.isCodeRunning}" >
 	</div>
 
-	<div class="right-toolbar-button glyphicon"
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon"
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
-
-	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-fast-backward"
-		 ng-click="previousAudio()"></div>
-
-	<div class="right-toolbar-button glyphicon"
-		 ng-click="toggleAudioPause()"
-		 ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></div>
 
 	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
 		 ng-click="toggleTextContent()"
 		 ng-class="{'glyphicon-chevron-right' : showTextContent}"></div>
 
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="toggleDiagram()"
+		 ng-show="isLessonWithDiagram()"
+		 ng-class="{'glyphicon-chevron-right' : showDiagram, 'glyphicon-object-align-vertical' : !showDiagram}"></div>
+
 	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-wrench"
 		 ng-click="toggleSettings()"
 		 ng-class="{'glyphicon-chevron-right' : showSettings}"></div>
+
+	<div class="right-toolbar-button glyphicon glyphicon-fast-backward"
+		 ng-click="previousAudio()"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 ng-click="toggleAudioPause()"
+		 ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></div>
 
 </div>
 

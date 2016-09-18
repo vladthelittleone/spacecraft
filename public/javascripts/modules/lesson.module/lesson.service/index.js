@@ -11,6 +11,7 @@ var Interpreter = require('./interpreter');
 var LessonStatistics = require('../../../utils/lesson-statistics');
 var AudioWrapper = require('./audio');
 
+var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
 LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings'];
@@ -67,8 +68,20 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	that.audioManager = audioWrapper;
 
+	that.clear = clear;
+
 	return that;
 
+	/**
+	 * Метод очистки содержимого сервиса.
+	 * К примеру, очистка содержимого может понадобиться
+	 * в момент прекращения текущей сессии пользователя.
+	 */
+	function clear() {
+
+		lessons = [];
+
+	}
 
 	/**
 	 * Возвращает текущий урок.
@@ -107,6 +120,16 @@ function LessonService(connection, audioManager, aceService, settings) {
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
 
 		if (ch) {
+
+			// Если урок с диграммой, то добавляем панель диаграммы
+			if (ch.diagram) {
+
+				scope.showDiagram = true;
+
+				// Изменяем диаграмму
+				Diagram.change(ch.diagram);
+
+			}
 
 			// Запуск при старте
 			if (current.runOnStart) {
@@ -285,6 +308,8 @@ function LessonService(connection, audioManager, aceService, settings) {
 	 */
 	function saveStatisticsWrapper(currentSubLesson, isLessonCompleted) {
 
+		connection.updateUserScore(currentLessonStatistics.getTotalScoreForLesson());
+
 		totalFinalScore = totalFinalScore + currentLessonStatistics.getTotalScoreForLesson();
 
 		saveStatistics({
@@ -297,6 +322,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 				lessonStatistics: currentLessonStatistics
 			}
 		});
+
 
 	}
 
@@ -487,12 +513,11 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// перед его началом.
 		// В противном случае - осуществляем выгрузку данных,
 		// которая в последующем спровоцирует их подготовку перед началом урока.
-		if (lessons) {
+		if (lessons && lessons.length) {
 
 			prepareLesson(getCurrentLesson());
 
-		}
-		else {
+		} else {
 
 			loadLessons();
 

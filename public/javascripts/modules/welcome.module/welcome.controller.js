@@ -23,6 +23,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
+	$scope.showLineGraphic = false;
 
 	$scope.openLessons = connection.metrics.hitOpenLesson();
 
@@ -109,19 +110,31 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	}
 
+	/**
+	 * Функция формирует данные для графика
+	 * Данные приходят в массиве
+	 * и сами данные для графика должны находится в массиве
+	 * @param result
+     */
 	function fromDataForLineChart(result)
 	{
-		$scope.totalScore = result.score;
+		if(result[0] && !$scope.showLineGraphic) {
 
-		$scope.labels = [];
+			$scope.totalScore = [];
 
-		for(var i =1; i <= $scope.totalScore.length; i++){
+			$scope.totalScore.push(result[0].score);
 
-			$scope.labels.push(i);
+			$scope.labels = [];
 
+			for (var i = 1; i <= $scope.totalScore[0].length; i++) {
+
+				$scope.labels.push(i);
+
+			}
+
+			$scope.showLineGraphic = !$scope.showLineGraphic;
+			$scope.seriesT = ['Игровой успех'];
 		}
-
-		$scope.seriesT = ['Игровой успех']
 	}
 
 	/**
@@ -165,10 +178,13 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	// Изменить текущий график на следующий
 	function changeChart() {
-
-		// Реализовать переключение графиков
-		$scope.chartIndex = ($scope.chartIndex + 1) % 2;
-
+		
+		if($scope.showLineGraphic) {
+			
+			// Реализовать переключение графиков
+			$scope.chartIndex = ($scope.chartIndex + 1) % 2;
+			
+		}
 	}
 
 	// Инициализация пользователя

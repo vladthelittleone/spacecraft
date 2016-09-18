@@ -1,6 +1,8 @@
 'use strict';
 
 var angular = require('angular');
+// Для управления состоянием хранилища.
+var storage = require('./utils/storage')();
 
 require('angular-ui-router');
 require('angular-ui-layout');
@@ -35,7 +37,7 @@ angular.module('spacecraft', [
 require('./services');
 require('./directives');
 
-runBlock.$inject = ['authentication', '$rootScope', '$state'];
+runBlock.$inject = ['authentication', 'lessonService', '$rootScope', '$state'];
 configBlock.$inject = ['$urlRouterProvider', 'ChartJsProvider'];
 
 angular.module('spacecraft').config(configBlock);
@@ -54,7 +56,7 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
 /**
  * Запуск скрипта на старте приложения.
  */
-function runBlock(authentication, $rootScope, $state) {
+function runBlock(authentication, lessonService, $rootScope, $state) {
 
 	/**
 	 * При изменении текущей страницы - state, выполняется callback.
@@ -71,6 +73,14 @@ function runBlock(authentication, $rootScope, $state) {
 			authentication.isLoggedIn({
 
 				error: function () {
+
+					// Очищаем сервис урока, так как его состояние больше
+					// не является актуальным в момент редиректа на страницу логина.
+					lessonService.clear();
+
+					// Если storage поддерживается текущей реализацией браузера.
+					// В противном случае заботиться о очистке не нужно :)
+					storage.local && storage.local.clear();
 
 					// В случае ошибки переходим на страницу логина.
 					$state.go('login');

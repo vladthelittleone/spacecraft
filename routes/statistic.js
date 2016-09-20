@@ -7,6 +7,7 @@ var logger = require('../utils/log')(module);
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
+var SIZE_LIMIT = 30;
 
 var router = express.Router();
 
@@ -138,7 +139,7 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
-router.post('/userscore', function (req, res, next) {
+router.post('/user/score', function (req, res, next) {
 
 	let idUser =  req.user._id;
 
@@ -169,7 +170,7 @@ router.post('/userscore', function (req, res, next) {
 				userScore.date = requestDate;
 
 				// Не храним больше 30 записей
-				if(userScoreLength === 30){
+				if(userScoreLength === SIZE_LIMIT){
 
 					userScore.score.shift();
 
@@ -198,7 +199,7 @@ router.post('/userscore', function (req, res, next) {
 	})
 });
 
-router.get('/userscore', function (req, res, next) {
+router.get('/user/score', function (req, res, next) {
 
 	let idUser =  req.user._id;
 

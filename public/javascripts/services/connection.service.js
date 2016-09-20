@@ -25,7 +25,7 @@ var links = {
 		stars:   	  '/statistic/lessons/stars',
 		score:   	  '/statistic/score',
 		leaderboard:  '/statistic/lessons/leaderboard',
-		userScore:	  '/statistic/userscore'
+		userScore:	  '/statistic/user/score'
 	},
 
 	/**

@@ -324,9 +324,7 @@ function updateUserScore(idUser, dataForUpdate, callback){
 
 	if(isIdUserExist && isDataCorrect){
 
-		let modelStatistics = this;
-
-		modelStatistics.update({
+		this.update({
 			idUser: idUser
 		}, {
 			$set: {['userScoreArray']: dataForUpdate}

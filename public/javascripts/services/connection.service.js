@@ -19,13 +19,13 @@ var links = {
 	/**
 	 * Сбор статистики.
 	 */
-	statistic:   {
-		lessons: 	  '/statistic/lessons',
-		code:    	  '/statistic/code',
-		stars:   	  '/statistic/lessons/stars',
-		score:   	  '/statistic/score',
-		leaderboard:  '/statistic/lessons/leaderboard',
-		userScore:	  '/statistic/user/score'
+	statistic: {
+		lessons:     '/statistic/lessons',
+		code:        '/statistic/code',
+		stars:       '/statistic/lessons/stars',
+		score:       '/statistic/score',
+		leaderboard: '/statistic/lessons/leaderboard',
+		userScore:   '/statistic/user/waypoints'
 	},
 
 	/**
@@ -38,10 +38,10 @@ var links = {
 	/**
 	 * Остальные ссылки
 	 */
-	register:    '/reg',
-	logout:      '/logout',
-	login:       '/login',
-	loginCheck:  'login/check'
+	register:   '/reg',
+	logout:     '/logout',
+	login:      '/login',
+	loginCheck: 'login/check'
 
 };
 
@@ -72,9 +72,9 @@ function Connection($http) {
 	that.logout = logout;
 	that.register = register;
 	that.isLoggedIn = isLoggedIn;
-	
-	that.getUserScore = getUserScore;
-	that.updateUserScore = updateUserScore;
+
+	that.getUserWayPoints = getUserWayPoints;
+	that.updateUserWayPoints = updateUserWayPoints;
 
 	that.metrics = {};
 	that.metrics.hitOpenLesson = hitOpenLesson;
@@ -84,7 +84,7 @@ function Connection($http) {
 	function getLeaderboard(callback) {
 
 		$http({
-			url: links.statistic.leaderboard,
+			url:    links.statistic.leaderboard,
 			method: 'GET'
 		}).then(callback);
 
@@ -221,8 +221,8 @@ function Connection($http) {
 		var p = $http({
 			method: 'POST',
 			data:   {
-				email:    args.email,
-				password: args.password,
+				email:              args.email,
+				password:           args.password,
 				isSubscribeOnEmail: args.isSubscribeOnEmail
 			},
 			url:    links.register
@@ -265,22 +265,21 @@ function Connection($http) {
 
 	}
 
-	function getUserScore(callback)	{
+	function getUserWayPoints(callback) {
 
 		$http.get(links.statistic.userScore).success(callback);
 
 	}
 
-	function updateUserScore(score) {
+	function updateUserWayPoints(score) {
 
 		$http({
-			  url: 		links.statistic.userScore,
-			  method: 	'POST',
-			  data:{
-				    score: 	score,
-				    date:   new Date()
-			  }
-		 });
+			url:    links.statistic.userScore,
+			method: 'POST',
+			data:   {
+				score: score
+			}
+		});
 	}
 
 }

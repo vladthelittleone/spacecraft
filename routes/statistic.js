@@ -125,7 +125,7 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 	let idUser = req.user._id;
 
-	Statistic.getLeaderboard(idUser, function(error, leaderBoard) {
+	Statistic.getLeaderboard(idUser, function (error, leaderBoard) {
 
 		if (error) {
 
@@ -139,73 +139,58 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
-router.post('/user/score', function (req, res, next) {
+router.post('/user/waypoints', function (req, res, next) {
 
-	let idUser =  req.user._id;
+	let idUser = req.user._id;
 
 	Statistic.getUserStatistics(idUser, function (error, userStatistics) {
 
-		if(error){
+		if (error) {
 
 			return next(error);
 
 		}
 
 		let userScore = [];
-		let requestDate = req.body.date;
 
-		if(userStatistics && userStatistics.userScoreArray.score){
+		if (userStatistics && userStatistics.userWayPoints) {
 
-			let lastDate = userStatistics.userScoreArray.date;
-			let userScoreLength = userStatistics.userScoreArray.score.length;
-			userScore = userStatistics.userScoreArray;
+			let userScoreLength = userStatistics.userWayPoints.length;
+			userScore = userStatistics.userWayPoints;
 
-			// Если все еще тот же день то обновляем очки
-			if(lastDate.getDay() === requestDate.getDay()){
+			// Не храним больше 30 записей
+			if (userScoreLength === SIZE_LIMIT) {
 
-				userScore.score[userScoreLength] = req.body.score;
+				userScore.shift();
 
-			}else{
-
-				userScore.date = requestDate;
-
-				// Не храним больше 30 записей
-				if(userScoreLength === SIZE_LIMIT){
-
-					userScore.score.shift();
-
-				}
-
-				userScore.score.push(req.body.score);
 			}
-		}else{
+
+			userScore.push(req.body.score);
+
+		} else {
 
 			// Формируем первую запись об очках
-			userScore = {
-				score: [req.body.score],
-				lastUpdate: requestDate
-			}
+			userScore.push(req.body.score);
 		}
 
-		Statistic.updateUserScore(idUser, userScore, function (error) {
+		Statistic.updateUserWayPoints(idUser, userScore, function (error) {
 
-			if(error)
-			{
+			if (error) {
 				return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
 			}
 
 			res.sendStatus(200);
-		} )
+		})
 	})
 });
 
-router.get('/user/score', function (req, res, next) {
+router.get('/user/waypoints', function (req, res, next) {
 
-	let idUser =  req.user._id;
+	let idUser = req.user._id;
 
 	Statistic.getUserStatistics(idUser, function (error, result) {
 
-		if(error){
+		if (error) {
 
 			return next(error)
 		}
@@ -213,9 +198,9 @@ router.get('/user/score', function (req, res, next) {
 		var userScore = [];
 
 		// Если что-то есть в базе
-		if(result && result.userScoreArray){
+		if (result && result.userWayPoints) {
 
-			userScore = result.userScoreArray;
+			userScore = result.userWayPoints;
 
 		}
 

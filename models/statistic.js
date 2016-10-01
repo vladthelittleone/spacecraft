@@ -19,12 +19,7 @@ var schema = new Schema({
 		type:    Number,
 		default: 0
 	},
-	userScoreArray: {
-		type: [{
-			score: Array,
-			lastUpdate: Date
-		}]
-	},
+	userWayPoints:   Array,
 	lessons:         {
 		type:    [{
 			_id:              false,
@@ -62,7 +57,7 @@ schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 schema.statics.updateLessonStatistics = updateLessonStatistics;
 
 // Обновление инфы о полученных очках за сегодня
-schema.statics.updateUserScore = updateUserScore;
+schema.statics.updateUserWayPoints = updateUserWayPoints;
 
 exports.Statistic = mongoose.model('Statistic', schema);
 
@@ -236,7 +231,7 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 function sortStatistics(modelStatistics, callback) {
 
 	// Сортируем данные в statistics по убыванию значения в поле totalFinalScore.
-	modelStatistics.aggregate([{$sort: {totalFinalScore: -1}}, {$out:'statistics'}], callback);
+	modelStatistics.aggregate([{$sort: {totalFinalScore: -1}}, {$out: 'statistics'}], callback);
 
 }
 
@@ -317,17 +312,17 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
  * Обновение инфы о полученных очках пользователя за сегодня.
  */
 
-function updateUserScore(idUser, dataForUpdate, callback){
+function updateUserWayPoints(idUser, dataForUpdate, callback) {
 
 	var isIdUserExist = validateParam(idUser, callback);
 	var isDataCorrect = validateParam(dataForUpdate, callback);
 
-	if(isIdUserExist && isDataCorrect){
+	if (isIdUserExist && isDataCorrect) {
 
 		this.update({
 			idUser: idUser
 		}, {
-			$set: {['userScoreArray']: dataForUpdate}
+			$set: {['userWayPoints']: dataForUpdate}
 		}, {
 			setDefaultsOnInsert: true,
 			upsert:              true

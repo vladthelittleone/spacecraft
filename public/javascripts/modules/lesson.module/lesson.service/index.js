@@ -312,7 +312,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 			}
 		});
 
-		connection.updateUserScore(score);
+		connection.updateUserWayPoints(score);
 	}
 
 	/**

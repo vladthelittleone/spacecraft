@@ -12,30 +12,16 @@ function Api(player) {
 
 	var api = {};
 
-	var moveForwardCalled = false;
-
 	api.isAlive = isAlive;
-	api.moveForward = moveForward;
+	api.moveForward = player.moveForward;
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
-	api.isMoveForwardCalled = isMoveForwardCalled;
+	api.getX = player.getX;
+	api.getY = player.getY;
 
 	return api;
 
-	function moveForward() {
-
-		player.moveForward();
-
-		moveForwardCalled = true;
-
-	}
-
-	function isMoveForwardCalled() {
-
-		return moveForwardCalled;
-
-	}
 
 	function isAlive() {
 

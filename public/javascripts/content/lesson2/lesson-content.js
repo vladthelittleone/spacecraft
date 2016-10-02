@@ -19,9 +19,9 @@ function Content() {
 	};
 
 	return {
-		text:  'Поступление в академию',
+		text:  'Расследование',
 		label: 'Основы JavaScript',
-		quote: 'Знания свет — путь укажет нам',
+		quote: 'Все мы барахтаемся в грязи, но иные из нас глядят на звёзды',
 		sub:   require('./sub'),
 		points: points,
 		maxAttemptLessonCountForBonus: 3

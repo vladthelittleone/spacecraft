@@ -1,7 +1,10 @@
 'use strict';
 
+// Зависимости
 var EntitiesFactory = require('../../game/entities');
-var random = require('../../utils/random');
+var CodeLauncher = require('../../game/launcher');
+
+var Api = require('./api');
 
 module.exports = StateWrapper;
 
@@ -13,6 +16,8 @@ module.exports = StateWrapper;
 function StateWrapper(state) {
 
 	var t = state;
+
+	var player;		// Игрок
 
 	t.entities = entities;
 
@@ -26,33 +31,26 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
-		var base = EntitiesFactory.createAcademyBase(game, x, y);
+		// Создать транспорт
+		player = EntitiesFactory.createTransport(game, 1000, 1000, true);
+		var sprite = player.sprite;
 
-		for (var h = 0; h < 5; h++) {
+		sprite.rotation = - Math.PI / 2;
 
-			var i1 = random.randomInt(-225, 225);
-			var i2 = random.randomInt(-225, 225);
+		// API для урока
+		player.api = Api(player);
 
-			// Рандомим тип корабля
-			var type = random.random() ? EntitiesFactory.createTransport : EntitiesFactory.createHarvester;
+		// Создать метеоритное поле
+		EntitiesFactory.createMeteorField(game, x, y);
 
-			var spacecraft = type(game, x + i1, y + i2);
+		// Корабль на верх.
+		sprite.bringToTop();
 
-			// Рандомный угол
-			spacecraft.sprite.angle = game.rnd.angle();
+		// Фокус на на центре
+		t.followFor(sprite);
 
-			// Дейстивя харвестра
-			spacecraft.logic = function (h) {
-
-				h.moveForward();
-				h.rotateLeft();
-
-			}
-
-		}
-
-		// Фокус на на центре.
-		game.camera.focusOnXY(x + (base.sprite.width / 4), y);
+		CodeLauncher.setArguments(player.api);
 
 	}
+
 }

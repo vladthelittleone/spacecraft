@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+
 // Для управления состоянием хранилища.
 var storage = require('./utils/storage')();
 

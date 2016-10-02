@@ -297,11 +297,11 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	}
 
-	function saveUserScore (){
+	function saveUserScore() {
 
 		var score = 0;
 
-		lessons.forEach(function (lesson){
+		lessons.forEach(function (lesson) {
 
 			if (lesson.lessonStatistics.finalScore) {
 

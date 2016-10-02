@@ -114,7 +114,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 * Функция формирует данные для графика
 	 * Данные -  приходит  массив
 	 * и сами данные для графика должны находится в массиве
-	 * @param result
+	 * @param result - массив промежуточных оков пользователя
      */
 	function fromDataForLineChart(result)
 	{

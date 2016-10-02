@@ -25,7 +25,7 @@ var links = {
 		stars:       '/statistic/lessons/stars',
 		score:       '/statistic/score',
 		leaderboard: '/statistic/lessons/leaderboard',
-		userScore:   '/statistic/user/waypoints'
+		wayPoints:   '/statistic/user/waypoints'
 	},
 
 	/**
@@ -267,14 +267,14 @@ function Connection($http) {
 
 	function getUserWayPoints(callback) {
 
-		$http.get(links.statistic.userScore).success(callback);
+		$http.get(links.statistic.wayPoints).success(callback);
 
 	}
 
 	function updateUserWayPoints(score) {
 
 		$http({
-			url:    links.statistic.userScore,
+			url:    links.statistic.wayPoints,
 			method: 'POST',
 			data:   {
 				score: score

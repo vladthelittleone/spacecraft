@@ -7,7 +7,8 @@ var logger = require('../utils/log')(module);
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
-var SIZE_LIMIT = 30;
+
+const SIZE_LIMIT = 30;
 
 var router = express.Router();
 
@@ -139,63 +140,64 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
-router.post('/user/waypoints', function (req, res, next) {
+router.post('/user/waypoints', (req, res, next) => {
 
 	let idUser = req.user._id;
 
-	Statistic.getUserStatistics(idUser, function (error, userStatistics) {
-
-		if (error) {
-
-			return next(error);
-
-		}
-
-		let userScore = [];
-
-		if (userStatistics && userStatistics.userWayPoints) {
-
-			let userScoreLength = userStatistics.userWayPoints.length;
-			userScore = userStatistics.userWayPoints;
-
-			// Не храним больше 30 записей
-			if (userScoreLength === SIZE_LIMIT) {
-
-				userScore.shift();
-
-			}
-
-			userScore.push(req.body.score);
-
-		} else {
-
-			// Формируем первую запись об очках
-			userScore.push(req.body.score);
-		}
-
-		Statistic.updateUserWayPoints(idUser, userScore, function (error) {
+	if(req.body.score) {
+		
+		Statistic.getUserStatistics(idUser, (error, userStatistics) => {
 
 			if (error) {
-				return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
+
+				return next(error);
+
 			}
 
-			res.sendStatus(200);
+			let userScore = [];
+
+			if (userStatistics && userStatistics.userWayPoints) {
+
+				let userScoreLength = userStatistics.userWayPoints.length;
+				userScore = userStatistics.userWayPoints;
+
+				// Не храним больше 30 записей
+				if (userScoreLength >= SIZE_LIMIT) {
+
+					userScore.shift();
+
+				}
+
+			}
+
+			userScore.push(req.body.score);
+
+			Statistic.updateUserWayPoints(idUser, userScore, (error) => {
+
+				if (error) {
+
+					return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
+
+				}
+
+				res.sendStatus(200);
+			})
 		})
-	})
+	}
 });
 
-router.get('/user/waypoints', function (req, res, next) {
+router.get('/user/waypoints',(req, res, next) => {
 
 	let idUser = req.user._id;
 
-	Statistic.getUserStatistics(idUser, function (error, result) {
+	Statistic.getUserStatistics(idUser,(error, result) => {
 
 		if (error) {
 
 			return next(error)
 		}
 
-		var userScore = [];
+		let userScore = [];
 
 		// Если что-то есть в базе
 		if (result && result.userWayPoints) {

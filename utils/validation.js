@@ -6,52 +6,77 @@
  */
 var valid = require('validator');
 var HttpError = require('error').HttpError;
+var AuthError = require ('error').AuthError;
 
-var validation = {};
+module.exports = Validation();
 
-module.exports = validation;
 
-/**
- * выполняем проверку логина и пароля
- * параметры функции
- * { email: мыло пользователя,
- *	 password: пароль пользователя,
- *		emailNotCorrect: сообщение о ошибке если мыло не прошло валидацию,
- *		passwordNotCorrect: сообщение об ошибке если пароль не прошел валидацию,
- *	 next: калбэк в который в который, если пользователь не верно указал логин или
- * пароль будет переданно сообщени об ошибке}
- */
+function Validation() {
 
-validation.checkEmailAndPassword = (res, req, next) => {
+	let that = {};
 
-	let email = res.body.email;
-	let password = res.body.password;
+	that.checkEmailAndPassword = checkEmailAndPassword;
+	that.changeErrorType = changeErrorType;
 
-	if (!email) {
+	return that;
 
-		return next(new HttpError(400, 'Вы забыли указать email.'));
+	/**
+	 * выполняем проверку логина и пароля
+	 * параметры функции
+	 * { email: мыло пользователя,
+     *	 password: пароль пользователя,
+     *	 emailNotCorrect: сообщение о ошибке если мыло не прошло валидацию,
+     *	 passwordNotCorrect: сообщение об ошибке если пароль не прошел валидацию,
+     *	 next: калбэк в который в который, если пользователь не верно указал логин или
+     * пароль будет переданно сообщени об ошибке}
+	 */
 
+	function checkEmailAndPassword(res, req, next) {
+
+		let email = res.body.email;
+		let password = res.body.password;
+
+		if (!email) {
+
+			return next(new HttpError(400, 'Вы забыли указать email.'));
+
+		}
+
+		if (!password) {
+
+			return next(new HttpError(400, 'Вы забыли указать пароль.'));
+
+		}
+
+		var normalizedEmail = valid.normalizeEmail(email).toString();
+
+		if (!valid.isEmail(normalizedEmail)) {
+
+			return next(new HttpError(400, 'Некорректный email.'));
+
+		}
+
+		if (!valid.isLength(valid.trim(password), {min: 8})) {
+
+			return next(new HttpError(400, "Минимальная длина пароля 8 символов."));
+
+		}
+
+		next();
 	}
 
-	if (!password) {
+	/**
+	 * если пришла AuthError меняем ее тип на HttpError
+	 */
+	function changeErrorType(err) {
 
-		return next(new HttpError(400, 'Вы забыли указать пароль.'));
+		if (err instanceof AuthError) {
 
+			return new HttpError(403, err.message);
+
+		}
+
+		return err;
 	}
 
-	var normalizedEmail = valid.normalizeEmail(email).toString();
-
-	if (!valid.isEmail(normalizedEmail)) {
-
-		return next(new HttpError(400, 'Некорректный email.'));
-
-	}
-
-	if (!valid.isLength(valid.trim(password), {min: 8})) {
-
-		return next(new HttpError(400, "Минимальная длина пароля 8 символов."));
-
-	}
-
-	next();
-};
+}

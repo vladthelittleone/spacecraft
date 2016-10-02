@@ -2,30 +2,14 @@
 
 const VKStrategy = require('passport-vkontakte').Strategy;
 const config = require('config');
-var Cohorts = require ('../../models/cohorts').Cohorts;
 var User = require ('../../models/user').User;
-var Statistic = require ('models/statistic').Statistic;
+var strategyHelp = require('./strategy.help');
 
-var AuthError = require ('error').AuthError;
-var HttpError = require ('error').HttpError;
+var validation = require('../validation');
 
 var vk = {};
 
 module.exports = vk;
-
-/**
- * если пришла AuthError меняем ее тип на HttpError
- */
-function changeErrorType (err) {
-
-	if(err instanceof AuthError) {
-
-		return new HttpError (403, err.message);
-
-	}
-
-	return err;
-}
 
 vk.login = new VKStrategy(config.get('vkStrategySettings'),
 
@@ -38,42 +22,17 @@ vk.login = new VKStrategy(config.get('vkStrategySettings'),
 
 				if (isRegistration) {
 
-					let initTotalFinalScore = 0;
-					let userId = user._doc._id;
-
-					/**
-					 * Регистрируем пользователя в статистике с начальной историей прохождения уроков.
-					 */
-					Statistic.updateTotalFinalScore (userId, initTotalFinalScore, (error) => {
-
-						// Если произошла ошибка в процессе сохранения статистики, достаточно лишь
-						// отписать об этом в лог.
-						// На сам процесс регистрации это никак не повлияет, так что спокойно отвечаем
-						// пользователю, даже при ошибке.
-						if(error) {
-
-							logger.info ('some problem with save of statistics for the new registered user: ',
-										 error);
-
-						}
-					});
+					strategyHelp.updateTotalFinalScore(user);
 
 				} else {
-					
-					Cohorts.updateCohort (user._id, (data, cohortID) => {
 
-						if(data) {
+					strategyHelp.updateCohort(user);
 
-							data.cohorts[cohortID].visits++;
-
-						}
-
-					});
 				}
 
 			}
 
-			next (changeErrorType (err), user);
+			next (validation.changeErrorType (err), user);
 
 		});
 

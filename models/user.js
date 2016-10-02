@@ -9,28 +9,23 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
 	email:              {
 		type:     String,
-		unique:   true,
-		required: true
+		unique:   true
 	},
 	username:           {
 		type: String
 	},
 	hashedPassword:     {
-		type:     String,
-		required: true //Этот момент стоит обсудить
-		// если это поле будет обязательным,
-		// то при реге чувака через вк то что сюда писать
-	},
-	vkId:		        {
 		type:     String
 	},
-	salt:               {
+	vkId:		        {
 		type:     String,
-		required: true
+		unique:   true
+	},
+	salt:               {
+		type:     String
 	},
 	isSubscribeOnEmail: {
-		type:     Boolean,
-		required: true
+		type:     Boolean
 	},
 	created:            {
 		type:    Date,
@@ -44,6 +39,7 @@ schema.virtual('password')
 		this._plainPassword = password;
 		this.salt = Math.random() + '';
 		this.hashedPassword = this.encryptPassword(password);
+
 	})
 	.get(function () {
 
@@ -92,17 +88,17 @@ function authorize(email, password, callback) {
 
 		function (callback) {
 
-			User.findOne({email: email}, callback);
+			User.findOne({ email: email }, callback);
 
 		},
 		function (user, callback) {
 
 			if (user) {
 
-				if (user.vkId)
-				{
-					// todo исравкить текст
-					callback(new AuthError("Войд"));
+				if (user.vkId) {
+
+					callback(new AuthError("Воспользуйтесь авторизацией через VK."));
+
 				}
 				else if (user.checkPassword(password)) {
 
@@ -150,13 +146,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 				newbie.save(function (err) {
 
-					if (err) {
-
-						return callback(err);
-
-					}
-
-					callback(null, newbie);
+					callback(err, newbie);
 
 				});
 			}
@@ -166,13 +156,14 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 			}
 		}
+
 	], callback);
 
 }
 
 /**
  * Функция ищет пользователя по его vk id
- * если пользователь не найдет функция создает нового пользователя 
+ * если пользователь не найдет функция создает нового пользователя
  * в базе
  */
 function findOrCreateVKUser (vkId, email, callback) {
@@ -193,28 +184,13 @@ function findOrCreateVKUser (vkId, email, callback) {
 					var newbie = new User ({
 
 						email: email,
-						vkId: vkId,
-						// Вот тут хз как быть, вроде бы в это поле ничего не надо писать
-						// но тогда поля отвечающие за хранение хэшированого пароля
-						// и соли нужно сделать не обязательными, что тоже не очень то и хорошо
-						password: email,
-						// и не понятно как быть с этим параметром
-						// ибо его задание через вк тот еще геммор
-						// к томуже у вк юзера может быть не привязанно мыло
-						// в общем это стоит обсудить
-						isSubscribeOnEmail: false
+						vkId: vkId
 
 					});
 
 					newbie.save((err) => {
 
-						if (err) {
-
-							return callback(err);
-
-						}
-
-						callback(null, newbie, true);
+						callback(err, newbie, true);
 
 					});
 				}

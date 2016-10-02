@@ -95,7 +95,9 @@ function authorize(email, password, callback) {
 
 			if (user) {
 
-				if (user.vkId) {
+				// если для пользователя задан vkId и не задан пароль
+				// то пользователь не может авторизироваться через логин/пароль
+				if (user.vkId && !user.hashedPassword) {
 
 					callback(new AuthError("Воспользуйтесь авторизацией через VK."));
 

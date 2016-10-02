@@ -165,8 +165,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 /**
  * Функция ищет пользователя по его vk id
- * если пользователь не найдет функция создает нового пользователя
- * в базе
+ * если пользователь не найдет функция создает нового пользователя в базе
  */
 function findOrCreateVKUser (vkId, email, callback) {
 

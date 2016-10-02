@@ -25,7 +25,7 @@ var links = {
 		stars:       '/statistic/lessons/stars',
 		score:       '/statistic/score',
 		leaderboard: '/statistic/lessons/leaderboard',
-		wayPoints:   '/statistic/user/waypoints'
+		progress:    '/statistic/user/progress'
 	},
 
 	/**
@@ -73,8 +73,8 @@ function Connection($http) {
 	that.register = register;
 	that.isLoggedIn = isLoggedIn;
 
-	that.getUserWayPoints = getUserWayPoints;
-	that.updateUserWayPoints = updateUserWayPoints;
+	that.getUserProgress = getUserProgress;
+	that.updateUserProgress = updateUserProgress;
 
 	that.metrics = {};
 	that.metrics.hitOpenLesson = hitOpenLesson;
@@ -265,16 +265,16 @@ function Connection($http) {
 
 	}
 
-	function getUserWayPoints(callback) {
+	function getUserProgress(callback) {
 
-		$http.get(links.statistic.wayPoints).success(callback);
+		$http.get(links.statistic.progress).success(callback);
 
 	}
 
-	function updateUserWayPoints(score) {
+	function updateUserProgress(score) {
 
 		$http({
-			url:    links.statistic.wayPoints,
+			url:    links.statistic.progress,
 			method: 'POST',
 			data:   {
 				score: score

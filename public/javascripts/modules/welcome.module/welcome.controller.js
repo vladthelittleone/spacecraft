@@ -32,7 +32,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 */
 	connection.getLessonsStatistics(formDataForChart);
 
-	connection.getUserWayPoints(fromDataForLineChart);
+	connection.getUserProgress(fromDataForLineChart);
 
 	connection.getLeaderboard(formLeaderboard);
 

@@ -297,23 +297,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	}
 
-	function saveUserScore() {
-
-		var score = 0;
-
-		lessons.forEach(function (lesson) {
-
-			if (lesson.lessonStatistics.finalScore) {
-
-				score += lesson.lessonStatistics.finalScore;
-			}
-			else {
-				score += lesson.lessonStatistics.currentScore;
-			}
-		});
-
-		connection.updateUserWayPoints(score);
-	}
 
 	/**
 	 * Обертка, которая знает в каком формате необходимо
@@ -338,8 +321,13 @@ function LessonService(connection, audioManager, aceService, settings) {
 				lessonStatistics: currentLessonStatistics
 			}
 		});
+		
+		if(isLessonCompleted){
 
-
+			connection.updateUserProgress(totalFinalScore);
+			
+		}
+		
 	}
 
 	/**
@@ -359,8 +347,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 	 * окончания текущего подурока.
 	 */
 	function endLastSubLesson() {
-
-		saveUserScore();
 
 		// Увеличиваем индекс текущего подурока на следующий,
 		// так как в saveStatisticsWrapper должен передавать индекс

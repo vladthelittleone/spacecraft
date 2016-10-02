@@ -140,7 +140,7 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
-router.post('/user/waypoints', (req, res, next) => {
+router.post('/user/progress', (req, res, next) => {
 
 	let idUser = req.user._id;
 
@@ -154,25 +154,25 @@ router.post('/user/waypoints', (req, res, next) => {
 
 			}
 
-			let userScore = [];
+			let userProgress = [];
 
-			if (userStatistics && userStatistics.userWayPoints) {
+			if (userStatistics && userStatistics.userProgress) {
 
-				let userScoreLength = userStatistics.userWayPoints.length;
-				userScore = userStatistics.userWayPoints;
+				let userScoreLength = userStatistics.userProgress.length;
+				userProgress = userStatistics.userProgress;
 
 				// Не храним больше 30 записей
 				if (userScoreLength >= SIZE_LIMIT) {
 
-					userScore.shift();
+					userProgress.shift();
 
 				}
 
 			}
 
-			userScore.push(req.body.score);
+			userProgress.push(req.body.score);
 
-			Statistic.updateUserWayPoints(idUser, userScore, (error) => {
+			Statistic.updateUserProgress(idUser, userProgress, (error) => {
 
 				if (error) {
 
@@ -186,7 +186,7 @@ router.post('/user/waypoints', (req, res, next) => {
 	}
 });
 
-router.get('/user/waypoints',(req, res, next) => {
+router.get('/user/progress',(req, res, next) => {
 
 	let idUser = req.user._id;
 
@@ -197,16 +197,16 @@ router.get('/user/waypoints',(req, res, next) => {
 			return next(error)
 		}
 
-		let userScore = [];
+		let userProgress = [];
 
 		// Если что-то есть в базе
-		if (result && result.userWayPoints) {
+		if (result && result.userProgress) {
 
-			userScore = result.userWayPoints;
+			userProgress = result.userProgress;
 
 		}
 
-		res.send(userScore);
+		res.send(userProgress);
 
 	})
 });

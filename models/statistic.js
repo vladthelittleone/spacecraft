@@ -19,7 +19,7 @@ var schema = new Schema({
 		type:    Number,
 		default: 0
 	},
-	userWayPoints:   Array,
+	userProgress:   Array,
 	lessons:         {
 		type:    [{
 			_id:              false,
@@ -57,7 +57,7 @@ schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 schema.statics.updateLessonStatistics = updateLessonStatistics;
 
 // Обновление инфы о полученных очках за сегодня
-schema.statics.updateUserWayPoints = updateUserWayPoints;
+schema.statics.updateUserProgress = updateUserProgress;
 
 exports.Statistic = mongoose.model('Statistic', schema);
 
@@ -312,17 +312,17 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
  * Обновение инфы о полученных очках пользователя за сегодня.
  */
 
-function updateUserWayPoints(idUser, dataForUpdate, callback) {
+function updateUserProgress(idUser, dataForUpdate, callback) {
 
-	var isIdUserExist = validateParam(idUser, callback);
-	var isDataCorrect = validateParam(dataForUpdate, callback);
+	let isIdUserExist = validateParam(idUser, callback);
+	let isDataCorrect = validateParam(dataForUpdate, callback);
 
 	if (isIdUserExist && isDataCorrect) {
 
 		this.update({
 			idUser: idUser
 		}, {
-			$set: {['userWayPoints']: dataForUpdate}
+			$set: {['userProgress']: dataForUpdate}
 		}, {
 			setDefaultsOnInsert: true,
 			upsert:              true

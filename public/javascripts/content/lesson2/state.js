@@ -32,7 +32,7 @@ function StateWrapper(state) {
 		var y = game.world.centerY;
 
 		// Создать транспорт
-		player = EntitiesFactory.createTransport(game, 1000, 1000, true);
+		player = EntitiesFactory.createScout(game, 1000, 1000, true);
 		var sprite = player.sprite;
 
 		sprite.rotation = - Math.PI / 2;

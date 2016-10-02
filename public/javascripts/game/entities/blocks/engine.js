@@ -25,7 +25,7 @@ function EngineBlock(spec) {
 
 	if(spec.trail){
 
-		t.trail = Trail(game, unit, spec.trailX, spec.trailY);
+		t.trail = Trail(game, unit, spec.trailX, spec.trailY, spec.trailScale);
 
 	}
 

@@ -321,13 +321,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 				lessonStatistics: currentLessonStatistics
 			}
 		});
-		
-		if(isLessonCompleted){
-
-			connection.updateUserProgress(totalFinalScore);
-			
-		}
-		
 	}
 
 	/**
@@ -427,6 +420,8 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 		// Сохраняем окончательную статистику за урок.
 		saveStatisticsWrapper(LESSON_IS_FINISHED, true);
+
+		connection.updateUserProgress(totalFinalScore);
 
 	}
 

@@ -114,16 +114,21 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 * Функция формирует данные для графика
 	 * Данные -  приходит  массив
 	 * и сами данные для графика должны находится в массиве
-	 * @param result - массив промежуточных оков пользователя
      */
 	function fromDataForLineChart(result)
 	{
+		// Если result еопределен, график непостроется и
+		// Пользователю вывадится не будет
 		if(result && !$scope.showLineGraphic) {
 
+			// Подготовка данных для вывода графика,
+			// представление данных [[1,2,3],[3,4,5]] - 2 графика
 			$scope.totalScore = [];
 
 			$scope.totalScore.push(result);
 
+			// Задаем подписи оси оХ
+			// (соответсвие индексов данного массива к массиву результатов )
 			$scope.labels = [];
 
 			for (var i = 1; i <= $scope.totalScore[0].length; i++) {
@@ -132,6 +137,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 			}
 
+			// Конец подготовки данных, и гоорим что готово!
 			$scope.showLineGraphic = !$scope.showLineGraphic;
 			$scope.seriesT = ['Последние полученные очки'];
 		}

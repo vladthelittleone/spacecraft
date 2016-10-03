@@ -8,6 +8,8 @@ var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
 
+// Размер массива очков пользователя за  прохождения уроков,
+// так сказать его прогресс
 const SIZE_LIMIT = 30;
 
 var router = express.Router();
@@ -143,9 +145,10 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 router.post('/user/progress', (req, res, next) => {
 
 	let idUser = req.user._id;
+	let scoreFromRequest = req.body.score;
 
-	if(req.body.score) {
-		
+	if(scoreFromRequest) {
+
 		Statistic.getUserStatistics(idUser, (error, userStatistics) => {
 
 			if (error) {
@@ -170,7 +173,7 @@ router.post('/user/progress', (req, res, next) => {
 
 			}
 
-			userProgress.push(req.body.score);
+			userProgress.push(scoreFromRequest);
 
 			Statistic.updateUserProgress(idUser, userProgress, (error) => {
 

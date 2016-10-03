@@ -19,7 +19,10 @@ var schema = new Schema({
 		type:    Number,
 		default: 0
 	},
-	userProgress:   Array,
+	userProgress:{
+		type: 		Array,
+		default: 	[]
+	},
 	lessons:         {
 		type:    [{
 			_id:              false,

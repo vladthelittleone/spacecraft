@@ -1480,6 +1480,12 @@ div.helper {
 	margin: auto;
 }
 
+.login-button-group button a,
+.login-button-group button a:hover {
+	color: white;
+	text-decoration: none;
+}
+
 .login-button-group button {
 	width: 49%;
 	height: 35px;
@@ -1772,4 +1778,7 @@ fieldset, label {
 	color: #FFED85;
 }
 
-
+.login-button-group .vk-button {
+	margin-top: 5px;
+	width: 100%;
+}

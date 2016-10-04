@@ -133,7 +133,7 @@ function createEmptyCohorts (date, arr) {
 	array[date] = {
 
 		numbClicksOnLesson: 0,
-		visits: 0,
+		visits: 1,
 		lessons: []
 
 	};

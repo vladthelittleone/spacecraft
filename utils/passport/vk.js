@@ -32,7 +32,7 @@ vk.login = new VKStrategy(config.get('vkStrategySettings'),
 
 			}
 
-			next (validation.changeErrorType (err), user);
+			next (err, user);
 
 		});
 

@@ -44,7 +44,7 @@
 						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 					</button>
 
-					<button class="vk-button">
+					<button ng-show="isEnterForm" class="vk-button">
 						<a href="/login/vk">
 							<span>Войти через ВКонтакте</span>
 						</a>

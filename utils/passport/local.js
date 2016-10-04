@@ -40,7 +40,7 @@ local.login = new LocalStrategy (localStrategyReqParam,
 
 			}
 
-			next (validation.changeErrorType (err), user);
+			next (err, user);
 
 		});
 
@@ -59,7 +59,7 @@ local.registration = new LocalStrategy (localStrategyReqParam,
 
 			if(err) {
 
-				return next (validation.changeErrorType (err), email);
+				return next (err, email);
 
 			}
 

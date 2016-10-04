@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
-var AuthError = require('error').AuthError;
+var HttpError = require('error').HttpError;
 var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
@@ -99,7 +99,7 @@ function authorize(email, password, callback) {
 				// то пользователь не может авторизироваться через логин/пароль
 				if (user.vkId && !user.hashedPassword) {
 
-					callback(new AuthError("Воспользуйтесь авторизацией через VK."));
+					callback(new HttpError(403, "Воспользуйтесь авторизацией через VK."));
 
 				}
 				else if (user.checkPassword(password)) {
@@ -108,13 +108,13 @@ function authorize(email, password, callback) {
 
 				} else {
 
-					callback(new AuthError('Пароль неверен'));
+					callback(new HttpError(403, 'Пароль неверен'));
 
 				}
 
 			} else {
 
-				callback(new AuthError('Пользователь не найден'));
+				callback(new HttpError(403, 'Пользователь не найден'));
 
 			}
 		}
@@ -154,7 +154,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 			}
 			else {
 
-				callback(new AuthError('Пользователь уже существует'));
+				callback(new HttpError(403, 'Пользователь уже существует'));
 
 			}
 		}

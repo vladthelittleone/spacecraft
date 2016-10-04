@@ -6,7 +6,6 @@
  */
 var valid = require('validator');
 var HttpError = require('error').HttpError;
-var AuthError = require ('error').AuthError;
 
 module.exports = Validation();
 
@@ -16,7 +15,6 @@ function Validation() {
 	let that = {};
 
 	that.checkEmailAndPassword = checkEmailAndPassword;
-	that.changeErrorType = changeErrorType;
 
 	return that;
 
@@ -63,20 +61,6 @@ function Validation() {
 		}
 
 		next();
-	}
-
-	/**
-	 * если пришла AuthError меняем ее тип на HttpError
-	 */
-	function changeErrorType(err) {
-
-		if (err instanceof AuthError) {
-
-			return new HttpError(403, err.message);
-
-		}
-
-		return err;
 	}
 
 }

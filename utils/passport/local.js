@@ -1,15 +1,12 @@
 'use strict';
 
-var Cohorts = require ('../../models/cohorts').Cohorts;
 var User = require ('../../models/user').User;
 var LocalStrategy = require ('passport-local').Strategy;
-var Statistic = require ('models/statistic').Statistic;
 var valid = require ('validator');
+var strategyHelp = require('./strategy.help');
 
-const logger = require ('utils/log') (module);
 
-var AuthError = require ('error').AuthError;
-var HttpError = require ('error').HttpError;
+var validation = require('../validation');
 
 var local = {};
 
@@ -27,20 +24,6 @@ var localStrategyReqParam = {
 };
 
 /**
- * если пришла AuthError меняем ее тип на HttpError
- */
-function changeErrorType (err) {
-
-	if(err instanceof AuthError) {
-
-		return new HttpError (403, err.message);
-
-	}
-
-	return err;
-}
-
-/**
  * стратегия для локальной авторизации
  */
 local.login = new LocalStrategy (localStrategyReqParam,
@@ -48,23 +31,16 @@ local.login = new LocalStrategy (localStrategyReqParam,
 
 		let normalizeEmail = valid.normalizeEmail (email);
 
-		User.authorize (normalizeEmail, password, (err, user) => {
+		User.authorize(normalizeEmail, password, (err, user) => {
 
 			// проверяем прошла ли авторизация успешно
 			if(!err) {
 
-				Cohorts.updateCohort (user._id, (data, cohortID) => {
-
-					if(data) {
-
-						data.cohorts[cohortID].visits++;
-
-					}
-				});
+				strategyHelp.updateCohort(user);
 
 			}
 
-			next (changeErrorType (err), user);
+			next (err, user);
 
 		});
 
@@ -83,29 +59,11 @@ local.registration = new LocalStrategy (localStrategyReqParam,
 
 			if(err) {
 
-				return next (changeErrorType (err), email);
+				return next (err, email);
 
 			}
 
-			let userId = user._doc._id;
-			let initTotalFinalScore = 0;
-
-			/**
-			 * Регистрируем пользователя в статистике с начальной историей прохождения уроков.
-			 */
-			Statistic.updateTotalFinalScore (userId, initTotalFinalScore, (error) => {
-
-				// Если произошла ошибка в процессе сохранения статистики, достаточно лишь
-				// отписать об этом в лог.
-				// На сам процесс регистрации это никак не повлияет, так что спокойно отвечаем
-				// пользователю, даже при ошибке.
-				if(error) {
-
-					logger.info ('some problem with save of statistics for the new registered user: ',
-								 error);
-
-				}
-			});
+			strategyHelp.updateTotalFinalScore(user);
 
 			next (null, user);
 

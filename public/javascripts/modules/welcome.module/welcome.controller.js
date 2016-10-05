@@ -1,6 +1,6 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection'];
+WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection', 'lessonService'];
 
 module.exports = WelcomeController;
 
@@ -8,7 +8,7 @@ module.exports = WelcomeController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $state, $sce, authentication, connection) {
+function WelcomeController($scope, $state, $sce, authentication, connection, lessonService) {
 
 	$scope.leadersList = [];	// Лидеры игры
 	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
@@ -16,6 +16,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
+
 
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
@@ -32,16 +33,32 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 */
 	connection.getLessonsStatistics(formDataForChart);
 
-	connection.getUserProgress(fromDataForLineChart);
-
 	connection.getLeaderboard(formLeaderboard);
+
+	prepareDataLineGraphic();
 
 	// Инифиализация ВК
 	initVK();
 
 	authentication.currentUser(initUser);
 
+
 	// ==================================================
+
+	function prepareDataLineGraphic() {
+
+		var data = lessonService.getUserProgress();
+
+		if (data) {
+
+			fromDataForLineChart(data);
+
+		} else {
+
+			connection.getUserProgress(fromDataForLineChart);
+			
+		}
+	}
 
 	/**
 	 * Инициализация виджета ВК.
@@ -114,12 +131,11 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	 * Функция формирует данные для графика
 	 * Данные -  приходит  массив
 	 * и сами данные для графика должны находится в массиве
-     */
-	function fromDataForLineChart(result)
-	{
+	 */
+	function fromDataForLineChart(result) {
 		// Если result еопределен, график непостроется и
 		// Пользователю вывадится не будет
-		if(result && !$scope.showLineGraphic) {
+		if (result && !$scope.showLineGraphic) {
 
 			// Подготовка данных для вывода графика,
 			// представление данных [[1,2,3],[3,4,5]] - 2 графика
@@ -185,7 +201,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 	// Изменить текущий график на следующий
 	function changeChart() {
 
-		if($scope.showLineGraphic) {
+		if ($scope.showLineGraphic) {
 
 			// Реализовать переключение графиков
 			$scope.chartIndex = ($scope.chartIndex + 1) % 2;

@@ -38,6 +38,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 	var scope;							  // scope
 	var lessons;						  // Массив уроков. Содержит данные по ВСЕМ урокам пользователя.
 	var totalFinalScore;				  // Общее число очков за все уроки.
+	var userProgress;
 
 	// Ссылка на подсказку в процессе урока.
 	var enjoyHint;
@@ -55,6 +56,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
 	that.getMarkerId = getMarkerId;
+	that.getUserProgress = getUserProgress;
 
 	that.lessonContent = lessonContent;
 
@@ -70,7 +72,15 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	that.clear = clear;
 
+	connection.getUserProgress(function (result){
+
+		userProgress = result || [];
+
+	});
+
 	return that;
+
+
 
 	/**
 	 * Метод очистки содержимого сервиса.
@@ -421,8 +431,34 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// Сохраняем окончательную статистику за урок.
 		saveStatisticsWrapper(LESSON_IS_FINISHED, true);
 
-		connection.updateUserProgress(totalFinalScore);
+		saveUserProgressWrapper();
 
+	}
+
+	/**
+	 * Все необходимые дейтсвия для обновления
+	 * данных по прогрессу юзера( нужны для графиков)
+	 */
+	function saveUserProgressWrapper(){
+		
+		connection.updateUserProgress(totalFinalScore);
+		
+		if(userProgress.length >= 30){
+			
+			userProgress.shift();
+			
+		}
+		
+		userProgress.push(totalFinalScore);
+	}
+
+	/**
+	 * Возвращаем инфу о прогрессе юзера
+	 */
+	function getUserProgress() {
+		
+		return userProgress;
+		
 	}
 
 	/**

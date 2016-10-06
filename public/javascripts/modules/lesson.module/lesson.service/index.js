@@ -14,7 +14,7 @@ var AudioWrapper = require('./audio');
 var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
-LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings'];
+LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
 
 module.exports = LessonService;
 
@@ -25,7 +25,7 @@ module.exports = LessonService;
  * @since 07.05.2016
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService, settings) {
+function LessonService(connection, audioManager, aceService, settings, statisticsStorage) {
 
 	var that = {};
 
@@ -56,7 +56,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
 	that.getMarkerId = getMarkerId;
-	that.getUserProgress = getUserProgress;
 
 	that.lessonContent = lessonContent;
 
@@ -431,34 +430,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// Сохраняем окончательную статистику за урок.
 		saveStatisticsWrapper(LESSON_IS_FINISHED, true);
 
-		saveUserProgressWrapper();
-
-	}
-
-	/**
-	 * Все необходимые дейтсвия для обновления
-	 * данных по прогрессу юзера( нужны для графиков)
-	 */
-	function saveUserProgressWrapper(){
-		
-		connection.updateUserProgress(totalFinalScore);
-		
-		if(userProgress.length >= 30){
-			
-			userProgress.shift();
-			
-		}
-		
-		userProgress.push(totalFinalScore);
-	}
-
-	/**
-	 * Возвращаем инфу о прогрессе юзера
-	 */
-	function getUserProgress() {
-		
-		return userProgress;
-		
+		statisticsStorage.saveUserProgress(totalFinalScore);
 	}
 
 	/**

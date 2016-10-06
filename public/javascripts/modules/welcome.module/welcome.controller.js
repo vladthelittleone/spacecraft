@@ -1,6 +1,6 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection', 'lessonService'];
+WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection', 'statisticsStorage'];
 
 module.exports = WelcomeController;
 
@@ -8,7 +8,7 @@ module.exports = WelcomeController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $state, $sce, authentication, connection, lessonService) {
+function WelcomeController($scope, $state, $sce, authentication, connection, statisticsStorage) {
 
 	$scope.leadersList = [];	// Лидеры игры
 	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
@@ -47,16 +47,12 @@ function WelcomeController($scope, $state, $sce, authentication, connection, les
 
 	function prepareDataLineGraphic() {
 
-		var data = lessonService.getUserProgress();
+		var data = statisticsStorage.getUserProgress();
 
 		if (data) {
 
 			fromDataForLineChart(data);
 
-		} else {
-
-			connection.getUserProgress(fromDataForLineChart);
-			
 		}
 	}
 

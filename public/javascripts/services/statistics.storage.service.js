@@ -16,22 +16,36 @@ function StatisticsStorage(connection) {
 	that.getUserProgress = getUserProgress;
 	that.saveUserProgress = saveUserProgress;
 
-	initialize();
+	//initialize();
 
 	return that;
 
-	function initialize() {
-
-		connection.getUserProgress(setUserProgress);
-
-	}
+	// function initialize() {
+    //
+	// 	connection.getUserProgress(setUserProgress);
+    //
+	// }
 
 	/**
 	 * Возвращаем инфу о прогрессе юзера
 	 */
-	function getUserProgress() {
+	function getUserProgress(callback) {
 
-		return userProgress;
+		if(userProgress){
+
+			callback && callback(userProgress);
+
+		} else {
+			connection.getUserProgress(function (result) {
+
+				if(result){
+
+					setUserProgress(result);
+
+					callback && callback(result);
+				}
+			});
+		}
 
 	}
 

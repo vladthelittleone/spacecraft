@@ -35,7 +35,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 
 	connection.getLeaderboard(formLeaderboard);
 
-	prepareDataLineGraphic();
+	statisticsStorage.getUserProgress(fromDataForLineChart);
 
 	// Инифиализация ВК
 	initVK();
@@ -44,17 +44,6 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 
 
 	// ==================================================
-
-	function prepareDataLineGraphic() {
-
-		var data = statisticsStorage.getUserProgress();
-
-		if (data) {
-
-			fromDataForLineChart(data);
-
-		}
-	}
 
 	/**
 	 * Инициализация виджета ВК.

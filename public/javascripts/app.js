@@ -7,7 +7,7 @@ require('angular-ui-router');
 require('angular-ui-layout');
 require('angular-ui-ace');
 require('angular-http-auth');
-require('angular-cookies')
+require('angular-cookies');
 
 /**
  * Подключаем изменение прототипа.
@@ -61,15 +61,17 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
  */
 function runBlock(authentication, $rootScope, $state) {
 
+	var LOGIN_STATE = 'login';
+
 	$rootScope.$on("$stateChangeStart", function(event, toState) {
 
 		// Если мы не авторизованы и отсутствуют куки.
-		if (!authentication.isAuthenticated && lodash.has(toState, 'data.authorizationRedirect')) {
+		if (!authentication.isAuthenticated && toState.name != LOGIN_STATE) {
 
 			// Отменяем маршрутизацию.
 			event.preventDefault();
 
-			$state.go(toState.data.authorizationRedirect);
+			$state.go(LOGIN_STATE);
 
 		}
 

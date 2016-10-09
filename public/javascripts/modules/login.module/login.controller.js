@@ -103,12 +103,7 @@ function LoginController($scope, $state, authentication, authService) {
 		authentication.login({
 			email:    email,
 			password: password,
-			success:  function(data) {
-
-				// Оповещаем сервис аутентификации о усещной аутентификации.
-				authService.loginConfirmed();
-
-			},
+			success:  authService.loginConfirmed,
 			error:    error
 		});
 

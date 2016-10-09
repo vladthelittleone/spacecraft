@@ -23,10 +23,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 	$stateProvider.state('welcome', {
 		url: '/',
 		templateUrl: 'views/main/welcome.html',
-		controller: 'WelcomeController as ctrl',
-		data: {
-			authorizationRedirect: 'login'
-		}
+		controller: 'WelcomeController as ctrl'
 	});
 
 }

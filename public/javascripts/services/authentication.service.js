@@ -18,7 +18,7 @@ function Authentication(connection, lessonService, $rootScope, $cookies, $state)
 	var that = {};
 
 	// Если в куках есть сессия - считаем, что пользователь авторизован.
-	that.isAuthenticated = $cookies.get('sid');
+	that.isAuthenticated = $cookies['sid'];
 
 	that.login = login;
 	that.logout = logout;

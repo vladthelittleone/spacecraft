@@ -9,9 +9,9 @@ const logout = require('./logout');
 const reg = require('./registration');
 const statistic = require('./statistic');
 const metrics = require('./metrics');
+const checkAuthentication = require('./../middlewares/check-authentication');
 
 const HttpError = require('error').HttpError;
-
 
 module.exports = function (app)
 {
@@ -19,19 +19,11 @@ module.exports = function (app)
 	app.use('/login', login);
 	app.use('/reg', reg);
 	app.use('/logout', logout);
-	// Данный мидлвар осуществляет проверку аутентификации пользователя,
-	// чтобы допустить его к нижележащим маршрутам.
-	app.use(function(req, res, next) {
 
-		if (!req.isAuthenticated()) {
+	// Проверка на аутентификацию, прежде чем допустить
+	// к нижележащим маршрутам.
+	app.use(checkAuthentication);
 
-			return next(new HttpError(401, "Вы не авторизованы"));
-
-		}
-
-		next();
-
-	});
 	app.use('/', main);
 	app.use('/user', user);
 	app.use('/statistic', statistic);

@@ -12,10 +12,7 @@ function LessonsConfig($stateProvider) {
 	$stateProvider.state('lessons', {
 		url: '/lessons',
 		templateUrl: 'views/lessons/lessons.html',
-		controller: 'LessonsController as ctrl',
-		data: {
-			authorizationRedirect: 'login'
-		}
+		controller: 'LessonsController as ctrl'
 	});
 
 }

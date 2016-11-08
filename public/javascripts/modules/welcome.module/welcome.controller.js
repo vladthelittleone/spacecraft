@@ -35,7 +35,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 
 	connection.getLeaderboard(formLeaderboard);
 
-	statisticsStorage.getUserProgress(fromDataForLineChart);
+	statisticsStorage.getUserProgress(formDataForLineChart);
 
 	// Инифиализация ВК
 	initVK();
@@ -117,7 +117,8 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 	 * Данные -  приходит  массив
 	 * и сами данные для графика должны находится в массиве
 	 */
-	function fromDataForLineChart(result) {
+	function formDataForLineChart(result) {
+
 		// Если result еопределен, график непостроется и
 		// Пользователю вывадится не будет
 		if (result && !$scope.showLineGraphic) {

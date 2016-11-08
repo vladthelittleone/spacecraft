@@ -16,15 +16,7 @@ function StatisticsStorage(connection) {
 	that.getUserProgress = getUserProgress;
 	that.saveUserProgress = saveUserProgress;
 
-	//initialize();
-
 	return that;
-
-	// function initialize() {
-    //
-	// 	connection.getUserProgress(setUserProgress);
-    //
-	// }
 
 	/**
 	 * Возвращаем инфу о прогрессе юзера
@@ -36,6 +28,7 @@ function StatisticsStorage(connection) {
 			callback && callback(userProgress);
 
 		} else {
+
 			connection.getUserProgress(function (result) {
 
 				if(result){
@@ -57,7 +50,7 @@ function StatisticsStorage(connection) {
 
 		connection.updateUserProgress(score);
 
-		if(userProgress.length >= 30){
+		if(userProgress.length >= 30) {
 
 			userProgress.shift();
 
@@ -66,7 +59,7 @@ function StatisticsStorage(connection) {
 		userProgress.push(score);
 	}
 
-	function setUserProgress(newData){
+	function setUserProgress(newData) {
 
 		userProgress = newData || [];
 

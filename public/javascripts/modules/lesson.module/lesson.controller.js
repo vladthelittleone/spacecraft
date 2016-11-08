@@ -8,13 +8,13 @@ var TabHandler = require('../../emitters/tab-handler');
 var Diagram = require('../../directives/diagram.directive/diagram');
 
 LessonController.$inject = ['$scope',
-	'$stateParams',
-	'$state',
-	'lessonService',
-	'audioManager',
-	'aceService',
-	'settings'
-];
+                            '$stateParams',
+                            '$state',
+                            'lessonService',
+                            'audioManager',
+                            'aceService',
+                            'settings'
+                        ];
 
 module.exports = LessonController;
 

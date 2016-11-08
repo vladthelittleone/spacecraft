@@ -17,8 +17,8 @@ module.exports = local;
  */
 var localStrategyReqParam = {
 
-	usernameField: 'email',
-	passwordField: 'password',
+	usernameField:     'email',
+	passwordField:     'password',
 	passReqToCallback: true
 
 };
@@ -26,15 +26,15 @@ var localStrategyReqParam = {
 /**
  * стратегия для локальной авторизации
  */
-local.login = new LocalStrategy (localStrategyReqParam,
+local.login = new LocalStrategy(localStrategyReqParam,
 	(req, email, password, next) => {
 
-		let normalizeEmail = valid.normalizeEmail (email);
+		let normalizeEmail = valid.normalizeEmail(email);
 
 		User.authorize(normalizeEmail, password, (err, user) => {
 
 			// проверяем прошла ли авторизация успешно
-			if(!err) {
+			if (!err) {
 
 				strategyHelp.updateCohort(user);
 
@@ -49,15 +49,15 @@ local.login = new LocalStrategy (localStrategyReqParam,
 /**
  * стратегия для регистрации пользователя
  */
-local.registration = new LocalStrategy (localStrategyReqParam,
+local.registration = new LocalStrategy(localStrategyReqParam,
 	(req, email, password, next) => {
 
-		let normalizeEmail = valid.normalizeEmail (email);
+		let normalizeEmail = valid.normalizeEmail(email);
 		let isSubscribeOnEmail = req.body.isSubscribeOnEmail;
 
-		User.registration (normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
+		User.registration(normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
 
-			if(err) {
+			if (err) {
 
 				return next (err, email);
 
@@ -65,7 +65,7 @@ local.registration = new LocalStrategy (localStrategyReqParam,
 
 			strategyHelp.updateTotalFinalScore(user);
 
-			next (null, user);
+			next(null, user);
 
 		});
 

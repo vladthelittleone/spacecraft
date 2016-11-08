@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
-var AuthError = require('error').AuthError;
+var HttpError = require('error').HttpError;
 var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
@@ -9,23 +9,23 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
 	email:              {
 		type:     String,
-		unique:   true,
-		required: true
+		unique:   true
 	},
 	username:           {
 		type: String
 	},
 	hashedPassword:     {
+		type:     String
+	},
+	vkId:		        {
 		type:     String,
-		required: true
+		unique:   true
 	},
 	salt:               {
-		type:     String,
-		required: true
+		type:     String
 	},
 	isSubscribeOnEmail: {
-		type:     Boolean,
-		required: true
+		type:     Boolean
 	},
 	created:            {
 		type:    Date,
@@ -39,6 +39,7 @@ schema.virtual('password')
 		this._plainPassword = password;
 		this.salt = Math.random() + '';
 		this.hashedPassword = this.encryptPassword(password);
+
 	})
 	.get(function () {
 
@@ -51,6 +52,7 @@ schema.methods.checkPassword = checkPassword;
 schema.statics.authorize = authorize;
 schema.statics.registration = registration;
 schema.statics.getUserCreationDate = getUserCreationDate;
+schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 
 exports.User = mongoose.model('User', schema);
 
@@ -86,27 +88,33 @@ function authorize(email, password, callback) {
 
 		function (callback) {
 
-			User.findOne({email: email}, callback);
+			User.findOne({ email: email }, callback);
 
 		},
 		function (user, callback) {
 
 			if (user) {
 
-				if (user.checkPassword(password)) {
+				// если для пользователя задан vkId и не задан пароль
+				// то пользователь не может авторизироваться через логин/пароль
+				if (user.vkId && !user.hashedPassword) {
+
+					callback(new HttpError(403, "Воспользуйтесь авторизацией через VK."));
+
+				}
+				else if (user.checkPassword(password)) {
 
 					callback(null, user);
 
+				} else {
+
+					callback(new HttpError(403, 'Пароль неверен'));
+
 				}
-				else {
 
-					callback(new AuthError('Пароль неверен'));
+			} else {
 
-				}
-			}
-			else {
-
-				callback(new AuthError('Пользователь не найден'));
+				callback(new HttpError(403, 'Пользователь не найден'));
 
 			}
 		}
@@ -130,25 +138,67 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 			if (!user) {
 
-				var newbie = new User({email: email, password: password, isSubscribeOnEmail: isSubscribeOnEmail});
+				var newbie = new User({
+
+					email: email,
+					password: password,
+					isSubscribeOnEmail: isSubscribeOnEmail
+
+				});
 
 				newbie.save(function (err) {
 
-					if (err) {
-
-						return callback(err);
-					}
-
-					callback(null, newbie);
+					callback(err, newbie);
 
 				});
 			}
 			else {
 
-				callback(new AuthError('Пользователь уже существует'));
+				callback(new HttpError(403, 'Пользователь уже существует'));
 
 			}
 		}
+
+	], callback);
+
+}
+
+/**
+ * Функция ищет пользователя по его vk id
+ * если пользователь не найдет функция создает нового пользователя в базе
+ */
+function findOrCreateVKUser (vkId, email, callback) {
+
+	var User = this;
+
+	async.waterfall([
+
+			(callback) => {
+
+				User.findOne({vkId: vkId}, callback);
+
+			},
+			(user, callback) => {
+
+				if (!user) {
+
+					var newbie = new User ({
+
+						email: email,
+						vkId: vkId
+
+					});
+
+					newbie.save((err) => {
+
+						callback(err, newbie, true);
+
+					});
+				}
+
+				callback(null, user, false);
+			}
+
 	], callback);
 
 }

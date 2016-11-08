@@ -21,3 +21,11 @@ router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-
 	successRedirect: '/'
 
 }));
+
+router.get('/vk', passport.authenticate('vk-login'));
+
+router.get('/vk/callback', passport.authenticate('vk-login', {
+
+	successRedirect: '/'
+
+}));

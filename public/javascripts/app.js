@@ -1,13 +1,13 @@
 'use strict';
 
 var angular = require('angular');
-
-// Для управления состоянием хранилища.
-var storage = require('./utils/storage')();
+var lodash = require('lodash');
 
 require('angular-ui-router');
 require('angular-ui-layout');
 require('angular-ui-ace');
+require('angular-http-auth');
+require('angular-cookies');
 
 /**
  * Подключаем изменение прототипа.
@@ -27,7 +27,9 @@ angular.module('spacecraft', [
 		'ui.router',
 		'ui.ace',
 		'ui.layout',
-		'spacecraft.modules'
+		'spacecraft.modules',
+		'http-auth-interceptor',
+		'ngCookies'
 	])
 	.config(configBlock)
 	.run(runBlock);
@@ -38,7 +40,7 @@ angular.module('spacecraft', [
 require('./services');
 require('./directives');
 
-runBlock.$inject = ['authentication', 'lessonService', '$rootScope', '$state'];
+runBlock.$inject = ['authentication', '$rootScope', '$state'];
 configBlock.$inject = ['$urlRouterProvider', 'ChartJsProvider'];
 
 angular.module('spacecraft').config(configBlock);
@@ -57,38 +59,19 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
 /**
  * Запуск скрипта на старте приложения.
  */
-function runBlock(authentication, lessonService, $rootScope, $state) {
+function runBlock(authentication, $rootScope, $state) {
 
-	/**
-	 * При изменении текущей страницы - state, выполняется callback.
-	 */
-	$rootScope.$on('$stateChangeSuccess', function () {
+	var LOGIN_STATE = 'login';
 
-		// Текущая страница
-		var current = $state.current.name;
+	$rootScope.$on("$stateChangeStart", function(event, toState) {
 
-		// Если текущая страница не ввода логина
-		if (current !== 'login') {
+		// Если мы не авторизованы и отсутствуют куки.
+		if (!authentication.isAuthenticated && toState.name != LOGIN_STATE) {
 
-			// Выполняем проверку авторизации пользователя
-			authentication.isLoggedIn({
+			// Отменяем маршрутизацию.
+			event.preventDefault();
 
-				error: function () {
-
-					// Очищаем сервис урока, так как его состояние больше
-					// не является актуальным в момент редиректа на страницу логина.
-					lessonService.clear();
-
-					// Если storage поддерживается текущей реализацией браузера.
-					// В противном случае заботиться о очистке не нужно :)
-					storage.local && storage.local.clear();
-
-					// В случае ошибки переходим на страницу логина.
-					$state.go('login');
-
-				}
-
-			});
+			$state.go(LOGIN_STATE);
 
 		}
 

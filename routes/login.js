@@ -8,8 +8,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-var HttpError = require('error').HttpError;
-
 var validation = require('../utils/validation');
 
 module.exports = router;
@@ -24,21 +22,10 @@ router.post("/", validation.checkEmailAndPassword, passport.authenticate('local-
 
 }));
 
-/**
- * проверяем авторизован ли пользователь
- */
-router.get('/check', (req, res, next) => {
+router.get('/vk', passport.authenticate('vk-login'));
 
-	if (!req.isAuthenticated()) {
+router.get('/vk/callback', passport.authenticate('vk-login', {
 
-		return next(new HttpError(401, "Вы не авторизованы"));
+	successRedirect: '/'
 
-	}
-
-	res.send({
-
-		email: req.user.email
-
-	});
-
-});
+}));

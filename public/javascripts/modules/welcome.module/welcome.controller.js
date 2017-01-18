@@ -1,6 +1,6 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection'];
+WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection', 'authService'];
 
 module.exports = WelcomeController;
 
@@ -8,7 +8,7 @@ module.exports = WelcomeController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $state, $sce, authentication, connection) {
+function WelcomeController($scope, $state, $sce, authentication, connection, authService) {
 
 	$scope.leadersList = [];	// Лидеры игры
 	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
@@ -170,9 +170,9 @@ function WelcomeController($scope, $state, $sce, authentication, connection) {
 
 			success: function () {
 
-				// Переход на страницу авторизации
-				$state.go('login');
-
+				// Оповещаем сервис аутентификации о прекращении текущего сеанса.
+				authService.loginCancelled();
+				
 			}
 
 		});

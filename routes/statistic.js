@@ -5,10 +5,8 @@ var express = require('express');
 var logger = require('../utils/log')(module);
 
 var Statistic = require('models/statistic').Statistic;
-var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
-var async = require('async');
 
 var router = express.Router();
 
@@ -19,10 +17,10 @@ module.exports = router;
  */
 router.post('/lessons', function (req, res, next) {
 
-	let userId = req.user;
+	let idUser = req.user._id;
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStatistics(userId, dataForUpdate, function (err) {
+	Statistic.updateLessonStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
@@ -43,7 +41,9 @@ router.post('/lessons', function (req, res, next) {
  */
 router.get('/lessons', function (req, res, next) {
 
-	Statistic.getUserStatistics(req.user, function (err, result) {
+	let idUser = req.user._id;
+
+	Statistic.getUserStatistics(idUser, function (err, result) {
 
 		if (err) {
 
@@ -72,7 +72,9 @@ router.get('/lessons', function (req, res, next) {
 
 router.post('/lessons/stars', function (req, res, next) {
 
-	Cohorts.updateCohort(req.user, function (data, cohortID) {
+	let idUser = req.user._id;
+
+	Cohorts.updateCohort(idUser, function (data, cohortID) {
 
 		if (data) {
 
@@ -101,11 +103,10 @@ router.post('/lessons/stars', function (req, res, next) {
 		}
 
 	});
-
-	let userId = req.user;
+	
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStarStatistics(userId, dataForUpdate, function (err) {
+	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, function (err) {
 
 		if (err) {
 
@@ -121,8 +122,9 @@ router.post('/lessons/stars', function (req, res, next) {
 
 router.get('/lessons/leaderboard', function (req, res, next) {
 
+	let idUser = req.user._id;
 
-	Statistic.getLeaderboard(req.session.user, function(error, leaderBoard) {
+	Statistic.getLeaderboard(idUser, function(error, leaderBoard) {
 
 		if (error) {
 

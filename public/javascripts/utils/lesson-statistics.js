@@ -2,6 +2,7 @@
 
 module.exports = LessonStatistics;
 
+
 /**
  * Сервис хранения статистики пользователя по игре.
  *
@@ -50,6 +51,7 @@ function LessonStatistics() {
 	that.isItFirstLessonAttempt = isItFirstLessonAttempt;
 
 	that.setPenaltyPointsForGame = setPenaltyPointsForGame;
+	that.incPenaltyPointsForGame = incPenaltyPointsForGame;
 
 	that.calculateScoreForLessonEnd = calculateScoreForLessonEnd;
 	that.calculateBonusScore = calculateBonusScore;
@@ -436,6 +438,12 @@ function LessonStatistics() {
 	function setPenaltyPointsForGame(penaltyPoints) {
 
 		penaltyPointsForGame = penaltyPoints;
+
+	}
+
+	function incPenaltyPointsForGame(penaltyPoints) {
+
+		penaltyPointsForGame += penaltyPoints;
 
 	}
 

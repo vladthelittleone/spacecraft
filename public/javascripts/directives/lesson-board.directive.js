@@ -1,8 +1,10 @@
 'use strict';
 
-LessonBoard.$inject = ['$sce'];
+LessonBoard.$inject = ['$sce', 'lessonService'];
 
 module.exports = LessonBoard;
+
+const showHitPenaltyPointsSize = 100;
 
 /**
  * Директива вывода текстового контента уроков.
@@ -10,9 +12,9 @@ module.exports = LessonBoard;
  * @since 23.12.15
  * @author Skurishin Vladislav
  */
-function LessonBoard($sce) {
+function LessonBoard($sce, lessonService) {
 
-	var directive = {
+	let directive = {
 		scope:       {
 			lesson:      '=' // информация о уроке
 		},
@@ -67,6 +69,13 @@ function LessonBoard($sce) {
 		function showHint () {
 
 			$scope.hint = !$scope.hint;
+
+			// штрафуем пользователя за обращение к подсказке.
+			if (lessonService.currentLessonStatistics) {
+
+				lessonService.currentLessonStatistics.incPenaltyPointsForGame(showHitPenaltyPointsSize);
+
+			}
 
 		}
 

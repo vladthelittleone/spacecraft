@@ -71,7 +71,7 @@ function LessonBoard($sce, lessonService) {
 			$scope.hint = !$scope.hint;
 
 			// штрафуем пользователя за обращение к подсказке.
-			if (lessonService.currentLessonStatistics) {
+			if ($scope.hint && lessonService.currentLessonStatistics) {
 
 				lessonService.currentLessonStatistics.incPenaltyPointsForGame(showHitPenaltyPointsSize);
 

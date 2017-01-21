@@ -267,7 +267,7 @@ function Connection($http) {
 
 	function getUserProgress(callback) {
 
-		$http.get(links.statistic.progress).success(callback);
+		$http.get(links.statistic.progress).then(callback);
 
 	}
 

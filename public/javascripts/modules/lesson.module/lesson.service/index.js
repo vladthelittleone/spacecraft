@@ -38,7 +38,6 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	var scope;							  // scope
 	var lessons;						  // Массив уроков. Содержит данные по ВСЕМ урокам пользователя.
 	var totalFinalScore;				  // Общее число очков за все уроки.
-	var userProgress;
 
 	// Ссылка на подсказку в процессе урока.
 	var enjoyHint;
@@ -70,12 +69,6 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	that.audioManager = audioWrapper;
 
 	that.clear = clear;
-
-	connection.getUserProgress(function (result){
-
-		userProgress = result || [];
-
-	});
 
 	return that;
 

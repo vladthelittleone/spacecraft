@@ -9,7 +9,9 @@ var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
 
 // Размер массива очков пользователя за  прохождения уроков,
-// так сказать его прогресс
+// так сказать его прогресс,
+// под числом 30 подразумеваются дни,
+// но по факту привязке по дате пока нет
 const SIZE_LIMIT = 30;
 
 var router = express.Router();
@@ -147,8 +149,10 @@ router.post('/user/progress', (req, res, next) => {
 	let idUser = req.user._id;
 	let scoreFromRequest = req.body.score;
 
+	// Если очки действительно пришли
 	if(scoreFromRequest) {
 
+		// Тащим из базы статистику
 		Statistic.getUserStatistics(idUser, (error, userStatistics) => {
 
 			if (error) {
@@ -159,8 +163,10 @@ router.post('/user/progress', (req, res, next) => {
 
 			let userProgress = [];
 
+			// Если стата есть
 			if (userStatistics && userStatistics.userProgress) {
 
+				// Берем прогресс юзера
 				let userScoreLength = userStatistics.userProgress.length;
 				userProgress = userStatistics.userProgress;
 
@@ -173,8 +179,10 @@ router.post('/user/progress', (req, res, next) => {
 
 			}
 
+			// Кладем новое значение очков пользователя
 			userProgress.push(scoreFromRequest);
 
+			// Кладем обновленный прогресс пользователя
 			Statistic.updateUserProgress(idUser, userProgress, (error) => {
 
 				if (error) {

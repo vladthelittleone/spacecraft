@@ -120,7 +120,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 	function formDataForLineChart(result) {
 
 		// Если result еопределен, график непостроется и
-		// Пользователю вывадится не будет
+		// Пользователю выводится не будет
 		if (result && !$scope.showLineGraphic) {
 
 			// Подготовка данных для вывода графика,

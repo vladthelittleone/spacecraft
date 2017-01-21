@@ -11,7 +11,13 @@ function StatisticsStorage(connection) {
 
 	var that = {};
 
-	var userProgress;
+	// Размер массива userProgress,
+	// изначально подрузамевалось,
+	// что 30 - количество дней,
+	// на дни забили число осталось
+	var LIMIT_TO_USER_PROGRESS = 30;
+
+	var userProgress = [];
 
 	that.getUserProgress = getUserProgress;
 	that.saveUserProgress = saveUserProgress;
@@ -33,10 +39,11 @@ function StatisticsStorage(connection) {
 
 				if(result){
 
-					setUserProgress(result);
+					userProgress = result;
 
 					callback && callback(result);
 				}
+
 			});
 		}
 
@@ -50,7 +57,7 @@ function StatisticsStorage(connection) {
 
 		connection.updateUserProgress(score);
 
-		if(userProgress.length >= 30) {
+		if(userProgress.length >= LIMIT_TO_USER_PROGRESS) {
 
 			userProgress.shift();
 
@@ -59,9 +66,4 @@ function StatisticsStorage(connection) {
 		userProgress.push(score);
 	}
 
-	function setUserProgress(newData) {
-
-		userProgress = newData || [];
-
-	}
 }

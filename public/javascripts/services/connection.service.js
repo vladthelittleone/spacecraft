@@ -28,6 +28,10 @@ var links = {
 		progress:    '/statistic/user/progress'
 	},
 
+	user: {
+		info:  '/user/info'
+	},
+
 	/**
 	 * Сбор метрик.
 	 */
@@ -55,8 +59,10 @@ function Connection($http) {
 	var that = {};
 
 	that.saveCode = saveCode;
+
 	that.getCodeFromDataBase = getCodeFromDataBase;
 	that.getCodeFromJs = getCodeFromJs;
+
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
 
 	that.getScore = getScore;
@@ -71,7 +77,8 @@ function Connection($http) {
 	that.login = login;
 	that.logout = logout;
 	that.register = register;
-	that.isLoggedIn = isLoggedIn;
+
+	that.getUserInfo = getUserInfo;
 
 	that.getUserProgress = getUserProgress;
 	that.updateUserProgress = updateUserProgress;
@@ -80,6 +87,15 @@ function Connection($http) {
 	that.metrics.hitOpenLesson = hitOpenLesson;
 
 	return that;
+
+	function getUserInfo(callback) {
+
+		$http({
+			url: links.user.info,
+			method: 'GET'
+		}).then(callback);
+
+	}
 
 	function getLeaderboard(callback) {
 
@@ -229,21 +245,6 @@ function Connection($http) {
 		});
 
 		p.then(success, error);
-
-	}
-
-	/**
-	 * Проверка авторизации пользователя в системе.
-	 */
-	function isLoggedIn(args) {
-
-		var success = args.success;
-		var error = args.error;
-
-		$http({
-			method: 'GET',
-			url:    links.loginCheck
-		}).then(success, error);
 
 	}
 

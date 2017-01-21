@@ -1,14 +1,16 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection', 'statisticsStorage'];
+WelcomeController.$inject = ['$scope', '$sce', 'authentication', 'connection', 'authService', 'statisticsStorage'];
 
 module.exports = WelcomeController;
+
+var lodash = require('lodash');
 
 /**
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $state, $sce, authentication, connection, statisticsStorage) {
+function WelcomeController($scope, $sce, authentication, connection, authService, statisticsStorage) {
 
 	$scope.leadersList = [];	// Лидеры игры
 	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
@@ -133,14 +135,14 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 			// (соответсвие индексов данного массива к массиву результатов )
 			$scope.labels = [];
 
-			for (var i = 1; i <= $scope.totalScore[0].length; i++) {
+			for (var i = 1; i <= lodash.first($scope.totalScore).length; i++) {
 
 				$scope.labels.push(i);
 
 			}
 
 			// Конец подготовки данных, и гоорим что готово!
-			$scope.showLineGraphic = !$scope.showLineGraphic;
+			$scope.showLineGraphic = $scope.labels.length > 0;
 			$scope.seriesT = ['Последние полученные очки'];
 		}
 	}
@@ -211,8 +213,8 @@ function WelcomeController($scope, $state, $sce, authentication, connection, sta
 
 			success: function () {
 
-				// Переход на страницу авторизации
-				$state.go('login');
+				// Оповещаем сервис аутентификации о прекращении текущего сеанса.
+				authService.loginCancelled();
 
 			}
 

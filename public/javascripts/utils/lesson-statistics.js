@@ -233,7 +233,7 @@ function LessonStatistics() {
 	function resetCurrentResults() {
 
 		that.currentScore = lessonContentPoints ? lessonContentPoints.totalPoints :
-			                                      0;
+			0;
 		that.currentRunCount = 0;
 
 	}

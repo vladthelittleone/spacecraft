@@ -7,6 +7,7 @@ var logger = require('../utils/log')(module);
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
+var lodash = require('lodash');
 
 // Размер массива очков пользователя за  прохождения уроков,
 // так сказать его прогресс,
@@ -167,15 +168,13 @@ router.post('/user/progress', (req, res, next) => {
 			if (userStatistics && userStatistics.userProgress) {
 
 				// Берем прогресс юзера
-				let userScoreLength = userStatistics.userProgress.length;
 				userProgress = userStatistics.userProgress;
 
-				// Не храним больше 30 записей
-				if (userScoreLength >= SIZE_LIMIT) {
+				lodash.dropRightWhile(userProgress, function () {
 
-					userProgress.shift();
+					return userProgress.length >= SIZE_LIMIT;
 
-				}
+				})
 
 			}
 

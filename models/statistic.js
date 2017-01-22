@@ -19,9 +19,9 @@ var schema = new Schema({
 		type:    Number,
 		default: 0
 	},
-	userProgress:{
-		type: 		Array,
-		default: 	[]
+	userProgress:    {
+		type:    Array,
+		default: []
 	},
 	lessons:         {
 		type:    [{
@@ -67,8 +67,7 @@ exports.Statistic = mongoose.model('Statistic', schema);
 /**
  * возвращает статистику пользователя
  */
-function getUserStatistics(idUser, callback) {
-
+function getUserStatistics (idUser, callback) {
 
 	var modelStatistics = this;
 
@@ -91,20 +90,50 @@ function getUserStatistics(idUser, callback) {
  *                      - error если прозошла какая либо ошибка;
  *                      - statistics статистика, выбранная из БД по указанному пользователю.
  */
-function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
+function prepareCurrentUserStatistics (modelStatistics, idUser, callback) {
 
 	if (validateParam(idUser, callback)) {
 
 		async.waterfall([
 
-			function (callback) {
+							function (callback) {
 
-				modelStatistics.findOne({idUser: idUser}, callback);
+								modelStatistics.findOne({idUser: idUser}, callback);
 
-			}
+							}
 
-		], callback);
+						], callback);
 
+	}
+
+}
+
+function updateUserProgress (idUser, score, callback) {
+
+
+	// Размер массива очков пользователя за прохождения уроков,
+	// так сказать его прогресс,
+	// под числом 30 подразумеваются дни,
+	// но по факту, привязки по дате пока нет
+	let USER_PROGRESS_SIZE_LIMIT = 30;
+
+	// Не строим таблицу для неавторизованных пользователей.
+	if (validateParam(idUser, callback) && validateParam(score, callback)) {
+
+		this.update({
+						idUser: idUser
+					}, {
+						$push: {
+							userProgress: {
+								$each:  [score],
+								// Отрицательное значение дает указание mongodb оставлять
+								// в массиве только КРАЙНИЕ N значений массива:
+								// https://docs.mongodb.com/v3.0/reference/operator/update/slice/#up._S_slice
+								// Это то, что и требуется по логике хранения прогресса пользователя.
+								$slice: -USER_PROGRESS_SIZE_LIMIT
+							}
+						}
+					}, callback);
 	}
 
 }
@@ -114,7 +143,7 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
  * Предполагается, что сами электронные адреса задаются в поле name каждого пользователя.
  * @param listOfUsers список пользователей.
  */
-function takeNameFromEmail(listOfUsers) {
+function takeNameFromEmail (listOfUsers) {
 
 	listOfUsers.forEach(function (item) {
 
@@ -145,7 +174,7 @@ function takeNameFromEmail(listOfUsers) {
  * метода, так как формирование нужных данных по таблице лидеров целесообразно
  * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
  */
-function getLeaderboard(idUser, callback) {
+function getLeaderboard (idUser, callback) {
 
 	// Не строим таблицу для неавторизованных пользователей.
 	if (validateParam(idUser, callback)) {
@@ -202,7 +231,7 @@ function getLeaderboard(idUser, callback) {
  * Заносим инфу о том сколько звездочек
  * какому уроку было поставленно пользователем.
  */
-function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
+function updateLessonStarStatistics (idUser, dataForUpdate, callback) {
 
 	var modelStatistics = this;
 	// Проверка коректности пришедших данных для обновления.
@@ -214,10 +243,10 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 		let fieldStarOfLesson = 'lessons.' + dataForUpdate.lessonId + '.stars';
 
 		modelStatistics.update({
-			idUser: idUser
-		}, {
-			$set: {[fieldStarOfLesson]: dataForUpdate.stars}
-		}, callback);
+								   idUser: idUser
+							   }, {
+								   $set: {[fieldStarOfLesson]: dataForUpdate.stars}
+							   }, callback);
 
 	}
 
@@ -231,27 +260,27 @@ function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
  * производиться сортировка.
  * @param callback
  */
-function sortStatistics(modelStatistics, callback) {
+function sortStatistics (modelStatistics, callback) {
 
 	// Сортируем данные в statistics по убыванию значения в поле totalFinalScore.
 	modelStatistics.aggregate([{$sort: {totalFinalScore: -1}}, {$out: 'statistics'}], callback);
 
 }
 
-function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
+function updateTotalFinalScore (idUser, totalFinalScoreValue, callback) {
 
 	if (validateParam(totalFinalScoreValue, callback)) {
 
 		let modelStatistics = this;
 
 		this.update({
-			idUser: idUser
-		}, {
-			$set: {totalFinalScore: totalFinalScoreValue}
-		}, {
-			setDefaultsOnInsert: true,
-			upsert:              true
-		}, function (error, resultOfUpdate) {
+						idUser: idUser
+					}, {
+						$set: {totalFinalScore: totalFinalScoreValue}
+					}, {
+						setDefaultsOnInsert: true,
+						upsert:              true
+					}, function (error, resultOfUpdate) {
 
 			// В случае ошибки, resultUpdate.nModified будет равен нулю.
 			if (resultOfUpdate.nModified) {
@@ -273,7 +302,7 @@ function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 /**
  * Обновение инфы о прохождении пользователем уроков.
  */
-function updateLessonStatistics(idUser, dataForUpdate, callback) {
+function updateLessonStatistics (idUser, dataForUpdate, callback) {
 
 	var isDataForUpdateExists = validateParam(dataForUpdate, callback);
 	var fieldsAreCorrect = validateParam(dataForUpdate.lesson, callback);
@@ -297,39 +326,16 @@ function updateLessonStatistics(idUser, dataForUpdate, callback) {
 			let elemOfNecessaryLesson = 'lessons.' + lessonId;
 
 			modelStatistics.update({
-				idUser: idUser
-			}, {
-				$set: {[elemOfNecessaryLesson]: lesson}
-			}, {
-				setDefaultsOnInsert: true,
-				upsert:              true
-			}, callback);
+									   idUser: idUser
+								   }, {
+									   $set: {[elemOfNecessaryLesson]: lesson}
+								   }, {
+									   setDefaultsOnInsert: true,
+									   upsert:              true
+								   }, callback);
 
 		});
 
-	}
-
-}
-
-/**
- * Обновение инфы о полученных очках пользователя за сегодня.
- */
-
-function updateUserProgress(idUser, dataForUpdate, callback) {
-
-	let isIdUserExist = validateParam(idUser, callback);
-	let isDataCorrect = validateParam(dataForUpdate, callback);
-
-	if (isIdUserExist && isDataCorrect) {
-
-		this.update({
-			idUser: idUser
-		}, {
-			$set: {['userProgress']: dataForUpdate}
-		}, {
-			setDefaultsOnInsert: true,
-			upsert:              true
-		}, callback);
 	}
 
 }
@@ -342,7 +348,7 @@ function updateUserProgress(idUser, dataForUpdate, callback) {
  * @param callback обработки ошибки
  * @return boolean результат проверки
  */
-function validateParam(expression, callback) {
+function validateParam (expression, callback) {
 
 	var result = true;
 

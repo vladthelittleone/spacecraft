@@ -55,7 +55,11 @@ function StatisticsStorage(connection) {
 	 */
 	function saveUserProgress(score) {
 
-		connection.updateUserProgress(score);
+		connection.updateUserProgress(score, function (result) {
+
+			console.log(result);
+
+		});
 
 		if(userProgress.length >= LIMIT_TO_USER_PROGRESS) {
 

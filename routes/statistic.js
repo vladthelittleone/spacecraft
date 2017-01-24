@@ -148,7 +148,7 @@ router.post('/user/progress', (req, res, next) => {
 	if(scoreFromRequest) {
 
 		// Кладем обновленный прогресс пользователя
-		Statistic.updateUserProgress(idUser, scoreFromRequest, (error) => {
+		Statistic.updateUserProgress(idUser, scoreFromRequest, (error, result) => {
 
 			if (error) {
 
@@ -156,7 +156,7 @@ router.post('/user/progress', (req, res, next) => {
 
 			}
 
-			res.sendStatus(200);
+			res.send(result);
 
 		});
 	}

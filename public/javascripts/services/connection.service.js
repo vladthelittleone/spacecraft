@@ -272,7 +272,7 @@ function Connection($http) {
 
 	}
 
-	function updateUserProgress(score) {
+	function updateUserProgress(score, callback) {
 
 		$http({
 			url:    links.statistic.progress,
@@ -280,7 +280,7 @@ function Connection($http) {
 			data:   {
 				score: score
 			}
-		});
+		}).then(callback);
 	}
 
 }

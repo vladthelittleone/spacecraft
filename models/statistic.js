@@ -115,25 +115,44 @@ function updateUserProgress (idUser, score, callback) {
 	// так сказать его прогресс,
 	// под числом 30 подразумеваются дни,
 	// но по факту, привязки по дате пока нет
-	let USER_PROGRESS_SIZE_LIMIT = 30;
+	const USER_PROGRESS_SIZE_LIMIT = 30;
 
 	// Не строим таблицу для неавторизованных пользователей.
 	if (validateParam(idUser, callback) && validateParam(score, callback)) {
 
-		this.update({
-						idUser: idUser
-					}, {
-						$push: {
-							userProgress: {
-								$each:  [score],
-								// Отрицательное значение дает указание mongodb оставлять
-								// в массиве только КРАЙНИЕ N значений массива:
-								// https://docs.mongodb.com/v3.0/reference/operator/update/slice/#up._S_slice
-								// Это то, что и требуется по логике хранения прогресса пользователя.
-								$slice: -USER_PROGRESS_SIZE_LIMIT
-							}
-						}
-					}, callback);
+		// this.update({
+		// 				idUser: idUser
+		// 			}, {
+		// 				$push: {
+		// 					userProgress: {
+		// 						$each:  [score],
+		// 						// Отрицательное значение дает указание mongodb оставлять
+		// 						// в массиве только КРАЙНИЕ N значений массива:
+		// 						// https://docs.mongodb.com/v3.0/reference/operator/update/slice/#up._S_slice
+		// 						// Это то, что и требуется по логике хранения прогресса пользователя.
+		// 						$slice: -USER_PROGRESS_SIZE_LIMIT
+		// 					}
+		// 				}
+		// 			}, callback);
+
+		this.findAndModify({
+								query: {
+									idUser: idUser
+								},
+								update: {
+									$push: {
+										userProgress: {
+											$each:  [score],
+											// Отрицательное значение дает указание mongodb оставлять
+											// в массиве только КРАЙНИЕ N значений массива:
+											// https://docs.mongodb.com/v3.0/reference/operator/update/slice/#up._S_slice
+											// Это то, что и требуется по логике хранения прогресса пользователя.
+											$slice: -USER_PROGRESS_SIZE_LIMIT
+										}
+									}
+								},
+								upsert: true
+							}, callback);
 	}
 
 }

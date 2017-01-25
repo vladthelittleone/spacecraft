@@ -156,7 +156,8 @@ router.post('/user/progress', (req, res, next) => {
 
 			}
 
-			res.send(result);
+			// Отправляем в ответ обновленный массив очков
+			res.send(result.userProgress);
 
 		});
 	}

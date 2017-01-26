@@ -14,7 +14,7 @@ var AudioWrapper = require('./audio');
 var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
-LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings'];
+LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
 
 module.exports = LessonService;
 
@@ -25,7 +25,7 @@ module.exports = LessonService;
  * @since 07.05.2016
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService, settings) {
+function LessonService(connection, audioManager, aceService, settings, statisticsStorage) {
 
 	var that = {};
 
@@ -71,6 +71,8 @@ function LessonService(connection, audioManager, aceService, settings) {
 	that.clear = clear;
 
 	return that;
+
+
 
 	/**
 	 * Метод очистки содержимого сервиса.
@@ -297,6 +299,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	}
 
+
 	/**
 	 * Обертка, которая знает в каком формате необходимо
 	 * сохранять статистику для текущего урока.
@@ -320,7 +323,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 				lessonStatistics: currentLessonStatistics
 			}
 		});
-
 	}
 
 	/**
@@ -421,6 +423,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// Сохраняем окончательную статистику за урок.
 		saveStatisticsWrapper(LESSON_IS_FINISHED, true);
 
+		statisticsStorage.saveUserProgress(totalFinalScore);
 	}
 
 	/**

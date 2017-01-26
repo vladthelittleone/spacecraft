@@ -19,12 +19,13 @@ var links = {
 	/**
 	 * Сбор статистики.
 	 */
-	statistic:   {
-		lessons: 	  '/statistic/lessons',
-		code:    	  '/statistic/code',
-		stars:   	  '/statistic/lessons/stars',
-		score:   	  '/statistic/score',
-		leaderboard: '/statistic/lessons/leaderboard'
+	statistic: {
+		lessons:     '/statistic/lessons',
+		code:        '/statistic/code',
+		stars:       '/statistic/lessons/stars',
+		score:       '/statistic/score',
+		leaderboard: '/statistic/lessons/leaderboard',
+		progress:    '/statistic/user/progress'
 	},
 
 	user: {
@@ -41,10 +42,10 @@ var links = {
 	/**
 	 * Остальные ссылки
 	 */
-	register:    '/reg',
-	logout:      '/logout',
-	login:       '/login',
-	loginCheck:  'login/check'
+	register:   '/reg',
+	logout:     '/logout',
+	login:      '/login',
+	loginCheck: 'login/check'
 
 };
 
@@ -79,6 +80,9 @@ function Connection($http) {
 
 	that.getUserInfo = getUserInfo;
 
+	that.getUserProgress = getUserProgress;
+	that.updateUserProgress = updateUserProgress;
+
 	that.metrics = {};
 	that.metrics.hitOpenLesson = hitOpenLesson;
 
@@ -96,7 +100,7 @@ function Connection($http) {
 	function getLeaderboard(callback) {
 
 		$http({
-			url: links.statistic.leaderboard,
+			url:    links.statistic.leaderboard,
 			method: 'GET'
 		}).then(callback);
 
@@ -233,8 +237,8 @@ function Connection($http) {
 		var p = $http({
 			method: 'POST',
 			data:   {
-				email:    args.email,
-				password: args.password,
+				email:              args.email,
+				password:           args.password,
 				isSubscribeOnEmail: args.isSubscribeOnEmail
 			},
 			url:    links.register
@@ -261,4 +265,22 @@ function Connection($http) {
 		$http.post(links.metrics.openLessons);
 
 	}
+
+	function getUserProgress(callback) {
+
+		$http.get(links.statistic.progress).then(callback);
+
+	}
+
+	function updateUserProgress(score, callback) {
+
+		$http({
+			url:    links.statistic.progress,
+			method: 'POST',
+			data:   {
+				score: score
+			}
+		}).then(callback);
+	}
+
 }

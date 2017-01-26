@@ -1,14 +1,16 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$state', '$sce', 'authentication', 'connection', 'authService'];
+WelcomeController.$inject = ['$scope', '$sce', 'authentication', 'connection', 'authService', 'statisticsStorage'];
 
 module.exports = WelcomeController;
+
+var lodash = require('lodash');
 
 /**
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $state, $sce, authentication, connection, authService) {
+function WelcomeController($scope, $sce, authentication, connection, authService, statisticsStorage) {
 
 	$scope.leadersList = [];	// Лидеры игры
 	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
@@ -17,12 +19,14 @@ function WelcomeController($scope, $state, $sce, authentication, connection, aut
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
 
+
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 
 	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
+	$scope.showLineGraphic = false;
 
 	$scope.openLessons = connection.metrics.hitOpenLesson();
 
@@ -33,10 +37,13 @@ function WelcomeController($scope, $state, $sce, authentication, connection, aut
 
 	connection.getLeaderboard(formLeaderboard);
 
+	statisticsStorage.getUserProgress(formDataForLineChart);
+
 	// Инифиализация ВК
 	initVK();
 
 	authentication.currentUser(initUser);
+
 
 	// ==================================================
 
@@ -108,6 +115,39 @@ function WelcomeController($scope, $state, $sce, authentication, connection, aut
 	}
 
 	/**
+	 * Функция формирует данные для графика
+	 * Данные -  приходит  массив
+	 * и сами данные для графика должны находится в массиве
+	 */
+	function formDataForLineChart(result) {
+
+		// Если result еопределен, график непостроется и
+		// Пользователю выводится не будет
+		if (result && !$scope.showLineGraphic) {
+
+			// Подготовка данных для вывода графика,
+			// представление данных [[1,2,3],[3,4,5]] - 2 графика
+			$scope.totalScore = [];
+
+			$scope.totalScore.push(result);
+
+			// Задаем подписи оси оХ
+			// (соответсвие индексов данного массива к массиву результатов )
+			$scope.labels = [];
+
+			for (var i = 1; i <= lodash.first($scope.totalScore).length; i++) {
+
+				$scope.labels.push(i);
+
+			}
+
+			// Конец подготовки данных, и гоорим что готово!
+			$scope.showLineGraphic = $scope.labels.length > 0;
+			$scope.seriesT = ['Последние полученные очки'];
+		}
+	}
+
+	/**
 	 * Суммирование по параметру элементов массива массива.
 	 *
 	 * @param a массив, параметры елементов которого суммируются.
@@ -149,9 +189,12 @@ function WelcomeController($scope, $state, $sce, authentication, connection, aut
 	// Изменить текущий график на следующий
 	function changeChart() {
 
-		// Реализовать переключение графиков
-		//	$scope.chartIndex = ($scope.chartIndex + 1) % 2;
+		if ($scope.showLineGraphic) {
 
+			// Реализовать переключение графиков
+			$scope.chartIndex = ($scope.chartIndex + 1) % 2;
+
+		}
 	}
 
 	// Инициализация пользователя
@@ -172,7 +215,7 @@ function WelcomeController($scope, $state, $sce, authentication, connection, aut
 
 				// Оповещаем сервис аутентификации о прекращении текущего сеанса.
 				authService.loginCancelled();
-				
+
 			}
 
 		});

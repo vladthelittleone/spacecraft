@@ -135,7 +135,7 @@ function updateUserProgress (idUser, score, callback) {
 		// 				}
 		// 			}, callback);
 
-		this.findAndModify({
+		this.findOneAndUpdate({
 								query: {
 									idUser: idUser
 								},

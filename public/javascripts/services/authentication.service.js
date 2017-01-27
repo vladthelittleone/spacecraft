@@ -1,11 +1,12 @@
 'use strict';
 
-Authentication.$inject = ['connection', 'lessonService', '$rootScope', '$cookies', '$state'];
+Authentication.$inject = ['connection', 'lessonService', '$rootScope', '$state'];
 
 module.exports = Authentication;
 
 // Для управления состоянием хранилища.
 var storage = require('./../utils/storage')();
+var lodash = require('lodash');
 
 /**
  * Сервис аутентификации.
@@ -13,22 +14,53 @@ var storage = require('./../utils/storage')();
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
-function Authentication(connection, lessonService, $rootScope, $cookies, $state) {
+function Authentication(connection, lessonService, $rootScope, $state) {
 
 	var that = {};
 
 	// Если в куках есть сессия - считаем, что пользователь авторизован.
-	that.isAuthenticated = $cookies['sid'];
+	var isAuthenticated;
 
 	that.login = login;
 	that.logout = logout;
 	that.currentUser = currentUser;
 	that.register = register;
+	that.getAuthenticationFlag = getAuthenticationFlag;
+
+	/**
+	 * Функция
+	 * @param callback
+     */
+	function getAuthenticationFlag(callback) {
+
+		if (!isAuthenticated) {
+
+			connection.checkSession(function () {
+
+				processingSuccessfulAuthorization();
+
+				callback(isAuthenticated);
+
+			},
+			function () {
+
+				processingFailedAuthorization();
+
+				callback(isAuthenticated);
+
+			});
+		} else {
+
+			callback(isAuthenticated);
+
+		}
+
+	}
 
 	// Подписываемся на событие успешной аутентификации на сервере.
 	$rootScope.$on('event:auth-loginConfirmed', function() {
 
-		that.isAuthenticated = true;
+		processingSuccessfulAuthorization();
 
 		// Переход на главную страницу после аутентификации.
 		$state.go('welcome');
@@ -38,23 +70,33 @@ function Authentication(connection, lessonService, $rootScope, $cookies, $state)
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
 	$rootScope.$on('event:auth-loginRequired', function() {
 
-		processingUnauthorized();
+		processingFailedAuthorization();
+
+		$state.go('login');
 
 	});
 
 	// Подписываемся на событие логаута пользователем.
 	$rootScope.$on('event:auth-loginCancelled', function() {
 
-		processingUnauthorized();
+		processingFailedAuthorization();
+
+		$state.go('login');
 
 	});
 
 	return that;
 
+	function processingSuccessfulAuthorization() {
+
+		isAuthenticated = true;
+
+	}
+
 	/**
 	 * Обработка ситуации потери пользователем права на авторизацию.
 	 */
-	function processingUnauthorized() {
+	function processingFailedAuthorization() {
 
 		// Очищаем сервис урока, так как его состояние больше
 		// не является актуальным в момент редиректа на страницу логина.
@@ -64,12 +106,7 @@ function Authentication(connection, lessonService, $rootScope, $cookies, $state)
 		// В противном случае заботиться о очистке не нужно :)
 		storage.local && storage.local.clear();
 
-		// Удаляем сессию из кук.
-		$cookies.remove('sid');
-
-		that.isAuthenticated = false;
-
-		$state.go('login');
+		isAuthenticated = false;
 
 	}
 

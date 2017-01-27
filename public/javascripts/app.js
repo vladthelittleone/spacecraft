@@ -63,17 +63,7 @@ function runBlock(authentication, $rootScope, $state) {
 
 	var LOGIN_STATE = 'login';
 
-	$rootScope.$on("$stateChangeStart", function(event, toState) {
-
-		// Если мы не авторизованы и отсутствуют куки.
-		if (!authentication.isAuthenticated && toState.name != LOGIN_STATE) {
-
-			// Отменяем маршрутизацию.
-			event.preventDefault();
-
-			$state.go(LOGIN_STATE);
-
-		}
+	$rootScope.$on("$stateChangeStart",function (event, toState, toParams) {
 
 	});
 

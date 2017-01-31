@@ -4,8 +4,6 @@ LessonBoard.$inject = ['$sce', 'lessonService'];
 
 module.exports = LessonBoard;
 
-const showHitPenaltyPointsSize = 100;
-
 /**
  * Директива вывода текстового контента уроков.
  *
@@ -70,10 +68,23 @@ function LessonBoard($sce, lessonService) {
 
 			$scope.hint = !$scope.hint;
 
-			// штрафуем пользователя за обращение к подсказке.
-			if ($scope.hint && lessonService.currentLessonStatistics) {
+			tryIncPenaltyPoints();
+		}
 
-				lessonService.currentLessonStatistics.incPenaltyPointsForGame(showHitPenaltyPointsSize);
+		/**
+		 * Штрафуем пользователя за обращение к подсказке.
+		 */
+		function tryIncPenaltyPoints() {
+
+			var currentLessonStatistics = lessonService.getCurrentLessonStatistics();
+
+			if ($scope.hint && currentLessonStatistics) {
+
+				var showHitPenaltyPointsSize = lessonService.getCurrentLessonContentPoints()
+					                                        .showHitPenaltyPointsSize ||
+					                            0;
+
+				currentLessonStatistics.incPenaltyPointsForGame(showHitPenaltyPointsSize);
 
 			}
 

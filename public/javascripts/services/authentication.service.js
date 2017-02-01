@@ -1,6 +1,11 @@
 'use strict';
 
-Authentication.$inject = ['connection', 'lessonService', '$rootScope', '$state'];
+Authentication.$inject = ['connection',
+						  'lessonService',
+						  '$rootScope',
+						  '$state',
+						  '$q',
+						  '$timeout'];
 
 module.exports = Authentication;
 
@@ -14,51 +19,100 @@ var lodash = require('lodash');
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
-function Authentication(connection, lessonService, $rootScope, $state) {
+function Authentication(connection,
+						lessonService,
+						$rootScope,
+						$state,
+						$q,
+						$timeout) {
 
 	var that = {};
 
-	// Если в куках есть сессия - считаем, что пользователь авторизован.
+	// Флаг текущего статуса аутентификации пользователя.
 	var isAuthenticated;
 
 	that.login = login;
 	that.logout = logout;
 	that.currentUser = currentUser;
 	that.register = register;
-	that.getAuthenticationFlag = getAuthenticationFlag;
+	that.getPromiseOfAuthenticationStatus = getPromiseOfAuthenticationStatus;
 
 	/**
-	 * Функция
-	 * @param callback
-     */
-	function getAuthenticationFlag(callback) {
+	 * Метод перенаправления пользователя на заданное состояние.
+	 * Предполагается, что данный метод вызывается в рамках обработки
+	 * логики отсутствия авторизации у пользователя.
+	 */
+	function routeToSpecifiedStateWhenUnauthorized() {
 
-		if (!isAuthenticated) {
+		$state.go('login');
+
+	}
+
+	/**
+	 * Получить 'обещание' на текущий статус аутентификации.
+	 * Метод гарантирует, что в качестве подтверждения успешной аутентификации
+	 * будет вызван errorCallback promise'a и в обратном случае - errorCallback.
+	 * @returns {*}
+	 */
+	function getPromiseOfAuthenticationStatus() {
+
+		var deferred = $q.defer();
+
+		deferGettingAuthenticationStatus(deferred);
+
+		return deferred.promise;
+
+	}
+
+	/**
+	 * Функция осуществления отложенного процесса получения состояния аутентификации.
+	 * @param deferred - предполагается, что объект отложенного задания (объект полученный на выходе $q.deffer()).
+	 */
+	function deferGettingAuthenticationStatus(deferred) {
+
+		if (lodash.isNil(isAuthenticated)) {
 
 			connection.checkSession(function () {
 
-				processingSuccessfulAuthorization();
+										processingSuccessfulAuthorization();
 
-				callback(isAuthenticated);
+										deferred.resolve(isAuthenticated);
 
-			},
-			function () {
+									},
+									function () {
 
-				processingFailedAuthorization();
+										processingFailedAuthorization();
 
-				callback(isAuthenticated);
+										routeToSpecifiedStateWhenUnauthorized();
 
-			});
+										deferred.reject(isAuthenticated);
+
+									});
 		} else {
 
-			callback(isAuthenticated);
+			// Имитируем асинхронную обработку deferred.
+			$timeout(function () {
+
+				if (!isAuthenticated) {
+
+					routeToSpecifiedStateWhenUnauthorized();
+
+					deferred.reject(isAuthenticated);
+
+					return;
+
+				}
+
+				deferred.resolve(isAuthenticated);
+
+			}, 0, false);
 
 		}
 
 	}
 
 	// Подписываемся на событие успешной аутентификации на сервере.
-	$rootScope.$on('event:auth-loginConfirmed', function() {
+	$rootScope.$on('event:auth-loginConfirmed', function () {
 
 		processingSuccessfulAuthorization();
 
@@ -68,20 +122,20 @@ function Authentication(connection, lessonService, $rootScope, $state) {
 	});
 
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
-	$rootScope.$on('event:auth-loginRequired', function() {
+	$rootScope.$on('event:auth-loginRequired', function () {
 
 		processingFailedAuthorization();
 
-		$state.go('login');
+		routeToSpecifiedStateWhenUnauthorized();
 
 	});
 
 	// Подписываемся на событие логаута пользователем.
-	$rootScope.$on('event:auth-loginCancelled', function() {
+	$rootScope.$on('event:auth-loginCancelled', function () {
 
 		processingFailedAuthorization();
 
-		$state.go('login');
+		routeToSpecifiedStateWhenUnauthorized();
 
 	});
 
@@ -160,7 +214,7 @@ function Authentication(connection, lessonService, $rootScope, $state) {
 	 */
 	function currentUser(callback) {
 
-		connection.getUserInfo(function(res){
+		connection.getUserInfo(function (res) {
 
 			callback(res.data);
 

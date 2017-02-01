@@ -7,7 +7,7 @@ module.exports = WelcomeConfig;
 /**
  * Инициализация состояния главной страницы.
  */
-function WelcomeConfig ($stateProvider, ChartJsProvider) {
+function WelcomeConfig($stateProvider, ChartJsProvider) {
 
 	// Настройка всех графиков
 	ChartJsProvider.setOptions({
@@ -25,29 +25,45 @@ function WelcomeConfig ($stateProvider, ChartJsProvider) {
 		templateUrl: 'views/main/welcome.html',
 		controller:  'WelcomeController as ctrl',
 		resolve:     {
-			auth: function ($q, $state, authentication) {
+			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
+			authenticationStatus: function (authentication) {
 
-				var deferred = $q.defer();
+				return authentication.getPromiseOfAuthenticationStatus();
 
-				authentication.getAuthenticationFlag(function (authorizationFlag) {
+			},
+			lessonStatisticsData: function ($q, connection) {
 
-					if (authorizationFlag) {
+				return $q(function (resolve, reject) {
 
-						defer.resolve();
+					connection.getLessonsStatistics(resolve, reject);
 
-					} else {
-
-						defer.reject();
-						
-						console.log("ERROR!");
-
-						// Отменяем маршрутизацию.
-						event.preventDefault();
-
-					}
 				});
 
-				return defer.promise;
+			},
+			leaderBoardData:      function ($q, connection) {
+
+				return $q(function (resolve, reject) {
+
+					connection.getLeaderboard(resolve, reject);
+
+				});
+
+			},
+			userProgressData:     function ($q, statisticsStorage) {
+
+				return $q(function (resolve, reject) {
+
+					statisticsStorage.getUserProgress(resolve, reject);
+
+				});
+			},
+			userInfoData:         function ($q, connection) {
+
+				return $q(function (resolve, reject) {
+
+					connection.getUserInfo(resolve, reject);
+
+				})
 
 			}
 		}

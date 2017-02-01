@@ -7,7 +7,7 @@ module.exports = StatisticsStorage;
 /**
  * Created by Ivan on 06.10.2016.
  */
-function StatisticsStorage(connection) {
+function StatisticsStorage (connection) {
 
 	var that = {};
 
@@ -27,24 +27,23 @@ function StatisticsStorage(connection) {
 	/**
 	 * Возвращаем инфу о прогрессе юзера
 	 */
-	function getUserProgress(callback) {
+	function getUserProgress (success, error) {
 
-		if(userProgress){
+		if (userProgress) {
 
-			callback && callback(userProgress);
+			success && success(userProgress);
 
 		} else {
 
 			connection.getUserProgress(function (result) {
 
-				if(result){
+										   userProgress = result;
 
-					userProgress = result;
+										   success && success(result);
 
-					callback && callback(result);
-				}
+									   },
+									   error);
 
-			});
 		}
 
 	}
@@ -53,7 +52,7 @@ function StatisticsStorage(connection) {
 	 * Все необходимые дейтсвия для обновления
 	 * данных по прогрессу юзера( нужны для графиков)
 	 */
-	function saveUserProgress(score) {
+	function saveUserProgress (score) {
 
 		connection.updateUserProgress(score, function (result) {
 
@@ -61,7 +60,7 @@ function StatisticsStorage(connection) {
 
 		});
 
-		if(userProgress.length >= LIMIT_TO_USER_PROGRESS) {
+		if (userProgress.length >= LIMIT_TO_USER_PROGRESS) {
 
 			userProgress.shift();
 

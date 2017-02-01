@@ -19,7 +19,6 @@ module.exports = function (app)
 	app.use('/login', login);
 	app.use('/reg', reg);
 	app.use('/logout', logout);
-	app.use('/checkSession', checkAuthentication);
 
 	// Проверка на аутентификацию, прежде чем допустить
 	// к нижележащим маршрутам.

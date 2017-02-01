@@ -29,7 +29,8 @@ var links = {
 	},
 
 	user: {
-		info: '/user/info'
+		info:    '/user/info',
+		session: '/user/session'
 	},
 
 	/**
@@ -45,7 +46,6 @@ var links = {
 	register:     '/reg',
 	logout:       '/logout',
 	login:        '/login',
-	checkSession: '/checkSession'
 
 };
 
@@ -54,7 +54,7 @@ var links = {
  *
  * Created by Ivan on 07.05.2016.
  */
-function Connection ($http) {
+function Connection($http) {
 
 	var that = {};
 
@@ -90,37 +90,47 @@ function Connection ($http) {
 
 	return that;
 
-	function checkSession (success, error) {
+	function checkSession(success, error) {
 
 		$http({
-				  url:    links.checkSession,
+				  url:    links.user.session,
 				  method: 'GET'
 			  }).then(success, error);
 
 	}
 
-	function getUserInfo (callback) {
+	function getUserInfo(success, error) {
 
 		$http({
 				  url:    links.user.info,
 				  method: 'GET'
-			  }).then(callback);
+			  }).then(function (response) {
+
+						  success(response.data);
+
+					  },
+					  error);
 
 	}
 
-	function getLeaderboard (callback) {
+	function getLeaderboard(success, error) {
 
 		$http({
 				  url:    links.statistic.leaderboard,
 				  method: 'GET'
-			  }).then(callback);
+			  }).then(function (response) {
+
+						  success(response.data)
+
+					  },
+					  error);
 
 	}
 
 	/**
 	 * Сохранение статистики урока.
 	 */
-	function saveLessonsStatistics (args) {
+	function saveLessonsStatistics(args) {
 
 		$http({
 				  url:    links.statistic.lessons,
@@ -133,7 +143,7 @@ function Connection ($http) {
 	/**
 	 * Сохранение оценки урока.
 	 */
-	function lessonRate (lessonId, stars) {
+	function lessonRate(lessonId, stars) {
 
 		$http({
 				  url:    links.statistic.stars,
@@ -149,7 +159,7 @@ function Connection ($http) {
 	/**
 	 * Сохранить код пользователя.
 	 */
-	function saveCode (data) {
+	function saveCode(data) {
 
 		$http({
 				  method: 'POST',
@@ -164,7 +174,7 @@ function Connection ($http) {
 	/**
 	 * Получить код из базы данных.
 	 */
-	function getCodeFromDataBase (callback) {
+	function getCodeFromDataBase(callback) {
 
 		$http({
 				  method: 'GET',
@@ -176,7 +186,7 @@ function Connection ($http) {
 	/**
 	 * Получить код из .js файла.
 	 */
-	function getCodeFromJs (source, callback) {
+	function getCodeFromJs(source, callback) {
 
 		$http({
 				  method: 'GET',
@@ -188,7 +198,7 @@ function Connection ($http) {
 	/**
 	 * Получить код для урока из .js файла.
 	 */
-	function getLessonCodeFromJs (lessonId, subLessonId, callback) {
+	function getLessonCodeFromJs(lessonId, subLessonId, callback) {
 
 		var source = resources.lessonsCode + lessonId + '/' + subLessonId + '.js';
 
@@ -199,16 +209,21 @@ function Connection ($http) {
 	/**
 	 * Статистика уроков.
 	 */
-	function getLessonsStatistics (callback) {
+	function getLessonsStatistics(success, error) {
 
-		$http.get(links.statistic.lessons).then(callback);
+		$http.get(links.statistic.lessons).then(function (response) {
+
+													success(response.data)
+
+												},
+												error);
 
 	}
 
 	/**
 	 * Вход в систему.
 	 */
-	function login (args) {
+	function login(args) {
 
 		var success = args.success;
 		var error = args.error;
@@ -228,7 +243,7 @@ function Connection ($http) {
 	/**
 	 * Выходи из системы.
 	 */
-	function logout (success, error) {
+	function logout(success, error) {
 
 		$http({
 				  method: 'POST',
@@ -240,7 +255,7 @@ function Connection ($http) {
 	/**
 	 * Регистрация в сервисе.
 	 */
-	function register (args) {
+	function register(args) {
 
 		var success = args.success;
 		var error = args.error;
@@ -262,7 +277,7 @@ function Connection ($http) {
 	/**
 	 * Получить информацию об очках лучших пользователей.
 	 */
-	function getScore (callback) {
+	function getScore(callback) {
 
 		$http.get(links.statistic.score).success(callback);
 
@@ -271,19 +286,24 @@ function Connection ($http) {
 	/**
 	 * Отправка информации о открытии урока пользователем.
 	 */
-	function hitOpenLesson () {
+	function hitOpenLesson() {
 
 		$http.post(links.metrics.openLessons);
 
 	}
 
-	function getUserProgress (callback) {
+	function getUserProgress(success, error) {
 
-		$http.get(links.statistic.progress).then(callback);
+		$http.get(links.statistic.progress).then(function (response) {
+
+													 success(response.data);
+
+												 },
+												 error);
 
 	}
 
-	function updateUserProgress (score, callback) {
+	function updateUserProgress(score, callback) {
 
 		$http({
 				  url:    links.statistic.progress,

@@ -1,6 +1,6 @@
 'use strict';
 
-ResultController.$inject = ['$scope', '$state', 'statistics', 'connection'];
+ResultController.$inject = ['$scope', '$state', 'statistics'];
 
 module.exports = ResultController;
 
@@ -9,7 +9,7 @@ module.exports = ResultController;
  *
  * Created by vladthelittleone on 08.12.15.
  */
-function ResultController($scope, $state, statistics, connection) {
+function ResultController($scope, $state, statistics) {
 
 	// Получаем инфомрацию о статистики игрока.
 	// Формируется в игровых компонентах.

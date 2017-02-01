@@ -38,7 +38,11 @@ function LessonBoard($sce) {
 		function getContent () {
 
 			// Проверка html на предмет xss
-			return $sce.trustAsHtml($scope.lesson.content());
+			if ($scope.lesson) {
+
+				return $sce.trustAsHtml($scope.lesson.content());
+
+			}
 
 		}
 
@@ -47,7 +51,7 @@ function LessonBoard($sce) {
 		 */
 		function getHint () {
 
-			if ($scope.lesson.hint) {
+			if ($scope.lesson && $scope.lesson.hint) {
 
 				return $sce.trustAsHtml($scope.lesson.hint);
 
@@ -60,7 +64,11 @@ function LessonBoard($sce) {
 		 */
 		function getInstructions () {
 
-			return $sce.trustAsHtml($scope.lesson.instructions);
+			if ($scope.lesson) {
+
+				return $sce.trustAsHtml($scope.lesson.instructions);
+				
+			}
 
 		}
 

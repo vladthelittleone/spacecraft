@@ -12,7 +12,7 @@ module.exports = LessonBoard;
  */
 function LessonBoard($sce, lessonService) {
 
-	let directive = {
+	var directive = {
 		scope:       {
 			lesson:      '=' // информация о уроке
 		},

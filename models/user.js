@@ -2,7 +2,6 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var HttpError = require('error').HttpError;
-var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
@@ -10,8 +9,7 @@ var schema = new Schema({
 	email:              {
 		type:     String,
 		unique:   true,
-		default: null
-
+		default:  nullz
 	},
 	username:           {
 		type: String
@@ -22,7 +20,7 @@ var schema = new Schema({
 	vkId:		        {
 		type:     String,
 		unique:   true,
-		default: null
+		default:  null
 	},
 	salt:               {
 		type:     String

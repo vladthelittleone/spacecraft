@@ -4,18 +4,14 @@ StatisticsStorage.$inject = ['connection'];
 
 module.exports = StatisticsStorage;
 
+var lodash = require('lodash');
+
 /**
  * Created by Ivan on 06.10.2016.
  */
 function StatisticsStorage (connection) {
 
 	var that = {};
-
-	// Размер массива userProgress,
-	// изначально подрузамевалось,
-	// что 30 - количество дней,
-	// на дни забили число осталось
-	var LIMIT_TO_USER_PROGRESS = 30;
 
 	var userProgress = [];
 
@@ -29,7 +25,7 @@ function StatisticsStorage (connection) {
 	 */
 	function getUserProgress (success, error) {
 
-		if (userProgress) {
+		if(!lodash.isEmpty(userProgress)){
 
 			success && success(userProgress);
 
@@ -37,8 +33,13 @@ function StatisticsStorage (connection) {
 
 			connection.getUserProgress(function (result) {
 
+				if(result){
+
+					userProgress = result.data;
 										   userProgress = result;
 
+					callback && callback(userProgress);
+				}
 										   success && success(result);
 
 									   },
@@ -56,17 +57,10 @@ function StatisticsStorage (connection) {
 
 		connection.updateUserProgress(score, function (result) {
 
-			console.log(result);
+			userProgress = result.data;
 
 		});
 
-		if (userProgress.length >= LIMIT_TO_USER_PROGRESS) {
-
-			userProgress.shift();
-
-		}
-
-		userProgress.push(score);
 	}
 
 }

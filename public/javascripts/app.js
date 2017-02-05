@@ -61,10 +61,6 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
  */
 function runBlock(authentication, $rootScope, $state) {
 
-	var LOGIN_STATE = 'login';
-
-	$rootScope.$on("$stateChangeStart",function (event, toState, toParams) {
-
-	});
+	// Оставим определение метода пустым на случай необходимости.
 
 }

@@ -25,29 +25,29 @@ function Authentication(connection,
 						$state,
 						$q,
 						$timeout) {
-
+	
 	var that = {};
-
+	
 	// Флаг текущего статуса аутентификации пользователя.
-	var isAuthenticated;
-
+	var authenticationStatus;
+	
 	that.login = login;
 	that.logout = logout;
 	that.currentUser = currentUser;
 	that.register = register;
 	that.getPromiseOfAuthenticationStatus = getPromiseOfAuthenticationStatus;
-
+	
 	/**
 	 * Метод перенаправления пользователя на заданное состояние.
 	 * Предполагается, что данный метод вызывается в рамках обработки
 	 * логики отсутствия авторизации у пользователя.
 	 */
 	function routeToSpecifiedStateWhenUnauthorized() {
-
+		
 		$state.go('login');
-
+		
 	}
-
+	
 	/**
 	 * Получить 'обещание' на текущий статус аутентификации.
 	 * Метод гарантирует, что в качестве подтверждения успешной аутентификации
@@ -55,115 +55,115 @@ function Authentication(connection,
 	 * @returns {*}
 	 */
 	function getPromiseOfAuthenticationStatus() {
-
+		
 		var deferred = $q.defer();
-
+		
 		deferGettingAuthenticationStatus(deferred);
-
+		
 		return deferred.promise;
-
+		
 	}
-
+	
 	/**
 	 * Функция осуществления отложенного процесса получения состояния аутентификации.
 	 * @param deferred - предполагается, что объект отложенного задания (объект полученный на выходе $q.deffer()).
 	 */
 	function deferGettingAuthenticationStatus(deferred) {
-
-		if (lodash.isNil(isAuthenticated)) {
-
+		
+		if (lodash.isNil(authenticationStatus)) {
+			
 			connection.checkSession(function () {
-
+				
 										processingSuccessfulAuthorization();
-
-										deferred.resolve(isAuthenticated);
-
+				
+										deferred.resolve(authenticationStatus);
+				
 									},
 									function () {
-
+				
 										processingFailedAuthorization();
-
+				
 										routeToSpecifiedStateWhenUnauthorized();
-
-										deferred.reject(isAuthenticated);
-
+				
+										deferred.reject(authenticationStatus);
+				
 									});
 		} else {
-
+			
 			// Имитируем асинхронную обработку deferred.
 			$timeout(function () {
-
-				if (!isAuthenticated) {
-
+				
+				if (!authenticationStatus) {
+					
 					routeToSpecifiedStateWhenUnauthorized();
-
-					deferred.reject(isAuthenticated);
-
+					
+					deferred.reject(authenticationStatus);
+					
 					return;
-
+					
 				}
-
-				deferred.resolve(isAuthenticated);
-
+				
+				deferred.resolve(authenticationStatus);
+				
 			}, 0, false);
-
+			
 		}
-
+		
 	}
-
+	
 	// Подписываемся на событие успешной аутентификации на сервере.
 	$rootScope.$on('event:auth-loginConfirmed', function () {
-
+		
 		processingSuccessfulAuthorization();
-
+		
 		// Переход на главную страницу после аутентификации.
 		$state.go('welcome');
-
+		
 	});
-
+	
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
 	$rootScope.$on('event:auth-loginRequired', function () {
-
+		
 		processingFailedAuthorization();
-
+		
 		routeToSpecifiedStateWhenUnauthorized();
-
+		
 	});
-
+	
 	// Подписываемся на событие логаута пользователем.
 	$rootScope.$on('event:auth-loginCancelled', function () {
-
+		
 		processingFailedAuthorization();
-
+		
 		routeToSpecifiedStateWhenUnauthorized();
-
+		
 	});
-
+	
 	return that;
-
+	
 	function processingSuccessfulAuthorization() {
-
-		isAuthenticated = true;
-
+		
+		authenticationStatus = true;
+		
 	}
-
+	
 	/**
 	 * Обработка ситуации потери пользователем права на авторизацию.
 	 */
 	function processingFailedAuthorization() {
-
+		
 		// Очищаем сервис урока, так как его состояние больше
 		// не является актуальным в момент редиректа на страницу логина.
 		lessonService.clear();
-
+		
 		// Если storage поддерживается текущей реализацией браузера.
 		// В противном случае заботиться о очистке не нужно :)
 		storage.local && storage.local.clear();
-
-		isAuthenticated = false;
-
+		
+		authenticationStatus = false;
+		
 	}
-
+	
 	/**
 	 * Метод входа в систему.
 	 *
@@ -173,11 +173,11 @@ function Authentication(connection,
 	 * @param args.password пароль
 	 */
 	function login(args) {
-
+		
 		connection.login(args);
-
+		
 	}
-
+	
 	/**
 	 * Метод выхода из системы.
 	 *
@@ -185,14 +185,14 @@ function Authentication(connection,
 	 * @param args.error коллбек ошибочного выполнения запроса
 	 */
 	function logout(args) {
-
+		
 		var success = args.success;
 		var error = args.error;
-
+		
 		connection.logout(success, error);
-
+		
 	}
-
+	
 	/**
 	 * Метод регистрации в системе.
 	 *
@@ -202,23 +202,23 @@ function Authentication(connection,
 	 * @param args.password пароль
 	 */
 	function register(args) {
-
+		
 		connection.register(args);
-
+		
 	}
-
+	
 	/**
 	 * Текущий пользователь и инфомрация о нем.
 	 *
 	 * @param callback
 	 */
 	function currentUser(callback) {
-
+		
 		connection.getUserInfo(function (res) {
-
+			
 			callback(res.data);
-
+			
 		});
-
+		
 	}
 }

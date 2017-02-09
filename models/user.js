@@ -2,14 +2,14 @@ var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var HttpError = require('error').HttpError;
-var Lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
 	email:              {
 		type:     String,
-		unique:   true
+		unique:   true,
+		default:  null
 	},
 	username:           {
 		type: String
@@ -19,7 +19,8 @@ var schema = new Schema({
 	},
 	vkId:		        {
 		type:     String,
-		unique:   true
+		unique:   true,
+		default:  null
 	},
 	salt:               {
 		type:     String
@@ -82,7 +83,7 @@ function checkPassword(password) {
  */
 function authorize(email, password, callback) {
 
-	var User = this;
+	let User = this;
 
 	async.waterfall([
 
@@ -125,7 +126,7 @@ function authorize(email, password, callback) {
 
 function registration(email, password, isSubscribeOnEmail, callback) {
 
-	var User = this;
+	let User = this;
 
 	async.waterfall([
 
@@ -138,7 +139,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 			if (!user) {
 
-				var newbie = new User({
+				let newbie = new User({
 
 					email: email,
 					password: password,
@@ -169,7 +170,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
  */
 function findOrCreateVKUser (vkId, email, callback) {
 
-	var User = this;
+	let User = this;
 
 	async.waterfall([
 
@@ -182,7 +183,7 @@ function findOrCreateVKUser (vkId, email, callback) {
 
 				if (!user) {
 
-					var newbie = new User ({
+					let newbie = new User ({
 
 						email: email,
 						vkId: vkId
@@ -208,7 +209,7 @@ function findOrCreateVKUser (vkId, email, callback) {
  */
 function getUserCreationDate(userID, callback) {
 
-	var User = this;
+	let User = this;
 
 	async.waterfall([
 

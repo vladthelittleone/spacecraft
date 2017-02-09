@@ -47,7 +47,7 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 
 	// Статистика по ТЕКУЩЕМУ уроку.
 	// Текущий - это именно тот, который в данный момент проходит пользователь.
-	var currentLessonStatistics;
+	var currentLessonStatistics = null;
 
 	that.setEditorSession = setEditorSession;
 	that.setMarkerId = setMarkerId;
@@ -55,6 +55,8 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
 	that.getMarkerId = getMarkerId;
+	that.getCurrentLessonStatistics = getCurrentLessonStatistics;
+	that.getCurrentLessonContentPoints = getCurrentLessonContentPoints;
 
 	that.lessonContent = lessonContent;
 
@@ -731,6 +733,18 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	function setMarkerId(id) {
 
 		markerId = id;
+
+	}
+
+	function getCurrentLessonStatistics() {
+
+		return currentLessonStatistics;
+
+	}
+
+	function getCurrentLessonContentPoints() {
+
+		return that.lessonContent(lessonId).points;
 
 	}
 

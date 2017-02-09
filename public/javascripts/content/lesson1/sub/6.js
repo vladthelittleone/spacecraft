@@ -82,7 +82,7 @@ function Alert() {
 			var lessonPoints = lessonStatistics.getLessonContentPoints();
 
 			// Устанавливаем штрафные очки за не остановку корабля :)
-			lessonStatistics.setPenaltyPointsForGame(lessonPoints.missionStopTransportFail);
+			lessonStatistics.incPenaltyPointsForGame(lessonPoints.missionStopTransportFail);
 
 			return lessonResults.resultFaield();
 
@@ -99,7 +99,7 @@ function Alert() {
 
 			// Если дельта больше TIME секунд
 			if (delta > TIME) {
-				
+
 				// Победа!
 				return lessonResults.resultCorrect();
 

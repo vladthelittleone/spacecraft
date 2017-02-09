@@ -9,7 +9,7 @@ var schema = new Schema({
 	email:              {
 		type:     String,
 		unique:   true,
-		default:  nullz
+		default:  null
 	},
 	username:           {
 		type: String

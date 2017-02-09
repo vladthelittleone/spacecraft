@@ -31,6 +31,8 @@ function LessonBoard($sce, lessonService) {
 		$scope.showHint = showHint;
 
 		// ==================================================
+		// ======================PUBLIC======================
+		// ==================================================
 
 		/**
 		 * Возвращает контент урока.
@@ -71,6 +73,10 @@ function LessonBoard($sce, lessonService) {
 			tryIncPenaltyPoints();
 		}
 
+		// ==================================================
+		// ======================PRIVATE======================
+		// ==================================================
+
 		/**
 		 * Штрафуем пользователя за обращение к подсказке.
 		 */
@@ -80,6 +86,9 @@ function LessonBoard($sce, lessonService) {
 
 			if ($scope.hint && currentLessonStatistics) {
 
+				// если штрафные очки не указаны, то шрафуем пользователя на 0 очков.
+				// TODO если потребуеться по умолчанию штрафовать пользователь больше чем на ноль очков
+				// то заменить 0 на необходимое значение
 				var showHitPenaltyPointsSize = lessonService.getCurrentLessonContentPoints()
 					                                        .showHitPenaltyPointsSize ||
 					                            0;

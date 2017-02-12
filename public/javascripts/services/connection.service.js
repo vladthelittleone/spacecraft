@@ -43,9 +43,9 @@ var links = {
 	/**
 	 * Остальные ссылки
 	 */
-	register:     '/reg',
-	logout:       '/logout',
-	login:        '/login',
+	register: '/reg',
+	logout:   '/logout',
+	login:    '/login'
 
 };
 
@@ -90,6 +90,17 @@ function Connection($http) {
 
 	return that;
 
+	function claimHttpDataOnly(callback) {
+
+		return function (response) {
+
+			return callback && callback(response.data);
+
+		}
+
+	}
+
+
 	function checkSession(success, error) {
 
 		$http({
@@ -118,12 +129,8 @@ function Connection($http) {
 		$http({
 				  url:    links.statistic.leaderboard,
 				  method: 'GET'
-			  }).then(function (response) {
-
-						  success(response.data)
-
-					  },
-					  error);
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
@@ -211,33 +218,22 @@ function Connection($http) {
 	 */
 	function getLessonsStatistics(success, error) {
 
-		$http.get(links.statistic.lessons).then(function (response) {
-
-													success(response.data)
-
-												},
-												error);
+		$http.get(links.statistic.lessons).then(claimHttpDataOnly(success),
+												claimHttpDataOnly(error));
 
 	}
 
 	/**
 	 * Вход в систему.
 	 */
-	function login(args) {
+	function login(data, success, error) {
 
-		var success = args.success;
-		var error = args.error;
-
-		var promise = $http({
-								method: 'POST',
-								data:   {
-									email:    args.email,
-									password: args.password
-								},
-								url:    links.login
-							});
-
-		promise.then(success, error);
+		$http({
+				  method: 'POST',
+				  data:   data,
+				  url:    links.login
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 	}
 
 	/**
@@ -248,7 +244,8 @@ function Connection($http) {
 		$http({
 				  method: 'POST',
 				  url:    links.logout
-			  }).then(success, error);
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
@@ -257,20 +254,16 @@ function Connection($http) {
 	 */
 	function register(args) {
 
-		var success = args.success;
-		var error = args.error;
-
-		var p = $http({
-						  method: 'POST',
-						  data:   {
-							  email:              args.email,
-							  password:           args.password,
-							  isSubscribeOnEmail: args.isSubscribeOnEmail
-						  },
-						  url:    links.register
-					  });
-
-		p.then(success, error);
+		$http({
+				  method: 'POST',
+				  data:   {
+					  email:              args.email,
+					  password:           args.password,
+					  isSubscribeOnEmail: args.isSubscribeOnEmail
+				  },
+				  url:    links.register
+			  }).then(claimHttpDataOnly(args.success),
+					  claimHttpDataOnly(args.error));
 
 	}
 
@@ -294,12 +287,8 @@ function Connection($http) {
 
 	function getUserProgress(success, error) {
 
-		$http.get(links.statistic.progress).then(function (response) {
-
-													 success(response.data);
-
-												 },
-												 error);
+		$http.get(links.statistic.progress).then(claimHttpDataOnly(success),
+												 claimHttpDataOnly(error));
 
 	}
 

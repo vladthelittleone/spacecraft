@@ -26,44 +26,29 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		controller:  'WelcomeController as ctrl',
 		resolve:     {
 			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
-			authenticationStatus: function (authentication) {
+			'authenticationStatus': function (promises) {
 
-				return authentication.getPromiseOfAuthenticationStatus();
-
-			},
-			lessonStatisticsData: function ($q, connection) {
-
-				return $q(function (resolve, reject) {
-
-					connection.getLessonsStatistics(resolve, reject);
-
-				});
+				return promises.getAuthenticationStatus();
 
 			},
-			leaderBoardData:      function ($q, connection) {
+			'lessonStatisticsData': function (promises) {
 
-				return $q(function (resolve, reject) {
-
-					connection.getLeaderboard(resolve, reject);
-
-				});
+				return promises.getLessonStatisticsData();
 
 			},
-			userProgressData:     function ($q, statisticsStorage) {
+			'leaderBoardData':      function (promises) {
 
-				return $q(function (resolve, reject) {
+				return promises.getLeaderBoardData();
 
-					statisticsStorage.getUserProgress(resolve, reject);
-
-				});
 			},
-			userInfoData:         function ($q, connection) {
+			'userProgressData':     function (promises) {
 
-				return $q(function (resolve, reject) {
+				return promises.getUserProgressData();
 
-					connection.getUserInfo(resolve, reject);
+			},
+			'userInfoData':         function (promises) {
 
-				})
+				return promises.getUserInfoData();
 
 			}
 		}

@@ -16,9 +16,9 @@ function LessonsConfig($stateProvider) {
 		resolve : {
 
 			// разрешаем просмотр списка уроков ТОЛЬКО при наличии факта аутентификации в сервисе.
-			authenticationStatus: function(authentication) {
+			'authenticationStatus': function(promises) {
 
-				return authentication.getPromiseOfAuthenticationStatus();
+				return promises.getAuthenticationStatus();
 
 			}
 		}

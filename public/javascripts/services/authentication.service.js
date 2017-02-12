@@ -5,7 +5,8 @@ Authentication.$inject = ['connection',
 						  '$rootScope',
 						  '$state',
 						  '$q',
-						  '$timeout'];
+						  '$timeout',
+						  'authService'];
 
 module.exports = Authentication;
 
@@ -24,7 +25,8 @@ function Authentication(connection,
 						$rootScope,
 						$state,
 						$q,
-						$timeout) {
+						$timeout,
+						authService) {
 	
 	var that = {};
 	
@@ -33,10 +35,12 @@ function Authentication(connection,
 	
 	that.login = login;
 	that.logout = logout;
-	that.currentUser = currentUser;
-	that.register = register;
-	that.getPromiseOfAuthenticationStatus = getPromiseOfAuthenticationStatus;
 	
+	that.currentUser = currentUser;
+	
+	that.register = register;
+	
+	that.getPromiseOfAuthenticationStatus = getPromiseOfAuthenticationStatus;
 	/**
 	 * Метод перенаправления пользователя на заданное состояние.
 	 * Предполагается, что данный метод вызывается в рамках обработки
@@ -52,7 +56,6 @@ function Authentication(connection,
 	 * Получить 'обещание' на текущий статус аутентификации.
 	 * Метод гарантирует, что в качестве подтверждения успешной аутентификации
 	 * будет вызван errorCallback promise'a и в обратном случае - errorCallback.
-	 * @returns {*}
 	 */
 	function getPromiseOfAuthenticationStatus() {
 		
@@ -65,6 +68,45 @@ function Authentication(connection,
 	}
 	
 	/**
+	 * Обработка отложенного задания по успешному получению
+	 * статуса аутентификации.
+	 *
+	 * Метод введен для "причесывания" места, в котором тело текущего
+	 * метода определялось явно, в виде анонимной функции.
+	 */
+	function processingDeferredOnSuccessful(deferred) {
+		
+		return function () {
+			
+			processingSuccessfulAuthorization();
+			
+			deferred.resolve(authenticationStatus);
+		}
+		
+	}
+	
+	/**
+	 * Обработка отложенного задания по неудачному получению
+	 * статуса аутентификации.
+	 *
+	 * Метод введен для "причесывания" места, в котором тело текущего
+	 * метода определялось явно, в виде анонимной функции.
+	 */
+	function processingDeferredOnFailed(deferred) {
+		
+		return function () {
+			
+			processingFailedAuthorization();
+			
+			routeToSpecifiedStateWhenUnauthorized();
+			
+			deferred.reject(authenticationStatus);
+			
+		}
+		
+	}
+	
+	/**
 	 * Функция осуществления отложенного процесса получения состояния аутентификации.
 	 * @param deferred - предполагается, что объект отложенного задания (объект полученный на выходе $q.deffer()).
 	 */
@@ -72,38 +114,26 @@ function Authentication(connection,
 		
 		if (lodash.isNil(authenticationStatus)) {
 			
-			connection.checkSession(function () {
-				
-										processingSuccessfulAuthorization();
-				
-										deferred.resolve(authenticationStatus);
-				
-									},
-									function () {
-				
-										processingFailedAuthorization();
-				
-										routeToSpecifiedStateWhenUnauthorized();
-				
-										deferred.reject(authenticationStatus);
-				
-									});
+			connection.checkSession(processingDeferredOnSuccessful(deferred),
+									processingDeferredOnFailed(deferred));
+			
 		} else {
 			
 			// Имитируем асинхронную обработку deferred.
 			$timeout(function () {
 				
-				if (!authenticationStatus) {
+				if (authenticationStatus) {
 					
-					routeToSpecifiedStateWhenUnauthorized();
-					
-					deferred.reject(authenticationStatus);
+					deferred.resolve(authenticationStatus);
 					
 					return;
 					
 				}
 				
-				deferred.resolve(authenticationStatus);
+				routeToSpecifiedStateWhenUnauthorized();
+				
+				deferred.reject(authenticationStatus);
+				
 				
 			}, 0, false);
 			
@@ -166,15 +196,25 @@ function Authentication(connection,
 	
 	/**
 	 * Метод входа в систему.
+	 * Позволяет предоставить callback для обработки ошибочной ситуации,
+	 * касающейся именно контекста АВТОРИЗАЦИИ (log in) в системе.
 	 *
-	 * @param args.success коллбек успешного выполнения запроса
 	 * @param args.error коллбек ошибочного выполнения запроса
 	 * @param args.email идентификатор
 	 * @param args.password пароль
 	 */
-	function login(args) {
+	function login(email,
+				   password,
+				   errorCallback) {
 		
-		connection.login(args);
+		// TODO имеет смысл ввести вещание сигналов по событиям,
+		// связанных с ошибочными ситуация при логине.
+		connection.login({
+							 email:    email,
+							 password: password
+						 },
+						 authService.loginConfirmed,
+						 errorCallback);
 		
 	}
 	

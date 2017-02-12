@@ -16,11 +16,14 @@ function LessonConfig ($stateProvider) {
 		resolve : {
 
 			// разрешаем прохождение урока ТОЛЬКО при наличии факта аутентификации в сервисе.
-			authenticationStatus: function(authentication) {
+			'authenticationStatus': function(promises) {
 
-				return authentication.getPromiseOfAuthenticationStatus();
+				return promises.getAuthenticationStatus();
+
 			}
+
 		}
+
 	});
 
 }

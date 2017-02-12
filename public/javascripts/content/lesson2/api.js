@@ -13,6 +13,8 @@ function Api(player) {
 	var api = {};
 
 	api.isAlive = isAlive;
+	api.isScanningActivated = isScanningActivated;
+	api.scan = player.scan;
 	api.moveForward = player.moveForward;
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
@@ -23,7 +25,7 @@ function Api(player) {
 	return api;
 
 
-	function isAlive() {
+	function isScanningActivated() {
 
 		return player.sprite.alive;
 

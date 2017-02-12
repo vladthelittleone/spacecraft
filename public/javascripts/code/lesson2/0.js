@@ -1,10 +1,10 @@
 /**
  * Код управления кораблем.
  */
-this.run = function(transport)
+this.run = function(scout)
 {
 	// Поменяйте координаты на необходимые: 2000, 2000,
 	// чтобы добравться до места аварии.
-	transport.moveToXY(1000, 1000);
+	scout.moveToXY(0, 0);
 };
 

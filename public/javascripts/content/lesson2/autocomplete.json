@@ -1,20 +1,20 @@
 [
 	{
 		"regExps": [
-			" *transport.$"
+			" *scout.$"
 		],
 		"autocomplete": [
 			{
 				"value": "moveForward()",
-				"meta": "transport"
+				"meta": "scout"
 			},
 			{
 				"value": "rotateLeft()",
-				"meta": "transport"
+				"meta": "scout"
 			},
 			{
 				"value": "rotateRight()",
-				"meta": "transport"
+				"meta": "scout"
 			}
 		]
 	},
@@ -27,7 +27,7 @@
 				"value": "BBotDebug()"
 			},
 			{
-				"value": "transport"
+				"value": "scout"
 			}
 		]
 	}

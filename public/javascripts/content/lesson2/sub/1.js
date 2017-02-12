@@ -9,7 +9,7 @@ var LessonResults = require('../../lesson-results');
 module.exports = Investigation();
 
 /**
- * Урок - 'Программа академии';
+ * Урок - 'Исследование места аварии';
  *
  * Created by vladthelittleone on 02.12.15.
  */

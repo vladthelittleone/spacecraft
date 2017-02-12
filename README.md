@@ -4,7 +4,7 @@
 
 ## Четвертый этап
 
-* Добавить первые уроки ([Ссылка на обсуждение урока](https://docs.google.com/document/d/11pG8yQFYNeFR2hFFeJMdg4x_Gz9Y9tzPCQSjRbGSaH4/edit))
+* Добавить первые уроки ([Ссылка на обсуждение урока 1](https://docs.google.com/document/d/11pG8yQFYNeFR2hFFeJMdg4x_Gz9Y9tzPCQSjRbGSaH4/edit), [Ссылка на обсуждение урока 2](https://docs.google.com/document/d/1Grl8q1nznIYYuy3H9QybypjcpdUikYE0vDa1YfQD61I/edit))
 * Авторизация +
 * Логика на сервере +
 * Метрики + 

@@ -1,5 +1,5 @@
 <div class="login-background"></div>
-<div class="login-landing" ng-keypress="loginByKey($event.keyCode)">
+<div class="login-landing">
 	<div class="login-container login-main">
 		<div class="login-vertical-center">
 			<div class="login-left-container">
@@ -17,49 +17,70 @@
 					{{isEnterForm ? "Войдите в систему:" : "Зарегистрируйтесь в системе:"}}
 				</div>
 
-				<div class="login-input">
-					<label>
-						<input type="text"
-							   ng-model="email"
-							   class="login-email"
-							   placeholder="Email">
-					</label>
-				</div>
+				<form name="loginForm"
+					  novalidate>
+					<div class="login-input">
+						<label>
+							<input type="email"
+								   name="email"
+								   ng-model="email"
+								   class="login-email"
+								   placeholder="Email"
+								   ng-minlength="8"
+								   ng-maxlength="25"
+								   ng-required>
+						</label>
+					</div>
 
-				<div class="login-input">
-					<label>
-						<input type="password"
-							   ng-model="password"
-							   placeholder="Пароль">
-					</label>
-				</div>
+					<div class="login-input">
+						<label>
+							<input type="password"
+								   name="password"
+								   ng-model="password"
+								   placeholder="Пароль"
+								   ng-minlength="8"
+								   ng-maxlength="25"
+								   ng-required>
+						</label>
+					</div>
 
-				<div class="login-button-group">
-					<button ng-click="isEnterForm ? login() : register()">
-						<span>OK</span>
-					</button>
+					<div class="login-button-group">
+						<button ng-click="isEnterForm ? login() : register()">
+							<span>OK</span>
+						</button>
 
-					<button class="float-right"
-							ng-click="changeForm()">
-						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
-					</button>
+						<button class="float-right"
+								ng-click="changeForm()">
+							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
+						</button>
 
-					<button ng-show="isEnterForm" class="vk-button">
-						<a href="/login/vk">
-							<span>Войти через ВКонтакте</span>
-						</a>
-					</button>
+						<button ng-show="isEnterForm" class="vk-button">
+							<a href="/login/vk">
+								<span>Войти через ВКонтакте</span>
+							</a>
+						</button>
 
-				</div>
+					</div>
 
-				<div class="login-input login-checkbox">
-					<div ng-show="!isEnterForm"
-						 class="login-checkbox-title" ng-click=changeSubscribe()>
+					<div class="login-input login-checkbox">
+						<div ng-show="!isEnterForm"
+							 class="login-checkbox-title" ng-click=changeSubscribe()>
 						<span ng-class="{'glyphicon glyphicon-check' : isSubscribeOnEmail,
 										 'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
 						</span>
-						получать звёздные новости на e-mail
+							получать звёздные новости на e-mail
+						</div>
 					</div>
+
+				</form>
+
+				<div ng-show="loginForm.email.$invalid && loginForm.email.$dirty"
+					 class="login-input-title login-error">
+					Некорректно указан email
+				</div>
+				<div ng-show="loginForm.password.$invalid && loginForm.password.$dirty"
+					 class="login-input-title login-error">
+					Некорректно указан пароль
 				</div>
 
 				<div class="login-input-title login-error">{{error}}</div>

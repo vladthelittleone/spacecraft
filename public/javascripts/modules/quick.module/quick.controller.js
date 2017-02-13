@@ -1,4 +1,4 @@
-QuickController.$inject = ['$scope', '$sce', 'authentication'];
+QuickController.$inject = ['$scope', '$sce'];
 
 module.exports = QuickController;
 

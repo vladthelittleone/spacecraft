@@ -23,24 +23,28 @@ function StatisticsStorage(connection) {
 	/**
 	 * Возвращаем инфу о прогрессе юзера
 	 */
-	function getUserProgress(callback) {
+	function getUserProgress(success, error) {
 
-		if(!lodash.isEmpty(userProgress)){
+		if (!lodash.isEmpty(userProgress)) {
 
-			callback && callback(userProgress);
+			success && success(userProgress);
 
 		} else {
 
 			connection.getUserProgress(function (result) {
 
-				if(result){
+										   if (result) {
 
-					userProgress = result.data;
+											   // TODO просить сервис http кэшировать
+											   userProgress = result;
 
-					callback && callback(userProgress);
-				}
+										   }
 
-			});
+										   success && success(result);
+
+									   },
+									   error);
+
 		}
 
 	}

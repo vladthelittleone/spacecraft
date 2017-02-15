@@ -23,7 +23,7 @@ function Content() {
 		quote: 'То, что для одного человека константа, для другого - переменная. (Алан.Дж.Перлис)',
 		sub:   require('./sub'),
 		points: points,
-		maxAttemptLessonCountForBonus: 3
+		maxAttemptLessonCountForBonus: 4
 	};
 
 }

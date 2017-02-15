@@ -9,6 +9,7 @@ var Harvester = require('./harvester');
 var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
+var RedPlanet = require('./red-planet');
 
 var Random = require('../../utils/random');
 
@@ -32,6 +33,7 @@ function EntitiesFactory() {
 	t.createTransport = createTransport;
 	t.createHarvester = createHarvester;
 	t.createAcademyBase = createAcademyBase;
+	t.createRedPlanet = createRedPlanet;
 	t.createMeteor = createMeteor;
 	t.createMeteorField = createMeteorField;
 	t.createMine = createMine;
@@ -55,7 +57,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать транспорт
+	 * Создать харвестер
 	 */
 	function createHarvester(game, x, y, player) {
 
@@ -70,7 +72,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать транспорт
+	 * Создать базу академии
 	 */
 	function createAcademyBase(game, x, y) {
 
@@ -80,6 +82,18 @@ function EntitiesFactory() {
 
 		return base;
 
+	}
+
+	/**
+	 * Создание планеты
+	 */
+	function createRedPlanet(game, x, y) {
+
+		var planet = RedPlanet(game, x, y);
+
+		world.pushObject(planet);
+
+		return planet;
 	}
 
 	/**

@@ -1,6 +1,15 @@
-// Объявление переменной
-var  language;
-// Инициализация переменной
-language = 'javaScript';
-// Объявление и инициализация переменной
-var state = 'learning';
+/**
+ * Код погрузки samples на корабль
+ */
+this.run = function(transport)
+{
+	// Объявление переменной груза
+	var samples = 'Samples to laboratory';
+
+	// Перемещение к грузому отсеку академии
+	transport.moveTo();
+
+	// Производим погрузку груза
+	transport.setToCargoHold(samples);
+};
+

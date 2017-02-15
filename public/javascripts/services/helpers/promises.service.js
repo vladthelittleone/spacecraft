@@ -30,7 +30,7 @@ function Promises($q, authentication, connection, statisticsStorage) {
 
 	function getAuthenticationStatus() {
 
-		return authentication.getPromiseOfAuthenticationStatus();
+		return $q(authentication.getAuthenticationStatus);
 
 	}
 

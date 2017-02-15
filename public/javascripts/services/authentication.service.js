@@ -4,7 +4,6 @@ Authentication.$inject = ['connection',
 						  'lessonService',
 						  '$rootScope',
 						  '$state',
-						  '$q',
 						  '$timeout',
 						  'authService'];
 
@@ -28,7 +27,6 @@ function Authentication(connection,
 						lessonService,
 						$rootScope,
 						$state,
-						$q,
 						$timeout,
 						authService) {
 	
@@ -72,9 +70,85 @@ function Authentication(connection,
 	
 	that.register = register;
 	
-	that.getPromiseOfAuthenticationStatus = getPromiseOfAuthenticationStatus;
+	that.getAuthenticationStatus = getAuthenticationStatus;
 	
 	return that;
+	
+	/**
+	 * Метод введен для "причесывания" места, в котором тело текущего
+	 * метода определялось явно, в виде анонимной функции.
+	 */
+	function processingSuccessfulCheckSession(resolve) {
+		
+		return function () {
+			
+			processingSuccessfulAuthorization();
+			
+			resolve(authenticationStatus);
+		}
+		
+	}
+	
+	/**
+	 * Метод введен для "причесывания" места, в котором тело текущего
+	 * метода определялось явно, в виде анонимной функции.
+	 */
+	function processingFailedCheckSession(reject) {
+		
+		return function () {
+			
+			processingFailedAuthorization();
+			
+			routeToSpecifiedStateWhenUnauthorized();
+			
+			reject(authenticationStatus);
+			
+		}
+		
+	}
+	
+	/**
+	 * Взятие статуса аутентификации - строго асинхронная функция.
+	 * На вход она получает методы resolve и reject какого-то отложенного задания (это есть вызов $q(function)),
+	 * которое было оформлено на выполнение этого метода.
+	 * @param resolve вызывается, как факт успешного разрешения задания.
+	 * @param reject вызывается, как факт неуспешного разрешения задания.
+	 */
+	function getAuthenticationStatus(resolve, reject) {
+		
+		// Если authenticationStatus не определен, значит
+		// нужно идти к серверу за состоянием активности текущей сессии.
+		// В противном случае, в authenticationStatus ВСЕГДА находится
+		// флаг актуальности текущей сессии.
+		if (lodash.isNil(authenticationStatus)) {
+			
+			connection.checkSession(processingSuccessfulCheckSession(resolve),
+									processingFailedCheckSession(reject));
+			
+		} else {
+			
+			// Имитируем асинхронную обработку, так как на вход нам были поданы
+			// resolve и reject отложенного задания.
+			$timeout(function () {
+				
+				if (authenticationStatus) {
+					
+					resolve(authenticationStatus);
+					
+					return;
+					
+				}
+				
+				routeToSpecifiedStateWhenUnauthorized();
+				
+				reject(authenticationStatus);
+				
+				
+			}, 0, false);
+			
+		}
+		
+	}
 	
 	/**
 	 * Метод перенаправления пользователя на заданное состояние.
@@ -84,96 +158,6 @@ function Authentication(connection,
 	function routeToSpecifiedStateWhenUnauthorized() {
 		
 		$state.go('login');
-		
-	}
-	
-	/**
-	 * Получить 'обещание' на текущий статус аутентификации.
-	 * Метод гарантирует, что в качестве подтверждения успешной аутентификации
-	 * будет вызван successCallback promise'a и в обратном случае - errorCallback.
-	 */
-	function getPromiseOfAuthenticationStatus() {
-		
-		var deferred = $q.defer();
-		
-		deferGettingAuthenticationStatus(deferred);
-		
-		return deferred.promise;
-		
-	}
-	
-	/**
-	 * Обработка отложенного задания по успешному получению
-	 * статуса аутентификации.
-	 *
-	 * Метод введен для "причесывания" места, в котором тело текущего
-	 * метода определялось явно, в виде анонимной функции.
-	 */
-	function processingDeferredOnSuccessful(deferred) {
-		
-		return function () {
-			
-			processingSuccessfulAuthorization();
-			
-			deferred.resolve(authenticationStatus);
-		}
-		
-	}
-	
-	/**
-	 * Обработка отложенного задания по неудачному получению
-	 * статуса аутентификации.
-	 *
-	 * Метод введен для "причесывания" места, в котором тело текущего
-	 * метода определялось явно, в виде анонимной функции.
-	 */
-	function processingDeferredOnFailed(deferred) {
-		
-		return function () {
-			
-			processingFailedAuthorization();
-			
-			routeToSpecifiedStateWhenUnauthorized();
-			
-			deferred.reject(authenticationStatus);
-			
-		}
-		
-	}
-	
-	
-	/**
-	 * Функция осуществления отложенного процесса получения состояния аутентификации.
-	 * @param deferred - предполагается, что объект отложенного задания (объект полученный на выходе $q.deffer()).
-	 */
-	function deferGettingAuthenticationStatus(deferred) {
-		
-		if (lodash.isNil(authenticationStatus)) {
-			
-			connection.checkSession(processingDeferredOnSuccessful(deferred),
-									processingDeferredOnFailed(deferred));
-			
-		} else {
-			
-			// Имитируем асинхронную обработку deferred.
-			$timeout(function () {
-				
-				if (authenticationStatus) {
-					
-					deferred.resolve(authenticationStatus);
-					
-					return;
-					
-				}
-				
-				routeToSpecifiedStateWhenUnauthorized();
-				
-				deferred.reject(authenticationStatus);
-				
-				
-			}, 0, false);
-			
-		}
 		
 	}
 	

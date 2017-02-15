@@ -7,20 +7,20 @@ module.exports = LessonConfig;
 /**
  * Инициализация состояния урока.
  */
-function LessonConfig ($stateProvider) {
+function LessonConfig($stateProvider) {
 
 	$stateProvider.state('lesson', {
 		url:         '/lesson/:id',
 		templateUrl: 'views/lessons/lesson.html',
 		controller:  'LessonController as ctrl',
-		resolve : {
+		resolve:     {
 
 			// разрешаем прохождение урока ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': function(promises) {
+			'authenticationStatus': ['promises', function (promises) {
 
 				return promises.getAuthenticationStatus();
 
-			}
+			}]
 
 		}
 

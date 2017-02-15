@@ -17,6 +17,10 @@ var lodash = require('lodash');
 /**
  * Сервис аутентификации.
  *
+ * authService - сторонний сервис, реализует логику отлова 401 кода в ответах от сервера.
+ * В данном сервисе он необходим, для регистрации обработчиков, на случай возникновения ответа
+ * с этим кодом.
+ *
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
@@ -27,6 +31,34 @@ function Authentication(connection,
 						$q,
 						$timeout,
 						authService) {
+	
+	// Подписываемся на событие успешной аутентификации на сервере.
+	$rootScope.$on('event:auth-loginConfirmed', function () {
+		
+		processingSuccessfulAuthorization();
+		
+		// Переход на главную страницу после аутентификации.
+		$state.go('welcome');
+		
+	});
+	
+	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
+	$rootScope.$on('event:auth-loginRequired', function () {
+		
+		processingFailedAuthorization();
+		
+		routeToSpecifiedStateWhenUnauthorized();
+		
+	});
+	
+	// Подписываемся на событие логаута пользователем.
+	$rootScope.$on('event:auth-loginCancelled', function () {
+		
+		processingFailedAuthorization();
+		
+		routeToSpecifiedStateWhenUnauthorized();
+		
+	});
 	
 	var that = {};
 	
@@ -41,6 +73,9 @@ function Authentication(connection,
 	that.register = register;
 	
 	that.getPromiseOfAuthenticationStatus = getPromiseOfAuthenticationStatus;
+	
+	return that;
+	
 	/**
 	 * Метод перенаправления пользователя на заданное состояние.
 	 * Предполагается, что данный метод вызывается в рамках обработки
@@ -55,7 +90,7 @@ function Authentication(connection,
 	/**
 	 * Получить 'обещание' на текущий статус аутентификации.
 	 * Метод гарантирует, что в качестве подтверждения успешной аутентификации
-	 * будет вызван errorCallback promise'a и в обратном случае - errorCallback.
+	 * будет вызван successCallback promise'a и в обратном случае - errorCallback.
 	 */
 	function getPromiseOfAuthenticationStatus() {
 		
@@ -106,6 +141,7 @@ function Authentication(connection,
 		
 	}
 	
+	
 	/**
 	 * Функция осуществления отложенного процесса получения состояния аутентификации.
 	 * @param deferred - предполагается, что объект отложенного задания (объект полученный на выходе $q.deffer()).
@@ -141,36 +177,6 @@ function Authentication(connection,
 		
 	}
 	
-	// Подписываемся на событие успешной аутентификации на сервере.
-	$rootScope.$on('event:auth-loginConfirmed', function () {
-		
-		processingSuccessfulAuthorization();
-		
-		// Переход на главную страницу после аутентификации.
-		$state.go('welcome');
-		
-	});
-	
-	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
-	$rootScope.$on('event:auth-loginRequired', function () {
-		
-		processingFailedAuthorization();
-		
-		routeToSpecifiedStateWhenUnauthorized();
-		
-	});
-	
-	// Подписываемся на событие логаута пользователем.
-	$rootScope.$on('event:auth-loginCancelled', function () {
-		
-		processingFailedAuthorization();
-		
-		routeToSpecifiedStateWhenUnauthorized();
-		
-	});
-	
-	return that;
-	
 	function processingSuccessfulAuthorization() {
 		
 		authenticationStatus = true;
@@ -199,9 +205,9 @@ function Authentication(connection,
 	 * Позволяет предоставить callback для обработки ошибочной ситуации,
 	 * касающейся именно контекста АВТОРИЗАЦИИ (log in) в системе.
 	 *
-	 * @param args.error коллбек ошибочного выполнения запроса
-	 * @param args.email идентификатор
-	 * @param args.password пароль
+	 * @param errorCallback коллбек ошибочного выполнения запроса
+	 * @param email идентификатор
+	 * @param password пароль
 	 */
 	function login(email,
 				   password,
@@ -261,4 +267,5 @@ function Authentication(connection,
 		});
 		
 	}
+	
 }

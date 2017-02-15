@@ -26,31 +26,31 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		controller:  'WelcomeController as ctrl',
 		resolve:     {
 			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': function (promises) {
+			'authenticationStatus': ['promises', function (promises) {
 
 				return promises.getAuthenticationStatus();
 
-			},
-			'lessonStatisticsData': function (promises) {
+			}],
+			'lessonStatisticsData': ['promises', function (promises) {
 
 				return promises.getLessonStatisticsData();
 
-			},
-			'leaderBoardData':      function (promises) {
+			}],
+			'leaderBoardData':      ['promises', function (promises) {
 
 				return promises.getLeaderBoardData();
 
-			},
-			'userProgressData':     function (promises) {
+			}],
+			'userProgressData':     ['promises', function (promises) {
 
 				return promises.getUserProgressData();
 
-			},
-			'userInfoData':         function (promises) {
+			}],
+			'userInfoData':         ['promises', function (promises) {
 
 				return promises.getUserInfoData();
 
-			}
+			}]
 		}
 	});
 

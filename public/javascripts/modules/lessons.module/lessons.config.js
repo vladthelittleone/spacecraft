@@ -10,17 +10,17 @@ module.exports = LessonsConfig;
 function LessonsConfig($stateProvider) {
 
 	$stateProvider.state('lessons', {
-		url: '/lessons',
+		url:         '/lessons',
 		templateUrl: 'views/lessons/lessons.html',
-		controller: 'LessonsController as ctrl',
-		resolve : {
+		controller:  'LessonsController as ctrl',
+		resolve:     {
 
 			// разрешаем просмотр списка уроков ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': function(promises) {
+			'authenticationStatus': ['promises', function (promises) {
 
 				return promises.getAuthenticationStatus();
 
-			}
+			}]
 		}
 	});
 

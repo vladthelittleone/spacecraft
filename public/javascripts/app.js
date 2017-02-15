@@ -51,6 +51,9 @@ angular.module('spacecraft').run(runBlock);
  */
 function configBlock($urlRouterProvider, ChartJsProvider) {
 
+	// Включаем адреса без решетки (#).
+	$urlRouterProvider.html5Mode(true);
+
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');
 

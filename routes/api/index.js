@@ -1,9 +1,11 @@
 /**
- * @since 03.02.16
- * @author Skurishin Vladislav
+ * @since 15.02.2017
+ * @author greezlock
  */
+
 const login = require('./login');
-const user = require('./api/user');
+const user = require('./user');
+const main = require('./main');
 const logout = require('./logout');
 const reg = require('./registration');
 const statistic = require('./statistic');
@@ -13,7 +15,7 @@ const checkAuthentication = require('./../middlewares/check-authentication');
 module.exports = function (app)
 {
 	// Мидлвер
-	app.use('/api', login);
+	app.use('/login', login);
 	app.use('/reg', reg);
 	app.use('/logout', logout);
 
@@ -23,6 +25,6 @@ module.exports = function (app)
 
 	app.use('/user', user);
 	app.use('/statistic', statistic);
-	app.use('/metrics', metrics);
+	app.use('/metrics', metrics)
 };
 

@@ -5,12 +5,14 @@
  */
 var express = require('express');
 var router = express.Router();
+var HttpStatus = require('http-status-codes');
 
 module.exports = router;
 
 router.post('/', (req, res, next) => {
 	
 	req.logout();
-	res.send({});
+	
+	res.sendStatus(HttpStatus.OK);
 	
 });

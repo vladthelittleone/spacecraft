@@ -20,25 +20,11 @@ function LoginController($scope, $state, authentication, authService) {
 	// По дефолту считаем, что человек согласен на рассылку
 	$scope.isSubscribeOnEmail = true;
 
-	$scope.changeForm = changeForm;
-	$scope.changeSubscribe = changeSubscribe;
 	$scope.loginByKey = loginByKey;
 	$scope.register = register;
 	$scope.login = login;
 
 	// ==================================================
-
-	function changeSubscribe() {
-
-		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
-
-	}
-
-	function changeForm() {
-
-		$scope.isEnterForm = !$scope.isEnterForm;
-
-	}
 
 	// Обработка нажатия клавиши 'Enter'
 	function loginByKey(code) {
@@ -83,11 +69,10 @@ function LoginController($scope, $state, authentication, authService) {
 
 	}
 
-
 	// Состояние ошибки
-	function error(res) {
+	function error(errorDescription) {
 
-		$scope.error = res.data;
+		$scope.error = errorDescription;
 
 	}
 
@@ -96,16 +81,9 @@ function LoginController($scope, $state, authentication, authService) {
      */
 	function login() {
 
-		var email = $scope.email;
-
-		var password = $scope.password;
-
-		authentication.login({
-			email:    email,
-			password: password,
-			success:  authService.loginConfirmed,
-			error:    error
-		});
+		authentication.login($scope.email,
+							 $scope.password,
+							 error);
 
 	}
 

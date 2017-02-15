@@ -173,6 +173,9 @@ function takeNameFromEmail (listOfUsers) {
  * Коллбэк формирующий из email адресов имена пользователей определен именно в контексте данного
  * метода, так как формирование нужных данных по таблице лидеров целесообразно
  * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
+ * 
+ * TODO
+ * Сортировка по очкам. В случае равенства очков - смотреть на дату регистрации.
  */
 function getLeaderboard (idUser, callback) {
 
@@ -180,6 +183,7 @@ function getLeaderboard (idUser, callback) {
 	if (validateParam(idUser, callback)) {
 
 		this.aggregate([{
+			// Сопоставляем записи из статистики с записями в users
 			$lookup: {
 				from:         'users',
 				localField:   'idUser',
@@ -187,10 +191,20 @@ function getLeaderboard (idUser, callback) {
 				as:           'user'
 			}
 		}, {
+			// Селектируем только те записи, по которым имеется сопоставление
+			// с users.
+			$match: {
+				user: {
+		   			$exists : true,
+					$size : 1
+				}
+			}
+		}, {
+			// Формируем нужные поля для результата.
 			$project: {
 				totalFinalScore: true,
 				isItMe:          {
-					$eq: ["$idUser", mongoose.Types.ObjectId(idUser)]
+					$eq: ["$user._id", mongoose.Types.ObjectId(idUser)]
 				},
 				name:            {
 					$arrayElemAt: ['$user.email', 0]

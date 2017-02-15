@@ -9,7 +9,7 @@ module.exports = UseVariables();
 function UseVariables() {
 
 	return {
-		title:        'JavaScript переменные',
+		title:        'JavaScript переменные(Погрузка)',
 		defaultBBot:  defaultBBot,
 		content: content,
 		instructions: '<ul>' +
@@ -25,14 +25,14 @@ function UseVariables() {
 
 	function defaultBBot() {
 
-		return '<p>Пш агрх давайте их сюда, я все съем!</p>' +
-			   '<p>Мои вкусные, сладенькие перемнные:)</p>';
+		return '<p>Что нас понизили до погрузки?</p>' +
+			   '<p>Дайте мне другого человка, порасторопней:)</p>';
 
 	}
 
 	function content() {
 
-		return '';
+		return '<p>Тут какой-то контент!</p>';
 
 	}
 }

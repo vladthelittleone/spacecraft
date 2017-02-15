@@ -701,8 +701,10 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	 * Контент урока
 	 */
 	function lessonContent(num) {
-
-		return ContentFactory.content(num).lessonContent;
+		console.log(num);
+		var content = ContentFactory.content(num).lessonContent;
+		console.log(content);
+		return content;
 
 	}
 

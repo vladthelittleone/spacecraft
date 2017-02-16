@@ -12,29 +12,28 @@ function Api(player) {
 
 	var api = {};
 
-	var moveForwardCalled = false;
+	var cargoUse = false;
 
 	api.isAlive = isAlive;
-	api.moveForward = moveForward;
+	api.moveForward = player.moveForward;
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
-	api.isMoveForwardCalled = isMoveForwardCalled;
+	api.isUseCargo = isUseCargo;
+	api.setToCargo = setToCargo;
 
 	return api;
 
-	function moveForward() {
+	function setToCargo(value) {
 
-		player.moveForward();
+		cargoUse = true;
 
-		moveForwardCalled = true;
-
+		player.set(value);
 	}
 
-	function isMoveForwardCalled() {
+	function isUseCargo() {
 
-		return moveForwardCalled;
-
+		return cargoUse;
 	}
 
 	function isAlive() {

@@ -5,7 +5,7 @@ var contentArray = [];	// Хранит контент
 // Зависимотси
 contentArray.push(require('./lesson0'));
 contentArray.push(require('./lesson1'));
-contentArray.push({});
+contentArray.push(require('./lesson2'));
 contentArray.push(require('./lesson3'));
 
 // Экспорт

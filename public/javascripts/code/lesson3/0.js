@@ -1,15 +1,15 @@
+// Объявление переменной груза
+var container = 'Оружие';
+
 /**
  * Код погрузки samples на корабль
  */
 this.run = function(transport)
 {
-	// Объявление переменной груза
-	var samples = 'Samples to laboratory';
-
 	// Перемещение к грузому отсеку академии
-	transport.moveTo();
+	transport.moveToXY(500, 500);
 
 	// Производим погрузку груза
-	transport.setToCargoHold(samples);
+	transport.setToCargo(container);
 };
 

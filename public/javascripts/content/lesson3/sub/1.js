@@ -1,4 +1,8 @@
 'use strict';
+
+// Зависимсоти
+var LessonResults = require('../../lesson-results');
+
 /**
  * Created by vaimer on 31.01.17.
  */
@@ -17,8 +21,11 @@ function UseVariables() {
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img'
 		}],
-		defaultBBot:  defaultBBot,
+
+		gamePostUpdate: gamePostUpdate,
+
 		content: content,
+
 		instructions: '<ul>' +
 					  '<li>Для объявления или, другими словами, создания переменной используется ключевое слово var:</li>' +
 					  '<li><span class="under-label">var language;</span></li>' +
@@ -30,10 +37,18 @@ function UseVariables() {
 					  '</ul>'
 	};
 
-	function defaultBBot() {
+	function gamePostUpdate(spaceCraft) {
 
-		return '<p>Что нас понизили до погрузки?</p>' +
-			   '<p>Дайте мне другого человка, порасторопней:)</p>';
+		var lessonResults = LessonResults({
+			correct: '<p>Что нас понизили до погрузки?</p>' +
+					 '<p>Дайте мне другого человка, порасторопней:)</p>'
+		});
+
+		if (spaceCraft.isUseCargo()) {
+
+			return lessonResults.resultCorrect();
+
+		}
 
 	}
 

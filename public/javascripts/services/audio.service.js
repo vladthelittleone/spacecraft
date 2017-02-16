@@ -191,14 +191,14 @@ function AudioManager($rootScope) {
 	}
 
 	/**
-	 * 	Функция производит проверку поддерживаемых форматов
-	 * 	Из листа форматов наших аудио и возвращает первый поддерживаемый
+	 * Функция производит проверку поддерживаемых форматов
+	 * Из листа форматов наших аудио и возвращает первый поддерживаемый
 	 */
-	function getSupportedFormat(audio){
+	function getSupportedFormat (audio) {
 
-		for(var i = 0; i < formatList.length; i ++){
+		for (var i = 0; i < formatList.length; i++) {
 
-			if(audio.canPlayType('audio/' + formatList[i]) != ''){
+			if (audio.canPlayType('audio/' + formatList[i]) != '') {
 
 				return '.' + formatList[i];
 

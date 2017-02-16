@@ -13,6 +13,7 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 
 	var t = {};
 
+
 	t.audioIndex = 0; 	// Индекс текущиего трека
 
 	/**
@@ -153,4 +154,5 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 		initNextLessonContent();
 
 	}
+
 }

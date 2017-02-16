@@ -1,0 +1,45 @@
+{
+	"user": {
+		"statistics": {
+			"lessons": {
+				"root": "/user/statistics/lessons",
+				"stars": {
+					"root": "/user/statistics/lessons/stars"
+				}
+			},
+			"progress": {
+				"root": "/user/statistics/progress"
+			}
+		},
+		"info": {
+			"email": {
+				"root": "/user/info/email"
+			},
+			"session": {
+				"root": "/user/info/session"
+			}
+		},
+		"sign": {
+			"in": {
+				"email": {
+					"root": "/user/sign/in/email"
+				}
+			},
+			"out": {
+				"root": "/user/sign/out"
+			},
+			"up": {
+				"email": {
+					"root": "/user/sign/up/email"
+				}
+			}
+		}
+	},
+	"statistics": {
+		"lessons": {
+			"leaderBoard": {
+				"root": "/statistics/lessons/leaderBoard"
+			}
+		}
+	}
+}

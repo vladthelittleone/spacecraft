@@ -41,8 +41,6 @@ function WelcomeController($scope,
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
 
-	$scope.openLessons = connection.metrics.hitOpenLesson();
-
 	formDataForChart(lessonStatisticsData);
 	formDataForLineChart(userProgressData);
 	initUser(userInfoData);

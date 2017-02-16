@@ -100,7 +100,7 @@ function authorize(email, password, callback) {
 				// то пользователь не может авторизироваться через логин/пароль
 				if (user.vkId && !user.hashedPassword) {
 
-					callback(new HttpError(403, "Воспользуйтесь авторизацией через VK."));
+					callback(new HttpError(401, "Воспользуйтесь авторизацией через VK."));
 
 				}
 				else if (user.checkPassword(password)) {
@@ -109,13 +109,13 @@ function authorize(email, password, callback) {
 
 				} else {
 
-					callback(new HttpError(403, 'Пароль неверен'));
+					callback(new HttpError(401, 'Пароль неверен'));
 
 				}
 
 			} else {
 
-				callback(new HttpError(403, 'Пользователь не найден'));
+				callback(new HttpError(401, 'Пользователь не найден'));
 
 			}
 		}

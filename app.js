@@ -1,6 +1,10 @@
 'use strict';
 
 const express = require('express');
+const app = express();
+
+global.__resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
+
 const passport = require('passport');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -13,11 +17,11 @@ const session = require('express-session');
 const config = require('config');
 const mongoose = require('./utils/mongoose');
 const logger = require('./utils/log')(module);
+
 require('./utils/passport')();
+
 var localStrategy = require('./utils/passport/local');
 var vkStrategy = require('./utils/passport/vk');
-
-const app = express();
 
 var maxHeap = 0;
 
@@ -27,7 +31,7 @@ app.use(require('./middlewares/send-http-error'));
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, __resourcesFolderName, 'favicon.ico')));
 app.use(httpLogger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({extended: false}));
@@ -46,22 +50,6 @@ app.use(session({
 					store:             new MongoStore({mongooseConnection: mongoose.connection})
 				}));
 
-if (app.get('env') === 'development') {
-
-	app.use(express.static(path.join(__dirname, 'public')));
-
-} else {
-
-	app.use(express.static(path.join(__dirname, 'build')));
-
-}
-
-app.get('/views/*', function(req, res) {
-	res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
-require('./routes')(app);
-
 // init passportJS
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,12 +58,16 @@ passport.use('local-login', localStrategy.login);
 passport.use('local-registration', localStrategy.registration);
 passport.use('vk-login', vkStrategy.login);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
+// Подключаем статику (картинки, js скрипты, аудио и т.д.)
+app.use(express.static(path.join(__dirname, __resourcesFolderName)));
 
-	var err = new Error('На просторах вселенной страница не найдена!');
-	err.status = 404;
-	next(err);
+// инициализируем api;
+require('./routes')(app);
+
+// Выдаем стартовую страницу ангуляра,на случай неразрешения роута (для html5 mode).
+app.use('/*', function (req, res) {
+
+	res.sendFile(path.join(__dirname, __resourcesFolderName, 'index.html'));
 
 });
 

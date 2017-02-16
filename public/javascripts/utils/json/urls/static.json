@@ -1,0 +1,7 @@
+{
+	"resources": {
+		"lessonsCode": {
+			"root": "javascripts/code/lesson"
+		}
+	}
+}

@@ -3,7 +3,7 @@
 const express = require('express');
 const app = express();
 
-global.__resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
+const resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
 
 const passport = require('passport');
 const path = require('path');
@@ -59,7 +59,7 @@ passport.use('local-registration', localStrategy.registration);
 passport.use('vk-login', vkStrategy.login);
 
 // Подключаем статику (картинки, js скрипты, аудио и т.д.)
-app.use(express.static(path.join(__dirname, __resourcesFolderName)));
+app.use(express.static(path.join(__dirname, resourcesFolderName)));
 
 // инициализируем api;
 require('./routes')(app);
@@ -67,7 +67,7 @@ require('./routes')(app);
 // Выдаем стартовую страницу ангуляра,на случай неразрешения роута (для html5 mode).
 app.use('/*', function (req, res) {
 
-	res.sendFile(path.join(__dirname, __resourcesFolderName, 'index.html'));
+	res.sendFile(path.join(__dirname, resourcesFolderName, 'index.html'));
 
 });
 

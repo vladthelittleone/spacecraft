@@ -22,6 +22,8 @@ function Content() {
 		text:  'Расследование',
 		label: 'Основы JavaScript',
 		quote: 'Все мы барахтаемся в грязи, но иные из нас глядят на звёзды',
+		rules: require('./autocomplete.json'),
+		isGameLesson: true,
 		sub:   require('./sub'),
 		points: points,
 		maxAttemptLessonCountForBonus: 3

@@ -12,7 +12,6 @@ function Api(player) {
 
 	var api = {};
 
-	api.isAlive = isAlive;
 	api.isScanningActivated = isScanningActivated;
 	api.scan = player.scan;
 	api.moveForward = player.moveForward;
@@ -23,7 +22,6 @@ function Api(player) {
 	api.getY = player.getY;
 
 	return api;
-
 
 	function isScanningActivated() {
 

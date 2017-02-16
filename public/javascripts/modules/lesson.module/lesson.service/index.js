@@ -383,7 +383,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate &&
-			currentSubLesson().isRestartDisabled &&
+			!currentSubLesson().isRestartDisabled &&
 			Game.restart();
 
 			initNextLesson();

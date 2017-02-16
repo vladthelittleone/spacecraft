@@ -7,6 +7,8 @@ AudioManager.$inject = ['$rootScope'];
 
 module.exports = AudioManager;
 
+var lodash = require('lodash');
+
 /**
  * Менеджер аудиоменеджеров.
  *
@@ -23,6 +25,8 @@ function AudioManager($rootScope) {
 
 	// Список наших форматов аудио
 	var formatList = ['mp3', 'ogg'];
+
+	var supportedFormat;
 
 	var playList = [{
 		src:    'audio/track1',
@@ -196,13 +200,27 @@ function AudioManager($rootScope) {
 	 */
 	function getSupportedFormat (audio) {
 
-		for (var i = 0; i < formatList.length; i++) {
+		// Если уже проверяли поддержу форматов до этого, то сразу возврашаем найденный до этого офрмат
+		if (supportedFormat) {
 
-			if (audio.canPlayType('audio/' + formatList[i]) != '') {
+			return '.' + supportedFormat;
 
-				return '.' + formatList[i];
+		}
+
+		lodash.forEach(formatList, function (format) {
+
+
+			if (audio.canPlayType('audio/' + format) != '') {
+
+				supportedFormat = format;
+
+				return false; // Прекращаем forEach
 
 			}
-		}
+
+		});
+
+		return '.' + supportedFormat;
+
 	}
 }

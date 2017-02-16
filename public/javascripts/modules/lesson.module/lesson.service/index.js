@@ -25,7 +25,11 @@ module.exports = LessonService;
  * @since 07.05.2016
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService, settings) {
+function LessonService(connection,
+					   audioManager,
+					   aceService,
+					   settings,
+					   statisticsStorage) {
 
 	var that = {};
 
@@ -47,7 +51,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	// Статистика по ТЕКУЩЕМУ уроку.
 	// Текущий - это именно тот, который в данный момент проходит пользователь.
-	var currentLessonStatistics;
+	var currentLessonStatistics = null;
 
 	that.setEditorSession = setEditorSession;
 	that.setMarkerId = setMarkerId;
@@ -55,6 +59,8 @@ function LessonService(connection, audioManager, aceService, settings) {
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
 	that.getMarkerId = getMarkerId;
+	that.getCurrentLessonStatistics = getCurrentLessonStatistics;
+	that.getCurrentLessonContentPoints = getCurrentLessonContentPoints;
 
 	that.lessonContent = lessonContent;
 
@@ -297,6 +303,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 
 	}
 
+
 	/**
 	 * Обертка, которая знает в каком формате необходимо
 	 * сохранять статистику для текущего урока.
@@ -320,7 +327,6 @@ function LessonService(connection, audioManager, aceService, settings) {
 				lessonStatistics: currentLessonStatistics
 			}
 		});
-
 	}
 
 	/**
@@ -423,6 +429,7 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// Сохраняем окончательную статистику за урок.
 		saveStatisticsWrapper(LESSON_IS_FINISHED, true);
 
+		statisticsStorage.saveUserProgress(totalFinalScore);
 	}
 
 	/**
@@ -473,11 +480,11 @@ function LessonService(connection, audioManager, aceService, settings) {
 	function loadLessons() {
 
 		// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-		connection.getLessonsStatistics(function (result) {
+		connection.getLessonsStatistics(function (data) {
 
 			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-			lessons = result.data.lessons || [];
-			totalFinalScore = result.data.totalFinalScore || 0;
+			lessons = data.lessons || [];
+			totalFinalScore = data.totalFinalScore || 0;
 
 			prepareLesson(getCurrentLesson());
 
@@ -512,6 +519,10 @@ function LessonService(connection, audioManager, aceService, settings) {
 		// перед его началом.
 		// В противном случае - осуществляем выгрузку данных,
 		// которая в последующем спровоцирует их подготовку перед началом урока.
+		//------------------------------------------------------------------------
+		// TODO
+		// вынести выгрузку в resolve!!!!
+		//------------------------------------------------------------------------
 		if (lessons && lessons.length) {
 
 			prepareLesson(getCurrentLesson());
@@ -699,7 +710,9 @@ function LessonService(connection, audioManager, aceService, settings) {
 	 */
 	function lessonContent(num) {
 
-		return ContentFactory.content(num).lessonContent;
+		var currentContent = ContentFactory.content(num);
+		
+		return currentContent && currentContent.lessonContent;
 
 	}
 
@@ -730,6 +743,18 @@ function LessonService(connection, audioManager, aceService, settings) {
 	function setMarkerId(id) {
 
 		markerId = id;
+
+	}
+
+	function getCurrentLessonStatistics() {
+
+		return currentLessonStatistics;
+
+	}
+
+	function getCurrentLessonContentPoints() {
+
+		return that.lessonContent(lessonId).points;
 
 	}
 

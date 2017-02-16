@@ -2,6 +2,7 @@
 
 module.exports = LessonStatistics;
 
+
 /**
  * Сервис хранения статистики пользователя по игре.
  *
@@ -17,6 +18,7 @@ function LessonStatistics() {
 
 	var maxAttemptLessonCountForBonus;
 
+	// штрафные очки за урок
 	var penaltyPointsForGame;
 
 	// Общее число бонусных очков, которые были начислены.
@@ -49,7 +51,7 @@ function LessonStatistics() {
 
 	that.isItFirstLessonAttempt = isItFirstLessonAttempt;
 
-	that.setPenaltyPointsForGame = setPenaltyPointsForGame;
+	that.incPenaltyPointsForGame = incPenaltyPointsForGame;
 
 	that.calculateScoreForLessonEnd = calculateScoreForLessonEnd;
 	that.calculateBonusScore = calculateBonusScore;
@@ -430,12 +432,12 @@ function LessonStatistics() {
 	}
 
 	/**
-	 * Предполагается, что данный метод устанавливает штрафные очки
-	 * за урок, которые в последующем будут сняты методом subPenaltyPointsForGame.
+	 * Функция увеличивает количество штрафных очков, которых пользователь получит
+	 * за текущий урок.
 	 */
-	function setPenaltyPointsForGame(penaltyPoints) {
+	function incPenaltyPointsForGame(penaltyPoints) {
 
-		penaltyPointsForGame = penaltyPoints;
+		penaltyPointsForGame += penaltyPoints;
 
 	}
 
@@ -447,9 +449,9 @@ function LessonStatistics() {
 
 	/**
 	 * Снимает штрафные очки, которые были установлены
-	 * последним вызовом setPenaltyPointsForGame.
+	 * последним вызовом incPenaltyPointsForGame.
 	 * В последующем, метод сбрасывает текущие штрафные очки,
-	 * так как предполагается, что они отнимаются строго 1 раз.
+	 * так как предполагается, что они отнимаются в конце урока.
 	 */
 	function subPenaltyPointsForGame() {
 

@@ -7,6 +7,7 @@ var logger = require('../utils/log')(module);
 var Statistic = require('models/statistic').Statistic;
 var HttpError = require('error').HttpError;
 var Cohorts = require('models/cohorts').Cohorts;
+var lodash = require('lodash');
 
 var router = express.Router();
 
@@ -103,7 +104,7 @@ router.post('/lessons/stars', function (req, res, next) {
 		}
 
 	});
-	
+
 	let dataForUpdate = req.body;
 
 	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, function (err) {
@@ -124,7 +125,7 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 	let idUser = req.user._id;
 
-	Statistic.getLeaderboard(idUser, function(error, leaderBoard) {
+	Statistic.getLeaderboard(idUser, function (error, leaderBoard) {
 
 		if (error) {
 
@@ -138,3 +139,52 @@ router.get('/lessons/leaderboard', function (req, res, next) {
 
 });
 
+router.post('/user/progress', (req, res, next) => {
+
+	let idUser = req.user._id;
+	let scoreFromRequest = req.body.score;
+
+	// Если очки действительно пришли
+	if(scoreFromRequest) {
+
+		// Кладем обновленный прогресс пользователя
+		Statistic.updateUserProgress(idUser, scoreFromRequest, (error, result) => {
+
+			if (error) {
+
+				return next(new HttpError(400, "Ошибка сохранения очков пользователя"));
+
+			}
+
+			// Отправляем в ответ обновленный массив очков
+			res.send(result.userProgress);
+
+		});
+	}
+
+});
+
+router.get('/user/progress',(req, res, next) => {
+
+	let idUser = req.user._id;
+
+	Statistic.getUserStatistics(idUser,(error, result) => {
+
+		if (error) {
+
+			return next(error)
+		}
+
+		let userProgress = [];
+
+		// Если что-то есть в базе
+		if (result && result.userProgress) {
+
+			userProgress = result.userProgress;
+
+		}
+
+		res.send(userProgress);
+
+	})
+});

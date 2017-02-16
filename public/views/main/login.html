@@ -19,7 +19,7 @@
 
 				<div class="login-input">
 					<label>
-						<input type="text"
+						<input type="email"
 							   ng-model="email"
 							   class="login-email"
 							   placeholder="Email">
@@ -40,21 +40,22 @@
 					</button>
 
 					<button class="float-right"
-							ng-click="changeForm()">
+							ng-click="isEnterForm = !isEnterForm">
 						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 					</button>
 
-					<button ng-show="isEnterForm" class="vk-button">
-						<a href="/login/vk">
+					<a href="/login/vk">
+						<button ng-show="isEnterForm" class="vk-button">
 							<span>Войти через ВКонтакте</span>
-						</a>
-					</button>
+						</button>
+					</a>
 
 				</div>
 
 				<div class="login-input login-checkbox">
 					<div ng-show="!isEnterForm"
-						 class="login-checkbox-title" ng-click=changeSubscribe()>
+						 class="login-checkbox-title"
+						 ng-click="isSubscribeOnEmail = !isSubscribeOnEmail">
 						<span ng-class="{'glyphicon glyphicon-check' : isSubscribeOnEmail,
 										 'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
 						</span>
@@ -106,7 +107,7 @@
 		</div>
 	</div>
 	<div class="login-container login-footer">
-		<div class="login-copyright">© Copyright SpaceCraft™ 2016. All rights reserved.</div>
+		<div class="login-copyright">© Copyright SpaceCraft™ 2017. All rights reserved.</div>
 		<div class="login-vk"><a href="https://vk.com/spacecrafter">Мы в ВК</a></div>
 	</div>
 </div>

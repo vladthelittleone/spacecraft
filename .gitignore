@@ -31,3 +31,4 @@ public/javascripts/bundle.js
 
 ## Common ignore
 *~
+bower_components/

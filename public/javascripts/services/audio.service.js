@@ -21,14 +21,17 @@ function AudioManager($rootScope) {
 	var soundtrack;
 	var currentAudio = 0;
 
+	// Список наших форматов аудио
+	var formatList = ['mp3', 'ogg'];
+
 	var playList = [{
-		src:    'audio/track1.ogg',
+		src:    'audio/track1',
 		volume: 0.05
 	}, {
-		src:    'audio/track3.ogg',
+		src:    'audio/track3',
 		volume: 0.05
 	}, {
-		src:    'audio/track2.ogg',
+		src:    'audio/track2',
 		volume: 0.05
 	}];
 
@@ -53,13 +56,17 @@ function AudioManager($rootScope) {
 	 */
 	function createVoice(str) {
 
+		var format;
+
 		if (voice) {
 
 			// Реинициализация
 			voice.onended = null;
 
+			format = getSupportedFormat(voice);
+
 			// Изменение сурса
-			voice.setAttribute('src', str);
+			voice.setAttribute('src', str + format);
 
 			// Загрузка нового сурса
 			voice.load();
@@ -68,7 +75,11 @@ function AudioManager($rootScope) {
 		else {
 
 			// Создание новой аудиозаписи
-			voice = new Audio(str);
+			voice = new Audio();
+
+			format = getSupportedFormat(voice);
+
+			voice.setAttribute('src', str + format)
 
 		}
 
@@ -84,7 +95,9 @@ function AudioManager($rootScope) {
 	 */
 	function init(audio, config) {
 
-		audio.setAttribute('src', config.src);
+		var format = getSupportedFormat(audio);
+
+		audio.setAttribute('src', config.src + format);
 
 		audio.load();
 
@@ -175,5 +188,21 @@ function AudioManager($rootScope) {
 
 		soundtrack && soundtrack.pause();
 
+	}
+
+	/**
+	 * 	Функция производит проверку поддерживаемых форматов
+	 * 	Из листа форматов наших аудио и возвращает первый поддерживаемый
+	 */
+	function getSupportedFormat(audio){
+
+		for(var i = 0; i < formatList.length; i ++){
+
+			if(audio.canPlayType('audio/' + formatList[i]) != ''){
+
+				return '.' + formatList[i];
+
+			}
+		}
 	}
 }

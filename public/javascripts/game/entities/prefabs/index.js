@@ -8,6 +8,8 @@ var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
 var RedPlanet = require('./red-planet');
+var Turret = require('./turret');
+var Stock = require('./stock');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -30,6 +32,8 @@ function PrefabsFactory() {
 	t.createRedPlanet = createRedPlanet;
 	t.createMeteor = createMeteor;
 	t.createMine = createMine;
+	t.createTurret = createTurret;
+	t.createStock = createStock;
 
 	return t;
 
@@ -80,5 +84,17 @@ function PrefabsFactory() {
 
 		return RedPlanet(game, x, y);
 
+	}
+
+	// Защитная турель
+	function createTurret(game, x, y) {
+
+		return Turret(game, x, y);
+
+	}
+
+	function createStock(game, x, y) {
+
+		return Stock(game, x, y);
 	}
 }

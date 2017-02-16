@@ -13,5 +13,6 @@
 	"meteor6": "images/sprites/entities/meteors/meteor6.png",
 	"meteor7": "images/sprites/entities/meteors/meteor7.png",
 	"redplanet": "images/sprites/entities/planet.png",
-	"turret": "images/sprites/entities/planet.png"
+	"turret": "images/sprites/entities/turret.png",
+	"stock": "images/sprites/entities/stock.png"
 }

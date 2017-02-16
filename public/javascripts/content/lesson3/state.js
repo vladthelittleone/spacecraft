@@ -45,6 +45,68 @@ function StateWrapper(state) {
 		}
 	}
 
+	function createSpaceObject(game, x, y) {
+
+		// Нижний левый угол экрана
+		EntitiesFactory.createRedPlanet(game, x / 4, y / 4);
+
+		// По идее верхний левый угол(надо будет перенсти)
+		EntitiesFactory.createMeteorFiledSphere(game, 0, y * 2 - 200);
+
+		// Нижний левый угол экрана
+		EntitiesFactory.createTurret(game, x / 4 + 150, y / 4 + 150);
+
+		// верхний правый угол экрана
+		EntitiesFactory.createStock(game, x / 2 + x + 150, y / 2 + y + 150);
+
+	}
+
+	function crateShipsInSpace(game, x, y) {
+
+		for (var h = 0; h < 4; h++) {
+
+			var i1 = random.randomInt(-225, 225);
+			var i2 = random.randomInt(-225, 225);
+
+			var newX = x / 2 + x + i1;
+			var newY = y / 2 + y + i2;
+
+			var type = EntitiesFactory.createHarvester;
+
+			var spacecraft = type(game, newX, newY);
+
+			spacecraft.sprite.angle = game.rnd.angle();
+
+			var destination = true;
+
+			spacecraft.logic = function (h, newX, newY, destination) {
+
+				if(destination && h.x != x && h.y != y) {
+
+					h.moveToXY(x, y);
+
+				}
+
+				if(!destination && h.x != newX && h.y != newY) {
+
+					h.moveToXY(newX, newY);
+
+				}
+
+				if(h.x == x && h.y == y)
+				{
+					destination = false;
+
+				} else if(h.x == newX && h.y == newY) {
+
+					destination = true;
+				}
+			}
+
+		}
+
+	}
+
 	/**
 	 * Шаблонный метод инфициализации объектов.
 	 */
@@ -64,9 +126,11 @@ function StateWrapper(state) {
 		// API для урока
 		player.api = Api(player);
 
-		EntitiesFactory.createRedPlanet(game, x / 4, y / 4);
+		createSpaceObject(game, x, y);
 
 		createShipsBesideAcademyBase(game, x, y);
+
+		//crateShipsInSpace(game, x, y);
 
 		// Корабль на верх.
 		sprite.bringToTop();

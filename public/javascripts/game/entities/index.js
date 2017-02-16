@@ -10,6 +10,8 @@ var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
 var RedPlanet = require('./red-planet');
+var Turret = require('./turret');
+var Stock = require('./stock');
 
 var Random = require('../../utils/random');
 
@@ -36,6 +38,9 @@ function EntitiesFactory() {
 	t.createRedPlanet = createRedPlanet;
 	t.createMeteor = createMeteor;
 	t.createMeteorField = createMeteorField;
+	t.createMeteorFiledSphere = createMeteorFiledSphere;
+	t.createTurret = createTurret;
+	t.createStock = createStock;
 	t.createMine = createMine;
 	t.getWorld = getWorld;
 
@@ -132,6 +137,45 @@ function EntitiesFactory() {
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
 
 		}
+
+	}
+
+	/**
+	 * Создать метеоритное поле округлое
+	 */
+	function createMeteorFiledSphere(game, x, y) {
+
+		var radius = Phaser.Point.distance(new Phaser.Point(x - 50, y - 50), new Phaser.Point(x + 50, y - 50));
+
+		// Инициализация
+		var count = x;
+		var start = 0;
+		var shift = 3;
+
+		for (var i = start; i < count; i = i + shift) {
+
+			var j = Math.sqrt(radius * radius - i * i);
+
+			var m = createMeteor(game, i + Random(0, 100), j + Random.randomInt(0, 100));
+
+			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
+			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
+		}
+
+	}
+
+	/**
+	 * Создать турель
+	 */
+	function createTurret(game, x, y) {
+
+		return Turret(game, x, y);
+
+	}
+
+	function createStock(game, x, y) {
+
+		return Stock(game, x, y);
 
 	}
 

@@ -10,6 +10,13 @@ function UseVariables() {
 
 	return {
 		title:        'JavaScript переменные(Погрузка)',
+		character:    [{
+			audio:  'audio/lesson2/1-1.mp3',
+			css:    'astromen-img'
+		}, {
+			audio:  'audio/lesson2/1-2.mp3',
+			css:    'astrogirl-img'
+		}],
 		defaultBBot:  defaultBBot,
 		content: content,
 		instructions: '<ul>' +

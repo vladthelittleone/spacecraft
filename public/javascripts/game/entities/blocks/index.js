@@ -3,6 +3,7 @@
 // Зависимости
 var EngineBlock = require('./engine');
 var ShieldBlock = require('./shield');
+var CargoBlock = require('./cargo');
 
 // Экспорт
 module.exports = BlocksFactory();
@@ -20,6 +21,7 @@ function BlocksFactory() {
 
 	t.addEngineBlock = addEngineBlock;
 	t.addShieldBlock = addShieldBlock;
+	t.addCargoBlock = addCargoBlock;
 
 	return t;
 
@@ -38,6 +40,12 @@ function BlocksFactory() {
 	function addShieldBlock(spec) {
 
 		return ShieldBlock(spec);
+
+	}
+
+	function addCargoBlock(spec) {
+
+		return CargoBlock(spec);
 
 	}
 

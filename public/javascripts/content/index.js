@@ -6,8 +6,7 @@ var contentArray = [];	// Хранит контент
 contentArray.push(require('./lesson0'));
 contentArray.push(require('./lesson1'));
 contentArray.push({});
-contentArray.push({});
-contentArray.push(require('./lesson4'));
+contentArray.push(require('./lesson3'));
 
 // Экспорт
 module.exports = ContentFactory();

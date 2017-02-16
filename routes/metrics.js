@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var Cohorts = require('models/cohorts').Cohorts;
 var router = express.Router();

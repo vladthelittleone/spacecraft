@@ -4,6 +4,8 @@
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
 
+var random = require('../../utils/random');
+
 var Api = require('./api');
 
 module.exports = StateWrapper;
@@ -18,6 +20,7 @@ function StateWrapper(state) {
 	var t = state;
 
 	var player;		// Игрок
+	var graphics;	// Графика
 
 	t.entities = entities;
 
@@ -30,6 +33,9 @@ function StateWrapper(state) {
 
 		var x = game.world.centerX;
 		var y = game.world.centerY;
+
+		// Инициализация графики
+		graphics = game.add.graphics(0, 0);
 
 		// Создать транспорт
 		player = EntitiesFactory.createScout(game, 1000, 1000, true);

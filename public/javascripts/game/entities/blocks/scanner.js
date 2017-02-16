@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('../prefabs');
+var PrimitivesFactory = require('../../primitives');
 
 // Экспорт
 module.exports = ScannerBlock;
@@ -19,24 +19,49 @@ function ScannerBlock(spec) {
 
 	var game = spec.game;
 	var unit = spec.unit;
-	var scale = spec.scale || 1;
+	var maxDiameter = spec.maxDiameter || 200;
+	var color = spec.color || 0x7AACE8;
+
+	var currentDiameter = 0;
+	var isScanActivated = false;
 
 	/**
 	 * Создаем спрайт щита.
 	 */
-	var shieldSprite = PrefabsFactory.createShield(game, 0, 0, scale, unit.isPlayer);
+	var primitive = PrimitivesFactory.createScannerCircle(game, currentDiameter, color);
 
-	initialization();
+	unit.scan = scan;
+
+	t.update = update;
 
 	return t;
 
 	/**
 	 * Инициализация.
 	 */
-	function initialization() {
+	function update() {
 
-		// Привязываем спрайт щита к кораблю
-		unit.sprite.addChild(shieldSprite);
+		if (isScanActivated) {
+
+
+			currentDiameter = currentDiameter > maxDiameter ? 0 : currentDiameter + 1;
+
+			primitive.draw(unit.sprite.x, unit.sprite.y, currentDiameter);
+
+		} else {
+
+			primitive.clear();
+
+		}
+
+		isScanActivated = false;
 
 	}
+
+	function scan() {
+
+		isScanActivated = true;
+
+	}
+
 }

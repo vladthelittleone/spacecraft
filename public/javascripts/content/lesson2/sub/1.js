@@ -20,7 +20,7 @@ function Investigation() {
 		content:      content,
 		isRestartDisabled: true,
 		instructions: '<ul>' +
-					  '<li>Отправьте корабль к месту аварии с помощью команды <span class="red-label">scout.moveToXY</span>.</li>' +
+					  '<li>Отправьте корабль к месту аварии с помощью команды <span class="red-label">scout.moveToXY()</span>.</li>' +
 					  '<li>Координаты аварии (<strong>2000</strong>, <strong>2000</strong>).</li>' +
 					  '</ul>',
 		character:    [{

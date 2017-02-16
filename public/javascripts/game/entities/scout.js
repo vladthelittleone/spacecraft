@@ -39,6 +39,12 @@ function ScoutUnit(game, x, y, player) {
 		trail:           true				// Использование огня двигателя
 	});
 
+	t.scanner = BlocksFactory.addScannerBlock({
+		game:        game,
+		unit:        t,
+		maxDiameter: 350
+	});
+
 	/**
 	 * Аудио менеджер.
 	 */
@@ -54,6 +60,7 @@ function ScoutUnit(game, x, y, player) {
 	function update() {
 
 		t.engine.update();
+		t.scanner.update();
 
 		t.logic && t.logic(t);
 

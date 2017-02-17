@@ -209,7 +209,6 @@ function AudioManager($rootScope) {
 
 		lodash.forEach(formatList, function (format) {
 
-
 			if (audio.canPlayType('audio/' + format) != '') {
 
 				supportedFormat = format;

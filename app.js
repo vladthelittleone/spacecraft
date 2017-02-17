@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const compression = require('compression');
 const passport = require('passport');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -18,6 +19,8 @@ var localStrategy = require('./utils/passport/local');
 var vkStrategy = require('./utils/passport/vk');
 
 const app = express();
+
+app.use(compression());
 
 var maxHeap = 0;
 

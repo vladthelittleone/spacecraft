@@ -2,7 +2,7 @@
 var container = 'Оружие';
 
 /**
- * Код погрузки samples на корабль
+ * Код погрузки container на корабль
  */
 this.run = function(transport)
 {

@@ -23,18 +23,14 @@ function Api(player) {
 	api.rotateRight = player.rotateRight;
 	api.isUseCargo = isUseCargo;
 	api.setToCargo = setToCargo;
+	api.getFromCargo = player.get;
+	api.isWithinCargo = isWithinCargo;
 
 	return api;
 
 	function setToCargo(value) {
 
-		console.log('in cargo');
-		console.log(player.sprite.x / 10);
-		console.log(player.sprite.y / 10);
-		if(player.sprite.x == cargoX &&
-		   player.sprite.y == cargoY) {
-
-			console.log('in if');
+		if(isWithinCargo()) {
 
 			cargoUse = true;
 
@@ -50,8 +46,6 @@ function Api(player) {
 
 		player.moveToXY(x, y);
 
-		console.log('cargoX = ' + cargoX);
-		console.log('cargoY = ' + cargoY);
 	}
 
 	function isUseCargo() {
@@ -65,4 +59,11 @@ function Api(player) {
 
 	}
 
+	function isWithinCargo() {
+
+		var distance = Phaser.Point.distance(new Phaser.Point(cargoX, cargoY),
+											 new Phaser.Point(player.sprite.x, player.sprite.y));
+
+		return distance <= 7;
+	}
 }

@@ -3,6 +3,7 @@
 // Зависимости
 var EngineBlock = require('./engine');
 var ShieldBlock = require('./shield');
+var ScannerBlock = require('./scanner');
 var CargoBlock = require('./cargo');
 
 // Экспорт
@@ -21,6 +22,7 @@ function BlocksFactory() {
 
 	t.addEngineBlock = addEngineBlock;
 	t.addShieldBlock = addShieldBlock;
+	t.addScannerBlock = addScannerBlock;
 	t.addCargoBlock = addCargoBlock;
 
 	return t;
@@ -40,6 +42,15 @@ function BlocksFactory() {
 	function addShieldBlock(spec) {
 
 		return ShieldBlock(spec);
+
+	}
+
+	/**
+	 * Добавляем щит к юниту.
+	 */
+	function addScannerBlock(spec) {
+
+		return ScannerBlock(spec);
 
 	}
 

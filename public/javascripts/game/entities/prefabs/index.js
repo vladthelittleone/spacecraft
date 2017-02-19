@@ -7,6 +7,7 @@ var Shield = require('./shield');
 var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
+var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
 var Stock = require('./stock');
@@ -32,10 +33,18 @@ function PrefabsFactory() {
 	t.createRedPlanet = createRedPlanet;
 	t.createMeteor = createMeteor;
 	t.createMine = createMine;
+	t.createScout = createScout;
 	t.createTurret = createTurret;
 	t.createStock = createStock;
 
 	return t;
+
+	// Разведчик
+	function createScout(game, x, y) {
+
+		return Scout(game, x, y);
+
+	}
 
 	// Транспорт
 	function createTransport(game, x, y) {

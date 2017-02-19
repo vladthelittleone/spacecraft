@@ -15,6 +15,7 @@ function Diagram () {
 	var t = {};
 
 	var changes = [];
+
 	/**
 	 * Объект, который отвечает за диаграмму;
 	 */

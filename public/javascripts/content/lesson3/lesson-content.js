@@ -22,6 +22,7 @@ function Content() {
 		label: 'Основы JavaScript',
 		quote: 'То, что для одного человека константа, для другого - переменная. (Алан.Дж.Перлис)',
 		sub:   require('./sub'),
+		isGameLesson: true,
 		points: points,
 		maxAttemptLessonCountForBonus: 4
 	};

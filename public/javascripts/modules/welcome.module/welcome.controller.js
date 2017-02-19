@@ -1,6 +1,14 @@
 'use strict';
 
-WelcomeController.$inject = ['$scope', '$sce', 'authentication', 'connection', 'authService', 'statisticsStorage'];
+WelcomeController.$inject = ['$scope',
+							 '$sce',
+							 'authentication',
+							 'connection',
+							 'authService',
+							 'lessonStatisticsData',
+							 'leaderBoardData',
+							 'userProgressData',
+							 'userInfoData'];
 
 module.exports = WelcomeController;
 
@@ -10,15 +18,21 @@ var lodash = require('lodash');
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function WelcomeController($scope, $sce, authentication, connection, authService, statisticsStorage) {
+function WelcomeController($scope,
+						   $sce,
+						   authentication,
+						   connection,
+						   authService,
+						   lessonStatisticsData,
+						   leaderBoardData,
+						   userProgressData,
+						   userInfoData) {
 
-	$scope.leadersList = [];	// Лидеры игры
-	$scope.showLeaderboard = false;	// Переключатель таблицы лидеров
+	$scope.leadersList = leaderBoardData || [];	// Лидеры игры
 	$scope.vkShow = true; 	// Переключатель виджета ВК
 
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
-
 
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
@@ -26,24 +40,15 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
-	$scope.showLineGraphic = false;
 
 	$scope.openLessons = connection.metrics.hitOpenLesson();
 
-	/**
-	 * Формирование статистики по всем параметрам.
-	 */
-	connection.getLessonsStatistics(formDataForChart);
-
-	connection.getLeaderboard(formLeaderboard);
-
-	statisticsStorage.getUserProgress(formDataForLineChart);
+	formDataForChart(lessonStatisticsData);
+	formDataForLineChart(userProgressData);
+	initUser(userInfoData);
 
 	// Инифиализация ВК
 	initVK();
-
-	authentication.currentUser(initUser);
-
 
 	// ==================================================
 
@@ -73,16 +78,6 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 
 	}
 
-	function formLeaderboard(res) {
-
-		$scope.leadersList = res.data;
-
-		// Открываем таблицу лидеров, так как все
-		// данные загрузились
-		$scope.showLeaderboard = true;
-
-	}
-
 	/**
 	 * Формирование данных для графика.
 	 *
@@ -94,11 +89,11 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 	 * currentSubLesson - текущий подурок.
 	 * completed - был ли уже пройден урок.
 	 */
-	function formDataForChart(res) {
+	function formDataForChart(lessonStatisticsData) {
 
 		// Забираем уроки из ответа.
 		// Ответ может быть и пустым.
-		var lessons = res.data.lessons || [];
+		var lessons = lessonStatisticsData.lessons || [];
 
 		// Кол-во подуроков
 		var subLessonCount = sum(lessons, 'subLessonCount') || 100;
@@ -119,17 +114,13 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 	 * Данные -  приходит  массив
 	 * и сами данные для графика должны находится в массиве
 	 */
-	function formDataForLineChart(result) {
+	function formDataForLineChart(userProgress) {
 
-		// Если result еопределен, график непостроется и
-		// Пользователю выводится не будет
-		if (result && !$scope.showLineGraphic) {
+		if (userProgress) {
 
 			// Подготовка данных для вывода графика,
 			// представление данных [[1,2,3],[3,4,5]] - 2 графика
-			$scope.totalScore = [];
-
-			$scope.totalScore.push(result);
+			$scope.totalScore = [userProgress];
 
 			// Задаем подписи оси оХ
 			// (соответсвие индексов данного массива к массиву результатов )
@@ -141,9 +132,8 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 
 			}
 
-			// Конец подготовки данных, и гоорим что готово!
-			$scope.showLineGraphic = $scope.labels.length > 0;
 			$scope.seriesT = ['Последние полученные очки'];
+
 		}
 	}
 
@@ -198,9 +188,9 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 	}
 
 	// Инициализация пользователя
-	function initUser(user) {
+	function initUser(userInfo) {
 
-		$scope.mail = user && user.email;
+		$scope.mail = userInfo && userInfo.email;
 
 	}
 
@@ -210,14 +200,13 @@ function WelcomeController($scope, $sce, authentication, connection, authService
 	function logout() {
 
 		authentication.logout({
+								  success: function () {
 
-			success: function () {
+									  // Оповещаем сервис аутентификации о прекращении текущего сеанса.
+									  authService.loginCancelled();
 
-				// Оповещаем сервис аутентификации о прекращении текущего сеанса.
-				authService.loginCancelled();
+								  }
 
-			}
-
-		});
+							  });
 	}
 }

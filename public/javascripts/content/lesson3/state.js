@@ -47,16 +47,16 @@ function StateWrapper(state) {
 
 	function createSpaceObject(game, x, y) {
 
-		// Нижний левый угол экрана
+		// Верхний левый угол экрана
 		EntitiesFactory.createRedPlanet(game, x / 4, y / 4);
 
 		// По идее верхний левый угол(надо будет перенсти)
 		EntitiesFactory.createMeteorFiledSphere(game, 0, y * 2 - 200);
 
-		// Нижний левый угол экрана
-		EntitiesFactory.createTurret(game, x / 4 + 150, y / 4 + 150);
+		// Верхний левый угол экрана
+		EntitiesFactory.createTurret(game, x / 4 - 300, y / 4 - 300);
 
-		// верхний правый угол экрана
+		// Нижний правый угол экрана
 		EntitiesFactory.createStock(game, x / 2 + x + 150, y / 2 + y + 150);
 
 	}

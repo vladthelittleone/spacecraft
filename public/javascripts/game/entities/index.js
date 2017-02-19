@@ -9,6 +9,7 @@ var Harvester = require('./harvester');
 var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
+var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
 var Stock = require('./stock');
@@ -42,9 +43,25 @@ function EntitiesFactory() {
 	t.createTurret = createTurret;
 	t.createStock = createStock;
 	t.createMine = createMine;
+	t.createScout = createScout;
 	t.getWorld = getWorld;
 
 	return t;
+
+	/**
+	 * Создать разведчика.
+	 */
+	function createScout(game, x, y, player) {
+
+		var scout = Scout(game, x, y, player);
+
+		var id = world.pushObject(scout);
+
+		player && world.setPlayer(id);
+
+		return scout;
+
+	}
 
 	/**
 	 * Создать транспорт.

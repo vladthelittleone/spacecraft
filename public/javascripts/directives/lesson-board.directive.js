@@ -40,7 +40,11 @@ function LessonBoard($sce, lessonService) {
 		function getContent () {
 
 			// Проверка html на предмет xss
-			return $sce.trustAsHtml($scope.lesson.content());
+			if ($scope.lesson) {
+
+				return $sce.trustAsHtml($scope.lesson.content());
+
+			}
 
 		}
 
@@ -49,7 +53,7 @@ function LessonBoard($sce, lessonService) {
 		 */
 		function getHint () {
 
-			if ($scope.lesson.hint) {
+			if ($scope.lesson && $scope.lesson.hint) {
 
 				return $sce.trustAsHtml($scope.lesson.hint);
 
@@ -62,7 +66,11 @@ function LessonBoard($sce, lessonService) {
 		 */
 		function getInstructions () {
 
-			return $sce.trustAsHtml($scope.lesson.instructions);
+			if ($scope.lesson) {
+
+				return $sce.trustAsHtml($scope.lesson.instructions);
+				
+			}
 
 		}
 

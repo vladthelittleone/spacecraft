@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const compression = require('compression');
 const passport = require('passport');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -18,6 +19,8 @@ var localStrategy = require('./utils/passport/local');
 var vkStrategy = require('./utils/passport/vk');
 
 const app = express();
+
+app.use(compression());
 
 var maxHeap = 0;
 
@@ -37,13 +40,14 @@ app.use(cookieParser());
 const MongoStore = require('connect-mongo/es5')(session);
 
 app.use(session({
-	secret:            config.get('session:secret'), // ABCDE242342342314123421.SHA256
-	key:               config.get('session:key'),
-	resave:            config.get('session:resave'),
-	saveUninitialized: config.get('session:saveUninitialized'),
-	cookie:            config.get('session:cookie'),
-	store:             new MongoStore({mongooseConnection: mongoose.connection})
-}));
+					secret:            config.get('session:secret'), // ABCDE242342342314123421.SHA256
+					key:               config.get('session:key'),
+					resave:            config.get('session:resave'),
+					saveUninitialized: config.get('session:saveUninitialized'),
+					cookie:            config.get('session:cookie'),
+					rolling:           config.get('session:rolling'),
+					store:             new MongoStore({mongooseConnection: mongoose.connection})
+				}));
 
 if (app.get('env') === 'development') {
 
@@ -59,9 +63,9 @@ if (app.get('env') === 'development') {
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use ('local-login', localStrategy.login);
-passport.use ('local-registration', localStrategy.registration);
-passport.use ('vk-login', vkStrategy.login);
+passport.use('local-login', localStrategy.login);
+passport.use('local-registration', localStrategy.registration);
+passport.use('vk-login', vkStrategy.login);
 
 require('./routes')(app);
 
@@ -100,14 +104,14 @@ if (app.get('env') === 'development') {
 
 	setInterval(function () {
 
-			var heap = process.memoryUsage().heapUsed;
+					var heap = process.memoryUsage().heapUsed;
 
-			maxHeap = maxHeap < heap ? heap : maxHeap;
+					maxHeap = maxHeap < heap ? heap : maxHeap;
 
-			logger.info('Heap size: ' + heap + ', maximum heap size: ' + maxHeap);
+					logger.info('Heap size: ' + heap + ', maximum heap size: ' + maxHeap);
 
-		},
-		10000);
+				},
+				10000);
 
 }
 

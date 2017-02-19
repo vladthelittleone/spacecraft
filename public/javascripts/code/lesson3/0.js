@@ -7,7 +7,7 @@ var container = 'Оружие';
 this.run = function(transport)
 {
 	// Перемещение к грузому отсеку академии
-	transport.moveToXY(500, 500);
+	transport.moveToXY(1950, 1950);
 
 	// Производим погрузку груза
 	transport.setToCargo(container);

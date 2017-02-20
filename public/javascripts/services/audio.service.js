@@ -24,7 +24,7 @@ function AudioManager($rootScope) {
 	var currentAudio = 0;
 
 	// Список наших форматов аудио
-	var formatList = ['mp3', 'ogg'];
+	var formatList = ['ogg', 'mp3'];
 
 	var supportedFormat;
 

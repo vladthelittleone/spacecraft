@@ -31,7 +31,7 @@ app.use(require('./middlewares/send-http-error'));
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-app.use(favicon(path.join(__dirname, __resourcesFolderName, 'favicon.ico')));
+app.use(favicon(path.join(__dirname, resourcesFolderName, 'favicon.ico')));
 app.use(httpLogger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({extended: false}));

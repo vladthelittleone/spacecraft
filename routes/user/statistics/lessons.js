@@ -89,7 +89,7 @@ router.post('/', checkAuthentication, function (req, res, next) {
 
 });
 
-router.post('/stars', checkAuthentication, function (req, res, next) {
+router.post('/star', checkAuthentication, function (req, res, next) {
 
 	let idUser = req.user._id;
 

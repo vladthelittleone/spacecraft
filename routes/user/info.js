@@ -13,9 +13,9 @@ var HttpStatus = require('http-status-codes');
 module.exports = router;
 
 /**
- * Возврат информации почты текущего пользователя
+ * Возврат информацию о текущем пользователе
  */
-router.get('/email', checkAuthentication, function (req, res, next) {
+router.get('/', checkAuthentication, function (req, res, next) {
 
 	res.send({
 				 email: req.user.email
@@ -23,11 +23,18 @@ router.get('/email', checkAuthentication, function (req, res, next) {
 
 });
 
-router.get('/session', function (req, res, next) {
+/**
+ * Маршрут введен с целью упрщения восприятия общения клиентской части с серверной.
+ *
+ * Безусловно, понятно, что для проверки актуальности сессии, можно обратиться по любому из
+ * маршрутов, которые требуют, чтобы пользователь был авторизован.
+ *
+ * Повторюсь. Именно для упрощения восприятия кода был введен этот отдельный маршрут, который берет
+ * эту задачу на себя.
+ *
+ */
+router.get('/session', checkAuthentication, function (req, res, next) {
 
-	var status = req.isAuthenticated() ? HttpStatus.NO_CONTENT :
-				 HttpStatus.UNAUTHORIZED;
-
-	return res.sendStatus(status);
+	return res.sendStatus(HttpStatus.NO_CONTENT);
 
 });

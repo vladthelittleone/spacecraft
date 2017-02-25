@@ -195,16 +195,14 @@ function Authentication(connection,
 	 */
 	function login(email,
 				   password,
-				   errorCallback) {
+				   error) {
 		
-		// TODO имеет смысл ввести вещание сигналов по событиям,
-		// связанных с ошибочными ситуация при логине.
 		connection.login({
 							 email:    email,
 							 password: password
 						 },
 						 authService.loginConfirmed,
-						 errorCallback);
+						 error);
 		
 	}
 	

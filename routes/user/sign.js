@@ -18,6 +18,8 @@ var passport = require('passport');
 
 var HttpStatus = require('http-status-codes');
 
+const checkAuthentication = require('./../../middlewares/check-authentication');
+
 var validation = require('./../../utils/validation');
 
 module.exports = router;
@@ -46,7 +48,7 @@ router.post("/in/email", validation.checkEmailAndPassword, passport.authenticate
  * ВЫХОД
  * ------------------------------------------------------------
  */
-router.post('/out', (req, res, next) => {
+router.post('/out', checkAuthentication, (req, res, next) => {
 
 	req.logout();
 

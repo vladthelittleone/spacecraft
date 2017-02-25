@@ -8,7 +8,7 @@ module.exports = Connection;
  * Ссылки на REST API
  */
 var apiUrls = require('./../utils/json/urls/api.json');
-var staticUrls = require('./../utils/json/urls/static.json');
+var resourcesUrls = require('./../utils/json/urls/resources.json');
 
 /**
  * Сервис взаимоедйствия с бекендом.
@@ -56,7 +56,7 @@ function Connection($http) {
 	function checkSession(success, error) {
 
 		$http({
-				  url:    apiUrls.user.info.session.root,
+				  url:    apiUrls.userSession,
 				  method: 'GET'
 			  }).then(success, error);
 
@@ -65,21 +65,17 @@ function Connection($http) {
 	function getUserInfo(success, error) {
 
 		$http({
-				  url:    apiUrls.user.info.email.root,
+				  url:    apiUrls.userInfo,
 				  method: 'GET'
-			  }).then(function (response) {
-
-						  success(response.data);
-
-					  },
-					  error);
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
 	function getLeaderboard(success, error) {
 
 		$http({
-				  url:    apiUrls.statistics.lessons.leaderBoard.root,
+				  url:    apiUrls.leaderBoard,
 				  method: 'GET'
 			  }).then(claimHttpDataOnly(success),
 					  claimHttpDataOnly(error));
@@ -89,29 +85,31 @@ function Connection($http) {
 	/**
 	 * Сохранение статистики урока.
 	 */
-	function saveLessonsStatistics(args) {
+	function saveLessonsStatistics(args, success, error) {
 
 		$http({
-				  url:    apiUrls.user.statistics.lessons.root,
+				  url:    apiUrls.lessons,
 				  method: 'POST',
 				  data:   args
-			  });
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
 	/**
 	 * Сохранение оценки урока.
 	 */
-	function lessonRate(lessonId, stars) {
+	function lessonRate(lessonId, stars, success, error) {
 
 		$http({
-				  url:    apiUrls.user.statistics.lessons.stars.root,
+				  url:    apiUrls.lessonStar,
 				  method: 'POST',
 				  data:   {
 					  lessonId: lessonId,
 					  stars:    stars
 				  }
-			  });
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
@@ -132,7 +130,7 @@ function Connection($http) {
 	 */
 	function getLessonCodeFromJs(lessonId, subLessonId, callback) {
 
-		var source = staticUrls.resources.lessonsCode.root + lessonId + '/' + subLessonId + '.js';
+		var source = resourcesUrls.lessonCode + lessonId + '/' + subLessonId + '.js';
 
 		getCodeFromJs(source, callback)
 
@@ -143,8 +141,8 @@ function Connection($http) {
 	 */
 	function getLessonsStatistics(success, error) {
 
-		$http.get(apiUrls.user.statistics.lessons.root).then(claimHttpDataOnly(success),
-															 claimHttpDataOnly(error));
+		$http.get(apiUrls.lessons).then(claimHttpDataOnly(success),
+										claimHttpDataOnly(error));
 
 	}
 
@@ -156,7 +154,8 @@ function Connection($http) {
 		$http({
 				  method: 'POST',
 				  data:   data,
-				  url:    apiUrls.user.sign.in.email.root
+				  ignoreAuthModule: true,
+				  url:    apiUrls.singInByEmail
 			  }).then(claimHttpDataOnly(success),
 					  claimHttpDataOnly(error));
 	}
@@ -168,7 +167,7 @@ function Connection($http) {
 
 		$http({
 				  method: 'POST',
-				  url:    apiUrls.user.sign.out.root
+				  url:    apiUrls.signOut
 			  }).then(claimHttpDataOnly(success),
 					  claimHttpDataOnly(error));
 
@@ -186,7 +185,8 @@ function Connection($http) {
 					  password:           args.password,
 					  isSubscribeOnEmail: args.isSubscribeOnEmail
 				  },
-				  url:    apiUrls.user.sign.up.email.root
+				  ignoreAuthModule: true,
+				  url:    apiUrls.signUpByEmail
 			  }).then(claimHttpDataOnly(args.success),
 					  claimHttpDataOnly(args.error));
 
@@ -194,15 +194,15 @@ function Connection($http) {
 
 	function getUserProgress(success, error) {
 
-		$http.get(apiUrls.user.statistics.progress.root).then(claimHttpDataOnly(success),
-															  claimHttpDataOnly(error));
+		$http.get(apiUrls.userProgress).then(claimHttpDataOnly(success),
+											 claimHttpDataOnly(error));
 
 	}
 
 	function updateUserProgress(score, callback) {
 
 		$http({
-				  url:    apiUrls.user.statistics.progress.root,
+				  url:    apiUrls.userProgress,
 				  method: 'POST',
 				  data:   {
 					  score: score

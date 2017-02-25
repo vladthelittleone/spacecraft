@@ -33,6 +33,7 @@ function WelcomeController($scope,
 
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
+	$scope.showLineGraphic = false;
 
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
@@ -116,6 +117,9 @@ function WelcomeController($scope,
 	 */
 	function formDataForLineChart(userProgress) {
 
+		// Проверяем действительно есть очки(стоит ли отображать график)
+		$scope.showLineGraphic = !lodash.isEmpty(userProgress);
+
 		if (userProgress) {
 
 			// Подготовка данных для вывода графика,
@@ -133,7 +137,6 @@ function WelcomeController($scope,
 			}
 
 			$scope.seriesT = ['Последние полученные очки'];
-
 		}
 	}
 

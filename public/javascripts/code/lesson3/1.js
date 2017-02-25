@@ -10,6 +10,4 @@ this.run = function(transport)
 	// Перемещение  в область красной планеты
 	transport.moveToXY(250, 250);
 
-	// Производим погрузку груза
-	// transport.setToCargo(container);
 };

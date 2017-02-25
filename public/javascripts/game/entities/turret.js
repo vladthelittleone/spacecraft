@@ -2,6 +2,7 @@
 
 // Зависимости
 var PrefabsFactory = require('./prefabs');
+var BlocksFactory = require('./blocks');
 
 // Экспорт
 module.exports = TurretBaseUnit;

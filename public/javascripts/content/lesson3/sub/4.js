@@ -14,8 +14,22 @@ function FlightStockWithConstantInstructions() {
 	return {
 		title:        'Летим к складу(Теория по константам)',
 		character:    [{
+			audio:  'audio/lesson2/1-2.mp3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'click .enhoyhint-play': 'Запустите код',
+					'nextButton':             false,
+					'showSkip':               false
+				}
+			]
+		},{
 			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img'
+			css:    'astromen-img',
+			marker: {
+				x1:   2,
+				y2:   Infinity
+			}
 		}, {
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img'
@@ -26,13 +40,12 @@ function FlightStockWithConstantInstructions() {
 		content: content,
 
 		instructions: '<ul>' +
-		'<li>Для объявления или, другими словами, создания переменной используется ключевое слово var:</li>' +
-		'<li><span class="under-label">var language;</span></li>' +
-		'<li>После объявления, можно записать в переменную данные(инициализация):</li>' +
-		'<li><span class="under-label">language = "JavaScript";</span> // сохраним в переменной строку</li>' +
-		'<li>Для краткости можно совместить объявление переменной и запись данных:</li>' +
-		'<li><span class="under-label">var language = "JavaScript";</span></li>' +
-		'<li>Проще всего понять переменную, если представить её как «коробку» для данных, с уникальным именем.</li>' +
+		'<li>Константы - это переменные, значения которыъ <span class="under-label">НИКОГДА</span> не меняется, как правило имена ' +
+		'таких переменных пишутся заглавными буквами.</li>' +
+		'<li><span class="under-label">var MAX_SPEED = 10;</span></li>' +
+		'<li>Очень важно, что значение константы задается сразу,  при ее оьъявлении</li>' +
+		'<li>Технически в языке JavaScript контсттанта является обычной перемнной, и ее значение можно изменить.</li>' +
+		'<li>Однако все опытные пилоты договорились не изменять значения констант.</li>' +
 		'</ul>'
 	};
 

@@ -20,20 +20,33 @@ function cargoTurret() {
 		}, {
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img'
-		}],
+		},{
+			audio:  'audio/lesson2/1-1.mp3',
+			css:    'astromen-img'
+		},
+			{
+				audio:  'audio/lesson2/1-1.mp3',
+				css:    'astromen-img',
+				marker: {
+					x1:   20,
+					y2:   Infinity
+				}
+			}],
 
 		gamePostUpdate: gamePostUpdate,
 
 		content: content,
 
 		instructions: '<ul>' +
-		'<li>Для объявления или, другими словами, создания переменной используется ключевое слово var:</li>' +
-		'<li><span class="under-label">var language;</span></li>' +
-		'<li>После объявления, можно записать в переменную данные(инициализация):</li>' +
-		'<li><span class="under-label">language = "JavaScript";</span> // сохраним в переменной строку</li>' +
-		'<li>Для краткости можно совместить объявление переменной и запись данных:</li>' +
-		'<li><span class="under-label">var language = "JavaScript";</span></li>' +
-		'<li>Проще всего понять переменную, если представить её как «коробку» для данных, с уникальным именем.</li>' +
+		'<li><span class="under-label">var container1 = "Пусто";</span></li>' +
+		'<li><span class="under-label">var container2 = "Галактический червь";</span></li>' +
+		'<li>Значение одной перемнной можно скопировать(перенести) в другую переменную :</li>' +
+		'<li><span class="under-label">container1 = container2;</span></li>' +
+		'<li>В container1 теперь находится "Галактический червь"</li>' +
+		'<li><span class="under-label">transport.getFromCargo();</span> - функция корабля</li>' +
+		'<li>С помощью данной функции можно получить значение переменной в хранидище корабля.</li>' +
+		'<li><span class="under-label">transport.setToCargo(container);</span> - функция корабля</li>' +
+		'<li>С помощью данной функции можно получить положить новое значение(контейнер) в хранилище корабля.</li>' +
 		'</ul>'
 	};
 

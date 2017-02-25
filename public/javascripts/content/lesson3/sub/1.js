@@ -19,7 +19,14 @@ function UseVariables() {
 			css:    'astromen-img'
 		}, {
 			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img'
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'click .enhoyhint-play': 'Запустите код',
+					'nextButton':             false,
+					'showSkip':               false
+				}
+			]
 		}],
 
 		gamePostUpdate: gamePostUpdate,
@@ -27,7 +34,8 @@ function UseVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>Нажмите для демонстрации работы кода.</li>' +
+					  '<li>Время не ждет! Немедленно приступайте к выполнению задания.</li>' +
+					  '<li>Запустите код,  нажав на кнопку<i class="glyphicon glyphicon-play green"></i></li>' +
 					  '</ul>'
 	};
 

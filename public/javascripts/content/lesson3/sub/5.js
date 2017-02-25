@@ -18,7 +18,18 @@ function loadingStock() {
 			css:    'astromen-img'
 		}, {
 			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img'
+			css:    'astrogirl-img',
+			marker: {
+				x1:   2,
+				y2:   Infinity
+			}
+		},{
+			audio:  'audio/lesson2/1-1.mp3',
+			css:    'astromen-img',
+			marker: {
+				x1:   13,
+				y2:   Infinity
+			}
 		}],
 
 		interpreterHandler: interpreterHandler,
@@ -26,13 +37,11 @@ function loadingStock() {
 		content: content,
 
 		instructions: '<ul>' +
-		'<li>Для объявления или, другими словами, создания переменной используется ключевое слово var:</li>' +
-		'<li><span class="under-label">var language;</span></li>' +
-		'<li>После объявления, можно записать в переменную данные(инициализация):</li>' +
-		'<li><span class="under-label">language = "JavaScript";</span> // сохраним в переменной строку</li>' +
-		'<li>Для краткости можно совместить объявление переменной и запись данных:</li>' +
-		'<li><span class="under-label">var language = "JavaScript";</span></li>' +
-		'<li>Проще всего понять переменную, если представить её как «коробку» для данных, с уникальным именем.</li>' +
+		'<li><span class="under-label">transport.setToCargo(container);</span> - функция корабля</li>' +
+		'<li>С помощью данной функции можно получить положить новое значение(контейнер) в хранилище корабля.</li>' +
+		'<li>Значение одной перемнной можно скопировать(перенести) в другую переменную :</li>' +
+		'<li><span class="under-label">container1 = container2;</span></li>' +
+		'<li>Положите в контейнер склада, значение переменной, которое храниться у вас на корабле.</li>' +
 		'</ul>'
 	};
 

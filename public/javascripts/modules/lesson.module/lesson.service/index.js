@@ -367,6 +367,9 @@ function LessonService(connection,
 		// Сокрытие панели инструкций
 		scope.showTextContent = false;
 
+		// Сокрытие диаграммы и очистка оной
+		scope.showDiagram = false;
+
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
 

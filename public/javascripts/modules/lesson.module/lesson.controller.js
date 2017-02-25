@@ -202,6 +202,7 @@ function LessonController ($scope,
 
 			// Выводим ошибку
 			$scope.textBot = errorWrapper(error);
+			$scope.botCss = 'bbot-angry';
 
 			if (errorLine) {
 

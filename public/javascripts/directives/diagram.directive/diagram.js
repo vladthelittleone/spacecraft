@@ -14,7 +14,7 @@ function Diagram () {
 	// that / this
 	var t = {};
 
-	var changes = [];
+	var changes;
 
 	/**
 	 * Объект, который отвечает за диаграмму;
@@ -40,11 +40,9 @@ function Diagram () {
 
 			callback && callback(diagram);
 
-		} else {
-
-			callback && changes.push(callback);
-
 		}
+
+		changes = callback;
 
 	}
 
@@ -52,17 +50,13 @@ function Diagram () {
 
 		diagram = _diagram;
 
-		changes.forEach(function (e) {
-
-			e(_diagram);
-
-		});
+		changes && changes(_diagram);
 
 	}
 
 	function isHaveChanges() {
 
-		return changes.length;
+		return changes;
 
 	}
 

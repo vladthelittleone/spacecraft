@@ -17,6 +17,7 @@ function Scanning() {
 		isRestartDisabled: true,
 		instructions: '<ul>' +
 					  '<li>Включите сканирование с помощью команды: <span class="red-label">scout.scan()</span>.</li>' +
+					  '<li>Не забудьте про точку с запятой.</li>' +
 					  '</ul>',
 		character:    [{
 			audio:   'audio/lesson2/1-1.mp3',

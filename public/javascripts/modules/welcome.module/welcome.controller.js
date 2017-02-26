@@ -155,14 +155,18 @@ function WelcomeController($scope,
 
 		a.forEach(function (v) {
 
-			if (v[predicate]) {
+			if (v) {
 
-				c += v[param2];
+				if (v[predicate]) {
 
-			}
-			else {
+					c += v[param2];
 
-				c += v[param1];
+				}
+				else {
+
+					c += v[param1];
+
+				}
 
 			}
 

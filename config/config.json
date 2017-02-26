@@ -26,7 +26,7 @@
 	"vkStrategySettings": {
 		"clientID": "5624932",
 		"clientSecret": "7SItUJV1h4mDSC0PiXkc",
-		"callbackURL": "http://localhost:3000/login/vk/callback",
+		"callbackURL": "http://localhost:3000/user/sign/in/vk/callback",
 		"apiVersion": "5.17",
 		"scope": [
 			"email"

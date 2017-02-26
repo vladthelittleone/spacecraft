@@ -31,7 +31,6 @@ router.get('/', checkAuthentication, function (req, res, next) {
  *
  * Повторюсь. Именно для упрощения восприятия кода был введен этот отдельный маршрут, который берет
  * эту задачу на себя.
- *
  */
 router.get('/session', checkAuthentication, function (req, res, next) {
 

@@ -1,9 +1,12 @@
 'use strict';
 
 const express = require('express');
+
 const app = express();
 
 const resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
+
+const compression = require('compression');
 
 const passport = require('passport');
 const path = require('path');
@@ -22,6 +25,8 @@ require('./utils/passport')();
 
 var localStrategy = require('./utils/passport/local');
 var vkStrategy = require('./utils/passport/vk');
+
+app.use(compression());
 
 var maxHeap = 0;
 

@@ -18,7 +18,7 @@ module.exports = Numbers();
 function Numbers() {
 
 	return {
-		title:              'Числа',
+		title:              'Миром правят цифры!',
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
@@ -82,45 +82,9 @@ function Numbers() {
 
 		}
 
-		// Проверка строки
+		// Проверка числа
 		return lessonResults.result(value === 1984 || value === 451);
 
 	}
 
 }
-
-// var typeMain = block(225, 50, 'Типы данных');
-// var type1 = block(400, 50, 'Объекты');
-// var type2 = block(50, 50, 'Простые типы');
-//
-// var type21 = block(50, 135, 'Строки', '#fe854f');
-// var type22 = block(50, 220, 'Числа', '#fe854f');
-// var type23 = block(50, 305, 'Логический тип', '#fe854f');
-// var type24 = block(50, 390, 'null', '#fe854f');
-// var type25 = block(50, 475, 'undefined', '#fe854f');
-//
-// var type11 = block(400, 135, 'Специальные', '#fe854f');
-// var type12 = block(400, 220, 'Обычные', '#fe854f');
-//
-// graph.addCells([
-// 	typeMain,
-// 	type1,
-// 	type2,
-// 	type21,
-// 	type22,
-// 	type23,
-// 	type24,
-// 	type25,
-// 	type11,
-// 	type12
-// ]);
-//
-// createLink(graph, typeMain, type1);
-// createLink(graph, typeMain, type2);
-// createLink(graph, type2, type21);
-// createLink(graph, type21, type22);
-// createLink(graph, type22, type23);
-// createLink(graph, type23, type24);
-// createLink(graph, type24, type25);
-// createLink(graph, type1, type11);
-// createLink(graph, type11, type12);

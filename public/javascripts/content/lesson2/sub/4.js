@@ -18,7 +18,7 @@ module.exports = Strings();
 function Strings() {
 
 	return {
-		title:              'Строки',
+		title:              'Между строк',
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +

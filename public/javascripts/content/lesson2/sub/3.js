@@ -15,7 +15,7 @@ module.exports = Sensor();
 function Sensor() {
 
 	return {
-		title:        'Датчик',
+		title:        'Много, много типов',
 		defaultBBot:  defaultBBot,
 		content:      content,
 		isRestartDisabled: true,

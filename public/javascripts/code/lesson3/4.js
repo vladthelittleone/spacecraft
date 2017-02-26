@@ -11,4 +11,6 @@ this.run = function(transport)
 
 	// Положить груз с кораблся на склад
 
+
+	BBotDebug(containerStock);
 };

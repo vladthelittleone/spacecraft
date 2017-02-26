@@ -14,6 +14,7 @@ function FlightStockWithConstantInstructions() {
 	return {
 		title:        'Летим к складу(Теория по константам)',
 		character:    [{
+			// Отправляйтесь к оружейному складу. Запускаем двигатели
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img',
 			hint:   [
@@ -24,6 +25,9 @@ function FlightStockWithConstantInstructions() {
 				}
 			]
 		},{
+			// Среди переменных существует такая разновидность как константы.
+			// Это переменные значения которых никогда не меняется.
+			// Как правила имена констант пишутся с закглавных букв.
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img',
 			marker: {

@@ -14,9 +14,11 @@ function loadingStock() {
 	return {
 		title:        'Разгрузка на складе',
 		character:    [{
+			// Пора разобраться откуда растут ноги этой деверсии. Приступайте к рахгрузке
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img'
 		}, {
+			// Переместите контейнер с корабля в один из контейноров склада.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img',
 			marker: {
@@ -24,6 +26,7 @@ function loadingStock() {
 				y2:   Infinity
 			}
 		},{
+			// В данной строчке кода вам необходимо воспользоваться функцией грузового корабля etFromCargo()
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img',
 			marker: {
@@ -53,10 +56,7 @@ function loadingStock() {
 
 			v.forEach(function (e) {
 
-				r = (e === 'containerStock = transport.getFromCargo()') ||
-					(e === 'containerStock=transport.getFromCargo()') ||
-					(e === 'containerStock= transport.getFromCargo()') ||
-					(e === 'containerStock =transport.getFromCargo()');
+				r = (e === 'containerStock');
 
 			});
 
@@ -64,7 +64,9 @@ function loadingStock() {
 
 		var lessonResults = LessonResults({
 			correct: '<p>Хмм, беру свои слова назад, это не просто.</p>' +
-			'<p>Пойду возьму себе машинного масла/</p>'
+					 '<p>Пойду возьму себе машинного масла/</p>',
+
+			text: '<p>Похоже что-то пошло не так, проверьте программу.</p>'
 		});
 
 		if (r) {
@@ -72,6 +74,8 @@ function loadingStock() {
 			return lessonResults.resultCorrect();
 
 		}
+
+		return lessonResults.text();
 	}
 
 	function content() {

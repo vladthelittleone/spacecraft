@@ -22,14 +22,12 @@ function StateWrapper(state) {
 
 	return t;
 
-	function createShipsBesideAcademyBase(game, x, y) {
+	function createShipsBesideSomeObject(game, x, y, type, count) {
 
-		for (var h = 0; h < 2; h++) {
+		for (var h = 0; h < count; h++) {
 
 			var i1 = random.randomInt(-225, 225);
 			var i2 = random.randomInt(-225, 225);
-
-			var type = EntitiesFactory.createHarvester;
 
 			var spacecraft = type(game, x + i1, y + i2);
 
@@ -51,7 +49,7 @@ function StateWrapper(state) {
 		EntitiesFactory.createRedPlanet(game, x / 4, y / 4);
 
 		// По идее верхний левый угол(надо будет перенсти)
-		EntitiesFactory.createMeteorFiledSphere(game, 0, y * 2 - 200);
+		EntitiesFactory.createMeteorFiledSphere(game, x / 2, y / 2 );
 
 		// Верхний левый угол экрана
 		EntitiesFactory.createTurret(game, x / 4 - 300, y / 4 - 300);
@@ -61,51 +59,6 @@ function StateWrapper(state) {
 
 	}
 
-	function crateShipsInSpace(game, x, y) {
-
-		for (var h = 0; h < 4; h++) {
-
-			var i1 = random.randomInt(-225, 225);
-			var i2 = random.randomInt(-225, 225);
-
-			var newX = x / 2 + x + i1;
-			var newY = y / 2 + y + i2;
-
-			var type = EntitiesFactory.createHarvester;
-
-			var spacecraft = type(game, newX, newY);
-
-			spacecraft.sprite.angle = game.rnd.angle();
-
-			var destination = true;
-
-			spacecraft.logic = function (h, newX, newY, destination) {
-
-				if(destination && h.x != x && h.y != y) {
-
-					h.moveToXY(x, y);
-
-				}
-
-				if(!destination && h.x != newX && h.y != newY) {
-
-					h.moveToXY(newX, newY);
-
-				}
-
-				if(h.x == x && h.y == y)
-				{
-					destination = false;
-
-				} else if(h.x == newX && h.y == newY) {
-
-					destination = true;
-				}
-			}
-
-		}
-
-	}
 
 	/**
 	 * Шаблонный метод инфициализации объектов.
@@ -128,9 +81,13 @@ function StateWrapper(state) {
 
 		createSpaceObject(game, x, y);
 
-		createShipsBesideAcademyBase(game, x, y);
+		createShipsBesideSomeObject(game, x, y, EntitiesFactory.createHarvester, 2);
 
-		//crateShipsInSpace(game, x, y);
+		createShipsBesideSomeObject(game, x - 800, y - 800, EntitiesFactory.createHarvester, 5);
+
+		createShipsBesideSomeObject(game, x / 4 - 300, y / 4 - 300, EntitiesFactory.createScout, 4);
+
+		createShipsBesideSomeObject(game, x / 2 + x + 150, y / 2 + y + 150, EntitiesFactory.createTransport, 5);
 
 		// Корабль на верх.
 		sprite.bringToTop();

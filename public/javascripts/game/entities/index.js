@@ -162,7 +162,7 @@ function EntitiesFactory() {
 	 */
 	function createMeteorFiledSphere(game, x, y) {
 
-		var radius = Phaser.Point.distance(new Phaser.Point(x - 50, y - 50), new Phaser.Point(x + 50, y - 50));
+		var radius = Phaser.Point.distance(new Phaser.Point(x - 50, 0), new Phaser.Point(0, y + 50));
 
 		// Инициализация
 		var count = x;
@@ -173,7 +173,7 @@ function EntitiesFactory() {
 
 			var j = Math.sqrt(radius * radius - i * i);
 
-			var m = createMeteor(game, i + Random(0, 100), j + Random.randomInt(0, 100));
+			var m = createMeteor(game, i + Random.randomInt(0, 100), j + Random.randomInt(0, 100));
 
 			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;

@@ -95,12 +95,14 @@ function WelcomeController($scope,
 		// Ответ может быть и пустым.
 		var lessons = lessonStatisticsData.lessons || [];
 
+		//TODO временное решение почему-то приходит массив
+		// [null, null, null, Object] и все валиться
 		// Кол-во подуроков
-		var subLessonCount = sum(lessons, 'subLessonCount') || 100;
+		var subLessonCount = lessons[0] && sum(lessons, 'subLessonCount') || 100;
 
 		// Добавляем полное кол-во уроков, если он уже был пройден,
 		// иначе номер текущего урока.
-		var end = sum(lessons, 'currentSubLesson', 'subLessonCount', 'completed');
+		var end = lessons[0] && sum(lessons, 'currentSubLesson', 'subLessonCount', 'completed');
 
 		// Вычитаем из общего размера.
 		var notEnd = subLessonCount - end;

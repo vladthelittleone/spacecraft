@@ -14,6 +14,7 @@ function FlightWithInstructions() {
 	return {
 		title:        'Перевозка груза к защитной турели(Теория перемнных)',
 		character:    [{
+			// Погрузка прошла успешно, теперь летим  к турели.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img',
 			hint:   [
@@ -24,6 +25,8 @@ function FlightWithInstructions() {
 				}
 			]
 		},{
+			// Переменные свое рода проименнованные контейнеры для хранения каких-то ни было данных.
+			// Переменные объявляются с помощью ключевого слова var
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img',
 			marker: {
@@ -31,6 +34,8 @@ function FlightWithInstructions() {
 				y2:   Infinity
 			}
 		}, {
+			// Полсе слова var следует имя переменной.
+			// Имена переменных содержат буквы цыфры и символы нижнего подчеркивания.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img',
 			marker: {
@@ -38,6 +43,7 @@ function FlightWithInstructions() {
 				y2:   Infinity
 			}
 		}, {
+			// Переменные буквы, которых написанные в разных  регеистрах, разные переменные.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img',
 			marker: {
@@ -45,13 +51,7 @@ function FlightWithInstructions() {
 				y2:   Infinity
 			}
 		}, {
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-			marker: {
-				x1:   14,
-				y2:   Infinity
-			}
-		}, {
+			// Для получения большей информации обратитесь к инструкции.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img'
 		}],

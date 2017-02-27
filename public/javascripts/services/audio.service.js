@@ -23,10 +23,7 @@ function AudioManager($rootScope) {
 	var soundtrack;
 	var currentAudio = 0;
 
-	// Список наших форматов аудио
-	var formatList = ['ogg', 'mp3'];
-
-	var supportedFormat;
+	var audioFormat = tryToGetSupportedAudioFormat();
 
 	var playList = [{
 		src:    'audio/track1',
@@ -60,17 +57,13 @@ function AudioManager($rootScope) {
 	 */
 	function createVoice(str) {
 
-		var format;
-
 		if (voice) {
 
 			// Реинициализация
 			voice.onended = null;
 
-			format = getSupportedFormat(voice);
-
 			// Изменение сурса
-			voice.setAttribute('src', str + format);
+			voice.setAttribute('src', str + audioFormat);
 
 			// Загрузка нового сурса
 			voice.load();
@@ -81,9 +74,7 @@ function AudioManager($rootScope) {
 			// Создание новой аудиозаписи
 			voice = new Audio();
 
-			format = getSupportedFormat(voice);
-
-			voice.setAttribute('src', str + format)
+			voice.setAttribute('src', str + audioFormat);
 
 		}
 
@@ -92,16 +83,14 @@ function AudioManager($rootScope) {
 	}
 
 	/**
-	 * Загрущка аудиозаписи.
+	 * Загрузка аудиозаписи.
 	 *
 	 * @param audio аудиозапись
 	 * @param config конфигурация аудиозаписи
 	 */
 	function init(audio, config) {
 
-		var format = getSupportedFormat(audio);
-
-		audio.setAttribute('src', config.src + format);
+		audio.setAttribute('src', config.src + audioFormat);
 
 		audio.load();
 
@@ -196,30 +185,19 @@ function AudioManager($rootScope) {
 
 	/**
 	 * Функция производит проверку поддерживаемых форматов
-	 * Из листа форматов наших аудио и возвращает первый поддерживаемый
+	 * Из контейнера форматов наших аудио и возвращает поддерживаемый
 	 */
-	function getSupportedFormat (audio) {
+	function tryToGetSupportedAudioFormat () {
 
-		// Если уже проверяли поддержу форматов до этого, то сразу возврашаем найденный до этого офрмат
-		if (supportedFormat) {
+		var audio = new Audio();
 
-			return '.' + supportedFormat;
+		var supportedAudioFormats = ['ogg', 'mp3'];
 
-		}
+		return '.' + lodash.find(supportedAudioFormats, function (format) {
 
-		lodash.forEach(formatList, function (format) {
-
-			if (audio.canPlayType('audio/' + format) != '') {
-
-				supportedFormat = format;
-
-				return false; // Прекращаем forEach
-
-			}
+			return audio.canPlayType('audio/' + format);
 
 		});
-
-		return '.' + supportedFormat;
 
 	}
 }

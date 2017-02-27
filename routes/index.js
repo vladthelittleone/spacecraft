@@ -1,32 +1,21 @@
 /**
- * @since 03.02.16
- * @author Skurishin Vladislav
+ * Маршруты определения доступа ко всему, что может быть связано
+ * с пользователем.
+ *
+ * @since 16.02.17
+ * @author greezlock
  */
-const login = require('./login');
-const user = require('./user');
-const main = require('./main');
-const logout = require('./logout');
-const reg = require('./registration');
-const statistic = require('./statistic');
-const metrics = require('./metrics');
-const checkAuthentication = require('./../middlewares/check-authentication');
 
-const HttpError = require('error').HttpError;
+module.exports = function (app) {
 
-module.exports = function (app)
-{
-	// Мидлвер
-	app.use('/login', login);
-	app.use('/reg', reg);
-	app.use('/logout', logout);
+	app.use('/user/sign', require('./user/sign'));
 
-	// Проверка на аутентификацию, прежде чем допустить
-	// к нижележащим маршрутам.
-	app.use(checkAuthentication);
+	app.use('/user/info', require('./user/info'));
 
-	app.use('/', main);
-	app.use('/user', user);
-	app.use('/statistic', statistic);
-	app.use('/metrics', metrics)
+	app.use('/user/statistics/lessons', require('./user/statistics/lessons'));
+
+	app.use('/user/statistics/progress', require('./user/statistics/progress'));
+
+	app.use('/statistics/lessons', require('./statistics/lessons'));
+
 };
-

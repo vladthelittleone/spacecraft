@@ -5,23 +5,23 @@ var DiagramHelp = require('../diagram.help');
 var block = DiagramHelp.block;
 var createLink = DiagramHelp.createLink;
 
-module.exports = UndefinedNull();
+module.exports = ObjectType();
 
 /**
- * Урок - 'null и undefined';
+ * Урок - 'Объекты';
  *
  * Created by vladthelittleone on 02.12.15.
  */
-function UndefinedNull() {
+function ObjectType() {
 
 	return {
-		title:             'Отсутствие',
+		title:             'По ту сторону...',
 		content:           content,
 		defaultBBot:       defaultBBot,
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
 						   '<li>Нажмите "Далее" для продолжения.</li>' +
-						   '<li>Для любознательных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Булев_тип_null_и_undefined">клац</a>.</li>' +
+						   '<li>Хотите узнать больше о объектах? Вас сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Working_with_Objects">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{
 			audio:   'audio/lesson2/1-1.mp3',
@@ -38,6 +38,9 @@ function UndefinedNull() {
 				var type24 = block(50, 390, 'null', '#fe854f');
 				var type25 = block(50, 475, 'undefined', '#fe854f');
 
+				var type11 = block(400, 135, 'Специальные', '#fe854f');
+				var type12 = block(400, 220, 'Обычные', '#fe854f');
+
 				graph.addCells([
 					typeMain,
 					type1,
@@ -46,7 +49,9 @@ function UndefinedNull() {
 					type22,
 					type23,
 					type24,
-					type25
+					type25,
+					type11,
+					type12
 				]);
 
 				createLink(graph, typeMain, type1);
@@ -56,20 +61,25 @@ function UndefinedNull() {
 				createLink(graph, type22, type23);
 				createLink(graph, type23, type24);
 				createLink(graph, type24, type25);
+				createLink(graph, type1, type11);
+				createLink(graph, type11, type12);
 			}
 		}]
 	};
 
 	function content() {
 
-		return '<p>Ключевое слово <span class="under-label"><strong>null</strong></span> и идентификатор <span class="under-label"><strong>undefined</strong></span> свидетельствует об отсутствии значения.</p>' +
-			'<p>В чем же разница?</p>' +
-			'<p><span class="under-label"><strong>null</strong></span> обозначает «ничего» или «значение неизвестно», <span class="under-label"><strong>undefined</strong></span> в свою очередь «значение не было задано».</p>';
+		return '<p>По разные стороны баррикад стоят простые типы и объектный тип данных.</p>' +
+			'<p>Любое значение в языке <strong>JavaScript</strong>, не являющееся строкой, числом, ' +
+			'<strong>null</strong> или <strong>undefined</strong>, является <span class="under-label"><strong>объектом</strong></span>. ' +
+			'Он представляет из себя набор свойств, каждое из которых имеет свое имя и значение.</p>' +
+			'<p>Более подробно объекты мы рассмотрим в следующих уроках.</p>';
+
 	}
 
 	function defaultBBot() {
 
-		return '<p>Ничего особенного, идемте дальше.</p>'
+		return '<p>Моя задница - мой любимый объект!</p>'
 
 	}
 

@@ -27,6 +27,7 @@ function Strings() {
 							'</ul>',
 		hint:               '<ul>' +
 							'<li>Значения указываемые непосредственно в программном коде называются <strong>литералами</strong>.</li>' +
+							'<li>Введите строку <span class="under-label-gray">"Я есть BBot!"</span> на <strong>10</strong> строке</li>' +
 							'</ul>',
 		character:          [{
 			audio:   'audio/lesson2/1-1.mp3',

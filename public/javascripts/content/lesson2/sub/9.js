@@ -5,14 +5,14 @@ var DiagramHelp = require('../diagram.help');
 var block = DiagramHelp.block;
 var createLink = DiagramHelp.createLink;
 
-module.exports = ObjectType();
+module.exports = TypeOf();
 
 /**
- * Урок - 'Объекты';
+ * Урок - 'Оператор Type Of';
  *
  * Created by vladthelittleone on 02.12.15.
  */
-function ObjectType() {
+function TypeOf() {
 
 	return {
 		title:             'По ту сторону...',
@@ -73,7 +73,7 @@ function ObjectType() {
 			'<p>Любое значение в языке <strong>JavaScript</strong>, не являющееся строкой, числом, ' +
 			'<strong>null</strong> или <strong>undefined</strong>, является <span class="under-label"><strong>объектом</strong></span>. ' +
 			'Он представляет из себя набор свойств, каждое из которых имеет свое имя и значение.</p>' +
-			'<p><strong>Более подробно объекты мы рассмотрим в следующих уроках.</strong></p>';
+			'<p>Более подробно объекты мы рассмотрим в следующих уроках.</p>';
 
 	}
 

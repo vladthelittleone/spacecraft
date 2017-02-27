@@ -46,7 +46,7 @@ function LessonController ($scope,
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 	$scope.hint = false;			    // Переключатель подсказок
 
-	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
+	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
 	$scope.toggleTextContent = toggleTextContent;
 	$scope.toggleSettings = toggleSettings;

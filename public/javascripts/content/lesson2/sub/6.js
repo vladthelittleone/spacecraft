@@ -25,6 +25,9 @@ function Booleans() {
 							'<li>Введите логическое выражение, при котором система должна вернуть <span class="red-label">true</span>.</li>' +
 							'<li>Для любознательных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Булев_тип_null_и_undefined">клац</a>.</li>' +
 							'</ul>',
+		hint:               '<ul>' +
+							'<li>Введите строку <span class="under-label-gray">2 > 1</span> на <strong>7</strong> строке</li>' +
+							'</ul>',
 		character:          [{
 			audio:   'audio/lesson2/1-1.mp3',
 			css:     'astromen-img',

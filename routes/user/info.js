@@ -15,7 +15,7 @@ module.exports = router;
 /**
  * Возврат информацию о текущем пользователе
  */
-router.get('/', checkAuthentication, function (req, res, next) {
+router.get('/user/info', checkAuthentication, function (req, res, next) {
 
 	res.send({
 				 email: req.user.email
@@ -32,7 +32,7 @@ router.get('/', checkAuthentication, function (req, res, next) {
  * Повторюсь. Именно для упрощения восприятия кода был введен этот отдельный маршрут, который берет
  * эту задачу на себя.
  */
-router.get('/session', checkAuthentication, function (req, res, next) {
+router.get('/user/info/session', checkAuthentication, function (req, res, next) {
 
 	return res.sendStatus(HttpStatus.NO_CONTENT);
 

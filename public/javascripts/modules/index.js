@@ -13,7 +13,7 @@ require('./welcome.module');
 require('angular').module('spacecraft.modules', [
 	'spacecraft.lesson.module',
 	'spacecraft.lessons.module',
-	'spacecraft.login.module',
+	'spacecraft.sigIn.module',
 	'spacecraft.quick.module',
 	'spacecraft.result.module',
 	'spacecraft.welcome.module'

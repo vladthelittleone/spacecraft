@@ -25,7 +25,7 @@ module.exports = router;
  * ------------------------------------------------
  */
 
-router.get('/', checkAuthentication, (req, res, next) => {
+router.get('/user/statistics/progress', checkAuthentication, (req, res, next) => {
 
 	let idUser = req.user._id;
 
@@ -57,7 +57,7 @@ router.get('/', checkAuthentication, (req, res, next) => {
  * ------------------------------------------------
  */
 
-router.post('/', checkAuthentication, (req, res, next) => {
+router.post('/user/statistics/progress', checkAuthentication, (req, res, next) => {
 
 	let idUser = req.user._id;
 	let scoreFromRequest = req.body.score;

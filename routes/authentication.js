@@ -18,9 +18,9 @@ var passport = require('passport');
 
 var HttpStatus = require('http-status-codes');
 
-const checkAuthentication = require('./../../middlewares/check-authentication');
+const checkAuthentication = require('./../middlewares/check-authentication');
 
-var validation = require('./../../utils/validation');
+var validation = require('./../utils/validation');
 
 module.exports = router;
 
@@ -29,15 +29,15 @@ module.exports = router;
  * АВТОРИЗАЦИЯ
  * ------------------------------------------------------------
  */
-router.get('/in/vk', passport.authenticate('vk-login'));
+router.get('/vk', passport.authenticate('vk-login'));
 
-router.get('/in/vk/callback', passport.authenticate('vk-login', {
+router.get('/vk/callback', passport.authenticate('vk-login', {
 
 	successRedirect: '/'
 
 }));
 
-router.post("/in/email", validation.checkEmailAndPassword, passport.authenticate('local-login', {
+router.post("/signIn", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 
 	successRedirect: '/'
 
@@ -48,7 +48,7 @@ router.post("/in/email", validation.checkEmailAndPassword, passport.authenticate
  * ВЫХОД
  * ------------------------------------------------------------
  */
-router.post('/out', checkAuthentication, (req, res, next) => {
+router.post('/signOut', checkAuthentication, (req, res, next) => {
 
 	req.logout();
 
@@ -61,7 +61,7 @@ router.post('/out', checkAuthentication, (req, res, next) => {
  * РЕГИСТРАЦИЯ
  * ------------------------------------------------------------
  */
-router.post('/up/email', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
+router.post('/signUp', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
 
 	successRedirect: '/'
 

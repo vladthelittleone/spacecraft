@@ -6,9 +6,10 @@
 	"userInfo": "/user/info",
 	"userSession": "/user/info/session",
 
-	"singInByEmail": "/user/sign/in/email",
-	"signOut": "/user/sign/out",
-	"signUpByEmail": "/user/sign/up/email",
+	"login": "/login",
+	"loginByVK": "/vk",
+	"logout": "/logout",
+	"register": "/register",
 
 	"leaderBoard": "/statistics/lessons/leaderBoard"
 }

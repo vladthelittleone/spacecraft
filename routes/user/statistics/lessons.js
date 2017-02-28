@@ -27,7 +27,7 @@ module.exports = router;
 /**
  * Получение статистики юзера о прохождении уроков.
  */
-router.get('/', checkAuthentication, function (req, res, next) {
+router.get('/user/statistics/lessons', checkAuthentication, function (req, res, next) {
 
 	let idUser = req.user._id;
 
@@ -68,7 +68,7 @@ router.get('/', checkAuthentication, function (req, res, next) {
 /**
  * Сохранение данных о прохождении пользователем подурока.
  */
-router.post('/', checkAuthentication, function (req, res, next) {
+router.post('/user/statistics/lessons', checkAuthentication, function (req, res, next) {
 
 	let idUser = req.user._id;
 	let dataForUpdate = req.body;
@@ -89,7 +89,7 @@ router.post('/', checkAuthentication, function (req, res, next) {
 
 });
 
-router.post('/star', checkAuthentication, function (req, res, next) {
+router.post('/user/statistics/lessons/star', checkAuthentication, function (req, res, next) {
 
 	let idUser = req.user._id;
 

@@ -35,7 +35,7 @@
 				</div>
 
 				<div class="login-button-group">
-					<button ng-click="isEnterForm ? login() : register()">
+					<button ng-click="isEnterForm ? sigIn() : register()">
 						<span>OK</span>
 					</button>
 
@@ -44,7 +44,7 @@
 						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 					</button>
 
-					<a href="/user/sign/in/vk">
+					<a href="/vk">
 						<button ng-show="isEnterForm" class="vk-button">
 							<span>Войти через ВКонтакте</span>
 						</button>

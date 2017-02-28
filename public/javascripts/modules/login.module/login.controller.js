@@ -22,11 +22,14 @@ function LoginController($scope, $state, authentication) {
 
 	$scope.loginByKey = loginByKey;
 	$scope.register = register;
-	$scope.login = login;
+	$scope.login = sigIn;
+	$scope.loginByVK = loginByVK;
 
 	// ==================================================
 
-	// Обработка нажатия клавиши 'Enter'
+	/**
+	 * Обработка нажатия клавиши 'Enter'
+	 */
 	function loginByKey(code) {
 
 		if (code === ENTER) {
@@ -37,10 +40,12 @@ function LoginController($scope, $state, authentication) {
 
 	}
 
-	// Переход на состояние первого урока
+	/**
+	 * Переход на состояние первого урока
+	 */
 	function toLesson() {
 
-		login(function () {
+		sigIn(function () {
 
 			$state.go('lesson', {id: 0})
 
@@ -69,7 +74,9 @@ function LoginController($scope, $state, authentication) {
 
 	}
 
-	// Состояние ошибки
+	/**
+	 * Состояние ошибки
+	 */
 	function error(errorDescription) {
 
 		$scope.error = errorDescription;
@@ -81,9 +88,15 @@ function LoginController($scope, $state, authentication) {
      */
 	function login() {
 
-		authentication.login($scope.email,
+		authentication.sigIn($scope.email,
 							 $scope.password,
 							 error);
+
+	}
+
+	function loginByVK() {
+
+		
 
 	}
 

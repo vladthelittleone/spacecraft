@@ -12,7 +12,7 @@ const checkAuthentication = require('./../../middlewares/check-authentication');
 
 module.exports = router;
 
-router.get('/leaderBoard', checkAuthentication, function (req, res, next) {
+router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req, res, next) {
 
 	let idUser = req.user._id;
 

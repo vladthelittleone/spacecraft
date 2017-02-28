@@ -31,6 +31,7 @@ function Connection($http) {
 	that.getLeaderboard = getLeaderboard;
 
 	that.login = login;
+	that.loginByVK = loginByVK;
 	that.logout = logout;
 	that.register = register;
 
@@ -155,9 +156,23 @@ function Connection($http) {
 				  method: 'POST',
 				  data:   data,
 				  ignoreAuthModule: true,
-				  url:    apiUrls.singInByEmail
+				  url:    apiUrls.login
 			  }).then(claimHttpDataOnly(success),
 					  claimHttpDataOnly(error));
+	}
+
+	/**
+	 * Авторизация посредством вк.
+	 */
+	function loginByVK(success, error) {
+
+		$http({
+				  method: 'GET',
+				  ignoreAuthModule: true,
+				  url:    apiUrls.loginByVK
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
+
 	}
 
 	/**
@@ -167,7 +182,7 @@ function Connection($http) {
 
 		$http({
 				  method: 'POST',
-				  url:    apiUrls.signOut
+				  url:    apiUrls.logout
 			  }).then(claimHttpDataOnly(success),
 					  claimHttpDataOnly(error));
 
@@ -186,7 +201,7 @@ function Connection($http) {
 					  isSubscribeOnEmail: args.isSubscribeOnEmail
 				  },
 				  ignoreAuthModule: true,
-				  url:    apiUrls.signUpByEmail
+				  url:    apiUrls.register
 			  }).then(claimHttpDataOnly(args.success),
 					  claimHttpDataOnly(args.error));
 

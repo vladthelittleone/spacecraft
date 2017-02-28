@@ -22,11 +22,11 @@ function Numbers() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Введите в редакторе число: <span class="red-label">1984</span></li>' +
+							'<li>Введите в редакторе число: <span class="red-label">1984</span>.</li>' +
 							'<li>Больше информации о числах: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Числа">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +
-							'<li>Введите строку <span class="under-label-gray">1984</span> на <strong>22</strong> строке</li>' +
+							'<li>Введите число <span class="under-label-gray">1984</span> на <strong>22</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
 			audio:   'audio/lesson2/1-1.mp3',

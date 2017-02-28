@@ -21,7 +21,7 @@ function ObjectType() {
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
 						   '<li>Нажмите "Далее" для продолжения.</li>' +
-						   '<li>Хотите узнать больше о объектах? Вас сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Working_with_Objects">клац</a>.</li>' +
+						   '<li>Хотите узнать больше о объектах? Вам сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Working_with_Objects">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{
 			audio:   'audio/lesson2/1-1.mp3',

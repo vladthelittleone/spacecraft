@@ -31,7 +31,6 @@ function Connection($http) {
 	that.getLeaderboard = getLeaderboard;
 
 	that.login = login;
-	that.loginByVK = loginByVK;
 	that.logout = logout;
 	that.register = register;
 
@@ -159,20 +158,6 @@ function Connection($http) {
 				  url:    apiUrls.login
 			  }).then(claimHttpDataOnly(success),
 					  claimHttpDataOnly(error));
-	}
-
-	/**
-	 * Авторизация посредством вк.
-	 */
-	function loginByVK(success, error) {
-
-		$http({
-				  method: 'GET',
-				  ignoreAuthModule: true,
-				  url:    apiUrls.loginByVK
-			  }).then(claimHttpDataOnly(success),
-					  claimHttpDataOnly(error));
-
 	}
 
 	/**

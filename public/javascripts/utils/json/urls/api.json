@@ -7,7 +7,6 @@
 	"userSession": "/user/info/session",
 
 	"login": "/login",
-	"loginByVK": "/vk",
 	"logout": "/logout",
 	"register": "/register",
 

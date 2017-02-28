@@ -9,9 +9,9 @@ module.exports = LoginConfig;
  */
 function LoginConfig($stateProvider) {
 
-	$stateProvider.state('sigIn', {
-		url: '/sigIn',
-		templateUrl: 'views/main/sigIn.html',
+	$stateProvider.state('login', {
+		url: '/login',
+		templateUrl: 'views/main/login.html',
 		controller: 'LoginController as ctrl'
 	});
 

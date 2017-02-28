@@ -22,8 +22,7 @@ function LoginController($scope, $state, authentication) {
 
 	$scope.loginByKey = loginByKey;
 	$scope.register = register;
-	$scope.login = sigIn;
-	$scope.loginByVK = loginByVK;
+	$scope.login = login;
 
 	// ==================================================
 
@@ -45,7 +44,7 @@ function LoginController($scope, $state, authentication) {
 	 */
 	function toLesson() {
 
-		sigIn(function () {
+		login(function () {
 
 			$state.go('lesson', {id: 0})
 
@@ -56,7 +55,7 @@ function LoginController($scope, $state, authentication) {
 	/**
 	 * Регистрация в сервисе
 	 */
-	function register () {
+	function register() {
 
 		var email = $scope.email;
 
@@ -65,12 +64,12 @@ function LoginController($scope, $state, authentication) {
 		var subscribe = $scope.isSubscribeOnEmail;
 
 		authentication.register({
-			email:    email,
-			password: pass,
-			isSubscribeOnEmail: subscribe,
-			success:  toLesson,
-			error:    error
-		});
+									email:              email,
+									password:           pass,
+									isSubscribeOnEmail: subscribe,
+									success:            toLesson,
+									error:              error
+								});
 
 	}
 
@@ -85,18 +84,12 @@ function LoginController($scope, $state, authentication) {
 
 	/**
 	 * Вход в систему.
-     */
+	 */
 	function login() {
 
-		authentication.sigIn($scope.email,
+		authentication.login($scope.email,
 							 $scope.password,
 							 error);
-
-	}
-
-	function loginByVK() {
-
-		
 
 	}
 

@@ -33,13 +33,13 @@ router.get('/vk', passport.authenticate('vk-login'));
 
 router.get('/vk/callback', passport.authenticate('vk-login', {
 
-	successRedirect: '/'
+	successRedirect: '/welcome'
 
 }));
 
-router.post("/signIn", validation.checkEmailAndPassword, passport.authenticate('local-login', {
+router.post("/login", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 
-	successRedirect: '/'
+	successRedirect: '/welcome'
 
 }));
 
@@ -48,7 +48,7 @@ router.post("/signIn", validation.checkEmailAndPassword, passport.authenticate('
  * ВЫХОД
  * ------------------------------------------------------------
  */
-router.post('/signOut', checkAuthentication, (req, res, next) => {
+router.post('/logout', checkAuthentication, (req, res, next) => {
 
 	req.logout();
 
@@ -61,8 +61,8 @@ router.post('/signOut', checkAuthentication, (req, res, next) => {
  * РЕГИСТРАЦИЯ
  * ------------------------------------------------------------
  */
-router.post('/signUp', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
+router.post('/register', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
 
-	successRedirect: '/'
+	successRedirect: '/login'
 
 }));

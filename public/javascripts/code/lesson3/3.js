@@ -1,5 +1,7 @@
 // Объявление константы
 var CONTAINER = 'Константный контейнер';
+var container;
+var nullContainer = null;
 
 /**
  * Летим на склад!

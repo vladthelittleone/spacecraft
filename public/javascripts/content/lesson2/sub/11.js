@@ -15,7 +15,7 @@ function Conclusions() {
 		content:           content,
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
-						   '<li>Поспешные выводы опасны.</li>' +
+						   '<li>Нажмите "Далее" для продолжения.</li>' +
 						   '</ul>',
 		character:         [{
 			audio: 'audio/lesson2/1-1.mp3',

@@ -50,7 +50,7 @@ function TypeOf() {
 						  '<p>Но не останавливайтесь!</p>' +
 						  '<p>Пр0читайте инструкцию еще раз.</p>',
 
-			incorrectType: '<p>Операнд точно <strong>451</strong>?</p>' +
+			incorrectType: '<p>Операнд точно число <strong>451</strong>?</p>' +
 						   '<p>Очень странный тип данных:</p>' +
 						   '<p class="bbot-output">\'' + value + '\'</p>'
 		});
@@ -65,7 +65,7 @@ function TypeOf() {
 		if (value === 'number') {
 
 			// Проверка на тип
-			return lessonResults.resultCorrect('bbot-wow');
+			return lessonResults.resultCorrect();
 
 		} else {
 

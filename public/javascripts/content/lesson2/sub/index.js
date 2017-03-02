@@ -10,6 +10,7 @@ var booleans = require('./6');
 var undefinedNull = require('./7');
 var objectType = require('./8');
 var typeOf = require('./9');
+var decode = require('./10');
 
 /**
  * Подуроки первого урокаж
@@ -24,4 +25,5 @@ module.exports = [investigation,
 	booleans,
 	undefinedNull,
 	objectType,
-	typeOf];
+	typeOf,
+	decode];

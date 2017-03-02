@@ -79,7 +79,7 @@ function ObjectType() {
 
 	function defaultBBot() {
 
-		return '<p>Моя задница - мой любимый объект!</p>'
+		return '<p>Железный зад BBot\'а - любимый объект BBot\'а!</p>'
 
 	}
 

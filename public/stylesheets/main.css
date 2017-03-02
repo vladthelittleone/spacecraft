@@ -836,6 +836,8 @@ pre {
 .bbot-header .quote {
 	left: 60px;
 	width: auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	background: #152B39;
 	cursor: default;
 }

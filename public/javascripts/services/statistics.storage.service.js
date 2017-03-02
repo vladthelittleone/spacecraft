@@ -55,12 +55,16 @@ function StatisticsStorage(connection) {
 	 */
 	function saveUserProgress(score) {
 
-		connection.updateUserProgress(score, function (result) {
+		// Сохраняем только новое значение
+		if(lodash.last(userProgress) != score) {
 
-			userProgress = result.data;
+			connection.updateUserProgress(score, function (result) {
 
-		});
+				userProgress = result.data;
 
+			});
+
+		}
 	}
 
 }

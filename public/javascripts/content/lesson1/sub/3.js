@@ -56,7 +56,7 @@ function Command() {
 	};
 
 	function gamePostUpdate(spaceCraft) {
-		
+
 		var lessonResults = LessonResults({
 			correct: '<p>Осуществляю подачу топлива!</p>' +
 					 '<p>3апускаю двигатели!</p>' +
@@ -75,7 +75,7 @@ function Command() {
 
 		return '<p>Команды - это инструкции раздеяемые точкой с запятой, с помощью которых вы можете управлять кораблем и не только.</p>' +
 			'<p>Команды сканируются слева направо, сверху вниз.</p>' +
-			'<p>Вы уже знаете команду поворота влево: <pre>transport.rotateLeft();</pre></p>' +
+			'<p>Вы уже знаете команду поворота влево: <pre><strong>transport</strong>.rotateLeft();</pre></p>' +
 			'<p>Давайте попробуем добавить новую, ранее не изученную.</p>'
 
 	}

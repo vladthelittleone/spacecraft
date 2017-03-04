@@ -130,7 +130,7 @@ function Connection($http) {
 	 */
 	function getLessonCodeFromJs(lessonId, subLessonId, callback) {
 
-		var source = resourcesUrls.lessonCode + lessonId + '/' + subLessonId + '.js';
+		var source = resourcesUrls.lessonCode + lessonId + '/' + subLessonId + '.code';
 
 		getCodeFromJs(source, callback)
 

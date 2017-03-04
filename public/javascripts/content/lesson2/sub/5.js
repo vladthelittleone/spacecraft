@@ -22,8 +22,11 @@ function Numbers() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Введите в редакторе число: <span class="red-label">1984</span></li>' +
+							'<li>Введите в редакторе число: <span class="red-label">1984</span>.</li>' +
 							'<li>Больше информации о числах: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Числа">клац</a>.</li>' +
+							'</ul>',
+		hint:               '<ul>' +
+							'<li>Введите число <span class="under-label-gray">1984</span> на <strong>22</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
 			audio:   'audio/lesson2/1-1.mp3',
@@ -71,7 +74,8 @@ function Numbers() {
 			correct: '<p>Всё сущее естb числ0! Транслирую:</p>' +
 					 '<p class="bbot-output">' + value + '</p>',
 
-			unknownError: '<p>Ответ на вопрос недопустим!</p>' +
+			unknownError: '<p>4 8 15 16 23 42...</p>' +
+						  '<p>Ответ на вопрос недопустим!</p>' +
 						  '<p>Побробуйте ввести более короткое число, допустим 451.</p>'
 		});
 

@@ -18,7 +18,7 @@ function LessonResults(messagesArray) {
 	t.resultNotCorrect = resultNotCorrect;
 	t.resultText = resultText;
 	t.result = result;
-	t.resultFaield = resultFaield;
+	t.resultFaield = resultFailed;
 
 	return t;
 
@@ -33,7 +33,7 @@ function LessonResults(messagesArray) {
 
 	}
 
-	function resultFaield(css) {
+	function resultFailed(css) {
 
 		return formResult(true, getText('failed'), css || 'bbot-angry');
 

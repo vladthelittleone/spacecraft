@@ -8,10 +8,24 @@ var strings = require('./4');
 var numbers = require('./5');
 var booleans = require('./6');
 var undefinedNull = require('./7');
+var objectType = require('./8');
+var typeOf = require('./9');
+var decode = require('./10');
+var conclusion = require('./11');
 
 /**
  * Подуроки первого урокаж
  *
  * Created by vladthelittleone on 12.06.16.
  */
-module.exports = [investigation, scanning, sensor, strings, numbers, booleans, undefinedNull];
+module.exports = [investigation,
+	scanning,
+	sensor,
+	strings,
+	numbers,
+	booleans,
+	undefinedNull,
+	objectType,
+	typeOf,
+	decode,
+	conclusion];

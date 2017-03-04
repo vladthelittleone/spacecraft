@@ -30,6 +30,8 @@ function LessonBoard($sce, lessonService) {
 		$scope.getInstructions = getInstructions;
 		$scope.showHint = showHint;
 
+		$scope.$watch('lesson', onLessonChange);
+
 		// ==================================================
 		// ======================PUBLIC======================
 		// ==================================================
@@ -69,7 +71,7 @@ function LessonBoard($sce, lessonService) {
 			if ($scope.lesson) {
 
 				return $sce.trustAsHtml($scope.lesson.instructions);
-				
+
 			}
 
 		}
@@ -98,12 +100,17 @@ function LessonBoard($sce, lessonService) {
 				// TODO если потребуеться по умолчанию штрафовать пользователь больше чем на ноль очков
 				// то заменить 0 на необходимое значение
 				var showHitPenaltyPointsSize = lessonService.getCurrentLessonContentPoints()
-					                                        .showHitPenaltyPointsSize ||
-					                            0;
+					                                        .showHitPenaltyPointsSize || 0;
 
 				currentLessonStatistics.incPenaltyPointsForGame(showHitPenaltyPointsSize);
 
 			}
+
+		}
+
+		function onLessonChange() {
+
+			$scope.hint = false;
 
 		}
 

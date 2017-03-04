@@ -52,7 +52,12 @@ angular.module('spacecraft').run(runBlock);
 function configBlock($urlRouterProvider, $locationProvider) {
 
 	// Включаем адреса без решетки (#).
-	$locationProvider.html5Mode(true);
+	$locationProvider.html5Mode({
+
+									enabled:      true,
+									rewriteLinks: false
+
+								});
 
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');

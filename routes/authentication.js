@@ -33,13 +33,13 @@ router.get('/vk', passport.authenticate('vk-login'));
 
 router.get('/vk/callback', passport.authenticate('vk-login', {
 
-	successRedirect: '/welcome'
+	successRedirect: '/'
 
 }));
 
 router.post("/login", validation.checkEmailAndPassword, passport.authenticate('local-login', {
 
-	successRedirect: '/welcome'
+	successRedirect: '/'
 
 }));
 

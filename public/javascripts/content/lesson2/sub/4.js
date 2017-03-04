@@ -26,7 +26,7 @@ function Strings() {
 							'<li>Больше информации о строках: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Строки">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +
-							'<li>Значения указываемые непосредственно в программном коде называются <strong>литералами</strong>.</li>' +
+							'<li>Значения, указываемые непосредственно в программном коде, называются <strong>литералами</strong>.</li>' +
 							'<li>Введите <span class="under-label-gray">\'Я есть BBot!\'</span> на <strong>10</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
@@ -59,8 +59,8 @@ function Strings() {
 	function content() {
 
 		return '<p>Рассмотрим простые типы более подробно:</p>' +
-			'<p><span class="under-label"><strong>String</strong></span> - строка или последовательность из символов, используемая для представления текста в программе.</p>' +
-			'<p>Строка заключается в парные одинарные или двойные кавычки, упоминаемые иногда как апострофы.</p>'
+			'<p><span class="under-label"><strong>String</strong></span>(строка) - последовательность из символов используемая для представления текста в программе.</p>' +
+			'<p>Строка заключается в парные одинарные или двойные кавычки, упоминаемые иногда, как апострофы.</p>'
 	}
 
 	function interpreterHandler(value) {

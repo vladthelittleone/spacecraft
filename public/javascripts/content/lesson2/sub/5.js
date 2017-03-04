@@ -62,9 +62,9 @@ function Numbers() {
 		return '<p><span class="under-label"><strong>Number</strong></span> - числа, с помощью которых ваш корабль будет выполнять основные вычисления. Заметим, что числа пишутся без кавычек.</p>' +
 			'<p>В <strong>JavaScript</strong> нет различий между целыми и вещественными значениями.</p>' +
 			'<p>Десятичные числа представлены последовательностью из цифр, а шестнадцатиричные начинаются с префикса <span class="under-label"><strong>0x</strong></span>.</p>' +
-			'<p><strong>JavaScript</strong> позволяет делить на ноль. Не волнуйтесь новую черную дыру мы не получим.</p>' +
+			'<p><strong>JavaScript</strong> позволяет делить на ноль. Не волнуйтесь, новую черную дыру мы не получим.</p>' +
 			'<p>В результате выполнения такой операции <strong>JavaScript</strong> выдаст специальное числовое значение - <span class="under-label"><strong>Infinity</strong></span>.</p>' +
-			'<p>Другое специальное числовое значение <span class="under-label"><strong>NaN</strong></span> возвращается при ошибках в математических вычислениях.</p>'
+			'<p>Другое специальное числовое значение - <span class="under-label"><strong>NaN</strong></span>, возвращается при ошибках в математических вычислениях.</p>'
 	}
 
 	function interpreterHandler(value) {

@@ -64,7 +64,7 @@ function Booleans() {
 
 		return '<p>Космос суров, здесь полно лжи. Никому не верьте! Любое высказывание, даже близких, необходимо проверять на правдивость!</p>' +
 			'<p>Единственный, кто вас никогда не подведет - ваш корабль.</p>' +
-			'<p><span class="under-label"><strong>Boolean</strong></span> - это логический тип данных, который может принимать значения <span class="under-label">true</span>, либо <span class="under-label">false</span>, как вы уже наверно догадались «истина», «ложь» соответственно.' +
+			'<p><span class="under-label"><strong>Boolean</strong></span> - это логический тип данных, который может принимать значения <span class="under-label">true</span>, либо <span class="under-label">false</span>. Как вы уже наверно догадались - «истина» и «ложь» соответственно.' +
 			'<p>Например, сравнение двух чисел может вернуть либо <span class="under-label-gray">true</span>, либо <span class="under-label-gray">false</span>:</p>' +
 			'<pre>5 > 4 - <strong>true</strong></pre>' +
 			'<pre>4 > 5 - <strong>false</strong></pre>'

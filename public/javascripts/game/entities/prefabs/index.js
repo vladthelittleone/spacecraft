@@ -11,6 +11,7 @@ var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
 var Stock = require('./stock');
+var Fighter = require('./fighter');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -31,6 +32,7 @@ function PrefabsFactory() {
 	t.createShield = createShield;
 	t.createAcademyBase = createAcademyBase;
 	t.createRedPlanet = createRedPlanet;
+	t.createFighter = createFighter;
 	t.createMeteor = createMeteor;
 	t.createMine = createMine;
 	t.createScout = createScout;
@@ -71,6 +73,13 @@ function PrefabsFactory() {
 	function createHarvester(game, x, y) {
 
 		return Harvester(game, x, y);
+
+	}
+
+	// Убийца
+	function createFighter(game, x, y) {
+
+		return Fighter(game, x, y);
 
 	}
 

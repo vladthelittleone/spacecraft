@@ -13,6 +13,7 @@ var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
 var Stock = require('./stock');
+var Fighter = require('./fighter');
 
 var Random = require('../../utils/random');
 
@@ -40,6 +41,7 @@ function EntitiesFactory() {
 	t.createMeteor = createMeteor;
 	t.createMeteorField = createMeteorField;
 	t.createMeteorFiledSphere = createMeteorFiledSphere;
+	t.createFighter = createFighter;
 	t.createTurret = createTurret;
 	t.createStock = createStock;
 	t.createMine = createMine;
@@ -91,6 +93,20 @@ function EntitiesFactory() {
 
 		return harvester;
 
+	}
+
+	/**
+	 * Создание коробля бойца
+	 */
+	function createFighter(game, x, y, player) {
+
+		var fighter = Fighter(game, x, y, player);
+
+		var id = world.pushObject(fighter);
+
+		player && world.setPlayer(id);
+
+		return fighter;
 	}
 
 	/**

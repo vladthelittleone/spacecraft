@@ -12,7 +12,7 @@ module.exports = FlightWithInstructions();
 function FlightWithInstructions() {
 
 	return {
-		title:        'Перевозка груза к защитной турели(Теория перемнных)',
+		title:        'Полет до RED планеты',
 		character:    [{
 			// Погрузка прошла успешно, теперь летим  к турели.
 			audio:  'audio/lesson2/1-2.mp3',
@@ -90,8 +90,9 @@ function FlightWithInstructions() {
 
 	function content() {
 
-		return '<p>Тут какой-то контент!</p>';
-
+		return '<p>Погрузка завершена. Отправляемся к месту назначения.</p>' +
+			'<p> А пока кадет ознакомьтесь с новым материалом.</p>' +
+			'<p> Запустите код для начала полета.</p>';
 	}
 }
 

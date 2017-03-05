@@ -12,7 +12,7 @@ module.exports = FlightStockWithConstantInstructions();
 function FlightStockWithConstantInstructions() {
 
 	return {
-		title:        'Летим к складу(Теория по константам)',
+		title:        'Летим к оружейному складу',
 		character:    [{
 			// Отправляйтесь к оружейному складу. Запускаем двигатели
 			audio:  'audio/lesson2/1-2.mp3',
@@ -74,7 +74,7 @@ function FlightStockWithConstantInstructions() {
 		'<li>Однако все опытные пилоты договорились не изменять значения констант.</li>' +
 		'<li>Переменные, которым не присволили значения будут undefined.</li>' +
 		'<li><span class="under-label">var speed;</span>// undefined</li>' +
-		'<li>Для обозначения пустоты переменной используется специально слово null.</li>' +
+		'<li>Для обозначения пустоты или не известного значения переменной используется специально слово null.</li>' +
 		'<li><span class="under-label">var php = null;</span></li>' +
 		'</ul>'
 	};
@@ -95,7 +95,8 @@ function FlightStockWithConstantInstructions() {
 
 	function content() {
 
-		return '<p>Тут какой-то контент!</p>';
+		return '<p>Нужно доставить оружие с турели в оружейный склад для выявления причин поломки.</p>' +
+			   '<p>Так же прослушайте инструктаж по константам.</p>';
 
 	}
 }

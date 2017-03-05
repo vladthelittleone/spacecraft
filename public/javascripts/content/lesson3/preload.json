@@ -16,4 +16,5 @@
 	"turret": "images/sprites/entities/turret.png",
 	"stock": "images/sprites/entities/stock.png",
 	"scout": "images/sprites/entities/scout.png",
+	"fighter": "images/sprites/entities/fighter.png"
 }

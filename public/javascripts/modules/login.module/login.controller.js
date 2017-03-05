@@ -26,7 +26,9 @@ function LoginController($scope, $state, authentication) {
 
 	// ==================================================
 
-	// Обработка нажатия клавиши 'Enter'
+	/**
+	 * Обработка нажатия клавиши 'Enter'
+	 */
 	function loginByKey(code) {
 
 		if (code === ENTER) {
@@ -37,7 +39,9 @@ function LoginController($scope, $state, authentication) {
 
 	}
 
-	// Переход на состояние первого урока
+	/**
+	 * Переход на состояние первого урока
+	 */
 	function toLesson() {
 
 		login(function () {
@@ -51,7 +55,7 @@ function LoginController($scope, $state, authentication) {
 	/**
 	 * Регистрация в сервисе
 	 */
-	function register () {
+	function register() {
 
 		var email = $scope.email;
 
@@ -60,16 +64,18 @@ function LoginController($scope, $state, authentication) {
 		var subscribe = $scope.isSubscribeOnEmail;
 
 		authentication.register({
-			email:    email,
-			password: pass,
-			isSubscribeOnEmail: subscribe,
-			success:  toLesson,
-			error:    error
-		});
+									email:              email,
+									password:           pass,
+									isSubscribeOnEmail: subscribe,
+									success:            toLesson,
+									error:              error
+								});
 
 	}
 
-	// Состояние ошибки
+	/**
+	 * Состояние ошибки
+	 */
 	function error(errorDescription) {
 
 		$scope.error = errorDescription;
@@ -78,7 +84,7 @@ function LoginController($scope, $state, authentication) {
 
 	/**
 	 * Вход в систему.
-     */
+	 */
 	function login() {
 
 		authentication.login($scope.email,

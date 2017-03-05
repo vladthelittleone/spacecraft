@@ -33,6 +33,7 @@ function WelcomeController($scope,
 
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
+	$scope.showLineGraphic = false;
 
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
@@ -40,8 +41,6 @@ function WelcomeController($scope,
 	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
-
-	$scope.openLessons = connection.metrics.hitOpenLesson();
 
 	formDataForChart(lessonStatisticsData);
 	formDataForLineChart(userProgressData);
@@ -116,6 +115,9 @@ function WelcomeController($scope,
 	 */
 	function formDataForLineChart(userProgress) {
 
+		// Проверяем действительно есть очки(стоит ли отображать график)
+		$scope.showLineGraphic = !lodash.isEmpty(userProgress);
+
 		if (userProgress) {
 
 			// Подготовка данных для вывода графика,
@@ -133,7 +135,6 @@ function WelcomeController($scope,
 			}
 
 			$scope.seriesT = ['Последние полученные очки'];
-
 		}
 	}
 
@@ -152,14 +153,18 @@ function WelcomeController($scope,
 
 		a.forEach(function (v) {
 
-			if (v[predicate]) {
+			if (v) {
 
-				c += v[param2];
+				if (v[predicate]) {
 
-			}
-			else {
+					c += v[param2];
 
-				c += v[param1];
+				}
+				else {
+
+					c += v[param1];
+
+				}
 
 			}
 

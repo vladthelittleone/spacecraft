@@ -19,7 +19,7 @@ function YourName() {
 		title:              'Ваше имя?',
 		content:            content,
 		instructions:       '<ul>' +
-							'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">"Нилар"</span>.</li>' +
+							'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">\'Нилар\'</span>.</li>' +
 							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 							'</ul>',
 		character:          [{
@@ -79,7 +79,7 @@ function YourName() {
 
 		if (value) {
 
-			// Если нет " ", будет выброшено исключение
+			// Если нет ' ', будет выброшено исключение
 			if (value.exception) {
 
 				return lessonResults.resultNotCorrect('noQuotes');

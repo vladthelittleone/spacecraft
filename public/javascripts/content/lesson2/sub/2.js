@@ -12,28 +12,32 @@ module.exports = Scanning();
 function Scanning() {
 
 	return {
-		title:        'Место аварии',
-		content:      content,
+		title:             'Сканирование',
+		content:           content,
 		isRestartDisabled: true,
-		instructions: '<ul>' +
-					  '<li>Включите сканирование с помощью команды: <span class="red-label">scout.scan()</span>.</li>' +
-					  '</ul>',
-		character:    [{
-			audio:   'audio/lesson2/1-1.mp3',
-			css:     'astromen-img',
+		instructions:      '<ul>' +
+						   '<li>Включите сканирование с помощью команды: <span class="red-label">scout.scan()</span>.</li>' +
+						   '<li>Не забудьте про точку с запятой.</li>' +
+						   '</ul>',
+		hint:              '<ul>' +
+						   '<li>Добавьте <span class="under-label-gray">scout.scan();</span> на <strong>8</strong> строку.</li>' +
+						   '</ul>',
+		character:         [{
+			audio:  'audio/lesson2/1-1.mp3',
+			css:    'astromen-img',
 			marker: {
-				x1:   8,
-				y2:   Infinity
+				x1: 8,
+				y2: Infinity
 			}
 
 		}],
-		gamePostUpdate: gamePostUpdate
+		gamePostUpdate:    gamePostUpdate
 	};
 
 	function gamePostUpdate(scout) {
 
 		var lessonResults = LessonResults({
-			correct: '<p>Начинаю сканирование местности!</p>'
+			correct: '<p>BBot начинает сканирование местности!</p>'
 		});
 
 		if (scout.isScanningActivated()) {
@@ -46,8 +50,7 @@ function Scanning() {
 
 	function content() {
 
-		return '<p>Мы на месте. Включите сканирование нам необходимо найти следы взломщиков.</p>' +
-			'<p>Это может занять некоторое время.</p>';
+		return '<p>Вы на месте. Включите сканирование нам необходимо найти следы взломщиков.</p>';
 
 	}
 

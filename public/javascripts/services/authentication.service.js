@@ -35,9 +35,6 @@ function Authentication(connection,
 		
 		processingSuccessfulAuthorization();
 		
-		// Переход на главную страницу после аутентификации.
-		$state.go('welcome');
-		
 	});
 	
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
@@ -64,6 +61,7 @@ function Authentication(connection,
 	var authenticationStatus;
 	
 	that.login = login;
+	
 	that.logout = logout;
 	
 	that.currentUser = currentUser;
@@ -116,11 +114,11 @@ function Authentication(connection,
 	 */
 	function getAuthenticationStatus(resolve, reject) {
 		
-		// Если authenticationStatus не определен, значит
+		// Если authenticationStatus не определен или false, значит
 		// нужно идти к серверу за состоянием активности текущей сессии.
 		// В противном случае, в authenticationStatus ВСЕГДА находится
 		// флаг актуальности текущей сессии.
-		if (lodash.isNil(authenticationStatus)) {
+		if (!authenticationStatus) {
 			
 			connection.checkSession(processingSuccessfulCheckSession(resolve),
 									processingFailedCheckSession(reject));
@@ -181,7 +179,6 @@ function Authentication(connection,
 		storage.local && storage.local.clear();
 		
 		authenticationStatus = false;
-		
 	}
 	
 	/**
@@ -195,16 +192,14 @@ function Authentication(connection,
 	 */
 	function login(email,
 				   password,
-				   errorCallback) {
+				   error) {
 		
-		// TODO имеет смысл ввести вещание сигналов по событиям,
-		// связанных с ошибочными ситуация при логине.
 		connection.login({
 							 email:    email,
 							 password: password
 						 },
 						 authService.loginConfirmed,
-						 errorCallback);
+						 error);
 		
 	}
 	

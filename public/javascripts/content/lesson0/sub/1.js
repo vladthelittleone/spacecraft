@@ -20,13 +20,13 @@ function WelcomeToAcademy() {
 					  '<li>Нажмите "Далее" для продолжения.</li>' +
 					  '</ul>',
 		character:    [{
-			audio: 'audio/lesson1/1.mp3',
+			audio: 'audio/lesson1/1',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson1/2.mp3',
+			audio: 'audio/lesson1/2',
 			css:   'astrogirl-img'
 		}, {
-			audio: 'audio/lesson1/3.mp3',
+			audio: 'audio/lesson1/3',
 			css:   'astrogirl-img',
 			hint:  [
 				{
@@ -36,7 +36,7 @@ function WelcomeToAcademy() {
 				}
 			]
 		}, {
-			audio: 'audio/lesson1/4.mp3',
+			audio: 'audio/lesson1/4',
 			css:   'astrogirl-img',
 			hint:  [
 				{
@@ -46,7 +46,7 @@ function WelcomeToAcademy() {
 				}
 			]
 		}, {
-			audio: 'audio/lesson1/5.mp3',
+			audio: 'audio/lesson1/5',
 			css:   'astrogirl-img',
 			hint:  [
 				{
@@ -56,7 +56,7 @@ function WelcomeToAcademy() {
 				}
 			]
 		}, {
-			audio:       'audio/lesson1/6.mp3',
+			audio:       'audio/lesson1/6',
 			css:         'astrogirl-img',
 			waitForHint: true,
 			hint:        [{

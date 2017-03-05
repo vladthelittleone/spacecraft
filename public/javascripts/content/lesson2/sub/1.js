@@ -19,7 +19,7 @@ function Investigation() {
 						   '<li>Отправьте корабль к месту аварии с помощью команды <span class="red-label">scout.moveToXY()</span>.</li>' +
 						   '<li>Координаты аварии (<strong>2000</strong>, <strong>2000</strong>).</li>' +
 						   '</ul>',
-		hint:              '<ul>' +
+		hint:      '<ul>' +
 						   '<li>Добавьте <span class="under-label-gray">scout.moveToXY(2000, 2000);</span> на <strong>8</strong> строку.</li>' +
 						   '</ul>',
 		character:         [{

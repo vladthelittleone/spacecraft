@@ -24,10 +24,10 @@ function JavaScript() {
 						'<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Introduction">клац</a>.</li>' +
 						'</ul>',
 		character:      [{
-			audio:  'audio/lesson2/2-1.mp3',
+			audio:  'audio/lesson2/2-1',
 			css:    'astromen-img'
 		}, {
-			audio:  'audio/lesson2/2-2.mp3',
+			audio:  'audio/lesson2/2-2',
 			css:    'astrogirl-img',
 			hint:   [
 				{
@@ -37,21 +37,21 @@ function JavaScript() {
 				}
 			]
 		}, {
-			audio:  'audio/lesson2/2-3.mp3',
+			audio:  'audio/lesson2/2-3',
 			css:    'astrogirl-img',
 			marker: {
 				x1:   6,
 				y2:   Infinity
 			}
 		}, {
-			audio:  'audio/lesson2/2-4.mp3',
+			audio:  'audio/lesson2/2-4',
 			css:    'astrogirl-img',
 			marker: {
 				x1:   9,
 				y2:   Infinity
 			}
 		}, {
-			audio:  'audio/lesson2/2-5.mp3',
+			audio:  'audio/lesson2/2-5',
 			css:    'astrogirl-img',
 			waitForHint: true,
 			hint:   [
@@ -64,7 +64,7 @@ function JavaScript() {
 		}],
 		gamePostUpdate: gamePostUpdate
 	};
-	
+
 	function gamePostUpdate() {
 
 		var lessonResults = LessonResults({

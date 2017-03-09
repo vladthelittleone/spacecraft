@@ -14,7 +14,8 @@ function Diagram () {
 	// that / this
 	var t = {};
 
-	var changes = [];
+	var changes;
+
 	/**
 	 * Объект, который отвечает за диаграмму;
 	 */
@@ -33,35 +34,44 @@ function Diagram () {
 
 	}
 
+	/**
+	 * Сохраняем изменения на случай, если директива еще не подгрузилась.
+	 *
+	 * @param callback изменения диаграммы
+	 */
 	function change(callback) {
 
+		// Если диаграмма определена, то выполняем изменения
 		if (diagram) {
 
 			callback && callback(diagram);
 
-		} else {
-
-			callback && changes.push(callback);
-
 		}
+
+		// Сохраняем изменения даже, если диаграмма оперделена.
+		// Так как может произойти пересоздание диаграммы.
+		changes = callback;
 
 	}
 
+	/**
+	 * Добавляем диаграмму и выполняем изменения.
+	 *
+	 * @param _diagram
+	 */
 	function setDiagram(_diagram) {
 
 		diagram = _diagram;
 
-		changes.forEach(function (e) {
+		changes && changes(_diagram);
 
-			e(_diagram);
-
-		});
+		changes = null;
 
 	}
 
 	function isHaveChanges() {
 
-		return changes.length;
+		return changes;
 
 	}
 

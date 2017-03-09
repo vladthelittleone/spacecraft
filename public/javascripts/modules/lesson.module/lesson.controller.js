@@ -24,7 +24,13 @@ module.exports = LessonController;
  * @author Skurishin Vladislav
  * @since 30.11.2015
  */
-function LessonController($scope, $stateParams, $state, service, audioManager, aceService, settings) {
+function LessonController ($scope,
+						   $stateParams,
+						   $state,
+						   lessonService,
+						   audioManager,
+						   aceService,
+						   settings) {
 
 	var markerService;
 	var soundtrack;
@@ -38,11 +44,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.showDiagram = false;			// Переключатель окна диаграммы
 	$scope.showSettings = false;	    // Переключатель натсроек
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
-	$scope.hint = false;			    // Переключатель подсказок
 
-	$scope.idLesson = $stateParams.id;						// Идентификатор урока
-	$scope.CodeLauncher = CodeLauncher;						// Конфигурация кода и редактора
-	$scope.lesson = service.lessonContent($stateParams.id);	// Контент урока
+	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
 	$scope.toggleTextContent = toggleTextContent;
 	$scope.toggleSettings = toggleSettings;
@@ -59,6 +62,8 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
+	$scope.lesson = lessonService.lessonContent($stateParams.id);
+
 	// ==================================================
 
 	// Проверка существования урока
@@ -70,7 +75,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	// ==================================================
 
-	function toggleTextContent() {
+	function toggleTextContent () {
 
 		$scope.showTextContent = !$scope.showTextContent;
 
@@ -78,7 +83,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		$scope.showDiagram = false;
 	}
 
-	function toggleSettings() {
+	function toggleSettings () {
 
 		$scope.showSettings = !$scope.showSettings;
 
@@ -87,15 +92,15 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	}
 
-	function toggleAudioPause() {
+	function toggleAudioPause () {
 
-		service.audioManager.toggleAudio($scope.audioPause);
+		lessonService.audioManager.toggleAudio($scope.audioPause);
 
 		$scope.audioPause = !$scope.audioPause;
 
 	}
 
-	function toggleDiagram() {
+	function toggleDiagram () {
 
 		$scope.showDiagram = !$scope.showDiagram;
 
@@ -104,9 +109,9 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	}
 
-	function previousAudio() {
+	function previousAudio () {
 
-		if (service.audioManager.previousAudio()) {
+		if (lessonService.audioManager.previousAudio()) {
 
 			$scope.audioPause = false;
 
@@ -114,13 +119,13 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	}
 
-	function toggleEditorOpen() {
+	function toggleEditorOpen () {
 
 		$scope.hideEditor = !$scope.hideEditor;
 
 	}
 
-	function isLessonWithDiagram() {
+	function isLessonWithDiagram () {
 
 		return Diagram.isHaveChanges();
 
@@ -129,7 +134,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Обработчик изменения кода в Ace.
 	 */
-	function aceChanged() {
+	function aceChanged () {
 
 		//
 
@@ -138,29 +143,34 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Инициализация Ace.
 	 */
-	function aceLoaded(editor) {
+	function aceLoaded (editor) {
 
-		service.setEditorSession(editor.getSession());
+		// Если определен урок.
+		if ($scope.lesson) {
 
-		aceService.initialize(editor, $scope.lesson.rules);
+			lessonService.setEditorSession(editor.getSession());
 
-		markerService = aceService.getMarkerService();
+			aceService.initialize(editor, $scope.lesson.rules);
 
-		/**
-		 * Инициализация урока.
-		 */
-		service.initialize({
-			lessonId: $stateParams.id,
-			scope:    $scope
-		});
+			markerService = aceService.getMarkerService();
+
+			/**
+			 * Инициализация урока.
+			 */
+			lessonService.initialize({
+										 lessonId: $stateParams.id,
+										 scope:    $scope
+									 });
+
+		}
 	}
 
 	/**
 	 * Очистка маркеров.
 	 */
-	function clearMarker() {
+	function clearMarker () {
 
-		var markerId = service.getMarkerId();
+		var markerId = lessonService.getMarkerId();
 
 		// Удаляем старый маркер
 		markerId && markerService.deleteMarkerAndAnnotation(markerId);
@@ -172,7 +182,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Обработка ошибки при запуске пользовательского кода.
 	 */
-	function onError(error) {
+	function onError (error) {
 
 		// Очищаем 'Кнопку далее'
 		$scope.nextSubLesson = null;
@@ -191,6 +201,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 			// Выводим ошибку
 			$scope.textBot = errorWrapper(error);
+			$scope.botCss = 'bbot-angry';
 
 			if (errorLine) {
 
@@ -199,7 +210,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 				// Сохраняем в сервисе.
 				// В связи с использованием указаний в уроке.
-				service.setMarkerId(markerId);
+				lessonService.setMarkerId(markerId);
 
 			}
 
@@ -212,7 +223,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Выключение / Включение фоновой музыки.
 	 */
-	function setSoundtrackEnable(enable) {
+	function setSoundtrackEnable (enable) {
 
 		if (enable) {
 
@@ -229,14 +240,14 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * При загрузке запускаем звук.
 	 */
-	function onContentLoaded() {
+	function onContentLoaded () {
 
 		// Если настройка музыки активна,
 		settings.onSettingsChange(setSoundtrackEnable, settings.SOUNDTRACK, true);
 
 	}
 
-	function playSoundtrack() {
+	function playSoundtrack () {
 
 		soundtrack = audioManager.createSoundtrack();
 		soundtrack.play();
@@ -247,16 +258,15 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 	}
 
-
 	/**
 	 * Обертка вокруг метода audioManager.
 	 * Проверяет не отключен ли уже саундтрек в настройках.
 	 * Если он отключен, то не подписываемся на запуск при
 	 * смене закладки.
 	 */
-	function resumeSoundtrackWrapper() {
+	function resumeSoundtrackWrapper () {
 
-		// Аналогичная проверка ведется в service
+		// Аналогичная проверка ведется в lessonService
 		// с аудиодорожкой. (НА ПАУЗУ)
 		if (settings.isActive(settings.SOUNDTRACK)) {
 
@@ -269,7 +279,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 	/**
 	 * Запуск / Пауза кода.
 	 */
-	function toggleCodeRun() {
+	function toggleCodeRun () {
 
 		clearMarker();
 
@@ -283,7 +293,7 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 
 		if (!CodeLauncher.isCodeRunning) {
 
-			service.intiateRunByUserClick();
+			lessonService.intiateRunByUserClick();
 
 			// При запуске кода
 			// выключаем окно инструкции.
@@ -294,19 +304,19 @@ function LessonController($scope, $stateParams, $state, service, audioManager, a
 		}
 		else {
 
-			service.stop();
+			lessonService.stop();
 
 		}
 
 	}
 
-	function onDestroy() {
+	function onDestroy () {
 
 		TabHandler.clear();
 
 	}
 
-	function errorWrapper(value) {
+	function errorWrapper (value) {
 
 		return '<p>Неисправность!! EГГ0Г!!</p> ' +
 			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +

@@ -27,17 +27,17 @@ function WhatDoesBBotSay() {
 							'<li>Добавьте команду <span class="under-label-gray">BBotDebug(\'Всем привет!\');</span> на <strong>5</strong> строку.</li>' +
 							'</ul>',
 		character:          [{
-			audio: 'audio/lesson2/4-1.mp3',
+			audio: 'audio/lesson2/4-1',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson2/4-2.mp3',
+			audio: 'audio/lesson2/4-2',
 			css:   'astromen-img',
 			marker:      {
 				x1: 2,
 				y2: Infinity
 			}
 		}, {
-			audio:       'audio/lesson2/4-3.mp3',
+			audio:       'audio/lesson2/4-3',
 			css:         'astrogirl-img',
 			waitForHint: true,
 			marker:      {
@@ -45,7 +45,7 @@ function WhatDoesBBotSay() {
 				y2: Infinity
 			}
 		}, {
-			audio:       'audio/lesson2/4-4.mp3',
+			audio:       'audio/lesson2/4-4',
 			css:         'astrogirl-img',
 			waitForHint: true,
 			hint:        [{
@@ -54,7 +54,7 @@ function WhatDoesBBotSay() {
 				'showSkip':              false
 			}]
 		}, {
-			audio:  'audio/lesson2/4-5.mp3',
+			audio:  'audio/lesson2/4-5',
 			css:    'astrogirl-img',
 			marker: {
 				x1: 5,
@@ -68,7 +68,7 @@ function WhatDoesBBotSay() {
 
 		return '<p>Надеюсь вы не забыли о своем роботе-компаньоне?</p>' +
 			'<p>Если вы хотите узнать какие-то данные от BBot\'а, можно вызвать команду:</p>' +
-			'<pre>BBotDebug(\'то, что хотим сказать\');</pre>' +
+			'<pre><strong>BBotDebug</strong>(\'то, что хотим сказать\');</pre>' +
 			'<p>BBotDebug поможет нам с выводом нужных параметров и проверкой работоспособности системы.</p>';
 
 	}
@@ -89,7 +89,7 @@ function WhatDoesBBotSay() {
 			});
 
 		}
-		
+
 		var lessonResults = LessonResults({
 
 			correct: '<p>Хах, я п0лучил нужные данные! Транслирую:</p>' +

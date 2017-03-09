@@ -30,6 +30,8 @@ function LessonBoard($sce, lessonService) {
 		$scope.getInstructions = getInstructions;
 		$scope.showHint = showHint;
 
+		$scope.$watch('lesson', onLessonChange);
+
 		// ==================================================
 		// ======================PUBLIC======================
 		// ==================================================
@@ -40,7 +42,11 @@ function LessonBoard($sce, lessonService) {
 		function getContent () {
 
 			// Проверка html на предмет xss
-			return $sce.trustAsHtml($scope.lesson.content());
+			if ($scope.lesson) {
+
+				return $sce.trustAsHtml($scope.lesson.content());
+
+			}
 
 		}
 
@@ -49,7 +55,7 @@ function LessonBoard($sce, lessonService) {
 		 */
 		function getHint () {
 
-			if ($scope.lesson.hint) {
+			if ($scope.lesson && $scope.lesson.hint) {
 
 				return $sce.trustAsHtml($scope.lesson.hint);
 
@@ -62,7 +68,11 @@ function LessonBoard($sce, lessonService) {
 		 */
 		function getInstructions () {
 
-			return $sce.trustAsHtml($scope.lesson.instructions);
+			if ($scope.lesson) {
+
+				return $sce.trustAsHtml($scope.lesson.instructions);
+
+			}
 
 		}
 
@@ -90,12 +100,17 @@ function LessonBoard($sce, lessonService) {
 				// TODO если потребуеться по умолчанию штрафовать пользователь больше чем на ноль очков
 				// то заменить 0 на необходимое значение
 				var showHitPenaltyPointsSize = lessonService.getCurrentLessonContentPoints()
-					                                        .showHitPenaltyPointsSize ||
-					                            0;
+					                                        .showHitPenaltyPointsSize || 0;
 
 				currentLessonStatistics.incPenaltyPointsForGame(showHitPenaltyPointsSize);
 
 			}
+
+		}
+
+		function onLessonChange() {
+
+			$scope.hint = false;
 
 		}
 

@@ -25,7 +25,11 @@ module.exports = LessonService;
  * @since 07.05.2016
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService, settings, statisticsStorage) {
+function LessonService(connection,
+					   audioManager,
+					   aceService,
+					   settings,
+					   statisticsStorage) {
 
 	var that = {};
 
@@ -73,8 +77,6 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	that.clear = clear;
 
 	return that;
-
-
 
 	/**
 	 * Метод очистки содержимого сервиса.
@@ -365,6 +367,9 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 		// Сокрытие панели инструкций
 		scope.showTextContent = false;
 
+		// Сокрытие диаграммы и очистка оной
+		scope.showDiagram = false;
+
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
 
@@ -386,7 +391,9 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 			endLastSubLesson();
 
 			// Обновляем игровые объекты на начальные значения или нет?
-			currentSubLesson().gamePostUpdate && Game.restart();
+			currentSubLesson().gamePostUpdate &&
+			!currentSubLesson().isRestartDisabled &&
+			Game.restart();
 
 			initNextLesson();
 
@@ -476,11 +483,11 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	function loadLessons() {
 
 		// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-		connection.getLessonsStatistics(function (result) {
+		connection.getLessonsStatistics(function (data) {
 
 			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-			lessons = result.data.lessons || [];
-			totalFinalScore = result.data.totalFinalScore || 0;
+			lessons = data.lessons || [];
+			totalFinalScore = data.totalFinalScore || 0;
 
 			prepareLesson(getCurrentLesson());
 
@@ -515,6 +522,10 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 		// перед его началом.
 		// В противном случае - осуществляем выгрузку данных,
 		// которая в последующем спровоцирует их подготовку перед началом урока.
+		//------------------------------------------------------------------------
+		// TODO
+		// вынести выгрузку в resolve!!!!
+		//------------------------------------------------------------------------
 		if (lessons && lessons.length) {
 
 			prepareLesson(getCurrentLesson());
@@ -702,7 +713,9 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	 */
 	function lessonContent(num) {
 
-		return ContentFactory.content(num).lessonContent;
+		var currentContent = ContentFactory.content(num);
+
+		return currentContent && currentContent.lessonContent;
 
 	}
 

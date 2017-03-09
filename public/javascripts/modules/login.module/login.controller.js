@@ -2,7 +2,7 @@
 
 var ENTER = 13;
 
-LoginController.$inject = ['$scope', '$state', 'authentication', 'authService'];
+LoginController.$inject = ['$scope', '$state', 'authentication'];
 
 module.exports = LoginController;
 
@@ -12,7 +12,7 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication, authService) {
+function LoginController($scope, $state, authentication) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;
@@ -60,13 +60,13 @@ function LoginController($scope, $state, authentication, authService) {
 
 			var email = $scope.loginForm.email.$modelValue;
 
-			var pass = $scope.loginForm.password.$modelValue;
+			var password = $scope.loginForm.password.$modelValue;
 
 			var subscribe = $scope.isSubscribeOnEmail;
 
 			authentication.register({
 										email:              email,
-										password:           pass,
+										password:           password,
 										isSubscribeOnEmail: subscribe,
 										success:            toLesson,
 										error:              error
@@ -76,17 +76,18 @@ function LoginController($scope, $state, authentication, authService) {
 
 	}
 
+	/**
+	 * Состояние ошибки
+	 */
+	function error(errorDescription) {
 
-	// Состояние ошибки
-	function error(res) {
-
-		$scope.error = res.data;
+		$scope.error = errorDescription;
 
 	}
 
 	/**
 	 * Вход в систему.
-	 */
+     */
 	function login() {
 
 		// Если взаимодействовали с формой и форма заполнена корректно.
@@ -95,6 +96,11 @@ function LoginController($scope, $state, authentication, authService) {
 			var email = $scope.loginForm.email.$modelValue;
 
 			var password = $scope.loginForm.password.$modelValue;
+
+
+			authentication.login($scope.email,
+								 $scope.password,
+								 error);
 
 			authentication.login({
 									 email:    email,

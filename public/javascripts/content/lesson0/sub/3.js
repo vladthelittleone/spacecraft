@@ -25,10 +25,10 @@ function GalaxyYear() {
 							'<li>Например: <span class="under-label">21 / 250</span>.</li>' +
 							'</ul>',
 		character:          [{
-			audio: 'audio/lesson1/2-1.mp3',
+			audio: 'audio/lesson1/2-1',
 			css:   'astromen-img'
 		}, {
-			audio:       'audio/lesson1/2-2.mp3',
+			audio:       'audio/lesson1/2-2',
 			css:         'astromen-img',
 			waitForHint: true,
 			hint:        [{
@@ -38,7 +38,7 @@ function GalaxyYear() {
 			}]
 		}],
 		interpreterHandler: function (value) {
-			
+
 			var lessonResults = LessonResults({
 				correct: '<p>Ура! BBot разобрал человеческий возраст, транслирую:</p>'
 						 + '<p class="bbot-output">' + value + 'GY</p>',

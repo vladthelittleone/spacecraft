@@ -24,10 +24,10 @@ function Comments() {
 							'<li>Для самостоятельного изучения: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Комментарии">клац</a>.</li>' +
 							'</ul>',
 		character:          [{
-			audio:  'audio/lesson2/5-1.mp3',
+			audio:  'audio/lesson2/5-1',
 			css:    'astromen-img'
 		},{
-			audio:  'audio/lesson2/5-2.mp3',
+			audio:  'audio/lesson2/5-2',
 			css:    'astromen-img',
 			hint:   [
 				{
@@ -37,17 +37,17 @@ function Comments() {
 				}
 			]
 		},{
-			audio:  'audio/lesson2/5-3.mp3',
+			audio:  'audio/lesson2/5-3',
 			css:    'astromen-img'
 		},{
-			audio:  'audio/lesson2/5-4.mp3',
+			audio:  'audio/lesson2/5-4',
 			css:    'astromen-img',
 			marker:      {
 				x1: 1,
 				y2: Infinity
 			}
 		},{
-			audio:  'audio/lesson2/5-5.mp3',
+			audio:  'audio/lesson2/5-5',
 			css:    'astromen-img',
 			marker:      {
 				x1: 3,
@@ -55,10 +55,10 @@ function Comments() {
 				y2: Infinity
 			}
 		},{
-			audio:  'audio/lesson2/5-6.mp3',
+			audio:  'audio/lesson2/5-6',
 			css:    'astrogirl-img'
 		},{
-			audio:  'audio/lesson2/5-7.mp3',
+			audio:  'audio/lesson2/5-7',
 			css:    'astrogirl-img',
 			marker:      {
 				x1: 8,
@@ -70,7 +70,7 @@ function Comments() {
 	};
 
 	function interpreterHandler(value) {
-		
+
 		var lessonResults = LessonResults({
 
 			correct: '<p>Что-т0 преднозначенное для человека! Комментарии?</p>',

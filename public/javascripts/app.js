@@ -41,7 +41,7 @@ require('./services');
 require('./directives');
 
 runBlock.$inject = ['authentication', '$rootScope', '$state'];
-configBlock.$inject = ['$urlRouterProvider', 'ChartJsProvider'];
+configBlock.$inject = ['$urlRouterProvider', '$locationProvider'];
 
 angular.module('spacecraft').config(configBlock);
 angular.module('spacecraft').run(runBlock);
@@ -49,7 +49,15 @@ angular.module('spacecraft').run(runBlock);
 /**
  * Конфигурация сервисов до старта приложения.
  */
-function configBlock($urlRouterProvider, ChartJsProvider) {
+function configBlock($urlRouterProvider, $locationProvider) {
+
+	// Включаем адреса без решетки (#).
+	$locationProvider.html5Mode({
+
+									enabled:      true,
+									rewriteLinks: false
+
+								});
 
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');
@@ -61,20 +69,6 @@ function configBlock($urlRouterProvider, ChartJsProvider) {
  */
 function runBlock(authentication, $rootScope, $state) {
 
-	var LOGIN_STATE = 'login';
-
-	$rootScope.$on("$stateChangeStart", function(event, toState) {
-
-		// Если мы не авторизованы и отсутствуют куки.
-		if (!authentication.isAuthenticated && toState.name != LOGIN_STATE) {
-
-			// Отменяем маршрутизацию.
-			event.preventDefault();
-
-			$state.go(LOGIN_STATE);
-
-		}
-
-	});
+	// Оставим определение метода пустым на случай необходимости.
 
 }

@@ -10,6 +10,7 @@ var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
 var Scout = require('./scout');
+var Cruiser = require('./cruiser');
 
 var Random = require('../../utils/random');
 
@@ -37,6 +38,7 @@ function EntitiesFactory() {
 	t.createMeteorField = createMeteorField;
 	t.createMine = createMine;
 	t.createScout = createScout;
+	t.createCruiser = createCruiser;
 	t.getWorld = getWorld;
 
 	return t;
@@ -53,6 +55,21 @@ function EntitiesFactory() {
 		player && world.setPlayer(id);
 
 		return scout;
+
+	}
+
+	/**
+	 * Создать крузер.
+	 */
+	function createCruiser(game, x, y, player) {
+
+		var cruiser = Cruiser(game, x, y, player);
+
+		var id = world.pushObject(cruiser);
+
+		player && world.setPlayer(id);
+
+		return cruiser;
 
 	}
 

@@ -12,10 +12,11 @@ function Content() {
 
 	var points = {
 		// Изначальное число очков у игрока на уроке.
-		totalPoints: 300,
+		totalPoints: 450,
 		// Штрафные очки за действия на уроке.
 		exception: 50,
-		incorrectInput: 50
+		incorrectInput: 50,
+		showHitPenaltyPointsSize: 50
 	};
 
 	return {

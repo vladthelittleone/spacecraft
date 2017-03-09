@@ -79,7 +79,7 @@ function Alert() {
 		// результат отрицательный.
 		if (!transport.isAlive()) {
 
-			var lessonPoints = lessonStatistics.getFLessonContentPoints();
+			var lessonPoints = lessonStatistics.getLessonContentPoints();
 
 			// Устанавливаем штрафные очки за не остановку корабля :)
 			lessonStatistics.incPenaltyPointsForGame(lessonPoints.missionStopTransportFail);

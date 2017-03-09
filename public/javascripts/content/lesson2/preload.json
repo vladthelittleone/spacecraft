@@ -1,6 +1,7 @@
 {
 	"scout": "images/sprites/entities/scout.png",
 	"harvester": "images/sprites/entities/harvester.png",
+	"cruiser": "images/sprites/entities/cruiser.png",
 	"base": "images/sprites/entities/base.png",
 	"starField": "images/sprites/starField.png",
 	"shield": "images/sprites/entities/shared/shield.png",

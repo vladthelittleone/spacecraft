@@ -46,12 +46,10 @@ function Investigation() {
 
 		});
 
-		var x = 2000 - scout.getX();
-		var y = 2000 - scout.getY();
-		var d = Math.sqrt(x * x + y * y);
+		if (scout.distanceTo(2000, 2000) < 100) {
 
-		if (d < 100) {
 			return lessonResults.resultCorrect();
+
 		}
 
 		return lessonResults.text();

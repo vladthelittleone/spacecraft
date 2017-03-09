@@ -21,10 +21,10 @@ function AcademyProgram() {
 					  '<li>Нажмите "Далее" для продолжения.</li>' +
 					  '</ul>',
 		character:    [{
-			audio:  'audio/lesson2/1-1.mp3',
+			audio:  'audio/lesson2/1-1',
 			css:    'astromen-img'
 		}, {
-			audio:  'audio/lesson2/1-2.mp3',
+			audio:  'audio/lesson2/1-2',
 			css:    'astrogirl-img'
 		}]
 	};

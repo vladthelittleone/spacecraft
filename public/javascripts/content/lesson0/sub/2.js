@@ -23,7 +23,7 @@ function YourName() {
 							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 							'</ul>',
 		character:          [{
-			audio: 'audio/lesson1/1-1.mp3',
+			audio: 'audio/lesson1/1-1',
 			css:   'astromen-img',
 			hint:  [{
 				'next .ace_scroller': 'Введите свое имя в кавычках',
@@ -31,7 +31,7 @@ function YourName() {
 				'showSkip':           false
 			}]
 		}, {
-			audio:       'audio/lesson1/1-2.mp3',
+			audio:       'audio/lesson1/1-2',
 			css:         'astrogirl-img',
 			waitForHint: true,
 			hint:        [{

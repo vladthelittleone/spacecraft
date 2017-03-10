@@ -26,7 +26,7 @@ function Strings() {
 							'<li>Больше информации о строках: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Строки">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +
-							'<li>Значения указываемые непосредственно в программном коде называются <strong>литералами</strong>.</li>' +
+							'<li>Значения, указываемые непосредственно в программном коде, называются <strong>литералами</strong>.</li>' +
 							'<li>Введите <span class="under-label-gray">\'Я есть BBot!\'</span> на <strong>10</strong> строке.</li>' +
 							'</ul>',
 		character:          [{

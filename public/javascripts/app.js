@@ -8,6 +8,7 @@ require('angular-ui-layout');
 require('angular-ui-ace');
 require('angular-http-auth');
 require('angular-cookies');
+require('angular-messages');
 
 /**
  * Подключаем изменение прототипа.
@@ -29,10 +30,12 @@ angular.module('spacecraft', [
 		'ui.layout',
 		'spacecraft.modules',
 		'http-auth-interceptor',
-		'ngCookies'
+		'ngCookies',
+		'ngMessages'
 	])
 	.config(configBlock)
 	.run(runBlock);
+
 
 /**
  * Загружаем директивы, сервисы.

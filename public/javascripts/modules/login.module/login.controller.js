@@ -20,28 +20,26 @@ function LoginController($scope, $state, authentication) {
 	// По дефолту считаем, что человек согласен на рассылку
 	$scope.isSubscribeOnEmail = true;
 
-	$scope.loginByKey = loginByKey;
+	$scope.changeForm = changeForm;
+	$scope.changeSubscribe = changeSubscribe;
 	$scope.register = register;
 	$scope.login = login;
 
 	// ==================================================
 
-	/**
-	 * Обработка нажатия клавиши 'Enter'
-	 */
-	function loginByKey(code) {
+	function changeSubscribe() {
 
-		if (code === ENTER) {
-
-			$scope.login();
-
-		}
+		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
 
 	}
 
-	/**
-	 * Переход на состояние первого урока
-	 */
+	function changeForm() {
+
+		$scope.isEnterForm = !$scope.isEnterForm;
+
+	}
+
+	// Переход на состояние первого урока
 	function toLesson() {
 
 		login(function () {
@@ -57,19 +55,24 @@ function LoginController($scope, $state, authentication) {
 	 */
 	function register() {
 
-		var email = $scope.email;
+		// Если взаимодействовали с формой и форма заполнена корректно.
+		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-		var pass = $scope.password;
+			var email = $scope.loginForm.email.$modelValue;
 
-		var subscribe = $scope.isSubscribeOnEmail;
+			var password = $scope.loginForm.password.$modelValue;
 
-		authentication.register({
-									email:              email,
-									password:           pass,
-									isSubscribeOnEmail: subscribe,
-									success:            toLesson,
-									error:              error
-								});
+			var subscribe = $scope.isSubscribeOnEmail;
+
+			authentication.register({
+										email:              email,
+										password:           password,
+										isSubscribeOnEmail: subscribe,
+										success:            toLesson,
+										error:              error
+									});
+
+		}
 
 	}
 
@@ -84,12 +87,29 @@ function LoginController($scope, $state, authentication) {
 
 	/**
 	 * Вход в систему.
-	 */
+     */
 	function login() {
 
-		authentication.login($scope.email,
-							 $scope.password,
-							 error);
+		// Если взаимодействовали с формой и форма заполнена корректно.
+		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
+
+			var email = $scope.loginForm.email.$modelValue;
+
+			var password = $scope.loginForm.password.$modelValue;
+
+
+			authentication.login($scope.email,
+								 $scope.password,
+								 error);
+
+			authentication.login({
+									 email:    email,
+									 password: password,
+									 success:  authService.loginConfirmed,
+									 error:    error
+								 });
+
+		}
 
 	}
 

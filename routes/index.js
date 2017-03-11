@@ -9,6 +9,7 @@ const logout = require('./logout');
 const reg = require('./registration');
 const statistic = require('./statistic');
 const metrics = require('./metrics');
+const quiz = require('./quiz');
 const checkAuthentication = require('./../middlewares/check-authentication');
 
 const HttpError = require('error').HttpError;
@@ -27,6 +28,7 @@ module.exports = function (app)
 	app.use('/', main);
 	app.use('/user', user);
 	app.use('/statistic', statistic);
-	app.use('/metrics', metrics)
+	app.use('/metrics', metrics);
+	app.use('/quiz', quiz)
 };
 

@@ -1,10 +1,10 @@
 var express = require('express');
 var Cohorts = require('models/cohorts').Cohorts;
+var Quiz = require('models/quiz').Quiz;
 var router = express.Router();
+const logger = require('utils/log')(module);
 
 router.post('/openlessons', function (req, res, next) {
-
-	let idUser = req.user._id;
 
 	Cohorts.updateCohort(idUser, function(data, cohortID) {
 

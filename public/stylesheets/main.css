@@ -1742,25 +1742,25 @@ fieldset, label {
 /*.leadboard-table tr:nth-child(1) .table-number span,*/
 /*.leadboard-table tr:nth-child(2) .table-number span,*/
 /*.leadboard-table tr:nth-child(3) .table-number span {*/
-	/*display: none;*/
+/*display: none;*/
 /*}*/
 
 /*.leadboard-table tr:nth-child(1) .table-number:after {*/
-	/*content: '●';*/
-	/*font-size: 18px;*/
-	/*color: #fdfd2f;*/
+/*content: '●';*/
+/*font-size: 18px;*/
+/*color: #fdfd2f;*/
 /*}*/
 
 /*.leadboard-table tr:nth-child(2) .table-number:after {*/
-	/*content: '●';*/
-	/*font-size: 18px;*/
-	/*color: #cbd7cd;*/
+/*content: '●';*/
+/*font-size: 18px;*/
+/*color: #cbd7cd;*/
 /*}*/
 
 /*.leadboard-table tr:nth-child(3) .table-number:after {*/
-	/*content: '●';*/
-	/*font-size: 18px;*/
-	/*color: #fd913f;*/
+/*content: '●';*/
+/*font-size: 18px;*/
+/*color: #fd913f;*/
 /*}*/
 
 /***** CSS Magic to Highlight Stars on Hover *****/
@@ -1783,4 +1783,14 @@ fieldset, label {
 .login-button-group .vk-button {
 	margin-top: 5px;
 	width: 100%;
+}
+
+.login-form input.ng-invalid.ng-dirty {
+	border: 1px solid #c41f0e;
+	border-bottom: 2px solid #c41f0e;
+}
+
+.login-form input.ng-valid.ng-dirty {
+	border: 1px solid #39C139;
+	border-bottom: 2px solid #39C139;
 }

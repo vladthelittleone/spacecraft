@@ -1482,13 +1482,14 @@ div.helper {
 	margin: auto;
 }
 
-.login-button-group button a,
-.login-button-group button a:hover {
+.login-button-group a,
+.login-button-group a:hover {
 	color: white;
 	text-decoration: none;
 }
 
-.login-button-group button {
+.login-button-group button,
+.login-button-group .vk-button {
 	width: 49%;
 	height: 35px;
 	border: 0;
@@ -1498,7 +1499,8 @@ div.helper {
 	outline: 0;
 }
 
-.login-button-group button:hover {
+.login-button-group button:hover,
+.login-button-group .vk-button:hover {
 	background: rgba(38, 77, 102, 0.98);
 }
 
@@ -1783,6 +1785,10 @@ fieldset, label {
 .login-button-group .vk-button {
 	margin-top: 5px;
 	width: 100%;
+	margin-top: 5px;
+	width: 100%;
+	text-align: center;
+	padding: 7px;
 }
 
 .login-form input.ng-invalid.ng-dirty {

@@ -18,7 +18,9 @@
 					{{isEnterForm ? "Войдите в систему:" : "Зарегистрируйтесь в системе:"}}
 				</div>
 
-				<form name="loginForm" class="login-form" novalidate>
+				<form name="loginForm"
+					  class="login-form"
+					  novalidate>
 					<div class="login-input">
 						<label>
 							<input type="email"
@@ -27,10 +29,9 @@
 								   class="login-email"
 								   placeholder="Email"
 								   ng-minlength="8"
-								   ng-maxlength="100"
+								   ng-maxlength="60"
 								   ng-focus="loginForm.$elementOnFocus=loginForm.email.$name;
 								   			 errorMessage = null"
-
 								   required=""
 								   validate-email>
 						</label>
@@ -43,7 +44,7 @@
 								   ng-model="password"
 								   placeholder="Пароль"
 								   ng-minlength="8"
-								   ng-maxlength="100"
+								   ng-maxlength="60"
 								   ng-focus="loginForm.$elementOnFocus=loginForm.password.$name;
 								   			 errorMessage = null"
 								   required="">
@@ -63,11 +64,11 @@
 						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 					</button>
 
-					<a href="/vk">
-						<button ng-show="isEnterForm" class="vk-button">
+					<div ng-show="isEnterForm" class="vk-button">
+						<a href="/vk">
 							<span>Войти через ВКонтакте</span>
-						</button>
-					</a>
+						</a>
+					</div>
 
 				</div>
 

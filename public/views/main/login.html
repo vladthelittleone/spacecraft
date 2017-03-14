@@ -1,5 +1,6 @@
 <div class="login-background"></div>
-<div class="login-landing">
+<div ng-cloak
+	 class="login-landing">
 	<div class="login-container login-main">
 		<div class="login-vertical-center">
 			<div class="login-left-container">
@@ -17,7 +18,8 @@
 					{{isEnterForm ? "Войдите в систему:" : "Зарегистрируйтесь в системе:"}}
 				</div>
 
-				<form name="loginForm" novalidate>
+				<form name="loginForm"
+					  novalidate>
 					<div class="login-input">
 						<label>
 							<input type="email"
@@ -26,9 +28,12 @@
 								   class="login-email"
 								   placeholder="Email"
 								   ng-minlength="8"
-								   ng-maxlength="25"
-								   ng-focus="loginForm.$elementOnFocus=loginForm.email.$name"
-								   required="">
+								   ng-maxlength="200"
+								   ng-focus="loginForm.$elementOnFocus=loginForm.email.$name;
+								   			 errorMessage = null"
+
+								   required=""
+								   validate-email>
 						</label>
 					</div>
 
@@ -39,8 +44,9 @@
 								   ng-model="password"
 								   placeholder="Пароль"
 								   ng-minlength="8"
-								   ng-maxlength="25"
-								   ng-focus="loginForm.$elementOnFocus=loginForm.password.$name"
+								   ng-maxlength="50"
+								   ng-focus="loginForm.$elementOnFocus=loginForm.password.$name;
+								   			 errorMessage = null"
 								   required="">
 						</label>
 					</div>
@@ -85,11 +91,15 @@
 
 						<!--Если элемент находится в фокусе, либо проверка password'a уже прошла успешно-->
 						<div ng-if="loginForm.$elementOnFocus === loginForm.email.$name ||
-							loginForm.password.$valid"
+									loginForm.password.$valid"
 							 ng-messages="loginForm.email.$error">
 							<div ng-message="required">Пожалуйста, укажите Ваш email</div>
-							<div ng-message="minlength">Длина Вашей почты должна быть не менее {{loginForm.email.$$attr.minlength}} символов</div>
-							<div ng-message="maxlength">Длина Вашей почты не должна превышать {{loginForm.email.$$attr.maxlength}} символов</div>
+							<div ng-message="minlength">Длина Вашей почты должна быть не менее
+								{{loginForm.email.$$attr.minlength}} символов
+							</div>
+							<div ng-message="maxlength">Длина Вашей почты не должна превышать
+								{{loginForm.email.$$attr.maxlength}} символов
+							</div>
 							<div ng-message="email">Пожалуйста, укажите корректный email адрес</div>
 						</div>
 
@@ -98,8 +108,12 @@
 									loginForm.email.$valid"
 							 ng-messages="loginForm.password.$error">
 							<div ng-message="required">Пожалуйста, укажите Ваш пароль</div>
-							<div ng-message="minlength">Длина Вашего пароля должна быть не менее {{loginForm.password.$$attr.minlength}} символов</div>
-							<div ng-message="maxlength">Длина Вашего пароля не должна превышать {{loginForm.password.$$attr.maxlength}} символов</div>
+							<div ng-message="minlength">Длина Вашего пароля должна быть не менее
+								{{loginForm.password.$$attr.minlength}} символов
+							</div>
+							<div ng-message="maxlength">Длина Вашего пароля не должна превышать
+								{{loginForm.password.$$attr.maxlength}} символов
+							</div>
 						</div>
 
 					</div>

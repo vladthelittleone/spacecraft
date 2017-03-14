@@ -45,40 +45,47 @@
 						</label>
 					</div>
 
-					<div class="login-button-group">
-						<button ng-click="isEnterForm ? login() : register()">
-							<span>OK</span>
+				</form>
+
+				<div class="login-button-group">
+
+					<button ng-click="isEnterForm ? login() : register()">
+						<span>OK</span>
+					</button>
+
+					<button class="float-right"
+							ng-click="changeForm()">
+						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
+					</button>
+
+					<a href="/vk">
+						<button ng-show="isEnterForm" class="vk-button">
+							<span>Войти через ВКонтакте</span>
 						</button>
+					</a>
 
-						<button class="float-right"
-								ng-click="changeForm()">
-							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
-						</button>
+				</div>
 
-						<a href="/vk">
-							<button ng-show="isEnterForm" class="vk-button">
-								<span>Войти через ВКонтакте</span>
-							</button>
-						</a>
-
-					</div>
-
-					<div class="login-input login-checkbox">
-						<div ng-show="!isEnterForm"
-							 class="login-checkbox-title" ng-click=changeSubscribe()>
+				<div class="login-input login-checkbox">
+					<div ng-show="!isEnterForm"
+						 class="login-checkbox-title" ng-click=changeSubscribe()>
 						<span ng-class="{'glyphicon glyphicon-check' : isSubscribeOnEmail,
 										 'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
 						</span>
-							получать звёздные новости на e-mail
-						</div>
+						получать звёздные новости на e-mail
 					</div>
+				</div>
 
-					<div ng-if="loginForm.$submitted || loginForm.$dirty"
-						 class="login-input-title login-error">
+				<!--Раздел вывода сообщения об ошибочной ситуации заполнения формы или состояния регистрации/авторизации
+                на сервере-->
+				<div class="login-input-title login-error">
+					<!--Если форма была отправлена или с ней было взаимодействия И отсутствует сообщение об ошибке
+                    от контроллера.-->
+					<div ng-if="(loginForm.$submitted || loginForm.$dirty) && loginForm.$invalid">
 
 						<!--Если элемент находится в фокусе, либо проверка password'a уже прошла успешно-->
 						<div ng-if="loginForm.$elementOnFocus === loginForm.email.$name ||
-									loginForm.password.$valid"
+							loginForm.password.$valid"
 							 ng-messages="loginForm.email.$error">
 							<div ng-message="required">Пожалуйста, укажите Ваш email</div>
 							<div ng-message="minlength">Длина Вашей почты должна быть не менее 8 символов</div>
@@ -97,9 +104,11 @@
 
 					</div>
 
-				</form>
+					<!--Отображаем сообщение об ошибке из контроллера только в случае, когда с формой все впорядке.
+                        В противном случае, пользователю уже будет показываться сообщение о проблеме с заполнением формы.-->
+					<div ng-if="loginForm.$valid">{{errorMessage}}</div>
 
-				<div class="login-input-title login-error">{{error}}</div>
+				</div>
 
 			</div>
 		</div>

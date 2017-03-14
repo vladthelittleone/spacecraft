@@ -37,11 +37,7 @@ router.get('/vk/callback', passport.authenticate('vk-login', {
 
 }));
 
-router.post("/login", validation.checkEmailAndPassword, passport.authenticate('local-login', {
-
-	successRedirect: '/'
-
-}));
+router.post("/login", validation.checkEmailAndPassword, passport.authenticate('local-login'));
 
 /**
  * ------------------------------------------------------------
@@ -61,8 +57,4 @@ router.post('/logout', checkAuthentication, (req, res, next) => {
  * РЕГИСТРАЦИЯ
  * ------------------------------------------------------------
  */
-router.post('/register', validation.checkEmailAndPassword, passport.authenticate('local-registration', {
-
-	successRedirect: '/login'
-
-}));
+router.post('/register', validation.checkEmailAndPassword, passport.authenticate('local-registration'));

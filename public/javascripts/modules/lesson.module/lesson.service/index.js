@@ -14,6 +14,8 @@ var AudioWrapper = require('./audio');
 var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
+var lodash = require('lodash');
+
 LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
 
 module.exports = LessonService;
@@ -417,7 +419,7 @@ function LessonService(connection,
 	function endLesson() {
 
 		// Выводим доску оценки подурока
-		scope.lessonIsCompleted = true;
+		scope.isStarsVisiable = true;
 		isCurrentLessonCompleted = true;
 
 		// Вызываем коллбэки, которые подписались на скрытие вкладки,
@@ -493,11 +495,7 @@ function LessonService(connection,
 			lessons = data.lessons || [];
 			totalFinalScore = data.totalFinalScore || 0;
 
-			if(data.completed) {
-
-				isCurrentLessonCompleted =  true;
-
-			}
+			isCurrentLessonCompleted =  lodash.isNil(data.completed);
 
 			prepareLesson(getCurrentLesson());
 

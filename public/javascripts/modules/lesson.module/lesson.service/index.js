@@ -495,7 +495,7 @@ function LessonService(connection,
 			lessons = data.lessons || [];
 			totalFinalScore = data.totalFinalScore || 0;
 
-			isCurrentLessonCompleted =  lodash.isNil(data.completed);
+			isCurrentLessonCompleted = !lodash.isNil(data.completed);
 
 			prepareLesson(getCurrentLesson());
 

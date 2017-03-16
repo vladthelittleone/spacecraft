@@ -76,18 +76,21 @@
 	<div class="right-toolbar-new-group right-toolbar-button glyphicon"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{hideEditor ? 'Показать область редактирования скрипта' : 'Убрать область редактирования скрипта'}}"
+		 uib-tooltip="{{hideEditor ? 'Показать редактор кода' : 'Убрать редактор кода'}}"
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
 
 	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showTextContent ? 'Скрыть подсказки' : 'Показать подсказки'}}"
+		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
 		 ng-click="toggleTextContent()"
 		 ng-class="{'glyphicon-chevron-right' : showTextContent}"></div>
 
 	<div class="right-toolbar-button glyphicon"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
 		 ng-click="toggleDiagram()"
 		 ng-show="isLessonWithDiagram()"
 		 ng-class="{'glyphicon-chevron-right' : showDiagram, 'glyphicon-object-align-vertical' : !showDiagram}"></div>
@@ -102,13 +105,13 @@
 	<div class="right-toolbar-button glyphicon glyphicon-fast-backward"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="Перейти к чекпоинту"
+		 uib-tooltip="Повторить инструкции"
 		 ng-click="previousAudio()"></div>
 
 	<div class="right-toolbar-button glyphicon"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{audioPause ? 'Запустить аудио' : 'Остановить аудио'}}"
+		 uib-tooltip="{{audioPause ? 'Запустить инструкцию' : 'Остановить инструкцию'}}"
 		 ng-click="toggleAudioPause()"
 		 ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></div>
 

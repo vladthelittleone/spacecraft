@@ -1489,6 +1489,7 @@ div.helper {
 }
 
 .login-button-group button,
+.login-button-group input,
 .login-button-group .vk-button {
 	width: 49%;
 	height: 35px;
@@ -1500,6 +1501,7 @@ div.helper {
 }
 
 .login-button-group button:hover,
+.login-button-group input:hover,
 .login-button-group .vk-button:hover {
 	background: rgba(38, 77, 102, 0.98);
 }
@@ -1783,8 +1785,6 @@ fieldset, label {
 }
 
 .login-button-group .vk-button {
-	margin-top: 5px;
-	width: 100%;
 	margin-top: 5px;
 	width: 100%;
 	text-align: center;

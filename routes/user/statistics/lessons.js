@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @since 16.02.17
  * @author greezlock

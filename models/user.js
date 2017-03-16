@@ -1,9 +1,13 @@
+'use strict';
+
 var crypto = require('crypto');
 var async = require('async');
 var mongoose = require('utils/mongoose');
 var HttpError = require('error').HttpError;
 
 var HttpStatus = require('http-status-codes');
+
+var lodash = require('lodash');
 
 var Schema = mongoose.Schema;
 
@@ -130,6 +134,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 					
 									email:              email,
 									password:           password,
+									username:           lodash.first(email.split('@')),
 									isSubscribeOnEmail: isSubscribeOnEmail
 					
 								});
@@ -155,7 +160,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
  * Функция ищет пользователя по его vk id
  * если пользователь не найдет функция создает нового пользователя в базе
  */
-function findOrCreateVKUser(vkId, email, callback) {
+function findOrCreateVKUser(vkId, email, name, callback) {
 	
 	let User = this;
 	
@@ -172,8 +177,9 @@ function findOrCreateVKUser(vkId, email, callback) {
 				
 								let newbie = new User({
 					
-									email: email,
-									vkId:  vkId
+									email:    email,
+									vkId:     vkId,
+									username: name
 					
 								});
 				

@@ -37,7 +37,7 @@ function LessonController ($scope,
 
 	CodeLauncher.onError = onError;
 
-	$scope.lessonIsCompleted = false;	// Переключатель окна оценки урока
+	$scope.isStarsVisiable = false;		// Переключатель окна оценки урока
 	$scope.starsHide = false;		    // Переключатель окна оценки урока
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.showTextContent = false;     // Переключатель текстового контента урока

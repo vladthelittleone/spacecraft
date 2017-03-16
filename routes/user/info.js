@@ -18,7 +18,8 @@ module.exports = router;
 router.get('/user/info', checkAuthentication, function (req, res, next) {
 
 	res.send({
-				 email: req.user.email
+				 email: req.user.email,
+				 name: req.user.username
 			 })
 
 });

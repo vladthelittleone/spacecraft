@@ -1,6 +1,8 @@
 'use strict';
 
 /**
+ * TODO сменить имя на statistics
+ *
  * Created by Ivan on 01.03.2016.
  */
 const logger = require('utils/log')(module);
@@ -201,11 +203,7 @@ function getLeaderboard (idUser, callback) {
 				totalFinalScore: true,
 				isItMe:          true
 			}
-		}], function (error, results) {
-
-			callback(error, results);
-
-		});
+		}], callback);
 
 	}
 

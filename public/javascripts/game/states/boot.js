@@ -41,6 +41,9 @@ function BootState(game) {
 
 		}
 
+		// Плагин дебаг
+		// game.add.plugin(Phaser.Plugin.Debug);
+
 		game.scale.pageAlignVertically = true;
 		game.scale.pageAlignHorizontally = true;
 

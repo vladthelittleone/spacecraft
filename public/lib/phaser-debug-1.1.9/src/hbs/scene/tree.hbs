@@ -1,0 +1,15 @@
+{{listItemOpen}}
+    {{typeString}}
+
+    {{#if name}}
+        <span class="weak">({{name}})</span>
+    {{/if}}
+
+    {{#if children}}
+        <ul>
+            {{#each children}}
+                {{> sceneTree}}
+            {{/each}}
+        </ul>
+    {{/if}}
+</li>

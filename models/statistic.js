@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by Ivan on 01.03.2016.
  */
@@ -139,29 +141,6 @@ function updateUserProgress (idUser, score, callback) {
 }
 
 /**
- * Метод формирования имен пользователей по электронным адресам.
- * Предполагается, что сами электронные адреса задаются в поле name каждого пользователя.
- * @param listOfUsers список пользователей.
- */
-function takeNameFromEmail (listOfUsers) {
-
-	listOfUsers.forEach(function (item) {
-
-		if (!item.name) {
-
-			logger.warn('Problem with generating name of user for leaderboard request!!!');
-
-		} else {
-
-			item.name = lodash.first(item.name.split('@'));
-
-		}
-
-	});
-
-}
-
-/**
  * Метод получения таблицы лидеров для указанного пользователя.
  * Указанный пользователь будет помечен в конечной таблице в поле
  * isItMe значением true.
@@ -173,7 +152,7 @@ function takeNameFromEmail (listOfUsers) {
  * Коллбэк формирующий из email адресов имена пользователей определен именно в контексте данного
  * метода, так как формирование нужных данных по таблице лидеров целесообразно
  * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
- * 
+ *
  * TODO
  * Сортировка по очкам. В случае равенства очков - смотреть на дату регистрации.
  */
@@ -207,7 +186,7 @@ function getLeaderboard (idUser, callback) {
 					$eq: ["$user._id", mongoose.Types.ObjectId(idUser)]
 				},
 				name:            {
-					$arrayElemAt: ['$user.email', 0]
+					$arrayElemAt: ['$user.username', 0]
 				},
 				regDate:         {
 					$arrayElemAt: ['$user.created', 0]
@@ -223,15 +202,6 @@ function getLeaderboard (idUser, callback) {
 				isItMe:          true
 			}
 		}], function (error, results) {
-
-			if (!error) {
-
-				// Обрабатываем поле с именем (name) каждого пользователя.
-				// На данный момент мы складываем туда email адреса, из которых
-				// и нужно "вырезать" имена.
-				takeNameFromEmail(results);
-
-			}
 
 			callback(error, results);
 

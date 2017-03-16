@@ -3,7 +3,6 @@
 WelcomeController.$inject = ['$scope',
 							 '$sce',
 							 'authentication',
-							 'connection',
 							 'authService',
 							 'lessonStatisticsData',
 							 'leaderBoardData',
@@ -21,7 +20,6 @@ var lodash = require('lodash');
 function WelcomeController($scope,
 						   $sce,
 						   authentication,
-						   connection,
 						   authService,
 						   lessonStatisticsData,
 						   leaderBoardData,
@@ -195,7 +193,7 @@ function WelcomeController($scope,
 	// Инициализация пользователя
 	function initUser(userInfo) {
 
-		$scope.mail = userInfo && userInfo.email;
+		$scope.name = userInfo && userInfo.name;
 
 	}
 

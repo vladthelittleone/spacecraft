@@ -25,6 +25,7 @@
     "angular-ui-ace": "^0.2.3",
     "angular-ui-layout": "^1.4.2",
     "angular-ui-router": "^0.3.1",
+	"angular-ui-bootstrap": "^2.2.0",
     "async": "^1.5.2",
     "body-parser": "~1.13.2",
     "compression": "^1.6.2",

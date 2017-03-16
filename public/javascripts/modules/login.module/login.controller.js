@@ -47,17 +47,11 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			var email = $scope.email;
-
-			var password = $scope.password;
-
-			var subscribe = $scope.isSubscribeOnEmail;
-
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
-										email:              email,
-										password:           password,
-										isSubscribeOnEmail: subscribe,
+										email:              $scope.email,
+										password:           $scope.password,
+										isSubscribeOnEmail: $scope.isSubscribeOnEmail,
 										success:            login,
 										error:              error
 									});
@@ -96,14 +90,12 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			var email = $scope.email;
-
-			var password = $scope.password;
-
-			authentication.login($scope.email,
-								 $scope.password,
-								 toWelcome,
-								 error);
+			authentication.login({
+									 email:              $scope.email,
+									 password:           $scope.password,
+									 success:            toWelcome,
+									 error:              error
+								 });
 
 		}
 

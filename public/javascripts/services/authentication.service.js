@@ -4,8 +4,7 @@ Authentication.$inject = ['connection',
 						  'lessonService',
 						  '$rootScope',
 						  '$state',
-						  '$timeout',
-						  'authService'];
+						  '$timeout'];
 
 module.exports = Authentication;
 
@@ -16,10 +15,6 @@ var lodash = require('lodash');
 /**
  * Сервис аутентификации.
  *
- * authService - сторонний сервис, реализует логику отлова 401 кода в ответах от сервера.
- * В данном сервисе он необходим, для регистрации обработчиков, на случай возникновения ответа
- * с этим кодом.
- *
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
@@ -27,8 +22,7 @@ function Authentication(connection,
 						lessonService,
 						$rootScope,
 						$state,
-						$timeout,
-						authService) {
+						$timeout) {
 	
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
 	$rootScope.$on('event:auth-loginRequired', function () {
@@ -176,26 +170,15 @@ function Authentication(connection,
 	
 	/**
 	 * Метод входа в систему.
-	 * Позволяет предоставить callback для обработки ошибочной ситуации,
-	 * касающейся именно контекста АВТОРИЗАЦИИ (log in) в системе.
-	 * Задача данного метода инкапсулировать вызов authService.loginConfirmed - регистрация
-	 * успшеной авторизации на сервисе.
-	 *
-	 * @param errorCallback коллбек ошибочного выполнения запроса
-	 * @param email идентификатор
-	 * @param password пароль
 	 */
-	function login(email,
-				   password,
-				   success,
-				   error) {
+	function login(args) {
 		
 		connection.login({
-							 email:    email,
-							 password: password
+							 email:    args.email,
+							 password: args.password
 						 },
-						 success,
-						 error);
+						 args.success,
+						 args.error);
 		
 	}
 	

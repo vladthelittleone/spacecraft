@@ -19,8 +19,8 @@
 				</div>
 
 				<form name="loginForm"
-					  ng-submit="isEnterForm ? login() : register()"
 					  class="login-form"
+					  ng-submit="isEnterForm ? login() : register()"
 					  novalidate>
 					<div class="login-input">
 						<label>
@@ -56,10 +56,13 @@
 
 					<div class="login-button-group">
 
-						<input type="submit" value="OK">
+						<button type="submit">
+							<span>OK</span>
+						</button>
 
-						<button class="float-right"
-								ng-click="changeForm()">
+						<button type="button"
+								class="float-right"
+								ng-click="changeForm();">
 							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 						</button>
 

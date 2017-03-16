@@ -31,8 +31,9 @@
 								   placeholder="Email"
 								   ng-minlength="8"
 								   ng-maxlength="60"
-								   ng-focus="loginForm.$lastElementOnFocus=loginForm.email.$name;
-								   			 errorMessage = null"
+								   ng-model-options="{ allowInvalid: true }"
+								   ng-change="loginForm.$submitted = false;
+											  errorMessage = null;"
 								   required=""
 								   validate-email>
 						</label>
@@ -46,8 +47,9 @@
 								   placeholder="Пароль"
 								   ng-minlength="8"
 								   ng-maxlength="60"
-								   ng-focus="loginForm.$lastElementOnFocus=loginForm.password.$name;
-								   			 errorMessage = null"
+								   ng-model-options="{ allowInvalid: true }"
+								   ng-change="loginForm.$submitted = false;
+											  errorMessage = null;"
 								   required="">
 						</label>
 					</div>
@@ -80,52 +82,28 @@
 					</div>
 
 				</form>
+
 				<!--Раздел вывода сообщения об ошибочной ситуации заполнения формы или состояния регистрации/авторизации
-                на сервере-->
+                на сервере
+                Если форма была отправлена-->
 				<div class="login-input-title login-error">
-					<!--Если форма была отправлена или с ней было взаимодействия И отсутствует сообщение об ошибке
-                    от контроллера.-->
-					<div ng-if="(loginForm.$submitted || loginForm.$dirty) && loginForm.$invalid">
 
-						<!--На случай, когда пользователь еще не взаимодействовал с формой (не брал ни один из
-						 элементов в фокус. это важно)-->
-						<div ng-if="!loginForm.$lastElementOnFocus"
-							 ng-messages="loginForm.$error">
-							<div ng-message="required">Пожалуйста, укажите свой логин и пароль</div>
-						</div>
+					<!--Если форма не валидна-->
+					<div ng-if="loginForm.$submitted && loginForm.$invalid"
+						 ng-messages="loginForm.$error">
 
-						<!--Если элемент находится в фокусе, либо проверка password'a уже прошла успешно-->
-						<div ng-if="loginForm.$lastElementOnFocus === loginForm.email.$name ||
-									loginForm.password.$valid"
-							 ng-messages="loginForm.email.$error">
-							<div ng-message="required">Пожалуйста, укажите Ваш email</div>
-							<div ng-message="minlength">Длина Вашей почты должна быть не менее
-								{{loginForm.email.$$attr.minlength}} символов
-							</div>
-							<div ng-message="maxlength">Длина Вашей почты не должна превышать
-								{{loginForm.email.$$attr.maxlength}} символов
-							</div>
-							<div ng-message="email">Пожалуйста, укажите корректный email адрес</div>
-						</div>
-
-						<!--Если элемент находится в фокусе, либо проверка email'a уже прошла успешно-->
-						<div ng-if="loginForm.$lastElementOnFocus === loginForm.password.$name ||
-									loginForm.email.$valid"
-							 ng-messages="loginForm.password.$error">
-							<div ng-message="required">Пожалуйста, укажите Ваш пароль</div>
-							<div ng-message="minlength">Длина Вашего пароля должна быть не менее
-								{{loginForm.password.$$attr.minlength}} символов
-							</div>
-							<div ng-message="maxlength">Длина Вашего пароля не должна превышать
-								{{loginForm.password.$$attr.maxlength}} символов
-							</div>
-						</div>
+						<div ng-message="email">Пожалуйста, укажите корректный email</div>
+						<div ng-message="minlength">Длина поля должна быть не менее 8 символов</div>
+						<div ng-message="maxlength">Длина поля должна быть не более 60 символов</div>
+						<div ng-message="required">Пожалуйста, заполните все поля</div>
 
 					</div>
 
 					<!--Отображаем сообщение об ошибке из контроллера только в случае, когда с формой все впорядке.
                         В противном случае, пользователю уже будет показываться сообщение о проблеме с заполнением формы.-->
-					<div ng-if="loginForm.$valid">{{errorMessage}}</div>
+					<div ng-if="loginForm.$valid">
+						{{errorMessage}}
+					</div>
 
 				</div>
 

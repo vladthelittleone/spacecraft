@@ -1,8 +1,8 @@
 'use strict';
 
-var User = require ('../../models/user').User;
-var LocalStrategy = require ('passport-local').Strategy;
-var valid = require ('validator');
+var User = require('../../models/user').User;
+var LocalStrategy = require('passport-local').Strategy;
+var valid = require('validator').default;
 var strategyHelp = require('./strategy.help');
 
 
@@ -16,11 +16,11 @@ module.exports = local;
  * имена полей в которых приходят мыло и пароль
  */
 var localStrategyReqParam = {
-
+	
 	usernameField:     'email',
 	passwordField:     'password',
 	passReqToCallback: true
-
+	
 };
 
 /**
@@ -28,15 +28,15 @@ var localStrategyReqParam = {
  */
 local.login = new LocalStrategy(localStrategyReqParam,
 	(req, email, password, next) => {
-
+		
 		let normalizeEmail = valid.normalizeEmail(email);
-
+		
 		User.authorize(normalizeEmail, password, (err, user) => {
-
-			next (err, user);
-
+			
+			next(err, user);
+			
 		});
-
+		
 	});
 
 /**
@@ -44,22 +44,22 @@ local.login = new LocalStrategy(localStrategyReqParam,
  */
 local.registration = new LocalStrategy(localStrategyReqParam,
 	(req, email, password, next) => {
-
+		
 		let normalizeEmail = valid.normalizeEmail(email);
 		let isSubscribeOnEmail = req.body.isSubscribeOnEmail;
-
+		
 		User.registration(normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
-
+			
 			if (err) {
-
-				return next (err, email);
-
+				
+				return next(err, email);
+				
 			}
-
+			
 			strategyHelp.updateTotalFinalScore(user);
-
+			
 			next(null, user);
-
+			
 		});
-
+		
 	});

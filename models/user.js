@@ -13,9 +13,9 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
 	email:              {
-		type:    String,
-		unique:  true,
-		default: null
+		type:   String,
+		unique: true,
+		sparse: true
 	},
 	username:           {
 		type: String
@@ -24,9 +24,9 @@ var schema = new Schema({
 		type: String
 	},
 	vkId:               {
-		type:    String,
-		unique:  true,
-		default: null
+		type:   String,
+		unique: true,
+		sparse: true
 	},
 	salt:               {
 		type: String

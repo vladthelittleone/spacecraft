@@ -8,6 +8,7 @@ require('angular-ui-layout');
 require('angular-ui-ace');
 require('angular-http-auth');
 require('angular-cookies');
+require('angular-messages');
 require('angular-ui-bootstrap');
 
 /**
@@ -31,10 +32,12 @@ angular.module('spacecraft', [
 		'ui.bootstrap',
 		'spacecraft.modules',
 		'http-auth-interceptor',
-		'ngCookies'
+		'ngCookies',
+		'ngMessages'
 	])
 	.config(configBlock)
 	.run(runBlock);
+
 
 /**
  * Загружаем директивы, сервисы.

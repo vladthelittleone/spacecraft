@@ -1,8 +1,8 @@
 'use strict';
 
-var User = require ('../../models/user').User;
-var LocalStrategy = require ('passport-local').Strategy;
-var valid = require ('validator');
+var User = require('../../models/user').User;
+var LocalStrategy = require('passport-local').Strategy;
+var valid = require('validator');
 var strategyHelp = require('./strategy.help');
 
 
@@ -33,7 +33,7 @@ local.login = new LocalStrategy(localStrategyReqParam,
 
 		User.authorize(normalizeEmail, password, (err, user) => {
 
-			next (err, user);
+			next(err, user);
 
 		});
 
@@ -52,7 +52,7 @@ local.registration = new LocalStrategy(localStrategyReqParam,
 
 			if (err) {
 
-				return next (err, email);
+				return next(err, email);
 
 			}
 

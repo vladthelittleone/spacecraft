@@ -20,35 +20,22 @@ function LoginController($scope, $state, authentication) {
 	// По дефолту считаем, что человек согласен на рассылку
 	$scope.isSubscribeOnEmail = true;
 
-	$scope.loginByKey = loginByKey;
+	$scope.changeForm = changeForm;
+	$scope.changeSubscribe = changeSubscribe;
 	$scope.register = register;
 	$scope.login = login;
 
 	// ==================================================
 
-	/**
-	 * Обработка нажатия клавиши 'Enter'
-	 */
-	function loginByKey(code) {
+	function changeSubscribe() {
 
-		if (code === ENTER) {
-
-			$scope.login();
-
-		}
+		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
 
 	}
 
-	/**
-	 * Переход на состояние первого урока
-	 */
-	function toLesson() {
+	function changeForm() {
 
-		login(function () {
-
-			$state.go('lesson', {id: 0})
-
-		});
+		$scope.isEnterForm = !$scope.isEnterForm;
 
 	}
 
@@ -57,28 +44,41 @@ function LoginController($scope, $state, authentication) {
 	 */
 	function register() {
 
-		var email = $scope.email;
+		// Если взаимодействовали с формой и форма заполнена корректно.
+		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-		var pass = $scope.password;
+			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
+			authentication.register({
+										email:              $scope.email,
+										password:           $scope.password,
+										isSubscribeOnEmail: $scope.isSubscribeOnEmail,
+										success:            login,
+										error:              error
+									});
 
-		var subscribe = $scope.isSubscribeOnEmail;
-
-		authentication.register({
-									email:              email,
-									password:           pass,
-									isSubscribeOnEmail: subscribe,
-									success:            toLesson,
-									error:              error
-								});
+		}
 
 	}
 
 	/**
-	 * Состояние ошибки
+	 * Обработка ошибочной ситуации в контроллере.
+	 * Метод принимает сообщение, которое необходимо отобразить клиенту.
+	 * Если сообщение не задано (к примеру, данный коллбэк указывали в качестве обработчика
+	 * ошибочной ситуации при авторизации и сервис не отвечает) -> указываем сообщение по умолчанию.
 	 */
 	function error(errorDescription) {
 
-		$scope.error = errorDescription;
+		$scope.errorMessage = errorDescription ? errorDescription :
+							  "Что-то пошло не так, пожалуйста, попробуйте еще раз.";
+
+	}
+
+	/**
+	 * Смена состояния на главную страницу.
+	 */
+	function toWelcome() {
+
+		$state.go('welcome');
 
 	}
 
@@ -87,9 +87,17 @@ function LoginController($scope, $state, authentication) {
 	 */
 	function login() {
 
-		authentication.login($scope.email,
-							 $scope.password,
-							 error);
+		// Если взаимодействовали с формой и форма заполнена корректно.
+		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
+
+			authentication.login({
+									 email:              $scope.email,
+									 password:           $scope.password,
+									 success:            toWelcome,
+									 error:              error
+								 });
+
+		}
 
 	}
 

@@ -2,7 +2,7 @@
  * Created by iretd on 14.03.17.
  */
 
-var validator = require('validator').default;
+var validator = require('validator');
 
 module.exports = ValidateEmail;
 

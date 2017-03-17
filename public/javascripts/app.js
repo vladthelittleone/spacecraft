@@ -9,6 +9,7 @@ require('angular-ui-ace');
 require('angular-http-auth');
 require('angular-cookies');
 require('angular-messages');
+require('angular-ui-bootstrap');
 
 /**
  * Подключаем изменение прототипа.
@@ -28,6 +29,7 @@ angular.module('spacecraft', [
 		'ui.router',
 		'ui.ace',
 		'ui.layout',
+		'ui.bootstrap',
 		'spacecraft.modules',
 		'http-auth-interceptor',
 		'ngCookies',

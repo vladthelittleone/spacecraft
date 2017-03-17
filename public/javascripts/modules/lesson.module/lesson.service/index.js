@@ -375,6 +375,9 @@ function LessonService(connection,
 		// Сокрытие диаграммы и очистка оной
 		scope.showDiagram = false;
 
+		// Очистка диграмм
+		Diagram.clearChanges();
+
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
 

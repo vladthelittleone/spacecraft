@@ -41,6 +41,9 @@ app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
+// Подключаем статику (картинки, js скрипты, аудио и т.д.)
+app.use(express.static(path.join(__dirname, resourcesFolderName)));
+
 // Сторедж для сессии.
 const MongoStore = require('connect-mongo/es5')(session);
 
@@ -61,9 +64,6 @@ app.use(passport.session());
 passport.use('local-login', localStrategy.login);
 passport.use('local-registration', localStrategy.registration);
 passport.use('vk-login', vkStrategy.login);
-
-// Подключаем статику (картинки, js скрипты, аудио и т.д.)
-app.use(express.static(path.join(__dirname, resourcesFolderName)));
 
 // инициализируем api;
 require('./routes')(app);

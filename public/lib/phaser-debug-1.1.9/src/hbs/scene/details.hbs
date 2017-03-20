@@ -1,0 +1,29 @@
+<br/><br/>
+
+<label>Name:</label>
+<strong>{{name}}</strong>
+<br/>
+
+<label>Type:</label>
+<strong>{{typeString}}</strong>
+<br/>
+
+<label>Position:</label>
+<strong>{{position.x}}</strong> x <strong>{{position.y}}</strong>
+<br/>
+
+{{#if children}}
+    <label>Children:</label>
+    <strong>{{children.length}}</strong>
+    <br/>
+{{/if}}
+
+{{#if texture}}
+    <label>Texture:</label>
+    {{#if texture.baseTexture.source.src}}
+        <a href="{{texture.baseTexture.source.src}}" target="_blank">{{texture.baseTexture.source.src}}</a>
+    {{else}}
+        <strong>{{texture.baseTexture.source}}</strong>
+    {{/if}}
+    <br/>
+{{/if}}

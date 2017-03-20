@@ -21,10 +21,16 @@ function Diagram () {
 	 */
 	var diagram;
 
+	/**
+	 * Была ли диграмма создана
+	 */
+	var isDiagramCreated;
+
 	t.getDiagram = getDiagram;
 	t.change = change;
 	t.setDiagram = setDiagram;
 	t.isHaveChanges = isHaveChanges;
+	t.clearChanges = clearChanges;
 
 	return t;
 
@@ -67,11 +73,24 @@ function Diagram () {
 
 		changes = null;
 
+		isDiagramCreated = true;
+
 	}
 
 	function isHaveChanges() {
 
-		return changes;
+		return isDiagramCreated;
+
+	}
+
+	/**
+	 * Очистка состояния сервиса.
+	 */
+	function clearChanges() {
+
+		changes = null;
+
+		isDiagramCreated = false;
 
 	}
 

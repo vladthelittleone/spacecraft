@@ -1,0 +1,14 @@
+{
+	"lessons" : "/user/statistics/lessons",
+	"lessonStar": "/user/statistics/lessons/star",
+
+	"userProgress": "/user/statistics/progress",
+	"userInfo": "/user/info",
+	"userSession": "/user/info/session",
+
+	"login": "/login",
+	"logout": "/logout",
+	"register": "/register",
+
+	"leaderBoard": "/statistics/lessons/leaderBoard"
+}

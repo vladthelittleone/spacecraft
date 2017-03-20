@@ -49,7 +49,7 @@ function cargoTurret() {
 		'<li><span class="under-label">container1 = container2;</span></li>' +
 		'<li>В container1 теперь находится "Галактический червь"</li>' +
 		'<li><span class="under-label">transport.getFromCargo();</span> - функция корабля</li>' +
-		'<li>С помощью данной функции можно получить значение переменной в хранидище корабля.</li>' +
+		'<li>С помощью данной функции можно получить значение переменной в хранилище корабля.</li>' +
 		'<li><span class="under-label">transport.setToCargo(container);</span> - функция корабля</li>' +
 		'<li>С помощью данной функции можно получить положить новое значение(контейнер) в хранилище корабля.</li>' +
 		'</ul>'

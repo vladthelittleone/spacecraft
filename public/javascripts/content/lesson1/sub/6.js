@@ -31,10 +31,10 @@ function Alert() {
 					  '<li>Команды внутри комментариев не выполняются!</li>' +
 					  '</ul>',
 		character:    [{
-			audio: 'audio/lesson2/6-1.mp3',
+			audio: 'audio/lesson2/6-1',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson2/6-2.mp3',
+			audio: 'audio/lesson2/6-2',
 			css:   'astrogirl-img'
 		}],
 
@@ -79,7 +79,7 @@ function Alert() {
 		// результат отрицательный.
 		if (!transport.isAlive()) {
 
-			var lessonPoints = lessonStatistics.getFLessonContentPoints();
+			var lessonPoints = lessonStatistics.getLessonContentPoints();
 
 			// Устанавливаем штрафные очки за не остановку корабля :)
 			lessonStatistics.incPenaltyPointsForGame(lessonPoints.missionStopTransportFail);

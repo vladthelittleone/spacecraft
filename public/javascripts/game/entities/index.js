@@ -14,6 +14,7 @@ var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
 var Stock = require('./stock');
 var Fighter = require('./fighter');
+var Cruiser = require('./cruiser');
 
 var Random = require('../../utils/random');
 
@@ -46,6 +47,7 @@ function EntitiesFactory() {
 	t.createStock = createStock;
 	t.createMine = createMine;
 	t.createScout = createScout;
+	t.createCruiser = createCruiser;
 	t.getWorld = getWorld;
 
 	return t;
@@ -62,6 +64,21 @@ function EntitiesFactory() {
 		player && world.setPlayer(id);
 
 		return scout;
+
+	}
+
+	/**
+	 * Создать крузер.
+	 */
+	function createCruiser(game, x, y, player) {
+
+		var cruiser = Cruiser(game, x, y, player);
+
+		var id = world.pushObject(cruiser);
+
+		player && world.setPlayer(id);
+
+		return cruiser;
 
 	}
 

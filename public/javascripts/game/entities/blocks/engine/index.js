@@ -36,6 +36,7 @@ function EngineBlock(spec) {
 	unit.moveToXY = moveToXY;
 	unit.getX = getX;
 	unit.getY = getY;
+	unit.distanceTo = distanceTo;
 
 	t.update = update;
 
@@ -173,6 +174,20 @@ function EngineBlock(spec) {
 	function getY() {
 
 		return unit.sprite.y;
+
+	}
+
+	/**
+	 * @param _x координата x объекта, до которого считается дистанция
+	 * @param _y координата y объекта, до которого считается дистанция
+	 * @returns {number} дистанцию до объекта
+	 */
+	function distanceTo(_x, _y) {
+
+		var deltaX = _x - unit.getX();
+		var deltaY = _y - unit.getY();
+
+		return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
 	}
 

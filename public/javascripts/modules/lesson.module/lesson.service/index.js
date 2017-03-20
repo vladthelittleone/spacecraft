@@ -14,6 +14,8 @@ var AudioWrapper = require('./audio');
 var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
+var lodash = require('lodash');
+
 LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
 
 module.exports = LessonService;
@@ -52,6 +54,9 @@ function LessonService(connection,
 	// Статистика по ТЕКУЩЕМУ уроку.
 	// Текущий - это именно тот, который в данный момент проходит пользователь.
 	var currentLessonStatistics = null;
+
+	// Флаг показывающий проходился ли уже ранее данный урок.
+	var isCurrentLessonCompleted = false;
 
 	that.setEditorSession = setEditorSession;
 	that.setMarkerId = setMarkerId;
@@ -354,7 +359,7 @@ function LessonService(connection,
 		++scope.subIndex;
 
 		// Сохраняем статистику текущего положения по уроку.
-		saveStatisticsWrapper(scope.subIndex, false);
+		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
 
 		CodeLauncher.stop();
 
@@ -369,6 +374,9 @@ function LessonService(connection,
 
 		// Сокрытие диаграммы и очистка оной
 		scope.showDiagram = false;
+
+		// Очистка диграмм
+		Diagram.clearChanges();
 
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
@@ -414,7 +422,8 @@ function LessonService(connection,
 	function endLesson() {
 
 		// Выводим доску оценки подурока
-		scope.lessonIsCompleted = true;
+		scope.isStarsVisiable = true;
+		isCurrentLessonCompleted = true;
 
 		// Вызываем коллбэки, которые подписались на скрытие вкладки,
 		// так как на данном этапе урок закончен, и можно считать,
@@ -488,6 +497,8 @@ function LessonService(connection,
 			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
 			lessons = data.lessons || [];
 			totalFinalScore = data.totalFinalScore || 0;
+
+			isCurrentLessonCompleted = !lodash.isNil(data.completed);
 
 			prepareLesson(getCurrentLesson());
 

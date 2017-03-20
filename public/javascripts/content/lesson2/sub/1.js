@@ -19,7 +19,7 @@ function Investigation() {
 						   '<li>Отправьте корабль к месту аварии с помощью команды <span class="red-label">scout.moveToXY()</span>.</li>' +
 						   '<li>Координаты аварии (<strong>2000</strong>, <strong>2000</strong>).</li>' +
 						   '</ul>',
-		hint:              '<ul>' +
+		hint:      '<ul>' +
 						   '<li>Добавьте <span class="under-label-gray">scout.moveToXY(2000, 2000);</span> на <strong>8</strong> строку.</li>' +
 						   '</ul>',
 		character:         [{
@@ -46,12 +46,10 @@ function Investigation() {
 
 		});
 
-		var x = 2000 - scout.getX();
-		var y = 2000 - scout.getY();
-		var d = Math.sqrt(x * x + y * y);
+		if (scout.distanceTo(2000, 2000) < 100) {
 
-		if (d < 100) {
 			return lessonResults.resultCorrect();
+
 		}
 
 		return lessonResults.text();

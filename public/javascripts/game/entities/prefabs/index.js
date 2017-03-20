@@ -12,6 +12,7 @@ var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
 var Stock = require('./stock');
 var Fighter = require('./fighter');
+var Cruiser = require('./cruiser');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -35,6 +36,7 @@ function PrefabsFactory() {
 	t.createFighter = createFighter;
 	t.createMeteor = createMeteor;
 	t.createMine = createMine;
+	t.createCruiser = createCruiser;
 	t.createScout = createScout;
 	t.createTurret = createTurret;
 	t.createStock = createStock;
@@ -52,6 +54,13 @@ function PrefabsFactory() {
 	function createTransport(game, x, y) {
 
 		return Transport(game, x, y);
+
+	}
+
+	// Крузер
+	function createCruiser(game, x, y) {
+
+		return Cruiser(game, x, y);
 
 	}
 

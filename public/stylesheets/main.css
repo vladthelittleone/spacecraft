@@ -1482,13 +1482,15 @@ div.helper {
 	margin: auto;
 }
 
-.login-button-group button a,
-.login-button-group button a:hover {
+.login-button-group a,
+.login-button-group a:hover {
 	color: white;
 	text-decoration: none;
 }
 
-.login-button-group button {
+.login-button-group button,
+.login-button-group input,
+.login-button-group .vk-button {
 	width: 49%;
 	height: 35px;
 	border: 0;
@@ -1498,7 +1500,9 @@ div.helper {
 	outline: 0;
 }
 
-.login-button-group button:hover {
+.login-button-group button:hover,
+.login-button-group input:hover,
+.login-button-group .vk-button:hover {
 	background: rgba(38, 77, 102, 0.98);
 }
 
@@ -1742,25 +1746,25 @@ fieldset, label {
 /*.leadboard-table tr:nth-child(1) .table-number span,*/
 /*.leadboard-table tr:nth-child(2) .table-number span,*/
 /*.leadboard-table tr:nth-child(3) .table-number span {*/
-	/*display: none;*/
+/*display: none;*/
 /*}*/
 
 /*.leadboard-table tr:nth-child(1) .table-number:after {*/
-	/*content: '●';*/
-	/*font-size: 18px;*/
-	/*color: #fdfd2f;*/
+/*content: '●';*/
+/*font-size: 18px;*/
+/*color: #fdfd2f;*/
 /*}*/
 
 /*.leadboard-table tr:nth-child(2) .table-number:after {*/
-	/*content: '●';*/
-	/*font-size: 18px;*/
-	/*color: #cbd7cd;*/
+/*content: '●';*/
+/*font-size: 18px;*/
+/*color: #cbd7cd;*/
 /*}*/
 
 /*.leadboard-table tr:nth-child(3) .table-number:after {*/
-	/*content: '●';*/
-	/*font-size: 18px;*/
-	/*color: #fd913f;*/
+/*content: '●';*/
+/*font-size: 18px;*/
+/*color: #fd913f;*/
 /*}*/
 
 /***** CSS Magic to Highlight Stars on Hover *****/
@@ -1783,4 +1787,16 @@ fieldset, label {
 .login-button-group .vk-button {
 	margin-top: 5px;
 	width: 100%;
+	text-align: center;
+	padding: 7px;
+}
+
+.login-form input.ng-invalid.ng-dirty {
+	border: 1px solid #c41f0e;
+	border-bottom: 2px solid #c41f0e;
+}
+
+.login-form input.ng-valid.ng-dirty {
+	border: 1px solid #39C139;
+	border-bottom: 2px solid #39C139;
 }

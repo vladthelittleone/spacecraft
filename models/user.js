@@ -5,30 +5,34 @@ var async = require('async');
 var mongoose = require('utils/mongoose');
 var HttpError = require('error').HttpError;
 
+var HttpStatus = require('http-status-codes');
+
+var lodash = require('lodash');
+
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
 	email:              {
-		type:     String,
-		unique:   true,
-		default:  null
+		type:   String,
+		unique: true,
+		sparse: true
 	},
 	username:           {
 		type: String
 	},
 	hashedPassword:     {
-		type:     String
+		type: String
 	},
-	vkId:		        {
-		type:     String,
-		unique:   true,
-		default:  null
+	vkId:               {
+		type:   String,
+		unique: true,
+		sparse: true
 	},
 	salt:               {
-		type:     String
+		type: String
 	},
 	isSubscribeOnEmail: {
-		type:     Boolean
+		type: Boolean
 	},
 	created:            {
 		type:    Date,
@@ -37,18 +41,18 @@ var schema = new Schema({
 });
 
 schema.virtual('password')
-	.set(function (password) {
-
-		this._plainPassword = password;
-		this.salt = Math.random() + '';
-		this.hashedPassword = this.encryptPassword(password);
-
-	})
-	.get(function () {
-
-		return this._plainPassword;
-
-	});
+	  .set(function (password) {
+	
+		  this._plainPassword = password;
+		  this.salt = Math.random() + '';
+		  this.hashedPassword = this.encryptPassword(password);
+	
+	  })
+	  .get(function () {
+	
+		  return this._plainPassword;
+	
+	  });
 
 schema.methods.encryptPassword = encryptPassword;
 schema.methods.checkPassword = checkPassword;
@@ -60,15 +64,15 @@ schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 exports.User = mongoose.model('User', schema);
 
 function encryptPassword(password) {
-
+	
 	return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-
+	
 }
 
 function checkPassword(password) {
-
+	
 	return this.encryptPassword(password) === this.hashedPassword;
-
+	
 }
 
 /**
@@ -84,151 +88,138 @@ function checkPassword(password) {
  * @param callback
  */
 function authorize(email, password, callback) {
-
+	
 	let User = this;
-
+	
 	async.waterfall([
-
-		function (callback) {
-
-			User.findOne({ email: email }, callback);
-
-		},
-		function (user, callback) {
-
-			if (user) {
-
-				// если для пользователя задан vkId и не задан пароль
-				// то пользователь не может авторизироваться через логин/пароль
-				if (user.vkId && !user.hashedPassword) {
-
-					callback(new HttpError(403, "Воспользуйтесь авторизацией через VK."));
-
-				}
-				else if (user.checkPassword(password)) {
-
-					callback(null, user);
-
-				} else {
-
-					callback(new HttpError(403, 'Пароль неверен'));
-
-				}
-
-			} else {
-
-				callback(new HttpError(403, 'Пользователь не найден'));
-
-			}
-		}
-
-	], callback);
-
+						function (callback) {
+			
+							User.findOne({email: email}, callback);
+			
+						},
+						function (user, callback) {
+			
+							// Если найден пользователь и пароль совпадает с заданным.
+							if (user && user.checkPassword(password)) {
+				
+				
+								return callback(null, user);
+				
+							}
+			
+							callback(new HttpError(HttpStatus.UNAUTHORIZED, 'Неверные данные для авторизации'));
+			
+						}
+	
+					], callback);
+	
 }
 
 function registration(email, password, isSubscribeOnEmail, callback) {
-
+	
 	let User = this;
-
+	
 	async.waterfall([
-
-		function (callback) {
-
-			User.findOne({email: email}, callback);
-
-		},
-		function (user, callback) {
-
-			if (!user) {
-
-				let newbie = new User({
-
-					email: email,
-					password: password,
-					isSubscribeOnEmail: isSubscribeOnEmail
-
-				});
-
-				newbie.save(function (err) {
-
-					callback(err, newbie);
-
-				});
-			}
-			else {
-
-				callback(new HttpError(403, 'Пользователь уже существует'));
-
-			}
-		}
-
-	], callback);
-
+		
+						function (callback) {
+			
+							User.findOne({email: email}, callback);
+			
+						},
+						function (user, callback) {
+			
+							if (!user) {
+				
+								let newbie = new User({
+					
+									email:              email,
+									password:           password,
+									username:           lodash.first(email.split('@')),
+									isSubscribeOnEmail: isSubscribeOnEmail
+					
+								});
+				
+								newbie.save(function (err) {
+					
+									callback(err, newbie);
+					
+								});
+							}
+							else {
+				
+								callback(new HttpError(403, 'Такой пользователь уже существует'));
+				
+							}
+						}
+	
+					], callback);
+	
 }
 
 /**
  * Функция ищет пользователя по его vk id
  * если пользователь не найдет функция создает нового пользователя в базе
  */
-function findOrCreateVKUser (vkId, email, callback) {
-
+function findOrCreateVKUser(vkId, email, name, callback) {
+	
 	let User = this;
-
+	
 	async.waterfall([
-
-			(callback) => {
-
-				User.findOne({vkId: vkId}, callback);
-
-			},
-			(user, callback) => {
-
-				if (!user) {
-
-					let newbie = new User ({
-
-						email: email,
-						vkId: vkId
-
-					});
-
-					newbie.save((err) => {
-
-						callback(err, newbie, true);
-
-					});
-				}
-				else {
-
-					callback(null, user, false);
-
-				}
-			}
-
-	], callback);
-
+		
+						(callback) => {
+			
+							User.findOne({vkId: vkId}, callback);
+			
+						},
+						(user, callback) => {
+			
+							if (!user) {
+				
+								let newbie = new User({
+					
+									email:    email,
+									vkId:     vkId,
+									username: name
+					
+								});
+				
+								newbie.save((err) => {
+					
+									callback(err, newbie, true);
+					
+								});
+							}
+							else {
+				
+								callback(null, user, false);
+				
+							}
+						}
+	
+					], callback);
+	
 }
 
 /**
  * Возвращает дату создания акка пользователя.
  */
 function getUserCreationDate(userID, callback) {
-
+	
 	let User = this;
-
+	
 	async.waterfall([
-
-		function (callback) {
-
-			User.findById(userID, callback);
-
-		},
-		function (user, callback) {
-
-			callback(user ? user.created : null);
-
-		}
-
-	], callback)
-
+		
+						function (callback) {
+			
+							User.findById(userID, callback);
+			
+						},
+						function (user, callback) {
+			
+							callback(user ? user.created : null);
+			
+						}
+	
+					], callback)
+	
 }

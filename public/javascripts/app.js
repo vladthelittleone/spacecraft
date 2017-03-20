@@ -8,6 +8,8 @@ require('angular-ui-layout');
 require('angular-ui-ace');
 require('angular-http-auth');
 require('angular-cookies');
+require('angular-messages');
+require('angular-ui-bootstrap');
 
 /**
  * Подключаем изменение прототипа.
@@ -27,12 +29,15 @@ angular.module('spacecraft', [
 		'ui.router',
 		'ui.ace',
 		'ui.layout',
+		'ui.bootstrap',
 		'spacecraft.modules',
 		'http-auth-interceptor',
-		'ngCookies'
+		'ngCookies',
+		'ngMessages'
 	])
 	.config(configBlock)
 	.run(runBlock);
+
 
 /**
  * Загружаем директивы, сервисы.
@@ -41,7 +46,7 @@ require('./services');
 require('./directives');
 
 runBlock.$inject = ['authentication', '$rootScope', '$state'];
-configBlock.$inject = ['$urlRouterProvider', 'ChartJsProvider'];
+configBlock.$inject = ['$urlRouterProvider', '$locationProvider'];
 
 angular.module('spacecraft').config(configBlock);
 angular.module('spacecraft').run(runBlock);
@@ -49,7 +54,15 @@ angular.module('spacecraft').run(runBlock);
 /**
  * Конфигурация сервисов до старта приложения.
  */
-function configBlock($urlRouterProvider, ChartJsProvider) {
+function configBlock($urlRouterProvider, $locationProvider) {
+
+	// Включаем адреса без решетки (#).
+	$locationProvider.html5Mode({
+
+									enabled:      true,
+									rewriteLinks: false
+
+								});
 
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');

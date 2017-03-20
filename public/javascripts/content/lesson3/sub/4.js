@@ -12,7 +12,7 @@ module.exports = FlightStockWithConstantInstructions();
 function FlightStockWithConstantInstructions() {
 
 	return {
-		title:        'Летим к оружейному складу',
+		title:        'Полет к оружейному складу',
 		character:    [{
 			// Отправляйтесь к оружейному складу. Запускаем двигатели
 			audio:  'audio/lesson2/1-2.mp3',
@@ -66,15 +66,15 @@ function FlightStockWithConstantInstructions() {
 		content: content,
 
 		instructions: '<ul>' +
-		'<li>Константы - это переменные, значения которыъ <span class="under-label">НИКОГДА</span> не меняется, как правило имена ' +
+		'<li>Константы - это переменные, значения которых <span class="under-label">НИКОГДА</span> не меняется, как правило имена ' +
 		'таких переменных пишутся заглавными буквами.</li>' +
 		'<li><span class="under-label">var MAX_SPEED = 10;</span></li>' +
-		'<li>Очень важно, что значение константы задается сразу,  при ее оьъявлении</li>' +
+		'<li>Очень важно, что значение константы задается сразу,  при ее объявлении.</li>' +
 		'<li>Технически в языке JavaScript контсттанта является обычной перемнной, и ее значение можно изменить.</li>' +
-		'<li>Однако все опытные пилоты договорились не изменять значения констант.</li>' +
+		'<li>Однако все опытные пилоты договорились не изменять значения констант, дабы избежать вселенских коллапсов.</li>' +
 		'<li>Переменные, которым не присволили значения будут undefined.</li>' +
 		'<li><span class="under-label">var speed;</span>// undefined</li>' +
-		'<li>Для обозначения пустоты или не известного значения переменной используется специально слово null.</li>' +
+		'<li>Для обозначения пустоты переменной используется специально слово null.</li>' +
 		'<li><span class="under-label">var php = null;</span></li>' +
 		'</ul>'
 	};
@@ -82,7 +82,7 @@ function FlightStockWithConstantInstructions() {
 	function gamePostUpdate(spaceCraft) {
 
 		var lessonResults = LessonResults({
-			correct: '<p>Пора с этим заканчивать</p>'
+			correct: '<p>Сколько еще нудных речей придется выслушать?</p>'
 		});
 
 		if (spaceCraft.isWithinCargo()) {
@@ -96,7 +96,7 @@ function FlightStockWithConstantInstructions() {
 	function content() {
 
 		return '<p>Нужно доставить оружие с турели в оружейный склад для выявления причин поломки.</p>' +
-			   '<p>Так же прослушайте инструктаж по константам.</p>';
+			   '<p>Так же прослушайте дополнительный инструктаж.</p>';
 
 	}
 }

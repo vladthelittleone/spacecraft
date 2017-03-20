@@ -12,7 +12,7 @@ module.exports = FlightWithInstructions();
 function FlightWithInstructions() {
 
 	return {
-		title:        'Полет до RED планеты',
+		title:        'Вперед, к КРАСНОЙ планете',
 		character:    [{
 			// Погрузка прошла успешно, теперь летим  к турели.
 			audio:  'audio/lesson2/1-2.mp3',
@@ -62,9 +62,9 @@ function FlightWithInstructions() {
 
 		instructions: '<ul>' +
 		'<li>Для объявления или, другими словами, создания переменной используется ключевое слово <span class="red-label">var</span>.</li>' +
-		'<li><span class="red-label">var enemy;</span> - ример объявления переменной</li>' +
+		'<li><span class="red-label">var enemy;</span> - пример объявления переменной</li>' +
 		'<li>После объявления, можно записать в переменную данные(инициализация):</li>' +
-		'<li><span class="red-label">language = "PHP in my enemy";</span> - записываем в переменную строку.</li>' +
+		'<li><span class="red-label">enemy = "PHP in my enemy";</span> - записываем в переменную строку.</li>' +
 		'<li>Для краткости можно совместить объявление переменной и запись данных:</li>' +
 		'<li><span class="red-label">var language = "JavaScript";</span></li>' +
 		'<li>Имена переменных содержат буквы, цыфры, нижниее подчеркивание.</li>' +

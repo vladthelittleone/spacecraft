@@ -4,8 +4,7 @@ Authentication.$inject = ['connection',
 						  'lessonService',
 						  '$rootScope',
 						  '$state',
-						  '$timeout',
-						  'authService'];
+						  '$timeout'];
 
 module.exports = Authentication;
 
@@ -16,10 +15,6 @@ var lodash = require('lodash');
 /**
  * Сервис аутентификации.
  *
- * authService - сторонний сервис, реализует логику отлова 401 кода в ответах от сервера.
- * В данном сервисе он необходим, для регистрации обработчиков, на случай возникновения ответа
- * с этим кодом.
- *
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
@@ -27,18 +22,7 @@ function Authentication(connection,
 						lessonService,
 						$rootScope,
 						$state,
-						$timeout,
-						authService) {
-	
-	// Подписываемся на событие успешной аутентификации на сервере.
-	$rootScope.$on('event:auth-loginConfirmed', function () {
-		
-		processingSuccessfulAuthorization();
-		
-		// Переход на главную страницу после аутентификации.
-		$state.go('welcome');
-		
-	});
+						$timeout) {
 	
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
 	$rootScope.$on('event:auth-loginRequired', function () {
@@ -64,6 +48,7 @@ function Authentication(connection,
 	var authenticationStatus;
 	
 	that.login = login;
+	
 	that.logout = logout;
 	
 	that.currentUser = currentUser;
@@ -116,11 +101,11 @@ function Authentication(connection,
 	 */
 	function getAuthenticationStatus(resolve, reject) {
 		
-		// Если authenticationStatus не определен, значит
+		// Если authenticationStatus не определен или false, значит
 		// нужно идти к серверу за состоянием активности текущей сессии.
 		// В противном случае, в authenticationStatus ВСЕГДА находится
 		// флаг актуальности текущей сессии.
-		if (lodash.isNil(authenticationStatus)) {
+		if (!authenticationStatus) {
 			
 			connection.checkSession(processingSuccessfulCheckSession(resolve),
 									processingFailedCheckSession(reject));
@@ -181,30 +166,19 @@ function Authentication(connection,
 		storage.local && storage.local.clear();
 		
 		authenticationStatus = false;
-		
 	}
 	
 	/**
 	 * Метод входа в систему.
-	 * Позволяет предоставить callback для обработки ошибочной ситуации,
-	 * касающейся именно контекста АВТОРИЗАЦИИ (log in) в системе.
-	 *
-	 * @param errorCallback коллбек ошибочного выполнения запроса
-	 * @param email идентификатор
-	 * @param password пароль
 	 */
-	function login(email,
-				   password,
-				   errorCallback) {
+	function login(args) {
 		
-		// TODO имеет смысл ввести вещание сигналов по событиям,
-		// связанных с ошибочными ситуация при логине.
 		connection.login({
-							 email:    email,
-							 password: password
+							 email:    args.email,
+							 password: args.password
 						 },
-						 authService.loginConfirmed,
-						 errorCallback);
+						 args.success,
+						 args.error);
 		
 	}
 	

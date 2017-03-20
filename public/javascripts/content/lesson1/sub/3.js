@@ -25,17 +25,17 @@ function Command() {
 						'<li>Если нажать <span class="under-label-gray">Space + Alt</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
 						'</ul>',
 		character:      [{
-			audio:  'audio/lesson2/3-1.mp3',
+			audio:  'audio/lesson2/3-1',
 			css:    'astromen-img'
 		},{
-			audio:  'audio/lesson2/3-2.mp3',
+			audio:  'audio/lesson2/3-2',
 			css:    'astromen-img',
 			marker: {
 				x1:   8,
 				y2:   Infinity
 			}
 		},{
-			audio:  'audio/lesson2/3-3.mp3',
+			audio:  'audio/lesson2/3-3',
 			css:    'astromen-img',
 			marker: {
 				x1:   11,
@@ -43,7 +43,7 @@ function Command() {
 			}
 
 		},{
-			audio:  'audio/lesson2/3-4.mp3',
+			audio:  'audio/lesson2/3-4',
 			css:    'astrogirl-img',
 			hint:        [{
 				'click .lesson-alt-hint': 'Нажмите для получения инструкций',

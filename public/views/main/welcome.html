@@ -81,7 +81,8 @@
 						</tr>
 					</thead>
 					<tbody class="leadboard-table">
-						<tr ng-repeat="u in leadersList" ng-class="{'leadboard-mark' : u.isItMe}">
+						<tr ng-repeat="u in leaderBoard.data"
+							ng-class="{'leadboard-mark' : $index === leaderBoard.userPosition}">
 							<td class="table-number"><span>{{$index + 1}}</span></td>
 							<td class="table-content-name">{{u.name}}</td>
 							<td class="table-content-score">{{u.totalFinalScore || 0}}</td>

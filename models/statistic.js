@@ -188,13 +188,8 @@ function getLeaderBoard(callback) {
 		}
 	}, {
 		$sort: {
-			regDate:         1,
-			totalFinalScore: -1
-		}
-	}, {
-		// Скрываем поле regDate из результата, оно больше не нужно.
-		$project: {
-			regDate: false
+			totalFinalScore: -1,
+			regDate:         1
 		}
 	}, {
 		$limit: 10

@@ -28,7 +28,7 @@ function Connection($http) {
 
 	that.lessonRate = lessonRate;
 
-	that.getLeaderboard = getLeaderboard;
+	that.getLeaderBoard = getLeaderBoard;
 
 	that.login = login;
 	that.logout = logout;
@@ -72,7 +72,7 @@ function Connection($http) {
 
 	}
 
-	function getLeaderboard(success, error) {
+	function getLeaderBoard(success, error) {
 
 		$http({
 				  url:    apiUrls.leaderBoard,

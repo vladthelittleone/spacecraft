@@ -8,7 +8,11 @@
 const express = require('express');
 var router = express.Router();
 
+var lodash = require('lodash');
+
 var Statistic = require('./../../models/statistic').Statistic;
+
+var leaderBoardHelper = require('../../utils/help/statistics/leaderBoard');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
@@ -16,9 +20,7 @@ module.exports = router;
 
 router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req, res, next) {
 
-	let idUser = req.user._id;
-
-	Statistic.getLeaderboard(idUser, function (error, leaderBoard) {
+	Statistic.getLeaderBoard(function (error, leaderBoard) {
 
 		if (error) {
 
@@ -26,7 +28,13 @@ router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req
 
 		}
 
-		res.send(leaderBoard);
+		let idUser = req.user._id;
+
+		let userPosition = leaderBoardHelper.findUserPosition({idUser, leaderBoard});
+
+		leaderBoardHelper.prepareForResponse(leaderBoard);
+
+		res.send({data:leaderBoard, userPosition});
 
 	});
 

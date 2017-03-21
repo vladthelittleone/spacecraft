@@ -188,15 +188,11 @@ function getLeaderBoard(callback) {
 		}
 	}, {
 		$sort: {
-			regDate:         1,
-			totalFinalScore: -1
+			totalFinalScore: -1,
+			regDate:         1
 		}
 	}, {
-		// Скрываем поле regDate из результата, оно больше не нужно.
-		$project: {
-			regDate: false
-		}
-	}, {
+		// TODO вынести как параметр, дабы была возможность получить таблицу ВСЕХ пользователей.
 		$limit: 10
 	}], callback);
 

@@ -23,13 +23,8 @@ function Scanning() {
 						   '<li>Добавьте <span class="under-label-gray">scout.scan();</span> на <strong>8</strong> строку.</li>' +
 						   '</ul>',
 		character:         [{
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img',
-			marker: {
-				x1: 8,
-				y2: Infinity
-			}
-
+			audio: 'audio/lesson3/2-1',
+			css:   'astromen-img'
 		}],
 		gamePostUpdate:    gamePostUpdate
 	};

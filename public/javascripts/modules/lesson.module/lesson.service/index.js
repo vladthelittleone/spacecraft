@@ -234,7 +234,7 @@ function LessonService(connection,
 
 		var hint = char.hint;
 
-		if (hint) {
+		if (hint && !scope.hideEditor) {
 
 			enjoyHint = new EnjoyHint({
 

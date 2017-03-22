@@ -30,11 +30,11 @@ router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req
 
 		let idUser = req.user._id;
 
-		let userPosition = leaderBoardHelper.findUserPosition({idUser, leaderBoard});
+		leaderBoardHelper.tryToMarkUser({idUser, leaderBoard});
 
 		leaderBoardHelper.prepareForResponse(leaderBoard);
 
-		res.send({data:leaderBoard, userPosition});
+		res.send(leaderBoard);
 
 	});
 

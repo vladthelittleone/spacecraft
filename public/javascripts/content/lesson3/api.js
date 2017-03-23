@@ -5,8 +5,6 @@ module.exports = Api;
 
 /**
  * API для работы с кораблем кода.
- *
- * @param player
  */
 function Api(player) {
 

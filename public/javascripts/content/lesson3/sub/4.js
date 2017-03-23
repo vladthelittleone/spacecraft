@@ -12,7 +12,8 @@ module.exports = FlightStockWithConstantInstructions();
 function FlightStockWithConstantInstructions() {
 
 	return {
-		title:        'Полет к оружейному складу',
+		isRestartDisabled: true,
+		title:        'Погрузка датчика',
 		character:    [{
 			// Отправляйтесь к оружейному складу. Запускаем двигатели
 			audio:  'audio/lesson2/1-2.mp3',

@@ -12,7 +12,8 @@ module.exports = FlightWithInstructions();
 function FlightWithInstructions() {
 
 	return {
-		title:        'Вперед, к КРАСНОЙ планете',
+		isRestartDisabled: true,
+		title:        'Переменные - контейнеры?',
 		character:    [{
 			// Погрузка прошла успешно, теперь летим  к турели.
 			audio:  'audio/lesson2/1-2.mp3',

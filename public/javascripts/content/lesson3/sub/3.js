@@ -13,7 +13,8 @@ module.exports = cargoTurret();
 function cargoTurret() {
 
 	return {
-		title:        'Замена оружия',
+		isRestartDisabled: true,
+		title:        'Копирование данных',
 		character:    [{
 			// Вы добрались до места назначения. Приступайте к разгрузке.
 			audio:  'audio/lesson2/1-1.mp3',

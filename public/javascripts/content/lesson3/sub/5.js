@@ -12,7 +12,8 @@ module.exports = loadingStock();
 function loadingStock() {
 
 	return {
-		title:        'Разгрузка на складе',
+		isRestartDisabled: true,
+		title:        'Полет к исследовательскому центру',
 		character:    [{
 			// Пора разобраться откуда растут ноги этой деверсии. Приступайте к рахгрузке
 			audio:  'audio/lesson2/1-1.mp3',

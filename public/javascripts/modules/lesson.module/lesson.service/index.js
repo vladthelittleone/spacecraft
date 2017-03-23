@@ -518,6 +518,9 @@ function LessonService(connection,
 
 		CodeLauncher.isCodeRunning = false;
 
+		// Очищаем диаграмму перед стартом урока.
+		Diagram.clearChanges();
+
 		// В каждом случае запуска урока необходимо создавать
 		// новый объект currentLessonStatistics, в противном случае,
 		// мы будем изменять значение по ссылке, которая уже привязана

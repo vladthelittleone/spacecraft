@@ -132,10 +132,15 @@ function LessonService(connection,
 
 		if (ch) {
 
+			// Показываем редактор кода
+			scope.hideEditor = false;
+
 			// Если урок с диграммой, то добавляем панель диаграммы
 			if (ch.diagram) {
 
 				scope.showDiagram = true;
+				scope.showTextContent = false;  // Убираем инструкции
+				scope.showSettings = false;		// И настройки
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
@@ -234,7 +239,7 @@ function LessonService(connection,
 
 		var hint = char.hint;
 
-		if (hint && !scope.hideEditor) {
+		if (hint) {
 
 			enjoyHint = new EnjoyHint({
 

@@ -2,11 +2,12 @@
  * @author Aleksandrov Oleg
  * @since 11.03.17
  */
+const logger = require('utils/log')(module);
 
 var Quiz = require('models/quiz').Quiz;
 var express = require('express');
+
 var router = express.Router();
-const logger = require('utils/log')(module);
 
 module.exports = router;
 

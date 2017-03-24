@@ -20,7 +20,7 @@ function Content() {
 	return {
 		text:  'Перевозка грузов',
 		label: 'Основы JavaScript',
-		quote: 'То, что для одного человека константа, для другого - переменная. (Алан.Дж.Перлис)',
+		quote: 'В природе нет такой вещи, как свободная переменная.',
 		sub:   require('./sub'),
 		isGameLesson: true,
 		points: points,

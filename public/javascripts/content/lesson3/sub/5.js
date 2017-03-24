@@ -13,27 +13,16 @@ function loadingStock() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Полет к исследовательскому центру',
+		title:        'Погрузка датчика',
 		character:    [{
-			// Пора разобраться откуда растут ноги этой деверсии. Приступайте к рахгрузке
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img'
 		}, {
-			// Переместите контейнер с корабля в один из контейноров склада.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img',
-			marker: {
-				x1:   2,
-				y2:   Infinity
-			}
 		},{
-			// В данной строчке кода вам необходимо воспользоваться функцией грузового корабля etFromCargo()
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img',
-			marker: {
-				x1:   13,
-				y2:   Infinity
-			}
 		}],
 
 		interpreterHandler: interpreterHandler,
@@ -41,12 +30,9 @@ function loadingStock() {
 		content: content,
 
 		instructions: '<ul>' +
-		'<li><span class="under-label">transport.getToCargo(container);</span> - функция корабля</li>' +
-		'<li>С помощью данной функции можно положить новое значение(контейнер) в хранилище корабля.</li>' +
-		'<li>Значение одной перемнной можно скопировать(перенести) в другую переменную :</li>' +
-		'<li><span class="under-label">container1 = container2;</span></li>' +
-		'<li>Положите в контейнер склада, значение переменной, которое храниться у вас на корабле.</li>' +
-		'</ul>'
+					  	'<li>На строке 13 необходимо использовать функцию корабля <span class="red-label">.loadToCargo(-container-)</span>.</li>' +
+					  	'<li>И передать в нее переменную <span class="red-label">sensor</span>. Для погрузки на корабль.</li>' +
+					  '</ul>'
 	};
 
 	function interpreterHandler(v) {
@@ -82,7 +68,9 @@ function loadingStock() {
 
 	function content() {
 
-		return '<p>Пора понять в чем дело. Повместите контейнер с корабля в конйтенер склада. </p>';
+		return '<p>Отлично кадет, вы прошли вводный курс, теперь можно приступать к заданию.</p>' +
+			   '<p>Вам необходимо поместить датчик в грузовой отсек корабля. </p>' +
+			   '<p>Это можно сдлеть воспользовавшимь функцией <span class="under-label">.loadToCargo()</span></p>';
 
 	}
 }

@@ -1,13 +1,14 @@
-// Объявление переменной груза
-var container = 'Оружие';
-var Container = 'Оружие1';
+// Объявление переменной container1
+var container1;
 
-/**
- * Код для перемещения к турели
- */
-this.run = function(transport)
-{
-	// Перемещение  в область красной планеты
-	transport.moveToXY(250, 250);
+// Присваиваем значение переменной container1(инициализация)
+container1 = 'Галактический червь';
 
-};
+// Посмотрим, что лежит в container1
+BBotDebug(container1);
+
+// Объявление и инициализация переменной
+var container2 = 'Ракетное топливо';
+
+// Содержимое container2
+BBotDebug(container2);

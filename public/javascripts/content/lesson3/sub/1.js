@@ -7,63 +7,49 @@ var LessonResults = require('../../lesson-results');
  * Created by vaimer on 31.01.17.
  */
 
-module.exports = UseVariables();
+module.exports = FirstContactWithVariables();
 
 
-function UseVariables() {
+function FirstContactWithVariables() {
 
 	return {
 		isRestartDisabled: true,
 		title:        'Первое знакомство с переменными',
 		character:    [{
-			// Приветсвуем вас кадет. Сегодня вам предстоит освоить работу с контейнерами и грузовым отсеком корабля.
-			// Вам необходимо перевезти новое оружие из академии к защитной турели. После атаки этих этих Пыхальщиков
-			// вооружение турели вышло из строя. Погрузите на свой корабль неисправное мехнизмы их необходимо изучить.
-			audio:  'audio/lesson2/1-1.mp3',
+
+			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astromen-img'
 		}, {
-			// Запустите программу, чтобы погрузить на свой корабль конейнер с оружием.
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-			hint:   [
-				{
-					'click .enhoyhint-play': 'Запустите код',
-					'nextButton':             false,
-					'showSkip':               false
-				}
-			]
-		}],
 
-		gamePostUpdate: gamePostUpdate,
+			audio:  'audio/lesson2/1-2.mp3',
+			css:    'astrogirl-img'
+
+		}],
 
 		content: content,
 
+		defaultBBot: defaultBBot,
+
 		instructions: '<ul>' +
-					  '<li>Время не ждет! Немедленно приступайте к выполнению задания.</li>' +
-					  '<li>Запустите код,  нажав на кнопку<i class="glyphicon glyphicon-play green"></i></li>' +
+					  '<li>Нажмите "Далее" для продолжения.</li>' +
 					  '</ul>'
 	};
 
-	function gamePostUpdate(spaceCraft) {
+	function content() {
 
-		var lessonResults = LessonResults({
-			correct: '<p>Что нас понизили до погрузки?</p>' +
-					 '<p>Дайте мне другого человка, порасторопней:)</p>'
-		});
-
-		if (spaceCraft.isUseCargo()) {
-
-			return lessonResults.resultCorrect();
-
-		}
+		return '<p>Рад снова вас видеть кадет. Ваша задание сегодня перевести датчик в исследовательский центр.</p>' +
+			   '<p>Для его выполнения вам потребуется изучить некоторые возможности корабля. Приступим.</p>' +
+			   '<p>Обратите внимание на код редакторе. Это самый простой пример использование переменных.</p>' +
+			   '<p>Что такое переменные? Это своебразные именные контейнеры, которые хранят различнае значения.</p>' +
+			   '<p>Представте подписанный ящик для лучшего понимания.</p>' +
+			   '<p>Итак переменные объявляются, другими словами, создаются с помощью ключевого слова <span class="under-label">var</span></p>' +
+			   '<p>Далее следует имя переменной, которое может состоять из букв цифр символо $ и _ , но не может начинаться с цифры.</p>';
 
 	}
 
-	function content() {
+	function defaultBBot() {
 
-		return '<p>Полсе нападения фракции PHP вышла из строя наша защитная турель у КРАСНОЙ планеты.</p>' +
-			'<p>Вам необходимо заменить оружние у турели, а сломанное доставить для исследования на оружейную станцию.</p>' +
-			'<p>Запустите код, чтобы начать погрузку нового образца оружия.</p>';
+		return '<p>Коробочки, BBot любит к0р0б0чки. (=^･ｪ･^=)</p>';
 
 	}
 }

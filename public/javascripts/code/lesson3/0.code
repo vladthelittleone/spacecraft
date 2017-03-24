@@ -1,1 +1,14 @@
+// Объявление переменной container1
+var container1;
 
+// Присваиваем значение переменной container1(инициализация)
+container1 = 'Галактический червь';
+
+// Посмотрим, что лежит в container1
+BBotDebug(container1);
+
+// Объявление и инициализация переменной
+var container2 = 'Ракетное топливо';
+
+// Содержимое container2
+BBotDebug(container2);

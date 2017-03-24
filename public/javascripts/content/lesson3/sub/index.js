@@ -3,11 +3,11 @@
 // Зависимсоти
 var firstContactWithVariables = require('./1');
 var variablesIsContainers = require('./2');
-var moreAboutVariables = require('./3');
-var takingSensor = require('./4');
-var goToResearchCenter = require('./5');
-var loadingResearchCenter = require('./6');
-
+var taskWithVariables = require('./3');
+var moreAboutVariables = require('./4');
+var takingSensor = require('./5');
+var goToResearchCenter = require('./6');
+var loadingResearchCenter = require('./7');
 
 /**
  * Created by vaimer on 31.01.17.
@@ -15,6 +15,7 @@ var loadingResearchCenter = require('./6');
 
 module.exports = [firstContactWithVariables,
 				  variablesIsContainers,
+				  taskWithVariables,
 				  moreAboutVariables,
 				  takingSensor,
 				  goToResearchCenter,

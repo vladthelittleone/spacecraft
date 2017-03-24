@@ -6,55 +6,20 @@ var LessonResults = require('../../lesson-results');
 /**
  * Created by vaimer on 19.02.2017.
  */
-module.exports = FlightWithInstructions();
+module.exports = VariablesIsContainers();
 
 
-function FlightWithInstructions() {
+function VariablesIsContainers() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Переменные - контейнеры?',
+		title:        'Иницализация переменных',
 		character:    [{
-			// Погрузка прошла успешно, теперь летим  к турели.
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-			hint:   [
-				{
-					'click .enhoyhint-play': 'Запустите код',
-					'nextButton':             false,
-					'showSkip':               false
-				}
-			]
-		},{
-			// Переменные свое рода проименнованные контейнеры для хранения каких-то ни было данных.
-			// Переменные объявляются с помощью ключевого слова var
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img',
-			marker: {
-				x1:   2,
-				y2:   Infinity
-			}
-		}, {
-			// Полсе слова var следует имя переменной.
-			// Имена переменных содержат буквы цыфры и символы нижнего подчеркивания.
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-			marker: {
-				x1:   2,
-				y2:   Infinity
-			}
-		}, {
-			// Переменные буквы, которых написанные в разных  регеистрах, разные переменные.
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-			marker: {
-				x1:   3,
-				y2:   Infinity
-			}
-		}, {
-			// Для получения большей информации обратитесь к инструкции.
 			audio:  'audio/lesson2/1-2.mp3',
 			css:    'astrogirl-img'
+		},{
+			audio:  'audio/lesson2/1-1.mp3',
+			css:    'astromen-img'
 		}],
 
 		gamePostUpdate: gamePostUpdate,
@@ -62,17 +27,8 @@ function FlightWithInstructions() {
 		content: content,
 
 		instructions: '<ul>' +
-		'<li>Для объявления или, другими словами, создания переменной используется ключевое слово <span class="red-label">var</span>.</li>' +
-		'<li><span class="red-label">var enemy;</span> - пример объявления переменной</li>' +
-		'<li>После объявления, можно записать в переменную данные(инициализация):</li>' +
-		'<li><span class="red-label">enemy = "PHP in my enemy";</span> - записываем в переменную строку.</li>' +
-		'<li>Для краткости можно совместить объявление переменной и запись данных:</li>' +
-		'<li><span class="red-label">var language = "JavaScript";</span></li>' +
-		'<li>Имена переменных содержат буквы, цыфры, нижниее подчеркивание.</li>' +
-		'<li>Имя переменной не может начинаться с цыфры.</li>' +
-		'<li>Переменный буквы, которвых в различных регистрах разные переменные:</li>' +
-		'<li><span class="red-label">Container</span> и <span class="red-label">container</span> разные переменные</li>' +
-		'</ul>'
+					  	'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					  '</ul>'
 	};
 
 	function gamePostUpdate(spaceCraft) {
@@ -91,9 +47,10 @@ function FlightWithInstructions() {
 
 	function content() {
 
-		return '<p>Погрузка завершена. Отправляемся к месту назначения.</p>' +
-			'<p> А пока кадет ознакомьтесь с новым материалом.</p>' +
-			'<p> Запустите код для начала полета.</p>';
+		return '<p>Надеюсь вы уловили первый принцип создания переменных -> <span class="under-label">var имя_переменной</span>.</p>' +
+			   '<p>Задать значение перемнной(инициализовать) можно с помощью знака "=": <span class="under-label">container1 = "Галактический червь"</span></p>' +
+			   '<p>Объявление и инициализацию переменной можно записать на одной строчке для краткости: <span class="under-label">var container2 = "Ракетное топливо"</span></p>' +
+			   '<p>Запустите код, чтобы вывести значения переменных.</p>';
 	}
 }
 

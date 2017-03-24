@@ -1,0 +1,13 @@
+var MAX_SPEED = 10;
+const MIN_SPEED = 5;
+var no_value;
+var null_value = null;
+
+/**
+ * Летим к исследовательскому центру
+ */
+this.run = function(transport)
+{
+	// Перемещение к датчику
+	transport.moveToXY(200, 200);
+};

@@ -12,7 +12,7 @@
 
 var express = require('express');
 
-var Statistic = require('./../../../models/statistic').Statistic;
+var Statistic = require('./../../../models/statistic');
 const checkAuthentication = require('./../../../middlewares/check-authentication');
 
 var lodash = require('lodash');

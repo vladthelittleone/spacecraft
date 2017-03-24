@@ -10,7 +10,7 @@ var router = express.Router();
 
 var lodash = require('lodash');
 
-var Statistic = require('./../../models/statistic').Statistic;
+var Statistic = require('./../../models/statistic');
 
 var leaderBoardHelper = require('../../utils/help/statistics/leaderBoard');
 

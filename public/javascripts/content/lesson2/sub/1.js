@@ -34,7 +34,7 @@ function Investigation() {
 			},
 			hint:  [
 				{
-					'next .ace_scroller': 'Редактор кода',
+					'next .ace_scroller': 'Отправьте корабль-разведчик к месту аварии',
 					'nextButton':         {text: 'Далее'},
 					'showSkip':           false
 				}

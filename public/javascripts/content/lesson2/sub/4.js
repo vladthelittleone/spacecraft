@@ -30,7 +30,7 @@ function Strings() {
 							'<li>Введите <span class="under-label-gray">\'Я есть BBot!\'</span> на <strong>10</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
-			audio:   'audio/lesson2/1-1.mp3',
+			audio:   'audio/lesson3/4-1',
 			css:     'astromen-img',
 			diagram: function (graph) {
 
@@ -39,18 +39,47 @@ function Strings() {
 				var type2 = block(50, 50, 'Простые типы');
 
 				var type21 = block(50, 135, 'Строки', '#fe854f');
+				var type22 = block(50, 220, 'Числа', '#fe854f');
 
 				graph.addCells([
 					typeMain,
 					type1,
 					type2,
-					type21
+					type21,
+					type22
 				]);
 
 				createLink(graph, typeMain, type1);
 				createLink(graph, typeMain, type2);
 				createLink(graph, type2, type21);
+				createLink(graph, type21, type22);
 
+			},
+			marker:  {
+				x1: 3,
+				y2: Infinity
+			}
+		}, {
+			audio:       'audio/lesson3/4-2',
+			css:         'astromen-img',
+			waitForHint: true,
+			marker:      {
+				x1: 7,
+				y2: Infinity
+			},
+			hint:        [
+				{
+					'next .ace_scroller': 'Примеры строк',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
+		}, {
+			audio:       'audio/lesson3/4-3',
+			css:         'astromen-img',
+			marker:      {
+				x1: 4,
+				y2: Infinity
 			}
 		}],
 		interpreterHandler: interpreterHandler

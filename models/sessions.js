@@ -26,8 +26,6 @@ module.exports = mongoose.model('Session', schema);
  *
  * Реализация удаления сессий опирается на то, что привязку
  * данных по пользователю к сессии осуществляет библиотека passport.
- * @param userId идентификатор пользователя, по которому будет происходить удаление всех сессиий.
- * @param callback
  */
 function removeAllByUserId(userId, callback) {
 

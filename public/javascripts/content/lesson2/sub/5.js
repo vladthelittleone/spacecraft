@@ -60,14 +60,6 @@ function Numbers() {
 				x1: 5,
 				y2: Infinity
 			},
-			waitForHint: true,
-			hint:        [
-				{
-					'next .ace_scroller': 'Примеры чисел',
-					'nextButton':         {text: 'Далее'},
-					'showSkip':           false
-				}
-			]
 		}, {
 			audio:  'audio/lesson3/5-3',
 			css:    'astromen-img',
@@ -88,18 +80,10 @@ function Numbers() {
 		}, {
 			audio:  'audio/lesson3/5-6',
 			css:    'astromen-img',
-			waitForHint: true,
 			marker: {
 				x1: 15,
 				y2: Infinity
-			},
-			hint:        [
-				{
-					'next .ace_scroller': 'Специальное числовое значение <strong>Infinity</strong>',
-					'nextButton':         {text: 'Далее'},
-					'showSkip':           false
-				}
-			]
+			}
 		}, {
 			audio:  'audio/lesson3/5-7',
 			css:    'astromen-img',

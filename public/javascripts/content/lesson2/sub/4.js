@@ -62,18 +62,10 @@ function Strings() {
 		}, {
 			audio:       'audio/lesson3/4-2',
 			css:         'astromen-img',
-			waitForHint: true,
 			marker:      {
 				x1: 7,
 				y2: Infinity
-			},
-			hint:        [
-				{
-					'next .ace_scroller': 'Примеры строк',
-					'nextButton':         {text: 'Далее'},
-					'showSkip':           false
-				}
-			]
+			}
 		}, {
 			audio:       'audio/lesson3/4-3',
 			css:         'astromen-img',

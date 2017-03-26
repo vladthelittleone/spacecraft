@@ -28,6 +28,7 @@ function Investigation() {
 		}, {
 			audio: 'audio/lesson3/1-2',
 			css:   'astromen-img',
+			waitForHint: true,
 			marker: {
 				x1: 8,
 				y2: Infinity

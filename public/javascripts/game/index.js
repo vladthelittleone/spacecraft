@@ -3,7 +3,7 @@
 /**
  * Зависимости.
  */
-var StatesFactory = require('./states');
+var StatesManager = require('./states');
 var ContentFactory = require('../content');
 var EntitiesFactory = require('./entities');
 var CodeLauncher = require('./launcher');
@@ -45,9 +45,9 @@ function Game() {
 		var content = ContentFactory.content(id);
 
 		// Игровые состояния
-		StatesFactory.createBootState(t.phaser, 'boot');
-		StatesFactory.createPreloadState(t.phaser, 'preload', content.preload);
-		StatesFactory.createWrappedPlayState(t.phaser, 'play', content.state);
+		StatesManager.createBootState(t.phaser, 'boot');
+		StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
+		StatesManager.createWrappedPlayState(t.phaser, 'play', content.state);
 
 		// Стартуем boot состояние.
 		t.phaser.state.start('boot');

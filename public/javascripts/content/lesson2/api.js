@@ -11,35 +11,31 @@ module.exports = Api;
 function Api(player) {
 
 	var api = {};
+	var isScanning = false;
 
-	var moveForwardCalled = false;
-
-	api.isAlive = isAlive;
-	api.moveForward = moveForward;
+	api.isScanningActivated = isScanningActivated;
+	api.scan = scan;
+	api.moveForward = player.moveForward;
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
-	api.isMoveForwardCalled = isMoveForwardCalled;
+	api.getX = player.getX;
+	api.getY = player.getY;
+	api.distanceTo = player.distanceTo;
 
 	return api;
 
-	function moveForward() {
+	function scan() {
 
-		player.moveForward();
+		isScanning = true;
 
-		moveForwardCalled = true;
-
-	}
-
-	function isMoveForwardCalled() {
-
-		return moveForwardCalled;
+		player.scan();
 
 	}
 
-	function isAlive() {
+	function isScanningActivated() {
 
-		return player.sprite.alive;
+		return isScanning;
 
 	}
 

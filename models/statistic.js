@@ -1,4 +1,8 @@
+'use strict';
+
 /**
+ * TODO сменить имя на statistics
+ *
  * Created by Ivan on 01.03.2016.
  */
 const logger = require('utils/log')(module);
@@ -56,7 +60,7 @@ schema.statics.updateLessonStarStatistics = updateLessonStarStatistics;
 schema.statics.getUserStatistics = getUserStatistics;
 
 // Возврат всей статистики.
-schema.statics.getLeaderboard = getLeaderboard;
+schema.statics.getLeaderBoard = getLeaderBoard;
 
 schema.statics.updateTotalFinalScore = updateTotalFinalScore;
 
@@ -71,7 +75,7 @@ exports.Statistic = mongoose.model('Statistic', schema);
 /**
  * возвращает статистику пользователя
  */
-function getUserStatistics (idUser, callback) {
+function getUserStatistics(idUser, callback) {
 
 	var modelStatistics = this;
 
@@ -94,7 +98,7 @@ function getUserStatistics (idUser, callback) {
  *                      - error если прозошла какая либо ошибка;
  *                      - statistics статистика, выбранная из БД по указанному пользователю.
  */
-function prepareCurrentUserStatistics (modelStatistics, idUser, callback) {
+function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 
 	if (validateParam(idUser, callback)) {
 
@@ -112,7 +116,7 @@ function prepareCurrentUserStatistics (modelStatistics, idUser, callback) {
 
 }
 
-function updateUserProgress (idUser, score, callback) {
+function updateUserProgress(idUser, score, callback) {
 
 	// Размер массива очков пользователя за прохождения уроков,
 	// так сказать его прогресс,
@@ -124,109 +128,76 @@ function updateUserProgress (idUser, score, callback) {
 	if (validateParam(idUser, callback) && validateParam(score, callback)) {
 
 		this.findOneAndUpdate({
-								idUser: idUser
-							}, {
-								$push: {
-									userProgress: {
-										$each:  [score],
-										// Отрицательное значение дает указание mongodb оставлять
-										// в массиве только КРАЙНИЕ N значений массива:
-										// https://docs.mongodb.com/v3.0/reference/operator/update/slice/#up._S_slice
-										// Это то, что и требуется по логике хранения прогресса пользователя.
-										$slice: -USER_PROGRESS_SIZE_LIMIT
-									}
-								}
-							}, callback);
+								  idUser: idUser
+							  }, {
+								  $push: {
+									  userProgress: {
+										  $each:  [score],
+										  // Отрицательное значение дает указание mongodb оставлять
+										  // в массиве только КРАЙНИЕ N значений массива:
+										  // https://docs.mongodb.com/v3.0/reference/operator/update/slice/#up._S_slice
+										  // Это то, что и требуется по логике хранения прогресса пользователя.
+										  $slice: -USER_PROGRESS_SIZE_LIMIT
+									  }
+								  }
+							  }, callback);
 	}
 
 }
 
 /**
- * Метод формирования имен пользователей по электронным адресам.
- * Предполагается, что сами электронные адреса задаются в поле name каждого пользователя.
- * @param listOfUsers список пользователей.
- */
-function takeNameFromEmail (listOfUsers) {
-
-	listOfUsers.forEach(function (item) {
-
-		if (!item.name) {
-
-			logger.warn('Problem with generating name of user for leaderboard request!!!');
-
-		} else {
-
-			item.name = lodash.first(item.name.split('@'));
-
-		}
-
-	});
-
-}
-
-/**
- * Метод получения таблицы лидеров для указанного пользователя.
- * Указанный пользователь будет помечен в конечной таблице в поле
- * isItMe значением true.
+ * Метод получения таблицы лидеров по урокам.
  * Выходной формат таблицы:
+ * 1) idUser - id пользователя;
  * 1)name имя пользователя в системе;
  * 2)totalFinalScore общее число очков пользователя;
- * 3)isItMe флаг сообщающий пользователю о том, где он расположен
  * в таблице.
  * Коллбэк формирующий из email адресов имена пользователей определен именно в контексте данного
  * метода, так как формирование нужных данных по таблице лидеров целесообразно
  * удерживать именно здесь. Вроде как, нигде больше подобная логика не потребуется.
+ *
  */
-function getLeaderboard (idUser, callback) {
+function getLeaderBoard(callback) {
 
-	// Не строим таблицу для неавторизованных пользователей.
-	if (validateParam(idUser, callback)) {
-
-		this.aggregate([{
-			$lookup: {
-				from:         'users',
-				localField:   'idUser',
-				foreignField: '_id',
-				as:           'user'
+	this.aggregate([{
+		// Сопоставляем записи из статистики с записями в users
+		$lookup: {
+			from:         'users',
+			localField:   'idUser',
+			foreignField: '_id',
+			as:           'user'
+		}
+	}, {
+		// Селектируем только те записи, по которым имеется сопоставление
+		// с users.
+		$match: {
+			user: {
+				$exists: true,
+				$size:   1
 			}
-		}, {
-			$project: {
-				totalFinalScore: true,
-				isItMe:          {
-					$eq: ["$idUser", mongoose.Types.ObjectId(idUser)]
-				},
-				name:            {
-					$arrayElemAt: ['$user.email', 0]
-				},
-				regDate:         {
-					$arrayElemAt: ['$user.created', 0]
-				}
+		}
+	}, {
+		// Формируем нужные поля для результата.
+		$project: {
+			_id:             false,
+			idUser:          true,
+			totalFinalScore: true,
+			name:            {
+				$arrayElemAt: ['$user.username', 0]
+			},
+			regDate:         {
+				$arrayElemAt: ['$user.created', 0]
 			}
-		}, {
-			$limit: 10
-		}, {
-			$project: {
-				_id:             false,
-				name:            true,
-				totalFinalScore: true,
-				isItMe:          true
-			}
-		}], function (error, results) {
-
-			if (!error) {
-
-				// Обрабатываем поле с именем (name) каждого пользователя.
-				// На данный момент мы складываем туда email адреса, из которых
-				// и нужно "вырезать" имена.
-				takeNameFromEmail(results);
-
-			}
-
-			callback(error, results);
-
-		});
-
-	}
+		}
+	}, {
+		$sort: {
+			totalFinalScore: -1,
+			regDate:         1
+		}
+	}, {
+		// TODO вынести как параметр, дабы была возможность получить таблицу ВСЕХ пользователей
+		$limit: 10
+	}], callback);
 
 }
 
@@ -234,7 +205,7 @@ function getLeaderboard (idUser, callback) {
  * Заносим инфу о том сколько звездочек
  * какому уроку было поставленно пользователем.
  */
-function updateLessonStarStatistics (idUser, dataForUpdate, callback) {
+function updateLessonStarStatistics(idUser, dataForUpdate, callback) {
 
 	var modelStatistics = this;
 	// Проверка коректности пришедших данных для обновления.
@@ -263,14 +234,14 @@ function updateLessonStarStatistics (idUser, dataForUpdate, callback) {
  * производиться сортировка.
  * @param callback
  */
-function sortStatistics (modelStatistics, callback) {
+function sortStatistics(modelStatistics, callback) {
 
 	// Сортируем данные в statistics по убыванию значения в поле totalFinalScore.
 	modelStatistics.aggregate([{$sort: {totalFinalScore: -1}}, {$out: 'statistics'}], callback);
 
 }
 
-function updateTotalFinalScore (idUser, totalFinalScoreValue, callback) {
+function updateTotalFinalScore(idUser, totalFinalScoreValue, callback) {
 
 	if (validateParam(totalFinalScoreValue, callback)) {
 
@@ -305,7 +276,7 @@ function updateTotalFinalScore (idUser, totalFinalScoreValue, callback) {
 /**
  * Обновение инфы о прохождении пользователем уроков.
  */
-function updateLessonStatistics (idUser, dataForUpdate, callback) {
+function updateLessonStatistics(idUser, dataForUpdate, callback) {
 
 	var isDataForUpdateExists = validateParam(dataForUpdate, callback);
 	var fieldsAreCorrect = validateParam(dataForUpdate.lesson, callback);
@@ -351,7 +322,7 @@ function updateLessonStatistics (idUser, dataForUpdate, callback) {
  * @param callback обработки ошибки
  * @return boolean результат проверки
  */
-function validateParam (expression, callback) {
+function validateParam(expression, callback) {
 
 	var result = true;
 

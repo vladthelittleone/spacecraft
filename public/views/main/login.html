@@ -1,5 +1,6 @@
 <div class="login-background"></div>
-<div class="login-landing" ng-keypress="loginByKey($event.keyCode)">
+<div ng-cloak
+	 class="login-landing">
 	<div class="login-container login-main">
 		<div class="login-vertical-center">
 			<div class="login-left-container">
@@ -17,52 +18,97 @@
 					{{isEnterForm ? "Войдите в систему:" : "Зарегистрируйтесь в системе:"}}
 				</div>
 
-				<div class="login-input">
-					<label>
-						<input type="text"
-							   ng-model="email"
-							   class="login-email"
-							   placeholder="Email">
-					</label>
-				</div>
+				<form name="loginForm"
+					  class="login-form"
+					  ng-submit="isEnterForm ? login() : register()"
+					  novalidate>
+					<div class="login-input">
+						<label>
+							<input type="email"
+								   name="email"
+								   ng-model="email"
+								   class="login-email"
+								   placeholder="Email"
+								   ng-minlength="8"
+								   ng-maxlength="60"
+								   ng-model-options="{ allowInvalid: true }"
+								   ng-change="loginForm.$submitted = false;
+											  errorMessage = null;"
+								   required=""
+								   validate-email>
+						</label>
+					</div>
 
-				<div class="login-input">
-					<label>
-						<input type="password"
-							   ng-model="password"
-							   placeholder="Пароль">
-					</label>
-				</div>
+					<div class="login-input">
+						<label>
+							<input type="password"
+								   name="password"
+								   ng-model="password"
+								   placeholder="Пароль"
+								   ng-minlength="8"
+								   ng-maxlength="60"
+								   ng-model-options="{ allowInvalid: true }"
+								   ng-change="loginForm.$submitted = false;
+											  errorMessage = null;"
+								   required="">
+						</label>
+					</div>
 
-				<div class="login-button-group">
-					<button ng-click="isEnterForm ? login() : register()">
-						<span>OK</span>
-					</button>
+					<div class="login-button-group">
 
-					<button class="float-right"
-							ng-click="changeForm()">
-						<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
-					</button>
+						<button type="submit">
+							<span>OK</span>
+						</button>
 
-					<button ng-show="isEnterForm" class="vk-button">
-						<a href="/login/vk">
-							<span>Войти через ВКонтакте</span>
-						</a>
-					</button>
+						<button type="button"
+								class="float-right"
+								ng-click="changeForm();">
+							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
+						</button>
 
-				</div>
+						<div ng-show="isEnterForm" class="vk-button">
+							<a href="/vk">
+								<span>Войти через ВКонтакте</span>
+							</a>
+						</div>
 
-				<div class="login-input login-checkbox">
-					<div ng-show="!isEnterForm"
-						 class="login-checkbox-title" ng-click=changeSubscribe()>
+					</div>
+
+					<div class="login-input login-checkbox">
+						<div ng-show="!isEnterForm"
+							 class="login-checkbox-title" ng-click=changeSubscribe()>
 						<span ng-class="{'glyphicon glyphicon-check' : isSubscribeOnEmail,
 										 'glyphicon glyphicon-unchecked' : !isSubscribeOnEmail}">
 						</span>
-						получать звёздные новости на e-mail
+							получать звёздные новости на e-mail
+						</div>
 					</div>
-				</div>
 
-				<div class="login-input-title login-error">{{error}}</div>
+				</form>
+
+				<!--Раздел вывода сообщения об ошибочной ситуации заполнения формы или состояния регистрации/авторизации
+                на сервере
+                Если форма была отправлена-->
+				<div class="login-input-title login-error">
+
+					<!--Если форма не валидна-->
+					<div ng-if="loginForm.$submitted && loginForm.$invalid"
+						 ng-messages="loginForm.$error">
+
+						<div ng-message="email">Пожалуйста, укажите корректный email</div>
+						<div ng-message="minlength">Длина поля должна быть не менее 8 символов</div>
+						<div ng-message="maxlength">Длина поля должна быть не более 60 символов</div>
+						<div ng-message="required">Пожалуйста, заполните все поля</div>
+
+					</div>
+
+					<!--Отображаем сообщение об ошибке из контроллера только в случае, когда с формой все впорядке.
+                        В противном случае, пользователю уже будет показываться сообщение о проблеме с заполнением формы.-->
+					<div ng-if="loginForm.$valid">
+						{{errorMessage}}
+					</div>
+
+				</div>
 
 			</div>
 		</div>
@@ -106,7 +152,7 @@
 		</div>
 	</div>
 	<div class="login-container login-footer">
-		<div class="login-copyright">© Copyright SpaceCraft™ 2016. All rights reserved.</div>
+		<div class="login-copyright">© Copyright SpaceCraft™ 2017. All rights reserved.</div>
 		<div class="login-vk"><a href="https://vk.com/spacecrafter">Мы в ВК</a></div>
 	</div>
 </div>

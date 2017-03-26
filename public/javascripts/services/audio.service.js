@@ -7,6 +7,8 @@ AudioManager.$inject = ['$rootScope'];
 
 module.exports = AudioManager;
 
+var lodash = require('lodash');
+
 /**
  * Менеджер аудиоменеджеров.
  *
@@ -21,14 +23,16 @@ function AudioManager($rootScope) {
 	var soundtrack;
 	var currentAudio = 0;
 
+	var audioFormat = tryToGetSupportedAudioFormat();
+
 	var playList = [{
-		src:    'audio/track1.ogg',
+		src:    'audio/track1',
 		volume: 0.05
 	}, {
-		src:    'audio/track3.ogg',
+		src:    'audio/track3',
 		volume: 0.05
 	}, {
-		src:    'audio/track2.ogg',
+		src:    'audio/track2',
 		volume: 0.05
 	}];
 
@@ -59,7 +63,7 @@ function AudioManager($rootScope) {
 			voice.onended = null;
 
 			// Изменение сурса
-			voice.setAttribute('src', str);
+			voice.setAttribute('src', str + audioFormat);
 
 			// Загрузка нового сурса
 			voice.load();
@@ -68,7 +72,9 @@ function AudioManager($rootScope) {
 		else {
 
 			// Создание новой аудиозаписи
-			voice = new Audio(str);
+			voice = new Audio();
+
+			voice.setAttribute('src', str + audioFormat);
 
 		}
 
@@ -77,14 +83,14 @@ function AudioManager($rootScope) {
 	}
 
 	/**
-	 * Загрущка аудиозаписи.
+	 * Загрузка аудиозаписи.
 	 *
 	 * @param audio аудиозапись
 	 * @param config конфигурация аудиозаписи
 	 */
 	function init(audio, config) {
 
-		audio.setAttribute('src', config.src);
+		audio.setAttribute('src', config.src + audioFormat);
 
 		audio.load();
 
@@ -174,6 +180,24 @@ function AudioManager($rootScope) {
 		voice && voice.pause();
 
 		soundtrack && soundtrack.pause();
+
+	}
+
+	/**
+	 * Функция производит проверку поддерживаемых форматов
+	 * Из контейнера форматов наших аудио и возвращает поддерживаемый
+	 */
+	function tryToGetSupportedAudioFormat () {
+
+		var audio = new Audio();
+
+		var supportedAudioFormats = ['ogg', 'mp3'];
+
+		return '.' + lodash.find(supportedAudioFormats, function (format) {
+
+			return audio.canPlayType('audio/' + format);
+
+		});
 
 	}
 }

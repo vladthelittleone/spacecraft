@@ -14,6 +14,8 @@ var AudioWrapper = require('./audio');
 var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
+var lodash = require('lodash');
+
 LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
 
 module.exports = LessonService;
@@ -25,7 +27,11 @@ module.exports = LessonService;
  * @since 07.05.2016
  * @see LessonController
  */
-function LessonService(connection, audioManager, aceService, settings, statisticsStorage) {
+function LessonService(connection,
+					   audioManager,
+					   aceService,
+					   settings,
+					   statisticsStorage) {
 
 	var that = {};
 
@@ -47,7 +53,10 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 
 	// Статистика по ТЕКУЩЕМУ уроку.
 	// Текущий - это именно тот, который в данный момент проходит пользователь.
-	var currentLessonStatistics;
+	var currentLessonStatistics = null;
+
+	// Флаг показывающий проходился ли уже ранее данный урок.
+	var isCurrentLessonCompleted = false;
 
 	that.setEditorSession = setEditorSession;
 	that.setMarkerId = setMarkerId;
@@ -55,6 +64,8 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	that.getEditorSession = getEditorSession;
 	that.getCode = getCode;
 	that.getMarkerId = getMarkerId;
+	that.getCurrentLessonStatistics = getCurrentLessonStatistics;
+	that.getCurrentLessonContentPoints = getCurrentLessonContentPoints;
 
 	that.lessonContent = lessonContent;
 
@@ -71,8 +82,6 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	that.clear = clear;
 
 	return that;
-
-
 
 	/**
 	 * Метод очистки содержимого сервиса.
@@ -225,7 +234,7 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 
 		var hint = char.hint;
 
-		if (hint) {
+		if (hint && !scope.hideEditor) {
 
 			enjoyHint = new EnjoyHint({
 
@@ -350,7 +359,7 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 		++scope.subIndex;
 
 		// Сохраняем статистику текущего положения по уроку.
-		saveStatisticsWrapper(scope.subIndex, false);
+		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
 
 		CodeLauncher.stop();
 
@@ -362,6 +371,12 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 
 		// Сокрытие панели инструкций
 		scope.showTextContent = false;
+
+		// Сокрытие диаграммы и очистка оной
+		scope.showDiagram = false;
+
+		// Очистка диграмм
+		Diagram.clearChanges();
 
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
@@ -384,7 +399,9 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 			endLastSubLesson();
 
 			// Обновляем игровые объекты на начальные значения или нет?
-			currentSubLesson().gamePostUpdate && Game.restart();
+			currentSubLesson().gamePostUpdate &&
+			!currentSubLesson().isRestartDisabled &&
+			Game.restart();
 
 			initNextLesson();
 
@@ -405,7 +422,8 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	function endLesson() {
 
 		// Выводим доску оценки подурока
-		scope.lessonIsCompleted = true;
+		scope.isStarsVisiable = true;
+		isCurrentLessonCompleted = true;
 
 		// Вызываем коллбэки, которые подписались на скрытие вкладки,
 		// так как на данном этапе урок закончен, и можно считать,
@@ -474,11 +492,13 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	function loadLessons() {
 
 		// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-		connection.getLessonsStatistics(function (result) {
+		connection.getLessonsStatistics(function (data) {
 
 			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-			lessons = result.data.lessons || [];
-			totalFinalScore = result.data.totalFinalScore || 0;
+			lessons = data.lessons || [];
+			totalFinalScore = data.totalFinalScore || 0;
+
+			isCurrentLessonCompleted = !lodash.isNil(data.completed);
 
 			prepareLesson(getCurrentLesson());
 
@@ -513,6 +533,10 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 		// перед его началом.
 		// В противном случае - осуществляем выгрузку данных,
 		// которая в последующем спровоцирует их подготовку перед началом урока.
+		//------------------------------------------------------------------------
+		// TODO
+		// вынести выгрузку в resolve!!!!
+		//------------------------------------------------------------------------
 		if (lessons && lessons.length) {
 
 			prepareLesson(getCurrentLesson());
@@ -700,7 +724,9 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	 */
 	function lessonContent(num) {
 
-		return ContentFactory.content(num).lessonContent;
+		var currentContent = ContentFactory.content(num);
+
+		return currentContent && currentContent.lessonContent;
 
 	}
 
@@ -731,6 +757,18 @@ function LessonService(connection, audioManager, aceService, settings, statistic
 	function setMarkerId(id) {
 
 		markerId = id;
+
+	}
+
+	function getCurrentLessonStatistics() {
+
+		return currentLessonStatistics;
+
+	}
+
+	function getCurrentLessonContentPoints() {
+
+		return that.lessonContent(lessonId).points;
 
 	}
 

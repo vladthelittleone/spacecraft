@@ -2,7 +2,7 @@
 
 var ENTER = 13;
 
-LoginController.$inject = ['$scope', '$state', 'authentication', 'authService'];
+LoginController.$inject = ['$scope', '$state', 'authentication'];
 
 module.exports = LoginController;
 
@@ -12,7 +12,7 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication, authService) {
+function LoginController($scope, $state, authentication) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;
@@ -22,7 +22,6 @@ function LoginController($scope, $state, authentication, authService) {
 
 	$scope.changeForm = changeForm;
 	$scope.changeSubscribe = changeSubscribe;
-	$scope.loginByKey = loginByKey;
 	$scope.register = register;
 	$scope.login = login;
 
@@ -40,72 +39,65 @@ function LoginController($scope, $state, authentication, authService) {
 
 	}
 
-	// Обработка нажатия клавиши 'Enter'
-	function loginByKey(code) {
+	/**
+	 * Регистрация в сервисе
+	 */
+	function register() {
 
-		if (code === ENTER) {
+		// Если взаимодействовали с формой и форма заполнена корректно.
+		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			$scope.login();
+			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
+			authentication.register({
+										email:              $scope.email,
+										password:           $scope.password,
+										isSubscribeOnEmail: $scope.isSubscribeOnEmail,
+										success:            login,
+										error:              error
+									});
 
 		}
 
 	}
 
-	// Переход на состояние первого урока
-	function toLesson() {
+	/**
+	 * Обработка ошибочной ситуации в контроллере.
+	 * Метод принимает сообщение, которое необходимо отобразить клиенту.
+	 * Если сообщение не задано (к примеру, данный коллбэк указывали в качестве обработчика
+	 * ошибочной ситуации при авторизации и сервис не отвечает) -> указываем сообщение по умолчанию.
+	 */
+	function error(errorDescription) {
 
-		login(function () {
-
-			$state.go('lesson', {id: 0})
-
-		});
+		$scope.errorMessage = errorDescription ? errorDescription :
+							  "Что-то пошло не так, пожалуйста, попробуйте еще раз.";
 
 	}
 
 	/**
-	 * Регистрация в сервисе
+	 * Смена состояния на главную страницу.
 	 */
-	function register () {
+	function toWelcome() {
 
-		var email = $scope.email;
-
-		var pass = $scope.password;
-
-		var subscribe = $scope.isSubscribeOnEmail;
-
-		authentication.register({
-			email:    email,
-			password: pass,
-			isSubscribeOnEmail: subscribe,
-			success:  toLesson,
-			error:    error
-		});
-
-	}
-
-
-	// Состояние ошибки
-	function error(res) {
-
-		$scope.error = res.data;
+		$state.go('welcome');
 
 	}
 
 	/**
 	 * Вход в систему.
-     */
+	 */
 	function login() {
 
-		var email = $scope.email;
+		// Если взаимодействовали с формой и форма заполнена корректно.
+		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-		var password = $scope.password;
+			authentication.login({
+									 email:              $scope.email,
+									 password:           $scope.password,
+									 success:            toWelcome,
+									 error:              error
+								 });
 
-		authentication.login({
-			email:    email,
-			password: password,
-			success:  authService.loginConfirmed,
-			error:    error
-		});
+		}
 
 	}
 

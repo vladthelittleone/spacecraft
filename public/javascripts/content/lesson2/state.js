@@ -3,7 +3,8 @@
 // Зависимости
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var Random = require('../../utils/random');
+
+var random = require('../../utils/random');
 
 var Api = require('./api');
 
@@ -18,14 +19,10 @@ function StateWrapper(state) {
 
 	var t = state;
 
-	var explosions;	// Группа анимации взрывов
 	var player;		// Игрок
-	var mines; 		// Мины
-
-	var mineXY;		// Координаты мин
+	var graphics;	// Графика
 
 	t.entities = entities;
-	t.logic = logic;
 
 	return t;
 
@@ -37,8 +34,11 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
+		// Инициализация графики
+		graphics = game.add.graphics(0, 0);
+
 		// Создать транспорт
-		player = EntitiesFactory.createTransport(game, x, y, true);
+		player = EntitiesFactory.createScout(game, 1000, 1000, true);
 		var sprite = player.sprite;
 
 		sprite.rotation = - Math.PI / 2;
@@ -49,104 +49,72 @@ function StateWrapper(state) {
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
 
-		mineField(game, x, y);
-
 		// Корабль на верх.
 		sprite.bringToTop();
 
 		// Фокус на на центре
 		t.followFor(sprite);
 
+		var cruiser = EntitiesFactory.createCruiser(game, 2020, 1740);
+
+		cruiser.sprite.rotation = - Math.PI / 2;
+
+		// Дейстивя харвестра
+		cruiser.logic = function (h) {
+
+			h.moveToXY(150, 150);
+
+		};
+
+		var h1 = EntitiesFactory.createHarvester(game, 1859, 2156);
+
+		h1.sprite.rotation = - 3.35 * Math.PI / 2;
+
+		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
+		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
+
+		s1.sprite.rotation = - 3.85 * Math.PI / 2;
+		s2.sprite.rotation = - 4.25 * Math.PI / 2;
+
+		patrol(s1, 2055, 1995, 2700, 1200);
+		patrol(s2, 2101, 1890, 2800, 1340);
+
 		CodeLauncher.setArguments(player.api);
 
 	}
 
 	/**
-	 * Создание минного поля.
-     */
-	function mineField(game) {
-		// Создать минное поле
-		mineXY = new Phaser.Point(1100, 1100);
-
-		// Создаем группу из мин
-		mines = game.add.group();
-
-		for (var i = 0; i < 10; i++)
-		{
-			var deltaY = Random.randomOf(-1, 1) * 20 * i;
-			var deltaX = Random.randomOf(-1, 1) * 20 * i;
-
-			EntitiesFactory.createMine(game, mineXY.x + deltaX, mineXY.y - deltaY, 0.15, mines);
-		}
-
-		// Группа анимации взрыва
-		explosions = game.add.group();
-		explosions.createMultiple(10, 'explosion');
-		explosions.forEach(initExplosion, this);
-
-	}
-
-	/**
-	 * Инициализация взрывов.
-     */
-	function initExplosion (explosion) {
-
-		explosion.anchor.x = 0.5;
-		explosion.anchor.y = 0.5;
-		explosion.animations.add('explosion');
-
-	}
-
-	/**
-	 * Обновление логики минного поля.
-     */
-	function logic(game) {
-
-		// В случае близкого положения мин,
-		// летим к кораблю
-		if (Phaser.Point.distance(mineXY, player.sprite) < 100) {
-
-			mines.forEach(function (e) {
-
-				if (!player.sprite.alive) {
-
-					// Если игрок погиб, мины
-					// прекращают движение.
-					e.body.velocity.x = 0;
-					e.body.velocity.y = 0;
-
-				} else {
-
-					game.physics.arcade.moveToObject(e, player.sprite, 100);
-
-					// При пересечении обрабатываем в overlapHandler
-					game.physics.arcade.overlap(player.sprite, e, overlapHandler);
-
-				}
-
-			});
-
-		}
-
-	}
-
-	/**
-	 * Обработка пересечений.
+	 * Патрулирование местности
+	 * @param spacecraft корабль
+	 * @param x1 координата x первой точки
+	 * @param y1 координата y первой точки
+	 * @param x2 координата x второй точки
+	 * @param y2 координата y второй точки
 	 */
-	function overlapHandler(transport, mine) {
+	function patrol(spacecraft, x1, y1, x2, y2) {
 
-		// Наносим два урона
-		transport.damage(2);
+		var x = x1;
+		var y = y1;
 
-		var explosion = explosions.getFirstExists(false);
+		spacecraft.logic = function (h) {
 
-		explosion.scale.setTo(0.5);
-		explosion.reset(transport.body.x, transport.body.y);
-		explosion.play('explosion', 30, false, true);
+			h.moveToXY(x, y);
 
-		player.audio.playExplosion();
+			if (spacecraft.distanceTo(x1, y1) < 100) {
 
-		mine.kill();
+				x = x2;
+				y = y2;
+
+			}
+
+			if (spacecraft.distanceTo(x2, y2) < 100) {
+
+				x = x1;
+				y = y1;
+
+			}
+
+		}
 
 	}
 

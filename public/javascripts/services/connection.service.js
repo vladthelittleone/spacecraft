@@ -5,49 +5,10 @@ Connection.$inject = ['$http'];
 module.exports = Connection;
 
 /**
- * Ссылки на ресурсы.
- */
-var resources = {
-	lessonsCode: 'javascripts/code/lesson'
-};
-
-/**
  * Ссылки на REST API
  */
-var links = {
-
-	/**
-	 * Сбор статистики.
-	 */
-	statistic: {
-		lessons:     '/statistic/lessons',
-		code:        '/statistic/code',
-		stars:       '/statistic/lessons/stars',
-		score:       '/statistic/score',
-		leaderboard: '/statistic/lessons/leaderboard',
-		progress:    '/statistic/user/progress'
-	},
-
-	user: {
-		info:  '/user/info'
-	},
-
-	/**
-	 * Сбор метрик.
-	 */
-	metrics: {
-		openLessons: 'metrics/openlessons'
-	},
-
-	/**
-	 * Остальные ссылки
-	 */
-	register:   '/reg',
-	logout:     '/logout',
-	login:      '/login',
-	loginCheck: 'login/check'
-
-};
+var apiUrls = require('./../utils/json/urls/api.json');
+var resourcesUrls = require('./../utils/json/urls/resources.json');
 
 /**
  * Сервис взаимоедйствия с бекендом.
@@ -58,21 +19,16 @@ function Connection($http) {
 
 	var that = {};
 
-	that.saveCode = saveCode;
-
-	that.getCodeFromDataBase = getCodeFromDataBase;
 	that.getCodeFromJs = getCodeFromJs;
 
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
-
-	that.getScore = getScore;
 
 	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
 
 	that.lessonRate = lessonRate;
 
-	that.getLeaderboard = getLeaderboard;
+	that.getLeaderBoard = getLeaderBoard;
 
 	that.login = login;
 	that.logout = logout;
@@ -83,82 +39,77 @@ function Connection($http) {
 	that.getUserProgress = getUserProgress;
 	that.updateUserProgress = updateUserProgress;
 
-	that.metrics = {};
-	that.metrics.hitOpenLesson = hitOpenLesson;
+	that.checkSession = checkSession;
 
 	return that;
 
-	function getUserInfo(callback) {
+	function claimHttpDataOnly(callback) {
 
-		$http({
-			url: links.user.info,
-			method: 'GET'
-		}).then(callback);
+		return function (response) {
+
+			return callback && callback(response.data);
+
+		}
 
 	}
 
-	function getLeaderboard(callback) {
+	function checkSession(success, error) {
 
 		$http({
-			url:    links.statistic.leaderboard,
-			method: 'GET'
-		}).then(callback);
+				  url:    apiUrls.userSession,
+				  method: 'GET'
+			  }).then(success, error);
+
+	}
+
+	function getUserInfo(success, error) {
+
+		$http({
+				  url:    apiUrls.userInfo,
+				  method: 'GET'
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
+
+	}
+
+	function getLeaderBoard(success, error) {
+
+		$http({
+				  url:    apiUrls.leaderBoard,
+				  method: 'GET'
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
 	/**
 	 * Сохранение статистики урока.
 	 */
-	function saveLessonsStatistics(args) {
+	function saveLessonsStatistics(args, success, error) {
 
 		$http({
-			url:    links.statistic.lessons,
-			method: 'POST',
-			data:   args
-		});
+				  url:    apiUrls.lessons,
+				  method: 'POST',
+				  data:   args
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
 	/**
 	 * Сохранение оценки урока.
 	 */
-	function lessonRate(lessonId, stars) {
+	function lessonRate(lessonId, stars, success, error) {
 
 		$http({
-			url:    links.statistic.stars,
-			method: 'POST',
-			data:   {
-				lessonId: lessonId,
-				stars:    stars
-			}
-		});
-
-	}
-
-	/**
-	 * Сохранить код пользователя.
-	 */
-	function saveCode(data) {
-
-		$http({
-			method: 'POST',
-			url:    links.statistic.code,
-			data:   {
-				code: data
-			}
-		});
-
-	}
-
-	/**
-	 * Получить код из базы данных.
-	 */
-	function getCodeFromDataBase(callback) {
-
-		$http({
-			method: 'GET',
-			url:    links.statistic.code
-		}).then(callback);
+				  url:    apiUrls.lessonStar,
+				  method: 'POST',
+				  data:   {
+					  lessonId: lessonId,
+					  stars:    stars
+				  }
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
@@ -168,9 +119,9 @@ function Connection($http) {
 	function getCodeFromJs(source, callback) {
 
 		$http({
-			method: 'GET',
-			url:    source
-		}).then(callback);
+				  method: 'GET',
+				  url:    source
+			  }).then(callback);
 
 	}
 
@@ -179,7 +130,7 @@ function Connection($http) {
 	 */
 	function getLessonCodeFromJs(lessonId, subLessonId, callback) {
 
-		var source = resources.lessonsCode + lessonId + '/' + subLessonId + '.js';
+		var source = resourcesUrls.lessonCode + lessonId + '/' + subLessonId + '.code';
 
 		getCodeFromJs(source, callback)
 
@@ -188,30 +139,25 @@ function Connection($http) {
 	/**
 	 * Статистика уроков.
 	 */
-	function getLessonsStatistics(callback) {
+	function getLessonsStatistics(success, error) {
 
-		$http.get(links.statistic.lessons).then(callback);
+		$http.get(apiUrls.lessons).then(claimHttpDataOnly(success),
+										claimHttpDataOnly(error));
 
 	}
 
 	/**
 	 * Вход в систему.
 	 */
-	function login(args) {
+	function login(data, success, error) {
 
-		var success = args.success;
-		var error = args.error;
-
-		var promise = $http({
-			method: 'POST',
-			data:   {
-				email:    args.email,
-				password: args.password
-			},
-			url:    links.login
-		});
-
-		promise.then(success, error);
+		$http({
+				  method: 'POST',
+				  data:   data,
+				  ignoreAuthModule: true,
+				  url:    apiUrls.login
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 	}
 
 	/**
@@ -220,9 +166,10 @@ function Connection($http) {
 	function logout(success, error) {
 
 		$http({
-			method: 'POST',
-			url:    links.logout
-		}).then(success, error);
+				  method: 'POST',
+				  url:    apiUrls.logout
+			  }).then(claimHttpDataOnly(success),
+					  claimHttpDataOnly(error));
 
 	}
 
@@ -231,56 +178,36 @@ function Connection($http) {
 	 */
 	function register(args) {
 
-		var success = args.success;
-		var error = args.error;
-
-		var p = $http({
-			method: 'POST',
-			data:   {
-				email:              args.email,
-				password:           args.password,
-				isSubscribeOnEmail: args.isSubscribeOnEmail
-			},
-			url:    links.register
-		});
-
-		p.then(success, error);
+		$http({
+				  method: 'POST',
+				  data:   {
+					  email:              args.email,
+					  password:           args.password,
+					  isSubscribeOnEmail: args.isSubscribeOnEmail
+				  },
+				  ignoreAuthModule: true,
+				  url:    apiUrls.register
+			  }).then(claimHttpDataOnly(args.success),
+					  claimHttpDataOnly(args.error));
 
 	}
 
-	/**
-	 * Получить информацию об очках лучших пользователей.
-	 */
-	function getScore(callback) {
+	function getUserProgress(success, error) {
 
-		$http.get(links.statistic.score).success(callback);
-
-	}
-
-	/**
-	 * Отправка информации о открытии урока пользователем.
-	 */
-	function hitOpenLesson() {
-
-		$http.post(links.metrics.openLessons);
-
-	}
-
-	function getUserProgress(callback) {
-
-		$http.get(links.statistic.progress).then(callback);
+		$http.get(apiUrls.userProgress).then(claimHttpDataOnly(success),
+											 claimHttpDataOnly(error));
 
 	}
 
 	function updateUserProgress(score, callback) {
 
 		$http({
-			url:    links.statistic.progress,
-			method: 'POST',
-			data:   {
-				score: score
-			}
-		}).then(callback);
+				  url:    apiUrls.userProgress,
+				  method: 'POST',
+				  data:   {
+					  score: score
+				  }
+			  }).then(callback);
 	}
 
 }

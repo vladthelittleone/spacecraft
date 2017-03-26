@@ -25,17 +25,17 @@ function Command() {
 						'<li>Если нажать <span class="under-label-gray">Space + Alt</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
 						'</ul>',
 		character:      [{
-			audio:  'audio/lesson2/3-1.mp3',
+			audio:  'audio/lesson2/3-1',
 			css:    'astromen-img'
 		},{
-			audio:  'audio/lesson2/3-2.mp3',
+			audio:  'audio/lesson2/3-2',
 			css:    'astromen-img',
 			marker: {
 				x1:   8,
 				y2:   Infinity
 			}
 		},{
-			audio:  'audio/lesson2/3-3.mp3',
+			audio:  'audio/lesson2/3-3',
 			css:    'astromen-img',
 			marker: {
 				x1:   11,
@@ -43,7 +43,7 @@ function Command() {
 			}
 
 		},{
-			audio:  'audio/lesson2/3-4.mp3',
+			audio:  'audio/lesson2/3-4',
 			css:    'astrogirl-img',
 			hint:        [{
 				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
@@ -56,7 +56,7 @@ function Command() {
 	};
 
 	function gamePostUpdate(spaceCraft) {
-		
+
 		var lessonResults = LessonResults({
 			correct: '<p>Осуществляю подачу топлива!</p>' +
 					 '<p>3апускаю двигатели!</p>' +
@@ -75,7 +75,7 @@ function Command() {
 
 		return '<p>Команды - это инструкции раздеяемые точкой с запятой, с помощью которых вы можете управлять кораблем и не только.</p>' +
 			'<p>Команды сканируются слева направо, сверху вниз.</p>' +
-			'<p>Вы уже знаете команду поворота влево: <pre>transport.rotateLeft();</pre></p>' +
+			'<p>Вы уже знаете команду поворота влево: <pre><strong>transport</strong>.rotateLeft();</pre></p>' +
 			'<p>Давайте попробуем добавить новую, ранее не изученную.</p>'
 
 	}

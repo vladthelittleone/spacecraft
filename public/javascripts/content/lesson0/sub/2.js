@@ -19,11 +19,11 @@ function YourName() {
 		title:              'Ваше имя?',
 		content:            content,
 		instructions:       '<ul>' +
-							'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">"Нилар"</span>.</li>' +
+							'<li>Введите свое имя в кавычках, к примеру для меня код будет выглядеть так: <span class="under-label">\'Нилар\'</span>.</li>' +
 							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 							'</ul>',
 		character:          [{
-			audio: 'audio/lesson1/1-1.mp3',
+			audio: 'audio/lesson1/1-1',
 			css:   'astromen-img',
 			hint:  [{
 				'next .ace_scroller': 'Введите свое имя в кавычках',
@@ -31,7 +31,7 @@ function YourName() {
 				'showSkip':           false
 			}]
 		}, {
-			audio:       'audio/lesson1/1-2.mp3',
+			audio:       'audio/lesson1/1-2',
 			css:         'astrogirl-img',
 			waitForHint: true,
 			hint:        [{
@@ -58,7 +58,7 @@ function YourName() {
 	}
 
 	function interpreterHandler(value) {
-		
+
 		var lessonResults = LessonResults({
 
 			correct: '<p>Ура! BBot понял человек0-имя, транслирую:</p>'
@@ -79,7 +79,7 @@ function YourName() {
 
 		if (value) {
 
-			// Если нет " ", будет выброшено исключение
+			// Если нет ' ', будет выброшено исключение
 			if (value.exception) {
 
 				return lessonResults.resultNotCorrect('noQuotes');

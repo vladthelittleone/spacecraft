@@ -2,7 +2,7 @@
 
 const VKStrategy = require('passport-vkontakte').Strategy;
 const config = require('config');
-var User = require ('../../models/user').User;
+var User = require ('../../models/user');
 var strategyHelp = require('./strategy.help');
 
 var validation = require('../validation');

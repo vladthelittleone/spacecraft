@@ -5,7 +5,7 @@
  * @since 02.10.16
  */
 
-var Statistic = require ('models/statistic').Statistic;
+var Statistic = require ('models/statistic');
 
 var logger = require('../log')(module);
 

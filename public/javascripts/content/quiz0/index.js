@@ -10,11 +10,13 @@
  * 	correctAnswerNumbers : []
  */
 
+module.exports = Quiz0();
+
 function Quiz0() {
 
 	return [
 				{
-					question : "Здравствуй кадет!<br>" +
+					question : "Здравствуй кадет!" +
 					           "В этот раз не будет лекций, не будет практики. " +
 							   "Пришло время первый и не последний раз проверить " +
 					           "насколько успешно Вы усваиваете уроки." +
@@ -24,7 +26,9 @@ function Quiz0() {
 							   "Выбирай с умом. " +
 					           "Вам все понятно?",
 					answerOptions : ["Да.", "Все понятно."],
-					correctAnswerNumbers : [1, 2]
+					correctAnswerNumbers : [0, 1],
+					correctAnswerDescription: "Поразительно, что Вы не смогли неправильно ответить на вопрос, " +
+					                          "в котором нет неправильных вариантов ответов."
 				},
 		// к 0 уроку нет особого смысла что-то спрашивать
 		// к 1 уроку
@@ -40,19 +44,21 @@ function Quiz0() {
 										"BBotDebug(BBot плохой робот.)",
 										"BBotDebug('BBot плохой робот.')"
 					                ],
-					correctAnswerNumbers : [4]
+					correctAnswerNumbers : [3],
+					correctAnswerDescription: "BBotDebug('BBot плохой робот.')"
 				},
 				{
 					question : "Вы пилотируете космический корабль. " +
 					           "Капитан коробля отдает приказ повернуть налево. " +
 							   "Какую команду вы отдатите кораблю?",
 					answerOptions : [
-										 "transport.rotateRight();",
-										 "transport.rotateLeft();'",
-										 "transport.rotate();",
-										 "transport.stop();'"
+										 "transport.rotateRight()",
+										 "transport.rotateLeft()",
+										 "transport.rotate()",
+										 "transport.stop()"
 					                ],
-					correctAnswerNumbers : [2]
+					correctAnswerNumbers : [1],
+					correctAnswerDescription: "transport.rotateLeft()"
 				}
 			];
 

@@ -5,19 +5,22 @@
  * @since 12.03.17
  */
 
-QuizController.$inject = ['$scope', '$stateParams', 'lessonService'];
+QuizController.$inject = ['$scope', '$stateParams'];
+
+var ContentFactory = require('../../content');
 
 module.exports = QuizController;
 
-function QuizController($scope, $stateParams, lessonService) {
+function QuizController($scope, $stateParams) {
 
-	// $scope.idLesson = $stateParams.id;
-	$scope.questions = lessonService.lessonContent($stateParams.id);
+	$scope.questions = ContentFactory.content($stateParams.id);
 
 	$scope.result = {
+
 		correctAnswer: 0,
 		questionsWithError: [],
 		questionsCount: $scope.questions.length
+
 	};
 
 	$scope.currentQuestion = $scope.questions.shift();
@@ -33,7 +36,7 @@ function QuizController($scope, $stateParams, lessonService) {
 
 		// проверяем правильно ли ответил на вопрос пользователь и если нет
 		// то добавляем вопрос в список вопросов с неправильным ответом
-		if($scope.currentQuestion.correctAnswerNumbers.includes(answerNumber))
+		if(!$scope.currentQuestion.correctAnswerNumbers.includes(answerNumber))
 		{
 			$scope.result.questionsWithError.push($scope.currentQuestion);
 		}
@@ -63,11 +66,6 @@ function QuizController($scope, $stateParams, lessonService) {
 		if($scope.result.questionsWithError.length) {
 
 			$scope.currentQuestionWithError = $scope.result.questionsWithError.shift();
-
-		}
-		else {
-
-			$scope.showQuiz = false;
 
 		}
 	}

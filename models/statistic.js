@@ -70,7 +70,7 @@ schema.statics.updateLessonStatistics = updateLessonStatistics;
 // Обновление инфы о полученных очках за сегодня
 schema.statics.updateUserProgress = updateUserProgress;
 
-exports.Statistic = mongoose.model('Statistic', schema);
+module.exports = mongoose.model('Statistic', schema);
 
 /**
  * возвращает статистику пользователя

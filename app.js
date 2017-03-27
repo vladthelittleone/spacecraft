@@ -45,7 +45,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, resourcesFolderName)));
 
 // Сторедж для сессии.
-const MongoStore = require('connect-mongo/es5')(session);
+const MongoStore = require('connect-mongo')(session);
 
 app.use(session({
 					secret:            config.get('session:secret'), // ABCDE242342342314123421.SHA256
@@ -54,7 +54,10 @@ app.use(session({
 					saveUninitialized: config.get('session:saveUninitialized'),
 					cookie:            config.get('session:cookie'),
 					rolling:           config.get('session:rolling'),
-					store:             new MongoStore({mongooseConnection: mongoose.connection})
+					store:             new MongoStore({
+						mongooseConnection: mongoose.connection,
+						stringify: false
+					})
 				}));
 
 // init passportJS

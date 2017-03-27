@@ -29,7 +29,7 @@ function Numbers() {
 							'<li>Введите число <span class="under-label-gray">1984</span> на <strong>22</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
-			audio:   'audio/lesson2/1-1.mp3',
+			audio:   'audio/lesson3/5-1',
 			css:     'astromen-img',
 			diagram: function (graph) {
 
@@ -53,6 +53,44 @@ function Numbers() {
 				createLink(graph, type2, type21);
 				createLink(graph, type21, type22);
 			}
+		}, {
+			audio:  'audio/lesson3/5-2',
+			css:    'astromen-img',
+			marker: {
+				x1: 5,
+				y2: Infinity
+			},
+		}, {
+			audio:  'audio/lesson3/5-3',
+			css:    'astromen-img',
+			marker: {
+				x1: 8,
+				y2: Infinity
+			},
+		}, {
+			audio:  'audio/lesson3/5-4',
+			css:    'astromen-img',
+			marker: {
+				x1: 11,
+				y2: Infinity
+			},
+		}, {
+			audio:  'audio/lesson3/5-5',
+			css:    'astromen-img'
+		}, {
+			audio:  'audio/lesson3/5-6',
+			css:    'astromen-img',
+			marker: {
+				x1: 15,
+				y2: Infinity
+			}
+		}, {
+			audio:  'audio/lesson3/5-7',
+			css:    'astromen-img',
+			marker: {
+				x1: 19,
+				y2: Infinity
+			},
 		}],
 		interpreterHandler: interpreterHandler
 	};

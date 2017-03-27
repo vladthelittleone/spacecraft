@@ -28,13 +28,14 @@ function Investigation() {
 		}, {
 			audio: 'audio/lesson3/1-2',
 			css:   'astromen-img',
+			waitForHint: true,
 			marker: {
 				x1: 8,
 				y2: Infinity
 			},
 			hint:  [
 				{
-					'next .ace_scroller': 'Редактор кода',
+					'next .ace_scroller': 'Отправьте корабль-разведчик к месту аварии',
 					'nextButton':         {text: 'Далее'},
 					'showSkip':           false
 				}

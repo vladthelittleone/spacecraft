@@ -86,7 +86,7 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 	}
 
 	/**
-	 * Функция подписки на конкц аудиозаписи.
+	 * Функция подписки на конец аудиозаписи.
      */
 	function onEnd(callback) {
 
@@ -96,9 +96,11 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 
 			callback();
 
-		}
+		} else {
 
-		onEndCallback = callback;
+			onEndCallback = callback;
+
+		}
 
 	}
 
@@ -124,6 +126,9 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 		// Присваиваем коллбек
 		// конца аудиозаписи.
 		audio.onended = onEndCall;
+
+		// Очищаем коллбек
+		onEndCallback = null;
 
 	}
 

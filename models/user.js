@@ -13,9 +13,10 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
 	email:              {
-		type:   String,
-		unique: true,
-		sparse: true
+		type:      String,
+		lowercase: true,
+		unique:    true,
+		sparse:    true
 	},
 	username:           {
 		type: String
@@ -41,18 +42,18 @@ var schema = new Schema({
 });
 
 schema.virtual('password')
-	  .set(function (password) {
+	.set(function (password) {
 
-		  this._plainPassword = password;
-		  this.salt = Math.random() + '';
-		  this.hashedPassword = this.encryptPassword(password);
+		this._plainPassword = password;
+		this.salt = Math.random() + '';
+		this.hashedPassword = this.encryptPassword(password);
 
-	  })
-	  .get(function () {
+	})
+	.get(function () {
 
-		  return this._plainPassword;
+		return this._plainPassword;
 
-	  });
+	});
 
 schema.methods.encryptPassword = encryptPassword;
 schema.methods.checkPassword = checkPassword;
@@ -61,7 +62,7 @@ schema.statics.registration = registration;
 schema.statics.getUserCreationDate = getUserCreationDate;
 schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 
-exports.User = mongoose.model('User', schema);
+module.exports = mongoose.model('User', schema);
 
 function encryptPassword(password) {
 

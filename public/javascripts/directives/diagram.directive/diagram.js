@@ -14,7 +14,7 @@ function Diagram () {
 	// that / this
 	var t = {};
 
-	var changes;
+	var changes = [];
 
 	/**
 	 * Объект, который отвечает за диаграмму;
@@ -56,7 +56,7 @@ function Diagram () {
 
 		// Сохраняем изменения даже, если диаграмма оперделена.
 		// Так как может произойти пересоздание диаграммы.
-		changes = callback;
+		changes.push(callback);
 
 	}
 
@@ -69,9 +69,11 @@ function Diagram () {
 
 		diagram = _diagram;
 
-		changes && changes(_diagram);
+		changes && changes.forEach(function (e) {
 
-		changes = null;
+			e(_diagram);
+
+		});
 
 		isDiagramCreated = true;
 
@@ -88,7 +90,7 @@ function Diagram () {
 	 */
 	function clearChanges() {
 
-		changes = null;
+		changes = [];
 
 		isDiagramCreated = false;
 

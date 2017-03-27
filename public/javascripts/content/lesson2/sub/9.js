@@ -24,8 +24,22 @@ function TypeOf() {
 							'<li>Введите <span class="under-label-gray">typeof 451</span> на <strong>11</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson3/9-1',
 			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson3/9-2',
+			css:   'astromen-img',
+			marker: {
+				x1: 5,
+				y2: Infinity
+			},
+			hint:  [
+				{
+					'next .ace_scroller': 'Оператор <strong>typeof</strong>',
+					'nextButton':                            {text: 'Далее'},
+					'showSkip':                              false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};

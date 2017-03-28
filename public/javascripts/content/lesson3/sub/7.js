@@ -25,7 +25,7 @@ function goToResearchCenter() {
 			css:    'astromen-img',
 		}],
 
-		interpreterHandler: interpreterHandler,
+		gamePostUpdate: gamePostUpdate,
 
 		content: content,
 
@@ -35,36 +35,20 @@ function goToResearchCenter() {
 					  '</ul>'
 	};
 
-	function interpreterHandler(v) {
-
-		var t = '';
-		var r = false;
-
-		if (v && v.forEach) {
-
-			v.forEach(function (e) {
-
-				t += e + '</br>';
-				r = (e === 'Вражеский датчик');
-
-			});
-
-		}
+	function gamePostUpdate(scout) {
 
 		var lessonResults = LessonResults({
 			correct: '<p>Подтверждаю выгрузку.</p>' +
-					 '<p>Иссуледовательский центр '+ t +' получено</p>',
+					 '<p>Иссуледовательский центр - контейнер получен -.</p>',
 
-			text: '<p>Похоже что-то пошло не так, проверьте программу.</p>'
 		});
 
-		if (r) {
+		if (scout.isGetUseCargo()) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
-		return lessonResults.text();
 	}
 
 	function content() {

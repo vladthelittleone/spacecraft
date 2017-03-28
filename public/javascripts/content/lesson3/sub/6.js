@@ -40,7 +40,7 @@ function goToResearchCenter() {
 			correct: '<p>Бип Бип... роботы, офицеры, гуманоиды на выход. Кадеты работать и учиться!</p>'
 		});
 
-		if (scout.isWithinCargo()) {
+		if (scout.isWithinDote(160, 160)) {
 
 			return lessonResults.resultCorrect();
 

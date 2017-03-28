@@ -18,7 +18,7 @@ function Content() {
 	};
 
 	return {
-		text:  '',
+		text:  'Пора узнать больше',
 		label: 'Основы JavaScript',
 		quote: 'В природе нет такой вещи, как свободная переменная.',
 		rules: require('./autocomplete.json'),

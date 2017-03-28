@@ -10,6 +10,7 @@ function Api(player) {
 
 	var api = {};
 
+	var getCargoUse = true;
 	var cargoUse = false;
 	var cargoX;
 	var cargoY;
@@ -21,16 +22,18 @@ function Api(player) {
 	api.rotateRight = player.rotateRight;
 	api.isUseCargo = isUseCargo;
 	api.loadToCargo = loadToCargo;
-	api.getFromCargo = player.get;
-	api.isWithinCargo = isWithinCargo;
+	api.getFromCargo = getFromCargo;
+	api.isWithinDote = isWithinDote;
+	api.isGetUseCargo = isGetUseCargo;
 
 	return api;
 
 	function loadToCargo(value) {
 
-		if(isWithinCargo()) {
+		if(isWithinDote(cargoX, cargoY) && !cargoUse) {
 
 			cargoUse = true;
+			getCargoUse = false;
 
 			player.set(value);
 		}
@@ -51,17 +54,34 @@ function Api(player) {
 		return cargoUse;
 	}
 
+	function isGetUseCargo() {
+
+		return cargoUse;
+	}
+
 	function isAlive() {
 
 		return player.sprite.alive;
 
 	}
 
-	function isWithinCargo() {
+	function isWithinDote(x, y) {
 
-		var distance = Phaser.Point.distance(new Phaser.Point(cargoX, cargoY),
+		var distance = Phaser.Point.distance(new Phaser.Point(x, y),
 											 new Phaser.Point(player.sprite.x, player.sprite.y));
 
 		return distance <= 7;
+
+	}
+
+	function getFromCargo() {
+
+		if(isWithinDote(cargoX, cargoY) && !getCargoUse)
+		{
+			cargoUse = false;
+			getCargoUse = true;
+
+			return player.get();
+		}
 	}
 }

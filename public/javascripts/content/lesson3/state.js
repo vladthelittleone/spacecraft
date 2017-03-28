@@ -107,8 +107,9 @@ function StateWrapper(state) {
 
 		patrol(s1, 2055, 1995, 2700, 1200);
 		patrol(s2, 2101, 1890, 2800, 1340);
-		patrol(fighter, 400, 300, 2000, 2000);
+		patrol(fighter, 0, 0, 2000, 2000);
 		patrol(cruiser, 2020, 1740, 150, 150);
+		patrol(h1, 1859, 2156, 2000, 2356);
 
 		CodeLauncher.setArguments(player.api);
 

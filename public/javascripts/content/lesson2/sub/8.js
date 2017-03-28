@@ -24,8 +24,15 @@ function ObjectType() {
 						   '<li>Хотите узнать больше о объектах? Вам сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Working_with_Objects">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{
-			audio:   'audio/lesson2/1-1.mp3',
+			audio:   'audio/lesson3/8-1',
 			css:     'astromen-img',
+			hint:    [
+				{
+					'next .content-overflow .diagram-board': 'Виды объектов',
+					'nextButton':                            {text: 'Далее'},
+					'showSkip':                              false
+				}
+			],
 			diagram: function (graph) {
 
 				var typeMain = block(225, 50, 'Типы данных');
@@ -64,13 +71,21 @@ function ObjectType() {
 				createLink(graph, type1, type11);
 				createLink(graph, type11, type12);
 			}
+		}, {
+			audio: 'audio/lesson3/8-2',
+			css:   'astromen-img',
+			marker: {
+				x1: 3,
+				x2: 7,
+				y2: Infinity
+			}
 		}]
 	};
 
 	function content() {
 
 		return '<p>По разные стороны баррикад стоят простые типы и объектный тип данных.</p>' +
-			'<p>Любое значение в языке <strong>JavaScript</strong>, не являющееся строкой, числом, ' +
+			'<p>Любое значение в языке <strong>JavaScript</strong>, не являющееся строкой, числом, логическим типом,' +
 			'<strong>null</strong> или <strong>undefined</strong>, является <span class="under-label"><strong>объектом</strong></span>. ' +
 			'Он представляет из себя набор свойств, каждое из которых имеет свое имя и значение.</p>' +
 			'<p><strong>Более подробно объекты мы рассмотрим в следующих уроках.</strong></p>';

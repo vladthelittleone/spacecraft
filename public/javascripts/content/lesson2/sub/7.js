@@ -24,8 +24,15 @@ function UndefinedNull() {
 						   '<li>Для любознательных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Булев_тип_null_и_undefined">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{
-			audio:   'audio/lesson2/1-1.mp3',
+			audio:   'audio/lesson3/7-1',
 			css:     'astromen-img',
+			hint:    [
+				{
+					'next .content-overflow .diagram-board': 'Null и undefined',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
 			diagram: function (graph) {
 
 				var typeMain = block(225, 50, 'Типы данных');
@@ -56,6 +63,20 @@ function UndefinedNull() {
 				createLink(graph, type22, type23);
 				createLink(graph, type23, type24);
 				createLink(graph, type24, type25);
+			}
+		}, {
+			audio:  'audio/lesson3/7-2',
+			css:    'astromen-img',
+			marker: {
+				x1: 4,
+				y2: Infinity
+			}
+		}, {
+			audio:  'audio/lesson3/7-3',
+			css:    'astromen-img',
+			marker: {
+				x1: 7,
+				y2: Infinity
 			}
 		}]
 	};

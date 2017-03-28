@@ -26,7 +26,7 @@ function WelcomeController($scope,
 						   userProgressData,
 						   userInfoData) {
 
-	$scope.leadersList = leaderBoardData || [];	// Лидеры игры
+	$scope.leaderBoard = leaderBoardData || [];	// Лидеры игры
 	$scope.vkShow = true; 	// Переключатель виджета ВК
 
 	$scope.chartIndex = 0;	// Номер текущего графика

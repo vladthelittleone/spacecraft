@@ -8,7 +8,7 @@
 var express = require('express');
 var logger = require('utils/log')(module);
 
-var Statistic = require('models/statistic').Statistic;
+var Statistic = require('models/statistic');
 
 var lodash = require('lodash');
 

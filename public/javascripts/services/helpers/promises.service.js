@@ -42,7 +42,7 @@ function Promises($q, authentication, connection, statisticsStorage) {
 
 	function getLeaderBoardData() {
 
-		return $q(connection.getLeaderboard);
+		return $q(connection.getLeaderBoard);
 
 	}
 

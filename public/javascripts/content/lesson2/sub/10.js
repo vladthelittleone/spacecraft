@@ -20,6 +20,7 @@ function Decode() {
 							'<li>Найдите все <strong>строки</strong> в зашифрованном куске данных. Напомним, что строка начинается и заканчивается апострофом.</li>' +
 							'<li>После, с помощью полученных частей, составьте предложение и введите его в редакторе кода.</li>' +
 							'<li>Результат должен быть представлен в виде <strong>строки</strong>.</li>' +
+							'<li>Попробуйте раскомментировать зашифрованные кусок данных. Что получится?</li>' +
 							'</ul>',
 		hint:               '<ul>' +
 							'<li>Куски строк, зашифрованные в редакторе кода: ' +
@@ -31,8 +32,31 @@ function Decode() {
 							'<li>Введите предложение: \'Фракция PHP\'.</li>' +
 							'</ul>',
 		character:          [{
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson3/10-1',
 			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson3/10-2',
+			css:   'astromen-img',
+			waitForHint: true,
+			hint:  [
+				{
+					'next .ace_scroller': 'Зашифрованные куски данных',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
+		}, {
+			audio: 'audio/lesson3/10-3',
+			css:   'astromen-img'
+		}, {
+			audio:       'audio/lesson3/10-4',
+			css:         'astromen-img',
+			waitForHint: true,
+			hint:        [{
+				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
+				'nextButton':             false,
+				'showSkip':               false
+			}]
 		}],
 		interpreterHandler: interpreterHandler
 	};

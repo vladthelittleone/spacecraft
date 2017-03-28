@@ -19,17 +19,27 @@ function Investigation() {
 						   '<li>Отправьте корабль к месту аварии с помощью команды <span class="red-label">scout.moveToXY()</span>.</li>' +
 						   '<li>Координаты аварии (<strong>2000</strong>, <strong>2000</strong>).</li>' +
 						   '</ul>',
-		hint:      '<ul>' +
+		hint:              '<ul>' +
 						   '<li>Добавьте <span class="under-label-gray">scout.moveToXY(2000, 2000);</span> на <strong>8</strong> строку.</li>' +
 						   '</ul>',
 		character:         [{
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img',
+			audio: 'audio/lesson3/1-1',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson3/1-2',
+			css:   'astromen-img',
+			waitForHint: true,
 			marker: {
 				x1: 8,
 				y2: Infinity
-			}
-
+			},
+			hint:  [
+				{
+					'next .ace_scroller': 'Отправьте корабль-разведчик к месту аварии',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 
 		gamePostUpdate: gamePostUpdate
@@ -59,8 +69,8 @@ function Investigation() {
 	function content() {
 
 		return '<p>Что ж, в связи с возникшей ситуацией, нам пришлось отойти от программы. Прошу вас держать всю информацию, которой вы обладаете, в тайне.</p>' +
-			'<p>Нам необходимо провести расследование данного инцидента и вы нам в этом поможете.</p>' +
-			'<p>Отправьте корабль-разведчик к месту аварии. Необходимо выполнить сканирование местности.</p>';
+			'<p>Необходимо провести расследование данного инцидента и вы нам в этом поможете.</p>' +
+			'<p>Отправьте корабль-разведчик к месту аварии. Вы должны выполнить сканирование местности.</p>';
 
 	}
 

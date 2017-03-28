@@ -29,8 +29,18 @@ function Booleans() {
 							'<li>Введите выражение <span class="under-label-gray">2 > 1</span> на <strong>7</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
-			audio:   'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson3/6-1',
+			css:   'astromen-img'
+		}, {
+			audio:   'audio/lesson3/6-2',
 			css:     'astromen-img',
+			hint:    [
+				{
+					'next .content-overflow .diagram-board': 'Логический тип данных',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			],
 			diagram: function (graph) {
 
 				var typeMain = block(225, 50, 'Типы данных');
@@ -56,13 +66,27 @@ function Booleans() {
 				createLink(graph, type21, type22);
 				createLink(graph, type22, type23);
 			}
+		}, {
+			audio:  'audio/lesson3/6-3',
+			css:    'astromen-img',
+			marker: {
+				x1: 3,
+				y2: Infinity
+			}
+		}, {
+			audio:  'audio/lesson3/6-4',
+			css:    'astromen-img',
+			marker: {
+				x1: 4,
+				y2: Infinity
+			}
 		}],
 		interpreterHandler: interpreterHandler
 	};
 
 	function content() {
 
-		return '<p>Космос суров, здесь полно лжи. Никому не верьте! Любое высказывание, даже близких, необходимо проверять на правдивость!</p>' +
+		return '<p>Космос суров, здесь полно лжи. Никому не верьте! Любое высказывание необходимо проверять на правдивость!</p>' +
 			'<p>Единственный, кто вас никогда не подведет - ваш корабль.</p>' +
 			'<p><span class="under-label"><strong>Boolean</strong></span> - это логический тип данных, который может принимать значения <span class="under-label">true</span>, либо <span class="under-label">false</span>. Как вы уже наверно догадались - «истина» и «ложь» соответственно.' +
 			'<p>Например, сравнение двух чисел может вернуть либо <span class="under-label-gray">true</span>, либо <span class="under-label-gray">false</span>:</p>' +

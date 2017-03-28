@@ -18,7 +18,7 @@ function Conclusions() {
 						   '<li>Нажмите "Далее" для продолжения.</li>' +
 						   '</ul>',
 		character:         [{
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson3/11-1',
 			css:   'astromen-img'
 		}]
 	};

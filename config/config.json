@@ -14,9 +14,9 @@
 	"session": {
 		"secret": "HustleHardCode",
 		"key": "sid",
-		"rolling": true,
-		"resave": true,
-		"saveUninitialized": true,
+		"rolling": false,
+		"resave": false,
+		"saveUninitialized": false,
 		"cookie": {
 			"path": "/",
 			"httpOnly": true,

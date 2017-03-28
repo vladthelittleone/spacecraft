@@ -20,7 +20,8 @@
 
 				<form name="loginForm"
 					  class="login-form"
-					  ng-submit="isEnterForm ? login() : register()"
+					  ng-submit="isEnterForm ? login() : register();
+					  			 errorMessage = null;"
 					  novalidate>
 					<div class="login-input">
 						<label>
@@ -66,7 +67,9 @@
 							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 						</button>
 
-						<div ng-show="isEnterForm" class="vk-button">
+						<div ng-show="isEnterForm"
+							 ng-click="spinLoginSpinner();"
+							 class="vk-button">
 							<a href="/vk">
 								<span>Войти через ВКонтакте</span>
 							</a>
@@ -110,9 +113,17 @@
 
 				</div>
 
+				<!--Если форма в процессе отправки, сигнализируем об этом пользователю спиннером :)-->
+				<div us-spinner="{radius:15, width:5, length: 12, color: 'white'}"
+					 spinner-key="login-spinner"
+					 class="spinner">
+				</div>
+
 			</div>
+
 		</div>
 	</div>
+
 	<div class="login-container login-about">
 		<div class="login-about-block">
 			<div class="login-about-img">

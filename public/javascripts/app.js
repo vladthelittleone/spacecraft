@@ -10,6 +10,7 @@ require('angular-http-auth');
 require('angular-cookies');
 require('angular-messages');
 require('angular-ui-bootstrap');
+require('angular-spinner');
 
 /**
  * Подключаем изменение прототипа.
@@ -33,7 +34,8 @@ angular.module('spacecraft', [
 		'spacecraft.modules',
 		'http-auth-interceptor',
 		'ngCookies',
-		'ngMessages'
+		'ngMessages',
+		'angularSpinner'
 	])
 	.config(configBlock)
 	.run(runBlock);
@@ -46,7 +48,7 @@ require('./services');
 require('./directives');
 
 runBlock.$inject = ['authentication', '$rootScope', '$state'];
-configBlock.$inject = ['$urlRouterProvider', '$locationProvider'];
+configBlock.$inject = ['$urlRouterProvider', '$locationProvider', 'usSpinnerConfigProvider'];
 
 angular.module('spacecraft').config(configBlock);
 angular.module('spacecraft').run(runBlock);
@@ -54,7 +56,7 @@ angular.module('spacecraft').run(runBlock);
 /**
  * Конфигурация сервисов до старта приложения.
  */
-function configBlock($urlRouterProvider, $locationProvider) {
+function configBlock($urlRouterProvider, $locationProvider, usSpinnerConfigProvider) {
 
 	// Включаем адреса без решетки (#).
 	$locationProvider.html5Mode({
@@ -63,6 +65,8 @@ function configBlock($urlRouterProvider, $locationProvider) {
 									rewriteLinks: false
 
 								});
+
+	usSpinnerConfigProvider.setTheme('loginTheme', {color: 'white'});
 
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');

@@ -2,7 +2,7 @@
 
 var ENTER = 13;
 
-LoginController.$inject = ['$scope', '$state', 'authentication'];
+LoginController.$inject = ['$scope', '$state', 'authentication', 'usSpinnerService'];
 
 module.exports = LoginController;
 
@@ -12,7 +12,7 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication) {
+function LoginController($scope, $state, authentication, usSpinnerService) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;
@@ -24,6 +24,11 @@ function LoginController($scope, $state, authentication) {
 	$scope.changeSubscribe = changeSubscribe;
 	$scope.register = register;
 	$scope.login = login;
+
+	$scope.spinLoginSpinner = spinLoginSpinner;
+	$scope.stopLoginSpinner = stopLoginSpinner;
+
+	stopLoginSpinner();
 
 	// ==================================================
 
@@ -39,6 +44,47 @@ function LoginController($scope, $state, authentication) {
 
 	}
 
+	function spinLoginSpinner() {
+
+		usSpinnerService.spin('login-spinner');
+
+	}
+
+	function stopLoginSpinner() {
+
+		usSpinnerService.stop('login-spinner');
+
+	}
+
+	/**
+     * Вызывается в случае успешной регистрации.
+	 * Реализует логику вызова логирования и указания переходу к первому уроку.
+	 */
+	function prepareSuccessfulRegistration() {
+
+		// Переопределяем success callback для метода логирования.
+		login(function() {
+
+			stopLoginSpinner();
+
+			toTheFirstLesson();
+
+		});
+
+	}
+
+	/**
+	 * Вызывается по умолчанию, в случае успешного логирования.
+	 */
+	function defaultPreparationOfSuccessfulLogin() {
+
+		stopLoginSpinner();
+
+		toWelcome();
+
+	}
+
+
 	/**
 	 * Регистрация в сервисе
 	 */
@@ -47,12 +93,14 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
+			spinLoginSpinner();
+
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
 										email:              $scope.email,
 										password:           $scope.password,
 										isSubscribeOnEmail: $scope.isSubscribeOnEmail,
-										success:            login,
+										success:            prepareSuccessfulRegistration,
 										error:              error
 									});
 
@@ -68,6 +116,8 @@ function LoginController($scope, $state, authentication) {
 	 */
 	function error(errorDescription) {
 
+		stopLoginSpinner();
+
 		$scope.errorMessage = errorDescription ? errorDescription :
 							  "Что-то пошло не так, пожалуйста, попробуйте еще раз.";
 
@@ -82,18 +132,27 @@ function LoginController($scope, $state, authentication) {
 
 	}
 
+	function toTheFirstLesson() {
+
+		$state.go('lesson', {id: 0})
+	}
+
 	/**
 	 * Вход в систему.
+	 * Метод позволяет задать конкретное поведение в случае успешного логирования.
+	 * По умолчанию, производится вызов метода prepareSuccessfulLogin.
 	 */
-	function login() {
+	function login(successfulCallback) {
 
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
+			spinLoginSpinner();
+
 			authentication.login({
 									 email:              $scope.email,
 									 password:           $scope.password,
-									 success:            toWelcome,
+									 success:            successfulCallback ? successfulCallback : defaultPreparationOfSuccessfulLogin,
 									 error:              error
 								 });
 

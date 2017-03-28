@@ -4,11 +4,20 @@
  */
 
 const express = require('express');
+
 var router = express.Router();
+
+var lodash = require('lodash');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
 var HttpStatus = require('http-status-codes');
+
+var EmailConfirmation = require('./../../models/email.confirmation');
+
+var validator = require('validator');
+
+const logger = require('./../../utils/log')(module);
 
 module.exports = router;
 
@@ -17,10 +26,23 @@ module.exports = router;
  */
 router.get('/user/info', checkAuthentication, function (req, res, next) {
 
-	res.send({
-				 email: req.user.email,
-				 name: req.user.username
-			 })
+	let user = req.user;
+
+	let response = {};
+
+	// Устанавливаем флаг emailConfirmationFlag в ответ ТОЛЬКО в случае,
+	// если почта еще не подтверждена.
+	if (user.emailConfirmationFlag === false) {
+
+		response.emailConfirmationFlag = false;
+
+	}
+
+	// TODO не забыть про переименование.
+	// TODO имеет смысл переименовать флаг isSubcribeOnEmail
+	response.name = user.name;
+
+	res.send(response);
 
 });
 
@@ -36,5 +58,45 @@ router.get('/user/info', checkAuthentication, function (req, res, next) {
 router.get('/user/info/session', checkAuthentication, function (req, res, next) {
 
 	return res.sendStatus(HttpStatus.NO_CONTENT);
+
+});
+
+/**
+ * Обработка запроса на подтверждение почты.
+ * Логика обработки сводится к последующим действиям:
+ * 1) Проверка параметра запроса confirmationKey на корректность;
+ * 2) Если параметр корректный, пытаемся зафиксировать подтверждение почты;
+ * 3) Перенаправляем пользователя в корень сайта.
+ * Стоит заметить, что если параметр (confirmationKey) прошел валидацию,
+ * то редирект пользователя осуществляется ТОЛЬКО после попытки фиксации попытки
+ * подтверждения. Это делается с целью того, чтобы пользователь, после перенаправления
+ * в корень сайта, получал информацию о себе уже с учетом результатов попытки подтверждения почты.
+ */
+router.get('/user/emailConfirmation', function (req, res, next) {
+
+	try {
+
+		let confirmationKey = req.query.confirmationKey;
+
+		// Если параметр confirmationKey является UUID значением
+		// (это проверка на валидность входящего параметра в целом).
+		// TODO заюзать waterfall у async для случая с обновлением users и sessions.
+		if (confirmationKey && validator.isUUID(confirmationKey)) {
+
+			return EmailConfirmationModel.confirm(confirmationKey, () => {
+
+				// По окончанию
+				res.redirect('/');
+
+			});
+
+		}
+	}
+	catch(err)
+	{
+		logger.error(err);
+	}
+
+	res.redirect('/');
 
 });

@@ -20,13 +20,13 @@ function Api(player) {
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
 	api.isUseCargo = isUseCargo;
-	api.setToCargo = setToCargo;
+	api.loadToCargo = loadToCargo;
 	api.getFromCargo = player.get;
 	api.isWithinCargo = isWithinCargo;
 
 	return api;
 
-	function setToCargo(value) {
+	function loadToCargo(value) {
 
 		if(isWithinCargo()) {
 

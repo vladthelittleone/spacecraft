@@ -5,12 +5,12 @@ var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
 
 // Экспорт
-module.exports = StockBaseUnit;
+module.exports = ResearchCenterBaseUnit;
 /**
  * Created by vaimer on 16.02.17.
  */
 
-function StockBaseUnit(game, x, y) {
+function ResearchCenterBaseUnit(game, x, y) {
 
 	// that / this
 	var t = {};
@@ -18,7 +18,7 @@ function StockBaseUnit(game, x, y) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createStock(game, x, y);
+	t.sprite = PrefabsFactory.createResearchCenter(game, x, y);
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -28,7 +28,7 @@ function StockBaseUnit(game, x, y) {
 		unit: t,
 		drag: 0,					// Торможение корабля
 		velocity: 0,				// Скорость корабля
-		angularVelocity: 0.0030,	// Скорость разворота
+		angularVelocity: 0.05,	// Скорость разворота
 		trail: false				// Использование огня двигателя
 	});
 

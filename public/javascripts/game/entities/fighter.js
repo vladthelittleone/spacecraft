@@ -18,7 +18,7 @@ function FighterUnit(game, x, y, player) {
 	var t = {};
 
 	/**
-	 * Создаем спрайт.
+	 * Создаем спрайт.6
 	 */
 	t.sprite = PrefabsFactory.createFighter(game, x, y);
 	t.sprite.health = 40;
@@ -42,7 +42,7 @@ function FighterUnit(game, x, y, player) {
 	t.shield = BlocksFactory.addShieldBlock({
 		game: game,
 		unit: t,
-		scale: 0.4
+		scale: 0.9
 	});
 
 	/**

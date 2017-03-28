@@ -1,14 +1,14 @@
 'use strict';
 
-module.exports = Stock;
+module.exports = ResearchCenter;
 
 /**
  * Created by vaimer on 16.02.17.
  */
 
-function Stock(game, x, y) {
+function ResearchCenter(game, x, y) {
 
-	var t = game.add.sprite(x, y, 'stock');
+	var t = game.add.sprite(x, y, 'researchCenter');
 
 	// Центрирование
 	t.anchor.x = 0.8;

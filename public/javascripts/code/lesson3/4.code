@@ -4,13 +4,11 @@ var sensor = 'Вражеский датчик';
 /**
  * Погрузите датчик на корабль
  */
-this.run = function(transport)
+this.run = function(scout)
 {
 	// Перемещение к датчику
-	transport.moveToXY(2000, 2000);
+	scout.moveToXY(2000, 2000);
 
 	// Поднимите груз на корабль
 
-
-	BBotDebug(containerStock);
 };

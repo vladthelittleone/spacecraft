@@ -12,7 +12,7 @@ var Mine = require('./mine');
 var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
-var Stock = require('./stock');
+var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
 
@@ -44,7 +44,7 @@ function EntitiesFactory() {
 	t.createMeteorFiledSphere = createMeteorFiledSphere;
 	t.createFighter = createFighter;
 	t.createTurret = createTurret;
-	t.createStock = createStock;
+	t.createResearchCenter = createResearchCenter;
 	t.createMine = createMine;
 	t.createScout = createScout;
 	t.createCruiser = createCruiser;
@@ -223,9 +223,9 @@ function EntitiesFactory() {
 
 	}
 
-	function createStock(game, x, y) {
+	function createResearchCenter(game, x, y) {
 
-		return Stock(game, x, y);
+		return ResearchCenter(game, x, y);
 
 	}
 

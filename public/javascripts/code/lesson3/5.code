@@ -6,8 +6,8 @@ var null_value = null;
 /**
  * Летим к исследовательскому центру
  */
-this.run = function(transport)
+this.run = function(scout)
 {
-	// Перемещение к датчику
-	transport.moveToXY(200, 200);
+	// Перемещение к исследовательскому центру
+	scout.moveToXY(200, 200);
 };

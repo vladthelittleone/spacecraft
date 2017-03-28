@@ -30,7 +30,7 @@ function TaskWithVariables() {
 				css:    'astromen-img',
 			}],
 
-		gamePostUpdate: gamePostUpdate,
+		interpreterHandler: interpreterHandler,
 
 		content: content,
 
@@ -40,18 +40,39 @@ function TaskWithVariables() {
 					  '</ul>'
 	};
 
-	function gamePostUpdate(spaceCraft) {
+	function interpreterHandler(v) {
+
+		var t = '';
+		var r = false;
+
+		if (v && v.forEach) {
+
+			v.forEach(function (e) {
+
+				t += 'К0р0бка ->' + e + '</br>';
+
+				r = (e === 'Ионная пушка');
+
+			});
+
+		}
 
 		var lessonResults = LessonResults({
-			correct: '<p>Этот хлам и есть плазменная пушка?</p>'
+
+			correct: '<p>Еще 0дна к0р0бка вскрываю... транслирую...</p>' +
+					 '<p class="bbot-output">'+ t +'</p>',
+
+			text: t
+
 		});
 
-		if (spaceCraft.getFromCargo() === 'Сломанное оружие') {
+		if (r) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
+		return lessonResults.text();
 	}
 
 	function content() {

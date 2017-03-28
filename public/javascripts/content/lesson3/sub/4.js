@@ -7,6 +7,8 @@ var LessonResults = require('../../lesson-results');
  * Created by vaimer on 19.02.2017.
  */
 
+var lodash = require('lodash');
+
 module.exports = MoreAboutVariables();
 
 function MoreAboutVariables() {
@@ -20,7 +22,7 @@ function MoreAboutVariables() {
 			css:    'astrogirl-img',
 		}],
 
-		gamePostUpdate: gamePostUpdate,
+		interpreterHandler: interpreterHandler,
 
 		content: content,
 
@@ -29,18 +31,48 @@ function MoreAboutVariables() {
 					  '</ul>'
 	};
 
-	function gamePostUpdate(spaceCraft) {
+	function interpreterHandler(v) {
+
+		var t = '';
+		var r = false;
+
+		if (v && v.forEach) {
+
+			v.forEach(function (e) {
+
+				if(lodash.isNil(e))
+				{
+					t += '0й, Вы хотитЕ меня 0бмануть, в коробке ->' + e + '</br>';
+				}
+
+				if(!lodash.isNil(e))
+				{
+					t += 'Что? Это не моё! Бедный йорик, от него осталась только ' + e + '</br>';
+
+					r = (e === 'Нога робота');
+				}
+
+			});
+
+		}
 
 		var lessonResults = LessonResults({
-			correct: '<p>Сколько еще нудных речей придется выслушать?</p>'
+
+			correct: '<p>Всрываю контейнер после копирования... </p>' +
+					 '<p class="bbot-output">' + t + '</p>' +
+					 '<p>П0хоже к0пирование прошлО нЕ полностью.</p>',
+
+			text: t
+
 		});
 
-		if (spaceCraft.isWithinCargo()) {
+		if (r) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
+		return lessonResults.text();
 	}
 
 	function content() {

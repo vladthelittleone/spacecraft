@@ -6,6 +6,7 @@ var LessonResults = require('../../lesson-results');
 /**
  * Created by vaimer on 19.02.2017.
  */
+var lodash = require('lodash');
 
 module.exports = loadingStock();
 
@@ -25,7 +26,7 @@ function loadingStock() {
 			css:    'astromen-img',
 		}],
 
-		interpreterHandler: interpreterHandler,
+		gamePostUpdate: gamePostUpdate,
 
 		content: content,
 
@@ -35,35 +36,19 @@ function loadingStock() {
 					  '</ul>'
 	};
 
-	function interpreterHandler(v) {
-
-		var r = false;
-
-		if (v && v.forEach) {
-
-			v.forEach(function (e) {
-
-				r = (e === 'containerStock');
-
-			});
-
-		}
+	function gamePostUpdate(scout) {
 
 		var lessonResults = LessonResults({
-			correct: '<p>Хмм, беру свои слова назад, это не просто.</p>' +
-					 '<p>Пойду возьму себе машинного масла, мои шестеренки ' +
-					 'изрядно подгорели, надос смазать.</p>',
-
-			text: '<p>Похоже что-то пошло не так, проверьте программу.</p>'
+			correct: '<p>П0грузка прошла успешн0!</p>'
 		});
 
-		if (r) {
+		if (scout.isUseCargo() &&
+			lodash.isEqual(scout.getFromCargo(), 'Вражеский датчик')) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
-		return lessonResults.text();
 	}
 
 	function content() {

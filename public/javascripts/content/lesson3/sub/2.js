@@ -22,7 +22,7 @@ function VariablesIsContainers() {
 			css:    'astromen-img'
 		}],
 
-		gamePostUpdate: gamePostUpdate,
+		interpreterHandler: interpreterHandler,
 
 		content: content,
 
@@ -31,18 +31,39 @@ function VariablesIsContainers() {
 					  '</ul>'
 	};
 
-	function gamePostUpdate(spaceCraft) {
+	function interpreterHandler(v) {
+
+		var t = '';
+		var r = false;
+
+		if (v && v.forEach) {
+
+			v.forEach(function (e, i) {
+
+				t += 'Переменная ' + (i + 1) + ': ' + e + '</br>';
+
+				r = (e === 'Галактический червь' || e === 'Ракетное топливо');
+
+			});
+
+		}
 
 		var lessonResults = LessonResults({
-			correct: '<p>И в какую дыру нас еще зашлют?</p>'
+
+			correct: '<p>П0лученны данные... раскрываю к0р0б0чки... транслирую...</p>' +
+					 '<p class="bbot-output">' + t +'</p>',
+
+			text: t
+
 		});
 
-		if (spaceCraft.isWithinCargo()) {
+		if (r) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
+		return lessonResults.text();
 	}
 
 	function content() {

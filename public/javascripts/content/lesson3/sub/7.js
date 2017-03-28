@@ -13,7 +13,7 @@ function goToResearchCenter() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Полет к исследовательскому центру',
+		title:        'Пора исследовать',
 		character:    [{
 			audio:  'audio/lesson2/1-1.mp3',
 			css:    'astromen-img'
@@ -30,28 +30,30 @@ function goToResearchCenter() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					  	'<li>На 14 строчке необходимо скопировать значения из грузовго отсека в переменную <span class="red-label">researchCenterContainer</span>.</li>' +
+						'<li>Для получения значения, хранящегося в грузовом отсека кораблся воспользуйтесь функцией <span class="red-label">.getFromCargo()</span>.</li>' +
 					  '</ul>'
 	};
 
 	function interpreterHandler(v) {
 
+		var t = '';
 		var r = false;
 
 		if (v && v.forEach) {
 
 			v.forEach(function (e) {
 
-				r = (e === 'containerStock');
+				t += e + '</br>';
+				r = (e === 'Вражеский датчик');
 
 			});
 
 		}
 
 		var lessonResults = LessonResults({
-			correct: '<p>Хмм, беру свои слова назад, это не просто.</p>' +
-					 '<p>Пойду возьму себе машинного масла, мои шестеренки ' +
-					 'изрядно подгорели, надос смазать.</p>',
+			correct: '<p>Подтверждаю выгрузку.</p>' +
+					 '<p>Иссуледовательский центр '+ t +' получено</p>',
 
 			text: '<p>Похоже что-то пошло не так, проверьте программу.</p>'
 		});
@@ -67,12 +69,11 @@ function goToResearchCenter() {
 
 	function content() {
 
-		return  '<p>.</p>' +
-				'<p>Константы - это переменные, значения которых <span class="under-label">НИКОГДА</span> не меняется, ' +
-				'как правило имена таких переменных пишутся заглавными буквами.</p>' +
-				'<p>Очень важно! Значение константы задается <span class="under-label">сразу</span>,  при ее объявлении.</p>' +
-				'<p>Переменные, которым не присволили значения будут undefined.</p>' +
-				'<p>>Для обозначения пустоты переменной используется специально слово null.</p>';
+		return  '<p>Перед вами кадет наш исследовательский центр. Все самые передовые разработки идут именно отсюда.</p>' +
+				'<p>Передайте ученым поднятый вами датчик. Для этого вам необходимо в контейнер researchCenterContainer, ' +
+			 	'положить значение с грузового отсека корабля.</p>' +
+				'<p>Для получение значения переменной в грузовом отсеке используется функция <span class="under-label">.getFromCargo()</span>.</p>' +
+				'<p>BBot сообщит вам об успешной погрузке.</p>';
 
 	}
 }

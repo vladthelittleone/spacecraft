@@ -10,7 +10,7 @@ var Mine = require('./mine');
 var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
 var Turret = require('./turret');
-var Stock = require('./stock');
+var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
 
@@ -39,7 +39,7 @@ function PrefabsFactory() {
 	t.createCruiser = createCruiser;
 	t.createScout = createScout;
 	t.createTurret = createTurret;
-	t.createStock = createStock;
+	t.createResearchCenter = createResearchCenter;
 
 	return t;
 
@@ -120,8 +120,8 @@ function PrefabsFactory() {
 
 	}
 
-	function createStock(game, x, y) {
+	function createResearchCenter(game, x, y) {
 
-		return Stock(game, x, y);
+		return ResearchCenter(game, x, y);
 	}
 }

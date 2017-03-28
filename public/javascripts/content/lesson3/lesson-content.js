@@ -18,9 +18,10 @@ function Content() {
 	};
 
 	return {
-		text:  'Перевозка грузов',
+		text:  '',
 		label: 'Основы JavaScript',
 		quote: 'В природе нет такой вещи, как свободная переменная.',
+		rules: require('./autocomplete.json'),
 		sub:   require('./sub'),
 		isGameLesson: true,
 		points: points,

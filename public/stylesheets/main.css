@@ -1799,3 +1799,7 @@ fieldset, label {
 	border: 1px solid #39C139;
 	border-bottom: 2px solid #39C139;
 }
+
+.spinner {
+	position: relative;
+}

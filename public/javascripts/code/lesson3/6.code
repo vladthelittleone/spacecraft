@@ -7,7 +7,7 @@ var researchCenterContainer;
 this.run = function(scout)
 {
 	// Перемещение к исследовательскому центру
-	scout.moveToXY(400, 2600);
+	scout.moveToXY(380, 2600);
 
 	// Скопируйте значение из грузого отсека корабля
 	//в контейнер исследовательского центра

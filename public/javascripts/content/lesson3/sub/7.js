@@ -62,7 +62,7 @@ function goToResearchCenter() {
 
 
 		if (scout.isGetUseCargo() &&
-			scout.isWithinDote(400, 2600) ) {
+			scout.isWithinDote(380, 2600) ) {
 
 			return lessonResults.resultCorrect();
 

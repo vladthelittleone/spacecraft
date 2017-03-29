@@ -9,5 +9,5 @@ var null_value = null;
 this.run = function(scout)
 {
 	// Перемещение к исследовательскому центру
-	scout.moveToXY(400, 2600);
+	scout.moveToXY(380, 2600);
 };

@@ -12,30 +12,29 @@ function TaskWithVariables() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Копирование данных',
-		character:    [{
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img'
+		title:             'Копирование данных',
+		character:         [{
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img'
 		}, {
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img'
-		},{
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img'
-		},
-			{
-				audio:  'audio/lesson2/1-1.mp3',
-				css:    'astromen-img',
-			}],
+			audio: 'audio/lesson2/1-2.mp3',
+			css:   'astrogirl-img'
+		}, {
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img',
+		}],
 
 		interpreterHandler: interpreterHandler,
 
 		content: content,
 
 		instructions: '<ul>' +
-						'<li>На третий строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>' +
-						'<li>И задайте ей значение <span class="red-label">"Ионная пушка"</span>.</li>' +
-					    '<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5">клац</a>.</li>' +
+					  '<li>На третий строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>' +
+					  '<li>И задайте ей значение <span class="red-label">"Ионная пушка"</span>.</li>' +
+					  '<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5">клац</a>.</li>' +
 					  '</ul>'
 	};
 
@@ -58,8 +57,8 @@ function TaskWithVariables() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Еще одна ко0бка вскрываю... транслирую...</p>' +
-					 '<p class="bbot-output">'+ t +'</p>',
+			correct: '<p>Еще одна кор0бка вскрываю... транслирую...</p>' +
+					 '<p class="bbot-output">' + t + '</p>',
 
 			text: t
 
@@ -77,6 +76,6 @@ function TaskWithVariables() {
 	function content() {
 
 		return '<p>Выполните небольшое задание, чтобы проверить усвоенный материал.</p>' +
-			   '<p>На 3 строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
+			'<p>На 3 строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
 	}
 }

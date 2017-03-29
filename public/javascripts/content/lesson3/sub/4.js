@@ -3,14 +3,13 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
-/**
- * Created by vaimer on 19.02.2017.
- */
-
 var lodash = require('lodash');
 
 module.exports = MoreAboutVariables();
 
+/**
+ * Created by vaimer on 19.02.2017.
+ */
 function MoreAboutVariables() {
 
 	return {

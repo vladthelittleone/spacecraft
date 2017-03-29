@@ -3,12 +3,11 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
+module.exports = goToResearchCenter();
+
 /**
  * Created by vaimer on 23.03.17.
  */
-
-module.exports = goToResearchCenter();
-
 function goToResearchCenter() {
 
 	return {

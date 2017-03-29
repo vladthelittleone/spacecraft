@@ -3,13 +3,11 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
+module.exports = TaskWithVariables();
+
 /**
  * Created by vaimer on 19.02.2017.
  */
-
-module.exports = TaskWithVariables();
-
-
 function TaskWithVariables() {
 
 	return {

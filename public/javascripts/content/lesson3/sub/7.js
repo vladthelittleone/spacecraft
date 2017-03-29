@@ -5,6 +5,8 @@ var LessonResults = require('../../lesson-results');
 
 module.exports = goToResearchCenter();
 
+var lodash = require('lodash');
+
 /**
  * Created by vaimer on 24.03.17.
  */
@@ -45,7 +47,7 @@ function goToResearchCenter() {
 
 			text.forEach(function (e) {
 
-				if(lodash.isNil(e))
+				if(!lodash.isNil(e))
 				{
 					t += 'груз получен -> ' + e + '</br>';
 				}

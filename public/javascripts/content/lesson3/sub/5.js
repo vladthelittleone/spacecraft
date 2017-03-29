@@ -32,7 +32,7 @@ function loadingStock() {
 
 		instructions: '<ul>' +
 					  	'<li>На строке 13 необходимо использовать функцию корабля <span class="red-label">.loadToCargo(-container-)</span>.</li>' +
-					  	'<li>И передать в нее переменную <span class="red-label">sensor</span>. Для погрузки на корабль.</li>' +
+					  	'<li>И передать в нее переменную <span class="red-label">container</span>. Для погрузки на корабль.</li>' +
 					  '</ul>'
 	};
 

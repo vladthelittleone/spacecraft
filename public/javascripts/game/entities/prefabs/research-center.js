@@ -16,6 +16,7 @@ function ResearchCenter(game, x, y) {
 
 	t.width = 600;
 	t.height = 600;
+
 	game.physics.arcade.enableBody(t);
 
 	return t;

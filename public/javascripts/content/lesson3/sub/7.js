@@ -34,15 +34,35 @@ function goToResearchCenter() {
 					  '</ul>'
 	};
 
-	function gamePostUpdate(scout) {
+	function gamePostUpdate(scout,
+							lesson,
+							player,
+							text) {
+
+		var t = '';
+
+		if (text && text.forEach) {
+
+			text.forEach(function (e) {
+
+				if(lodash.isNil(e))
+				{
+					t += 'груз получен -> ' + e + '</br>';
+				}
+
+			});
+
+		}
 
 		var lessonResults = LessonResults({
 			correct: '<p>Подтверждаю выгрузку.</p>' +
-					 '<p>Иссуледовательский центр - контейнер получен -.</p>',
+					 '<p>Исследовательский центр </p>'+ t +'.</p>'
 
 		});
 
-		if (scout.isGetUseCargo()) {
+
+		if (scout.isGetUseCargo() &&
+			scout.isWithinDote(400, 2600) ) {
 
 			return lessonResults.resultCorrect();
 

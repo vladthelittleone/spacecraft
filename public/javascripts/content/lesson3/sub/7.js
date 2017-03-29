@@ -49,7 +49,7 @@ function goToResearchCenter() {
 
 				if(!lodash.isNil(e))
 				{
-					t += 'груз получен -> ' + e + '</br>';
+					t += 'груз получен -> ' + e + '</br>.';
 				}
 
 			});
@@ -58,7 +58,7 @@ function goToResearchCenter() {
 
 		var lessonResults = LessonResults({
 			correct: '<p>Подтверждаю выгрузку.</p>' +
-					 '<p>Исследовательский центр </p>'+ t +'.</p>'
+					 '<p>Исследовательский центр </p>'+ t +'</p>'
 
 		});
 

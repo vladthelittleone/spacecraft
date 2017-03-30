@@ -3,7 +3,7 @@ var Container;
 
 BBotDebug(Container);
 
-// Копирование значения однйо переменной в другую
+// Копирование значения однйо переменной в другую.
 Container = container;
 
 BBotDebug(Container);

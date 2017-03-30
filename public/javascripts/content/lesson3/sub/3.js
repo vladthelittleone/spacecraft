@@ -32,8 +32,8 @@ function TaskWithVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>На третий строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>' +
-					  '<li>И задайте ей значение <span class="red-label">"Ионная пушка"</span>.</li>' +
+					  '<li>На <strong>3</strong> строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>' +
+					  '<li>Задайте ей значение <span class="red-label">"Ионная пушка"</span>.</li>' +
 					  '</ul>'
 	};
 
@@ -46,7 +46,7 @@ function TaskWithVariables() {
 
 			v.forEach(function (e) {
 
-				t += 'К0р0бка ->' + e + '</br>';
+				t += e + '</br>';
 
 				r = (e === 'Ионная пушка');
 
@@ -74,7 +74,7 @@ function TaskWithVariables() {
 
 	function content() {
 
-		return '<p>Выполните небольшое задание, чтобы проверить усвоенный материал.</p>' +
-			'<p>На 3 строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
+		return '<p>Проверим насколько хорошо вы усвоили пройденный материал.</p>' +
+			'<p>Вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
 	}
 }

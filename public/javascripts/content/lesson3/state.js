@@ -66,14 +66,13 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
-		// Нижний правый угол экрана
-		EntitiesFactory.createResearchCenter(game, x / 4, y / 4);
+		EntitiesFactory.createResearchCenter(game, 400, 2600);
 
 		// Инициализация графики
 		graphics = game.add.graphics(0, 0);
 
 		// Создать транспорт
-		player = EntitiesFactory.createScout(game, 1000, 1000, true);
+		player = EntitiesFactory.createScout(game, 2000, 2000, true);
 		var sprite = player.sprite;
 
 		sprite.rotation = - Math.PI / 2;
@@ -90,26 +89,21 @@ function StateWrapper(state) {
 		// Фокус на на центре
 		t.followFor(sprite);
 
-		var cruiser = EntitiesFactory.createCruiser(game, 2020, 1740);
-
-		cruiser.sprite.rotation = - Math.PI / 2;
-
 		var h1 = EntitiesFactory.createHarvester(game, 1859, 2156);
 
 		h1.sprite.rotation = - 3.35 * Math.PI / 2;
 
 		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
 		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
-		var fighter = EntitiesFactory.createFighter(game, 400, 300);
+		var fighter = EntitiesFactory.createFighter(game, 1000, 0);
 
 		s1.sprite.rotation = - 3.85 * Math.PI / 2;
 		s2.sprite.rotation = - 4.25 * Math.PI / 2;
 
 		patrol(s1, 2055, 1995, 2700, 1200);
 		patrol(s2, 2101, 1890, 2800, 1340);
-		patrol(fighter, 0, 0, 2000, 2000);
-		patrol(cruiser, 2020, 1740, 150, 150);
-		patrol(h1, 1859, 2156, 2000, 2356);
+		patrol(fighter, 1000, 0, 4000, 2600);
+		patrol(h1, 1859, 2156, 4000, 4000);
 
 		CodeLauncher.setArguments(player.api);
 

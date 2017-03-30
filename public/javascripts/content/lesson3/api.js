@@ -10,7 +10,7 @@ function Api(player) {
 
 	var api = {};
 
-	var getCargoUse = true;
+	var getCargoUse = false;
 	var cargoUse = false;
 	var cargoX;
 	var cargoY;
@@ -30,10 +30,9 @@ function Api(player) {
 
 	function loadToCargo(value) {
 
-		if(isWithinDote(cargoX, cargoY) && !cargoUse) {
+		if(isWithinDote(cargoX, cargoY)) {
 
 			cargoUse = true;
-			getCargoUse = false;
 
 			player.set(value);
 		}
@@ -56,7 +55,7 @@ function Api(player) {
 
 	function isGetUseCargo() {
 
-		return cargoUse;
+		return getCargoUse;
 	}
 
 	function isAlive() {
@@ -76,9 +75,8 @@ function Api(player) {
 
 	function getFromCargo() {
 
-		if(isWithinDote(cargoX, cargoY) && !getCargoUse)
+		if(isWithinDote(cargoX, cargoY))
 		{
-			cargoUse = false;
 			getCargoUse = true;
 
 			return player.get();

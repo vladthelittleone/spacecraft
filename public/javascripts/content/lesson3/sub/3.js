@@ -34,6 +34,7 @@ function TaskWithVariables() {
 		instructions: '<ul>' +
 					  '<li>На <strong>3</strong> строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>' +
 					  '<li>Задайте ей значение <span class="red-label">"Ионная пушка"</span>.</li>' +
+					  '<li>Больше информации о JavaScript: <a href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5">клац</a>.</li>' +
 					  '</ul>'
 	};
 
@@ -56,7 +57,7 @@ function TaskWithVariables() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Еще 0дна к0р0бка вскрываю... транслирую...</p>' +
+			correct: '<p>Еще одна кор0бка вскрываю... транслирую...</p>' +
 					 '<p class="bbot-output">' + t + '</p>',
 
 			text: t

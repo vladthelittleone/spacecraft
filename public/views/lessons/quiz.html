@@ -22,7 +22,7 @@
 		<div class="question">
 			Верных ответов: {{result.correctAnswer}} из {{result.questionsCount}}
 		</div>
-		<div ng-if="result.questionsWithError.length">
+		<div ng-show="result.questionsWithError">
 			<div class="question">
 				{{currentQuestionWithError.question}}
 			</div>

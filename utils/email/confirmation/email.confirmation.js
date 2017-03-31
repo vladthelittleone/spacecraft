@@ -9,9 +9,15 @@ let cheerio = require('cheerio');
 const path = require('path');
 const fs = require('fs');
 
+var async = require('async');
+
 var validator = require('validator');
 
+var lodash = require('lodash');
+
 const uuidGenerator = require('uuid');
+
+var htmlToText = require('html-to-text');
 
 var EmailConfirmationModel = require('./../../../models/email.confirmation');
 
@@ -26,6 +32,16 @@ const developmentEnvironmentFlag = process.env.NODE_ENV && process.env.NODE_ENV 
 
 module.exports = emailConfirmation();
 
+/**
+ * Данный модуль включает в себя бизнес-логику процесса отправки письма пользователю
+ * о подтверждении электронной почты.
+ * Модуль берет на себя обязанности:
+ * 1) Генерация ссылки для подтверждения посты пользователем;
+ * 2) Занесение в коллекцию email.Confirmations документа о факте отправки письма пользователю;
+ * 3) Внедрение ссылки подтверждения почты в тело письма;
+ *
+ * Вся выше обозначенная логика инкапсулирована внуть метода send.
+ */
 function emailConfirmation() {
 
 	let urlConfirmationOptions = {
@@ -37,6 +53,16 @@ function emailConfirmation() {
 	};
 
 	let html = fs.readFileSync(path.join(__dirname, 'email.confirmation.html'));
+
+	// На случай, если почтовый клиент пользователя не в состоянии интерпретировать html.
+	let plainText = htmlToText.fromString(html, {
+		ignoreImage:             true,
+		noLinkBrackets:          true,
+		preserveNewlines:        true,
+		singleNewLineParagraphs: true
+
+	});
+
 	let $ = cheerio.load(html);
 
 	let t = {};
@@ -46,58 +72,71 @@ function emailConfirmation() {
 	return t;
 
 	/**
-	 * Метод отправки сообщения о просьбе подтвердить текущий электронный адрес.
-	 * @param user - объект описывающий пользователя. Ожидаемый формат объекта
-	 *                 полностью соответствует формату схемы в модели User (models/user.js).
+	 * Метод отправки сообщения пользователю о просьбе подтвердить его текущий электронный адрес.
 	 */
 	function send(user, callback) {
 
-		let emailOfReceiver = user.email;
+		let emailOfRecipient = user.email;
 
-		if (emailOfReceiver) {
+		if (emailOfRecipient) {
 
 			let confirmationKey = uuidGenerator();
 
-			EmailConfirmationModel.set({
-										   userId:          user._id,
-										   confirmationKey: confirmationKey
-									   }, (error) => {
+			async.waterfall([
+								// Заносим в коллекцию запись о факте отправки письма.
+								function (callback) {
 
-				if (error) {
+									EmailConfirmationModel.update({idUser: user._id},
+																  {confirmationKey: confirmationKey},
+																  {
+																	  upsert:              true,
+																	  setDefaultsOnInsert: true
+																  },
+																  callback);
+								},
 
-					return logger.ERROR(error);
+								// Подготавливаем тело письма и осуществляем его отправку.
+								function (callback) {
 
-				}
+									let emailConfirmationUrl = generateConfirmationEmailUrl(confirmationKey);
 
-				let html = prepareHtml(confirmationKey);
+									let html = prepareHtml(emailConfirmationUrl);
 
-				// TODO генерация plain text'a
-				mailer.sendEmail({
-									 subject:         'Пожалуйста, подтвердите свой почтовый адрес',
-									 plainText:       'Hello world',
-									 html:            html,
-									 emailOfReceiver: emailOfReceiver
-								 }, (error, info) => {
+									// TODO Убирать символы табуляции, которые остаются из исходного шаблона
+									let plainTextWithConfirmationUrl = preparePlainText(emailConfirmationUrl);
 
-					logger.INFO(error, info);
+									mailer.sendEmail({
+														 subject:          'Пожалуйста, подтвердите свой почтовый адрес',
+														 plainText:        plainTextWithConfirmationUrl,
+														 html:             html,
+														 emailOfRecipient: emailOfRecipient
+													 }, callback);
 
-				});
-
-			});
+								}
+							], callback);
 
 		}
 
 	}
 
 	/**
-	 * Метод подготовки окончательного вида html текста, с учетом
-	 * известного confirmationKey, для отправки пользователю.
-	 * @param confirmationKey - ключ подтверждения почты. Именно на основании данного ключа
-	 * будет строиться индивидуальная ссылка подтверждения почты.
-	 * @returns {*}
+	 * Метод подготовки plain text'a, которая подразумевает за собой вставку
+	 * ссылки для подтверждения почты (emailConfirmationUrl) в исходный plainText.
 	 */
-	function prepareHtml(confirmationKey) {
+	function preparePlainText(emailConfirmationUrl) {
 
+		let compiled = lodash.template(plainText);
+
+		return compiled({emailConfirmationUrl});
+
+	}
+
+	/**
+	 * Метод генерации ссылки на подтвержление почты пользователя.
+	 * @param confirmationKey ключ подтверждения, на основании которого и будет осуществляеться генерация
+	 *           ссылки.
+	 */
+	function generateConfirmationEmailUrl(confirmationKey) {
 		// TODO Не забыть про https, если перейдем на SSL.
 		let urlOfConfirmation = url.format({
 											   protocol: 'http',
@@ -109,7 +148,20 @@ function emailConfirmation() {
 											   }
 										   });
 
-		$('#emailConfirmationButton').attr("href", urlOfConfirmation);
+		return urlOfConfirmation;
+	}
+
+	/**
+	 * Метод подготовки окончательного вида html текста, с учетом
+	 * известного confirmationKey, для отправки пользователю.
+	 * @param confirmationKey - ключ подтверждения почты. Именно на основании данного ключа
+	 * будет строиться индивидуальная ссылка подтверждения почты.
+	 * @returns {*}
+	 */
+	function prepareHtml(emailConfirmationUrl) {
+
+		// TODO Мб lodash'ом через template будет эффективней?
+		$('#emailConfirmationButton').attr("href", emailConfirmationUrl);
 
 		return $.html();
 	}

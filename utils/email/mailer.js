@@ -8,6 +8,12 @@ const logger = require('./../../utils/log')(module);
 
 module.exports = mailer();
 
+
+/**
+ * Данный модуль инкапсулирует иницилизацию SMPT клиента (с настройками по авторизации на SMTP сервере яндекса).
+ * Предоставляет от себя лаконичный метод sendEmail, который можно использовать напрямую, для отправки
+ * писем, без каких-либо дополнительных строк кода.
+ */
 function mailer() {
 
 	// Все необходимые параметры нашей яндекс почты.
@@ -38,7 +44,7 @@ function mailer() {
 	return t;
 
 	/**
-	 *
+	 * Метод отправки электронного письма.
 	 * @param args определяет следующие поля:
 	 *          emailOfReceiver - email получателя;
 	 *          subject - тема письма;
@@ -51,7 +57,7 @@ function mailer() {
 
 		let mailOptions = {
 			from:    yandexMail.address,
-			to:      args.emailOfReceiver,
+			to:      args.emailOfRecipient,
 			subject: args.subject,
 			text:    args.plainText,
 			html:    args.html

@@ -10,9 +10,11 @@ var router = express.Router();
 
 var lodash = require('lodash');
 
+var logger = require('utils/log')(module);
+
 var Statistic = require('./../../models/statistic');
 
-var leaderBoardHelper = require('../../utils/help/statistics/leaderBoard');
+var leaderBoardHelper = require('../../utils/helpers/statistics/leaderBoard');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
@@ -23,6 +25,8 @@ router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req
 	Statistic.getLeaderBoard(function (error, leaderBoard) {
 
 		if (error) {
+
+			logger.error(error);
 
 			return next(error);
 

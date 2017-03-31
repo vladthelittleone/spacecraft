@@ -90,16 +90,24 @@
 				</table>
 			</div>
 		</div>
-		<div class="container-25">
+		<div ng-if="userInfo.needToConfirmEmail"
+			 class="container-25">
 			<div align="center"
 				 class="alert alert-warning">
-				Пожалуйста, подтвердите Вашу почту.
+				Пожалуйста, подтвердите Вашу почту ({{userInfo.email}}).
+				<div ng-if="userInfo.emailProvider">
+					<a ng-href="{{userInfo.emailProvider.url}}">
+						<img ng-src="{{userInfo.emailProvider.icon}}"
+							 alt="Перейти на Ваш почтовый ящик"
+							 title="Перейти на Ваш почтовый ящик"/>
+					</a>
+				</div>
 			</div>
 		</div>
 
 	</div>
 
-	<div class="rocket-white-img pages-footer-img "></div>
+	<div class="rocket-white-img pages-footer-img"></div>
 
 	<div class="pages-footer"></div>
 	<div class="pages-footer-text" ui-sref="lessons">Доступны новые уроки!</div>
@@ -108,7 +116,7 @@
 		<img class="logo"
 			 ui-sref="welcome"
 			 src="images/logo.png"/>
-		<div class="welcome-email">{{name}}</div>
+		<div class="welcome-email">{{userInfo.name}}</div>
 		<div class="welcome-logout" ng-click="logout()">
 			<span class="glyphicon glyphicon-log-out"></span>
 		</div>

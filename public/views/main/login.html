@@ -67,7 +67,9 @@
 							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 						</button>
 
-						<div ng-show="isEnterForm" class="vk-button">
+						<div ng-show="isEnterForm"
+							 ng-click="spinLoginSpinner();"
+							 class="vk-button">
 							<a href="/vk">
 								<span>Войти через ВКонтакте</span>
 							</a>

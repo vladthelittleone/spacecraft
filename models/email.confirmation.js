@@ -5,20 +5,25 @@
 
 var mongoose = require('utils/mongoose');
 
-var User = require('./user');
+var UserModel = require('./user');
 
 var validator = require('validator');
+
+var async = require('async');
 
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
 	idUser:           {
-		type:     mongoose.Schema.Types.ObjectId,
+		index:    true,
+		type:     Schema.Types.ObjectId,
 		ref:      'User',
 		unique:   true,
 		required: true
 	},
 	confirmationKey:  {
+		index:    true,
+		unique:   true,
 		type:     String,
 		validate: {
 			validator: validator.isUUID,
@@ -39,37 +44,22 @@ var schema = new Schema({
 	}
 });
 
-schema.statics.set = set;
 schema.statics.confirm = confirm;
-schema.statics.find = find;
 
 module.exports = mongoose.model('email.confirmation', schema);
 
-function set(args, callback) {
 
-	this.update({idUser: args.userId},
-				{confirmationKey: args.confirmationKey},
-				{
-					upsert:              true,
-					setDefaultsOnInsert: true
-				},
-				callback);
-
-}
-
-function find(userId, callback) {
-
-	this.find({idUser: userId}, callback);
-
-}
-
+/**
+ * Процесс подтверждения.
+ */
 function confirm(confirmationKey, callback) {
 
-	this.update({confirmationKey: confirmationKey},
-				{
-					result:           true,
-					confirmationTime: Date.now()
-				},
-				callback);
+	let emailConfirmationModel = this;
+
+	emailConfirmationModel.findOneAndUpdate({confirmationKey: confirmationKey},
+											{
+												result:           true,
+												confirmationTime: Date.now()
+											}, callback);
 
 }

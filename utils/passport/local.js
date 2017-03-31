@@ -51,7 +51,7 @@ local.login = new LocalStrategy(localStrategyReqParam, (req, email, password, ne
 /**
  * Локальная стратегия для регистрации пользователя.
  * Особенность этой стратегии заключается в том, что необходимо отправить
- * пользователю (на его email) сообщение о подтверждении почты.
+ * (на его email) сообщение о подтверждении почты.
  */
 local.registration = new LocalStrategy(localStrategyReqParam, (req, email, password, next) => {
 
@@ -87,8 +87,6 @@ local.registration = new LocalStrategy(localStrategyReqParam, (req, email, passw
 
 			}
 
-			// TODO если письмо не было отправлено, можно просить пользователя попросить зарегистрироваться еще раз.
-			// TODO вообще отловом таких ситуаций, можно сразу отсекать юзеров с левыми адресами. (remove у user тогда не забывать делать).
 			emailConfirmation.send(user);
 
 			strategyHelp.updateTotalFinalScore(user);

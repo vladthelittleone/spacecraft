@@ -99,7 +99,6 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 	if (validateParam(idUser, callback)) {
 
 		async.waterfall([
-
 							function (callback) {
 
 								modelStatistics.findOne({idUser: idUser}, callback);
@@ -180,7 +179,7 @@ function getLeaderBoard(callback) {
 			idUser:          true,
 			totalFinalScore: true,
 			name:            {
-				$arrayElemAt: ['$user.username', 0]
+				$arrayElemAt: ['$user.name', 0]
 			},
 			regDate:         {
 				$arrayElemAt: ['$user.created', 0]

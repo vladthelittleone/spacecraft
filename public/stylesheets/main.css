@@ -272,11 +272,6 @@ pre {
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
 }
 
-.pages-board img {
-	height: 100%;
-	width: 100%;
-}
-
 .pages-board a {
 	text-decoration: none;
 }

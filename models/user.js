@@ -18,7 +18,7 @@ var schema = new Schema({
 		unique:    true,
 		sparse:    true
 	},
-	username:           {
+	name:           {
 		type: String
 	},
 	hashedPassword:     {
@@ -33,6 +33,9 @@ var schema = new Schema({
 		type: String
 	},
 	isSubscribeOnEmail: {
+		type: Boolean
+	},
+	emailConfirmationFlag: {
 		type: Boolean
 	},
 	created:            {
@@ -62,8 +65,6 @@ schema.statics.authorize = authorize;
 schema.statics.registration = registration;
 
 schema.statics.getUserCreationDate = getUserCreationDate;
-
-schema.statics.getUserInfo = getUserInfo;
 
 schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 
@@ -139,7 +140,7 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 									email:              email,
 									password:           password,
-									username:           lodash.first(email.split('@')),
+									name:           lodash.first(email.split('@')),
 									isSubscribeOnEmail: isSubscribeOnEmail
 
 								});
@@ -184,7 +185,7 @@ function findOrCreateVKUser(vkId, email, name, callback) {
 
 									email:    email,
 									vkId:     vkId,
-									username: name
+									name: name
 
 								});
 

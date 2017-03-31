@@ -44,6 +44,7 @@ function LessonController ($scope,
 	$scope.showDiagram = false;			// Переключатель окна диаграммы
 	$scope.showSettings = false;	    // Переключатель натсроек
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
+	$scope.showVkWidget = false;        // Переключатель отображения виджета vk сообщений
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
@@ -58,11 +59,19 @@ function LessonController ($scope,
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
+	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
+
+	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", 105816682, {
+		widgetPosition: "right",
+		disableExpandChatSound: "1",
+		disableButtonTooltip: "1",
+		buttonType: "no_button"
+	});
 
 	// ==================================================
 
@@ -74,6 +83,22 @@ function LessonController ($scope,
 	}
 
 	// ==================================================
+
+	function toggleVkWidgetVisible () {
+
+		if ($scope.showVkWidget) {
+
+			$scope.vkWidget.minimize();
+
+		} else {
+
+			$scope.vkWidget.expand();
+
+		}
+
+		$scope.showVkWidget = !$scope.showVkWidget;
+
+	}
 
 	function toggleTextContent () {
 

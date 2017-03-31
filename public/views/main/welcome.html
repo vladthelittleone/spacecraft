@@ -90,7 +90,8 @@
 				</table>
 			</div>
 		</div>
-		<div class="container-25">
+		<div ng-if="userInfo.needToConfirmEmail"
+			 class="container-25">
 			<div align="center"
 				 class="alert alert-warning">
 				Пожалуйста, подтвердите Вашу почту.
@@ -108,7 +109,7 @@
 		<img class="logo"
 			 ui-sref="welcome"
 			 src="images/logo.png"/>
-		<div class="welcome-email">{{name}}</div>
+		<div class="welcome-email">{{userInfo.name}}</div>
 		<div class="welcome-logout" ng-click="logout()">
 			<span class="glyphicon glyphicon-log-out"></span>
 		</div>

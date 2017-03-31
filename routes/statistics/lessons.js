@@ -12,7 +12,7 @@ var lodash = require('lodash');
 
 var Statistic = require('./../../models/statistic');
 
-var leaderBoardHelper = require('../../utils/help/statistics/leaderBoard');
+var leaderBoardHelper = require('../../utils/helpers/statistics/leaderBoard');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 

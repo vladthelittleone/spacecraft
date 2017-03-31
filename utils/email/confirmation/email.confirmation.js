@@ -9,9 +9,13 @@ let cheerio = require('cheerio');
 const path = require('path');
 const fs = require('fs');
 
+var async = require('async');
+
 var validator = require('validator');
 
 const uuidGenerator = require('uuid');
+
+var htmlToText = require('html-to-text');
 
 var EmailConfirmationModel = require('./../../../models/email.confirmation');
 
@@ -49,41 +53,43 @@ function emailConfirmation() {
 	 * Метод отправки сообщения о просьбе подтвердить текущий электронный адрес.
 	 * @param user - объект описывающий пользователя. Ожидаемый формат объекта
 	 *                 полностью соответствует формату схемы в модели User (models/user.js).
+	 * @param callback TODO задействовать (в процессе отладки не юзал, для удобства).
 	 */
 	function send(user, callback) {
 
-		let emailOfReceiver = user.email;
+		let emailOfRecipient = user.email;
 
-		if (emailOfReceiver) {
+		if (emailOfRecipient) {
 
 			let confirmationKey = uuidGenerator();
 
-			EmailConfirmationModel.set({
-										   userId:          user._id,
-										   confirmationKey: confirmationKey
-									   }, (error) => {
+			async.waterfall([
+								function (callback) {
 
-				if (error) {
+									EmailConfirmationModel.update({idUser: user._id},
+																  {confirmationKey: confirmationKey},
+																  {
+																	  upsert:              true,
+																	  setDefaultsOnInsert: true
+																  },
+																  callback);
+								},
 
-					return logger.ERROR(error);
+								function (callback) {
 
-				}
+									let html = prepareHtml(confirmationKey);
 
-				let html = prepareHtml(confirmationKey);
+									var plainText = htmlToText.fromString(html);
 
-				// TODO генерация plain text'a
-				mailer.sendEmail({
-									 subject:         'Пожалуйста, подтвердите свой почтовый адрес',
-									 plainText:       'Hello world',
-									 html:            html,
-									 emailOfReceiver: emailOfReceiver
-								 }, (error, info) => {
+									mailer.sendEmail({
+														 subject:          'Пожалуйста, подтвердите свой почтовый адрес',
+														 plainText:        plainText,
+														 html:             html,
+														 emailOfRecipient: emailOfRecipient
+													 }, callback);
 
-					logger.INFO(error, info);
-
-				});
-
-			});
+								}
+							], callback);
 
 		}
 

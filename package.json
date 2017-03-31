@@ -37,6 +37,7 @@
     "email-existence": "^0.1.5",
     "express": "~4.13.1",
     "express-session": "^1.13.0",
+    "html-to-text": "^3.2.0",
     "http-status-codes": "^1.1.6",
     "jade": "~1.11.0",
     "jointjs": "^0.9.10",

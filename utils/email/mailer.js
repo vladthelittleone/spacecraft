@@ -51,7 +51,7 @@ function mailer() {
 
 		let mailOptions = {
 			from:    yandexMail.address,
-			to:      args.emailOfReceiver,
+			to:      args.emailOfRecipient,
 			subject: args.subject,
 			text:    args.plainText,
 			html:    args.html

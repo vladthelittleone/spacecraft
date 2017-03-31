@@ -25,6 +25,11 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	$scope.register = register;
 	$scope.login = login;
 
+	$scope.spinLoginSpinner = spinLoginSpinner;
+	$scope.stopLoginSpinner = stopLoginSpinner;
+
+	stopLoginSpinner();
+
 	// ==================================================
 
 	function changeSubscribe() {
@@ -39,6 +44,18 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 
 	}
 
+	function spinLoginSpinner() {
+
+		usSpinnerService.spin('login-spinner');
+
+	}
+
+	function stopLoginSpinner() {
+
+		usSpinnerService.stop('login-spinner');
+
+	}
+
 	/**
      * Вызывается в случае успешной регистрации.
 	 * Реализует логику вызова логирования и указания переходу к первому уроку.
@@ -48,7 +65,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 		// Переопределяем success callback для метода логирования.
 		login(function() {
 
-			usSpinnerService.stop('login-spinner');
+			stopLoginSpinner();
 
 			toTheFirstLesson();
 
@@ -61,7 +78,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	 */
 	function defaultPreparationOfSuccessfulLogin() {
 
-		usSpinnerService.stop('login-spinner');
+		stopLoginSpinner();
 
 		toWelcome();
 
@@ -76,7 +93,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			usSpinnerService.spin('login-spinner');
+			spinLoginSpinner();
 
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
@@ -99,7 +116,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	 */
 	function error(errorDescription) {
 
-		usSpinnerService.stop('login-spinner');
+		stopLoginSpinner();
 
 		$scope.errorMessage = errorDescription ? errorDescription :
 							  "Что-то пошло не так, пожалуйста, попробуйте еще раз.";
@@ -130,7 +147,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			usSpinnerService.spin('login-spinner');
+			spinLoginSpinner();
 
 			authentication.login({
 									 email:              $scope.email,

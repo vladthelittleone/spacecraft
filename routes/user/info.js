@@ -13,7 +13,7 @@ const checkAuthentication = require('./../../middlewares/check-authentication');
 
 var HttpStatus = require('http-status-codes');
 
-var EmailConfirmation = require('./../../models/email.confirmation');
+var EmailConfirmationModel = require('./../../models/email.confirmation');
 
 var validator = require('validator');
 
@@ -26,57 +26,22 @@ module.exports = router;
  */
 router.get('/user/info', checkAuthentication, function (req, res, next) {
 
-	let idUser = req.user._id;
+	let user = req.user;
 
-	// TODO ходить за подтверждением только по email user'aм (уже вынесено в соотв. help'er).
-	EmailConfirmation.find(idUser, function(error, data) {
+	let response = {};
 
-		if (error) {
+	// если пользователь еще не подтверждал почту.
+	if (!lodash.isNil(user.emailConfirmationFlag) && user.emailConfirmationFlag === false) {
 
-			logger.error(error);
-			
-			return res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+		response.needToConfirmEmail = true;
 
-		}
+	}
 
+	// TODO имеет смысл переименовать флаг isSubscribeOnEmail
+	response.name = user.name;
 
-	});
+	res.send(response);
 
-	UserModel.getUserInfo(idUser, function(error, data) {
-
-		if (error) {
-
-			return res.send
-
-		}
-
-	});
-
-	EmailConfirmationModel.find(idUser, function(error, data) {
-
-		if (error) {
-
-			logger.error(error);
-
-			return res.status(HttpStatus.INTERNAL_SERVER_ERROR);
-
-		}
-
-		let response = {};
-
-		response.name = req.user.username;
-
-		// в result должно лежать поределенно ТОЛЬКО булево значение (true/false).
-		// В противном случае,
-		if (data && data.result === false) {
-
-			response.emailConfirmationFlag = false;
-
-		}
-
-		res.send(response);
-
-	})
 });
 
 /**
@@ -107,26 +72,25 @@ router.get('/user/info/session', checkAuthentication, function (req, res, next) 
  */
 router.get('/user/emailConfirmation', function (req, res, next) {
 
-	try {
+	let confirmationKey = req.query.confirmationKey;
 
-		let confirmationKey = req.query.confirmationKey;
+	// Если параметр confirmationKey является UUID значением
+	// (это проверка на валидность входящего параметра в целом).
+	// TODO заюзать waterfall у async для случая с обновлением users и sessions.
+	if (confirmationKey && validator.isUUID(confirmationKey)) {
 
-		// Если параметр confirmationKey является UUID значением
-		// (это проверка на валидность входящего параметра в целом).
-		if (confirmationKey && validator.isUUID(confirmationKey)) {
+		return EmailConfirmationModel.confirm(confirmationKey, (error) => {
 
-			return EmailConfirmationModel.confirm(confirmationKey, () => {
+			if (error) {
 
-				// По окончанию
-				res.redirect('/');
+				logger.error(error);
 
-			});
+			}
 
-		}
-	}
-	catch(err)
-	{
-		logger.error(err);
+			res.redirect('/');
+
+		});
+
 	}
 
 	res.redirect('/');

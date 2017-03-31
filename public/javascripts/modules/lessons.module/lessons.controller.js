@@ -13,7 +13,7 @@ module.exports = LessonsController;
 function LessonsController($scope) {
 
 	VK.Widgets.CommunityMessages("vkCommunityMessages", 105816682, {
-		widgetPosition: "left",
+		widgetPosition: "right",
 		disableExpandChatSound: "1",
 		disableButtonTooltip: "1",
 	});

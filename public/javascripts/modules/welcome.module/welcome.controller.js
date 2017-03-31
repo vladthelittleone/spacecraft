@@ -66,7 +66,7 @@ function WelcomeController($scope,
 			}, 105816682);
 
 			VK.Widgets.CommunityMessages("vkCommunityMessages", 105816682, {
-				widgetPosition: "left",
+				widgetPosition: "right",
 				disableExpandChatSound: "1",
 				disableButtonTooltip: "1",
 			});

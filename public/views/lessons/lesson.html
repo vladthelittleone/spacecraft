@@ -80,12 +80,12 @@
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
 
-	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
+	<div class="right-toolbar-button fa fa-list-alt lesson-alt-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
 		 ng-click="toggleTextContent()"
-		 ng-class="{'fa fa-chevron-right' : showTextContent}"></div>
+		 ng-class="{'fa-chevron-right' : showTextContent}"></div>
 
 	<div class="right-toolbar-button"
 		 tooltip-placement="left"
@@ -93,7 +93,7 @@
 		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
 		 ng-click="toggleDiagram()"
 		 ng-show="isLessonWithDiagram()"
-		 ng-class="{'fa fa-chevron-right' : showDiagram, 'glyphicon glyphicon-object-align-vertical' : !showDiagram}"></div>
+		 ng-class="{'fa fa-chevron-right' : showDiagram, 'fa fa-sitemap' : !showDiagram}"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
@@ -118,7 +118,7 @@
 	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Показать vk сообщения'}}"
+		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
 		 ng-click="toggleVkWidgetVisible()"></div>
 
 </div>

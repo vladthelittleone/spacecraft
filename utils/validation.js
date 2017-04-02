@@ -29,10 +29,10 @@ function Validation() {
      * пароль будет переданно сообщени об ошибке}
 	 */
 
-	function checkEmailAndPassword(res, req, next) {
+	function checkEmailAndPassword(req, res, next) {
 
-		let email = res.body.email;
-		let password = res.body.password;
+0		let email = req.body.email;
+		let password = req.body.password;
 
 		if (!email) {
 

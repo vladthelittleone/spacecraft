@@ -7,6 +7,9 @@ const app = express();
 const resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
 
 const compression = require('compression');
+
+const HttpStatus = require('http-status-codes');
+
 app.use(compression());
 
 const passport = require('passport');
@@ -65,7 +68,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use('local-login', localStrategy.login);
-passport.use('local-registration', localStrategy.registration);
 passport.use('vk-login', vkStrategy.login);
 
 // инициализируем api;
@@ -81,6 +83,16 @@ app.use('/*', function (req, res) {
 const HttpError = require('error').HttpError;
 
 app.use(function (err, req, res, next) {
+
+	// TODO решение на скорую руку.
+	// На случай, если из какого-либо middleware выпала ошибка, отличная от числа или HttpError.
+	// Это говорит о том, что в err скрыт объект, который создала какая-либо сторонняя библиотека (к примеру, mongoose).
+	// Нет необходимости раскрывать ее описание пользователю. Достаточно будет скрыть ее за 500 кодом.
+	if (typeof err != 'number' && typeof err != 'HttpError') {
+
+		err = HttpStatus.INTERNAL_SERVER_ERROR;
+
+	}
 
 	// Проверка на error/HttpError
 	if (typeof err == 'number') {

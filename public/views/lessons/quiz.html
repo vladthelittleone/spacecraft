@@ -1,39 +1,104 @@
+<!-- Директива игры -->
+<div game-canvas
+	 class="lesson-canvas"
+	 hide-dhs="char.css"></div>
+
 <div class="quiz">
 
-	<!--блок опросника-->
-	<div ng-if="!showResult">
-		<!--заголовок вопроса-->
-		<div class="question">
-			{{currentQuestion.question}}
-		</div>
-		<!--карточки с ответом-->
-		<div ng-click="trySetNextQuestion(i)"
-			 class="question-card"
-			 ng-repeat="(i, answerOption) in currentQuestion.answerOptions">
-			<!--содержимое карточки-->
-			<div class="question-card-container">
-				<h4><b>{{answerOption}}</b></h4>
+	<div class="content-description">
+		<div class="content-overflow">
+			<div ng-if="!showResult"
+				 class="content-center">
+				<!--блок опросника-->
+				<div class="lesson-title ng-binding">Вопрос номер {{currentIndex}}</div>
+				<div class="lesson-content"
+					 ng-bind-html="sce(currentQuestion.question)">
+				</div>
 			</div>
+
+			<div ng-if="showResult"
+				 class="content-center">
+				<!--блок опросника-->
+				<div class="lesson-title ng-binding">Ваш результат</div>
+			</div>
+
+			<div class="lesson-instructions" ng-if="!showResult">
+				<div class="content-center">
+					<div class="lesson-instructions-title">Варианты ответов:</div>
+					<div class="answers"
+						 ng-repeat="(i, answerOption) in currentQuestion.answerOptions">
+						<div ng-bind-html="sce(answerOption)"
+							 ng-click="trySetNextQuestion(i)"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="lesson-instructions" ng-if="showResult">
+				<div class="content-center">
+					<div class="lesson-instructions-title">
+						Верных ответов: {{result.correctAnswer}} из {{result.questionsCount}}
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 
-	<!--блок результатов-->
-	<div ng-if="showResult">
-		<div class="question">
-			Верных ответов: {{result.correctAnswer}} из {{result.questionsCount}}
-		</div>
-		<div ng-if="result.questionsWithError.length">
-			<div class="question">
-				{{currentQuestionWithError.question}}
-			</div>
-			<div class="question">
-				Правильный ответ: {{currentQuestionWithError.correctAnswerDescription}}
-			</div>
-			<button ng-click="trySetNextQuestionWithError()" class="btn btn-default">
-				<span>Понятно.</span>
-			</button>
-		</div>
+</div>
 
+<div class="right-toolbar">
+
+	<div class="right-toolbar-button right-toolbar-icon" ui-sref="welcome"></div>
+
+	<div class="right-toolbar-button glyphicon enhoyhint-play"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{CodeLauncher.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
+		 ng-show="curretSubLesson.interpreterHandler || curretSubLesson.gamePostUpdate"
+		 ng-click="toggleCodeRun()"
+		 ng-class="{'glyphicon-stop right-toolbar-red': CodeLauncher.isCodeRunning, 'glyphicon-play right-toolbar-green' : !CodeLauncher.isCodeRunning}">
 	</div>
+
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{hideEditor ? 'Показать редактор кода' : 'Убрать редактор кода'}}"
+		 ng-click="toggleEditorOpen()"
+		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
+
+	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
+		 ng-click="toggleTextContent()"
+		 ng-class="{'glyphicon-chevron-right' : showTextContent}"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
+		 ng-click="toggleDiagram()"
+		 ng-show="isLessonWithDiagram()"
+		 ng-class="{'glyphicon-chevron-right' : showDiagram, 'glyphicon-object-align-vertical' : !showDiagram}"></div>
+
+	<div class="right-toolbar-new-group right-toolbar-button glyphicon glyphicon-wrench"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{showSettings ? 'Скрыть настройки' : 'Показать настройки'}}"
+		 ng-click="toggleSettings()"
+		 ng-class="{'glyphicon-chevron-right' : showSettings}"></div>
+
+	<div class="right-toolbar-button glyphicon glyphicon-fast-backward"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="Повторить инструкции"
+		 ng-click="previousAudio()"></div>
+
+	<div class="right-toolbar-button glyphicon"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{audioPause ? 'Запустить инструкции' : 'Остановить инструкции'}}"
+		 ng-click="toggleAudioPause()"
+		 ng-class="{'glyphicon-play' : audioPause, 'glyphicon-pause' : !audioPause}"></div>
 
 </div>

@@ -5,15 +5,15 @@
  * @since 12.03.17
  */
 
-QuizController.$inject = ['$scope', '$stateParams'];
+QuizController.$inject = ['$scope', '$stateParams', '$sce'];
 
 var ContentFactory = require('../../content');
 
 module.exports = QuizController;
 
-function QuizController($scope, $stateParams) {
+function QuizController($scope, $stateParams, $sce) {
 
-	$scope.questions = ContentFactory.content($stateParams.id);
+	$scope.questions = ContentFactory.content($stateParams.id).questions;
 
 	$scope.result = {
 
@@ -24,9 +24,11 @@ function QuizController($scope, $stateParams) {
 	};
 
 	$scope.currentQuestion = $scope.questions.shift();
+	$scope.currentIndex = 1;
 
 	$scope.trySetNextQuestion = trySetNextQuestion;
 	$scope.trySetNextQuestionWithError = trySetNextQuestionWithError;
+	$scope.sce = sce;
 
 	//=============================================
 	//==============PUBLIC METHOD==================
@@ -46,6 +48,7 @@ function QuizController($scope, $stateParams) {
 		if($scope.questions.length) {
 
 			$scope.currentQuestion = $scope.questions.shift();
+			$scope.currentIndex++;
 
 		}
 		else
@@ -68,6 +71,12 @@ function QuizController($scope, $stateParams) {
 			$scope.currentQuestionWithError = $scope.result.questionsWithError.shift();
 
 		}
+	}
+
+	function sce(value) {
+
+		return $sce.trustAsHtml(value);
+
 	}
 
 }

@@ -70,7 +70,7 @@ function CodeRunner() {
 	}
 
 	/**
-	 * Вызов кода польщователяю
+	 * Вызов кода пользователя
 	 */
 	function update() {
 

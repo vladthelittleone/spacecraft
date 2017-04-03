@@ -1,13 +1,20 @@
+// Создание константы
 var MAX_SPEED = 10;
+
+// Объявление константы согласно новому стандарту ECMA6
 const MIN_SPEED = 5;
+
+// Переменная не инициализирована значение undefined
 var no_value;
+
+// Пустая переменная значение null
 var null_value = null;
 
 /**
  * Полет к исследовательскому центру
  */
-this.run = function(scout)
+this.run = function(harvester)
 {
 	// Перемещение к исследовательскому центру
-	scout.moveToXY(380, 2600);
+	harvester.moveToXY(400, 2000);
 };

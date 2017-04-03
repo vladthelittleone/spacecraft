@@ -12,6 +12,7 @@ function goToResearchCenter() {
 
 	return {
 		isRestartDisabled: true,
+		runOnStart:   true,
 		title:        'Полет к исследовательскому центру',
 		character:    [{
 			audio:  'audio/lesson2/1-1.mp3',
@@ -29,23 +30,26 @@ function goToResearchCenter() {
 		content: content,
 
 		instructions: '<ul>' +
-					  	'<li>Информация по ключевому слову const: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const">чпоньк</a>.</li>' +
+					  	'<li>Информация по ключевому слову <strong>const</strong>: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const">чпоньк</a>.</li>' +
 					  	'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 					  '</ul>'
 	};
 
-	function gamePostUpdate(scout) {
+	function gamePostUpdate(harvester) {
 
 		var lessonResults = LessonResults({
-			correct: '<p>Бип Бип... роботы, офицеры, гуманоиды на выход. Кадеты работать и учиться!</p>'
+			correct: '<p>Бип Бип... роботы, офицеры, гуманоиды на выход. Кадеты работать и учиться!</p>',
+
+			text: '<p>Следуйте за белым кроликом!</p>'
 		});
 
-		if (scout.isWithinDote(380, 2600)) {
+		if (harvester.isNearPoint(400, 2000)) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
+		return lessonResults.text();
 	}
 
 	function content() {
@@ -54,8 +58,8 @@ function goToResearchCenter() {
 			    '<p>Константы - это переменные, значения которых <span class="under-label">НИКОГДА</span> не меняется, ' +
 				'как правило имена таких переменных пишутся заглавными буквами.</p>' +
 			   	'<p>Очень важно! Значение константы задается <span class="under-label">сразу</span>,  при ее объявлении.</p>' +
-				'<p>Переменные, которым не присволили значения будут undefined.</p>' +
-				'<p>>Для обозначения пустоты переменной используется специально слово null.</p>';
+				'<p>Переменные, которым не присволили значения будут <strong>undefined</strong>.</p>' +
+				'<p>>Для обозначения пустоты переменной используется специально слово <strong>null</strong>.</p>';
 
 	}
 }

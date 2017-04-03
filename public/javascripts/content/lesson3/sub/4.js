@@ -32,8 +32,8 @@ function TaskWithVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>На третий строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>.' +
-					  "<li>И задайте ей значение <span class='red-label'>'Ионная пушка'</span>.</li>" +
+					  '<li>На <strong>3</strong> строчке объявите переменную <strong>container</strong>, с помощью ключевого слова <span class="red-label">var</span>.</li>' +
+					  "<li>И задайте ей значение <strong>'Ионная пушка'</strong>.</li>" +
 
 					  '</ul>'
 	};
@@ -76,6 +76,6 @@ function TaskWithVariables() {
 	function content() {
 
 		return '<p>Выполните небольшое задание, чтобы проверить усвоенный материал.</p>' +
-			'<p>На 3 строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
+			'<p>На <strong>3</strong> строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
 	}
 }

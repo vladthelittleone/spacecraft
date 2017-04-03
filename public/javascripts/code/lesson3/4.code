@@ -4,10 +4,10 @@ var container = 'Вражеский датчик';
 /**
  * Погрузите датчик на корабль
  */
-this.run = function(scout)
+this.run = function(harvester)
 {
 	// Перемещение к датчику
-	scout.moveToXY(2100, 2100);
+	harvester.moveToXY(2100, 2100);
 
 	// Поднимите груз на корабль
 

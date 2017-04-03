@@ -38,11 +38,11 @@ function VariablesIsContainers() {
 
 		if (v && v.forEach) {
 
-			v.forEach(function (e, i) {
+			v.forEach(function (e) {
 
 				t += e + '</br>';
 
-				r = (e === 'Галактический червь' || e === 'Ракетное топливо');
+				r = (e === 'Капсула с галактическим червем' || e === 'Ракетное топливо');
 
 			});
 
@@ -54,7 +54,7 @@ function VariablesIsContainers() {
 					 '<p>Транслирую:</p>' +
 					 '<p class="bbot-output">' + t + '</p>',
 
-			text: t
+			text: 'Кто-то вскрыл коробки до нас и похитил Галактического червя и Ракетное топливо'
 
 		});
 

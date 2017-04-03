@@ -30,20 +30,24 @@ function loadingStock() {
 
 		content: content,
 
+		hint: '<ul>' +
+				'<li>Добавьте <span class="under-label-gray">harverster.loadToCargo(container);</span> на <strong>13</strong> строку.</li>' +
+			  '</ul>',
+
 		instructions: '<ul>' +
-					  	'<li>На строке 13 необходимо использовать функцию корабля <span class="red-label">.loadToCargo(-container-)</span>.</li>' +
-					  	'<li>И передать в нее переменную <span class="red-label">container</span>. Для погрузки на корабль.</li>' +
+					  	'<li>На строке <strong>13</strong> необходимо использовать функцию корабля <span class="red-label">loadToCargo(container)</span>.</li>' +
+					  	'<li>Затем передать в нее переменную <span class="red-label">container</span>. Для погрузки на корабль.</li>' +
 					  '</ul>'
 	};
 
-	function gamePostUpdate(scout) {
+	function gamePostUpdate(harvester) {
 
 		var lessonResults = LessonResults({
-			correct: '<p>П0грузка прошла успешн0!</p>'
+			correct: '<p>П0грузка прошла успешно!</p>'
 		});
 
-		if (scout.isUseCargo() &&
-			lodash.isEqual(scout.getFromCargo(), 'Вражеский датчик')) {
+		if (harvester.isUseCargo() &&
+			lodash.isEqual(harvester.getFromCargo(), 'Вражеский датчик')) {
 
 			return lessonResults.resultCorrect();
 
@@ -55,7 +59,7 @@ function loadingStock() {
 
 		return '<p>Отлично кадет, вы прошли вводный курс, теперь можно приступать к заданию.</p>' +
 			   '<p>Вам необходимо поместить датчик в грузовой отсек корабля. </p>' +
-			   '<p>Это можно сделать воспользовавшимь функцией <span class="under-label">.loadToCargo()</span></p>';
+			   '<p>Это можно сделать воспользовавшимь функцией <span class="under-label">loadToCargo()</span></p>';
 
 	}
 }

@@ -9,7 +9,7 @@ module.exports = Api;
 function Api(player) {
 
 	// Дистанция в пределах которой работает подъем грузов
-	var CARGO_DISTANCE = 10;
+	var CARGO_DISTANCE = 30;
 
 	var api = {};
 
@@ -26,14 +26,14 @@ function Api(player) {
 	api.isUseCargo = isUseCargo;
 	api.loadToCargo = loadToCargo;
 	api.getFromCargo = getFromCargo;
-	api.isWithinDote = isWithinCargo;
+	api.isNearPoint = isNearPoint;
 	api.isGetUseCargo = isGetUseCargo;
 
 	return api;
 
 	function loadToCargo(value) {
 
-		if(isWithinCargo()) {
+		if(isNearPoint(cX, cY)) {
 
 			cargoUse = true;
 
@@ -67,15 +67,15 @@ function Api(player) {
 
 	}
 
-	function isWithinCargo() {
+	function isNearPoint(x, y) {
 
-		return player.distanceTo(cX, cY) <= CARGO_DISTANCE;
+		return player.distanceTo(x, y) <= CARGO_DISTANCE;
 
 	}
 
 	function getFromCargo() {
 
-		if(isWithinCargo())
+		if(isNearPoint(cX, cY))
 		{
 			getCargoUse = true;
 

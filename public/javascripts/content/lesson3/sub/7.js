@@ -30,13 +30,17 @@ function goToResearchCenter() {
 
 		content: content,
 
+		hint: '<ul>' +
+				'<li>Добавьте <span class="under-label-gray">researchCenterContainer = harverster.getFromCargo();</span> на <strong>14</strong> строку.</li>' +
+			  '</ul>',
+
 		instructions: '<ul>' +
-					  	'<li>На 14 строчке необходимо скопировать значения из грузовго отсека в переменную <span class="red-label">researchCenterContainer</span>.</li>' +
-						'<li>Для получения значения, хранящегося в грузовом отсека кораблся воспользуйтесь функцией <span class="red-label">.getFromCargo()</span>.</li>' +
+					  	'<li>На <strong>14</strong> строчке необходимо скопировать значения из грузовго отсека в переменную <span class="red-label">researchCenterContainer</span>.</li>' +
+						'<li>Для получения значения, хранящегося в грузовом отсека кораблся воспользуйтесь функцией <span class="red-label">getFromCargo()</span>.</li>' +
 					  '</ul>'
 	};
 
-	function gamePostUpdate(scout,
+	function gamePostUpdate(harvester,
 							lesson,
 							player,
 							text) {
@@ -62,22 +66,20 @@ function goToResearchCenter() {
 
 		});
 
-
-		if (scout.isGetUseCargo() &&
-			scout.isWithinDote(380, 2600) ) {
+		if (harvester.isGetUseCargo() &&
+			harvester.isNearPoint(400, 2000) ) {
 
 			return lessonResults.resultCorrect();
 
 		}
-
 	}
 
 	function content() {
 
 		return  '<p>Перед вами кадет наш исследовательский центр. Все самые передовые разработки рождаются именно здесь.</p>' +
-				'<p>Передайте ученым поднятый вами датчик. Для этого вам необходимо в контейнер researchCenterContainer, ' +
+				'<p>Передайте ученым поднятый вами датчик. Для этого вам необходимо в контейнер <strong>researchCenterContainer</strong>, ' +
 			 	'положить значение с грузового отсека корабля.</p>' +
-				'<p>Для получение значения переменной из грузового отсека используется функция <span class="under-label">.getFromCargo()</span>.</p>' +
+				'<p>Для получение значения переменной из грузового отсека используется функция <span class="under-label">getFromCargo()</span>.</p>' +
 				'<p>BBot сообщит вам об успешной погрузке.</p>';
 
 	}

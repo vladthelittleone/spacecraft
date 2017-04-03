@@ -9,6 +9,7 @@ var Meteor = require('./meteor');
 var Mine = require('./mine');
 var Scout = require('./scout');
 var Cruiser = require('./cruiser');
+var StaticUnit = require('./static-unit');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -32,6 +33,7 @@ function PrefabsFactory() {
 	t.createMine = createMine;
 	t.createCruiser = createCruiser;
 	t.createScout = createScout;
+	t.createStaticUnit = createStaticUnit;
 
 	return t;
 
@@ -88,6 +90,13 @@ function PrefabsFactory() {
 	function createAcademyBase(game, x, y) {
 
 		return AcademyBase(game, x, y);
+
+	}
+
+	// Статический юнит
+	function createStaticUnit(game, x, y, preload, scale) {
+
+		return StaticUnit(game, x, y, preload, scale);
 
 	}
 }

@@ -32,6 +32,8 @@ function LessonController ($scope,
 						   aceService,
 						   settings) {
 
+	var VK_GROUP_ID = 105816682;
+
 	var markerService;
 	var soundtrack;
 
@@ -66,7 +68,7 @@ function LessonController ($scope,
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
 
-	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", 105816682, {
+	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
 		widgetPosition: "right",
 		disableExpandChatSound: "1",
 		disableButtonTooltip: "1",

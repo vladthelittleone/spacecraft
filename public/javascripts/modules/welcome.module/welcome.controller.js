@@ -65,12 +65,6 @@ function WelcomeController($scope,
 				color3: '152B39'
 			}, 105816682);
 
-			VK.Widgets.CommunityMessages("vkCommunityMessages", 105816682, {
-				widgetPosition: "right",
-				disableExpandChatSound: "1",
-				disableButtonTooltip: "1",
-			});
-
 		}
 		catch (e) {
 

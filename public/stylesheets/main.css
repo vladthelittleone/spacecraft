@@ -664,6 +664,7 @@ pre {
 
 .settings-checkbox {
 	float: right;
+	font-size: 2em !important;
 }
 
 .settings ul {

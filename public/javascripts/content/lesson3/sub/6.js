@@ -29,6 +29,7 @@ function goToResearchCenter() {
 		content: content,
 
 		instructions: '<ul>' +
+					  	'<li>Информация по ключевому слову const: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const">чпоньк</a>.</li>' +
 					  	'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 					  '</ul>'
 	};

@@ -26,6 +26,7 @@ function VariablesIsContainers() {
 		content: content,
 
 		instructions: '<ul>' +
+					  '<li>Еще больше информации об объявлении: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Grammar_and_types#Объявления">жмак</a>.</li>' +
 					  '<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 					  '</ul>'
 	};
@@ -68,11 +69,12 @@ function VariablesIsContainers() {
 
 	function content() {
 
-		return '<p>Итак, мы создали переменную <strong>container1</strong>. Теперь можно задать ей некоторое значение - инициализовать:</p>' +
-			'<pre>container1 = "Капсула с галактическим червем"</pre>' +
+		return '<p>Итак, мы создали переменную <strong>container1</strong>. Теперь можно задать ей некоторое значение или, другими словами, инициализовать:</p>' +
+			'<pre>container1 = "Капсула с галактическим червем";</pre>' +
 			'<p>Это значение в дальнейшем будет доступно при обращении по имени переменной.</p>' +
 			'<p>Для краткости объявление и инициализацию можно записать на одной строчке:</p> ' +
-			'<pre>var container2 = "Ракетное топливо"</pre>';
+			'<pre>var container2 = "Ракетное топливо";</pre>' +
+			'<p>Такой подход опытные пилоты называют <strong>определением</strong> переменной.</p> ';
 	}
 }
 

@@ -3,22 +3,28 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
-var lodash = require('lodash');
-
-module.exports = MoreAboutVariables();
+module.exports = TaskWithVariables();
 
 /**
  * Created by vaimer on 19.02.2017.
  */
-function MoreAboutVariables() {
+function TaskWithVariables() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Копирование значений переменных',
-		character:    [{
-			// Отправляйтесь к оружейному складу. Запускаем двигатели
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
+		title:             'Проверим ваши знания',
+		character:         [{
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson2/1-2.mp3',
+			css:   'astrogirl-img'
+		}, {
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img',
 		}],
 
 		interpreterHandler: interpreterHandler,
@@ -26,7 +32,9 @@ function MoreAboutVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  	'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					  '<li>На третий строчке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span></li>.' +
+					  "<li>И задайте ей значение <span class='red-label'>'Ионная пушка'</span>.</li>" +
+
 					  '</ul>'
 	};
 
@@ -39,17 +47,9 @@ function MoreAboutVariables() {
 
 			v.forEach(function (e) {
 
-				if(lodash.isNil(e))
-				{
-					t += '0й, Вы хотитЕ меня 0бмануть, в коробке ->' + e + '</br>';
-				}
+				t += 'Что обращает людей в пепел? -> ' + e + '</br>';
 
-				if(!lodash.isNil(e))
-				{
-					t += 'Что? Это не моё! Бедный йорик, от него осталась только ' + e + '</br>';
-
-					r = (e === 'Нога робота');
-				}
+				r = (e === 'Ионная пушка');
 
 			});
 
@@ -57,11 +57,10 @@ function MoreAboutVariables() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Всрываю контейнер после копирования... </p>' +
-					 '<p class="bbot-output">' + t + '</p>' +
-					 '<p>П0хоже к0пирование прошлО нЕ полностью.</p>',
+			correct: '<p>Существует каверзный вопрос.</p>' +
+					 '<p class="bbot-output">' + t + '</p>',
 
-			text: t
+			text: 'Не забирайте у BBot`a игрушку!'
 
 		});
 
@@ -76,9 +75,7 @@ function MoreAboutVariables() {
 
 	function content() {
 
-		return '<p>Небольшое замечание. Переменные container и Container две разные переменные.</p>' +
-			   '<p>Когда значение переменной не определно, при использование переменной получаем значение undefined.</p>' +
-			   '<p>Значение одной переменной можно скопировать в другую переменную.</p>';
-
+		return '<p>Выполните небольшое задание, чтобы проверить усвоенный материал.</p>' +
+			'<p>На 3 строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
 	}
 }

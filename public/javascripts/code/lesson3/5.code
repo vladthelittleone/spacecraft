@@ -4,7 +4,7 @@ var no_value;
 var null_value = null;
 
 /**
- * Летим к исследовательскому центру
+ * Полет к исследовательскому центру
  */
 this.run = function(scout)
 {

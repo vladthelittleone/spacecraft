@@ -1,6 +1,11 @@
-// Объявите переменную container и инициализируйте ее значением "Ионная пушка"
+var container = 'Нога робота';
 
+// Переменная Container не инициализирована
+var Container;
 
-// Выведем значение из контейнера
-BBotDebug(container);
+BBotDebug(Container);
 
+// Копирование значения одной переменной в другую
+Container = container;
+
+BBotDebug(Container);

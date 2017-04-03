@@ -8,12 +8,15 @@ module.exports = Api;
  */
 function Api(player) {
 
+	// Дистанция в пределах которой работает подъем грузов
+	var CARGO_DISTANCE = 10;
+
 	var api = {};
 
 	var getCargoUse = false;
 	var cargoUse = false;
-	var cargoX;
-	var cargoY;
+	var cX;
+	var cY;
 
 	api.isAlive = isAlive;
 	api.moveForward = player.moveForward;
@@ -23,14 +26,14 @@ function Api(player) {
 	api.isUseCargo = isUseCargo;
 	api.loadToCargo = loadToCargo;
 	api.getFromCargo = getFromCargo;
-	api.isWithinDote = isWithinDote;
+	api.isWithinDote = isWithinCargo;
 	api.isGetUseCargo = isGetUseCargo;
 
 	return api;
 
 	function loadToCargo(value) {
 
-		if(isWithinDote(cargoX, cargoY)) {
+		if(isWithinCargo()) {
 
 			cargoUse = true;
 
@@ -41,8 +44,8 @@ function Api(player) {
 
 	function moveToXY(x, y) {
 
-		cargoX = x;
-		cargoY = y;
+		cX = x;
+		cY = y;
 
 		player.moveToXY(x, y);
 
@@ -64,18 +67,15 @@ function Api(player) {
 
 	}
 
-	function isWithinDote(x, y) {
+	function isWithinCargo() {
 
-		var distance = Phaser.Point.distance(new Phaser.Point(x, y),
-											 new Phaser.Point(player.sprite.x, player.sprite.y));
-
-		return distance <= 7;
+		return player.distanceTo(cX, cY) <= CARGO_DISTANCE;
 
 	}
 
 	function getFromCargo() {
 
-		if(isWithinDote(cargoX, cargoY))
+		if(isWithinCargo())
 		{
 			getCargoUse = true;
 

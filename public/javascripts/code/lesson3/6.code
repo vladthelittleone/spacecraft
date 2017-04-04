@@ -4,13 +4,13 @@ var researchCenterContainer;
 /**
  * Передача датчика
  */
-this.run = function(scout)
+this.run = function(harvester)
 {
 	// Полет к исследовательскому центру
-	scout.moveToXY(380, 2600);
+	harvester.moveToXY(400, 2000);
 
 	// Скопируйте значение из грузого отсека корабля
-	//в контейнер исследовательского центра
+	// в контейнер исследовательского центра
 
 
 	BBotDebug(researchCenterContainer);

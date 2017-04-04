@@ -32,24 +32,23 @@ function TaskWithVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>На <strong>3</strong> строчке объявите переменную <strong>container</strong>, с помощью ключевого слова <span class="red-label">var</span>.</li>' +
-					  "<li>И задайте ей значение <strong>'Ионная пушка'</strong>.</li>" +
-
+					  '<li>На <strong>3</strong> строке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span>.</li>' +
+					  '<li>Задайте переменной значение <span class="red-label">\'Ионная пушка\'</span>.</li>' +
 					  '</ul>'
 	};
 
 	function interpreterHandler(v) {
 
-		var t = '';
-		var r = false;
+		var value = '';
+		var result = false;
 
 		if (v && v.forEach) {
 
 			v.forEach(function (e) {
 
-				t += 'Что обращает людей в пепел? -> ' + e + '</br>';
+				value += e;
 
-				r = (e === 'Ионная пушка');
+				result = (e === 'Ионная пушка');
 
 			});
 
@@ -58,24 +57,30 @@ function TaskWithVariables() {
 		var lessonResults = LessonResults({
 
 			correct: '<p>Существует каверзный вопрос.</p>' +
-					 '<p class="bbot-output">' + t + '</p>',
+					 '<p>Что обращает людей в пепел?</p>' +
+					 '<p class="bbot-output">' + value + '</p>',
 
-			text: 'Не забирайте у BBot`a игрушку!'
+			unknownError: '<p>Неизвестная ошибка!</p>' +
+						  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>',
+
+			isNotCorrect: '<p>Не забирайте у BBot\'a игрушку!</p>' +
+						  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>'
 
 		});
 
-		if (r) {
+		if (result) {
 
 			return lessonResults.resultCorrect();
 
 		}
 
-		return lessonResults.text();
+		return lessonResults.resultNotCorrect('isNotCorrect');
+
 	}
 
 	function content() {
 
-		return '<p>Выполните небольшое задание, чтобы проверить усвоенный материал.</p>' +
-			'<p>На <strong>3</strong> строчке вам необходимо объявить переменную container и иницилизовать ее значением "Ионная пушка".</p>';
+		return '<p>Выполните небольшое задание, чтобы проверить понимание усвоенного материала.</p>';
+
 	}
 }

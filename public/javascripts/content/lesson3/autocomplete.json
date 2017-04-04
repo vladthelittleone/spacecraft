@@ -1,36 +1,36 @@
 [
 	{
 		"regExps": [
-			" *scout.$"
+			" *harvester.$"
 		],
 		"autocomplete": [
 			{
 				"value": "moveForward()",
-				"meta": "scout"
+				"meta": "harvester"
 			},
 			{
 				"value": "rotateLeft()",
-				"meta": "scout"
+				"meta": "harvester"
 			},
 			{
 				"value": "rotateRight()",
-				"meta": "scout"
+				"meta": "harvester"
 			},
 			{
 				"value": "moveToXY()",
-				"meta": "scout"
+				"meta": "harvester"
 			},
 			{
 				"value": "scan()",
-				"meta": "scout"
+				"meta": "harvester"
 			},
 			{
-				"value": "loadToCargo()",
-				"meta": "scout"
+				"value": "cargoLoad()",
+				"meta": "harvester"
 			},
 			{
-				"value": "getFromCargo()",
-				"meta": "scout"
+				"value": "cargoUnload()",
+				"meta": "harvester"
 			}
 		]
 	},
@@ -43,7 +43,10 @@
 				"value": "BBotDebug()"
 			},
 			{
-				"value": "scout"
+				"value": "harvester"
+			},
+			{
+				"value": "container"
 			}
 		]
 	}

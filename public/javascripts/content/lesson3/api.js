@@ -24,14 +24,14 @@ function Api(player) {
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
 	api.isUseCargo = isUseCargo;
-	api.loadToCargo = loadToCargo;
-	api.getFromCargo = getFromCargo;
+	api.cargoLoad = cargoLoad;
+	api.cargoUnload = cargoUnload;
 	api.isNearPoint = isNearPoint;
 	api.isGetUseCargo = isGetUseCargo;
 
 	return api;
 
-	function loadToCargo(value) {
+	function cargoLoad(value) {
 
 		if(isNearPoint(cX, cY)) {
 
@@ -73,7 +73,7 @@ function Api(player) {
 
 	}
 
-	function getFromCargo() {
+	function cargoUnload() {
 
 		if(isNearPoint(cX, cY))
 		{

@@ -21,8 +21,8 @@ function Command() {
 						'<li>Не забудьте про точку с запятой.</li>' +
 						'</ul>',
 		hint:           '<ul>' +
-						'<li>Вы можете воспользоваться автодополнением, нажав <span class="under-label-gray">Space + Alt</span>.</li>' +
-						'<li>Если нажать <span class="under-label-gray">Space + Alt</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
+						'<li>Вы можете воспользоваться автодополнением, нажав <span class="under-label-gray">Space + Ctrl</span>.</li>' +
+						'<li>Если нажать <span class="under-label-gray">Space + Ctrl</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
 						'</ul>',
 		character:      [{
 			audio:  'audio/lesson2/3-1',

@@ -31,12 +31,12 @@ function goToResearchCenter() {
 		content: content,
 
 		hint: '<ul>' +
-				'<li>Добавьте <span class="under-label-gray">researchCenterContainer = harverster.getFromCargo();</span> на <strong>14</strong> строку.</li>' +
+				'<li>Добавьте <span class="under-label-gray">researchCenterContainer = harverster.cargoUnload();</span> на <strong>14</strong> строку.</li>' +
 			  '</ul>',
 
 		instructions: '<ul>' +
 					  	'<li>На <strong>14</strong> строчке необходимо скопировать значения из грузовго отсека в переменную <span class="red-label">researchCenterContainer</span>.</li>' +
-						'<li>Для получения значения, хранящегося в грузовом отсека кораблся воспользуйтесь функцией <span class="red-label">getFromCargo()</span>.</li>' +
+						'<li>Для получения значения, хранящегося в грузовом отсека кораблся воспользуйтесь функцией <span class="red-label">cargoUnload()</span>.</li>' +
 					  '</ul>'
 	};
 
@@ -79,7 +79,7 @@ function goToResearchCenter() {
 		return  '<p>Перед вами кадет наш исследовательский центр. Все самые передовые разработки рождаются именно здесь.</p>' +
 				'<p>Передайте ученым поднятый вами датчик. Для этого вам необходимо в контейнер <strong>researchCenterContainer</strong>, ' +
 			 	'положить значение с грузового отсека корабля.</p>' +
-				'<p>Для получение значения переменной из грузового отсека используется функция <span class="under-label">getFromCargo()</span>.</p>' +
+				'<p>Для получение значения переменной из грузового отсека используется функция <span class="under-label">cargoUnload()</span>.</p>' +
 				'<p>BBot сообщит вам об успешной погрузке.</p>';
 
 	}

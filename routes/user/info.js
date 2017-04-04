@@ -9,7 +9,7 @@ var router = express.Router();
 
 var lodash = require('lodash');
 
-var webmaillinker = require('webmail-linker');
+var webMailLinker = require('webmail-linker');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
@@ -37,11 +37,12 @@ router.get('/user/info', checkAuthentication, function (req, res, next) {
 
 		response.needToConfirmEmail = true;
 		response.email = user.email;
-		response.emailProvider = webmaillinker.getProviderByEmailAddress(user.email);
+		
+		let emailProvider = webMailLinker.getProviderByEmailAddress(user.email);
+		response.emailProviderUrl = emailProvider && emailProvider.url;
 
 	}
 
-	// TODO имеет смысл переименовать флаг isSubscribeOnEmail
 	response.name = user.name;
 
 	res.send(response);

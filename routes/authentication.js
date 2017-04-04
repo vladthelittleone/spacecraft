@@ -12,21 +12,29 @@
  * @author greezlock
  */
 
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
 
-var HttpStatus = require('http-status-codes');
+const HttpStatus = require('http-status-codes');
 
 const checkAuthentication = require('./../middlewares/check-authentication');
 
-const emailExistence = require('email-existence');
-
 const logger = require('./../utils/log')(module);
 
-var validation = require('./../utils/validation');
+const validatorHelper = require('./../utils/helpers/validator.helper');
 
-var strategyHelp = require('./strategy.help');
+const validator = require('validator');
+
+const async = require('async');
+
+const authenticationHelper = require('./../utils/helpers/authentication.helper');
+
+const UserModel = require('../models/user');
+
+const config = require('../config');
+
+const settings = config.get('serverSettings').authentication;
 
 module.exports = router;
 
@@ -43,7 +51,7 @@ router.get('/vk/callback', passport.authenticate('vk-login', {
 
 }));
 
-router.post("/login", validation.checkEmailAndPassword, passport.authenticate('local-login'));
+router.post("/login", validatorHelper.checkEmailAndPassword, passport.authenticate('local-login'));
 
 /**
  * ------------------------------------------------------------
@@ -63,64 +71,68 @@ router.post('/logout', checkAuthentication, (req, res, next) => {
  * РЕГИСТРАЦИЯ
  * ------------------------------------------------------------
  */
-router.post('/register', validation.checkEmailAndPassword, (req, res, next) => {
+router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next) => {
 
 	let email = req.body.email;
 	let password = req.body.password;
-	let isSubscribeOnEmail = req.body.isSubscribeOnEmail;
+	let flagOfSubscriptionToMailing = req.body.flagOfSubscriptionToMailing;
 
-	let normalizeEmail = valid.normalizeEmail(email);
+	let normalEmail = validator.normalizeEmail(email);
 
-	emailExistence.check(normalizeEmail, function (error, result, undetermined) {
+	async.waterfall([
+						// Проверка почты на существование.
+						function (callback) {
 
-		// 3-им параметром для коллбэка либа emailExistence предоставляет статус неопределенности.
-		// Если он определен, значит произошла ошибка связанная с больше с техничесокой составляющей:
-		// - timeout по подключению; неопределенный ответ от SMTP сервера или DNS;
-		// В общем случае, это повод ответит статусом 500 и тем самым попросить пользователя повторить
-		// запрос позже.
-		if (undetermined) {
+							if (settings.checkEmailForExistenceFlag) {
 
-			logger.error(error);
+								return authenticationHelper.checkEmailForExistence(normalEmail, callback);
 
-			return next(HttpStatus.INTERNAL_SERVER_ERROR);
+							}
 
-		}
+							callback(null);
 
-		if (!result) {
+						},
 
-			logger.warn('email does not exist: ', normalizeEmail);
+						// Регистрация пользователя.
+						function (callback) {
 
-			return next(new HttpError(HttpStatus.UNPROCESSABLE_ENTITY, "Такой email не существует :)"));
+							UserModel.registration(normalEmail,
+												   password,
+												   flagOfSubscriptionToMailing,
+												   callback);
 
-		}
+						},
 
-		User.registration(normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
+						// Инициализация поля totalFinalScore у вновь зарегистрированного пользователя.
+						// Отправка письма с просьбой подтвердить почту.
+						function (user, callback) {
 
-			if (err) {
+							// TODO а зачем так явно инициализировать totalFinalScore?
+							authenticationHelper.initTotalFinalScore(user);
 
-				next(err);
+							if (settings.sendingOfEmailConfirmationFlag) {
 
-			}
+								return authenticationHelper.sendEmailConfirmation(user, callback);
 
-			// Нет необходимости привязывать обработку отправки письма к процессу регистрации.
-			// Вполне себе отдельная асинхронная операция.
-			// В противном случае - должна появиться логика отмены вставки документа user в коллекцию users.
-			emailConfirmation.send(user, function(error) {
+							}
 
-				if (error) {
+							callback(null);
 
-					logger.error(error);
 
-				}
+						}
+					],
+					function (error) {
 
-			});
+						if (error) {
 
-			strategyHelp.updateTotalFinalScore(user);
+							logger.error(error);
 
-			return res.sendStatus(HttpStatus.OK);
+							return next(HttpStatus.INTERNAL_SERVER_ERROR);
 
-		});
+						}
 
-	});
+						return res.sendStatus(HttpStatus.OK);
+
+					});
 
 });

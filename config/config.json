@@ -32,5 +32,11 @@
 			"email"
 		]
 	},
+	"serverSettings": {
+		"authentication": {
+			"sendingOfEmailConfirmationFlag": true,
+			"checkEmailForExistenceFlag": true
+		}
+	},
 	"maxStatisticsCount": 50
 }

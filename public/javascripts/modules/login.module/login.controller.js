@@ -1,7 +1,5 @@
 'use strict';
 
-var ENTER = 13;
-
 LoginController.$inject = ['$scope', '$state', 'authentication', 'usSpinnerService'];
 
 module.exports = LoginController;
@@ -18,7 +16,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	$scope.isEnterForm = true;
 
 	// По дефолту считаем, что человек согласен на рассылку
-	$scope.isSubscribeOnEmail = true;
+	$scope.flagOfSubscriptionToMailing = true;
 
 	$scope.changeForm = changeForm;
 	$scope.changeSubscribe = changeSubscribe;
@@ -34,7 +32,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 
 	function changeSubscribe() {
 
-		$scope.isSubscribeOnEmail = !$scope.isSubscribeOnEmail;
+		$scope.flagOfSubscriptionToMailing = !$scope.flagOfSubscriptionToMailing;
 
 	}
 
@@ -57,13 +55,13 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	}
 
 	/**
-     * Вызывается в случае успешной регистрации.
+	 * Вызывается в случае успешной регистрации.
 	 * Реализует логику вызова логирования и указания переходу к первому уроку.
 	 */
 	function prepareSuccessfulRegistration() {
 
 		// Переопределяем success callback для метода логирования.
-		login(function() {
+		login(function () {
 
 			stopLoginSpinner();
 
@@ -97,11 +95,11 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
-										email:              $scope.email,
-										password:           $scope.password,
-										isSubscribeOnEmail: $scope.isSubscribeOnEmail,
-										success:            prepareSuccessfulRegistration,
-										error:              error
+										email:                       $scope.email,
+										password:                    $scope.password,
+										flagOfSubscriptionToMailing: $scope.flagOfSubscriptionToMailing,
+										success:                     prepareSuccessfulRegistration,
+										error:                       error
 									});
 
 		}
@@ -150,10 +148,10 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 			spinLoginSpinner();
 
 			authentication.login({
-									 email:              $scope.email,
-									 password:           $scope.password,
-									 success:            successfulCallback ? successfulCallback : defaultPreparationOfSuccessfulLogin,
-									 error:              error
+									 email:    $scope.email,
+									 password: $scope.password,
+									 success:  successfulCallback ? successfulCallback : defaultPreparationOfSuccessfulLogin,
+									 error:    error
 								 });
 
 		}

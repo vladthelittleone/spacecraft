@@ -9,9 +9,9 @@ const async = require('async');
 const UserModel = require('./../../models/user');
 const EmailConfirmationModel = require('./../../models/email.confirmation');
 
-const HttpStatus = require('http-status-codes');
+const logger = require('../log')(module);
 
-const HttpError = require('error').HttpError;
+const HttpStatus = require('http-status-codes');
 
 module.exports = UserHelper();
 
@@ -47,9 +47,14 @@ function UserHelper() {
 									return callback(null, userObj);
 								}
 
+								logger.warn("It's a really seldom situation. There is no such user " +
+											"into users collection, but his session into sessions collection exists");
+
 								// Редкая ситуация (в коллекции sessions имеется объект сессии, который ссылается
 								// на несуществующего, в коллекции users, пользователя).
-								callback(HttpStatus.INTERNAL_SERVER_ERROR);
+								// Такая ситуация может быть спровоцирована посредством неправильного ведения
+								// коллекций на сервере mongo (например коллецию users очистили, a sessions забыли).
+								callback(HttpStatus.UNAUTHORIZED);
 
 							}
 						], callback);

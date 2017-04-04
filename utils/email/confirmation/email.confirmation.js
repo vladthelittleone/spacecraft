@@ -17,13 +17,9 @@ var lodash = require('lodash');
 
 const uuidGenerator = require('uuid');
 
-var htmlToText = require('html-to-text');
-
 var EmailConfirmationModel = require('./../../../models/email.confirmation');
 
 const url = require('url');
-
-const logger = require('./../../../utils/log')(module);
 
 const config = require('./../../../config');
 
@@ -52,16 +48,10 @@ function emailConfirmation() {
 
 	};
 
-	let html = fs.readFileSync(path.join(__dirname, 'email.confirmation.html'));
+	let html = fs.readFileSync(path.join(__dirname, '/template/template.html'));
 
 	// На случай, если почтовый клиент пользователя не в состоянии интерпретировать html.
-	let plainText = htmlToText.fromString(html, {
-		ignoreImage:             true,
-		noLinkBrackets:          true,
-		preserveNewlines:        true,
-		singleNewLineParagraphs: true
-
-	});
+	let plainText = fs.readFileSync(path.join(__dirname, '/template/plain.text.txt'));
 
 	let $ = cheerio.load(html);
 

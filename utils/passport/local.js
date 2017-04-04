@@ -2,10 +2,8 @@
 
 var User = require('../../models/user');
 var LocalStrategy = require('passport-local').Strategy;
-var valid = require('validator');
 
-// TODO исключить верхний valid. Он не нужен.
-var validation = require('../validation');
+var validator = require('validator');
 
 var local = {};
 
@@ -27,7 +25,7 @@ var localStrategyReqParam = {
  */
 local.login = new LocalStrategy(localStrategyReqParam, (req, email, password, next) => {
 
-	let normalizeEmail = valid.normalizeEmail(email);
+	let normalizeEmail = validator.normalizeEmail(email);
 
 	User.authorize(normalizeEmail, password, (err, user) => {
 

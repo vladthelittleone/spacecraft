@@ -31,7 +31,7 @@ function Validation() {
 
 	function checkEmailAndPassword(req, res, next) {
 
-0		let email = req.body.email;
+		let email = req.body.email;
 		let password = req.body.password;
 
 		if (!email) {

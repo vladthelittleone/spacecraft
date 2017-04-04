@@ -183,7 +183,7 @@ function Connection($http) {
 				  data:   {
 					  email:              args.email,
 					  password:           args.password,
-					  isSubscribeOnEmail: args.isSubscribeOnEmail
+					  flagOfSubscriptionToMailing: args.flagOfSubscriptionToMailing
 				  },
 				  ignoreAuthModule: true,
 				  url:    apiUrls.register

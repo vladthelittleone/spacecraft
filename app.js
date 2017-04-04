@@ -84,17 +84,17 @@ const HttpError = require('error').HttpError;
 
 app.use(function (err, req, res, next) {
 
-	// TODO решение на скорую руку.
 	// На случай, если из какого-либо middleware выпала ошибка, отличная от числа или HttpError.
 	// Это говорит о том, что в err скрыт объект, который создала какая-либо сторонняя библиотека (к примеру, mongoose).
 	// Нет необходимости раскрывать ее описание пользователю. Достаточно будет скрыть ее за 500 кодом.
-	if (typeof err != 'number' && typeof err != 'HttpError') {
+	if (!err instanceof HttpError && !typeof err == 'number') {
 
 		err = HttpStatus.INTERNAL_SERVER_ERROR;
 
 	}
 
-	// Проверка на error/HttpError
+	// Проверка на число. У нас устоялся подход, что для удобства, в некоторых местах кода,
+	// в качестве ошибки мы просто указываем Http код.
 	if (typeof err == 'number') {
 
 		err = new HttpError(err);

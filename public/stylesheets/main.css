@@ -981,6 +981,20 @@ pre {
 	background-image: url(../images/pages/galaxy.png);
 }
 
+.email-text {
+	font-weight: 700;
+	color: #5b5b5b;
+}
+
+.email-img .fa {
+	font-size: 230px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.email-img {
+	text-align: center;
+}
 .rocket-white-img {
 	background-image: url(../images/pages/rocket-white-shadow.png);
 }

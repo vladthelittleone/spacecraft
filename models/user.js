@@ -12,33 +12,33 @@ var lodash = require('lodash');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email:              {
+	email:                       {
 		type:      String,
 		lowercase: true,
 		unique:    true,
 		sparse:    true
 	},
-	name:           {
+	name:                        {
 		type: String
 	},
-	hashedPassword:     {
+	hashedPassword:              {
 		type: String
 	},
-	vkId:               {
+	vkId:                        {
 		type:   String,
 		unique: true,
 		sparse: true
 	},
-	salt:               {
+	salt:                        {
 		type: String
 	},
-	isSubscribeOnEmail: {
+	flagOfSubscriptionToMailing: {
 		type: Boolean
 	},
-	emailConfirmationFlag: {
+	emailConfirmationFlag:       {
 		type: Boolean
 	},
-	created:            {
+	created:                     {
 		type:    Date,
 		default: Date.now
 	}
@@ -122,7 +122,7 @@ function authorize(email, password, callback) {
 
 }
 
-function registration(email, password, isSubscribeOnEmail, callback) {
+function registration(email, password, flagOfSubscriptionToMailing, callback) {
 
 	let User = this;
 
@@ -138,10 +138,10 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 
 								let newbie = new User({
 
-									email:              email,
-									password:           password,
-									name:           lodash.first(email.split('@')),
-									isSubscribeOnEmail: isSubscribeOnEmail
+									email:                       email,
+									password:                    password,
+									name:                        lodash.first(email.split('@')),
+									flagOfSubscriptionToMailing: flagOfSubscriptionToMailing
 
 								});
 
@@ -183,9 +183,9 @@ function findOrCreateVKUser(vkId, email, name, callback) {
 
 								let newbie = new User({
 
-									email:    email,
-									vkId:     vkId,
-									name: name
+									email: email,
+									vkId:  vkId,
+									name:  name
 
 								});
 

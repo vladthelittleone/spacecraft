@@ -90,20 +90,20 @@
 				</table>
 			</div>
 		</div>
-		<div ng-if="userInfo.needToConfirmEmail"
-			 class="container-25">
-			<div align="center"
-				 class="alert alert-warning">
-				Пожалуйста, подтвердите Вашу почту ({{userInfo.email}}).
-				<div ng-if="userInfo.emailProvider">
-					<a ng-href="{{userInfo.emailProvider.url}}">
-						<img ng-src="{{userInfo.emailProvider.icon}}"
-							 alt="Перейти на Ваш почтовый ящик"
-							 title="Перейти на Ваш почтовый ящик"/>
+		<a>
+			<div ng-if="userInfo.needToConfirmEmail"
+				 class="container-25">
+				<div class="container-inside">
+					<a ng-href="{{userInfo.emailProviderUrl}}">
+						<div class="pages-img email-img">
+							<div class="fa fa-envelope"></div>
+						</div>
+						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
+						<div class="pages-text email-text">Пожалуйста, подтвердите Вашу почту</div>
 					</a>
 				</div>
 			</div>
-		</div>
+		</a>
 
 	</div>
 

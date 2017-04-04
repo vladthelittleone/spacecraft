@@ -664,6 +664,7 @@ pre {
 
 .settings-checkbox {
 	float: right;
+	font-size: 2em !important;
 }
 
 .settings ul {
@@ -1798,4 +1799,8 @@ fieldset, label {
 .login-form input.ng-valid.ng-dirty {
 	border: 1px solid #39C139;
 	border-bottom: 2px solid #39C139;
+}
+
+.vk-community-messages {
+	padding-right: 480px;
 }

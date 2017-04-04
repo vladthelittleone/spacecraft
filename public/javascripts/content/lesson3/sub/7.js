@@ -66,7 +66,7 @@ function goToResearchCenter() {
 
 		});
 
-		if (harvester.isGetUseCargo() &&
+		if (harvester.isCargoUnload() &&
 			harvester.isNearPoint(400, 2000) ) {
 
 			return lessonResults.resultCorrect();

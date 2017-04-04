@@ -41,7 +41,7 @@ function TakingSensor() {
 			correct: '<p>Погрузка пр0шла успешно!</p>'
 		});
 
-		if (harvester.isUseCargo() &&
+		if (harvester.isCargoLoad() &&
 			lodash.isEqual(harvester.cargoUnload(), 'Вражеский датчик')) {
 
 			return lessonResults.resultCorrect();

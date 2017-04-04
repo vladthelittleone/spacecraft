@@ -272,6 +272,11 @@ pre {
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
 }
 
+.pages-board img {
+	height: 100%;
+	width: 100%;
+}
+
 .pages-board a {
 	text-decoration: none;
 }
@@ -659,6 +664,7 @@ pre {
 
 .settings-checkbox {
 	float: right;
+	font-size: 2em !important;
 }
 
 .settings ul {
@@ -1811,4 +1817,8 @@ fieldset, label {
 
 .spinner {
 	position: relative;
+}
+
+.vk-community-messages {
+	padding-right: 480px;
 }

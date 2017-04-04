@@ -15,6 +15,8 @@ const emailConfirmation = require('../../utils/email/confirmation/email.confirma
 
 const HttpStatus = require('http-status-codes');
 
+const HttpError = require('error').HttpError;
+
 module.exports = AuthenticationHelper();
 
 function AuthenticationHelper() {
@@ -29,7 +31,7 @@ function AuthenticationHelper() {
 	return that;
 
 	function initTotalFinalScore(user) {
-		
+
 		let totalFinalScore = 0;
 		let userId = user._doc._id;
 
@@ -88,10 +90,10 @@ function AuthenticationHelper() {
 
 			if (!result) {
 
-				logger.warn('email does not exist: ', normalizeEmail);
+				logger.warn('email does not exist: ', normalEmail);
 
 				return callback(new HttpError(HttpStatus.UNPROCESSABLE_ENTITY,
-					"Пожалуйста, укажите действующий email адрес"));
+											  "Пожалуйста, укажите действующий email адрес"));
 
 			}
 

@@ -11,6 +11,7 @@ var Meteor = require('./meteor');
 var Mine = require('./mine');
 var Scout = require('./scout');
 var Cruiser = require('./cruiser');
+var StaticUnit = require('./static-unit');
 
 var Random = require('../../utils/random');
 
@@ -39,6 +40,7 @@ function EntitiesFactory() {
 	t.createMine = createMine;
 	t.createScout = createScout;
 	t.createCruiser = createCruiser;
+	t.createStaticUnit = createStaticUnit;
 	t.getWorld = getWorld;
 
 	return t;
@@ -161,6 +163,15 @@ function EntitiesFactory() {
 	function createMine(game, x, y, scale, group) {
 
 		return Mine(game, x, y, scale, group);
+
+	}
+
+	/**
+	 * Создать мину
+	 */
+	function createStaticUnit(game, x, y, preload, scale) {
+
+		return StaticUnit(game, x, y, preload, scale);
 
 	}
 

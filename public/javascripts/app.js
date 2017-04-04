@@ -48,7 +48,7 @@ require('./services');
 require('./directives');
 
 runBlock.$inject = ['authentication', '$rootScope', '$state'];
-configBlock.$inject = ['$urlRouterProvider', '$locationProvider', 'usSpinnerConfigProvider'];
+configBlock.$inject = ['$urlRouterProvider', '$locationProvider'];
 
 angular.module('spacecraft').config(configBlock);
 angular.module('spacecraft').run(runBlock);
@@ -56,7 +56,7 @@ angular.module('spacecraft').run(runBlock);
 /**
  * Конфигурация сервисов до старта приложения.
  */
-function configBlock($urlRouterProvider, $locationProvider, usSpinnerConfigProvider) {
+function configBlock($urlRouterProvider, $locationProvider) {
 
 	// Включаем адреса без решетки (#).
 	$locationProvider.html5Mode({
@@ -65,8 +65,6 @@ function configBlock($urlRouterProvider, $locationProvider, usSpinnerConfigProvi
 									rewriteLinks: false
 
 								});
-
-	usSpinnerConfigProvider.setTheme('loginTheme', {color: 'white'});
 
 	// Для всех необработанных переходов
 	$urlRouterProvider.otherwise('/');

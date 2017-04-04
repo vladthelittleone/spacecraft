@@ -127,7 +127,7 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 
 							logger.error(error);
 
-							return next(HttpStatus.INTERNAL_SERVER_ERROR);
+							return next(error);
 
 						}
 

@@ -33,6 +33,12 @@ function Stars(connection, $state) {
 
 			connection.lessonRate(scope.lessonId, value);
 
+			var yaParam = {};
+
+			yaParam[scope.lessonId] = value;
+
+			yaCounter43763714.reachGoal('rateLesson', yaParam);
+
 			$state.go('lessons');
 
 		};

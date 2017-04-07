@@ -38,7 +38,10 @@ function TakingSensor() {
 	function gamePostUpdate(harvester) {
 
 		var lessonResults = LessonResults({
-			correct: '<p>Погрузка пр0шла успешно!</p>'
+			correct: '<p>Погрузка пр0шла успешно!</p>',
+
+			unknownError: '<p>Неизвестная ошибка!</p>' +
+						  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>',
 		});
 
 		if (harvester.isCargoLoad() &&

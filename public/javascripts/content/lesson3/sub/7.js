@@ -47,17 +47,9 @@ function goToResearchCenter() {
 
 		var t = '';
 
-		if (text && text.forEach) {
+		if (text && typeof text === 'string') {
 
-			text.forEach(function (e) {
-
-				if(!lodash.isNil(e))
-				{
-					t += 'груз получен -> ' + e + '</br>.';
-				}
-
-			});
-
+			t += 'груз получен -> Вражеский датчик</br>.';
 		}
 
 		var lessonResults = LessonResults({

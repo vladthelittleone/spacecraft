@@ -12,17 +12,17 @@ function goToResearchCenter() {
 
 	return {
 		isRestartDisabled: true,
-		runOnStart:   true,
-		title:        'Полет к исследовательскому центру',
-		character:    [{
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img'
+		runOnStart:        true,
+		title:             'К исследовательскому центру',
+		character:         [{
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img'
 		}, {
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-		},{
-			audio:  'audio/lesson2/1-1.mp3',
-			css:    'astromen-img',
+			audio: 'audio/lesson2/1-2.mp3',
+			css:   'astrogirl-img',
+		}, {
+			audio: 'audio/lesson2/1-1.mp3',
+			css:   'astromen-img',
 		}],
 
 		gamePostUpdate: gamePostUpdate,
@@ -30,8 +30,8 @@ function goToResearchCenter() {
 		content: content,
 
 		instructions: '<ul>' +
-					  	'<li>Информация по ключевому слову <strong>const</strong>: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const">чпоньк</a>.</li>' +
-					  	'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					  '<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					  '<li>Информация по ключевому слову <strong>const</strong>: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const">чпоньк</a>.</li>' +
 					  '</ul>'
 	};
 

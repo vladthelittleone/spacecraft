@@ -45,7 +45,7 @@ function TakingSensor() {
 		});
 
 		if (harvester.isCargoLoad() &&
-			lodash.isEqual(harvester.cargoUnload(), 'Вражеский датчик')) {
+			lodash.isEqual(harvester.get(), 'Вражеский датчик')) {
 
 			return lessonResults.resultCorrect();
 

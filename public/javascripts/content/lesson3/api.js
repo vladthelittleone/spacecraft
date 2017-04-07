@@ -28,6 +28,7 @@ function Api(player) {
 	api.cargoUnload = cargoUnload;
 	api.isNearPoint = isNearPoint;
 	api.isCargoUnload = isCargoUnload;
+	api.get = player.get;
 
 	return api;
 

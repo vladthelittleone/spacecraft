@@ -7,7 +7,7 @@ var container = 'Вражеский датчик';
 this.run = function(harvester)
 {
 	// Перемещение к датчику
-	harvester.moveToXY(2100, 2100);
+	harvester.moveToXY(2170, 2080);
 
 	// Поднимите груз на корабль
 

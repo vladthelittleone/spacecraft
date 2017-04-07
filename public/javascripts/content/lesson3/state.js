@@ -18,10 +18,65 @@ function StateWrapper(state) {
 
 	var player;
 	var graphics;	// Графика
+	var sensor;		// Датчик
 
 	t.entities = entities;
+	t.logic = logic;
 
 	return t;
+
+	/**
+	 * Шаблонный метод инфициализации объектов.
+	 */
+	function entities(game) {
+
+		var x = game.world.centerX;
+		var y = game.world.centerY;
+
+		// Инициализация графики
+		graphics = game.add.graphics(0, 0);
+
+		EntitiesFactory.createResearchCenter(game, 400, 2000);
+
+		// Создать транспорт
+		player = EntitiesFactory.createHarvester(game, 1859, 2156, true);
+		var sprite = player.sprite;
+
+		sprite.rotation = - Math.PI / 2;
+
+		// API для урока
+		player.api = Api(player);
+
+		// Корабль на верх.
+		sprite.bringToTop();
+
+		// Фокус на на центре
+		t.followFor(sprite);
+
+		// Создать метеоритное поле
+		EntitiesFactory.createMeteorField(game, x, y);
+
+		var scout = EntitiesFactory.createScout(game, 2000, 2000);
+		scout.logic  = function(h) {
+			h.scan();
+		};
+
+		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
+		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
+		var fighter = EntitiesFactory.createFighter(game, 400, 150);
+
+		s1.sprite.rotation = - 3.85 * Math.PI / 2;
+		s2.sprite.rotation = - 4.25 * Math.PI / 2;
+
+		patrol(s1, 2055, 1995, 2700, 1200);
+		patrol(s2, 2101, 1890, 2800, 1340);
+		patrol(fighter, 400, 150, 400, 3000);
+
+		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
+		sensor.sprite.visible = true;
+
+		CodeLauncher.setArguments(player.api);
+	}
 
 	/**
 	 * Патрулирование местности
@@ -59,53 +114,15 @@ function StateWrapper(state) {
 	}
 
 	/**
-	 * Шаблонный метод инфициализации объектов.
+	 * Обновление логики датчика.
 	 */
-	function entities(game) {
+	function logic() {
 
-		var x = game.world.centerX;
-		var y = game.world.centerY;
+		if (player.api.isCargoLoad()) {
 
-		EntitiesFactory.createResearchCenter(game, 400, 2000);
+			sensor.sprite.visible = false;
 
-		// Инициализация графики
-		graphics = game.add.graphics(0, 0);
-
-		// Создать транспорт
-		var player = EntitiesFactory.createHarvester(game, 1859, 2156, true);
-		var sprite = player.sprite;
-
-		sprite.rotation = - Math.PI / 2;
-
-		// API для урока
-		player.api = Api(player);
-
-		// Создать метеоритное поле
-		EntitiesFactory.createMeteorField(game, x, y);
-
-		// Корабль на верх.
-		sprite.bringToTop();
-
-		// Фокус на на центре
-		t.followFor(sprite);
-
-		var scout = EntitiesFactory.createScout(game, 2000, 2000);
-		scout.logic  = function(h) {
-			h.scan();
-		};
-
-		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
-		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
-		var fighter = EntitiesFactory.createFighter(game, 400, 150);
-
-		s1.sprite.rotation = - 3.85 * Math.PI / 2;
-		s2.sprite.rotation = - 4.25 * Math.PI / 2;
-
-		patrol(s1, 2055, 1995, 2700, 1200);
-		patrol(s2, 2101, 1890, 2800, 1340);
-		patrol(fighter, 400, 150, 400, 3000);
-
-		CodeLauncher.setArguments(player.api);
+		}
 
 	}
 }

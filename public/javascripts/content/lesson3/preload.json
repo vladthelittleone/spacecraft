@@ -14,5 +14,5 @@
 	"researchCenter": "images/sprites/entities/researchCenter.png",
 	"scout": "images/sprites/entities/scout.png",
 	"fighter": "images/sprites/entities/fighter.png",
-	"cruiser": "images/sprites/entities/cruiser.png",
+	"sensor": "images/sprites/entities/sensor.png"
 }

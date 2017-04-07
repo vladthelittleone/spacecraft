@@ -13,6 +13,7 @@ var Turret = require('./turret');
 var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
+var StaticUnit = require('./static-unit');
 
 // Экспорт
 module.exports = PrefabsFactory();
@@ -38,6 +39,7 @@ function PrefabsFactory() {
 	t.createMine = createMine;
 	t.createCruiser = createCruiser;
 	t.createScout = createScout;
+	t.createStaticUnit = createStaticUnit;
 	t.createTurret = createTurret;
 	t.createResearchCenter = createResearchCenter;
 
@@ -103,6 +105,13 @@ function PrefabsFactory() {
 	function createAcademyBase(game, x, y) {
 
 		return AcademyBase(game, x, y);
+
+	}
+
+	// Статический юнит
+	function createStaticUnit(game, x, y, preload, scale) {
+
+		return StaticUnit(game, x, y, preload, scale);
 
 	}
 

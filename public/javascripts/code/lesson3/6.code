@@ -1,5 +1,5 @@
-// Контейнер исследовательского центра
-var researchCenterContainer;
+// Контейнер исследовательского центра.
+var researchContainer;
 
 /**
  * Передача датчика
@@ -12,6 +12,6 @@ this.run = function(harvester)
 	// Скопируйте значение из грузого отсека корабля
 	// в контейнер исследовательского центра
 
-
-	BBotDebug(researchCenterContainer);
+	// Выведем значение контейнера.
+	BBotDebug(researchContainer);
 };

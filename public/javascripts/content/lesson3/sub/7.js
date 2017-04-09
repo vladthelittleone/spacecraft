@@ -47,7 +47,9 @@ function goToResearchCenter() {
 
 		var t = '';
 
-		if (text && typeof text === 'string') {
+		var result = text && typeof text === 'string';
+
+		if (result) {
 
 			t += 'груз получен -> Вражеский датчик</br>.';
 		}
@@ -63,7 +65,8 @@ function goToResearchCenter() {
 		});
 
 		if (harvester.isCargoUnload() &&
-			harvester.isNearPoint(400, 2000) ) {
+			harvester.isNearPoint(400, 2000) &&
+			result ) {
 
 			return lessonResults.resultCorrect();
 

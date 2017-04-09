@@ -8,6 +8,7 @@ var moreAboutVariables = require('./4');
 var takingSensor = require('./5');
 var goToResearchCenter = require('./6');
 var loadingResearchCenter = require('./7');
+var theEndOfTheLesson = require('./8');
 
 /**
  * Created by vaimer on 31.01.17.
@@ -19,4 +20,5 @@ module.exports = [firstContactWithVariables,
 				  moreAboutVariables,
 				  takingSensor,
 				  goToResearchCenter,
-				  loadingResearchCenter];
+				  loadingResearchCenter,
+				  theEndOfTheLesson];

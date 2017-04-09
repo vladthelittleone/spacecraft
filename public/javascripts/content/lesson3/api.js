@@ -15,8 +15,6 @@ function Api(player) {
 
 	var cargoUnloadFlag = false;
 	var cargoLoadFlag = false;
-	var cX;
-	var cY;
 
 	api.isAlive = isAlive;
 	api.moveForward = player.moveForward;
@@ -28,25 +26,18 @@ function Api(player) {
 	api.cargoUnload = cargoUnload;
 	api.isNearPoint = isNearPoint;
 	api.isCargoUnload = isCargoUnload;
-	api.get = player.get;
+	api.cargoUnloadWithoutFlag = player.cargoUnload;
 
 	return api;
 
 	function cargoLoad(value) {
 
-		if(isNearPoint(cX, cY)) {
+		cargoLoadFlag = true;
 
-			cargoLoadFlag = true;
-
-			player.set(value);
-		}
-
+		player.cargoLoad(value);
 	}
 
 	function moveToXY(x, y) {
-
-		cX = x;
-		cY = y;
 
 		player.moveToXY(x, y);
 
@@ -78,11 +69,8 @@ function Api(player) {
 
 	function cargoUnload() {
 
-		if(isNearPoint(cX, cY))
-		{
-			cargoUnloadFlag = true;
+		cargoUnloadFlag = true;
 
-			return player.get();
-		}
+		return player.cargoUnload();
 	}
 }

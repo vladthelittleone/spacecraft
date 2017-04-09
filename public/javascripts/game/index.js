@@ -26,7 +26,7 @@ function Game() {
 	t.content = ContentFactory;		// Фабрика контента уроков
 	t.world = EntitiesFactory;		// Фабрика мира и объектов
 	t.codeLauncher = CodeLauncher;	// Синглтон заупска кода
-	t.updateManager = UpdateManager;
+	t.updateManager = UpdateManager;// Менеджер обновления
 
 	t.destroy = destroy;
 	t.initialization = initialization;

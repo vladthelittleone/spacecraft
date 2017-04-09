@@ -1,4 +1,4 @@
-<div>
+<div ng-show="lesson">
 	<div ui-layout="{ flow : 'column',  dividerSize: 4, disableToggle: true}"
 		 class="ui-layout-custom">
 
@@ -49,10 +49,52 @@
 	</div>
 </div>
 
+<div class="quiz" ng-if="questions" ng-init="quiz.initialize(questions)">
+	<div class="content-description">
+		<div class="content-overflow">
+
+			<div ng-if="!quiz.isQuizEnd">
+				<div class="content-center">
+					<!--блок опросника-->
+					<div class="lesson-title ng-binding">Вопрос номер {{quiz.getCurrentQuestionNumber()}}/{{quiz.getQuestionsCount() }}</div>
+					<div class="lesson-content"
+						 ng-bind-html="sce(quiz.getCurrentQuestion().question)">
+					</div>
+				</div>
+
+				<div class="lesson-instructions">
+					<div class="content-center">
+						<div class="lesson-instructions-title">Варианты ответов:</div>
+						<div class="answers"
+							 ng-repeat="(i, answerOption) in quiz.getCurrentQuestion().answerOptions">
+							<div ng-bind-html="sce(answerOption.text)"
+								 ng-click="quiz.setAnswerOnCurrentQuestion(i)"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="quiz.isQuizEnd">
+				<div class="content-center">
+					<div class="lesson-title ng-binding">Ваш результат</div>
+				</div>
+
+				<div class="lesson-instructions" >
+					<div class="content-center">
+						<div class="lesson-instructions-title">
+							Верных ответов: {{quiz.getCorrectAnswerCount()}} из {{quiz.getQuestionsCount()}}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
 
 <!-- Вывод статистики по окончанию урока -->
 <div statistics-lesson-end
-	 lesson="getCurrentLesson()"
+	 lesson="lessonService.getCurrentLesson()"
 	 ng-if="isStarsVisiable"></div>
 
 <!-- Директива игры -->
@@ -64,7 +106,8 @@
 
 	<div class="right-toolbar-button right-toolbar-icon" ui-sref="welcome"></div>
 
-	<div class="right-toolbar-button glyphicon enhoyhint-play"
+	<div ng-if="lesson"
+		 class="right-toolbar-button glyphicon enhoyhint-play"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{CodeLauncher.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
@@ -73,14 +116,37 @@
 		 ng-class="{'glyphicon-stop right-toolbar-red': CodeLauncher.isCodeRunning, 'glyphicon-play right-toolbar-green' : !CodeLauncher.isCodeRunning}" >
 	</div>
 
-	<div class="right-toolbar-new-group right-toolbar-button glyphicon"
+	<div ng-if="quiz && quiz.isAnswerOnCurrentQuestionGet"
+		 class="right-toolbar-button glyphicon enhoyhint-play"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{!quiz.isLastQuestion()? 'Слежующий вопрос' : 'Закончить тест'}}"
+		 ng-click="quiz.trySetNextQuestion()"
+		 ng-class="{'glyphicon-chevron-right': !quiz.isLastQuestion(),
+		            'glyphicon-play right-toolbar-green' : quiz.isLastQuestion()}" >
+	</div>
+
+	<div ng-if="lesson"
+		 class="right-toolbar-new-group right-toolbar-button glyphicon"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{hideEditor ? 'Показать редактор кода' : 'Убрать редактор кода'}}"
 		 ng-click="toggleEditorOpen()"
-		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}"></div>
+		 ng-class="{'glyphicon-chevron-right': !hideEditor, 'glyphicon-chevron-left' : hideEditor}">
+	</div>
 
-	<div class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
+	<div ng-if="quiz && quiz.getCurrentQuestionNumber() > 1"
+		 class="right-toolbar-button right-toolbar-button glyphicon"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="Предыдущий вопрос"
+		 ng-click="quiz.trySetPreviousQuestion()"
+		 ng-class="'glyphicon-chevron-left'">
+	</div>
+
+	<div ng-if="lesson"
+
+		 class="right-toolbar-button glyphicon glyphicon-list-alt lesson-alt-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
@@ -102,13 +168,15 @@
 		 ng-click="toggleSettings()"
 		 ng-class="{'glyphicon-chevron-right' : showSettings}"></div>
 
-	<div class="right-toolbar-button glyphicon glyphicon-fast-backward"
+	<div ng-if="lesson"
+		 class="right-toolbar-button glyphicon glyphicon-fast-backward"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="Повторить инструкции"
 		 ng-click="previousAudio()"></div>
 
-	<div class="right-toolbar-button glyphicon"
+	<div ng-if="lesson"
+		 class="right-toolbar-button glyphicon"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{audioPause ? 'Запустить инструкции' : 'Остановить инструкции'}}"
@@ -120,4 +188,3 @@
 <div class="lesson-img-wrapper">
 	<div ng-class="char.css"></div>
 </div>
-

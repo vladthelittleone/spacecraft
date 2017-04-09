@@ -1162,6 +1162,52 @@ pre {
 	line-height: 20px;
 }
 
+.quiz {
+	color: rgb(80, 80, 80);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 54px;
+	cursor: default;
+}
+
+.quiz .content-overflow {
+	width: 50%;
+	right: 0;
+}
+
+.quiz .answers {
+	width: 50%;
+	color: #fff;
+	text-align: center;
+	padding: 5px;
+	display: inline-block;
+	height: 60px;
+}
+
+.quiz .answers .long {
+	width: 100%;
+}
+
+.quiz .answers div {
+	cursor: pointer;
+	padding-top: 15px;
+	height: 100%;
+	background: #fe854f;
+}
+
+.quiz .answers div:hover {
+	padding-top: 15px;
+	height: 100%;
+	background: #c3633e;
+}
+
+/*.quiz .lesson-instructions {*/
+	/*border-bottom: 1px solid rgb(254, 133, 79);*/
+	/*border-top: 1px solid rgb(254, 133, 79);*/
+/*}*/
+
 .lesson-hint {
 	font-family: "Courier New", serif;
 	color: #C0C3C1;
@@ -1207,7 +1253,7 @@ pre {
 	position: absolute;
 	color: #C0C3C1;
 	background: rgba(29, 31, 33, 0.8);
-	cursor: pointer;
+	cursor: default;
 }
 
 div.thought {
@@ -1800,12 +1846,6 @@ fieldset, label {
 	border-bottom: 2px solid #39C139;
 }
 
-.question {
-	width: 100%;
-	font-size: 2em;
-	text-align: center;
-	margin-bottom: 10px;
-}
 .question-card {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
@@ -1822,6 +1862,3 @@ fieldset, label {
 	padding: 2px 16px;
 }
 
-.quiz {
-	max-width: 500px;
-}

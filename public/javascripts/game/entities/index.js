@@ -104,7 +104,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать транспорт
+	 * Создать базу академии
 	 */
 	function createAcademyBase(game, x, y) {
 

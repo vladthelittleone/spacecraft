@@ -9,7 +9,6 @@ require('./login.module');
 require('./quick.module');
 require('./result.module');
 require('./welcome.module');
-require('./quiz.module');
 
 require('angular').module('spacecraft.modules', [
 	'spacecraft.lesson.module',
@@ -17,6 +16,5 @@ require('angular').module('spacecraft.modules', [
 	'spacecraft.login.module',
 	'spacecraft.quick.module',
 	'spacecraft.result.module',
-	'spacecraft.welcome.module',
-	'spacecraft.quiz.module'
+	'spacecraft.welcome.module'
 ]);

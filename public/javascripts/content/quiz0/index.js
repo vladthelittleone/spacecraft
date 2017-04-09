@@ -1,77 +1,22 @@
-/**
- * @author Aleksandrov Oleg
- * @since 20.03.17
- */
+'use strict';
+
+// Экспорт
+module.exports = Quiz();
 
 /**
- * 	Template question
- * 	question : "",
- *  answerOptions : [],
- * 	correctAnswerNumbers : [],
- * 	correctAnswerDescription: ""
+ * Урок 0.
+ *
+ * Created by vladthelittleone on 21.10.15.
  */
+function Quiz() {
 
-module.exports = Quiz0();
+	// that / this
+	var t = {};
 
-function Quiz0() {
+	t.preload = require('./preload.json');	// Ресурсы
+	t.questions = require('./questions.js');		// Вопросы
+	t.state = require('./state');			// Обертка вокруг игрового состояния
 
-	return [
-				{
-					question: "Здравствуй кадет!" +
-					           "В этот раз не будет лекций, не будет практики. " +
-							   "Пришло время первый и не последний раз проверить " +
-					           "насколько успешно Вы усваиваете уроки." +
-							   "Для этого нужно ответить на несколько вопросов. " +
-							   "Под каждым вопросом есть несколько вариантов ответов. " +
-							   "Правильным может быть как один так и несколько вариантов. " +
-							   "Выбирай с умом. " +
-					           "Вам все понятно?",
-					answerOptions: ["Да.", "Все понятно."],
-					correctAnswerNumbers: [0, 1],
-					correctAnswerDescription: "Поразительно, что Вы не смогли неправильно ответить на вопрос, " +
-					                          "в котором нет неправильных вариантов ответов."
-				},
-				{
-					question: "Хорошо, начнем с увертюры. " +
-					 "Представте, что Вы пилотируете космический корабль. " +
-								"От капитана коробля поступает приказ: \" Мистер Сулу немедленно выполнить поворот на лево.\" " +
-								"Какую команду вы отдатите кораблю, для того что бы выполнить приказ капитана?",
-					answerOptions: [
-						"transport.rotateRight()",
-						"transport.rotateLeft()",
-						"transport.rotate()",
-						"transport.stop()"
-					],
-					correctAnswerNumbers: [1],
-					correctAnswerDescription: "transport.rotateLeft()"
-				},
-		        {
-					question : "Вы уже должны были познакомиться с BBot'ом. " +
-					           "Не смотря на его нахальство, он крайне полезен " +
-					           "как начинающим так и опытным пилотам. " +
-					           "Например, можно заставить BBot'a сказать что-то против его воли. " +
-					           "Какая функция поможет Вам в этом?",
-					answerOptions : [
-										"\"BBot плохой робот.\"",
-										"'BBot плохой робот.'",
-										"BBotDebug(BBot плохой робот.)",
-										"BBotDebug('BBot плохой робот.')"
-					                ],
-					correctAnswerNumbers : [3],
-					correctAnswerDescription: "BBotDebug('BBot плохой робот.')"
-				},
-		        {
-					question: "Вы попали в плен к странной не гуманнойдной расе, и что бы выжить вам необходимо " +
-					          "выбрать из предложенных вариантов выражения, которое принимает значение истина.",
-					answerOptions: [
-										"1/2 * 3 > 2",
-										"3 - 7 === 5 - 1",
-										"15/3 * 2/1 === 5 * 2 - 0",
-										"19 - 45/2 > 93 + 100/11 + 1"
-									],
-					correctAnswerNumbers: [3],
-					correctAnswerDescription: "15/3 * 2/1 === 5 * 2 - 0"
-				}
-			];
+	return t;
 
 }

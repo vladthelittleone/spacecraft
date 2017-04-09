@@ -67,7 +67,7 @@ function goToResearchCenter() {
 			'Константы объявляются с помощью ключевого слова <strong>const</strong>, а значение константы задается ' +
 			'<span class="under-label">сразу</span>, при ее объявлении.</p>' +
 			'<p>Вы еще не забыли о <strong>undefined</strong> и <strong>null</strong>?</p>' +
-			'<p>Переменные, которым не присволили значения, будут <strong>undefined</strong>. ' +
+			'<p>Переменные, которым не присволили значения, будут хранить идентификатор <strong>undefined</strong>. ' +
 			'Для обозначения неизвестного значения переменной используется специально слово <strong>null</strong>.</p>';
 
 	}

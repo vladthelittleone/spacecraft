@@ -31,12 +31,12 @@ function goToResearchCenter() {
 		content: content,
 
 		hint: '<ul>' +
-				'<li>Добавьте <span class="under-label-gray">researchCenterContainer = harverster.cargoUnload();</span> на <strong>14</strong> строку.</li>' +
+			  '<li>Добавьте <span class="red-label">researchContainer = harvester.cargoUnload()</span> на <strong>14</strong> строку.</li>' +
 			  '</ul>',
 
 		instructions: '<ul>' +
-					  	'<li>На <strong>14</strong> строчке необходимо скопировать значения из грузовго отсека в переменную <span class="red-label">researchCenterContainer</span>.</li>' +
-						'<li>Для получения значения, хранящегося в грузовом отсека кораблся воспользуйтесь функцией <span class="red-label">cargoUnload()</span>.</li>' +
+					  '<li>На строке <strong>14</strong> необходимо присвоить переменной <span class="red-label">researchContainer</span> ' +
+					  'значение, возвращаемое командой <span class="red-label">harvester.cargoUnload()</span>.</li>' +
 					  '</ul>'
 	};
 
@@ -45,28 +45,20 @@ function goToResearchCenter() {
 							player,
 							text) {
 
-		var t = '';
-
-		var result = text && typeof text === 'string';
-
-		if (result) {
-
-			t += 'груз получен -> Вражеский датчик</br>.';
-		}
-
 		var lessonResults = LessonResults({
 
 			correct: '<p>Подтверждаю выгрузку.</p>' +
-					 '<p>Исследовательский центр  '+ t +'</p>',
+					 '<p>Исследовтельским центром получен:</p>' +
+					 '<p class="bbot-output">Вражеский датчик.</p>',
 
 			unknownError: '<p>Неизвестная ошибка!</p>' +
 						  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>',
 
 		});
 
-		if (harvester.isCargoUnload() &&
-			harvester.isNearPoint(400, 2000) &&
-			result ) {
+		if (text &&
+			harvester.isCargoUnload() &&
+			harvester.isNearPoint(400, 2000) ) {
 
 			return lessonResults.resultCorrect();
 
@@ -76,10 +68,11 @@ function goToResearchCenter() {
 	function content() {
 
 		return  '<p>Перед вами кадет наш исследовательский центр. Все самые передовые разработки рождаются именно здесь.</p>' +
-				'<p>Передайте ученым поднятый вами датчик. Для этого вам необходимо в контейнер <strong>researchCenterContainer</strong>, ' +
-			 	'положить значение с грузового отсека корабля.</p>' +
-				'<p>Для получение значения переменной из грузового отсека используется функция <span class="under-label">cargoUnload()</span>.</p>' +
-				'<p>BBot сообщит вам об успешной погрузке.</p>';
+				'<p>Передайте ученым поднятый вами датчик: положите в контейнер <strong class="under-label">researchContainer</strong> ' +
+			 	'значение с грузового отсека корабля.</p>' +
+				'<p>Чтобы получить значение переменной из грузового отсека используйте команду:</p>' +
+				'<pre><strong>harvester</strong>.cargoUnload(container);</pre>' +
+				'<p><strong>BBot</strong> сообщит вам об успешной погрузке.</p>';
 
 	}
 }

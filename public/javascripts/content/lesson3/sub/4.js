@@ -56,7 +56,7 @@ function TaskWithVariables() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Существует каверзный вопрос.</p>' +
+			correct: '<p>Существует каверзный вопрос:</p>' +
 					 '<p>Что обращает людей в пепел?</p>' +
 					 '<p class="bbot-output">' + value + '</p>',
 

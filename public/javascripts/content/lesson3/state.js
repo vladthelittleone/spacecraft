@@ -40,26 +40,16 @@ function StateWrapper(state) {
 
 		// Создать транспорт
 		player = EntitiesFactory.createHarvester(game, 1859, 2156, true);
-		var sprite = player.sprite;
-
-		sprite.rotation = - Math.PI / 2;
+		player.sprite.rotation = -3.35 * Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
-
-		// Корабль на верх.
-		sprite.bringToTop();
-
-		// Фокус на на центре
-		t.followFor(sprite);
 
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
 
 		var scout = EntitiesFactory.createScout(game, 2000, 2000);
-		scout.logic  = function(h) {
-			h.scan();
-		};
+		scout.sprite.rotation = 0.5 * Math.PI / 2;
 
 		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
 		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
@@ -74,6 +64,12 @@ function StateWrapper(state) {
 
 		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
 		sensor.sprite.visible = true;
+
+		// Фокус на на центре
+		t.followFor(player.sprite);
+
+		// Корабль на верх.
+		player.sprite.bringToTop();
 
 		CodeLauncher.setArguments(player.api);
 	}

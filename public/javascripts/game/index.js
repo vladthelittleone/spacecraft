@@ -7,6 +7,7 @@ var StatesManager = require('./states');
 var ContentFactory = require('../content');
 var EntitiesFactory = require('./entities');
 var CodeLauncher = require('./launcher');
+var UpdateManager = require('./update-manager');
 
 // Экспорт
 module.exports = Game();
@@ -25,6 +26,7 @@ function Game() {
 	t.content = ContentFactory;		// Фабрика контента уроков
 	t.world = EntitiesFactory;		// Фабрика мира и объектов
 	t.codeLauncher = CodeLauncher;	// Синглтон заупска кода
+	t.updateManager = UpdateManager;
 
 	t.destroy = destroy;
 	t.initialization = initialization;

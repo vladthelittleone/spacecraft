@@ -225,9 +225,16 @@ function EntitiesFactory() {
 
 	}
 
+	/**
+	 * Создать исследовательский центр
+	 */
 	function createResearchCenter(game, x, y) {
 
-		return ResearchCenter(game, x, y);
+		var center = ResearchCenter(game, x, y);
+
+		world.pushObject(center);
+
+		return center;
 
 	}
 

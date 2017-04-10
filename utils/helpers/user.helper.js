@@ -26,13 +26,13 @@ function UserHelper() {
 	function prepareUserObjectForSession(idUser, callback) {
 
 		async.waterfall([
-							function (callback) {
+							(callback) => {
 
 								UserModel.findById(idUser, callback);
 
 							},
 
-							function (user, callback) {
+							(user, callback) => {
 
 								if (user) {
 
@@ -43,6 +43,8 @@ function UserHelper() {
 										return processingAsEmailUser(userObj, callback);
 
 									}
+
+									userObj.needToConfirmEmail = false;
 
 									return callback(null, userObj);
 								}
@@ -71,17 +73,20 @@ function UserHelper() {
 	function processingAsEmailUser(userObj, callback) {
 
 		async.waterfall([
-							function (callback) {
+							(callback) => {
 
 								EmailConfirmationModel.findOne({idUser: userObj._id}, callback);
 
 							},
 
-							function (emailConfirmationData, callback) {
+							(emailConfirmationData, callback) => {
 
 								if (emailConfirmationData) {
 
-									userObj.emailConfirmationFlag = emailConfirmationData.result;
+									// В result лежит статус подтверждения почты (true - подтверждена; false - нет).
+									// Поэтому, для семантики флага needToConfirmEmail требуется отрицание статуса
+									// подтверждения.
+									userObj.needToConfirmEmail = !emailConfirmationData.result;
 
 								}
 

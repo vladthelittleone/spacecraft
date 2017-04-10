@@ -2,12 +2,12 @@
  * Created by iretd on 27.03.17.
  */
 
-var nodeMailer = require('nodemailer');
+const nodeMailer = require('nodemailer');
 
-const logger = require('./../../utils/log')(module);
+const config = require('./../../config');
+const emailClientSettings = config.get('serverSettings').emailClient;
 
 module.exports = mailer();
-
 
 /**
  * Данный модуль инкапсулирует иницилизацию SMPT клиента (с настройками по авторизации на SMTP сервере яндекса).
@@ -16,22 +16,13 @@ module.exports = mailer();
  */
 function mailer() {
 
-	// Все необходимые параметры нашей яндекс почты.
-	const yandexMail = {
-		login:      'support@spacecraftcode.ru',
-		password:   'QETadg135',
-		address:    'support@spacecraftcode.ru',
-		host:       'smtp.yandex.ru',
-		securePort: 465
-	};
-
 	let smtpConfig = {
-		host:   yandexMail.host,
-		port:   yandexMail.securePort,
-		secure: true,
+		host:   emailClientSettings.host,
+		port:   emailClientSettings.port,
+		secure: emailClientSettings.isSecure,
 		auth:   {
-			user: yandexMail.login,
-			pass: yandexMail.password
+			user: emailClientSettings.login,
+			pass: emailClientSettings.password
 		}
 	};
 
@@ -56,7 +47,7 @@ function mailer() {
 	function sendEmail(args, callback) {
 
 		let mailOptions = {
-			from:    yandexMail.address,
+			from:    emailClientSettings.from,
 			to:      args.emailOfRecipient,
 			subject: args.subject,
 			text:    args.plainText,

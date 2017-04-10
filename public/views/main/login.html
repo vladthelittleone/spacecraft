@@ -68,7 +68,7 @@
 						</button>
 
 						<div ng-show="isEnterForm"
-							 ng-click="spinLoginSpinner();"
+							 ng-click="startLoginSpinner();"
 							 class="vk-button">
 							<a href="/vk">
 								<span>Войти через ВКонтакте</span>
@@ -80,8 +80,8 @@
 					<div class="login-input login-checkbox">
 						<div ng-show="!isEnterForm"
 							 class="login-checkbox-title" ng-click=changeSubscribe()>
-						<span ng-class="{'glyphicon glyphicon-check' : flagOfSubscriptionToMailing,
-										 'glyphicon glyphicon-unchecked' : !flagOfSubscriptionToMailing}">
+						<span ng-class="{'glyphicon glyphicon-check' : subscriptionToMailingFlag,
+										 'glyphicon glyphicon-unchecked' : !subscriptionToMailingFlag}">
 						</span>
 							получать звёздные новости на e-mail
 						</div>

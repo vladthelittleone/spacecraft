@@ -16,23 +16,23 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	$scope.isEnterForm = true;
 
 	// По дефолту считаем, что человек согласен на рассылку
-	$scope.flagOfSubscriptionToMailing = true;
+	$scope.subscriptionToMailingFlag = true;
 
 	$scope.changeForm = changeForm;
-	$scope.changeSubscribe = changeSubscribe;
+	$scope.changeSubscriptionToMailingFlag = changeSubscriptionToMailingFlag;
 	$scope.register = register;
 	$scope.login = login;
 
-	$scope.spinLoginSpinner = spinLoginSpinner;
+	$scope.startLoginSpinner = startLoginSpinner;
 	$scope.stopLoginSpinner = stopLoginSpinner;
 
 	stopLoginSpinner();
 
 	// ==================================================
 
-	function changeSubscribe() {
+	function changeSubscriptionToMailingFlag() {
 
-		$scope.flagOfSubscriptionToMailing = !$scope.flagOfSubscriptionToMailing;
+		$scope.subscriptionToMailingFlag = !$scope.subscriptionToMailingFlag;
 
 	}
 
@@ -42,7 +42,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 
 	}
 
-	function spinLoginSpinner() {
+	function startLoginSpinner() {
 
 		usSpinnerService.spin('login-spinner');
 
@@ -58,30 +58,16 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	 * Вызывается в случае успешной регистрации.
 	 * Реализует логику вызова логирования и указания переходу к первому уроку.
 	 */
-	function prepareSuccessfulRegistration() {
+	function onSuccessfulRegistration() {
 
 		// Переопределяем success callback для метода логирования.
 		login(function () {
 
-			stopLoginSpinner();
-
-			toTheFirstLesson();
+			$state.go('lesson', {id: 0});
 
 		});
 
 	}
-
-	/**
-	 * Вызывается по умолчанию, в случае успешного логирования.
-	 */
-	function defaultPreparationOfSuccessfulLogin() {
-
-		stopLoginSpinner();
-
-		toWelcome();
-
-	}
-
 
 	/**
 	 * Регистрация в сервисе
@@ -91,15 +77,15 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			spinLoginSpinner();
+			startLoginSpinner();
 
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
-										email:                       $scope.email,
-										password:                    $scope.password,
-										flagOfSubscriptionToMailing: $scope.flagOfSubscriptionToMailing,
-										success:                     prepareSuccessfulRegistration,
-										error:                       error
+										email:                     $scope.email,
+										password:                  $scope.password,
+										subscriptionToMailingFlag: $scope.subscriptionToMailingFlag,
+										success:                   onSuccessfulRegistration,
+										error:                     controllerErrorHandler
 									});
 
 		}
@@ -112,7 +98,7 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	 * Если сообщение не задано (к примеру, данный коллбэк указывали в качестве обработчика
 	 * ошибочной ситуации при авторизации и сервис не отвечает) -> указываем сообщение по умолчанию.
 	 */
-	function error(errorDescription) {
+	function controllerErrorHandler(errorDescription) {
 
 		stopLoginSpinner();
 
@@ -122,36 +108,28 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	}
 
 	/**
-	 * Смена состояния на главную страницу.
-	 */
-	function toWelcome() {
-
-		$state.go('welcome');
-
-	}
-
-	function toTheFirstLesson() {
-
-		$state.go('lesson', {id: 0})
-	}
-
-	/**
 	 * Вход в систему.
 	 * Метод позволяет задать конкретное поведение в случае успешного логирования.
 	 * По умолчанию, производится вызов метода prepareSuccessfulLogin.
 	 */
-	function login(successfulCallback) {
+	function login(onSuccess) {
 
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			spinLoginSpinner();
+			startLoginSpinner();
 
 			authentication.login({
 									 email:    $scope.email,
 									 password: $scope.password,
-									 success:  successfulCallback ? successfulCallback : defaultPreparationOfSuccessfulLogin,
-									 error:    error
+									 success:  function () {
+
+										 stopLoginSpinner();
+
+										 onSuccess ? onSuccess() : $state.go('welcome');
+
+									 },
+									 error:    controllerErrorHandler
 								 });
 
 		}

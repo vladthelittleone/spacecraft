@@ -57,7 +57,7 @@ function AuthenticationHelper() {
 
 	function sendEmailConfirmation(user, callback) {
 
-		emailConfirmation.send(user, function (error) {
+		emailConfirmation.send(user, (error) => {
 
 			if (error) {
 
@@ -73,7 +73,7 @@ function AuthenticationHelper() {
 
 	function checkEmailForExistence(normalEmail, callback) {
 
-		emailExistence.check(normalEmail, function (error, result, undetermined) {
+		emailExistence.check(normalEmail, (error, result, undetermined) => {
 
 			// 3-им параметром для коллбэка либа emailExistence предоставляет статус неопределенности.
 			// Если он определен, значит произошла ошибка связанная с больше с техничесокой составляющей:
@@ -93,7 +93,7 @@ function AuthenticationHelper() {
 				logger.warn('email does not exist: ', normalEmail);
 
 				return callback(new HttpError(HttpStatus.UNPROCESSABLE_ENTITY,
-											  "Пожалуйста, укажите действующий email адрес"));
+					"Пожалуйста, укажите действующий email адрес"));
 
 			}
 

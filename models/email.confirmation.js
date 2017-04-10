@@ -48,7 +48,6 @@ schema.statics.confirm = confirm;
 
 module.exports = mongoose.model('email.confirmation', schema);
 
-
 /**
  * Процесс подтверждения.
  */

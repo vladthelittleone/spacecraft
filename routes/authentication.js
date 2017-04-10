@@ -75,13 +75,13 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 
 	let email = req.body.email;
 	let password = req.body.password;
-	let flagOfSubscriptionToMailing = req.body.flagOfSubscriptionToMailing;
+	let subscriptionToMailingFlag = req.body.subscriptionToMailingFlag;
 
 	let normalEmail = validator.normalizeEmail(email);
 
 	async.waterfall([
 						// Проверка почты на существование.
-						function (callback) {
+						(callback) => {
 
 							if (settings.checkEmailForExistenceFlag) {
 
@@ -94,18 +94,18 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 						},
 
 						// Регистрация пользователя.
-						function (callback) {
+						(callback) => {
 
 							UserModel.registration(normalEmail,
 												   password,
-												   flagOfSubscriptionToMailing,
+												   subscriptionToMailingFlag,
 												   callback);
 
 						},
 
 						// Инициализация поля totalFinalScore у вновь зарегистрированного пользователя.
 						// Отправка письма с просьбой подтвердить почту.
-						function (user, callback) {
+						(user, callback) => {
 
 							// TODO а зачем так явно инициализировать totalFinalScore?
 							authenticationHelper.initTotalFinalScore(user);
@@ -121,7 +121,7 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 
 						}
 					],
-					function (error) {
+					(error) => {
 
 						if (error) {
 

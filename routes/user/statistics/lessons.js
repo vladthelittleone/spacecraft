@@ -5,18 +5,18 @@
  * @author greezlock
  */
 
-var express = require('express');
-var logger = require('utils/log')(module);
+const express = require('express');
+const logger = require('utils/log')(module);
 
-var Statistic = require('models/statistic');
+const Statistic = require('models/statistic');
 
-var lodash = require('lodash');
+const lodash = require('lodash');
 
 const checkAuthentication = require('./../../../middlewares/check-authentication');
 
-var HttpStatus = require('http-status-codes');
+const HttpStatus = require('http-status-codes');
 
-var router = express.Router();
+const router = express.Router();
 
 module.exports = router;
 
@@ -29,11 +29,11 @@ module.exports = router;
 /**
  * Получение статистики юзера о прохождении уроков.
  */
-router.get('/user/statistics/lessons', checkAuthentication, function (req, res, next) {
+router.get('/user/statistics/lessons', checkAuthentication, (req, res, next) => {
 
 	let idUser = req.user._id;
 
-	Statistic.getUserStatistics(idUser, function (err, result) {
+	Statistic.getUserStatistics(idUser, (err, result) => {
 
 		if (err) {
 
@@ -70,12 +70,12 @@ router.get('/user/statistics/lessons', checkAuthentication, function (req, res, 
 /**
  * Сохранение данных о прохождении пользователем подурока.
  */
-router.post('/user/statistics/lessons', checkAuthentication, function (req, res, next) {
+router.post('/user/statistics/lessons', checkAuthentication, (req, res, next) => {
 
 	let idUser = req.user._id;
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStatistics(idUser, dataForUpdate, function (err) {
+	Statistic.updateLessonStatistics(idUser, dataForUpdate, (err) => {
 
 		if (err) {
 
@@ -91,13 +91,13 @@ router.post('/user/statistics/lessons', checkAuthentication, function (req, res,
 
 });
 
-router.post('/user/statistics/lessons/star', checkAuthentication, function (req, res, next) {
+router.post('/user/statistics/lessons/star', checkAuthentication, (req, res, next) => {
 
 	let idUser = req.user._id;
 
 	let dataForUpdate = req.body;
 
-	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, function (err) {
+	Statistic.updateLessonStarStatistics(idUser, dataForUpdate, (err) => {
 
 		if (err) {
 

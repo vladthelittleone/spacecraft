@@ -6,15 +6,15 @@
  */
 
 const express = require('express');
-var router = express.Router();
+const router = express.Router();
 
-var lodash = require('lodash');
+const lodash = require('lodash');
 
-var logger = require('utils/log')(module);
+const logger = require('utils/log')(module);
 
-var Statistic = require('./../../models/statistic');
+const Statistic = require('./../../models/statistic');
 
-var leaderBoardHelper = require('../../utils/helpers/statistics/leaderBoard');
+const leaderBoardHelper = require('../../utils/helpers/statistics/leaderBoard');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 

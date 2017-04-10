@@ -32,7 +32,7 @@ var schema = new Schema({
 	salt:                        {
 		type: String
 	},
-	flagOfSubscriptionToMailing: {
+	subscriptionToMailingFlag: {
 		type: Boolean
 	},
 	emailConfirmationFlag:       {
@@ -122,7 +122,7 @@ function authorize(email, password, callback) {
 	
 }
 
-function registration(email, password, flagOfSubscriptionToMailing, callback) {
+function registration(email, password, subscriptionToMailingFlag, callback) {
 	
 	let User = this;
 	
@@ -141,7 +141,7 @@ function registration(email, password, flagOfSubscriptionToMailing, callback) {
 									email:                       email,
 									password:                    password,
 									name:                        lodash.first(email.split('@')),
-									flagOfSubscriptionToMailing: flagOfSubscriptionToMailing
+									subscriptionToMailingFlag: subscriptionToMailingFlag
 					
 								});
 				

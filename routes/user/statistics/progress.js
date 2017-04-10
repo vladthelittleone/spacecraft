@@ -10,14 +10,14 @@
  * @author greezlock
  */
 
-var express = require('express');
+const express = require('express');
 
-var Statistic = require('./../../../models/statistic');
+const Statistic = require('./../../../models/statistic');
 const checkAuthentication = require('./../../../middlewares/check-authentication');
 
-var lodash = require('lodash');
+const lodash = require('lodash');
 
-var router = express.Router();
+const router = express.Router();
 
 module.exports = router;
 

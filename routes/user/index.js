@@ -5,19 +5,19 @@
 
 const express = require('express');
 
-var router = express.Router();
+const router = express.Router();
 
-var lodash = require('lodash');
+const lodash = require('lodash');
 
-var webMailLinker = require('webmail-linker');
+const webMailLinker = require('webmail-linker');
 
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
-var HttpStatus = require('http-status-codes');
+const HttpStatus = require('http-status-codes');
 
-var EmailConfirmationModel = require('./../../models/email.confirmation');
+const EmailConfirmationModel = require('./../../models/email.confirmation');
 
-var validator = require('validator');
+const validator = require('validator');
 
 const logger = require('./../../utils/log')(module);
 
@@ -26,18 +26,17 @@ module.exports = router;
 /**
  * Возврат информацию о текущем пользователе
  */
-router.get('/user/info', checkAuthentication, function (req, res, next) {
+router.get('/user/', checkAuthentication, function (req, res, next) {
 
 	let user = req.user;
 
 	let response = {};
 
-	// если пользователь еще не подтверждал почту.
-	if (!lodash.isNil(user.emailConfirmationFlag) && user.emailConfirmationFlag === false) {
+	if (user.needToConfirmEmail) {
 
 		response.needToConfirmEmail = true;
 		response.email = user.email;
-		
+
 		let emailProvider = webMailLinker.getProviderByEmailAddress(user.email);
 		response.emailProviderUrl = emailProvider && emailProvider.url;
 
@@ -50,7 +49,7 @@ router.get('/user/info', checkAuthentication, function (req, res, next) {
 });
 
 /**
- * Маршрут введен с целью упрщения восприятия общения клиентской части с серверной.
+ * Маршрут введен с целью упрощения восприятия общения клиентской части с серверной.
  *
  * Безусловно, понятно, что для проверки актуальности сессии, можно обратиться по любому из
  * маршрутов, которые требуют, чтобы пользователь был авторизован.
@@ -58,7 +57,7 @@ router.get('/user/info', checkAuthentication, function (req, res, next) {
  * Повторюсь. Именно для упрощения восприятия кода был введен этот отдельный маршрут, который берет
  * эту задачу на себя.
  */
-router.get('/user/info/session', checkAuthentication, function (req, res, next) {
+router.get('/user/session', checkAuthentication, function (req, res, next) {
 
 	return res.sendStatus(HttpStatus.NO_CONTENT);
 
@@ -75,13 +74,12 @@ router.get('/user/info/session', checkAuthentication, function (req, res, next) 
  * подтверждения. Это делается с целью того, чтобы пользователь, после перенаправления
  * в корень сайта, получал информацию о себе уже с учетом результатов попытки подтверждения почты.
  */
-router.get('/user/emailConfirmation', function (req, res, next) {
+router.get('/user/confirmEmail', function (req, res, next) {
 
 	let confirmationKey = req.query.confirmationKey;
 
 	// Если параметр confirmationKey является UUID значением
 	// (это проверка на валидность входящего параметра в целом).
-	// TODO заюзать waterfall у async для случая с обновлением users и sessions.
 	if (confirmationKey && validator.isUUID(confirmationKey)) {
 
 		return EmailConfirmationModel.confirm(confirmationKey, (error) => {

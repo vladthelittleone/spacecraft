@@ -4,6 +4,7 @@
 var Game = require('../../../game');
 
 var CodeLauncher = Game.codeLauncher;
+var UpdateManager = Game.updateManager;
 var ContentFactory = Game.content;
 var EntitiesFactory = Game.world;
 
@@ -472,6 +473,8 @@ function LessonService(connection,
 			// Индекс подурока (% используется на случай изменений в размерах).
 			scope.subIndex = scope.subIndex % size;
 
+			UpdateManager.setSubIndex(scope.subIndex);
+
 			// Если урок был окончен, тогда в currentLessonStatistics необходимо
 			// сбросить начальные значение параметров статистики (currentScore; currentRunCount),
 			// так как они были иницализированы значениями, которые были актуальны на момент конца урока
@@ -635,7 +638,10 @@ function LessonService(connection,
 
 			var code = getCode();
 
-			CodeLauncher.run(code, gamePostUpdate, gamePreUpdate);
+			CodeLauncher.run(code);
+
+			UpdateManager.setPreUpdate(gamePreUpdate);
+			UpdateManager.setPostUpdate(gamePostUpdate);
 
 		}
 

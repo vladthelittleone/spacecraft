@@ -26,8 +26,8 @@ function FirstContactWithVariables() {
 		defaultBBot: defaultBBot,
 
 		instructions: '<ul>' +
-					  '<li>Узнать больше о ключевом слове <strong>var</strong>: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/var">клик</a>.</li>' +
 					  '<li>Нажмите "Далее" для продолжения.</li>' +
+					  '<li>Узнать больше о ключевом слове <strong>var</strong>: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/var">клик</a>.</li>' +
 					  '</ul>'
 	};
 
@@ -37,7 +37,7 @@ function FirstContactWithVariables() {
 			'Чтобы выполнить задание, вам потребуется изучить некоторые возможности работы с информацией. Приступим.</p>' +
 			'<p>Для хранения данных в <strong>JavaScript</strong> используются переменные. ' +
 			'Что это такое? По сути это именованные контейнеры, которые хранят различные значения.</p>' +
-			'<p>Переменные объявляются, другими словами, создаются с помощью ключевого слова <strong>var</strong>. ' +
+			'<p>Переменные объявляются, другими словами, создаются с помощью ключевого слова <strong class="under-label">var</strong>. ' +
 			'После следует имя переменной, которое может состоять из букв, цифр, символов <strong>$</strong> и <strong>_</strong> , ' +
 			'но не должно начинаться с цифры.</p>';
 

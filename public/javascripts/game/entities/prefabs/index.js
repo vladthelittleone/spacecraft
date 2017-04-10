@@ -39,9 +39,9 @@ function PrefabsFactory() {
 	t.createMine = createMine;
 	t.createCruiser = createCruiser;
 	t.createScout = createScout;
+	t.createStaticUnit = createStaticUnit;
 	t.createTurret = createTurret;
 	t.createResearchCenter = createResearchCenter;
-	t.createStaticUnit = createStaticUnit;
 
 	return t;
 
@@ -108,6 +108,13 @@ function PrefabsFactory() {
 
 	}
 
+	// Статический юнит
+	function createStaticUnit(game, x, y, preload, scale) {
+
+		return StaticUnit(game, x, y, preload, scale);
+
+	}
+
 	// Красная планета
 	function createRedPlanet(game, x, y) {
 
@@ -125,12 +132,5 @@ function PrefabsFactory() {
 	function createResearchCenter(game, x, y) {
 
 		return ResearchCenter(game, x, y);
-	}
-
-	// Статический юнит
-	function createStaticUnit(game, x, y, preload, scale) {
-
-		return StaticUnit(game, x, y, preload, scale);
-
 	}
 }

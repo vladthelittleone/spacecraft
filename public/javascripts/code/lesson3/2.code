@@ -1,11 +1,11 @@
 var container = 'Нога робота';
 
-// Переменная Container не инициализирована
+// Переменная Container не инициализирована.
 var Container;
 
 BBotDebug(Container);
 
-// Копирование значения одной переменной в другую
+// Копирование значения одной переменной в другую.
 Container = container;
 
 BBotDebug(Container);

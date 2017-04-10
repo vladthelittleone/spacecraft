@@ -14,11 +14,11 @@ function MoreAboutVariables() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Копирование',
-		character:    [{
+		title:             'Копирование',
+		character:         [{
 			// Отправляйтесь к оружейному складу. Запускаем двигатели
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
+			audio: 'audio/lesson2/1-2.mp3',
+			css:   'astrogirl-img',
 		}],
 
 		interpreterHandler: interpreterHandler,
@@ -26,27 +26,29 @@ function MoreAboutVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>Больше информации о переменных в <strong>JavaScript</strong>: <a href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Переменные">клац</a>.</li>' +
 					  '<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+					  '<li>Больше информации о переменных в <strong>JavaScript</strong>: <a href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Переменные">клац</a>.</li>' +
 					  '</ul>'
 	};
 
 	function interpreterHandler(v) {
 
-		var t = '';
+		var v1 = '';
+		var v2 = '';
+
 		var r = false;
 
 		if (v && v.forEach) {
 
 			v.forEach(function (e) {
 
-				if(lodash.isNil(e)) {
+				if (lodash.isNil(e)) {
 
-					t += '0й, Вы хотитЕ меня 0бмануть, в коробке -><p class="bbot-output">' + e + '</p>';
+					v1 += e;
 
 				} else {
 
-					t += 'Что? Это не моё! Бедный йорик, от него осталась только <p class="bbot-output">' + e + '</p>';
+					v2 += e;
 
 					r = (e === 'Нога робота');
 				}
@@ -57,27 +59,29 @@ function MoreAboutVariables() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Вскрываю контейнер после копирования... </p>' +
-					 '<p>' + t + '</p>' +
-					 '<p>П0хоже к0пирование прошлО нЕ полностью.</p>',
+			correct: '<p>Кто-т0 спёр мою робоногу!</p>' +
+					 '<p>Так, так, так, что тут у нас?</p>' +
+					 '<p class="bbot-output">' + v1 + '</p>' +
+					 '<p class="bbot-output">' + v2 + '</p>' +
+					 '<p>Кадет! Это не смешно!</p>',
 
-			text: 'Кто украл ногу CHI-3PO?'
+			unknownError: '<p>Кто-то украл мою ногу!</p>'
 
 		});
 
 		if (r) {
 
-			return lessonResults.resultCorrect();
+			return lessonResults.resultCorrect('bbot-angry');
 
 		}
 
-		return lessonResults.text();
+		return lessonResults.unknownError();
 	}
 
 	function content() {
 
 		return '<p>В <strong>JavaScript</strong> регистр имеет значение. <strong>container</strong> и <strong>Container</strong> две разные переменные.</p>' +
-			'<p>Когда значение переменной не определено, при использование переменной получаем значение <strong>undefined</strong>.</p>' +
+			'<p>Если переменная не инициализирована, то значение этой переменной будет равно <strong class="under-label">undefined</strong>.</p>' +
 			'<p>Значение одной переменной можно скопировать в другую переменную.</p>';
 
 	}

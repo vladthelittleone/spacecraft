@@ -40,7 +40,7 @@ function LessonController($scope,
 
 	CodeLauncher.onError = onError;
 
-	$scope.isStarsVisiable = false;		// Переключатель окна оценки урока
+	$scope.isStarsVisible = false;		// Переключатель окна оценки урока
 	$scope.starsHide = false;		    // Переключатель окна оценки урока
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.showTextContent = false;     // Переключатель текстового контента урока
@@ -64,7 +64,6 @@ function LessonController($scope,
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
 	$scope.sce = sce;
-	$scope.lessonService = lessonService;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);

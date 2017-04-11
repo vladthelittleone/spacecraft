@@ -1177,7 +1177,8 @@ pre {
 	right: 0;
 }
 
-.quiz .answers {
+.quiz .answers,
+.quiz .answersSelect {
 	width: 50%;
 	color: #fff;
 	text-align: center;
@@ -1195,6 +1196,13 @@ pre {
 	padding-top: 15px;
 	height: 100%;
 	background: #fe854f;
+}
+
+.quiz .answersSelect div {
+	cursor: pointer;
+	padding-top: 15px;
+	height: 100%;
+	background: #a95536;
 }
 
 .quiz .answers div:hover {

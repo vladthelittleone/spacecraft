@@ -16,7 +16,8 @@ function Quiz() {
 
 	var that = {};
 
-	that.isQuizEnd = false;
+	that.isQuestionsEnd;
+	that.isQuizEnd;
 
 	that.trySetNextQuestion = trySetNextQuestion;
 	that.trySetPreviousQuestion = trySetPreviousQuestion;
@@ -59,6 +60,12 @@ function Quiz() {
 	 */
 	function trySetNextQuestion() {
 
+		if(that.isQuestionsEnd) {
+
+			that.isQuizEnd = true;
+
+		}
+
 		// если номер вопроса, не стал больше количества вопросов, то переходим к следующему вопросу
 		// иначе заканчиваем опрос и показываем пользователю результат
 		if(currentQuestionNumber < questions.length) {
@@ -68,28 +75,29 @@ function Quiz() {
 			that.isAnswerOnCurrentQuestionGet = false;
 
 		}
-		else {
+		else if(!that.isQuestionsEnd) {
 
 			questions.forEach(function (question) {
 
 				var userAnswers = getSelectAnswersNumber(question);
 
-				var diff = lodash.difference(question.correctAnswerNumbers, userAnswers);
+				var diff = lodash.difference(userAnswers, question.correctAnswerNumbers);
 
 				correctAnswerCount += diff.length ? 0 : 1;
 			});
 
-			that.isQuizEnd = true;
+			that.isQuestionsEnd = true;
 
 		}
-
 	}
 
 	function trySetPreviousQuestion() {
 
 		if(currentQuestionNumber > 1) {
 
-			currentQuestion = questions[--currentQuestionNumber];
+			currentQuestion = questions[(--currentQuestionNumber) - 1];
+
+			that.isAnswerOnCurrentQuestionGet = true;
 
 		}
 

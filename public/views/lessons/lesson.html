@@ -49,11 +49,11 @@
 	</div>
 </div>
 
-<div class="quiz" ng-if="questions" ng-init="quiz.initialize(questions)">
+<div class="quiz" ng-if="questions" ng-init="quiz.initialize(questions, isStarsVisiable)">
 	<div class="content-description">
 		<div class="content-overflow">
 
-			<div ng-if="!quiz.isQuizEnd">
+			<div ng-if="!quiz.isQuestionsEnd">
 				<div class="content-center">
 					<!--блок опросника-->
 					<div class="lesson-title ng-binding">Вопрос номер {{quiz.getCurrentQuestionNumber()}}/{{quiz.getQuestionsCount() }}</div>
@@ -65,7 +65,7 @@
 				<div class="lesson-instructions">
 					<div class="content-center">
 						<div class="lesson-instructions-title">Варианты ответов:</div>
-						<div class="answers"
+						<div ng-class="{'answers': !answerOption.isSelect, 'answersSelect' : answerOption.isSelect}"
 							 ng-repeat="(i, answerOption) in quiz.getCurrentQuestion().answerOptions">
 							<div ng-bind-html="sce(answerOption.text)"
 								 ng-click="quiz.setAnswerOnCurrentQuestion(i)"></div>
@@ -74,7 +74,7 @@
 				</div>
 			</div>
 
-			<div ng-if="quiz.isQuizEnd">
+			<div ng-if="quiz.isQuestionsEnd">
 				<div class="content-center">
 					<div class="lesson-title ng-binding">Ваш результат</div>
 				</div>
@@ -94,8 +94,8 @@
 
 <!-- Вывод статистики по окончанию урока -->
 <div statistics-lesson-end
-	 lesson="lessonService.getCurrentLesson()"
-	 ng-if="isStarsVisiable"></div>
+	 lesson="getCurrentLesson()"
+	 ng-if="isStarsVisible || quiz.isQuizEnd"></div>
 
 <!-- Директива игры -->
 <div game-canvas
@@ -120,7 +120,7 @@
 		 class="right-toolbar-button glyphicon enhoyhint-play"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{!quiz.isLastQuestion()? 'Слежующий вопрос' : 'Закончить тест'}}"
+		 uib-tooltip="{{quiz.isQuizEnd ? 'Закончить тест' : !quiz.isLastQuestion()? 'Следующий вопрос' : 'Проверить ответы'}}"
 		 ng-click="quiz.trySetNextQuestion()"
 		 ng-class="{'glyphicon-chevron-right': !quiz.isLastQuestion(),
 		            'glyphicon-play right-toolbar-green' : quiz.isLastQuestion()}" >

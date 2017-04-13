@@ -20,8 +20,7 @@
 
 				<form name="loginForm"
 					  class="login-form"
-					  ng-submit="isEnterForm ? login() : register();
-					  			 errorMessage = null;"
+					  ng-submit="submitForm()"
 					  novalidate>
 					<div class="login-input">
 						<label>
@@ -33,8 +32,7 @@
 								   ng-minlength="8"
 								   ng-maxlength="60"
 								   ng-model-options="{ allowInvalid: true }"
-								   ng-change="loginForm.$submitted = false;
-											  errorMessage = null;"
+								   ng-change="onInputFormChange()"
 								   required=""
 								   validate-email>
 						</label>
@@ -49,8 +47,7 @@
 								   ng-minlength="8"
 								   ng-maxlength="60"
 								   ng-model-options="{ allowInvalid: true }"
-								   ng-change="loginForm.$submitted = false;
-											  errorMessage = null;"
+								   ng-change="onInputFormChange()"
 								   required="">
 						</label>
 					</div>
@@ -80,8 +77,8 @@
 					<div class="login-input login-checkbox">
 						<div ng-show="!isEnterForm"
 							 class="login-checkbox-title" ng-click=changeSubscribe()>
-						<span ng-class="{'glyphicon glyphicon-check' : subscriptionToMailingFlag,
-										 'glyphicon glyphicon-unchecked' : !subscriptionToMailingFlag}">
+						<span ng-class="{'fa fa-check-square-o' : subscriptionToMailingFlag,
+										 'fa fa-square-o' : !subscriptionToMailingFlag}">
 						</span>
 							получать звёздные новости на e-mail
 						</div>
@@ -95,7 +92,7 @@
 				<div class="login-input-title login-error">
 
 					<!--Если форма не валидна-->
-					<div ng-if="loginForm.$submitted && loginForm.$invalid"
+					<div ng-if="isFormInvalidAfterSubmit()"
 						 ng-messages="loginForm.$error">
 
 						<div ng-message="email">Пожалуйста, укажите корректный email</div>

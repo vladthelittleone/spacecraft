@@ -26,9 +26,44 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 	$scope.startLoginSpinner = startLoginSpinner;
 	$scope.stopLoginSpinner = stopLoginSpinner;
 
+	$scope.submitForm = submitForm;
+	$scope.onInputFormChange = onInputFormChange;
+	$scope.isFormInvalidAfterSubmit = isFormInvalidAfterSubmit;
+
 	stopLoginSpinner();
 
 	// ==================================================
+
+	/**
+	 * Обработка отправки формы пользователем.
+	 */
+	function submitForm() {
+
+		$scope.isEnterForm ? login() : register();
+
+		// Очищаем старое сообщение после отправки формы.
+		$scope.errorMessage = null;
+
+	}
+
+	/**
+	 * Изменение состояния ввода какого-либо input'a формы.
+	 * Взаимодействие с формой пользователем также осуществляется в момент, когда он
+	 * изменяет поля ввода. В такие момент нужно изменять ЯВНО флаг $submitted у формы
+	 * и очищать старое сообщение об ошибке (если оно было).
+	 */
+	function onInputFormChange() {
+
+		$scope.loginForm.$submitted = false;
+		$scope.errorMessage = null;
+
+	}
+
+	function isFormInvalidAfterSubmit() {
+
+		return $scope.loginForm.$submitted && $scope.loginForm.$invalid;
+
+	}
 
 	function changeSubscriptionToMailingFlag() {
 

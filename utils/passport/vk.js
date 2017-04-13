@@ -1,10 +1,10 @@
 'use strict';
 
 const VKStrategy = require('passport-vkontakte').Strategy;
-const config = require('config');
-var User = require ('../../models/user');
 
-var authenticationHelper = require('./../../utils/helpers/authentication.helper');
+var User = require ('../../models/user');
+const config = require('config');
+var userHelper = require('./../helpers/authentication/user');
 
 var vk = {};
 
@@ -21,7 +21,7 @@ vk.login = new VKStrategy(config.get('vkStrategySettings'),
 
 				if (isRegistration) {
 
-					authenticationHelper.updateTotalFinalScore(user);
+					userHelper.initTotalFinalScore(user);
 
 				}
 

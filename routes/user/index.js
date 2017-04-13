@@ -4,23 +4,16 @@
  */
 
 const express = require('express');
-
-const router = express.Router();
-
 const lodash = require('lodash');
-
 const webMailLinker = require('webmail-linker');
-
-const checkAuthentication = require('./../../middlewares/check-authentication');
-
 const HttpStatus = require('http-status-codes');
-
-const EmailConfirmationModel = require('./../../models/email.confirmation');
-
 const validator = require('validator');
 
+const checkAuthentication = require('./../../middlewares/check-authentication');
+const EmailConfirmationModel = require('./../../models/email.confirmation');
 const logger = require('./../../utils/log')(module);
 
+const router = express.Router();
 module.exports = router;
 
 /**

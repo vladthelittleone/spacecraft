@@ -5,20 +5,13 @@
  * @author greezlock
  */
 
-/**
- * @since 16.02.17
- * @author greezlock
- */
-
 const express = require('express');
+const lodash = require('lodash');
 
 const Statistic = require('./../../../models/statistic');
 const checkAuthentication = require('./../../../middlewares/check-authentication');
 
-const lodash = require('lodash');
-
 const router = express.Router();
-
 module.exports = router;
 
 /**

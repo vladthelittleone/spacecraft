@@ -6,18 +6,14 @@
  */
 
 const express = require('express');
-const router = express.Router();
-
 const lodash = require('lodash');
 
 const logger = require('utils/log')(module);
-
 const Statistic = require('./../../models/statistic');
-
 const leaderBoardHelper = require('../../utils/helpers/statistics/leaderBoard');
-
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
+const router = express.Router();
 module.exports = router;
 
 router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req, res, next) {

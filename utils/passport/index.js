@@ -5,7 +5,7 @@ var passport = require('passport');
 var HttpStatus = require('http-status-codes');
 
 var sessions = require('./../../models/sessions');
-var userHelper = require('./../helpers/user.helper');
+var userHelper = require('./../helpers/authentication/user');
 
 module.exports = () => {
 

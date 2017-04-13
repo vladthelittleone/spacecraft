@@ -13,29 +13,21 @@
  */
 
 const express = require('express');
-const router = express.Router();
 const passport = require('passport');
-
 const HttpStatus = require('http-status-codes');
-
-const checkAuthentication = require('./../middlewares/check-authentication');
-
-const logger = require('./../utils/log')(module);
-
-const validatorHelper = require('./../utils/helpers/validator.helper');
-
 const validator = require('validator');
-
 const async = require('async');
 
-const authenticationHelper = require('./../utils/helpers/authentication.helper');
-
+const checkAuthentication = require('./../middlewares/check-authentication');
+const logger = require('./../utils/log')(module);
+const validatorHelper = require('./../utils/helpers/validator.helper');
+const emailConfirmationHelper = require('./../utils/helpers/authentication/email.confirmation');
+const userHelper = require('./../utils/helpers/authentication/user');
 const UserModel = require('../models/user');
-
 const config = require('../config');
-
 const settings = config.get('serverSettings').authentication;
 
+const router = express.Router();
 module.exports = router;
 
 /**
@@ -81,45 +73,14 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 
 	async.waterfall([
 						// Проверка почты на существование.
-						(callback) => {
-
-							if (settings.checkEmailForExistenceFlag) {
-
-								return authenticationHelper.checkEmailForExistence(normalEmail, callback);
-
-							}
-
-							callback(null);
-
-						},
-
+						async.apply(checkEmailForExistance, normalEmail),
 						// Регистрация пользователя.
-						(callback) => {
-
-							UserModel.registration(normalEmail,
-												   password,
-												   subscriptionToMailingFlag,
-												   callback);
-
-						},
-
-						// Инициализация поля totalFinalScore у вновь зарегистрированного пользователя.
-						// Отправка письма с просьбой подтвердить почту.
-						(user, callback) => {
-
-							// TODO а зачем так явно инициализировать totalFinalScore?
-							authenticationHelper.initTotalFinalScore(user);
-
-							if (settings.sendingOfEmailConfirmationFlag) {
-
-								return authenticationHelper.sendEmailConfirmation(user, callback);
-
-							}
-
-							callback(null);
-
-
-						}
+						callback => UserModel.registration(normalEmail,
+														   password,
+														   subscriptionToMailingFlag,
+														   callback),
+						// Отправляем пользователяя подтверждение почты.
+						async.apply(sendEmailConfirmationAfterRegistration)
 					],
 					(error) => {
 
@@ -136,3 +97,31 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 					});
 
 });
+
+function checkEmailForExistance(email, callback) {
+
+	if (settings.checkEmailForExistenceFlag) {
+
+		return emailConfirmationHelper.checkEmailForExistence(email, callback);
+
+	}
+
+	callback(null);
+
+}
+
+function sendEmailConfirmationAfterRegistration(user, callback) {
+
+	// Инициализация поля totalFinalScore у вновь зарегистрированного пользователя.
+	userHelper.initTotalFinalScore(user);
+
+	if (settings.sendingOfEmailConfirmationFlag) {
+
+		return emailConfirmationHelper.sendEmailConfirmation(user, callback);
+
+	}
+
+	callback(null);
+
+
+}

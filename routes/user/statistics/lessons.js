@@ -7,14 +7,11 @@
 
 const express = require('express');
 const logger = require('utils/log')(module);
-
-const Statistic = require('models/statistic');
-
+const HttpStatus = require('http-status-codes');
 const lodash = require('lodash');
 
+const Statistic = require('models/statistic');
 const checkAuthentication = require('./../../../middlewares/check-authentication');
-
-const HttpStatus = require('http-status-codes');
 
 const router = express.Router();
 

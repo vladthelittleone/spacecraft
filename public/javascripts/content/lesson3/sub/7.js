@@ -31,11 +31,11 @@ function goToResearchCenter() {
 		content: content,
 
 		hint: '<ul>' +
-			  '<li>Добавьте <span class="red-label">researchContainer = harvester.cargoUnload()</span> на <strong>14</strong> строку.</li>' +
+			  '<li>Добавьте <span class="red-label">researchContainer = harvester.cargoUnload()</span> на <strong>11</strong> строку.</li>' +
 			  '</ul>',
 
 		instructions: '<ul>' +
-					  '<li>На строке <strong>14</strong> необходимо присвоить переменной <span class="red-label">researchContainer</span> ' +
+					  '<li>На строке <strong>11</strong> необходимо присвоить переменной <span class="red-label">researchContainer</span> ' +
 					  'значение, возвращаемое командой <span class="red-label">harvester.cargoUnload()</span>.</li>' +
 					  '</ul>'
 	};

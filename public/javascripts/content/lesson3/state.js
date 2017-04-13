@@ -33,7 +33,9 @@ function StateWrapper(state) {
 
 		if (UpdateManager.getSubIndex() > 4) {
 
-			var cruiser = EntitiesFactory.createCruiser(game, 400, 2000);
+			sensor.sprite.visible = false;
+
+			var cruiser = EntitiesFactory.createCruiser(game, 1000, 2000);
 
 			cruiser.sprite.rotation = -Math.PI / 2;
 
@@ -42,10 +44,17 @@ function StateWrapper(state) {
 			var t1 = EntitiesFactory.createTransport(game, 1000, 0);
 			var t2 = EntitiesFactory.createTransport(game, 1050, 0);
 
-			moveToXYLogic(t1, 1000, 3500);
+			patrol(t1, 1000, 0, 1000, 3000);
 			moveToXYLogic(t2, 1050, 3500);
 		}
 
+		if(UpdateManager.getSubIndex() > 5) {
+
+			player.sprite.x = 400;
+			player.sprite.y = 2000;
+			player.sprite.rotation = 0.5 * Math.PI / 2;
+
+		}
 	}
 
 	function moveToXYLogic(spacecraft, x, y) {
@@ -150,7 +159,8 @@ function StateWrapper(state) {
 	 */
 	function logic() {
 
-		if (player.api.isCargoLoad()) {
+		if (player.api.isCargoLoad() &&
+			player.api.isNearPoint(2170, 2080)) {
 
 			sensor.sprite.visible = false;
 

@@ -6,7 +6,7 @@ const Y_COORD = 2000;
 // Ее значение undefined.
 var notInitializedBox;
 
-// Пустая переменная.
+// Неизвестное значение переменной.
 // Ее значение null.
 var blackBox = null;
 

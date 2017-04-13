@@ -31,7 +31,7 @@ function goToResearchCenter() {
 		content: content,
 
 		hint: '<ul>' +
-			  '<li>Добавьте <span class="red-label">researchContainer = harvester.cargoUnload()</span> на <strong>14</strong> строку.</li>' +
+			  '<li>Добавьте <span class="red-label">researchContainer = harvester.cargoUnload();</span> на <strong>14</strong> строку.</li>' +
 			  '</ul>',
 
 		instructions: '<ul>' +
@@ -49,7 +49,7 @@ function goToResearchCenter() {
 
 			correct: '<p>Подтверждаю выгрузку.</p>' +
 					 '<p>Исследовтельским центром получен:</p>' +
-					 '<p class="bbot-output">Вражеский датчик.</p>',
+					 '<p class="bbot-output">Вражеский датчик</p>',
 
 			unknownError: '<p>Неизвестная ошибка!</p>' +
 						  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>',
@@ -67,11 +67,11 @@ function goToResearchCenter() {
 
 	function content() {
 
-		return  '<p>Перед вами кадет наш исследовательский центр. Все самые передовые разработки рождаются именно здесь.</p>' +
+		return  '<p>Перед вами наш исследовательский центр. Все самые передовые разработки рождаются именно здесь.</p>' +
 				'<p>Передайте ученым поднятый вами датчик: положите в контейнер <strong class="under-label">researchContainer</strong> ' +
 			 	'значение с грузового отсека корабля.</p>' +
-				'<p>Чтобы получить значение переменной из грузового отсека используйте команду:</p>' +
-				'<pre><strong>harvester</strong>.cargoUnload(container);</pre>' +
+				'<p>Чтобы получить значение, хранимое в грузовом отсеке, используйте команду:</p>' +
+				'<pre><strong>harvester</strong>.cargoUnload();</pre>' +
 				'<p><strong>BBot</strong> сообщит вам об успешной погрузке.</p>';
 
 	}

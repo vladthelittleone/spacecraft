@@ -66,7 +66,7 @@ function goToResearchCenter() {
 			'Пилоты называют их константами и как правило пишут имена таких переменных заглавными буквами. ' +
 			'Константы объявляются с помощью ключевого слова <strong>const</strong>, а значение константы задается ' +
 			'<span class="under-label">сразу</span>, при ее объявлении.</p>' +
-			'<p>Вы еще не забыли о <strong>undefined</strong> и <strong>null</strong>?</p>' +
+			'<p>Вы еще не забыли о <strong class="under-label">undefined</strong> и <strong class="under-label">null</strong>?</p>' +
 			'<p>Переменные, которым не присволили значения, будут хранить идентификатор <strong>undefined</strong>. ' +
 			'Для обозначения неизвестного значения переменной используется специально слово <strong>null</strong>.</p>';
 

@@ -95,6 +95,8 @@ function Sensor() {
 				y2: Infinity
 			}
 		}, {
+			audio:   'audio/lesson3/3-7',
+			css:     'astromen-img',
 			marker:  {
 				x1: 8,
 				y2: Infinity

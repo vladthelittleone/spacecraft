@@ -15,7 +15,11 @@
 				 ng-show="showTextContent">
 			</div>
 			<div settings
-				 ng-show="showSettings"></div>
+				 ng-show="showSettings">
+			</div>
+			<div disqus
+				 ng-show="showDisqus">
+			</div>
 		</div>
 
 		<div ui-layout-container
@@ -87,13 +91,13 @@
 		 ng-click="toggleTextContent()"
 		 ng-class="{'fa-chevron-right' : showTextContent}"></div>
 
-	<div class="right-toolbar-button"
+	<div class="right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
 		 ng-click="toggleDiagram()"
 		 ng-show="isLessonWithDiagram()"
-		 ng-class="{'fa fa-chevron-right' : showDiagram, 'fa fa-sitemap' : !showDiagram}"></div>
+		 ng-class="{'fa-chevron-right' : showDiagram, 'fa-sitemap' : !showDiagram}"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
@@ -119,7 +123,15 @@
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
+		 ng-class="{'fa-chevron-right' : showVkWidget, 'fa-vk' : !showVkWidget}"
 		 ng-click="toggleVkWidgetVisible()"></div>
+
+	<div class="right-toolbar-button fa"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{showVkWidget ? 'Скрыть обсуждение' : 'Обсуждение'}}"
+		 ng-class="{'fa-chevron-right' : showDisqus, 'fa-comments' : !showDisqus}"
+		 ng-click="toggleDisqus()"></div>
 
 </div>
 

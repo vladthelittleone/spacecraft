@@ -653,6 +653,19 @@ pre {
 	cursor: default;
 }
 
+.disqus {
+	background: rgba(28, 29, 31, 0.8);
+	color: #fff;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	cursor: default;
+}
+
+.disqus .content-overflow {
+	padding: 15px;
+}
+
 .settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;

@@ -47,6 +47,7 @@ function LessonController ($scope,
 	$scope.showSettings = false;	    // Переключатель натсроек
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 	$scope.showVkWidget = false;        // Переключатель отображения виджета vk сообщений
+	$scope.showDisqus = false;			// Переключатель комментариев
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
@@ -54,14 +55,15 @@ function LessonController ($scope,
 	$scope.toggleSettings = toggleSettings;
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
+	$scope.toggleDisqus = toggleDisqus;
 	$scope.toggleEditorOpen = toggleEditorOpen;
+	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
 	$scope.toggleDiagram = toggleDiagram;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
-	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
@@ -108,6 +110,18 @@ function LessonController ($scope,
 
 		$scope.showSettings = false;
 		$scope.showDiagram = false;
+		$scope.showDisqus = false;
+
+	}
+
+	function toggleDisqus () {
+
+		$scope.showDisqus = !$scope.showDisqus;
+
+		$scope.showSettings = false;
+		$scope.showDiagram = false;
+		$scope.showTextContent = false;
+
 	}
 
 	function toggleSettings () {
@@ -116,6 +130,7 @@ function LessonController ($scope,
 
 		$scope.showTextContent = false;
 		$scope.showDiagram = false;
+		$scope.showDisqus = false;
 
 	}
 
@@ -133,6 +148,7 @@ function LessonController ($scope,
 
 		$scope.showSettings = false;
 		$scope.showTextContent = false;
+		$scope.showDisqus = false;
 
 	}
 

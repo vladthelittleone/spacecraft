@@ -141,6 +141,7 @@ function LessonService(connection,
 				scope.showDiagram = true;
 				scope.showTextContent = false;  // Убираем инструкции
 				scope.showSettings = false;		// И настройки
+				scope.showDisqus = false;
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);

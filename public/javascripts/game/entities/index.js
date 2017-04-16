@@ -11,7 +11,6 @@ var Meteor = require('./meteor');
 var Mine = require('./mine');
 var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
-var Turret = require('./turret');
 var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
@@ -44,7 +43,6 @@ function EntitiesFactory() {
 	t.createMeteorField = createMeteorField;
 	t.createMeteorFiledSphere = createMeteorFiledSphere;
 	t.createFighter = createFighter;
-	t.createTurret = createTurret;
 	t.createResearchCenter = createResearchCenter;
 	t.createMine = createMine;
 	t.createScout = createScout;
@@ -173,22 +171,15 @@ function EntitiesFactory() {
 
 		var radius = Phaser.Point.distance(new Phaser.Point(x, y), new Phaser.Point(0, 0));
 
-		// Инициализация
-		var count = 2 * x;
-		var start = 0;
-		var shift = 10;
+		var args = {
+					count: 2 * x,
+					start: 0,
+					shift: 10,
+					radius: radius,
+					randomSize: 200
+		};
 
-		// Создаем объект мира
-		for (var i = start; i < count; i = i + shift)
-		{
-			var j = Math.sqrt(radius * radius - i * i);
-
-			var m = createMeteor(game, j + Random.randomInt(0, 200), i + Random.randomInt(0, 200));
-
-			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
-			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
-
-		}
+		createMeteors(game, args);
 
 	}
 
@@ -199,30 +190,30 @@ function EntitiesFactory() {
 
 		var radius = Phaser.Point.distance(new Phaser.Point(x - 50, 0), new Phaser.Point(0, y + 50));
 
-		// Инициализация
-		var count = x;
-		var start = 0;
-		var shift = 3;
+		var args = {
+					count: x,
+					start: 0,
+					shift: 3,
+					radius: radius,
+					randomSize: 100
+		};
 
-		for (var i = start; i < count; i = i + shift) {
+		createMeteors(game, args);
+	}
+
+	function createMeteors(game, args) {
+
+		var radius = args.radius;
+
+		for (var i = args.start; i < args.count; i = i + args.shift) {
 
 			var j = Math.sqrt(radius * radius - i * i);
 
-			var m = createMeteor(game, i + Random.randomInt(0, 100), j + Random.randomInt(0, 100));
+			var m = createMeteor(game, i + Random.randomInt(0, args.randomSize), j + Random.randomInt(0, args.randomSize));
 
 			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
 		}
-
-	}
-
-	/**
-	 * Создать турель
-	 */
-	function createTurret(game, x, y) {
-
-		return Turret(game, x, y);
-
 	}
 
 	/**

@@ -4,13 +4,13 @@
 var PrefabsFactory = require('./prefabs');
 
 // Экспорт
-module.exports = RedPlanetBaseUnit;
+module.exports = RedPlanet;
 
 /**
  * Created by vaimer on 15.02.2017.
  */
 
-function RedPlanetBaseUnit(game, x, y) {
+function RedPlanet(game, x, y) {
 
 	// that / this
 	var t = {};

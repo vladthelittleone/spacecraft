@@ -9,7 +9,6 @@ var Meteor = require('./meteor');
 var Mine = require('./mine');
 var Scout = require('./scout');
 var RedPlanet = require('./red-planet');
-var Turret = require('./turret');
 var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
@@ -40,7 +39,6 @@ function PrefabsFactory() {
 	t.createCruiser = createCruiser;
 	t.createScout = createScout;
 	t.createStaticUnit = createStaticUnit;
-	t.createTurret = createTurret;
 	t.createResearchCenter = createResearchCenter;
 
 	return t;
@@ -119,13 +117,6 @@ function PrefabsFactory() {
 	function createRedPlanet(game, x, y) {
 
 		return RedPlanet(game, x, y);
-
-	}
-
-	// Защитная турель
-	function createTurret(game, x, y) {
-
-		return Turret(game, x, y);
 
 	}
 

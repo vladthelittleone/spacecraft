@@ -26,6 +26,34 @@ function StateWrapper(state) {
 
 	return t;
 
+	function changePlayerCoordinates() {
+
+		player.sprite.x = 400;
+		player.sprite.y = 2000;
+		player.sprite.rotation = 0.5 * Math.PI / 2;
+
+	}
+
+	function createNewTransports(game) {
+
+		var t1 = EntitiesFactory.createTransport(game, 1000, 0);
+		var t2 = EntitiesFactory.createTransport(game, 1050, 0);
+
+		patrol(t1, 1000, 0, 1000, 3000);
+		t2.logic = t2.moveToXY.bind(t2, 1050, 3500);
+
+	}
+
+	function createNewCruiser(game) {
+
+		var cruiser = EntitiesFactory.createCruiser(game, 1000, 2000);
+
+		cruiser.sprite.rotation = -Math.PI / 2;
+
+		cruiser.logic = cruiser.moveToXY.bind(cruiser, 2020, 2500);
+
+	}
+
 	/**
 	 * Логика в конкретном подуроке.
 	 */
@@ -35,36 +63,33 @@ function StateWrapper(state) {
 
 			sensor.sprite.visible = false;
 
-			var cruiser = EntitiesFactory.createCruiser(game, 1000, 2000);
+			createNewCruiser(game);
 
-			cruiser.sprite.rotation = -Math.PI / 2;
-
-			moveToXYLogic(cruiser, 2020, 2500);
-
-			var t1 = EntitiesFactory.createTransport(game, 1000, 0);
-			var t2 = EntitiesFactory.createTransport(game, 1050, 0);
-
-			patrol(t1, 1000, 0, 1000, 3000);
-			moveToXYLogic(t2, 1050, 3500);
+			createNewTransports(game);
 		}
 
 		if(UpdateManager.getSubIndex() > 5) {
 
-			player.sprite.x = 400;
-			player.sprite.y = 2000;
-			player.sprite.rotation = 0.5 * Math.PI / 2;
+			changePlayerCoordinates();
 
 		}
 	}
 
-	function moveToXYLogic(spacecraft, x, y) {
+	function createSpaceCraftsInWorls(game) {
 
-		spacecraft.logic = function (h) {
+		var scout = EntitiesFactory.createScout(game, 2000, 2000);
+		scout.sprite.rotation = 0.5 * Math.PI / 2;
 
-			h.moveToXY(x, y);
+		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
+		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
+		var fighter = EntitiesFactory.createFighter(game, 400, 150);
 
-		};
+		s1.sprite.rotation = -3.85 * Math.PI / 2;
+		s2.sprite.rotation = -4.25 * Math.PI / 2;
 
+		patrol(s1, 2055, 1995, 2700, 1200);
+		patrol(s2, 2101, 1890, 2800, 1340);
+		patrol(fighter, 400, 150, 400, 3000);
 	}
 
 	/**
@@ -87,22 +112,12 @@ function StateWrapper(state) {
 		// API для урока
 		player.api = Api(player);
 
+		createNewCruiser(game);
+
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
 
-		var scout = EntitiesFactory.createScout(game, 2000, 2000);
-		scout.sprite.rotation = 0.5 * Math.PI / 2;
-
-		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
-		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
-		var fighter = EntitiesFactory.createFighter(game, 400, 150);
-
-		s1.sprite.rotation = - 3.85 * Math.PI / 2;
-		s2.sprite.rotation = - 4.25 * Math.PI / 2;
-
-		patrol(s1, 2055, 1995, 2700, 1200);
-		patrol(s2, 2101, 1890, 2800, 1340);
-		patrol(fighter, 400, 150, 400, 3000);
+		createSpaceCraftsInWorls(game);
 
 		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
 		sensor.sprite.visible = true;

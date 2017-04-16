@@ -5,12 +5,12 @@ var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
 
 // Экспорт
-module.exports = ResearchCenterBaseUnit;
+module.exports = ResearchCenterUnit;
 /**
  * Created by vaimer on 16.02.17.
  */
 
-function ResearchCenterBaseUnit(game, x, y) {
+function ResearchCenterUnit(game, x, y) {
 
 	// that / this
 	var t = {};

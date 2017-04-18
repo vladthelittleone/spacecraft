@@ -1,5 +1,9 @@
 'use strict';
 
+var DiagramHelp = require('../../diagram.help');
+
+var block = DiagramHelp.blockWithoutFill;
+
 module.exports = FirstContactWithVariables();
 
 /**
@@ -13,7 +17,21 @@ function FirstContactWithVariables() {
 		character:    [{
 
 			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astromen-img'
+			css:    'astromen-img',
+			diagram: function (graph) {
+
+				var variables = block(200, 50, 'container1');
+				var value = block(200, 70, 'Пусто');
+
+				variables.height = 400;
+
+				variables.embed(value);
+
+				graph.addCells([
+					variables,
+					value
+				]);
+			}
 		}, {
 
 			audio:  'audio/lesson2/1-2.mp3',

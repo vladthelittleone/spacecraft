@@ -3,7 +3,7 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
-var DiagramHelp = require('../diagram.help');
+var DiagramHelp = require('../../diagram.help.js');
 
 var block = DiagramHelp.block;
 var createLink = DiagramHelp.createLink;

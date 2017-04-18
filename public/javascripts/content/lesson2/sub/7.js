@@ -1,6 +1,6 @@
 'use strict';
 
-var DiagramHelp = require('../diagram.help');
+var DiagramHelp = require('../../diagram.help.js');
 
 var block = DiagramHelp.block;
 var createLink = DiagramHelp.createLink;

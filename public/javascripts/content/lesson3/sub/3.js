@@ -18,7 +18,7 @@ function MoreAboutVariables() {
 		character:         [{
 			// Отправляйтесь к оружейному складу. Запускаем двигатели
 			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img',
+			css:   'astrogirl-img'
 		}],
 
 		interpreterHandler: interpreterHandler,

@@ -12,54 +12,60 @@ var lodash = require('lodash');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email:              {
+	email:                       {
 		type:      String,
 		lowercase: true,
 		unique:    true,
 		sparse:    true
 	},
-	username:           {
+	name:                        {
 		type: String
 	},
-	hashedPassword:     {
+	hashedPassword:              {
 		type: String
 	},
-	vkId:               {
+	vkId:                        {
 		type:   String,
 		unique: true,
 		sparse: true
 	},
-	salt:               {
+	salt:                        {
 		type: String
 	},
-	isSubscribeOnEmail: {
+	subscriptionToMailingFlag: {
 		type: Boolean
 	},
-	created:            {
+	emailConfirmationFlag:       {
+		type: Boolean
+	},
+	created:                     {
 		type:    Date,
 		default: Date.now
 	}
 });
 
 schema.virtual('password')
-	.set(function (password) {
-		
-		this._plainPassword = password;
-		this.salt = Math.random() + '';
-		this.hashedPassword = this.encryptPassword(password);
-		
-	})
-	.get(function () {
-		
-		return this._plainPassword;
-		
-	});
+	  .set(function (password) {
+	
+		  this._plainPassword = password;
+		  this.salt = Math.random() + '';
+		  this.hashedPassword = this.encryptPassword(password);
+	
+	  })
+	  .get(function () {
+	
+		  return this._plainPassword;
+	
+	  });
 
 schema.methods.encryptPassword = encryptPassword;
 schema.methods.checkPassword = checkPassword;
+
 schema.statics.authorize = authorize;
 schema.statics.registration = registration;
+
 schema.statics.getUserCreationDate = getUserCreationDate;
+
 schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 
 module.exports = mongoose.model('User', schema);
@@ -116,12 +122,11 @@ function authorize(email, password, callback) {
 	
 }
 
-function registration(email, password, isSubscribeOnEmail, callback) {
+function registration(email, password, subscriptionToMailingFlag, callback) {
 	
 	let User = this;
 	
 	async.waterfall([
-		
 						function (callback) {
 			
 							User.findOne({email: email}, callback);
@@ -133,10 +138,10 @@ function registration(email, password, isSubscribeOnEmail, callback) {
 				
 								let newbie = new User({
 					
-									email:              email,
-									password:           password,
-									username:           lodash.first(email.split('@')),
-									isSubscribeOnEmail: isSubscribeOnEmail
+									email:                       email,
+									password:                    password,
+									name:                        lodash.first(email.split('@')),
+									subscriptionToMailingFlag: subscriptionToMailingFlag
 					
 								});
 				
@@ -178,9 +183,9 @@ function findOrCreateVKUser(vkId, email, name, callback) {
 				
 								let newbie = new User({
 					
-									email:    email,
-									vkId:     vkId,
-									username: name
+									email: email,
+									vkId:  vkId,
+									name:  name
 					
 								});
 				

@@ -5,10 +5,12 @@
  *
  * Created by Ivan on 01.03.2016.
  */
-const logger = require('utils/log')(module);
-var mongoose = require('utils/mongoose');
+
 var async = require('async');
 var lodash = require('lodash');
+
+const logger = require('utils/log')(module);
+var mongoose = require('utils/mongoose');
 
 var Schema = mongoose.Schema;
 
@@ -99,12 +101,7 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 	if (validateParam(idUser, callback)) {
 
 		async.waterfall([
-
-							function (callback) {
-
-								modelStatistics.findOne({idUser: idUser}, callback);
-
-							}
+							callback => modelStatistics.findOne({idUser: idUser}, callback)
 
 						], callback);
 
@@ -180,7 +177,7 @@ function getLeaderBoard(callback) {
 			idUser:          true,
 			totalFinalScore: true,
 			name:            {
-				$arrayElemAt: ['$user.username', 0]
+				$arrayElemAt: ['$user.name', 0]
 			},
 			regDate:         {
 				$arrayElemAt: ['$user.created', 0]

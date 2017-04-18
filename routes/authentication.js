@@ -12,16 +12,22 @@
  * @author greezlock
  */
 
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-
-var HttpStatus = require('http-status-codes');
+const express = require('express');
+const passport = require('passport');
+const HttpStatus = require('http-status-codes');
+const validator = require('validator');
+const async = require('async');
 
 const checkAuthentication = require('./../middlewares/check-authentication');
+const logger = require('./../utils/log')(module);
+const validatorHelper = require('./../utils/helpers/validator.helper');
+const emailConfirmationHelper = require('./../utils/helpers/authentication/email.confirmation');
+const userHelper = require('./../utils/helpers/authentication/user');
+const UserModel = require('../models/user');
+const config = require('../config');
+const settings = config.get('serverSettings').authentication;
 
-var validation = require('./../utils/validation');
-
+const router = express.Router();
 module.exports = router;
 
 /**
@@ -37,7 +43,7 @@ router.get('/vk/callback', passport.authenticate('vk-login', {
 
 }));
 
-router.post("/login", validation.checkEmailAndPassword, passport.authenticate('local-login'));
+router.post("/login", validatorHelper.checkEmailAndPassword, passport.authenticate('local-login'));
 
 /**
  * ------------------------------------------------------------
@@ -57,4 +63,69 @@ router.post('/logout', checkAuthentication, (req, res, next) => {
  * РЕГИСТРАЦИЯ
  * ------------------------------------------------------------
  */
-router.post('/register', validation.checkEmailAndPassword, passport.authenticate('local-registration'));
+router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next) => {
+
+	let email = req.body.email;
+	let password = req.body.password;
+	let subscriptionToMailingFlag = req.body.subscriptionToMailingFlag;
+
+	let normalEmail = validator.normalizeEmail(email);
+
+	async.waterfall([
+						// Проверка почты на существование.
+						checkEmailForExistence,
+
+						// Регистрация пользователя.
+						callback => UserModel.registration(normalEmail,
+														   password,
+														   subscriptionToMailingFlag,
+														   callback),
+
+						// Отправляем пользователю письмо подтверждения почты.
+						sendEmailConfirmationAfterRegistration
+
+					],
+					(error) => {
+
+						if (error) {
+
+							logger.error(error);
+
+							return next(error);
+
+						}
+
+						return res.sendStatus(HttpStatus.OK);
+
+					});
+
+	// Для лаконичности определения коллбэка в 'водопаде' async.
+	function checkEmailForExistence(callback) {
+
+		if (settings.checkEmailForExistenceFlag) {
+
+			return emailConfirmationHelper.checkEmailForExistence(normalEmail, callback);
+
+		}
+
+		callback(null);
+
+	}
+
+});
+
+function sendEmailConfirmationAfterRegistration(user, callback) {
+
+	// Инициализация поля totalFinalScore у вновь зарегистрированного пользователя.
+	userHelper.initTotalFinalScore(user);
+
+	if (settings.sendingOfEmailConfirmationFlag) {
+
+		return emailConfirmationHelper.sendEmailConfirmation(user, callback);
+
+	}
+
+	callback(null);
+
+
+}

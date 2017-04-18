@@ -2,11 +2,8 @@
 
 var User = require('../../models/user');
 var LocalStrategy = require('passport-local').Strategy;
-var valid = require('validator');
-var strategyHelp = require('./strategy.help');
 
-
-var validation = require('../validation');
+var validator = require('validator');
 
 var local = {};
 
@@ -24,42 +21,16 @@ var localStrategyReqParam = {
 };
 
 /**
- * стратегия для локальной авторизации
+ * Локальная стратегия для авторизации.
  */
-local.login = new LocalStrategy(localStrategyReqParam,
-	(req, email, password, next) => {
+local.login = new LocalStrategy(localStrategyReqParam, (req, email, password, next) => {
 
-		let normalizeEmail = valid.normalizeEmail(email);
+	let normalizeEmail = validator.normalizeEmail(email);
 
-		User.authorize(normalizeEmail, password, (err, user) => {
+	User.authorize(normalizeEmail, password, (err, user) => {
 
-			next(err, user);
-
-		});
+		next(err, user);
 
 	});
 
-/**
- * стратегия для регистрации пользователя
- */
-local.registration = new LocalStrategy(localStrategyReqParam,
-	(req, email, password, next) => {
-
-		let normalizeEmail = valid.normalizeEmail(email);
-		let isSubscribeOnEmail = req.body.isSubscribeOnEmail;
-
-		User.registration(normalizeEmail, password, isSubscribeOnEmail, (err, user) => {
-
-			if (err) {
-
-				return next(err, email);
-
-			}
-
-			strategyHelp.updateTotalFinalScore(user);
-
-			next(null, user);
-
-		});
-
-	});
+});

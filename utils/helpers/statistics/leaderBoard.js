@@ -51,7 +51,7 @@ function LeaderBoard() {
 	function prepareForResponse(leaderBoard) {
 
 		// Избавляемся от поля idUser в элементах leaderBoard перед выдачей.
-		lodash.forEach(leaderBoard, function(record, index) {
+		lodash.forEach(leaderBoard, (record, index) => {
 
 			leaderBoard[index] = lodash.pick(record, ['totalFinalScore', 'name', 'isItMe']);
 

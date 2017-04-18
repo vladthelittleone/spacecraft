@@ -5,11 +5,12 @@
 
 const async = require('async');
 const lodash = require('lodash');
-
-const EmailConfirmationModel = require('./../../../models/email.confirmation.js');
-const emailConfirmation = require('../../email/confirmation/index');
 const emailExistence = require('email-existence');
 const HttpStatus = require('http-status-codes');
+
+const logger = require('./../../../utils/log')(module);
+const EmailConfirmationModel = require('./../../../models/email.confirmation.js');
+const emailConfirmation = require('../../email/confirmation/index');
 var HttpError = require('./../../../error').HttpError;
 
 module.exports = EmailConfirmationHelper();
@@ -91,19 +92,21 @@ function EmailConfirmationHelper() {
 			callback(null, userObj);
 
 		}
-		
+
 	}
 
 	function checkEmailForExistence(normalEmail, callback) {
 
 		emailExistence.check(normalEmail, (error, result, undetermined) => {
 
-			// 3-им параметром для коллбэка либа emailExistence предоставляет статус неопределенности.
-			// Если он определен, значит произошла ошибка связанная с больше с техничесокой составляющей:
+			// 3-им параметром для коллбэка библиотека emailExistence предоставляет статус неопределенности.
+			// Если он определен, значит произошла ошибка связанная больше с технической составляющей:
 			// - timeout по подключению; неопределенный ответ от SMTP сервера или DNS;
-			// В общем случае, это повод ответит статусом 500 и тем самым попросить пользователя повторить
+			// В общем случае, это повод ответить статусом 500 и тем самым попросить пользователя повторить
 			// запрос позже.
-			if (undetermined) {
+			// Также, если определен error (его формат заранее проанализирован) и значение
+			// его поля code равно "EREFUSED", это также повод ответить 500 кодом.
+			if (undetermined || (error && error.code === "EREFUSED")) {
 
 				logger.error(error);
 

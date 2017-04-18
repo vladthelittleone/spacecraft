@@ -73,7 +73,7 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 
 	async.waterfall([
 						// Проверка почты на существование.
-						async.apply(checkEmailForExistance, normalEmail),
+						checkEmailForExistence,
 
 						// Регистрация пользователя.
 						callback => UserModel.registration(normalEmail,
@@ -99,19 +99,20 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 
 					});
 
-});
+	// Для лаконичности определения коллбэка в 'водопаде' async.
+	function checkEmailForExistence(callback) {
 
-function checkEmailForExistance(email, callback) {
+		if (settings.checkEmailForExistenceFlag) {
 
-	if (settings.checkEmailForExistenceFlag) {
+			return emailConfirmationHelper.checkEmailForExistence(normalEmail, callback);
 
-		return emailConfirmationHelper.checkEmailForExistence(email, callback);
+		}
+
+		callback(null);
 
 	}
 
-	callback(null);
-
-}
+});
 
 function sendEmailConfirmationAfterRegistration(user, callback) {
 

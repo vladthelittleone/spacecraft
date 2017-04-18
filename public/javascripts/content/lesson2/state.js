@@ -3,6 +3,7 @@
 // Зависимости
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
+var UpdateManager = require('../../game/update-manager');
 
 var random = require('../../utils/random');
 
@@ -29,6 +30,21 @@ function StateWrapper(state) {
 	return t;
 
 	/**
+	 * Логика в конкретном подуроке.
+	 */
+	function subLessonLogic() {
+
+		if (UpdateManager.getSubIndex() > 0) {
+
+			player.sprite.x = 2000;
+			player.sprite.y = 2000;
+			player.sprite.rotation = 0.5 * Math.PI / 2;
+
+		}
+
+	}
+
+	/**
 	 * Шаблонный метод инфициализации объектов.
 	 */
 	function entities(game) {
@@ -38,6 +54,8 @@ function StateWrapper(state) {
 
 		// Инициализация графики
 		graphics = game.add.graphics(0, 0);
+
+		EntitiesFactory.createResearchCenter(game, 400, 2000);
 
 		// Создать транспорт
 		player = EntitiesFactory.createScout(game, 1000, 1000, true);
@@ -50,12 +68,6 @@ function StateWrapper(state) {
 
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
-
-		// Корабль на верх.
-		sprite.bringToTop();
-
-		// Фокус на на центре
-		t.followFor(sprite);
 
 		var cruiser = EntitiesFactory.createCruiser(game, 2020, 1740);
 
@@ -83,6 +95,15 @@ function StateWrapper(state) {
 
 		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
 		sensor.sprite.visible = false;
+		sensor.sprite.bringToTop();
+
+		// Корабль на верх.
+		sprite.bringToTop();
+
+		// Фокус на на центре
+		t.followFor(sprite);
+
+		subLessonLogic();
 
 		CodeLauncher.setArguments(player.api);
 
@@ -128,6 +149,8 @@ function StateWrapper(state) {
 	 */
 	function logic() {
 
+		// Если сканирование включено,
+		// то появляется сдатчик.
 		if (player.api.isScanningActivated()) {
 
 			sensor.sprite.visible = true;

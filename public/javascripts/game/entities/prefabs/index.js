@@ -8,6 +8,9 @@ var AcademyBase = require('./academy-base');
 var Meteor = require('./meteor');
 var Mine = require('./mine');
 var Scout = require('./scout');
+var RedPlanet = require('./red-planet');
+var ResearchCenter = require('./research-center');
+var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
 var StaticUnit = require('./static-unit');
 
@@ -29,11 +32,14 @@ function PrefabsFactory() {
 	t.createHarvester = createHarvester;
 	t.createShield = createShield;
 	t.createAcademyBase = createAcademyBase;
+	t.createRedPlanet = createRedPlanet;
+	t.createFighter = createFighter;
 	t.createMeteor = createMeteor;
 	t.createMine = createMine;
 	t.createCruiser = createCruiser;
 	t.createScout = createScout;
 	t.createStaticUnit = createStaticUnit;
+	t.createResearchCenter = createResearchCenter;
 
 	return t;
 
@@ -79,6 +85,13 @@ function PrefabsFactory() {
 
 	}
 
+	// Убийца
+	function createFighter(game, x, y) {
+
+		return Fighter(game, x, y);
+
+	}
+
 	// Мина
 	function createMine(game, x, y, scale, group) {
 
@@ -98,5 +111,17 @@ function PrefabsFactory() {
 
 		return StaticUnit(game, x, y, preload, scale);
 
+	}
+
+	// Красная планета
+	function createRedPlanet(game, x, y) {
+
+		return RedPlanet(game, x, y);
+
+	}
+
+	function createResearchCenter(game, x, y) {
+
+		return ResearchCenter(game, x, y);
 	}
 }

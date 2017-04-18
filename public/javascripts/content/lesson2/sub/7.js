@@ -28,7 +28,7 @@ function UndefinedNull() {
 			css:     'astromen-img',
 			hint:    [
 				{
-					'next .content-overflow .diagram-board': 'Null и undefined',
+					'next .content-overflow .diagram-board': 'null и undefined',
 					'nextButton':         {text: 'Далее'},
 					'showSkip':           false
 				}

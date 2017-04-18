@@ -38,6 +38,10 @@ function TransportUnit(game, x, y, player) {
 		trail: true				// Использование огня двигателя
 	});
 
+	t.cargo = BlocksFactory.addCargoBlock({
+		unit: t
+	});
+
 	/**
 	 * Аудио менеджер.
 	 */

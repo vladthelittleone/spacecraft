@@ -40,6 +40,9 @@ module.exports = [{
 	},{
 		title:       'Шинкаренко Евгений',
 		description: "<p></p>"
+	},{
+		title:       'Анатолий Козлов',
+		description: "<p></p>"
 	}]
 }, {
 	title:     'Отдельное спасибо',

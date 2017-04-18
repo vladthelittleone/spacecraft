@@ -1,3 +1,4 @@
+'use strict';
 /**
  * @since 21.03.17
  * @author iretd

@@ -15,13 +15,26 @@ function VariablesIsContainers() {
 		title:             'Контейнер',
 		character:         [{
 			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img'
+			css:   'astrogirl-img',
+			diagram: function (graph) {
+
+				var variables = block(50, 50, 200, 150, 'container1', '#0a151c', '#b8bfc3', '#152b39');
+				var value = block(100, 150, 100, 50, 'Ракетное топливо', '#152b39', '#b8bfc3', '#152b39');
+
+				variables.embed(value);
+
+				graph.addCells([
+					variables,
+					value
+				]);
+			}
 		}, {
 			audio: 'audio/lesson2/1-1.mp3',
 			css:   'astromen-img'
 		}],
 
 		interpreterHandler: interpreterHandler,
+
 
 		content: content,
 
@@ -71,10 +84,10 @@ function VariablesIsContainers() {
 	function content() {
 
 		return '<p>Итак, мы создали переменную <strong>container1</strong>. Теперь можно задать ей некоторое значение или, другими словами, инициализовать:</p>' +
-			'<pre><strong>container1</strong> = \'Капсула с галактическим червем\';</pre>' +
+			'<pre><strong>container1</strong> = \'Ракетное топливо\';</pre>' +
 			'<p>Это значение в дальнейшем будет доступно при обращении по имени переменной.</p>' +
 			'<p>Для краткости объявление и инициализацию можно записать на одной строке:</p> ' +
-			'<pre>var <strong>container2</strong> = \'Ракетное топливо\';</pre>' +
+			'<pre>var <strong>container2</strong> = \'Капсула с галактическим червем\';</pre>' +
 			'<p>Такую операцию пилоты называют <strong>определением</strong> переменной.</p> ';
 	}
 }

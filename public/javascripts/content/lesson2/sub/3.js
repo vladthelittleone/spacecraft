@@ -14,9 +14,9 @@ module.exports = Sensor();
  */
 function Sensor() {
 
-	var typeMain = block(225, 50, 'Типы данных');
-	var type1 = block(400, 50, 'Объекты');
-	var type2 = block(50, 50, 'Простые типы');
+	var typeMain = block(225, 50, 'Типы данных', '#152B39');
+	var type1 = block(400, 50, 'Объекты', '#152B39');
+	var type2 = block(50, 50, 'Простые типы', '#152B39');
 
 	var type21 = block(50, 135, 'Строки', '#fe854f');
 	var type22 = block(50, 220, 'Числа', '#fe854f');

@@ -2,7 +2,7 @@
 
 var DiagramHelp = require('../../diagram.help');
 
-var block = DiagramHelp.blockWithoutFill;
+var block = DiagramHelp.blockWithAdvancedSettings;
 
 module.exports = FirstContactWithVariables();
 
@@ -20,10 +20,8 @@ function FirstContactWithVariables() {
 			css:    'astromen-img',
 			diagram: function (graph) {
 
-				var variables = block(200, 50, 'container1');
-				var value = block(200, 70, 'Пусто');
-
-				variables.height = 400;
+				var variables = block(50, 50, 200, 150, 'container1', '#0a151c', '#b8bfc3', '#152b39');
+				var value = block(100, 150, 100, 50, '', '#152b39', '#b8bfc3', '#152b39');
 
 				variables.embed(value);
 

@@ -14,7 +14,7 @@ function Quiz() {
 	var t = {};
 
 	t.preload = require('../lesson0/preload.json');	// Ресурсы
-	t.questions = require('./questions.js');		// Вопросы
+	t.lessonContent = require('./lesson-content');	// Контент урока
 	t.state = require('../lesson0/state');			// Обертка вокруг игрового состояния
 
 	return t;

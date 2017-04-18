@@ -28,7 +28,8 @@ function UserHelper() {
 							// Селектируем пользователя из базы
 							callback => UserModel.findById(idUser, callback),
 							// Инициализируем необходимые поля для объекта пользователя.
-							async.apply(initNecessaryFields)
+							initNecessaryFields
+
 						], callback);
 
 	}
@@ -45,7 +46,12 @@ function UserHelper() {
 			return async.waterfall([
 									   // Инициализируем поля, касающиеся подтверждения почты.
 									   async.apply(emailConfirmationHelper.initEmailConfirmationFields, userObj)
-								   ], callback(null, userObj));
+								   ],
+								   function (error) {
+
+									   callback(error, userObj);
+
+								   });
 
 		}
 

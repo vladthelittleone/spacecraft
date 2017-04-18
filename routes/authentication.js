@@ -74,13 +74,16 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 	async.waterfall([
 						// Проверка почты на существование.
 						async.apply(checkEmailForExistance, normalEmail),
+
 						// Регистрация пользователя.
 						callback => UserModel.registration(normalEmail,
 														   password,
 														   subscriptionToMailingFlag,
 														   callback),
-						// Отправляем пользователяя подтверждение почты.
-						async.apply(sendEmailConfirmationAfterRegistration)
+
+						// Отправляем пользователю письмо подтверждения почты.
+						sendEmailConfirmationAfterRegistration
+
 					],
 					(error) => {
 

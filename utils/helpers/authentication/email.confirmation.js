@@ -46,7 +46,7 @@ function EmailConfirmationHelper() {
 
 	/**
 	 * Метод обработки объекта пользователя как email пользователя.
-	 * Включает логику внедрения необходимых свойств в объект на основании того, что это email пользовател.
+	 * Включает логику внедрения необходимых свойств в объект на основании того, что это email пользователь.
 	 * К примеру, флаг подтверждения почты.
 	 * @param userObj исходный объект пользователя, полученный из коллекции Users.
 	 * @param callback вторым параметром будет передан окончательный вид объекта.
@@ -55,38 +55,43 @@ function EmailConfirmationHelper() {
 
 		async.waterfall([
 							// Селектриуем данные по подтверждению почты для юзера.
-							async.apply(tryToSelectEmailConfirmationData, userObj),
-							// На основании данных о подтверждении пытаемся установить поле о подтверждении.
-							async.apply(tryToInitEmailConfirmationFlag, userObj)
+							tryToSelectEmailConfirmationData,
+							// На основании данных о подтверждении, пытаемся установить поле о подтверждении.
+							initEmailConfirmationFlag
+
 						], callback);
 
 
-	}
+		// Для лаконичности определения 'водопада' в async, определеяем коллбэки отдельно в рамках
+		// этого же контекста.
+		function tryToSelectEmailConfirmationData(callback) {
 
-	function tryToSelectEmailConfirmationData(userObj, callback) {
+			if (isItEmailUser(userObj)) {
 
-		if (isItEmailUser(userObj)) {
+				return EmailConfirmationModel.findOne({idUser: userObj._id}, callback);
 
-			return EmailConfirmationModel.findOne({idUser: userObj._id}, callback);
+			}
+
+			// Если это не email пользователь, то соотв. образом сигнализируем о том, что данных
+			// о подтверждении нет.
+			// Не забываем о том, что в случае значения undefined (не указание параметра) async его
+			// попросту не передаст следующему callback'y.
+			callback(null, null);
 
 		}
 
-		// Если это не email пользователь, то соотв. образом сигнализируем о том, что данных
-		// о подтверждении нет.
-		callback(null, null);
+		/**
+		 * Попытка инициализировать поле о необходимости подтвердить почту на основании
+		 * данных о подтверждении почты пользователем.
+		 */
+		function initEmailConfirmationFlag(emailConfirmationData, callback) {
 
-	}
+			userObj.needToConfirmEmail = !lodash.isNil(emailConfirmationData) && !emailConfirmationData.result;
 
-	/**
-	 * Попытка инициализировать поле о необходимости подтвердить почту на основании
-	 * данных о подтверждении почты пользователем.
-	 */
-	function tryToInitEmailConfirmationFlag(userObj, emailConfirmationData, callback) {
+			callback(null, userObj);
 
-		userObj.needToConfirmEmail = !lodash.isNil(emailConfirmationData) && !emailConfirmationData.result;
-
-		callback(null, userObj);
-
+		}
+		
 	}
 
 	function checkEmailForExistence(normalEmail, callback) {

@@ -75,36 +75,62 @@ function emailConfirmation() {
 
 			async.waterfall([
 								// Заносим в коллекцию запись о факте отправки письма.
-								(callback) => {
+								updateEmailConfirmationModel,
 
-									EmailConfirmationModel.update({idUser: user._id},
-																  {confirmationKey: confirmationKey},
-																  {
-																	  upsert:              true,
-																	  setDefaultsOnInsert: true
-																  },
-																  callback);
-								},
+								// Подготавливаем тело письма
+								prepareEmailBody,
 
-								// Подготавливаем тело письма и осуществляем его отправку.
-								(callback) => {
-
-									let emailConfirmationUrl = generateConfirmationEmailUrl(confirmationKey);
-
-									let html = prepareHtml(emailConfirmationUrl);
-
-									// TODO Убирать символы табуляции, которые остаются из исходного шаблона
-									let plainTextWithConfirmationUrl = preparePlainText(emailConfirmationUrl);
-
-									mailer.sendEmail({
-														 subject:          serverSettings.emailBody.subject,
-														 plainText:        plainTextWithConfirmationUrl,
-														 html:             html,
-														 emailOfRecipient: emailOfRecipient
-													 }, callback);
-
-								}
+								// Отправка письма
+								(emailBody, callback) => mailer.sendEmail({
+																			  subject:          emailBody.subject,
+																			  plainText:        emailBody.plainText,
+																			  html:             emailBody.html,
+																			  emailOfRecipient: emailOfRecipient
+																		  }, callback)
 							], callback);
+
+
+			// Для лаконичности определения коллбэков в async, выносим их определения в отдельные методы
+			// в рамках текущего же контекста.
+			//------------------------------------------------------------------------------------------
+			// Занесение в модель подтверждения почты (EmailConfirmationModel) записи
+		    //с указанием самого пользователя и ключа подтверждения.
+			function updateEmailConfirmationModel(callback) {
+
+				EmailConfirmationModel.updateOne({idUser: user._id},
+												 {confirmationKey: confirmationKey},
+												 {
+													 upsert:              true,
+													 setDefaultsOnInsert: true
+												 },
+												 // Нет необходимости включать в параметры callback'a
+												 // результаты update'a.
+												 // Посему, явно избегаем его передачи :)
+												 function(error, updateResult) {
+
+													 callback(error);
+
+												 });
+
+			}
+
+			function prepareEmailBody(callback) {
+
+				let emailConfirmationUrl = generateConfirmationEmailUrl(confirmationKey);
+
+				let html = prepareHtml(emailConfirmationUrl);
+
+				// TODO Убирать символы табуляции, которые остаются из исходного шаблона
+				let plainTextWithConfirmationUrl = preparePlainText(emailConfirmationUrl);
+
+				callback(null,
+						 {
+							 html:      html,
+							 plainText: plainTextWithConfirmationUrl,
+							 subject:   serverSettings.emailBody.subject
+						 });
+
+			}
 
 		}
 

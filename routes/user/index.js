@@ -19,7 +19,7 @@ module.exports = router;
 /**
  * Возврат информацию о текущем пользователе
  */
-router.get('/user/', checkAuthentication, function (req, res, next) {
+router.get('/user', checkAuthentication, function (req, res, next) {
 
 	let user = req.user;
 

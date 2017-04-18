@@ -30,7 +30,10 @@ function Strings() {
 							'<li>Введите <span class="under-label-gray">\'Я есть BBot!\'</span> на <strong>10</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
-			audio:   'audio/lesson3/4-1',
+				audio:  'audio/lesson3/4-1',
+				css:    'astromen-img'
+			}, {
+			audio:   'audio/lesson3/4-2',
 			css:     'astromen-img',
 			diagram: function (graph) {
 
@@ -60,16 +63,16 @@ function Strings() {
 				y2: Infinity
 			}
 		}, {
-			audio:       'audio/lesson3/4-2',
-			css:         'astromen-img',
-			marker:      {
+			audio:  'audio/lesson3/4-3',
+			css:    'astromen-img',
+			marker: {
 				x1: 7,
 				y2: Infinity
 			}
 		}, {
-			audio:       'audio/lesson3/4-3',
-			css:         'astromen-img',
-			marker:      {
+			audio:  'audio/lesson3/4-4',
+			css:    'astromen-img',
+			marker: {
 				x1: 4,
 				y2: Infinity
 			}

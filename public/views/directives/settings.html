@@ -5,9 +5,9 @@
 			<ul>
 				<li ng-repeat="item in settings" ng-click="toggle(item)">
 					<em class="settings-title">{{item.title}}</em>
-					<span class="settings-checkbox glyphicon"
-						  ng-class="{'glyphicon-unchecked' : !item.value,
-						   'glyphicon-check': item.value}"></span>
+					<span class="settings-checkbox fa"
+						  ng-class="{'fa-square-o' : !item.value,
+						   'fa-check-square-o': item.value}"></span>
 					<p>{{item.description}}</p>
 				</li>
 			</ul>

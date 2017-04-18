@@ -3,6 +3,7 @@
 // Зависимости
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
+var UpdateManager = require('../../game/update-manager');
 
 var random = require('../../utils/random');
 
@@ -21,10 +22,27 @@ function StateWrapper(state) {
 
 	var player;		// Игрок
 	var graphics;	// Графика
+	var sensor;		// Датчик
 
 	t.entities = entities;
+	t.logic = logic;
 
 	return t;
+
+	/**
+	 * Логика в конкретном подуроке.
+	 */
+	function subLessonLogic() {
+
+		if (UpdateManager.getSubIndex() > 0) {
+
+			player.sprite.x = 2000;
+			player.sprite.y = 2000;
+			player.sprite.rotation = 0.5 * Math.PI / 2;
+
+		}
+
+	}
 
 	/**
 	 * Шаблонный метод инфициализации объектов.
@@ -37,11 +55,13 @@ function StateWrapper(state) {
 		// Инициализация графики
 		graphics = game.add.graphics(0, 0);
 
+		EntitiesFactory.createResearchCenter(game, 400, 2000);
+
 		// Создать транспорт
 		player = EntitiesFactory.createScout(game, 1000, 1000, true);
 		var sprite = player.sprite;
 
-		sprite.rotation = - Math.PI / 2;
+		sprite.rotation = -Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
@@ -49,15 +69,9 @@ function StateWrapper(state) {
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
 
-		// Корабль на верх.
-		sprite.bringToTop();
-
-		// Фокус на на центре
-		t.followFor(sprite);
-
 		var cruiser = EntitiesFactory.createCruiser(game, 2020, 1740);
 
-		cruiser.sprite.rotation = - Math.PI / 2;
+		cruiser.sprite.rotation = -Math.PI / 2;
 
 		// Дейстивя харвестра
 		cruiser.logic = function (h) {
@@ -68,16 +82,28 @@ function StateWrapper(state) {
 
 		var h1 = EntitiesFactory.createHarvester(game, 1859, 2156);
 
-		h1.sprite.rotation = - 3.35 * Math.PI / 2;
+		h1.sprite.rotation = -3.35 * Math.PI / 2;
 
 		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
 		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
 
-		s1.sprite.rotation = - 3.85 * Math.PI / 2;
-		s2.sprite.rotation = - 4.25 * Math.PI / 2;
+		s1.sprite.rotation = -3.85 * Math.PI / 2;
+		s2.sprite.rotation = -4.25 * Math.PI / 2;
 
 		patrol(s1, 2055, 1995, 2700, 1200);
 		patrol(s2, 2101, 1890, 2800, 1340);
+
+		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
+		sensor.sprite.visible = false;
+		sensor.sprite.bringToTop();
+
+		// Корабль на верх.
+		sprite.bringToTop();
+
+		// Фокус на на центре
+		t.followFor(sprite);
+
+		subLessonLogic();
 
 		CodeLauncher.setArguments(player.api);
 
@@ -118,4 +144,18 @@ function StateWrapper(state) {
 
 	}
 
+	/**
+	 * Обновление логики датчика.
+	 */
+	function logic() {
+
+		// Если сканирование включено,
+		// то появляется сдатчик.
+		if (player.api.isScanningActivated()) {
+
+			sensor.sprite.visible = true;
+
+		}
+
+	}
 }

@@ -21,8 +21,8 @@ function Command() {
 						'<li>Не забудьте про точку с запятой.</li>' +
 						'</ul>',
 		hint:           '<ul>' +
-						'<li>Вы можете воспользоваться автодополнением, нажав <span class="under-label-gray">Space + Alt</span>.</li>' +
-						'<li>Если нажать <span class="under-label-gray">Space + Alt</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
+						'<li>Вы можете воспользоваться автодополнением, нажав <span class="under-label-gray">Space + Ctrl</span>.</li>' +
+						'<li>Если нажать <span class="under-label-gray">Space + Ctrl</span> после <span class="under-label-gray">transport.</span>, появятся все доступные методы корабля.</li>' +
 						'</ul>',
 		character:      [{
 			audio:  'audio/lesson2/3-1',
@@ -73,7 +73,7 @@ function Command() {
 
 	function content() {
 
-		return '<p>Команды - это инструкции раздеяемые точкой с запятой, с помощью которых вы можете управлять кораблем и не только.</p>' +
+		return '<p>Команды - это инструкции разделяемые точкой с запятой, с помощью которых вы можете управлять кораблем и не только.</p>' +
 			'<p>Команды сканируются слева направо, сверху вниз.</p>' +
 			'<p>Вы уже знаете команду поворота влево: <pre><strong>transport</strong>.rotateLeft();</pre></p>' +
 			'<p>Давайте попробуем добавить новую, ранее не изученную.</p>'

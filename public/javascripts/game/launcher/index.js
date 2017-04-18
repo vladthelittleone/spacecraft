@@ -29,14 +29,12 @@ function CodeLauncher () {
 	 * Запуск кода.
 	 *
 	 * @param code код
-	 * @param post коллбек выполняющийся при обновлении игры
-	 * @param pre коллбек выполняющийся перед обновлением
 	 */
-	function run(code, post, pre) {
+	function run(code) {
 
 		t.isCodeRunning = true;
 
-		runner && runner.runCode(code, post, pre);
+		runner && runner.runCode(code);
 
 	}
 

@@ -1,0 +1,20 @@
+// Объявление констант.
+const X_COORD = 400;
+const Y_COORD = 2000;
+
+// Переменная не инициализирована.
+// Ее значение undefined.
+var notInitializedBox;
+
+// Неизвестное значение переменной.
+// Ее значение null.
+var blackBox = null;
+
+/**
+ * Полет к исследовательскому центру.
+ */
+this.run = function(harvester)
+{
+	// Перемещение к исследовательскому центру.
+	harvester.moveToXY(X_COORD, Y_COORD);
+};

@@ -2,6 +2,7 @@
 
 // Зависимости
 var CodeLauncher = require('../launcher');
+var UpdateManager = require('../update-manager')
 
 // Экспорт
 module.exports = CodeRunner;
@@ -20,8 +21,6 @@ function CodeRunner() {
 	// Const
 	var END_LN = '</br>';
 
-	var postUpdate;		// Коллбек обновления
-	var preUpdate;		// Коллбек перед обновлением
 	var args;			// Аргументы передаваемые в функцию
 	var userFunction;	// Функция запуска кода
 	var log = '';		// Логгирование выводимое ботом
@@ -36,7 +35,7 @@ function CodeRunner() {
 	/**
 	 * Функция запуска код.
 	 */
-	function runCode(code, post, pre) {
+	function runCode(code) {
 
 		try {
 
@@ -55,9 +54,6 @@ function CodeRunner() {
 
 		}
 
-		preUpdate = pre;
-		postUpdate = post;
-
 	}
 
 	/**
@@ -74,7 +70,7 @@ function CodeRunner() {
 	 */
 	function update() {
 
-		preUpdate && preUpdate();
+		UpdateManager.pre();
 
 		// Код запущен и определена функция запуска
 		if (CodeLauncher.isCodeRunning && userFunction) {
@@ -82,7 +78,7 @@ function CodeRunner() {
 			try {
 
 				// Отправляем в коллбек текст
-				postUpdate && postUpdate(log);
+				UpdateManager.post(log);
 
 				userFunction.run && userFunction.run.apply(null, args);
 

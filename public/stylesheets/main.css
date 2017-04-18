@@ -15,7 +15,6 @@ body {
 pre {
 	background-color: rgb(21, 43, 57);
 	border: 0;
-	font-weight: bold;
 	color: #C0C3C1;
 }
 
@@ -653,6 +652,19 @@ pre {
 	cursor: default;
 }
 
+.disqus {
+	background: rgba(28, 29, 31, 0.8);
+	color: #fff;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	cursor: default;
+}
+
+.disqus .content-overflow {
+	padding: 15px;
+}
+
 .settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;
@@ -664,6 +676,8 @@ pre {
 
 .settings-checkbox {
 	float: right;
+	font-size: 2em !important;
+	width: 25px;
 }
 
 .settings ul {
@@ -1854,6 +1868,10 @@ fieldset, label {
 	border-bottom: 2px solid #39C139;
 }
 
+.vk-community-messages {
+	padding-right: 480px;
+}
+
 .question-card {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
@@ -1869,4 +1887,3 @@ fieldset, label {
 .question-card-container {
 	padding: 2px 16px;
 }
-

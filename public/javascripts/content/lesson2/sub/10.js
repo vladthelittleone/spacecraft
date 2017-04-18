@@ -33,9 +33,6 @@ function Decode() {
 							'</ul>',
 		character:          [{
 			audio: 'audio/lesson3/10-1',
-			css:   'astromen-img'
-		}, {
-			audio: 'audio/lesson3/10-2',
 			css:   'astromen-img',
 			waitForHint: true,
 			hint:  [
@@ -46,10 +43,10 @@ function Decode() {
 				}
 			]
 		}, {
-			audio: 'audio/lesson3/10-3',
+			audio: 'audio/lesson3/10-2',
 			css:   'astromen-img'
 		}, {
-			audio:       'audio/lesson3/10-4',
+			audio:       'audio/lesson3/10-3',
 			css:         'astromen-img',
 			waitForHint: true,
 			hint:        [{
@@ -63,7 +60,7 @@ function Decode() {
 
 	function content() {
 
-		return '<p>Итак, в результате взлома были обнаруженны зашифрованные куски данных. ' +
+		return '<p>Итак, в результате взлома были обнаружены зашифрованные куски данных. ' +
 			'Вы можете наблюдать их в редакторе кода.</p>' +
 			'<p>Кадет, ваша задача дешифровать эти данные: найдите все <strong class="under-label">строки</strong>, ' +
 			'входящие в этот массив данных, и составьте из полученных кусков предложение.</p>' +

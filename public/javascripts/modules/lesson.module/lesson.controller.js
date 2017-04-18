@@ -35,6 +35,8 @@ function LessonController($scope,
 						  aceService,
 						  settings) {
 
+	var VK_GROUP_ID = 105816682;
+
 	var markerService;
 	var soundtrack;
 
@@ -47,6 +49,8 @@ function LessonController($scope,
 	$scope.showDiagram = false;			// Переключатель окна диаграммы
 	$scope.showSettings = false;	    // Переключатель натсроек
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
+	$scope.showVkWidget = false;        // Переключатель отображения виджета vk сообщений
+	$scope.showDisqus = false;			// Переключатель комментариев
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
@@ -56,7 +60,9 @@ function LessonController($scope,
 	$scope.toggleSettings = toggleSettings;
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
+	$scope.toggleDisqus = toggleDisqus;
 	$scope.toggleEditorOpen = toggleEditorOpen;
+	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
 	$scope.toggleDiagram = toggleDiagram;
 	$scope.aceChanged = aceChanged;
@@ -77,6 +83,13 @@ function LessonController($scope,
 	}
 
 
+	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
+		widgetPosition: "right",
+		disableExpandChatSound: "1",
+		disableButtonTooltip: "1",
+		buttonType: "no_button"
+	});
+
 	// ==================================================
 
 	// Проверка существования урока
@@ -88,12 +101,56 @@ function LessonController($scope,
 
 	// ==================================================
 
+	function toggleVkWidgetVisible () {
+
+		if ($scope.showVkWidget) {
+
+			$scope.vkWidget.minimize();
+
+		} else {
+
+			$scope.vkWidget.expand();
+
+		}
+
+		$scope.showVkWidget = !$scope.showVkWidget;
+
+	}
+
+	function toggleVkWidgetVisible () {
+
+		if ($scope.showVkWidget) {
+
+			$scope.vkWidget.minimize();
+
+		} else {
+
+			$scope.vkWidget.expand();
+
+		}
+
+		$scope.showVkWidget = !$scope.showVkWidget;
+
+	}
+
 	function toggleTextContent() {
 
 		$scope.showTextContent = !$scope.showTextContent;
 
 		$scope.showSettings = false;
 		$scope.showDiagram = false;
+		$scope.showDisqus = false;
+
+	}
+
+	function toggleDisqus () {
+
+		$scope.showDisqus = !$scope.showDisqus;
+
+		$scope.showSettings = false;
+		$scope.showDiagram = false;
+		$scope.showTextContent = false;
+
 	}
 
 	function toggleSettings() {
@@ -102,6 +159,7 @@ function LessonController($scope,
 
 		$scope.showTextContent = false;
 		$scope.showDiagram = false;
+		$scope.showDisqus = false;
 
 	}
 
@@ -119,6 +177,7 @@ function LessonController($scope,
 
 		$scope.showSettings = false;
 		$scope.showTextContent = false;
+		$scope.showDisqus = false;
 
 	}
 

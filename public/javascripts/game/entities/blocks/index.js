@@ -4,6 +4,7 @@
 var EngineBlock = require('./engine');
 var ShieldBlock = require('./shield');
 var ScannerBlock = require('./scanner');
+var CargoBlock = require('./cargo');
 
 // Экспорт
 module.exports = BlocksFactory();
@@ -22,6 +23,7 @@ function BlocksFactory() {
 	t.addEngineBlock = addEngineBlock;
 	t.addShieldBlock = addShieldBlock;
 	t.addScannerBlock = addScannerBlock;
+	t.addCargoBlock = addCargoBlock;
 
 	return t;
 
@@ -51,4 +53,11 @@ function BlocksFactory() {
 		return ScannerBlock(spec);
 
 	}
+
+	function addCargoBlock(spec) {
+
+		return CargoBlock(spec);
+
+	}
+
 }

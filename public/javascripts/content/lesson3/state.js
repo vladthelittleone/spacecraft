@@ -1,26 +1,23 @@
 'use strict';
 
-// Зависимости
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var UpdateManager = require('../../game/update-manager');
-
 var random = require('../../utils/random');
+var UpdateManager = require('../../game/update-manager');
 
 var Api = require('./api');
 
 module.exports = StateWrapper;
 
 /**
- * Оболочка вокруг PlayState, ввоящая конентент урока 0.
- *
- * Created by vladthelittleone on 02.12.15.
+ * Created by vaimer on 31.01.17.
  */
+
 function StateWrapper(state) {
 
 	var t = state;
 
-	var player;		// Игрок
+	var player;
 	var graphics;	// Графика
 	var sensor;		// Датчик
 
@@ -29,19 +26,70 @@ function StateWrapper(state) {
 
 	return t;
 
+	function changePlayerCoordinates() {
+
+		player.sprite.x = 400;
+		player.sprite.y = 2000;
+		player.sprite.rotation = 0.5 * Math.PI / 2;
+
+	}
+
+	function createNewTransports(game) {
+
+		var t1 = EntitiesFactory.createTransport(game, 1000, 0);
+		var t2 = EntitiesFactory.createTransport(game, 1050, 0);
+
+		patrol(t1, 1000, 0, 1000, 3000);
+		t2.logic = t2.moveToXY.bind(t2, 1050, 3500);
+
+	}
+
+	function createNewCruiser(game) {
+
+		var cruiser = EntitiesFactory.createCruiser(game, 1000, 2000);
+
+		cruiser.sprite.rotation = -Math.PI / 2;
+
+		cruiser.logic = cruiser.moveToXY.bind(cruiser, 2020, 2500);
+
+	}
+
 	/**
 	 * Логика в конкретном подуроке.
 	 */
-	function subLessonLogic() {
+	function subLessonLogic(game) {
 
-		if (UpdateManager.getSubIndex() > 0) {
+		if (UpdateManager.getSubIndex() > 4) {
 
-			player.sprite.x = 2000;
-			player.sprite.y = 2000;
-			player.sprite.rotation = 0.5 * Math.PI / 2;
+			sensor.sprite.visible = false;
 
+			createNewCruiser(game);
+
+			createNewTransports(game);
 		}
 
+		if(UpdateManager.getSubIndex() > 5) {
+
+			changePlayerCoordinates();
+
+		}
+	}
+
+	function createSpaceCraftsInWorls(game) {
+
+		var scout = EntitiesFactory.createScout(game, 2000, 2000);
+		scout.sprite.rotation = 0.5 * Math.PI / 2;
+
+		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
+		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
+		var fighter = EntitiesFactory.createFighter(game, 400, 150);
+
+		s1.sprite.rotation = -3.85 * Math.PI / 2;
+		s2.sprite.rotation = -4.25 * Math.PI / 2;
+
+		patrol(s1, 2055, 1995, 2700, 1200);
+		patrol(s2, 2101, 1890, 2800, 1340);
+		patrol(fighter, 400, 150, 400, 3000);
 	}
 
 	/**
@@ -58,55 +106,32 @@ function StateWrapper(state) {
 		EntitiesFactory.createResearchCenter(game, 400, 2000);
 
 		// Создать транспорт
-		player = EntitiesFactory.createScout(game, 1000, 1000, true);
-		var sprite = player.sprite;
-
-		sprite.rotation = -Math.PI / 2;
+		player = EntitiesFactory.createHarvester(game, 1859, 2156, true);
+		player.sprite.rotation = -3.35 * Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
 
+		createNewCruiser(game);
+
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
 
-		var cruiser = EntitiesFactory.createCruiser(game, 2020, 1740);
-
-		cruiser.sprite.rotation = -Math.PI / 2;
-
-		// Дейстивя харвестра
-		cruiser.logic = function (h) {
-
-			h.moveToXY(150, 150);
-
-		};
-
-		var h1 = EntitiesFactory.createHarvester(game, 1859, 2156);
-
-		h1.sprite.rotation = -3.35 * Math.PI / 2;
-
-		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
-		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
-
-		s1.sprite.rotation = -3.85 * Math.PI / 2;
-		s2.sprite.rotation = -4.25 * Math.PI / 2;
-
-		patrol(s1, 2055, 1995, 2700, 1200);
-		patrol(s2, 2101, 1890, 2800, 1340);
+		createSpaceCraftsInWorls(game);
 
 		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
-		sensor.sprite.visible = false;
+		sensor.sprite.visible = true;
 		sensor.sprite.bringToTop();
 
-		// Корабль на верх.
-		sprite.bringToTop();
-
 		// Фокус на на центре
-		t.followFor(sprite);
+		t.followFor(player.sprite);
 
-		subLessonLogic();
+		// Корабль на верх.
+		player.sprite.bringToTop();
+
+		subLessonLogic(game);
 
 		CodeLauncher.setArguments(player.api);
-
 	}
 
 	/**
@@ -149,11 +174,10 @@ function StateWrapper(state) {
 	 */
 	function logic() {
 
-		// Если сканирование включено,
-		// то появляется сдатчик.
-		if (player.api.isScanningActivated()) {
+		if (player.api.isCargoLoad() &&
+			player.api.isNearPoint(2170, 2080)) {
 
-			sensor.sprite.visible = true;
+			sensor.sprite.visible = false;
 
 		}
 

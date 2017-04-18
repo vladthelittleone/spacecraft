@@ -15,7 +15,6 @@ body {
 pre {
 	background-color: rgb(21, 43, 57);
 	border: 0;
-	font-weight: bold;
 	color: #C0C3C1;
 }
 
@@ -678,6 +677,7 @@ pre {
 .settings-checkbox {
 	float: right;
 	font-size: 2em !important;
+	width: 25px;
 }
 
 .settings ul {

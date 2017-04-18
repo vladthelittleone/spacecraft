@@ -7,7 +7,7 @@ module.exports = function (app) {
 
 	app.use('/', require('./authentication'));
 
-	app.use('/', require('./user/info'));
+	app.use('/', require('./user/'));
 
 	app.use('/', require('./user/statistics/lessons'));
 

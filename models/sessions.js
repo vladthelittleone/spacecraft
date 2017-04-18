@@ -12,7 +12,14 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
 
 	session: {
-		passport: User.schema.obj
+		passport: {
+			user: {
+				type:     Schema.Types.ObjectId,
+				ref:      'User',
+				unique:   true,
+				required: true
+			}
+		}
 	}
 
 });
@@ -30,7 +37,7 @@ module.exports = mongoose.model('Session', schema);
 function removeAllByUserId(userId, callback) {
 
 	this.remove({
-					'session.passport.user._id': userId
+					'session.passport.user': userId
 				}, callback);
 
 }

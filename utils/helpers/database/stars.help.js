@@ -3,8 +3,7 @@
 var async = require('async');
 var mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
-var Statistics = mongoose.model('Statistic', new Schema());
+var StatisticsModel = require('../../../models/statistic');
 
 var dataBaseRequest = {};
 
@@ -15,7 +14,7 @@ dataBaseRequest.getStarsSummary = function (callback) {
 
 		function (_callback) {
 
-			Statistics.find(_callback);
+			StatisticsModel.find(_callback);
 
 		},
 		function (data, _callback) {

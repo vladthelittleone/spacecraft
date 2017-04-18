@@ -1,5 +1,4 @@
 {
-	"port": 3000,
 	"database": {
 		"uri": "mongodb://localhost/spacecraft",
 		"options": {
@@ -31,6 +30,28 @@
 		"scope": [
 			"email"
 		]
+	},
+	"serverSettings": {
+		"developmentPort": 3000,
+		"authentication": {
+			"sendingOfEmailConfirmationFlag": true,
+			"checkEmailForExistenceFlag": true
+		},
+		"url": {
+			"protocol": "http",
+			"host": "spacecraftcode.ru"
+		},
+		"emailClient": {
+			"login": "support@spacecraftcode.ru",
+			"from": "support@spacecraftcode.ru",
+			"password": "QETadg135",
+			"host": "smtp.yandex.ru",
+			"port": 465,
+			"isSecure": true
+		},
+		"emailBody": {
+			"subject": "Пожалуйста, подтвердите свой почтовый адрес"
+		}
 	},
 	"maxStatisticsCount": 50
 }

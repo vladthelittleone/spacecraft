@@ -15,7 +15,6 @@ body {
 pre {
 	background-color: rgb(21, 43, 57);
 	border: 0;
-	font-weight: bold;
 	color: #C0C3C1;
 }
 
@@ -653,6 +652,19 @@ pre {
 	cursor: default;
 }
 
+.disqus {
+	background: rgba(28, 29, 31, 0.8);
+	color: #fff;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	cursor: default;
+}
+
+.disqus .content-overflow {
+	padding: 15px;
+}
+
 .settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;
@@ -665,6 +677,7 @@ pre {
 .settings-checkbox {
 	float: right;
 	font-size: 2em !important;
+	width: 25px;
 }
 
 .settings ul {
@@ -987,6 +1000,20 @@ pre {
 	background-image: url(../images/pages/galaxy.png);
 }
 
+.email-text {
+	font-weight: 700;
+	color: #5b5b5b;
+}
+
+.email-img .fa {
+	font-size: 230px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.email-img {
+	text-align: center;
+}
 .rocket-white-img {
 	background-image: url(../images/pages/rocket-white-shadow.png);
 }
@@ -1799,6 +1826,10 @@ fieldset, label {
 .login-form input.ng-valid.ng-dirty {
 	border: 1px solid #39C139;
 	border-bottom: 2px solid #39C139;
+}
+
+.spinner {
+	position: relative;
 }
 
 .vk-community-messages {

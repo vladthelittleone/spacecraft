@@ -7,12 +7,9 @@ var CodeLauncher = require('../../game/launcher');
 var TabHandler = require('../../emitters/tab-handler');
 var Diagram = require('../../directives/diagram.directive/diagram');
 
-var quiz = require('./quiz')();
-
 LessonController.$inject = ['$scope',
 							'$stateParams',
 							'$state',
-	                        '$sce',
 							'lessonService',
 							'audioManager',
 							'aceService',
@@ -29,7 +26,6 @@ module.exports = LessonController;
 function LessonController($scope,
 						  $stateParams,
 						  $state,
-						  $sce,
 						  lessonService,
 						  audioManager,
 						  aceService,
@@ -54,8 +50,6 @@ function LessonController($scope,
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
-	$scope.quiz = quiz;
-
 	$scope.toggleTextContent = toggleTextContent;
 	$scope.toggleSettings = toggleSettings;
 	$scope.toggleAudioPause = toggleAudioPause;
@@ -69,19 +63,20 @@ function LessonController($scope,
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
-	$scope.sce = sce;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
-	var currentContent = lessonService.lessonContent($stateParams.id);
+	$scope.lesson = lessonService.lessonContent($stateParams.id);
 
-	if(currentContent)
-	{
-		$scope.questions = currentContent.questions;
-		$scope.lesson = currentContent.lessonContent;
+	// ==================================================
+
+	// Проверка существования урока
+	if (!$scope.lesson) {
+
+		$state.go('lessons');
+
 	}
-
 
 	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
 		widgetPosition: "right",
@@ -91,31 +86,6 @@ function LessonController($scope,
 	});
 
 	// ==================================================
-
-	// Проверка существования урока
-	if (!$scope.lesson && !$scope.questions) {
-
-		$state.go('lessons');
-
-	}
-
-	// ==================================================
-
-	function toggleVkWidgetVisible () {
-
-		if ($scope.showVkWidget) {
-
-			$scope.vkWidget.minimize();
-
-		} else {
-
-			$scope.vkWidget.expand();
-
-		}
-
-		$scope.showVkWidget = !$scope.showVkWidget;
-
-	}
 
 	function toggleVkWidgetVisible () {
 
@@ -394,12 +364,6 @@ function LessonController($scope,
 			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +
 			'<p class="red-label">0шибка: ' + value + '</p>' +
 			'<p>Пожалуйста, исправьте ситуацию.</p>';
-
-	}
-
-	function sce(value) {
-
-		return $sce.trustAsHtml(value);
 
 	}
 }

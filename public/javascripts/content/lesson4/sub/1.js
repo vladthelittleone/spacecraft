@@ -11,6 +11,7 @@ function Testing() {
 
 	return {
 		title:             'Тестирование',
+		defaultBBot:  defaultBBot,
 		isRestartDisabled: true,
 		question:          {
 			content:                  '<p>Здравствуйте, кадет!</p>' +
@@ -21,16 +22,20 @@ function Testing() {
 									  'Под каждым вопросом будет несколько вариантов ответов. ' +
 									  'Правильным может быть как один так и несколько.</p>' +
 									  '<p>Выбирайте с умом.</p><p>Вам все понятно?</p>',
-			answerOptions:            [{text: 'Да'}],
+			answerOptions:            ['Да'],
 			correctAnswerNumbers:     [0],
-			// Если пользователь не вмешиваеться в код, то он никогда не должне увидеть это сообщение.
-			correctAnswerDescription: 'Поразительно, что Вы не смогли неправильно ответить на вопрос, ' +
-									  'в котором нет неправильных вариантов ответов.'
+			correctAnswerDescription: 'Поразительно, что Вы смогли верно ответить на этот вопрос.'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',
 			css:   'astromen-img'
 		}]
 	};
+
+	function defaultBBot() {
+
+		return '<p>Это вам не тест Тюринга!</p>'
+
+	}
 
 }

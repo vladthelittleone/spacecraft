@@ -674,14 +674,16 @@ pre {
 	cursor: default;
 }
 
-.settings-checkbox {
+.styled-list-checkbox {
 	float: right;
 	font-size: 2em !important;
 	width: 25px;
+	padding-top: 13px;
 }
 
-.settings ul {
+.styled-list ul {
 	font-style: italic;
+	cursor: pointer;
 	font-family: Georgia, Times, serif;
 	font-size: 24px;
 	color: #fff;
@@ -690,7 +692,7 @@ pre {
 	padding: 0;
 }
 
-.settings ul li {
+.styled-list ul li {
 	padding: 8px;
 	margin: 0;
 	font-family: Arial, serif;
@@ -699,12 +701,12 @@ pre {
 	font-style: normal;
 }
 
-.settings ul li:hover {
+.styled-list ul li:hover {
 	background-color: rgb(21, 43, 57);
 }
 
-.settings ul li em,
-.settings-checkbox {
+.styled-list ul li em,
+.styled-list-checkbox {
 	font-size: 1.4em;
 	font-style: normal;
 }
@@ -806,7 +808,7 @@ pre {
 	float: right;
 	margin-right: 72px;
 	border-width: 45px 0 300px 100px;
-	border-color: transparent transparent transparent rgba(10, 12, 16, 0.5);
+	border-color: transparent transparent transparent rgba(15, 15, 15, 0.9);
 }
 
 .bbot-board {
@@ -815,6 +817,7 @@ pre {
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
+	margin-left: 1px;
 }
 
 .bbot-board .next-button {
@@ -980,14 +983,13 @@ pre {
 	height: 175px;
 	bottom: 0;
 	width: 100%;
-	border-left: 1px solid rgba(0, 0, 0, 0.45) !important;
 }
 
 .bbot-hologram {
 	height: 100%;
 	margin-right: 170px;
 	padding: 20px 20px 20px 70px;
-	background: rgba(10, 12, 16, 0.5);
+	background: rgba(15, 15, 15, 0.9);
 	overflow-y: auto;
 }
 
@@ -1178,57 +1180,34 @@ pre {
 
 .quiz {
 	color: rgb(80, 80, 80);
-	position: fixed;
+	cursor: default;
+	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
-	right: 54px;
-	cursor: default;
-}
-
-.quiz .content-overflow {
-	width: 50%;
 	right: 0;
 }
 
-.quiz .answers,
-.quiz .answersSelect {
-	width: 50%;
-	color: #fff;
-	text-align: center;
-	padding: 5px;
-	display: inline-block;
-	height: 60px;
+.quiz .content-overflow {
+	right: 0;
 }
 
-.quiz .answers .long {
-	width: 100%;
+.quiz .styled-list {
+	margin-bottom: 170px;
 }
 
-.quiz .answers div {
-	cursor: pointer;
-	padding-top: 15px;
-	height: 100%;
-	background: #fe854f;
+.quiz .styled-list ul li {
+	margin-top: 2px;
+	background: #152b39;
 }
 
-.quiz .answersSelect div {
-	cursor: pointer;
-	padding-top: 15px;
-	height: 100%;
-	background: #a95536;
+.quiz .styled-list ul li:hover {
+	background-color: rgba(26, 48, 62, 1.0) !important;
 }
 
-.quiz .answers div:hover {
-	padding-top: 15px;
-	height: 100%;
-	background: #c3633e;
+.quiz .styled-list-checkbox {
+	padding: 0;
 }
-
-/*.quiz .lesson-instructions {*/
-	/*border-bottom: 1px solid rgb(254, 133, 79);*/
-	/*border-top: 1px solid rgb(254, 133, 79);*/
-/*}*/
 
 .lesson-hint {
 	font-family: "Courier New", serif;

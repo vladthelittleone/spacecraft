@@ -10,7 +10,7 @@
 			<div class="diagram-board" diagram-board ng-if="showDiagram">
 			</div>
 			<div lesson-board
-				 ng-if="lesson.sub[subIndex]"
+				 ng-if="lesson.sub[subIndex] && !lesson.sub[subIndex].question"
 				 lesson="lesson.sub[subIndex]"
 				 ng-show="showTextContent">
 			</div>
@@ -28,16 +28,21 @@
 			 ng-hide="hideEditor">
 
 			<div class="main-editor"
+				 ng-if="!lesson.sub[subIndex].question"
 				 ui-ace="{
-			 	useWrapMode : true,
-				showGutter: true,
-				theme:'tomorrow_night',
-				mode: 'javascript',
-				firstLineNumber: 1,
-				onLoad: aceLoaded,
-				onChange: aceChanged
-				}">
+					useWrapMode : true,
+					showGutter: true,
+					theme:'tomorrow_night',
+					mode: 'javascript',
+					firstLineNumber: 1,
+					onLoad: aceLoaded,
+					onChange: aceChanged
+					}">
 			</div>
+
+			<div quiz
+				 ng-if="lesson.sub[subIndex].question"
+				 lesson="lesson.sub[subIndex]"></div>
 
 			<!-- Директива ошибки -->
 			<div bbot-board
@@ -53,53 +58,10 @@
 	</div>
 </div>
 
-<div class="quiz" ng-if="questions" ng-init="quiz.initialize(questions, isStarsVisiable)">
-	<div class="content-description">
-		<div class="content-overflow">
-
-			<div ng-if="!quiz.isQuestionsEnd">
-				<div class="content-center">
-					<!--блок опросника-->
-					<div class="lesson-title ng-binding">Вопрос номер {{quiz.getCurrentQuestionNumber()}}/{{quiz.getQuestionsCount() }}</div>
-					<div class="lesson-content"
-						 ng-bind-html="sce(quiz.getCurrentQuestion().question)">
-					</div>
-				</div>
-
-				<div class="lesson-instructions">
-					<div class="content-center">
-						<div class="lesson-instructions-title">Варианты ответов:</div>
-						<div ng-class="{'answers': !answerOption.isSelect, 'answersSelect' : answerOption.isSelect}"
-							 ng-repeat="(i, answerOption) in quiz.getCurrentQuestion().answerOptions">
-							<div ng-bind-html="sce(answerOption.text)"
-								 ng-click="quiz.setAnswerOnCurrentQuestion(i)"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div ng-if="quiz.isQuestionsEnd">
-				<div class="content-center">
-					<div class="lesson-title ng-binding">Ваш результат</div>
-				</div>
-
-				<div class="lesson-instructions" >
-					<div class="content-center">
-						<div class="lesson-instructions-title">
-							Верных ответов: {{quiz.getCorrectAnswerCount()}} из {{quiz.getQuestionsCount()}}
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div>
-
 <!-- Вывод статистики по окончанию урока -->
 <div statistics-lesson-end
 	 lesson="getCurrentLesson()"
-	 ng-if="isStarsVisible || quiz.isQuizEnd"></div>
+	 ng-if="isStarsVisible"></div>
 
 <!-- Директива игры -->
 <div game-canvas
@@ -116,12 +78,13 @@
 		 uib-tooltip="{{LessonInfo.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
 		 ng-show="curretSubLesson.interpreterHandler || curretSubLesson.gamePostUpdate"
 		 ng-click="toggleCodeRun()"
-		 ng-class="{'fa-stop right-toolbar-red': LessonInfo.isCodeRunning, 'fa-play right-toolbar-green' : !LessonInfo.isCodeRunning}" >
+		 ng-class="{'fa-stop right-toolbar-red': LessonInfo.isCodeRunning, 'fa-play right-toolbar-green' : !LessonInfo.isCodeRunning}">
 	</div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
+		 ng-if="!lesson.sub[subIndex].question"
 		 uib-tooltip="{{hideEditor ? 'Показать редактор кода' : 'Убрать редактор кода'}}"
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
@@ -129,9 +92,18 @@
 	<div class="right-toolbar-button fa fa-list lesson-alt-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
+		 ng-if="!lesson.sub[subIndex].question"
 		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
 		 ng-click="toggleTextContent()"
 		 ng-class="{'fa-chevron-right' : showTextContent}"></div>
+
+	<div class="right-toolbar-new-group right-toolbar-button fa"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 ng-if="lesson.sub[subIndex].question"
+		 uib-tooltip="{{hideEditor ? 'Показать вопрос' : 'Убрать вопрос'}}"
+		 ng-click="toggleEditorOpen()"
+		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
 
 	<div class="right-toolbar-button fa"
 		 tooltip-placement="left"

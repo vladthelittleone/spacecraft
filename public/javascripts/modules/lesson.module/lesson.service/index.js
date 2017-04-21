@@ -743,7 +743,9 @@ function LessonService(connection,
 	 */
 	function lessonContent(num) {
 
-		return ContentFactory.content(num);
+		var currentContent = ContentFactory.content(num);
+
+		return currentContent && currentContent.lessonContent;
 
 	}
 

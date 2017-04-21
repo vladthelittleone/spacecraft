@@ -18,8 +18,8 @@ function VariablesIsContainers() {
 			css:   'astrogirl-img',
 			diagram: function (graph) {
 
-				var variables = block(50, 50, 200, 150, 'container1', '#0a151c', '#b8bfc3', '#152b39');
-				var value = block(100, 150, 100, 50, 'Ракетное топливо', '#152b39', '#b8bfc3', '#152b39');
+				var variables = block(225, 50, 200, 150, 'container1', '#0a151c', '#b8bfc3', '#152b39');
+				var value = block(275, 150, 100, 50, 'Ракетное топливо', '#152b39', '#b8bfc3', '#152b39');
 
 				variables.embed(value);
 

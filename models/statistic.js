@@ -37,10 +37,6 @@ var schema = new Schema({
 			subLessonCount:   Number,
 			completed:        Boolean,
 			stars:            Number,
-			isQuiz: {
-				type: Boolean,
-				default: false
-			},
 			lessonStatistics: {
 				currentScore:           Number,
 				currentRunCount:        Number,

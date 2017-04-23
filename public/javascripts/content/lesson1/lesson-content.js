@@ -4,7 +4,7 @@
 module.exports = Content();
 
 /**
- * Контент первого урока.
+ * Контент второго урока.
  *
  * Created by vladthelittleone on 12.06.16.
  */

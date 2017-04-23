@@ -17,7 +17,11 @@ var TabHandler = require('../../../emitters/tab-handler');
 
 var lodash = require('lodash');
 
-LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
+LessonService.$inject = ['connection',
+						 'audioManager',
+						 'aceService',
+						 'settings',
+						 'statisticsStorage'];
 
 module.exports = LessonService;
 
@@ -69,13 +73,10 @@ function LessonService(connection,
 	that.getCurrentLessonContentPoints = getCurrentLessonContentPoints;
 
 	that.lessonContent = lessonContent;
-
 	that.initialize = initialize;
-
 	that.intiateRunByUserClick = initiateRunByUserClick;
 
 	that.run = run;
-
 	that.stop = stop;
 
 	that.audioManager = audioWrapper;
@@ -429,7 +430,7 @@ function LessonService(connection,
 	function endLesson() {
 
 		// Выводим доску оценки подурока
-		scope.isStarsVisiable = true;
+		scope.isStarsVisible = true;
 		isCurrentLessonCompleted = true;
 
 		// Вызываем коллбэки, которые подписались на скрытие вкладки,
@@ -786,5 +787,4 @@ function LessonService(connection,
 		return that.lessonContent(lessonId).points;
 
 	}
-
 }

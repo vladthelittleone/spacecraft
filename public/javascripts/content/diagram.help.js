@@ -10,7 +10,7 @@ function DiagramHelp () {
 	var t = {};
 
 	t.createLink = createLink;
-	t.blockWithAdvancedSettings = blockWithAdvancedSettings;
+	t.createBlock = createBlock;
 	t.block = block;
 
 	return t;
@@ -51,14 +51,8 @@ function DiagramHelp () {
 	 * text - текст блока
 	 * colorFill - текст заливки блока, формата #ffffff
 	 * colorStroke - цвет границы блока, формата #ffffff
-	 * @returns - готовый блок диаграммы
+	 * @returns готовый блок диаграммы
 	 */
-	function blockWithAdvancedSettings(args) {
-
-		return createBlock(args);
-
-	}
-
 	function createBlock(args) {
 
 		var erd = joint.shapes.erd;

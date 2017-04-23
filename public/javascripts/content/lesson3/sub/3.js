@@ -5,7 +5,7 @@ var LessonResults = require('../../lesson-results');
 
 var DiagramHelp = require('../../diagram.help');
 
-var block = DiagramHelp.blockWithAdvancedSettings;
+var block = DiagramHelp.createBlock;
 var createLink = DiagramHelp.createLink;
 
 var lodash = require('lodash');

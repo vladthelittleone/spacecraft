@@ -5,7 +5,7 @@ var LessonResults = require('../../lesson-results');
 
 var DiagramHelp = require('../../diagram.help');
 
-var block = DiagramHelp.blockWithAdvancedSettings;
+var block = DiagramHelp.createBlock;
 
 module.exports = VariablesIsContainers();
 
@@ -23,9 +23,9 @@ function VariablesIsContainers() {
 			diagram: function (graph) {
 
 				var variables = block({
-					x: 235,
+					x: 200,
 					y: 50,
-					width: 225,
+					width: 200,
 					height: 150,
 					text: 'container1',
 					colorFill: '#0a151c',
@@ -33,9 +33,9 @@ function VariablesIsContainers() {
 				});
 
 				var value = block({
-					x: 285,
+					x: 235,
 					y: 150,
-					width: 125,
+					width: 130,
 					height:  50,
 					text: 'Ракетное топливо',
 					colorFill: '#152b39',

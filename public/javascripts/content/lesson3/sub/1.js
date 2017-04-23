@@ -2,7 +2,7 @@
 
 var DiagramHelp = require('../../diagram.help');
 
-var block = DiagramHelp.blockWithAdvancedSettings;
+var block = DiagramHelp.createBlock;
 
 module.exports = FirstContactWithVariables();
 
@@ -21,7 +21,7 @@ function FirstContactWithVariables() {
 			diagram: function (graph) {
 
 				var variables = block({
-					x: 225,
+					x: 200,
 					y: 50,
 					width: 200,
 					height: 150,
@@ -31,7 +31,7 @@ function FirstContactWithVariables() {
 				});
 
 				var value = block({
-					x: 275,
+					x: 250,
 					y: 150,
 					width: 100,
 					height: 50,

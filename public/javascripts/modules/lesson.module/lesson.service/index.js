@@ -73,13 +73,10 @@ function LessonService(connection,
 	that.getCurrentLessonContentPoints = getCurrentLessonContentPoints;
 
 	that.lessonContent = lessonContent;
-
 	that.initialize = initialize;
-
 	that.intiateRunByUserClick = initiateRunByUserClick;
 
 	that.run = run;
-
 	that.stop = stop;
 
 	that.audioManager = audioWrapper;
@@ -433,7 +430,7 @@ function LessonService(connection,
 	function endLesson() {
 
 		// Выводим доску оценки подурока
-		scope.isStarsVisiable = true;
+		scope.isStarsVisible = true;
 		isCurrentLessonCompleted = true;
 
 		// Вызываем коллбэки, которые подписались на скрытие вкладки,

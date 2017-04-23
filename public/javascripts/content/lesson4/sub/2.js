@@ -15,19 +15,19 @@ function RotateLeft() {
 		isRestartDisabled: true,
 		question:          {
 			content:                  '<p>Хорошо, начнем с увертюры.</p>' +
-									  '<p></p>Представте, что Вы пилотируете космический корабль. ' +
-									  'И вот-вот столкнетесь с огромным метеоритом летящим навстречу. ' +
-									  'От капитана поступает приказ: <i>"Мистер Сулу немедленно выполнить поворот налево”</i>.<p> ' +
+									  '<p>Представте, что вы пилотируете космический корабль ' +
+									  'и вот-вот столкнетесь с огромным метеоритом, летящим навстречу. ' +
+									  'От капитана поступает приказ:</p>' +
+									  '<pre>Мистер Сулу, немедленно выполнить поворот налево!</pre> ' +
 									  '<p>Какую команду вы отдадите кораблю?</p>',
 			answerOptions:            [
-				{text: 'transport.rotateRight()'},
-				{text: 'transport.rotateLeft()'},
-				{text: 'transport.rotate()'},
-				{text: 'transport.stop()'}
+				'<strong>transport</strong>.rotateRight()',
+				'<strong>transport</strong>.rotateLeft()',
+				'<strong>transport</strong>.rotate()',
+				'<strong>transport</strong>.stop()'
 			],
 			correctAnswerNumbers:     [1],
-			correctAnswerDescription: '<p>transport.rotateLeft()</p>' +
-									  '<p>rotate left - поворот налево.</p>'
+			correctAnswerDescription: '<p>Лееевоо руля!</p>'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',

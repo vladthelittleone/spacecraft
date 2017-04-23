@@ -63,6 +63,7 @@ function LessonController($scope,
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
+	$scope.quizAnswer = quizAnswer;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
@@ -349,6 +350,18 @@ function LessonController($scope,
 			lessonService.stop();
 
 		}
+
+	}
+
+	/**
+	 * Вызывает директива quiz, при ответе на вопрос.
+	 * соответсвтенно задаем мессадж BBot'а.
+	 */
+	function quizAnswer() {
+
+		var sub = $scope.lesson.sub[$scope.subIndex];
+
+		$scope.textBot = sub.question.correctAnswerDescription;
 
 	}
 

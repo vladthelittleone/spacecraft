@@ -1010,6 +1010,11 @@ pre {
 	background-image: url(../images/pages/javascriptsc.png);
 }
 
+.js-quiz-img {
+	background-image: url(../images/pages/javascriptsc-quiz.png);
+	background-color: #501e28 !important;
+}
+
 .learn-img {
 	background-image: url(../images/pages/stars.png);
 }
@@ -1198,6 +1203,7 @@ pre {
 
 .quiz .styled-list ul li {
 	margin-top: 2px;
+	border-left: 2px solid #C71E14;
 	background: #152b39;
 }
 
@@ -1207,6 +1213,12 @@ pre {
 
 .quiz .styled-list-checkbox {
 	padding: 0;
+}
+
+.quiz .styled-list .answer {
+	text-align: center;
+	margin-top: 5px;
+	border-left: 0;
 }
 
 .lesson-hint {

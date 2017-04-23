@@ -3,8 +3,8 @@
 	"lessonStar": "/user/statistics/lessons/star",
 
 	"userProgress": "/user/statistics/progress",
-	"userInfo": "/user/info",
-	"userSession": "/user/info/session",
+	"userInfo": "/user",
+	"userSession": "/user/session",
 
 	"login": "/login",
 	"logout": "/logout",

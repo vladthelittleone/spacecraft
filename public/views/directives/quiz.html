@@ -1,0 +1,36 @@
+<div class="quiz">
+	<div class="content-description">
+		<div class="content-overflow">
+			<div>
+				<div class="content-center">
+					<!--блок опросника-->
+					<div class="lesson-title ng-binding">{{lesson.title}}</div>
+					<div class="lesson-content"
+						 ng-bind-html="getQuestions()">
+					</div>
+				</div>
+
+				<div class="styled-list">
+					<ul>
+						<li ng-repeat="answerOption in lesson.question.answerOptions"
+							ng-click="toggleAnswer($index)">
+							<em ng-bind-html="trustAsHtml(answerOption)"></em>
+							<span class="styled-list-checkbox fa"
+								  ng-class="{'fa-square-o' : !isAnswerSelected($index),
+								  'fa-check-square-o' : isAnswerSelected($index),
+								  'green': isAnswerClicked && !isNotCorrect($index),
+								  'red': isAnswerClicked && isNotCorrect($index)}"></span>
+						</li>
+						<li class="answer"
+							ng-if="!isAnswerClicked"
+							ng-click="answerQuestion()">
+							<em>
+								Ответить
+							</em>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

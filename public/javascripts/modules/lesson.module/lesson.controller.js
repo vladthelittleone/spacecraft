@@ -8,29 +8,28 @@ var TabHandler = require('../../emitters/tab-handler');
 var Diagram = require('../../directives/diagram.directive/diagram');
 
 LessonController.$inject = ['$scope',
-                            '$stateParams',
-                            '$state',
-                            'lessonService',
-                            'audioManager',
-                            'aceService',
-                            'settings'
-                        ];
+							'$stateParams',
+							'$state',
+							'lessonService',
+							'audioManager',
+							'aceService',
+							'settings'];
 
 module.exports = LessonController;
 
 /**
- * Контрллер окна урока.
+ * Контроллер окна урока.
  *
  * @author Skurishin Vladislav
  * @since 30.11.2015
  */
-function LessonController ($scope,
-						   $stateParams,
-						   $state,
-						   lessonService,
-						   audioManager,
-						   aceService,
-						   settings) {
+function LessonController($scope,
+						  $stateParams,
+						  $state,
+						  lessonService,
+						  audioManager,
+						  aceService,
+						  settings) {
 
 	var VK_GROUP_ID = 105816682;
 
@@ -39,7 +38,7 @@ function LessonController ($scope,
 
 	CodeLauncher.onError = onError;
 
-	$scope.isStarsVisiable = false;		// Переключатель окна оценки урока
+	$scope.isStarsVisible = false;		// Переключатель окна оценки урока
 	$scope.starsHide = false;		    // Переключатель окна оценки урока
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.showTextContent = false;     // Переключатель текстового контента урока
@@ -64,18 +63,14 @@ function LessonController ($scope,
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
+	$scope.quizAnswer = quizAnswer;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
 
-	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
-		widgetPosition: "right",
-		disableExpandChatSound: "1",
-		disableButtonTooltip: "1",
-		buttonType: "no_button"
-	});
+	initVk();
 
 	// ==================================================
 
@@ -86,7 +81,33 @@ function LessonController ($scope,
 
 	}
 
+	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
+		widgetPosition: "right",
+		disableExpandChatSound: "1",
+		disableButtonTooltip: "1",
+		buttonType: "no_button"
+	});
+
 	// ==================================================
+
+	function initVk () {
+
+		try {
+
+			$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
+				widgetPosition: "right",
+				disableExpandChatSound: "1",
+				disableButtonTooltip: "1",
+				buttonType: "no_button"
+			});
+
+		} catch (e) {
+
+			$scope.showVkWidget = false;
+
+		}
+
+	}
 
 	function toggleVkWidgetVisible () {
 
@@ -104,7 +125,7 @@ function LessonController ($scope,
 
 	}
 
-	function toggleTextContent () {
+	function toggleTextContent() {
 
 		$scope.showTextContent = !$scope.showTextContent;
 
@@ -124,7 +145,7 @@ function LessonController ($scope,
 
 	}
 
-	function toggleSettings () {
+	function toggleSettings() {
 
 		$scope.showSettings = !$scope.showSettings;
 
@@ -134,7 +155,7 @@ function LessonController ($scope,
 
 	}
 
-	function toggleAudioPause () {
+	function toggleAudioPause() {
 
 		lessonService.audioManager.toggleAudio($scope.audioPause);
 
@@ -142,7 +163,7 @@ function LessonController ($scope,
 
 	}
 
-	function toggleDiagram () {
+	function toggleDiagram() {
 
 		$scope.showDiagram = !$scope.showDiagram;
 
@@ -152,7 +173,7 @@ function LessonController ($scope,
 
 	}
 
-	function previousAudio () {
+	function previousAudio() {
 
 		if (lessonService.audioManager.previousAudio()) {
 
@@ -162,13 +183,13 @@ function LessonController ($scope,
 
 	}
 
-	function toggleEditorOpen () {
+	function toggleEditorOpen() {
 
 		$scope.hideEditor = !$scope.hideEditor;
 
 	}
 
-	function isLessonWithDiagram () {
+	function isLessonWithDiagram() {
 
 		return Diagram.isHaveChanges();
 
@@ -177,7 +198,7 @@ function LessonController ($scope,
 	/**
 	 * Обработчик изменения кода в Ace.
 	 */
-	function aceChanged () {
+	function aceChanged() {
 
 		//
 
@@ -186,7 +207,7 @@ function LessonController ($scope,
 	/**
 	 * Инициализация Ace.
 	 */
-	function aceLoaded (editor) {
+	function aceLoaded(editor) {
 
 		// Если определен урок.
 		if ($scope.lesson) {
@@ -201,9 +222,9 @@ function LessonController ($scope,
 			 * Инициализация урока.
 			 */
 			lessonService.initialize({
-										 lessonId: $stateParams.id,
-										 scope:    $scope
-									 });
+				lessonId: $stateParams.id,
+				scope: $scope
+			});
 
 		}
 	}
@@ -211,7 +232,7 @@ function LessonController ($scope,
 	/**
 	 * Очистка маркеров.
 	 */
-	function clearMarker () {
+	function clearMarker() {
 
 		var markerId = lessonService.getMarkerId();
 
@@ -225,7 +246,7 @@ function LessonController ($scope,
 	/**
 	 * Обработка ошибки при запуске пользовательского кода.
 	 */
-	function onError (error) {
+	function onError(error) {
 
 		// Очищаем 'Кнопку далее'
 		$scope.nextSubLesson = null;
@@ -266,7 +287,7 @@ function LessonController ($scope,
 	/**
 	 * Выключение / Включение фоновой музыки.
 	 */
-	function setSoundtrackEnable (enable) {
+	function setSoundtrackEnable(enable) {
 
 		if (enable) {
 
@@ -283,14 +304,14 @@ function LessonController ($scope,
 	/**
 	 * При загрузке запускаем звук.
 	 */
-	function onContentLoaded () {
+	function onContentLoaded() {
 
 		// Если настройка музыки активна,
 		settings.onSettingsChange(setSoundtrackEnable, settings.SOUNDTRACK, true);
 
 	}
 
-	function playSoundtrack () {
+	function playSoundtrack() {
 
 		soundtrack = audioManager.createSoundtrack();
 		soundtrack.play();
@@ -307,7 +328,7 @@ function LessonController ($scope,
 	 * Если он отключен, то не подписываемся на запуск при
 	 * смене закладки.
 	 */
-	function resumeSoundtrackWrapper () {
+	function resumeSoundtrackWrapper() {
 
 		// Аналогичная проверка ведется в lessonService
 		// с аудиодорожкой. (НА ПАУЗУ)
@@ -322,7 +343,7 @@ function LessonController ($scope,
 	/**
 	 * Запуск / Пауза кода.
 	 */
-	function toggleCodeRun () {
+	function toggleCodeRun() {
 
 		clearMarker();
 
@@ -353,13 +374,25 @@ function LessonController ($scope,
 
 	}
 
-	function onDestroy () {
+	/**
+	 * Вызывает директива quiz, при ответе на вопрос.
+	 * соответсвтенно задаем мессадж BBot'а.
+	 */
+	function quizAnswer() {
+
+		var sub = $scope.lesson.sub[$scope.subIndex];
+
+		$scope.textBot = sub.question.correctAnswerDescription;
+
+	}
+
+	function onDestroy() {
 
 		TabHandler.clear();
 
 	}
 
-	function errorWrapper (value) {
+	function errorWrapper(value) {
 
 		return '<p>Неисправность!! EГГ0Г!!</p> ' +
 			'<p>Дроид BBot не может понятb к0д 4еловека.</p>' +

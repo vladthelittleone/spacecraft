@@ -42,7 +42,7 @@ function LessonBoard($sce, lessonService) {
 		function getContent () {
 
 			// Проверка html на предмет xss
-			if ($scope.lesson) {
+			if ($scope.lesson && $scope.lesson.content) {
 
 				return $sce.trustAsHtml($scope.lesson.content());
 

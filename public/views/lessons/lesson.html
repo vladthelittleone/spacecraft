@@ -123,6 +123,7 @@
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
+		 ng-if="vkWidget"
 		 ng-class="{'fa-chevron-right' : showVkWidget, 'fa-vk' : !showVkWidget}"
 		 ng-click="toggleVkWidgetVisible()"></div>
 

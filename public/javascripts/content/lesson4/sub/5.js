@@ -26,7 +26,7 @@ function TypeOf() {
 			answerOptions:            [
 				'<strong>String</strong>',
 				'<strong>Number</strong>',
-				'<strong>Null</strong>',
+				'<strong>null</strong>',
 				'<strong>Object</strong>'
 			],
 			correctAnswerNumbers:     [1],

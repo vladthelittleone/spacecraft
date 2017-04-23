@@ -80,6 +80,16 @@ function Booleans() {
 				x1: 4,
 				y2: Infinity
 			}
+		}, {
+			audio:  'audio/lesson3/6-5',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Введите логическое выражение, возвращающее <strong>true</strong>',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};

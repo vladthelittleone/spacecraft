@@ -26,20 +26,41 @@ function Investigation() {
 			audio: 'audio/lesson3/1-1',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson3/1-2',
-			css:   'astromen-img',
-			waitForHint: true,
-			marker: {
+			audio:       'audio/lesson3/1-2',
+			css:         'astromen-img',
+			marker:      {
 				x1: 8,
 				y2: Infinity
-			},
+			}
+		}, {
+			audio: 'audio/lesson3/1-3',
+			css:   'astrogirl-img',
 			hint:  [
 				{
-					'next .ace_scroller': 'Отправьте корабль-разведчик к месту аварии',
-					'nextButton':         {text: 'Далее'},
-					'showSkip':           false
+					'next .vk-hint': 'Есть вопросы?',
+					'nextButton':    {text: 'Далее'},
+					'showSkip':      false
 				}
 			]
+		}, {
+			audio: 'audio/lesson3/1-4',
+			css:   'astrogirl-img',
+			hint:  [
+				{
+					'next .disqus-hint': 'Спишитесь с другими кадетами',
+					'nextButton':        {text: 'Далее'},
+					'showSkip':          false
+				}
+			]
+		}, {
+			audio:       'audio/lesson3/1-5',
+			css:         'astrogirl-img',
+			waitForHint: true,
+			hint:        [{
+				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
+				'nextButton':             false,
+				'showSkip':               false
+			}]
 		}],
 
 		gamePostUpdate: gamePostUpdate

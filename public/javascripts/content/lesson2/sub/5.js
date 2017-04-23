@@ -22,7 +22,7 @@ function Numbers() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Введите в редакторе число: <span class="red-label">1984</span>.</li>' +
+							'<li>Введите в редакторе кода число: <span class="red-label">1984</span>.</li>' +
 							'<li>Больше информации о числах: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Числа">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +
@@ -88,6 +88,16 @@ function Numbers() {
 				x1: 19,
 				y2: Infinity
 			},
+		}, {
+			audio:  'audio/lesson3/5-7',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Введите в редакторе кода число: <strong>1984</span>',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};

@@ -50,7 +50,7 @@ function StateWrapper(state) {
 
 		cruiser.sprite.rotation = -Math.PI / 2;
 
-		cruiser.logic = cruiser.moveToXY.bind(cruiser, 2020, 2500);
+		cruiser.logic = cruiser.moveToXY.bind(cruiser, 3020, 3500);
 
 	}
 

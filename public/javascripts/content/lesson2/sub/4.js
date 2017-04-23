@@ -76,6 +76,16 @@ function Strings() {
 				x1: 4,
 				y2: Infinity
 			}
+		}, {
+			audio:  'audio/lesson3/4-5',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Введите в редакторе кода строку: <strong>\'Я есть BBot!\'</strong>',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};

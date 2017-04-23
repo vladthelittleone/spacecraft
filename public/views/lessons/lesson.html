@@ -106,7 +106,7 @@
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
 
-	<div class="right-toolbar-button fa"
+	<div class="right-toolbar-button fa diagram-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
@@ -134,14 +134,14 @@
 		 ng-click="toggleAudioPause()"
 		 ng-class="{'fa-play' : audioPause, 'fa-pause' : !audioPause}"></div>
 
-	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk"
+	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk vk-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
 		 ng-class="{'fa-chevron-right' : showVkWidget, 'fa-vk' : !showVkWidget}"
 		 ng-click="toggleVkWidgetVisible()"></div>
 
-	<div class="right-toolbar-button fa"
+	<div class="right-toolbar-button fa disqus-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showVkWidget ? 'Скрыть обсуждение' : 'Обсуждение'}}"

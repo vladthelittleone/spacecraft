@@ -213,7 +213,9 @@ function EntitiesFactory() {
 
 			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
+
 		}
+
 	}
 
 	/**

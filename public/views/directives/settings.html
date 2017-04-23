@@ -1,14 +1,15 @@
 <div class="settings">
 
 	<div class="content-description">
-		<div class="content-overflow">
+		<div class="content-overflow styled-list">
 			<ul>
 				<li ng-repeat="item in settings" ng-click="toggle(item)">
-					<em class="settings-title">{{item.title}}</em>
-					<span class="settings-checkbox fa"
+					<em class="styled-list-title">{{item.title}}</em>
+					<span class="styled-list-checkbox fa"
 						  ng-class="{'fa-square-o' : !item.value,
 						   'fa-check-square-o': item.value}"></span>
 					<p>{{item.description}}</p>
+				</li>
 			</ul>
 		</div>
 	</div>

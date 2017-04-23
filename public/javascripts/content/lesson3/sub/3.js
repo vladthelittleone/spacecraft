@@ -3,6 +3,11 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
+var DiagramHelp = require('../../diagram.help');
+
+var block = DiagramHelp.createBlock;
+var createLink = DiagramHelp.createLink;
+
 var lodash = require('lodash');
 
 module.exports = MoreAboutVariables();
@@ -16,9 +21,62 @@ function MoreAboutVariables() {
 		isRestartDisabled: true,
 		title:             'Копирование',
 		character:         [{
-			// Отправляйтесь к оружейному складу. Запускаем двигатели
 			audio: 'audio/lesson2/1-2.mp3',
 			css:   'astrogirl-img',
+			diagram: function (graph) {
+
+				var variables1 = block({
+					x: 50,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'container',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value1 = block({
+					x: 100,
+					y: 150,
+					width: 100,
+					height: 50,
+					text: 'Нога робота',
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
+
+				var variables2 = block({
+					x: 350,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'Container',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value2 = block({
+					x: 400,
+					y: 150,
+					width: 100,
+					height: 50,
+					text: 'Нога робота',
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
+
+				variables1.embed(value1);
+				variables2.embed(value2);
+
+				graph.addCells([
+					variables1,
+					value1,
+					variables2,
+					value2
+				]);
+
+				createLink(graph, value1, value2);
+			}
 		}],
 
 		interpreterHandler: interpreterHandler,

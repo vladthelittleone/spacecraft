@@ -1,5 +1,4 @@
 <div class="pages-background">
-
 	<div class="pages-board">
 		<div class="container-25" ng-click="openLessons()" ui-sref="lessons">
 			<div class="container-inside">
@@ -81,19 +80,34 @@
 						</tr>
 					</thead>
 					<tbody class="leadboard-table">
-						<tr ng-repeat="u in leaderBoard"
-							ng-class="{'leadboard-mark' : u.isItMe}">
-							<td class="table-number"><span>{{$index + 1}}</span></td>
-							<td class="table-content-name">{{u.name}}</td>
-							<td class="table-content-score">{{u.totalFinalScore || 0}}</td>
-						</tr>
+					<tr ng-repeat="u in leaderBoard"
+						ng-class="{'leadboard-mark' : u.isItMe}">
+						<td class="table-number"><span>{{$index + 1}}</span></td>
+						<td class="table-content-name">{{u.name}}</td>
+						<td class="table-content-score">{{u.totalFinalScore || 0}}</td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
+		<a>
+			<div ng-if="userInfo.needToConfirmEmail"
+				 class="container-25">
+				<div class="container-inside">
+					<a ng-href="{{userInfo.emailProviderUrl}}">
+						<div class="pages-img email-img">
+							<div class="fa fa-envelope"></div>
+						</div>
+						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
+						<div class="pages-text email-text">Пожалуйста, подтвердите Вашу почту</div>
+					</a>
+				</div>
+			</div>
+		</a>
+
 	</div>
 
-	<div class="rocket-white-img pages-footer-img "></div>
+	<div class="rocket-white-img pages-footer-img"></div>
 
 	<div class="pages-footer"></div>
 	<div class="pages-footer-text" ui-sref="lessons">Доступны новые уроки!</div>
@@ -102,7 +116,7 @@
 		<img class="logo"
 			 ui-sref="welcome"
 			 src="images/logo.png"/>
-		<div class="welcome-email">{{name}}</div>
+		<div class="welcome-email">{{userInfo.name}}</div>
 		<div class="welcome-logout" ng-click="logout()">
 			<span class="fa fa-sign-out"></span>
 		</div>

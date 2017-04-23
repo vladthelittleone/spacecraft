@@ -1002,6 +1002,20 @@ pre {
 	background-image: url(../images/pages/galaxy.png);
 }
 
+.email-text {
+	font-weight: 700;
+	color: #5b5b5b;
+}
+
+.email-img .fa {
+	font-size: 230px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.email-img {
+	text-align: center;
+}
 .rocket-white-img {
 	background-image: url(../images/pages/rocket-white-shadow.png);
 }
@@ -1857,6 +1871,10 @@ fieldset, label {
 .login-form input.ng-valid.ng-dirty {
 	border: 1px solid #39C139;
 	border-bottom: 2px solid #39C139;
+}
+
+.spinner {
+	position: relative;
 }
 
 .vk-community-messages {

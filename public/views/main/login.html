@@ -20,7 +20,7 @@
 
 				<form name="loginForm"
 					  class="login-form"
-					  ng-submit="isEnterForm ? login() : register()"
+					  ng-submit="submitForm()"
 					  novalidate>
 					<div class="login-input">
 						<label>
@@ -32,8 +32,7 @@
 								   ng-minlength="8"
 								   ng-maxlength="60"
 								   ng-model-options="{ allowInvalid: true }"
-								   ng-change="loginForm.$submitted = false;
-											  errorMessage = null;"
+								   ng-change="onInputFormChange()"
 								   required=""
 								   validate-email>
 						</label>
@@ -48,8 +47,7 @@
 								   ng-minlength="8"
 								   ng-maxlength="60"
 								   ng-model-options="{ allowInvalid: true }"
-								   ng-change="loginForm.$submitted = false;
-											  errorMessage = null;"
+								   ng-change="onInputFormChange()"
 								   required="">
 						</label>
 					</div>
@@ -66,7 +64,9 @@
 							<span>{{!isEnterForm ? "Вход" : "Регистрация"}}</span>
 						</button>
 
-						<div ng-show="isEnterForm" class="vk-button">
+						<div ng-show="isEnterForm"
+							 ng-click="startLoginSpinner();"
+							 class="vk-button">
 							<a href="/vk">
 								<span>Войти через ВКонтакте</span>
 							</a>
@@ -77,8 +77,8 @@
 					<div class="login-input login-checkbox">
 						<div ng-show="!isEnterForm"
 							 class="login-checkbox-title" ng-click=changeSubscribe()>
-						<span ng-class="{'fa fa-check-square-o' : isSubscribeOnEmail,
-										 'fa fa-square-o' : !isSubscribeOnEmail}">
+						<span ng-class="{'fa fa-check-square-o' : subscriptionToMailingFlag,
+										 'fa fa-square-o' : !subscriptionToMailingFlag}">
 						</span>
 							получать звёздные новости на e-mail
 						</div>
@@ -92,7 +92,7 @@
 				<div class="login-input-title login-error">
 
 					<!--Если форма не валидна-->
-					<div ng-if="loginForm.$submitted && loginForm.$invalid"
+					<div ng-if="isFormInvalidAfterSubmit()"
 						 ng-messages="loginForm.$error">
 
 						<div ng-message="email">Пожалуйста, укажите корректный email</div>
@@ -110,9 +110,17 @@
 
 				</div>
 
+				<!--Если форма в процессе отправки, сигнализируем об этом пользователю спиннером :)-->
+				<div us-spinner="{radius:15, width:5, length: 12, color: 'white'}"
+					 spinner-key="login-spinner"
+					 class="spinner">
+				</div>
+
 			</div>
+
 		</div>
 	</div>
+
 	<div class="login-container login-about">
 		<div class="login-about-block">
 			<div class="login-about-img">

@@ -1,5 +1,9 @@
 'use strict';
 
+var DiagramHelp = require('../../diagram.help');
+
+var block = DiagramHelp.createBlock;
+
 module.exports = FirstContactWithVariables();
 
 /**
@@ -13,7 +17,35 @@ function FirstContactWithVariables() {
 		character:    [{
 
 			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astromen-img'
+			css:    'astromen-img',
+			diagram: function (graph) {
+
+				var variables = block({
+					x: 200,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'container1',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value = block({
+					x: 250,
+					y: 150,
+					width: 100,
+					height: 50,
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
+
+				variables.embed(value);
+
+				graph.addCells([
+					variables,
+					value
+				]);
+			}
 		}, {
 
 			audio:  'audio/lesson2/1-2.mp3',

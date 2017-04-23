@@ -43,7 +43,7 @@
 		},
 		"emailClient": {
 			"login": "support@spacecraftcode.ru",
-			"from": "support@spacecraftcode.ru",
+			"from": "Spacecraft <support@spacecraftcode.ru>",
 			"password": "QETadg135",
 			"host": "smtp.yandex.ru",
 			"port": 465,

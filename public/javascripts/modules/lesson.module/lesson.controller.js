@@ -70,6 +70,8 @@ function LessonController($scope,
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
 
+	initVk();
+
 	// ==================================================
 
 	// Проверка существования урока
@@ -79,14 +81,26 @@ function LessonController($scope,
 
 	}
 
-	$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
-		widgetPosition: "right",
-		disableExpandChatSound: "1",
-		disableButtonTooltip: "1",
-		buttonType: "no_button"
-	});
-
 	// ==================================================
+
+	function initVk () {
+
+		try {
+
+			$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
+				widgetPosition: "right",
+				disableExpandChatSound: "1",
+				disableButtonTooltip: "1",
+				buttonType: "no_button"
+			});
+
+		} catch (e) {
+
+			$scope.showVkWidget = false;
+
+		}
+
+	}
 
 	function toggleVkWidgetVisible () {
 

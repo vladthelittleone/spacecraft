@@ -20,8 +20,24 @@ function FirstContactWithVariables() {
 			css:    'astromen-img',
 			diagram: function (graph) {
 
-				var variables = block(225, 50, 200, 150, 'container1', '#0a151c', '#b8bfc3', '#152b39');
-				var value = block(275, 150, 100, 50, '', '#152b39', '#b8bfc3', '#152b39');
+				var variables = block({
+					x: 225,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'container1',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value = block({
+					x: 275,
+					y: 150,
+					width: 100,
+					height: 50,
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
 
 				variables.embed(value);
 

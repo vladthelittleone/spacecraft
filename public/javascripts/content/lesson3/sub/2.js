@@ -3,6 +3,10 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
+var DiagramHelp = require('../../diagram.help');
+
+var block = DiagramHelp.blockWithAdvancedSettings;
+
 module.exports = VariablesIsContainers();
 
 /**
@@ -18,8 +22,25 @@ function VariablesIsContainers() {
 			css:   'astrogirl-img',
 			diagram: function (graph) {
 
-				var variables = block(225, 50, 200, 150, 'container1', '#0a151c', '#b8bfc3', '#152b39');
-				var value = block(275, 150, 100, 50, 'Ракетное топливо', '#152b39', '#b8bfc3', '#152b39');
+				var variables = block({
+					x: 235,
+					y: 50,
+					width: 225,
+					height: 150,
+					text: 'container1',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value = block({
+					x: 285,
+					y: 150,
+					width: 125,
+					height:  50,
+					text: 'Ракетное топливо',
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
 
 				variables.embed(value);
 

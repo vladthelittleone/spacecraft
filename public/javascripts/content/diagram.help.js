@@ -10,7 +10,6 @@ function DiagramHelp () {
 	var t = {};
 
 	t.createLink = createLink;
-	t.blockWithoutFill = blockWithoutFill;
 	t.blockWithAdvancedSettings = blockWithAdvancedSettings;
 	t.block = block;
 
@@ -40,15 +39,23 @@ function DiagramHelp () {
 
 	}
 
-	function blockWithAdvancedSettings(x, y, width, height, text, colorFill, colorStroke) {
+	/**
+	 * Метод создает блок диаграмму с различными настройками
+	 * x, y, width, , text, colorFill, colorStroke
+	 * @param args - в данном массиве могут содержаться следующие элементы,
+	 * если какой-либо элемент из списка отсутсвует, то принимается значение по умолчанию
+	 * x - координата x в расположении блока
+	 * y - координата y в расположении блока
+	 * width - ширина блока
+	 * height - высота блока
+	 * text - текст блока
+	 * colorFill - текст заливки блока, формата #ffffff
+	 * colorStroke - цвет границы блока, формата #ffffff
+	 * @returns - готовый блок диаграммы
+	 */
+	function blockWithAdvancedSettings(args) {
 
-		return createBlock({x, y, text, colorFill, width, height, colorStroke});
-
-	}
-
-	function blockWithoutFill(x, y, width, height, text, colorStroke) {
-
-		return createBlock({x, y, text, colorStroke, width, height});
+		return createBlock(args);
 
 	}
 
@@ -65,7 +72,7 @@ function DiagramHelp () {
 			attrs:    {
 				text:             {
 					fill:             '#ffffff',
-					text:             args.text,
+					text:             args.text || '',
 					'letter-spacing': 0
 				},
 				'.outer, .inner': {

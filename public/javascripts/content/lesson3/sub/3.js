@@ -25,11 +25,45 @@ function MoreAboutVariables() {
 			css:   'astrogirl-img',
 			diagram: function (graph) {
 
-				var variables1 = block(50, 50, 200, 150,'container', '#0a151c', '#152b39');
-				var value1 = block(100, 150, 100, 50, 'Нога робота', '#152b39', '#152b39');
+				var variables1 = block({
+					x: 50,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'container',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
 
-				var variables2 = block(350, 50, 200, 150, 'Container', '#0a151c', '#152b39');
-				var value2 = block(400, 150, 100, 50, 'Нога робота', '#152b39', '#152b39');
+				var value1 = block({
+					x: 100,
+					y: 150,
+					width: 100,
+					height: 50,
+					text: 'Нога робота',
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
+
+				var variables2 = block({
+					x: 350,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'Container',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value2 = block({
+					x: 400,
+					y: 150,
+					width: 100,
+					height: 50,
+					text: 'Нога робота',
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
 
 				variables1.embed(value1);
 				variables2.embed(value2);

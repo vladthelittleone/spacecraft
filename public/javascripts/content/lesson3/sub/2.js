@@ -3,6 +3,10 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
+var DiagramHelp = require('../../diagram.help');
+
+var block = DiagramHelp.createBlock;
+
 module.exports = VariablesIsContainers();
 
 /**
@@ -15,13 +19,43 @@ function VariablesIsContainers() {
 		title:             'Контейнер',
 		character:         [{
 			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img'
+			css:   'astrogirl-img',
+			diagram: function (graph) {
+
+				var variables = block({
+					x: 200,
+					y: 50,
+					width: 200,
+					height: 150,
+					text: 'container1',
+					colorFill: '#0a151c',
+					colorStroke: '#152b39'
+				});
+
+				var value = block({
+					x: 235,
+					y: 150,
+					width: 130,
+					height:  50,
+					text: 'Ракетное топливо',
+					colorFill: '#152b39',
+					colorStroke: '#152b39'
+				});
+
+				variables.embed(value);
+
+				graph.addCells([
+					variables,
+					value
+				]);
+			}
 		}, {
 			audio: 'audio/lesson2/1-1.mp3',
 			css:   'astromen-img'
 		}],
 
 		interpreterHandler: interpreterHandler,
+
 
 		content: content,
 
@@ -71,10 +105,10 @@ function VariablesIsContainers() {
 	function content() {
 
 		return '<p>Итак, мы создали переменную <strong>container1</strong>. Теперь можно задать ей некоторое значение или, другими словами, инициализовать:</p>' +
-			'<pre><strong>container1</strong> = \'Капсула с галактическим червем\';</pre>' +
+			'<pre><strong>container1</strong> = \'Ракетное топливо\';</pre>' +
 			'<p>Это значение в дальнейшем будет доступно при обращении по имени переменной.</p>' +
 			'<p>Для краткости объявление и инициализацию можно записать на одной строке:</p> ' +
-			'<pre>var <strong>container2</strong> = \'Ракетное топливо\';</pre>' +
+			'<pre>var <strong>container2</strong> = \'Капсула с галактическим червем\';</pre>' +
 			'<p>Такую операцию пилоты называют <strong>определением</strong> переменной.</p> ';
 	}
 }

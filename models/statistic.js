@@ -111,7 +111,6 @@ function prepareCurrentUserStatistics(modelStatistics, idUser, callback) {
 
 function updateUserProgress(idUser, score, callback) {
 
-
 	// Размер массива очков пользователя за прохождения уроков,
 	// так сказать его прогресс,
 	// под числом 30 подразумеваются дни,

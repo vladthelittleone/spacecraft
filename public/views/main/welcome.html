@@ -61,6 +61,20 @@
 				</div>
 			</a>
 		</div>
+		<a>
+			<div ng-if="userInfo.needToConfirmEmail"
+				 class="container-25">
+				<div class="container-inside">
+					<a ng-href="{{userInfo.emailProviderUrl}}">
+						<div class="pages-img email-img">
+							<div class="fa fa-envelope"></div>
+						</div>
+						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
+						<div class="pages-text email-text">Подтвердите вашу почту</div>
+					</a>
+				</div>
+			</div>
+		</a>
 		<div class="container-25" ui-sref="quick">
 			<div class="container-inside">
 				<div class="pages-img quick-img"></div>
@@ -90,21 +104,6 @@
 				</table>
 			</div>
 		</div>
-		<a>
-			<div ng-if="userInfo.needToConfirmEmail"
-				 class="container-25">
-				<div class="container-inside">
-					<a ng-href="{{userInfo.emailProviderUrl}}">
-						<div class="pages-img email-img">
-							<div class="fa fa-envelope"></div>
-						</div>
-						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
-						<div class="pages-text email-text">Пожалуйста, подтвердите Вашу почту</div>
-					</a>
-				</div>
-			</div>
-		</a>
-
 	</div>
 
 	<div class="rocket-white-img pages-footer-img"></div>

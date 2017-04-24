@@ -40,6 +40,16 @@ function TypeOf() {
 					'showSkip':                              false
 				}
 			]
+		}, {
+			audio:  'audio/lesson3/9-3',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Определите тип числа <strong>451</strong>',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};

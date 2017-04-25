@@ -31,7 +31,7 @@ function Quiz($sce, lessonService) {
 		var answers = [];
 
 		$scope.getQuestions = getQuestions;
-		$scope.isAnswerSelected = isAnswerSelected;
+		$scope.isCheckboxSelected = isCheckboxSelected;
 		$scope.toggleAnswer = toggleAnswer;
 		$scope.answerQuestion = answerQuestion;
 		$scope.isCorrect = isCorrect;
@@ -65,15 +65,20 @@ function Quiz($sce, lessonService) {
 		 */
 		function toggleAnswer(num) {
 
-			var index = answers.indexOf(num);
+			// Нельзя, если уже ответил.
+			if (!$scope.isAnswerClicked) {
 
-			if (index === -1) {
+				var index = answers.indexOf(num);
 
-				answers.push(num)
+				if (index === -1) {
 
-			} else {
+					answers.push(num)
 
-				answers.removeElementByIndex(index);
+				} else {
+
+					answers.removeElementByIndex(index);
+
+				}
 
 			}
 
@@ -83,7 +88,7 @@ function Quiz($sce, lessonService) {
 		 * Проверяем есть ли уже ответ на этот вопрос в коллекции.
 		 * Используем для определения стиля чекбокса.
 		 */
-		function isAnswerSelected(num) {
+		function isCheckboxSelected(num) {
 
 			var index = answers.indexOf(num);
 
@@ -96,21 +101,31 @@ function Quiz($sce, lessonService) {
 		 */
 		function isCorrect(num) {
 
-			var index = $scope.intersection.indexOf(num);
+			// Пользователь нажал на "Ответить".
+			// И выбрал данный чекбокс ответа. (под номером num)
+			if ($scope.isAnswerClicked && isCheckboxSelected(num))
+			{
+				var index = $scope.intersection.indexOf(num);
 
-			return index !== -1;
+				return index !== -1;
+			}
 
+			return false;
 		}
 
 		/**
 		 * Проверяем неправильность ответа
+		 * Создан с целью проверки того, что данный ответ
+		 * выбран.
 		 */
 		function isNotCorrect(num) {
 
-			var i1 = $scope.exceptCorrect.indexOf(num);
-			var i2 = $scope.exceptAnswers.indexOf(num);
+			if ($scope.isAnswerClicked && isCheckboxSelected(num))
+			{
+				return !isCorrect(num);
+			}
 
-			return i1 !== -1 || i2 !== -1;
+			return false;
 
 		}
 
@@ -120,11 +135,17 @@ function Quiz($sce, lessonService) {
 		 */
 		function answerQuestion() {
 
+			// Если не выбраны ответы,
+			// не отвечаем на вопрос.
+			if (!answers.length) {
+
+				return;
+
+			}
+
 			var correct = $scope.lesson.question.correctAnswerNumbers;
 
 			$scope.intersection = lodash.intersection(answers, correct);
-			$scope.exceptCorrect = lodash.difference(answers, correct);
-			$scope.exceptAnswers = lodash.difference(correct, answers);
 
 			if ($scope.intersection.length !== answers.length) {
 
@@ -134,8 +155,6 @@ function Quiz($sce, lessonService) {
 				lessonStatistics.incPenaltyPointsForGame(lessonPoints.incorrectAnswer);
 
 			}
-
-			answers = correct;
 
 			$scope.isAnswerClicked = true;
 			$scope.answer();

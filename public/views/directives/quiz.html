@@ -14,12 +14,13 @@
 					<ul>
 						<li ng-repeat="answerOption in lesson.question.answerOptions"
 							ng-click="toggleAnswer($index)">
+							<em>{{$index + 1}}. </em>
 							<em ng-bind-html="trustAsHtml(answerOption)"></em>
 							<span class="styled-list-checkbox fa"
-								  ng-class="{'fa-square-o' : !isAnswerSelected($index),
-								  'fa-check-square-o' : isAnswerSelected($index),
-								  'green': isAnswerClicked && !isNotCorrect($index),
-								  'red': isAnswerClicked && isNotCorrect($index)}"></span>
+								  ng-class="{'fa-square-o' : !isCheckboxSelected($index),
+								  'fa-check-square-o' : isCheckboxSelected($index),
+								  'green': isCorrect($index),
+								  'red': isNotCorrect($index)}"></span>
 						</li>
 						<li class="answer"
 							ng-if="!isAnswerClicked"

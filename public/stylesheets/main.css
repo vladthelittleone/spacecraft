@@ -817,7 +817,7 @@ pre {
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
-	margin-left: 1px;
+	padding-left: 1px;
 }
 
 .bbot-board .next-button {

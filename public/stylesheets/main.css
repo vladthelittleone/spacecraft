@@ -1218,6 +1218,7 @@ pre {
 	margin-top: 2px;
 	border-left: 2px solid #C71E14;
 	background: #152b39;
+	list-style-type: none;
 }
 
 .quiz .styled-list ul li:hover {

@@ -37,11 +37,22 @@ module.exports = router;
  */
 router.get('/vk', passport.authenticate('vk-login'));
 
-router.get('/vk/callback', passport.authenticate('vk-login', {
+router.get('/vk/callback',
+		   passport.authenticate('vk-login', {failureRedirect: '/login'}),
+		   function (req, res) {
 
-	successRedirect: '/'
+			   let user = req.user;
 
-}));
+			   // Если это новый VK пользователь, то redirect его на первый урок :)
+			   if (user.isNew) {
+
+				   return res.redirect('/lesson/0');
+
+			   }
+
+			   res.redirect('/');
+
+		   });
 
 router.post("/login", validatorHelper.checkEmailAndPassword, passport.authenticate('local-login'));
 

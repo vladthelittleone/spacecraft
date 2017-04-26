@@ -47,6 +47,7 @@ function LessonController($scope,
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 	$scope.showVkWidget = false;        // Переключатель отображения виджета vk сообщений
 	$scope.showDisqus = false;			// Переключатель комментариев
+	$scope.showTable = false;			// Переключатель таблички
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
@@ -59,6 +60,7 @@ function LessonController($scope,
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
 	$scope.toggleDiagram = toggleDiagram;
+	$scope.toggleTable = toggleTable;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
@@ -125,6 +127,7 @@ function LessonController($scope,
 		$scope.showSettings = false;
 		$scope.showDiagram = false;
 		$scope.showDisqus = false;
+		$scope.showDiagram = false;
 
 	}
 
@@ -135,6 +138,7 @@ function LessonController($scope,
 		$scope.showSettings = false;
 		$scope.showDiagram = false;
 		$scope.showTextContent = false;
+		$scope.showDiagram = false;
 
 	}
 
@@ -145,6 +149,7 @@ function LessonController($scope,
 		$scope.showTextContent = false;
 		$scope.showDiagram = false;
 		$scope.showDisqus = false;
+		$scope.showDiagram = false;
 
 	}
 
@@ -173,6 +178,16 @@ function LessonController($scope,
 			$scope.audioPause = false;
 
 		}
+
+	}
+
+	function toggleTable() {
+
+		$scope.showTable = !$scope.showTable;
+
+		$scope.showSettings = false;
+		$scope.showTextContent = false;
+		$scope.showDisqus = false;
 
 	}
 

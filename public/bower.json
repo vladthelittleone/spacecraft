@@ -29,7 +29,6 @@
     "angular-ui-layout": "bower",
     "angular-chart.js": "^0.8.8",
     "lodash": "^4.17.4",
-    "components-font-awesome": "4.7.0",
-    "angular-data-table": "^0.7.0"
+    "components-font-awesome": "4.7.0"
   }
 }

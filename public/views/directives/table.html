@@ -1,4 +1,17 @@
-<dtable options="options"
-		rows="data"
-		class="material">
-</dtable>
+<div class="settings">
+	<div class="content-description">
+		<div class="content-overflow">
+			<dtable options="options"
+					rows="data"
+					class="material">
+				<column name="Name" width="300" flex-grow="2"></column>
+				<column name="Gender">
+					<strong>{{$row.name}}</strong>: {{$cell}}
+				</column>
+				<column name="Company">
+				</column>
+			</dtable>
+		</div>
+	</div>
+</div>
+

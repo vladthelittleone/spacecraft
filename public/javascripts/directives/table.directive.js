@@ -10,10 +10,6 @@ module.exports = TableDirective;
 function TableDirective() {
 
 	var directive = {
-		scope:       {
-			options:   '=', // Опции таблицы
-			data:  '='  	// Данные таблицы
-		},
 		templateUrl: 'views/directives/table.html',
 		link:        link,
 		restrict:    'EA'

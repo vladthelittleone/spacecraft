@@ -1,6 +1,6 @@
 'use strict';
 
-LoginController.$inject = ['$scope', '$state', 'authentication', 'usSpinnerService'];
+LoginController.$inject = ['$scope', '$state', 'authentication'];
 
 module.exports = LoginController;
 
@@ -10,7 +10,7 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication, usSpinnerService) {
+function LoginController($scope, $state, authentication) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;
@@ -79,13 +79,13 @@ function LoginController($scope, $state, authentication, usSpinnerService) {
 
 	function startLoginSpinner() {
 
-		usSpinnerService.spin('login-spinner');
+		$scope.isSpinnerEnable = true;
 
 	}
 
 	function stopLoginSpinner() {
 
-		usSpinnerService.stop('login-spinner');
+		$scope.isSpinnerEnable = false;
 
 	}
 

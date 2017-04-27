@@ -76,14 +76,13 @@ router.post('/register', validatorHelper.checkEmailAndPassword, (req, res, next)
 						checkEmailForExistence,
 
 						// Регистрация пользователя.
-						callback => UserModel.registration(normalEmail,
-														   password,
-														   subscriptionToMailingFlag,
-														   callback),
+						callback => UserModel.registerEmailUser(normalEmail,
+																password,
+																subscriptionToMailingFlag,
+																callback),
 
 						// Отправляем пользователю письмо подтверждения почты.
 						sendEmailConfirmationAfterRegistration
-
 					],
 					(error) => {
 

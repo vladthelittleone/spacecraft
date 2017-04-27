@@ -12,33 +12,31 @@ var lodash = require('lodash');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email:                       {
+	email:                     {
 		type:      String,
-		lowercase: true,
-		unique:    true,
-		sparse:    true
+		lowercase: true
 	},
-	name:                        {
+	name:                      {
 		type: String
 	},
-	hashedPassword:              {
+	hashedPassword:            {
 		type: String
 	},
-	vkId:                        {
+	vkId:                      {
 		type:   String,
 		unique: true,
 		sparse: true
 	},
-	salt:                        {
+	salt:                      {
 		type: String
 	},
 	subscriptionToMailingFlag: {
 		type: Boolean
 	},
-	emailConfirmationFlag:       {
+	emailConfirmationFlag:     {
 		type: Boolean
 	},
-	created:                     {
+	created:                   {
 		type:    Date,
 		default: Date.now
 	}
@@ -61,8 +59,8 @@ schema.virtual('password')
 schema.methods.encryptPassword = encryptPassword;
 schema.methods.checkPassword = checkPassword;
 
-schema.statics.authorize = authorize;
-schema.statics.registration = registration;
+schema.statics.authenticateEmailUser = authenticateEmailUser;
+schema.statics.registerEmailUser = registerEmailUser;
 
 schema.statics.getUserCreationDate = getUserCreationDate;
 
@@ -78,7 +76,7 @@ function encryptPassword(password) {
 
 function checkPassword(password) {
 
-	return this.encryptPassword(password) === this.hashedPassword;
+	return password && this.encryptPassword(password) === this.hashedPassword;
 
 }
 
@@ -94,14 +92,17 @@ function checkPassword(password) {
  * @param password
  * @param callback
  */
-function authorize(email, password, callback) {
+function authenticateEmailUser(email, password, callback) {
 
 	let User = this;
 
 	async.waterfall([
 						function (callback) {
 
-							User.findOne({email: email}, callback);
+							User.findOne({
+											 email: email,
+											 vkId:  {$exists: false}
+										 }, callback);
 
 						},
 						function (user, callback) {
@@ -122,14 +123,17 @@ function authorize(email, password, callback) {
 
 }
 
-function registration(email, password, subscriptionToMailingFlag, callback) {
+function registerEmailUser(email, password, subscriptionToMailingFlag, callback) {
 
 	let User = this;
 
 	async.waterfall([
 						function (callback) {
 
-							User.findOne({email: email}, callback);
+							User.findOne({
+											 email: email,
+											 vkId:  {$exists: false}
+										 }, callback);
 
 						},
 						function (user, callback) {
@@ -138,9 +142,9 @@ function registration(email, password, subscriptionToMailingFlag, callback) {
 
 								let newbie = new User({
 
-									email:                       email,
-									password:                    password,
-									name:                        lodash.first(email.split('@')),
+									email:                     email,
+									password:                  password,
+									name:                      lodash.first(email.split('@')),
 									subscriptionToMailingFlag: subscriptionToMailingFlag
 
 								});

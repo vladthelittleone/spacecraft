@@ -817,7 +817,7 @@ pre {
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
-	margin-left: 1px;
+	padding-left: 1px;
 }
 
 .bbot-board .next-button {
@@ -1218,6 +1218,7 @@ pre {
 	margin-top: 2px;
 	border-left: 2px solid #C71E14;
 	background: #152b39;
+	list-style-type: none;
 }
 
 .quiz .styled-list ul li:hover {

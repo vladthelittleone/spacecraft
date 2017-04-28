@@ -12,68 +12,72 @@ var lodash = require('lodash');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-	email:              {
+	email:                     {
 		type:      String,
-		lowercase: true,
-		unique:    true,
-		sparse:    true
+		lowercase: true
 	},
-	username:           {
+	name:                      {
 		type: String
 	},
-	hashedPassword:     {
+	hashedPassword:            {
 		type: String
 	},
-	vkId:               {
+	vkId:                      {
 		type:   String,
 		unique: true,
 		sparse: true
 	},
-	salt:               {
+	salt:                      {
 		type: String
 	},
-	isSubscribeOnEmail: {
+	subscriptionToMailingFlag: {
 		type: Boolean
 	},
-	created:            {
+	emailConfirmationFlag:     {
+		type: Boolean
+	},
+	created:                   {
 		type:    Date,
 		default: Date.now
 	}
 });
 
 schema.virtual('password')
-	.set(function (password) {
-		
-		this._plainPassword = password;
-		this.salt = Math.random() + '';
-		this.hashedPassword = this.encryptPassword(password);
-		
-	})
-	.get(function () {
-		
-		return this._plainPassword;
-		
-	});
+	  .set(function (password) {
+
+		  this._plainPassword = password;
+		  this.salt = Math.random() + '';
+		  this.hashedPassword = this.encryptPassword(password);
+
+	  })
+	  .get(function () {
+
+		  return this._plainPassword;
+
+	  });
 
 schema.methods.encryptPassword = encryptPassword;
 schema.methods.checkPassword = checkPassword;
-schema.statics.authorize = authorize;
-schema.statics.registration = registration;
+
+schema.statics.authenticateEmailUser = authenticateEmailUser;
+schema.statics.registerEmailUser = registerEmailUser;
+
 schema.statics.getUserCreationDate = getUserCreationDate;
+
 schema.statics.findOrCreateVKUser = findOrCreateVKUser;
 
 module.exports = mongoose.model('User', schema);
 
 function encryptPassword(password) {
-	
+
 	return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-	
+
 }
 
 function checkPassword(password) {
-	
-	return this.encryptPassword(password) === this.hashedPassword;
-	
+
+	return password && this.encryptPassword(password) === this.hashedPassword;
+
 }
 
 /**
@@ -88,73 +92,77 @@ function checkPassword(password) {
  * @param password
  * @param callback
  */
-function authorize(email, password, callback) {
-	
+function authenticateEmailUser(email, password, callback) {
+
 	let User = this;
-	
+
 	async.waterfall([
 						function (callback) {
-			
-							User.findOne({email: email}, callback);
-			
+
+							User.findOne({
+											 email: email,
+											 vkId:  {$exists: false}
+										 }, callback);
+
 						},
 						function (user, callback) {
-			
+
 							// Если найден пользователь и пароль совпадает с заданным.
 							if (user && user.checkPassword(password)) {
-				
-				
+
 								return callback(null, user);
-				
+
 							}
-			
+
 							callback(new HttpError(HttpStatus.UNAUTHORIZED, 'Неверные данные для авторизации'));
-			
+
 						}
-	
+
 					], callback);
-	
+
 }
 
-function registration(email, password, isSubscribeOnEmail, callback) {
-	
+function registerEmailUser(email, password, subscriptionToMailingFlag, callback) {
+
 	let User = this;
-	
+
 	async.waterfall([
-		
 						function (callback) {
-			
-							User.findOne({email: email}, callback);
-			
+
+							User.findOne({
+											 email: email,
+											 vkId:  {$exists: false}
+										 }, callback);
+
 						},
 						function (user, callback) {
-			
+
 							if (!user) {
-				
+
 								let newbie = new User({
-					
-									email:              email,
-									password:           password,
-									username:           lodash.first(email.split('@')),
-									isSubscribeOnEmail: isSubscribeOnEmail
-					
+
+									email:                     email,
+									password:                  password,
+									name:                      lodash.first(email.split('@')),
+									subscriptionToMailingFlag: subscriptionToMailingFlag
+
 								});
-				
+
 								newbie.save(function (err) {
-					
+
 									callback(err, newbie);
-					
+
 								});
 							}
 							else {
-				
+
 								callback(new HttpError(403, 'Такой пользователь уже существует'));
-				
+
 							}
 						}
-	
+
 					], callback);
-	
+
 }
 
 /**
@@ -162,65 +170,65 @@ function registration(email, password, isSubscribeOnEmail, callback) {
  * если пользователь не найдет функция создает нового пользователя в базе
  */
 function findOrCreateVKUser(vkId, email, name, callback) {
-	
+
 	let User = this;
-	
+
 	async.waterfall([
-		
+
 						(callback) => {
-			
+
 							User.findOne({vkId: vkId}, callback);
-			
+
 						},
 						(user, callback) => {
-			
+
 							if (!user) {
-				
+
 								let newbie = new User({
-					
-									email:    email,
-									vkId:     vkId,
-									username: name
-					
+
+									email: email,
+									vkId:  vkId,
+									name:  name
+
 								});
-				
+
 								newbie.save((err) => {
-					
+
 									callback(err, newbie, true);
-					
+
 								});
 							}
 							else {
-				
+
 								callback(null, user, false);
-				
+
 							}
 						}
-	
+
 					], callback);
-	
+
 }
 
 /**
  * Возвращает дату создания акка пользователя.
  */
 function getUserCreationDate(userID, callback) {
-	
+
 	let User = this;
-	
+
 	async.waterfall([
-		
+
 						function (callback) {
-			
+
 							User.findById(userID, callback);
-			
+
 						},
 						function (user, callback) {
-			
+
 							callback(user ? user.created : null);
-			
+
 						}
-	
+
 					], callback)
-	
+
 }

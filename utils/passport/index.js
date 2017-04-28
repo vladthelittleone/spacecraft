@@ -5,19 +5,16 @@ var passport = require('passport');
 var HttpStatus = require('http-status-codes');
 
 var sessions = require('./../../models/sessions');
+var userHelper = require('./../helpers/authentication/user');
 
 module.exports = () => {
 
 	/**
-	 * passport используя куки может опознать пользователя, и достать его данные из сессии.
-	 * Для того, чтобы сохранять или доставать пользовательские данные из сессии,
-	 * паспорт использует функции #serializeUser() и #deserializeUser().
-	 *
-	 * серилизация сессии пользователя.
+	 * Сериализация сессии.
 	 */
-	passport.serializeUser ((user, next) => {
+	passport.serializeUser((user, next) => {
 
-		sessions.removeAllByUserId(user._id, function(error){
+		sessions.removeAllByUserId(user._id, function (error) {
 
 			if (error) {
 
@@ -25,22 +22,15 @@ module.exports = () => {
 
 			}
 
-			next(null, user);
+			next(null, user._id);
 
 		});
 
 	});
 
 	/**
-	 * десерилизация сессии пользователя
-	 * если потребуеться как то обновлять данные пользователя
-	 * то необходимо переписать сию функцию, скорей всего придеться
-	 * лезть в базу
+	 * Десериализация сессии.
 	 */
-	passport.deserializeUser ((user, next) => {
-
-		next (null, user);
-
-	});
+	passport.deserializeUser(userHelper.prepareUserObjectForSession);
 
 };

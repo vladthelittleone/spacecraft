@@ -3,7 +3,7 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
-var DiagramHelp = require('../diagram.help');
+var DiagramHelp = require('../../diagram.help.js');
 
 var block = DiagramHelp.block;
 var createLink = DiagramHelp.createLink;
@@ -22,7 +22,7 @@ function Numbers() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Введите в редакторе число: <span class="red-label">1984</span>.</li>' +
+							'<li>Введите в редакторе кода число: <span class="red-label">1984</span>.</li>' +
 							'<li>Больше информации о числах: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Числа">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +
@@ -33,9 +33,9 @@ function Numbers() {
 			css:     'astromen-img',
 			diagram: function (graph) {
 
-				var typeMain = block(225, 50, 'Типы данных');
-				var type1 = block(400, 50, 'Объекты');
-				var type2 = block(50, 50, 'Простые типы');
+				var typeMain = block(225, 50, 'Типы данных', '#152B39');
+				var type1 = block(400, 50, 'Объекты', '#152B39');
+				var type2 = block(50, 50, 'Простые типы', '#152B39');
 
 				var type21 = block(50, 135, 'Строки', '#fe854f');
 				var type22 = block(50, 220, 'Числа', '#fe854f');
@@ -76,21 +76,28 @@ function Numbers() {
 			},
 		}, {
 			audio:  'audio/lesson3/5-5',
-			css:    'astromen-img'
-		}, {
-			audio:  'audio/lesson3/5-6',
 			css:    'astromen-img',
 			marker: {
 				x1: 15,
 				y2: Infinity
 			}
 		}, {
-			audio:  'audio/lesson3/5-7',
+			audio:  'audio/lesson3/5-6',
 			css:    'astromen-img',
 			marker: {
 				x1: 19,
 				y2: Infinity
 			},
+		}, {
+			audio:  'audio/lesson3/5-7',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Введите в редакторе кода число: <strong>1984</span>',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};
@@ -99,9 +106,9 @@ function Numbers() {
 
 		return '<p><span class="under-label"><strong>Number</strong></span> - числа, с помощью которых ваш корабль будет выполнять основные вычисления. Заметим, что числа пишутся без кавычек.</p>' +
 			'<p>В <strong>JavaScript</strong> нет различий между целыми и вещественными значениями.</p>' +
-			'<p>Десятичные числа представлены последовательностью из цифр, а шестнадцатиричные начинаются с префикса <span class="under-label"><strong>0x</strong></span>.</p>' +
-			'<p><strong>JavaScript</strong> позволяет делить на ноль. Не волнуйтесь, новую черную дыру мы не получим.</p>' +
-			'<p>В результате выполнения такой операции <strong>JavaScript</strong> выдаст специальное числовое значение - <span class="under-label"><strong>Infinity</strong></span>.</p>' +
+			'<p>Шестнадцатиричные начинаются с префикса <span class="under-label"><strong>0x</strong></span>.</p>' +
+			'<p>При делении на ноль, <strong>JavaScript</strong> выдаст специальное числовое значение - <span class="under-label"><strong>Infinity</strong></span>,' +
+			'а не новую черную дыру, как вы могли подумать.</p>' +
 			'<p>Другое специальное числовое значение - <span class="under-label"><strong>NaN</strong></span>, возвращается при ошибках в математических вычислениях.</p>'
 	}
 

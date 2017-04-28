@@ -6,16 +6,14 @@
  */
 
 const express = require('express');
-var router = express.Router();
+const lodash = require('lodash');
 
-var lodash = require('lodash');
-
-var Statistic = require('./../../models/statistic');
-
-var leaderBoardHelper = require('../../utils/help/statistics/leaderBoard');
-
+const logger = require('utils/log')(module);
+const Statistic = require('./../../models/statistic');
+const leaderBoardHelper = require('../../utils/helpers/statistics/leaderBoard');
 const checkAuthentication = require('./../../middlewares/check-authentication');
 
+const router = express.Router();
 module.exports = router;
 
 router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req, res, next) {
@@ -23,6 +21,8 @@ router.get('/statistics/lessons/leaderBoard', checkAuthentication, function (req
 	Statistic.getLeaderBoard(function (error, leaderBoard) {
 
 		if (error) {
+
+			logger.error(error);
 
 			return next(error);
 

@@ -1,4 +1,4 @@
-<div>
+<div ng-show="lesson">
 	<div ui-layout="{ flow : 'column',  dividerSize: 4, disableToggle: true}"
 		 class="ui-layout-custom">
 
@@ -10,12 +10,16 @@
 			<div class="diagram-board" diagram-board ng-if="showDiagram">
 			</div>
 			<div lesson-board
-				 ng-if="lesson.sub[subIndex]"
+				 ng-if="lesson.sub[subIndex] && !lesson.sub[subIndex].question"
 				 lesson="lesson.sub[subIndex]"
 				 ng-show="showTextContent">
 			</div>
 			<div settings
-				 ng-show="showSettings"></div>
+				 ng-show="showSettings">
+			</div>
+			<div disqus
+				 ng-show="showDisqus">
+			</div>
 		</div>
 
 		<div ui-layout-container
@@ -24,16 +28,22 @@
 			 ng-hide="hideEditor">
 
 			<div class="main-editor"
+				 ng-if="!lesson.sub[subIndex].question"
 				 ui-ace="{
-			 	useWrapMode : true,
-				showGutter: true,
-				theme:'tomorrow_night',
-				mode: 'javascript',
-				firstLineNumber: 1,
-				onLoad: aceLoaded,
-				onChange: aceChanged
-				}">
+					useWrapMode : true,
+					showGutter: true,
+					theme:'tomorrow_night',
+					mode: 'javascript',
+					firstLineNumber: 1,
+					onLoad: aceLoaded,
+					onChange: aceChanged
+					}">
 			</div>
+
+			<div quiz
+				 ng-if="lesson.sub[subIndex].question"
+				 answer="quizAnswer"
+				 lesson="lesson.sub[subIndex]"></div>
 
 			<!-- Директива ошибки -->
 			<div bbot-board
@@ -49,11 +59,10 @@
 	</div>
 </div>
 
-
 <!-- Вывод статистики по окончанию урока -->
 <div statistics-lesson-end
 	 lesson="getCurrentLesson()"
-	 ng-if="isStarsVisiable"></div>
+	 ng-if="isStarsVisible"></div>
 
 <!-- Директива игры -->
 <div game-canvas
@@ -67,15 +76,16 @@
 	<div class="right-toolbar-button enhoyhint-play fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{CodeLauncher.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
+		 uib-tooltip="{{LessonInfo.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
 		 ng-show="curretSubLesson.interpreterHandler || curretSubLesson.gamePostUpdate"
 		 ng-click="toggleCodeRun()"
-		 ng-class="{'fa-stop right-toolbar-red': CodeLauncher.isCodeRunning, 'fa-play right-toolbar-green' : !CodeLauncher.isCodeRunning}" >
+		 ng-class="{'fa-stop right-toolbar-red': LessonInfo.isCodeRunning, 'fa-play right-toolbar-green' : !LessonInfo.isCodeRunning}">
 	</div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
+		 ng-if="!lesson.sub[subIndex].question"
 		 uib-tooltip="{{hideEditor ? 'Показать редактор кода' : 'Убрать редактор кода'}}"
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
@@ -83,17 +93,26 @@
 	<div class="right-toolbar-button fa fa-list lesson-alt-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
+		 ng-if="!lesson.sub[subIndex].question"
 		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
 		 ng-click="toggleTextContent()"
 		 ng-class="{'fa-chevron-right' : showTextContent}"></div>
 
-	<div class="right-toolbar-button"
+	<div class="right-toolbar-new-group right-toolbar-button fa"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 ng-if="lesson.sub[subIndex].question"
+		 uib-tooltip="{{hideEditor ? 'Показать вопрос' : 'Убрать вопрос'}}"
+		 ng-click="toggleEditorOpen()"
+		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
+
+	<div class="right-toolbar-button fa diagram-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
 		 ng-click="toggleDiagram()"
 		 ng-show="isLessonWithDiagram()"
-		 ng-class="{'fa fa-chevron-right' : showDiagram, 'fa fa-sitemap' : !showDiagram}"></div>
+		 ng-class="{'fa-chevron-right' : showDiagram, 'fa-sitemap' : !showDiagram}"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
@@ -115,11 +134,20 @@
 		 ng-click="toggleAudioPause()"
 		 ng-class="{'fa-play' : audioPause, 'fa-pause' : !audioPause}"></div>
 
-	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk"
+	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk vk-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
+		 ng-if="vkWidget"
+		 ng-class="{'fa-chevron-right' : showVkWidget, 'fa-vk' : !showVkWidget}"
 		 ng-click="toggleVkWidgetVisible()"></div>
+
+	<div class="right-toolbar-button fa disqus-hint"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{showVkWidget ? 'Скрыть обсуждение' : 'Обсуждение'}}"
+		 ng-class="{'fa-chevron-right' : showDisqus, 'fa-comments' : !showDisqus}"
+		 ng-click="toggleDisqus()"></div>
 
 </div>
 
@@ -128,4 +156,3 @@
 <div class="lesson-img-wrapper">
 	<div ng-class="char.css"></div>
 </div>
-

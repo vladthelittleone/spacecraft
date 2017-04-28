@@ -47,6 +47,10 @@ function HarvesterUnit(game, x, y, player) {
 		scale: 0.4
 	});
 
+	t.cargo = BlocksFactory.addCargoBlock({
+		unit: t
+	});
+
 	/**
 	 * Аудио менеджер.
 	 */

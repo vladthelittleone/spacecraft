@@ -3,7 +3,7 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 
-var DiagramHelp = require('../diagram.help');
+var DiagramHelp = require('../../diagram.help.js');
 
 var block = DiagramHelp.block;
 var createLink = DiagramHelp.createLink;
@@ -30,13 +30,16 @@ function Strings() {
 							'<li>Введите <span class="under-label-gray">\'Я есть BBot!\'</span> на <strong>10</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
-			audio:   'audio/lesson3/4-1',
+				audio:  'audio/lesson3/4-1',
+				css:    'astromen-img'
+			}, {
+			audio:   'audio/lesson3/4-2',
 			css:     'astromen-img',
 			diagram: function (graph) {
 
-				var typeMain = block(225, 50, 'Типы данных');
-				var type1 = block(400, 50, 'Объекты');
-				var type2 = block(50, 50, 'Простые типы');
+				var typeMain = block(225, 50, 'Типы данных', '#152B39');
+				var type1 = block(400, 50, 'Объекты', '#152B39');
+				var type2 = block(50, 50, 'Простые типы', '#152B39');
 
 				var type21 = block(50, 135, 'Строки', '#fe854f');
 				var type22 = block(50, 220, 'Числа', '#fe854f');
@@ -60,19 +63,29 @@ function Strings() {
 				y2: Infinity
 			}
 		}, {
-			audio:       'audio/lesson3/4-2',
-			css:         'astromen-img',
-			marker:      {
+			audio:  'audio/lesson3/4-3',
+			css:    'astromen-img',
+			marker: {
 				x1: 7,
 				y2: Infinity
 			}
 		}, {
-			audio:       'audio/lesson3/4-3',
-			css:         'astromen-img',
-			marker:      {
+			audio:  'audio/lesson3/4-4',
+			css:    'astromen-img',
+			marker: {
 				x1: 4,
 				y2: Infinity
 			}
+		}, {
+			audio:  'audio/lesson3/4-5',
+			css:    'astrogirl-img',
+			hint:   [
+				{
+					'next .ace_scroller': 'Введите в редакторе кода строку: <strong>\'Я есть BBot!\'</strong>',
+					'nextButton':         {text: 'Далее'},
+					'showSkip':           false
+				}
+			]
 		}],
 		interpreterHandler: interpreterHandler
 	};

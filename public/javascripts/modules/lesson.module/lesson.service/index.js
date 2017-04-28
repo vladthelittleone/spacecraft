@@ -4,6 +4,7 @@
 var Game = require('../../../game');
 
 var CodeLauncher = Game.codeLauncher;
+var UpdateManager = Game.updateManager;
 var ContentFactory = Game.content;
 var EntitiesFactory = Game.world;
 
@@ -16,7 +17,11 @@ var TabHandler = require('../../../emitters/tab-handler');
 
 var lodash = require('lodash');
 
-LessonService.$inject = ['connection', 'audioManager', 'aceService', 'settings', 'statisticsStorage'];
+LessonService.$inject = ['connection',
+						 'audioManager',
+						 'aceService',
+						 'settings',
+						 'statisticsStorage'];
 
 module.exports = LessonService;
 
@@ -68,13 +73,10 @@ function LessonService(connection,
 	that.getCurrentLessonContentPoints = getCurrentLessonContentPoints;
 
 	that.lessonContent = lessonContent;
-
 	that.initialize = initialize;
-
 	that.intiateRunByUserClick = initiateRunByUserClick;
 
 	that.run = run;
-
 	that.stop = stop;
 
 	that.audioManager = audioWrapper;
@@ -141,6 +143,7 @@ function LessonService(connection,
 				scope.showDiagram = true;
 				scope.showTextContent = false;  // Убираем инструкции
 				scope.showSettings = false;		// И настройки
+				scope.showDisqus = false;
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
@@ -427,7 +430,7 @@ function LessonService(connection,
 	function endLesson() {
 
 		// Выводим доску оценки подурока
-		scope.isStarsVisiable = true;
+		scope.isStarsVisible = true;
 		isCurrentLessonCompleted = true;
 
 		// Вызываем коллбэки, которые подписались на скрытие вкладки,
@@ -471,6 +474,8 @@ function LessonService(connection,
 
 			// Индекс подурока (% используется на случай изменений в размерах).
 			scope.subIndex = scope.subIndex % size;
+
+			UpdateManager.setSubIndex(scope.subIndex);
 
 			// Если урок был окончен, тогда в currentLessonStatistics необходимо
 			// сбросить начальные значение параметров статистики (currentScore; currentRunCount),
@@ -635,7 +640,10 @@ function LessonService(connection,
 
 			var code = getCode();
 
-			CodeLauncher.run(code, gamePostUpdate, gamePreUpdate);
+			CodeLauncher.run(code);
+
+			UpdateManager.setPreUpdate(gamePreUpdate);
+			UpdateManager.setPostUpdate(gamePostUpdate);
 
 		}
 
@@ -779,5 +787,4 @@ function LessonService(connection,
 		return that.lessonContent(lessonId).points;
 
 	}
-
 }

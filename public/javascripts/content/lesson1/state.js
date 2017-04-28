@@ -37,6 +37,8 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
+		EntitiesFactory.createResearchCenter(game, 400, 2000);
+
 		// Создать транспорт
 		player = EntitiesFactory.createTransport(game, x, y, true);
 		var sprite = player.sprite;

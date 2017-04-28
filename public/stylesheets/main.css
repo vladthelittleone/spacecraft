@@ -15,7 +15,6 @@ body {
 pre {
 	background-color: rgb(21, 43, 57);
 	border: 0;
-	font-weight: bold;
 	color: #C0C3C1;
 }
 
@@ -653,6 +652,19 @@ pre {
 	cursor: default;
 }
 
+.disqus {
+	background: rgba(28, 29, 31, 0.8);
+	color: #fff;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	cursor: default;
+}
+
+.disqus .content-overflow {
+	padding: 15px;
+}
+
 .settings {
 	background: rgba(28, 29, 31, 0.8);
 	color: #fff;
@@ -662,13 +674,16 @@ pre {
 	cursor: default;
 }
 
-.settings-checkbox {
+.styled-list-checkbox {
 	float: right;
 	font-size: 2em !important;
+	width: 25px;
+	padding-top: 13px;
 }
 
-.settings ul {
+.styled-list ul {
 	font-style: italic;
+	cursor: pointer;
 	font-family: Georgia, Times, serif;
 	font-size: 24px;
 	color: #fff;
@@ -677,7 +692,7 @@ pre {
 	padding: 0;
 }
 
-.settings ul li {
+.styled-list ul li {
 	padding: 8px;
 	margin: 0;
 	font-family: Arial, serif;
@@ -686,12 +701,12 @@ pre {
 	font-style: normal;
 }
 
-.settings ul li:hover {
+.styled-list ul li:hover {
 	background-color: rgb(21, 43, 57);
 }
 
-.settings ul li em,
-.settings-checkbox {
+.styled-list ul li em,
+.styled-list-checkbox {
 	font-size: 1.4em;
 	font-style: normal;
 }
@@ -793,7 +808,7 @@ pre {
 	float: right;
 	margin-right: 72px;
 	border-width: 45px 0 300px 100px;
-	border-color: transparent transparent transparent rgba(10, 12, 16, 0.5);
+	border-color: transparent transparent transparent rgba(15, 15, 15, 0.9);
 }
 
 .bbot-board {
@@ -802,6 +817,7 @@ pre {
 	color: #C5C8C6;
 	overflow: hidden;
 	cursor: default;
+	padding-left: 1px;
 }
 
 .bbot-board .next-button {
@@ -938,6 +954,49 @@ pre {
 	overflow: hidden;
 }
 
+.spinner {
+	width: 100px;
+	height: 100px;
+	margin: auto;
+}
+
+.spinner div {
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+	overflow: hidden;
+
+}
+
+.spinner-earth {
+	background-image: url(../images/pages/earth-white.png);
+	-webkit-animation:spin 120s linear infinite;
+	-moz-animation:spin 120s linear infinite;
+	animation:spin 120s linear infinite;
+}
+
+.spinner-orbit-1 {
+	background-image: url(../images/pages/spacecraft-white.png);
+	-webkit-animation:spin 4s linear infinite;
+	-moz-animation:spin 4s linear infinite;
+	animation:spin 4s linear infinite;
+}
+
+.spinner-orbit-2 {
+	background-image: url(../images/pages/satilite-white.png);
+	-webkit-animation:spin 8s linear infinite;
+	-moz-animation:spin 8s linear infinite;
+	animation:spin 8s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+
 .bbot-img {
 	height: 125px;
 	width: 80px;
@@ -967,14 +1026,13 @@ pre {
 	height: 175px;
 	bottom: 0;
 	width: 100%;
-	border-left: 1px solid rgba(0, 0, 0, 0.45) !important;
 }
 
 .bbot-hologram {
 	height: 100%;
 	margin-right: 170px;
 	padding: 20px 20px 20px 70px;
-	background: rgba(10, 12, 16, 0.5);
+	background: rgba(15, 15, 15, 0.9);
 	overflow-y: auto;
 }
 
@@ -987,12 +1045,30 @@ pre {
 	background-image: url(../images/pages/galaxy.png);
 }
 
+.email-text {
+	color: #5b5b5b;
+}
+
+.email-img .fa {
+	font-size: 230px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.email-img {
+	text-align: center;
+}
 .rocket-white-img {
 	background-image: url(../images/pages/rocket-white-shadow.png);
 }
 
 .js-img {
 	background-image: url(../images/pages/javascriptsc.png);
+}
+
+.js-quiz-img {
+	background-image: url(../images/pages/javascriptsc-quiz.png);
+	background-color: #501e28 !important;
 }
 
 .learn-img {
@@ -1163,6 +1239,45 @@ pre {
 	line-height: 20px;
 }
 
+.quiz {
+	color: rgb(80, 80, 80);
+	cursor: default;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.quiz .content-overflow {
+	right: 0;
+}
+
+.quiz .styled-list {
+	margin-bottom: 170px;
+}
+
+.quiz .styled-list ul li {
+	margin-top: 2px;
+	border-left: 2px solid #C71E14;
+	background: #152b39;
+	list-style-type: none;
+}
+
+.quiz .styled-list ul li:hover {
+	background-color: rgba(26, 48, 62, 1.0) !important;
+}
+
+.quiz .styled-list-checkbox {
+	padding: 0;
+}
+
+.quiz .styled-list .answer {
+	text-align: center;
+	margin-top: 5px;
+	border-left: 0;
+}
+
 .lesson-hint {
 	font-family: "Courier New", serif;
 	color: #C0C3C1;
@@ -1208,7 +1323,7 @@ pre {
 	position: absolute;
 	color: #C0C3C1;
 	background: rgba(29, 31, 33, 0.8);
-	cursor: pointer;
+	cursor: default;
 }
 
 div.thought {

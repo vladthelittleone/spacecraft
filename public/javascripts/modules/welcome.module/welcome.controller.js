@@ -40,9 +40,10 @@ function WelcomeController($scope,
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
 
+	$scope.userInfo = userInfoData;
+
 	formDataForChart(lessonStatisticsData);
 	formDataForLineChart(userProgressData);
-	initUser(userInfoData);
 
 	// Инифиализация ВК
 	initVK();
@@ -188,13 +189,6 @@ function WelcomeController($scope,
 			$scope.chartIndex = ($scope.chartIndex + 1) % 2;
 
 		}
-	}
-
-	// Инициализация пользователя
-	function initUser(userInfo) {
-
-		$scope.name = userInfo && userInfo.name;
-
 	}
 
 	/**

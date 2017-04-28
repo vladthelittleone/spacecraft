@@ -1,8 +1,8 @@
 <div class="settings">
 	<div class="content-description">
-		<div class="content-overflow">
-			<dtable dt-options="tableOptions"
-					dt-rows="tableData"
+		<div class="content-overflow" ng-if="options && dataArray">
+			<dtable options="options"
+					rows="dataArray"
 					class="material dt">
 				<column name="Name" width="300" flex-grow="2"></column>
 				<column name="Gender">

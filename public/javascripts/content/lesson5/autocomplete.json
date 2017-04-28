@@ -1,55 +1,11 @@
 [
 	{
 		"regExps": [
-			" *harvester.$"
-		],
-		"autocomplete": [
-			{
-				"value": "moveForward()",
-				"meta": "harvester"
-			},
-			{
-				"value": "rotateLeft()",
-				"meta": "harvester"
-			},
-			{
-				"value": "rotateRight()",
-				"meta": "harvester"
-			},
-			{
-				"value": "moveToXY()",
-				"meta": "harvester"
-			},
-			{
-				"value": "scan()",
-				"meta": "harvester"
-			},
-			{
-				"value": "cargoLoad()",
-				"meta": "harvester"
-			},
-			{
-				"value": "cargoUnload()",
-				"meta": "harvester"
-			}
-		]
-	},
-	{
-		"regExps": [
 			".+$"
 		],
 		"autocomplete": [
 			{
 				"value": "BBotDebug()"
-			},
-			{
-				"value": "researchContainer"
-			},
-			{
-				"value": "harvester"
-			},
-			{
-				"value": "container"
 			}
 		]
 	}

@@ -1,0 +1,12 @@
+[
+	{
+		"regExps": [
+			".+$"
+		],
+		"autocomplete": [
+			{
+				"value": "BBotDebug()"
+			}
+		]
+	}
+]

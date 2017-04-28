@@ -109,7 +109,6 @@ function authorize(email, password, callback) {
 							// Если найден пользователь и пароль совпадает с заданным.
 							if (user && user.checkPassword(password)) {
 
-
 								return callback(null, user);
 
 							}

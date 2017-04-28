@@ -27,7 +27,7 @@ local.login = new LocalStrategy(localStrategyReqParam, (req, email, password, ne
 
 	let normalizeEmail = validator.normalizeEmail(email);
 
-	User.authorize(normalizeEmail, password, (err, user) => {
+	User.authenticateEmailUser(normalizeEmail, password, (err, user) => {
 
 		next(err, user);
 

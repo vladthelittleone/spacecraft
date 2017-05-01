@@ -20,31 +20,12 @@ function LessonTable() {
 
 	function link($scope) {
 
-		$scope.options = {
-			scrollBarWidth: 5,
-			rowHeight: 50,
-			footerHeight: false,
-			headerHeight: 50,
-			scrollbarV: true,
-			emptyMessage: 'Nothing to show...',
-			columns: [{
-				name: "Name",
-				prop: "name",
-				width: 300
-			}, {
-				name: "Gender",
-				prop: "gender",
-				width: 300
-			}, {
-				name: "Company",
-				prop: "company",
-				width: 300
-			}]
-		};
-
-		$scope.dataArray = [
-			{ Name: 'Austin', Gender: 'Male', Company: 'ccc' },
-			{ Name: 'Marjan', Gender: 'Male', Company: 'gggg' }
-		];
+		$scope.dataTable = {
+			columns: ['Name', 'Gender', 'Email'],
+			data: [
+				['Villy', 'Lory', 'Candal'], 
+				['Cooper', 'Lox', 'Priest']
+			]
+		}
 	}
 }

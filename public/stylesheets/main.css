@@ -1881,7 +1881,32 @@ fieldset, label {
 	padding-right: 480px;
 }
 
-.dt {
-	width: 75%;
-	margin: 50px auto;
+.table {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.table > tbody > tr > td {
+	color: #fff;
+	padding: 2px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: center;
+	font-size: 14px;
+	vertical-align: middle;
+	height: 40px;
+	border: 2px solid #000;
+}
+
+.table > thead > tr > th {
+	text-align: center;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: normal;
+	word-wrap: normal;
+	background-color: #0C181F;
+	color: #fff;
+	border: 2px solid #000;
 }

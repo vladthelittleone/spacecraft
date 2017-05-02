@@ -12,7 +12,6 @@ module.exports = StateWrapper;
 /**
  * Created by vaimer on 31.01.17.
  */
-
 function StateWrapper(state) {
 
 	var t = state;

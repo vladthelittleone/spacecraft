@@ -18,7 +18,7 @@ function Content() {
 	};
 
 	return {
-		text:  'Соревнование',
+		text:  'Догнать за 64 секунды',
 		label: 'Основы JavaScript',
 		quote: 'Баг или фича — вот в чем вопрос…',
 		rules: require('./autocomplete.json'),

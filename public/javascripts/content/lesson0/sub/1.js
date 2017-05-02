@@ -13,6 +13,13 @@ function WelcomeToAcademy() {
 		title:        'Добро пожаловать в академию!',
 		defaultBBot:  defaultBBot,
 		content:      content,
+		dataTable: {
+			columns: ['Name', 'Gender', 'Email'],
+			data: [
+				['Villy', 'Lory', 'Candal'],
+				['Cooper', 'Lox', 'Priest']
+			]
+		},
 		instructions: '<ul>' +
 					  '<li>Справа находится редактор кода - это инструмент, с помощью которого вы выполняете поставленные задачи.</li>' +
 					  '<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +

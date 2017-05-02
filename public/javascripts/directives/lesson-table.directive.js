@@ -9,8 +9,18 @@ module.exports = LessonTable;
  */
 function LessonTable() {
 
+	// Формат данных  для таблицы
+	// {
+	// 	columns: ['Name', 'Gender', 'Email'],
+	// 	data: [
+	// 			['Villy', 'Lory', 'Candal'],
+	// 			['Cooper', 'Lox', 'Priest']
+	// 		]
+	// }
 	var directive = {
-		scope: {},
+		scope: {
+			data: '=' // Данные для таблицы
+		},
 		templateUrl: 'views/directives/lesson-table.html',
 		link:        link,
 		restrict:    'EA'
@@ -20,12 +30,5 @@ function LessonTable() {
 
 	function link($scope) {
 
-		$scope.dataTable = {
-			columns: ['Name', 'Gender', 'Email'],
-			data: [
-				['Villy', 'Lory', 'Candal'], 
-				['Cooper', 'Lox', 'Priest']
-			]
-		}
 	}
 }

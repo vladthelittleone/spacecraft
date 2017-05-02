@@ -1568,7 +1568,7 @@ div.helper {
 	height: 35px;
 	border: 0;
 	float: left;
-	background: rgba(21, 43, 57, 0.97);;
+	background: rgba(21, 43, 57, 0.97);
 	color: white;
 	outline: 0;
 }
@@ -1885,6 +1885,7 @@ fieldset, label {
 	width: 80%;
 	margin-left: 10%;
 	margin-right: 10%;
+	margin-top: 5%;
 }
 
 .table > tbody > tr > td {
@@ -1906,7 +1907,7 @@ fieldset, label {
 	overflow: hidden;
 	white-space: normal;
 	word-wrap: normal;
-	background-color: #0C181F;
+	background-color: #152B39;
 	color: #fff;
 	border: 2px solid #000;
 }

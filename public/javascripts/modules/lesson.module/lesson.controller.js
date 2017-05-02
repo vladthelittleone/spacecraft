@@ -59,6 +59,7 @@ function LessonController($scope,
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
+	$scope.isLessonWithTable = isLessonWithTable;
 	$scope.toggleDiagram = toggleDiagram;
 	$scope.toggleTable = toggleTable;
 	$scope.aceChanged = aceChanged;
@@ -71,7 +72,6 @@ function LessonController($scope,
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
-
 	initVk();
 
 	// ==================================================
@@ -127,7 +127,7 @@ function LessonController($scope,
 		$scope.showSettings = false;
 		$scope.showDiagram = false;
 		$scope.showDisqus = false;
-		$scope.showDiagram = false;
+		$scope.showTable = false;
 
 	}
 
@@ -138,7 +138,7 @@ function LessonController($scope,
 		$scope.showSettings = false;
 		$scope.showDiagram = false;
 		$scope.showTextContent = false;
-		$scope.showDiagram = false;
+		$scope.showTable = false;
 
 	}
 
@@ -149,7 +149,7 @@ function LessonController($scope,
 		$scope.showTextContent = false;
 		$scope.showDiagram = false;
 		$scope.showDisqus = false;
-		$scope.showDiagram = false;
+		$scope.showTable = false;
 
 	}
 
@@ -168,6 +168,7 @@ function LessonController($scope,
 		$scope.showSettings = false;
 		$scope.showTextContent = false;
 		$scope.showDisqus = false;
+		$scope.showTable = false;
 
 	}
 
@@ -188,6 +189,9 @@ function LessonController($scope,
 		$scope.showSettings = false;
 		$scope.showTextContent = false;
 		$scope.showDisqus = false;
+		$scope.showDiagram = false;
+
+		console.log($scope.dataTable);
 
 	}
 
@@ -201,6 +205,11 @@ function LessonController($scope,
 
 		return Diagram.isHaveChanges();
 
+	}
+
+	function isLessonWithTable() {
+
+		return $scope.dataTable;
 	}
 
 	/**

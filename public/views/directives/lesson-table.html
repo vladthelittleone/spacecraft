@@ -1,16 +1,16 @@
 <div class="settings">
 	<div class="content-description">
-		<div class="content-overflow" ng-if="dataTable">
+		<div class="content-overflow" ng-if="data">
 			<table class="table table-responsive">
 				<thead>
 					<tr>
-						<th ng-repeat="column in dataTable.columns">
+						<th ng-repeat="column in data.columns">
 							{{column}}
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="data in dataTable.data">
+					<tr ng-repeat="data in data.data">
 						<td ng-repeat="information in data">
 							{{information}}
 						</td>

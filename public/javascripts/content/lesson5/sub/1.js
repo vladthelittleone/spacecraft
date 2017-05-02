@@ -13,7 +13,7 @@ function OperatorsAndOperands () {
 		interpreterHandler: interpreterHandler,
 		instructions: '<ul>' +
 		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Больше информации об операндах <strong>JavaScript</strong>: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Операторы">клац</a>.</li>' +
+		'<li>Больше информации об операторах <strong>JavaScript</strong>: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Операторы">клац</a>.</li>' +
 		'</ul>'
 	};
 

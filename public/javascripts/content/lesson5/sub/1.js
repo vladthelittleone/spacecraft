@@ -4,6 +4,9 @@ var LessonResults = require('../../lesson-results');
 
 module.exports = OperatorsAndOperands();
 
+/**
+ * Урок - 'Догнать за 64 секунды';
+ */
 function OperatorsAndOperands () {
 
 	return {
@@ -13,19 +16,19 @@ function OperatorsAndOperands () {
 		interpreterHandler: interpreterHandler,
 		instructions: '<ul>' +
 		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Больше информации об операторах <strong>JavaScript</strong>: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Операторы">клац</a>.</li>' +
+		'<li>Больше интересной инфы: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
 		'</ul>'
 	};
 
 	function content () {
 
-		return '<p>Вольно кадет, продолжим занятия.' +
+		return '<p>Вольно кадет, продолжим занятия!' +
 			'<p>Сегодня мы поговорим об операторах и операндах.' +
 			'<p>В предыдущих уроках вы уже сталкивались с операторами языка JavaScript: ' +
-			'<span class="under-label"><strong>+</strong></span>,' +
-			'<span class="under-label"><strong>=</strong></span>,' +
+			'<span class="under-label"><strong>+</strong></span>, ' +
+			'<span class="under-label"><strong>=</strong></span>, ' +
 			'<span class="under-label"><strong>></strong></span>. ' +
-			'К операнду в свою очередь применяются операторы. Например:' +
+			'Но что такое операнд? Это сущность, к которой применяются операторы. Например:' +
 			'<p><pre>' +
 			'// Оператор сложения: +.\n' +
 			'// Операнд: число 5, число 4.\n' +
@@ -61,7 +64,7 @@ function OperatorsAndOperands () {
 											  correct: correctText,
 
 											  unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
-											  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>'
+											  '<p>ВАЛЛ-И отсюда злобный жук!</p>'
 
 										  });
 

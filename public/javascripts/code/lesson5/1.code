@@ -5,7 +5,7 @@ BBotDebug(2 + 2);
 BBotDebug("Hello " + "space!");
 
 // Результатом выполнения этого выражения будет строка.
-BBotDebug('N = ' + 256);
+BBotDebug('CCLVI = ' + 256);
 
 // Результатом выполнения этого выражения будет строка.
-BBotDebug('N = ' + true);
+BBotDebug('Полы я ' + true);

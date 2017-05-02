@@ -4,55 +4,32 @@ var LessonResults = require('../../lesson-results');
 
 module.exports = OperatorPlus();
 
+/**
+ * Урок - 'Догнать за 64 секунды';
+ */
 function OperatorPlus () {
 
 	return {
 		isRestartDisabled: true,
-		title: 'Познай дзен и конкатенацию.',
+		title: 'Познай дзен и конкатенацию',
 		content: content,
 		interpreterHandler: interpreterHandler,
 		instructions: '<ul>' +
 		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
 		'<i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Больше информации об операторах <strong>JavaScript</strong>: ' +
-		'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Операторы">клац</a>.</li>' +
-		'</ul>',
-		character: [
-			{
-				audio: 'audio/lesson2/3-2',
-				marker: {
-					x1: 2,
-					y2: Infinity
-				}
-			}, {
-				audio: 'audio/lesson2/3-3',
-				marker: {
-					x1: 5,
-					y2: Infinity
-				}
-			}, {
-				audio: 'audio/lesson2/3-3',
-				marker: {
-					x1: 8,
-					y2: Infinity
-				}
-			}, {
-				audio: 'audio/lesson2/3-3',
-				marker: {
-					x1: 11,
-					y2: Infinity
-				}
-			}],
+		'<li>Еще о конкатенации: ' +
+		'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/A_re-introduction_to_JavaScript#Операторы">клац</a>.</li>' +
+		'</ul>'
 	};
 
 	function content () {
 
-		return '<p>Поговорим об операторе <span class="under-label">+</span>' +
-			'<p>Из уроков математики, вы знаете что <span class="under-label">+</span> используется для сложения чисел. ' +
-			'Но если оператор <span class="under-label">+</span> использовать со строками, то он объединит их. ' +
-			'Такая операция называется конкатенацией. ' +
-			'<p>Важной особенностью объединения строк является то, что если один из операторов строка, ' +
-			'то второй тоже будет приведен к строке.';
+		return '<p>Поговорим об операторе <strong class="under-label">+</strong>.' +
+			'<p>Из уроков математики вы знаете, что <strong class="under-label">+</strong> используется для сложения чисел. ' +
+			'В <strong>JavaScript</strong> оператор <strong class="under-label">+</strong> можно также использовать для объединения строк.</p>' +
+			'<p>Такая операция называется <strong>конкатенацией</strong>.</p>' +
+			'<p>Важной особенностью конкатенации является то, что если один из операндов строка, ' +
+			'то второй тоже будет приведен к строке.</p>';
 
 	}
 
@@ -78,8 +55,7 @@ function OperatorPlus () {
 
 		var lessonResults = LessonResults({
 											  correct: correctText,
-											  unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
-											  '<p>Внимателbней прочитайте инструкции и попробуйте снова.</p>'
+											  unknownError: '<p>Тададам! И вновь 0шибка!</p>'
 										  });
 
 		if (correctText) {

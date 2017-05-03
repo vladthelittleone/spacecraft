@@ -191,8 +191,6 @@ function LessonController($scope,
 		$scope.showDisqus = false;
 		$scope.showDiagram = false;
 
-		console.log($scope.dataTable);
-
 	}
 
 	function toggleEditorOpen() {

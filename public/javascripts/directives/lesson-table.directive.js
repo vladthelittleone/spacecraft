@@ -19,7 +19,7 @@ function LessonTable() {
 	// }
 	var directive = {
 		scope: {
-			data: '=' // Данные для таблицы
+			lessonDataTable: '=' // Данные для таблицы
 		},
 		templateUrl: 'views/directives/lesson-table.html',
 		link:        link,

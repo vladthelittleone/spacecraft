@@ -108,12 +108,12 @@
 						{{errorMessage}}
 					</div>
 
-				</div>
+					<div class="spinner" ng-show="isSpinnerEnable">
+						<div class="spinner-orbit-2"></div>
+						<div class="spinner-orbit-1"></div>
+						<div class="spinner-earth"></div>
+					</div>
 
-				<!--Если форма в процессе отправки, сигнализируем об этом пользователю спиннером :)-->
-				<div us-spinner="{radius:15, width:5, length: 12, color: 'white'}"
-					 spinner-key="login-spinner"
-					 class="spinner">
 				</div>
 
 			</div>

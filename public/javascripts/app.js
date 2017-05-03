@@ -10,8 +10,6 @@ require('angular-http-auth');
 require('angular-cookies');
 require('angular-messages');
 require('angular-ui-bootstrap');
-require('angular-spinner');
-require('angular-data-table');
 
 /**
  * Подключаем изменение прототипа.
@@ -35,9 +33,7 @@ angular.module('spacecraft', [
 		'spacecraft.modules',
 		'http-auth-interceptor',
 		'ngCookies',
-		'ngMessages',
-		'angularSpinner',
-		'data-table'
+		'ngMessages'
 	])
 	.config(configBlock)
 	.run(runBlock);

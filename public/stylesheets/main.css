@@ -954,6 +954,49 @@ pre {
 	overflow: hidden;
 }
 
+.spinner {
+	width: 100px;
+	height: 100px;
+	margin: auto;
+}
+
+.spinner div {
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+	overflow: hidden;
+
+}
+
+.spinner-earth {
+	background-image: url(../images/pages/earth-white.png);
+	-webkit-animation:spin 120s linear infinite;
+	-moz-animation:spin 120s linear infinite;
+	animation:spin 120s linear infinite;
+}
+
+.spinner-orbit-1 {
+	background-image: url(../images/pages/spacecraft-white.png);
+	-webkit-animation:spin 4s linear infinite;
+	-moz-animation:spin 4s linear infinite;
+	animation:spin 4s linear infinite;
+}
+
+.spinner-orbit-2 {
+	background-image: url(../images/pages/satilite-white.png);
+	-webkit-animation:spin 8s linear infinite;
+	-moz-animation:spin 8s linear infinite;
+	animation:spin 8s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+
 .bbot-img {
 	height: 125px;
 	width: 80px;
@@ -1871,10 +1914,6 @@ fieldset, label {
 .login-form input.ng-valid.ng-dirty {
 	border: 1px solid #39C139;
 	border-bottom: 2px solid #39C139;
-}
-
-.spinner {
-	position: relative;
 }
 
 .vk-community-messages {

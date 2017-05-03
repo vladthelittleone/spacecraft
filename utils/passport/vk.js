@@ -23,6 +23,10 @@ vk.login = new VKStrategy(config.get('vkStrategySettings'),
 
 					userHelper.initTotalFinalScore(user);
 
+					// Устанавливаем флаг того, что это НОВЫЙ vk user.
+					// Анализируется далее, следующим middleware'ом (для редиректа пользователя на первый урок).
+					user.isNew = true;
+
 				}
 
 			}

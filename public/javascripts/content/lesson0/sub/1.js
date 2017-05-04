@@ -13,14 +13,6 @@ function WelcomeToAcademy() {
 		title:        'Добро пожаловать в академию!',
 		defaultBBot:  defaultBBot,
 		content:      content,
-		// Пример таблицы
-		// dataTable: {
-		// 	columns: ['Name', 'Gender', 'Email'],
-		// 	data: [
-		// 		['Villy', 'Lory', 'Candal'],
-		// 		['Cooper', 'Lox', 'Priest']
-		// 	]
-		// },
 		instructions: '<ul>' +
 					  '<li>Справа находится редактор кода - это инструмент, с помощью которого вы выполняете поставленные задачи.</li>' +
 					  '<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +
@@ -29,7 +21,15 @@ function WelcomeToAcademy() {
 					  '</ul>',
 		character:    [{
 			audio: 'audio/lesson1/1',
-			css:   'astromen-img'
+			css:   'astromen-img',
+			// Пример таблицы
+			dataTable: {
+				columns: ['Name', 'Gender', 'Email'],
+				data: [
+					['Villy', 'Lory', 'Candal'],
+					['Cooper', 'Lox', 'Priest']
+				]
+			}
 		}, {
 			audio: 'audio/lesson1/2',
 			css:   'astrogirl-img'

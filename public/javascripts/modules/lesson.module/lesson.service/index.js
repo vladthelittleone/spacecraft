@@ -131,6 +131,7 @@ function LessonService(connection,
 	function initInteractiveContent(current) {
 
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
+		scope.dataTable = null;
 
 		if (ch) {
 
@@ -144,10 +145,24 @@ function LessonService(connection,
 				scope.showTextContent = false;  // Убираем инструкции
 				scope.showSettings = false;		// И настройки
 				scope.showDisqus = false;
+				scope.showTable = false;
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
 
+			}
+
+			// Если есть таблица в уроке,
+			// то передаем данные таблицы в директиву
+			if(ch.dataTable) {
+
+				scope.dataTable = ch.dataTable;
+
+				scope.showTable = true;
+				scope.showSettings = false;
+				scope.showTextContent = false; // Закрываем другие окна
+				scope.showDisqus = false;
+				scope.showDiagram = false;
 			}
 
 			// Запуск при старте
@@ -227,7 +242,6 @@ function LessonService(connection,
 
 		// Регистрируем текущий подурок урока в scope.
 		scope.curretSubLesson = current;
-		scope.dataTable = current.dataTable;
 
 		initInteractiveContent(current);
 

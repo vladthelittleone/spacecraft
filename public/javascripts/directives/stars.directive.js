@@ -2,6 +2,8 @@
 
 Stars.$inject = ['connection', '$state'];
 
+var analytics = require('../utils/analytics');
+
 module.exports = Stars;
 
 /**
@@ -31,7 +33,9 @@ function Stars(connection, $state) {
 		 */
 		scope.radioChange = function (value) {
 
-			connection.lessonRate(scope.lessonId, value);
+			connection.rateLesson(scope.lessonId, value);
+
+			analytics.rateLesson(scope.lessonId, value);
 
 			$state.go('lessons');
 

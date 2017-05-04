@@ -1921,10 +1921,8 @@ fieldset, label {
 }
 
 .table {
-	width: 80%;
-	margin-left: 10%;
-	margin-right: 10%;
-	margin-top: 5%;
+	width: 90%;
+	margin: 5% auto auto;
 }
 
 .table > tbody > tr > td {
@@ -1936,7 +1934,7 @@ fieldset, label {
 	font-size: 14px;
 	vertical-align: middle;
 	height: 40px;
-	border: 2px solid #000;
+	border: 2px solid #000 !important;
 }
 
 .table > thead > tr > th {

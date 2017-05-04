@@ -26,7 +26,7 @@ function Connection($http) {
 	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
 
-	that.lessonRate = lessonRate;
+	that.rateLesson = rateLesson;
 
 	that.getLeaderBoard = getLeaderBoard;
 
@@ -99,7 +99,7 @@ function Connection($http) {
 	/**
 	 * Сохранение оценки урока.
 	 */
-	function lessonRate(lessonId, stars, success, error) {
+	function rateLesson(lessonId, stars, success, error) {
 
 		$http({
 				  url:    apiUrls.lessonStar,

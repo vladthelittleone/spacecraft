@@ -7,22 +7,48 @@ module.exports = OperatorPlus();
 /**
  * Урок - 'Догнать за 64 секунды';
  */
-function OperatorPlus () {
+function OperatorPlus() {
 
 	return {
-		isRestartDisabled: true,
-		title: 'Познай дзен и конкатенацию',
-		content: content,
+		isRestartDisabled:  true,
+		title:              'Познай дзен и конкатенацию',
+		content:            content,
 		interpreterHandler: interpreterHandler,
-		instructions: '<ul>' +
-		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
-		'<i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Еще о конкатенации: ' +
-		'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/A_re-introduction_to_JavaScript#Операторы">клац</a>.</li>' +
-		'</ul>'
+		instructions:       '<ul>' +
+							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
+							'<i class="glyphicon glyphicon-play green"></i>.</li>' +
+							'<li>Еще о конкатенации: ' +
+							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/A_re-introduction_to_JavaScript#Операторы">клац</a>.</li>' +
+							'</ul>',
+		character:          [
+			{
+				audio:  'audio/lesson2/3-2',
+				marker: {
+					x1: 2,
+					y2: Infinity
+				}
+			}, {
+				audio:  'audio/lesson2/3-3',
+				marker: {
+					x1: 5,
+					y2: Infinity
+				}
+			}, {
+				audio:  'audio/lesson2/3-3',
+				marker: {
+					x1: 8,
+					y2: Infinity
+				}
+			}, {
+				audio:  'audio/lesson2/3-3',
+				marker: {
+					x1: 11,
+					y2: Infinity
+				}
+			}]
 	};
 
-	function content () {
+	function content() {
 
 		return '<p>Поговорим об операторе <strong class="under-label">+</strong>.' +
 			'<p>Из уроков математики вы знаете, что <strong class="under-label">+</strong> используется для сложения чисел. ' +
@@ -33,7 +59,7 @@ function OperatorPlus () {
 
 	}
 
-	function interpreterHandler (value) {
+	function interpreterHandler(value) {
 
 		var correctText;
 
@@ -54,9 +80,9 @@ function OperatorPlus () {
 		}
 
 		var lessonResults = LessonResults({
-											  correct: correctText,
-											  unknownError: '<p>Тададам! И вновь 0шибка!</p>'
-										  });
+			correct:      correctText,
+			unknownError: '<p>Тададам! И вновь 0шибка!</p>'
+		});
 
 		if (correctText) {
 

@@ -65,13 +65,13 @@ function OperatorPlus() {
 
 		if (value) {
 
-			correctText = '<p>Транслирую:</p>';
+			correctText = '';
 
 			value.forEach(function (v) {
 
 				if (v) {
 
-					correctText += '<p class="bbot-output">' + v + '</p>';
+					correctText += v + '<br>';
 
 				}
 
@@ -80,7 +80,8 @@ function OperatorPlus() {
 		}
 
 		var lessonResults = LessonResults({
-			correct:      correctText,
+			correct:      '<p>Плюсую-транслирую:</p>' +
+						  '<p class="bbot-output">' + correctText + '</p>',
 			unknownError: '<p>Тададам! И вновь 0шибка!</p>'
 		});
 

@@ -92,7 +92,9 @@ function WhatDoesBBotSay() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Хах, я п0лучил нужные данные! Транслирую:</p>' +
+			correct: '<p>По вселенной бродят сишники, гигантские джависты, пхпышники...</p>' +
+					 '<p>А тебя удивляет говорящий бот?!</p> ' +
+					 '<p>Транслирую:</p>' +
 					 '<p class="bbot-output">' + t + '</p>',
 
 			text: t

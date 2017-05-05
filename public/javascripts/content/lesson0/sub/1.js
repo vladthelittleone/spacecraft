@@ -29,8 +29,7 @@ function WelcomeToAcademy() {
 					  '</ul>',
 		character:    [{
 			audio: 'audio/lesson1/1',
-			css:   'astromen-img',
-
+			css:   'astromen-img'
 		}, {
 			audio: 'audio/lesson1/2',
 			css:   'astrogirl-img'

@@ -131,7 +131,6 @@ function LessonService(connection,
 	function initInteractiveContent(current) {
 
 		var ch = scope.char = current.character[audioWrapper.audioIndex];
-		scope.dataTable = null;
 
 		if (ch) {
 
@@ -141,11 +140,7 @@ function LessonService(connection,
 			// Если урок с диграммой, то добавляем панель диаграммы
 			if (ch.diagram) {
 
-				scope.showDiagram = true;
-				scope.showTextContent = false;  // Убираем инструкции
-				scope.showSettings = false;		// И настройки
-				scope.showDisqus = false;
-				scope.showTable = false;
+				scope.setContentEnable('diagramEnable');
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
@@ -154,15 +149,11 @@ function LessonService(connection,
 
 			// Если есть таблица в уроке,
 			// то передаем данные таблицы в директиву
-			if(ch.dataTable) {
+			if(ch.lessonTable) {
 
-				scope.dataTable = ch.dataTable;
+				scope.lessonTable = ch.lessonTable;
 
-				scope.showTable = true;
-				scope.showSettings = false;
-				scope.showTextContent = false; // Закрываем другие окна
-				scope.showDisqus = false;
-				scope.showDiagram = false;
+				scope.setContentEnable('tableEnable');
 			}
 
 			// Запуск при старте
@@ -392,14 +383,12 @@ function LessonService(connection,
 		// Установка трека в 0
 		audioWrapper.audioIndex = 0;
 
-		// Сокрытие панели инструкций
-		scope.showTextContent = false;
-
-		// Сокрытие диаграммы и очистка оной
-		scope.showDiagram = false;
+		scope.disableRightContent();
 
 		// Очистка диграмм
 		Diagram.clearChanges();
+
+		scope.lessonTable = null;
 
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();

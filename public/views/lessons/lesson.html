@@ -7,22 +7,22 @@
 			 min-size="30%"
 			 max-size="70%"
 			 size="50%">
-			<div class="diagram-board" diagram-board ng-if="showDiagram">
+			<div class="diagram-board" diagram-board ng-if="diagramEnable">
 			</div>
 			<div class="diagram-board"
 				 lesson-table
-				 lesson-data-table="dataTable"
-				 ng-if="showTable"></div>
+				 lesson-table-data="lessonTable"
+				 ng-if="tableEnable"></div>
 			<div lesson-board
 				 ng-if="lesson.sub[subIndex] && !lesson.sub[subIndex].question"
 				 lesson="lesson.sub[subIndex]"
-				 ng-show="showTextContent">
+				 ng-show="textContentEnable">
 			</div>
 			<div settings
-				 ng-show="showSettings">
+				 ng-show="settingsEnable">
 			</div>
 			<div disqus
-				 ng-show="showDisqus">
+				 ng-show="disqusEnable">
 			</div>
 		</div>
 
@@ -98,9 +98,9 @@
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 ng-if="!lesson.sub[subIndex].question"
-		 uib-tooltip="{{showTextContent ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
-		 ng-click="toggleTextContent()"
-		 ng-class="{'fa-chevron-right' : showTextContent}"></div>
+		 uib-tooltip="{{textContentEnable ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
+		 ng-click="setContentEnable('textContentEnable')"
+		 ng-class="{'fa-chevron-right' : textContentEnable}"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
@@ -113,25 +113,25 @@
 	<div class="right-toolbar-button fa diagram-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showDiagram ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
-		 ng-click="toggleDiagram()"
+		 uib-tooltip="{{diagramEnable ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
+		 ng-click="setContentEnable('diagramEnable')"
 		 ng-show="isLessonWithDiagram()"
-		 ng-class="{'fa-chevron-right' : showDiagram, 'fa-sitemap' : !showDiagram}"></div>
+		 ng-class="{'fa-chevron-right' : diagramEnable, 'fa-sitemap' : !diagramEnable}"></div>
 
 	<div class="right-toolbar-button fa table-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showTable ? 'Скрыть таблицу' : 'Таблица'}}"
-		 ng-class="{'fa-chevron-right' : showTable, 'fa-table' : !showTable}"
-		 ng-click="toggleTable()"
+		 uib-tooltip="{{tableEnable ? 'Скрыть таблицу' : 'Таблица'}}"
+		 ng-class="{'fa-chevron-right' : tableEnable, 'fa-table' : !tableEnable}"
+		 ng-click="setContentEnable('tableEnable')"
 		 ng-show="isLessonWithTable()"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showSettings ? 'Скрыть настройки' : 'Показать настройки'}}"
-		 ng-click="toggleSettings()"
-		 ng-class="{'fa-chevron-right' : showSettings, 'fa-wrench' : !showSettings}"></div>
+		 uib-tooltip="{{settingsEnable ? 'Скрыть настройки' : 'Показать настройки'}}"
+		 ng-click="setContentEnable('settingsEnable')"
+		 ng-class="{'fa-chevron-right' : settingsEnable, 'fa-wrench' : !settingsEnable}"></div>
 
 	<div class="right-toolbar-button fa fa-fast-backward"
 		 tooltip-placement="left"
@@ -149,17 +149,17 @@
 	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk vk-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showVkWidget ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
+		 uib-tooltip="{{vkWidgetEnable ? 'Скрыть vk сообщения' : 'Есть вопросы?'}}"
 		 ng-if="vkWidget"
-		 ng-class="{'fa-chevron-right' : showVkWidget, 'fa-vk' : !showVkWidget}"
+		 ng-class="{'fa-chevron-right' : vkWidgetEnable, 'fa-vk' : !vkWidgetEnable}"
 		 ng-click="toggleVkWidgetVisible()"></div>
 
 	<div class="right-toolbar-button fa disqus-hint"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{showVkWidget ? 'Скрыть обсуждение' : 'Обсуждение'}}"
-		 ng-class="{'fa-chevron-right' : showDisqus, 'fa-comments' : !showDisqus}"
-		 ng-click="toggleDisqus()"></div>
+		 uib-tooltip="{{disqusEnable ? 'Скрыть обсуждение' : 'Обсуждение'}}"
+		 ng-class="{'fa-chevron-right' : disqusEnable, 'fa-comments' : !disqusEnable}"
+		 ng-click="setContentEnable('disqusEnable')"></div>
 
 </div>
 

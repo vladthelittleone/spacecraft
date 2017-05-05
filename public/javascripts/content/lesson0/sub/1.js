@@ -23,13 +23,13 @@ function WelcomeToAcademy() {
 			audio: 'audio/lesson1/1',
 			css:   'astromen-img',
 			// Пример таблицы
-			dataTable: {
-				columns: ['Name', 'Gender', 'Email'],
-				data: [
-					['Villy', 'Lory', 'Candal'],
-					['Cooper', 'Lox', 'Priest']
-				]
-			}
+			// lessonTable: {
+			// 	columns: ['Name', 'Gender', 'Email'],
+			// 	rows: [
+			// 		['Villy', 'Lory', 'Candal'],
+			// 		['Cooper', 'Lox', 'Priest']
+			// 	]
+			// }
 		}, {
 			audio: 'audio/lesson1/2',
 			css:   'astrogirl-img'

@@ -12,14 +12,14 @@ function LessonTable() {
 	// Формат данных  для таблицы
 	// {
 	// 	columns: ['Name', 'Gender', 'Email'],
-	// 	data: [
+	// 	rows: [
 	// 			['Villy', 'Lory', 'Candal'],
 	// 			['Cooper', 'Lox', 'Priest']
 	// 		]
 	// }
 	var directive = {
 		scope: {
-			lessonDataTable: '=' // Данные для таблицы
+			lessonTableData: '=' // Данные для таблицы
 		},
 		templateUrl: 'views/directives/lesson-table.html',
 		link:        link,
@@ -29,6 +29,5 @@ function LessonTable() {
 	return directive;
 
 	function link($scope) {
-
 	}
 }

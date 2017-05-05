@@ -37,8 +37,6 @@ function BootState(game) {
 			game.renderer.clearBeforeRender = false;
 			game.renderer.roundPixels = true;
 
-			console.info("CANVAS");
-
 		}
 
 		// Плагин дебаг

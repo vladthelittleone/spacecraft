@@ -82,6 +82,8 @@ function StatesManager() {
 	 */
 	function createBootState(game, key) {
 
+		console.log('BOOT!');
+
 		return game.state.add(key, BootState);
 
 	}
@@ -90,6 +92,8 @@ function StatesManager() {
 	 * Состояние загрузки ресурсов.
 	 */
 	function createPreloadState(game, key, resources) {
+
+		console.log('RESOURCES!');
 
 		var state = game.state.add(key, PreloadState);
 

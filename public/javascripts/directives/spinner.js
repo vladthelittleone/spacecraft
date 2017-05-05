@@ -1,6 +1,6 @@
 'use strict';
 
-Spinner.$inject = ['$rootScope'];
+Spinner.$inject = ['$rootScope', '$http'];
 
 module.exports = Spinner;
 
@@ -8,7 +8,7 @@ module.exports = Spinner;
  * @author iretd
  * @since 29.04.2017
  */
-function Spinner($rootScope) {
+function Spinner($rootScope, $http) {
 
 	var directive = {
 		templateUrl: 'views/directives/spinner.html',
@@ -22,15 +22,35 @@ function Spinner($rootScope) {
 
 		// element.addClass('ng-hide');
 
-		$rootScope.$on('$stateChangeStart', function(event, currentRoute, previousRoute) {
+		scope.isLoading = function () {
 
-			element.removeClass('ng-hide');
+			return $http.pendingRequests.length > 0;
+
+		};
+
+		scope.$watch(scope.isLoading, function (value) {
+
+			if (value) {
+
+				element.removeClass('ng-hide');
+
+			} else {
+
+				element.addClass('ng-hide');
+				
+			}
 
 		});
 
-		$rootScope.$on('$stateChangeSuccess', function() {
-			element.addClass('ng-hide');
-		});
+		// $rootScope.$on('$stateChangeStart', function(event, currentRoute, previousRoute) {
+        //
+		// 	element.removeClass('ng-hide');
+        //
+		// });
+        //
+		// $rootScope.$on('$stateChangeSuccess', function() {
+		// 	element.addClass('ng-hide');
+		// });
 
 	}
 }

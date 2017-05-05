@@ -45,6 +45,8 @@ function PreloadState(game) {
 		}, t.resources);
 
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
+		
+		console.log('Im loading!');
 
 	}
 

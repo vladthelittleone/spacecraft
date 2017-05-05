@@ -105,11 +105,10 @@ function LessonController($scope,
 	 */
 	function setContentEnable(content) {
 
-		var currentState = $scope[content];
-
 		disableRightContent();
 
-		$scope[content] = !currentState;
+		$scope[content] = true;
+
 	}
 
 	function toggleVkWidgetVisible () {
@@ -160,7 +159,7 @@ function LessonController($scope,
 
 	function isLessonWithTable() {
 
-		return !lodash.isEmpty($scope.lessonTable);
+		return $scope.char && !lodash.isEmpty($scope.char.lessonTable);
 	}
 
 	/**

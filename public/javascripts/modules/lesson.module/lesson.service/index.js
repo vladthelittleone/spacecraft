@@ -147,15 +147,6 @@ function LessonService(connection,
 
 			}
 
-			// Если есть таблица в уроке,
-			// то передаем данные таблицы в директиву
-			if(ch.lessonTable) {
-
-				scope.lessonTable = ch.lessonTable;
-
-				scope.setContentEnable('tableEnable');
-			}
-
 			// Запуск при старте
 			if (current.runOnStart) {
 
@@ -233,6 +224,15 @@ function LessonService(connection,
 
 		// Регистрируем текущий подурок урока в scope.
 		scope.curretSubLesson = current;
+
+		// Если есть таблица в уроке,
+		// то передаем данные таблицы в директиву
+		if(current.lessonTable) {
+
+			scope.lessonTable = current.lessonTable;
+
+			scope.setContentEnable('tableEnable');
+		}
 
 		initInteractiveContent(current);
 
@@ -383,12 +383,12 @@ function LessonService(connection,
 		// Установка трека в 0
 		audioWrapper.audioIndex = 0;
 
+		scope.lessonTable = null;
+
 		scope.disableRightContent();
 
 		// Очистка диграмм
 		Diagram.clearChanges();
-
-		scope.lessonTable = null;
 
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();

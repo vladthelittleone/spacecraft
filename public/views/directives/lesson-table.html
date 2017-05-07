@@ -1,0 +1,23 @@
+<div class="settings">
+	<div class="content-description">
+		<div class="content-overflow" ng-if="lessonTableData">
+			<table class="table table-responsive">
+				<thead>
+					<tr>
+						<th ng-repeat="column in lessonTableData.columns">
+							{{column}}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in lessonTableData.rows">
+						<td ng-repeat="element in row">
+							{{element}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+

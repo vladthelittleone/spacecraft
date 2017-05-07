@@ -1611,7 +1611,7 @@ div.helper {
 	height: 35px;
 	border: 0;
 	float: left;
-	background: rgba(21, 43, 57, 0.97);;
+	background: rgba(21, 43, 57, 0.97);
 	color: white;
 	outline: 0;
 }
@@ -1918,4 +1918,33 @@ fieldset, label {
 
 .vk-community-messages {
 	padding-right: 480px;
+}
+
+.table {
+	width: 90%;
+	margin: 5% auto auto;
+}
+
+.table > tbody > tr > td {
+	color: #fff;
+	padding: 2px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: center;
+	font-size: 14px;
+	vertical-align: middle;
+	height: 40px;
+	border: 2px solid #000;
+}
+
+.table > thead > tr > th {
+	text-align: center;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: normal;
+	word-wrap: normal;
+	background-color: #152B39;
+	color: #fff;
+	border: 2px solid #000 !important;
 }

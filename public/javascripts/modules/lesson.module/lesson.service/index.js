@@ -140,14 +140,20 @@ function LessonService(connection,
 			// Если урок с диграммой, то добавляем панель диаграммы
 			if (ch.diagram) {
 
-				scope.showDiagram = true;
-				scope.showTextContent = false;  // Убираем инструкции
-				scope.showSettings = false;		// И настройки
-				scope.showDisqus = false;
+				scope.setContentEnable('diagramEnable');
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
 
+			}
+
+			// Если есть таблица в уроке,
+			// то передаем данные таблицы в директиву
+			if(ch.lessonTable) {
+
+				scope.lessonTable = ch.lessonTable;
+
+				scope.setContentEnable('tableEnable');
 			}
 
 			// Запуск при старте
@@ -377,14 +383,7 @@ function LessonService(connection,
 		// Установка трека в 0
 		audioWrapper.audioIndex = 0;
 
-		// Сокрытие панели инструкций
-		scope.showTextContent = false;
-
-		// Сокрытие диаграммы и очистка оной
-		scope.showDiagram = false;
-
-		// Очистка диграмм
-		Diagram.clearChanges();
+		scope.disableLeftContent();
 
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
@@ -399,6 +398,12 @@ function LessonService(connection,
 
 		var subLessonCountByIndex = getSubLessonCount() - 1;
 		var lessonIsNotFinished = scope.subIndex !== subLessonCountByIndex;
+
+		// Очищаем диаграмму.
+		Diagram.clearChanges();
+
+		// Убираем табличку.
+		scope.lessonTable = null;
 
 		if (lessonIsNotFinished) {
 
@@ -522,9 +527,6 @@ function LessonService(connection,
 	function initialize(args) {
 
 		CodeLauncher.isCodeRunning = false;
-
-		// Очищаем диаграмму перед стартом урока.
-		Diagram.clearChanges();
 
 		// В каждом случае запуска урока необходимо создавать
 		// новый объект currentLessonStatistics, в противном случае,

@@ -21,7 +21,15 @@ function WelcomeToAcademy() {
 					  '</ul>',
 		character:    [{
 			audio: 'audio/lesson1/1',
-			css:   'astromen-img'
+			css:   'astromen-img',
+			// Пример таблицы
+			// lessonTable: {
+			// 	columns: ['Name', 'Gender', 'Email'],
+			// 	rows: [
+			// 		['Villy', 'Lory', 'Candal'],
+			// 		['Cooper', 'Lox', 'Priest']
+			// 	]
+			// },
 		}, {
 			audio: 'audio/lesson1/2',
 			css:   'astrogirl-img'

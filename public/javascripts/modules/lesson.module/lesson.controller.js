@@ -7,6 +7,8 @@ var CodeLauncher = require('../../game/launcher');
 var TabHandler = require('../../emitters/tab-handler');
 var Diagram = require('../../directives/diagram.directive/diagram');
 
+var lodash = require('lodash');
+
 LessonController.$inject = ['$scope',
 							'$stateParams',
 							'$state',
@@ -41,35 +43,30 @@ function LessonController($scope,
 	$scope.isStarsVisible = false;		// Переключатель окна оценки урока
 	$scope.starsHide = false;		    // Переключатель окна оценки урока
 	$scope.hideEditor = false;		    // Переключатель окна урока
-	$scope.showTextContent = false;     // Переключатель текстового контента урока
-	$scope.showDiagram = false;			// Переключатель окна диаграммы
-	$scope.showSettings = false;	    // Переключатель натсроек
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
-	$scope.showVkWidget = false;        // Переключатель отображения виджета vk сообщений
-	$scope.showDisqus = false;			// Переключатель комментариев
+
+	disableLeftContent();
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
-	$scope.toggleTextContent = toggleTextContent;
-	$scope.toggleSettings = toggleSettings;
 	$scope.toggleAudioPause = toggleAudioPause;
 	$scope.previousAudio = previousAudio;
-	$scope.toggleDisqus = toggleDisqus;
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
-	$scope.toggleDiagram = toggleDiagram;
+	$scope.isLessonWithTable = isLessonWithTable;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
 	$scope.quizAnswer = quizAnswer;
+	$scope.setContentEnable = setContentEnable;
+	$scope.disableLeftContent = disableLeftContent;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
-
 	initVk();
 
 	// ==================================================
@@ -96,15 +93,27 @@ function LessonController($scope,
 
 		} catch (e) {
 
-			$scope.showVkWidget = false;
+			$scope.vkWidgetEnable = false;
 
 		}
 
 	}
 
+	/**
+	 * Обощенная функция, который открывает(делает видимым)
+	 * окно с необходимым контентом
+	 */
+	function setContentEnable(content) {
+
+		disableLeftContent();
+
+		$scope[content] = true;
+
+	}
+
 	function toggleVkWidgetVisible () {
 
-		if ($scope.showVkWidget) {
+		if ($scope.vkWidgetEnable) {
 
 			$scope.vkWidget.minimize();
 
@@ -114,37 +123,7 @@ function LessonController($scope,
 
 		}
 
-		$scope.showVkWidget = !$scope.showVkWidget;
-
-	}
-
-	function toggleTextContent() {
-
-		$scope.showTextContent = !$scope.showTextContent;
-
-		$scope.showSettings = false;
-		$scope.showDiagram = false;
-		$scope.showDisqus = false;
-
-	}
-
-	function toggleDisqus () {
-
-		$scope.showDisqus = !$scope.showDisqus;
-
-		$scope.showSettings = false;
-		$scope.showDiagram = false;
-		$scope.showTextContent = false;
-
-	}
-
-	function toggleSettings() {
-
-		$scope.showSettings = !$scope.showSettings;
-
-		$scope.showTextContent = false;
-		$scope.showDiagram = false;
-		$scope.showDisqus = false;
+		$scope.vkWidgetEnable = !$scope.vkWidgetEnable;
 
 	}
 
@@ -153,16 +132,6 @@ function LessonController($scope,
 		lessonService.audioManager.toggleAudio($scope.audioPause);
 
 		$scope.audioPause = !$scope.audioPause;
-
-	}
-
-	function toggleDiagram() {
-
-		$scope.showDiagram = !$scope.showDiagram;
-
-		$scope.showSettings = false;
-		$scope.showTextContent = false;
-		$scope.showDisqus = false;
 
 	}
 
@@ -188,12 +157,32 @@ function LessonController($scope,
 
 	}
 
+	function isLessonWithTable() {
+
+		return $scope.char && !lodash.isEmpty($scope.char.lessonTable);
+
+	}
+
 	/**
 	 * Обработчик изменения кода в Ace.
 	 */
 	function aceChanged() {
 
 		//
+
+	}
+
+	/**
+	 * Функция закрывает все окна
+	 */
+	function disableLeftContent() {
+
+		$scope.textContentEnable = false;	// Переключатель текстового контента урока
+		$scope.disqusEnable = false;		// Переключатель комментариев
+		$scope.diagramEnable = false;		// Переключатель окна диаграммы
+		$scope.tableEnable = false;			// Переключатель таблички
+		$scope.settingsEnable = false;		// Переключатель натсроек
+		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
 
 	}
 
@@ -356,8 +345,8 @@ function LessonController($scope,
 			// выключаем окно инструкции.
 			// Оно зависит от поля showTextContent.
 			// ng-show = "showTextContent"
-			$scope.showTextContent = false;
-			$scope.showSettings = false;
+			$scope.textContentEnable = false;
+			$scope.settingsEnable = false;
 		}
 		else {
 

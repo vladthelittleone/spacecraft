@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by iretd on 27.03.17.
  */

@@ -383,12 +383,7 @@ function LessonService(connection,
 		// Установка трека в 0
 		audioWrapper.audioIndex = 0;
 
-		scope.lessonTable = null;
-
-		scope.disableRightContent();
-
-		// Очистка диграмм
-		Diagram.clearChanges();
+		scope.disableLeftContent();
 
 		// Работа с очками по подуроку.
 		currentLessonStatistics.subPenaltyPointsForGame();
@@ -403,6 +398,12 @@ function LessonService(connection,
 
 		var subLessonCountByIndex = getSubLessonCount() - 1;
 		var lessonIsNotFinished = scope.subIndex !== subLessonCountByIndex;
+
+		// Очищаем диаграмму.
+		Diagram.clearChanges();
+
+		// Убираем табличку.
+		scope.lessonTable = null;
 
 		if (lessonIsNotFinished) {
 
@@ -526,9 +527,6 @@ function LessonService(connection,
 	function initialize(args) {
 
 		CodeLauncher.isCodeRunning = false;
-
-		// Очищаем диаграмму перед стартом урока.
-		Diagram.clearChanges();
 
 		// В каждом случае запуска урока необходимо создавать
 		// новый объект currentLessonStatistics, в противном случае,

@@ -45,7 +45,7 @@ function LessonController($scope,
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 
-	disableRightContent();
+	disableLeftContent();
 
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
@@ -61,7 +61,7 @@ function LessonController($scope,
 	$scope.onError = onError;
 	$scope.quizAnswer = quizAnswer;
 	$scope.setContentEnable = setContentEnable;
-	$scope.disableRightContent = disableRightContent;
+	$scope.disableLeftContent = disableLeftContent;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
@@ -105,7 +105,7 @@ function LessonController($scope,
 	 */
 	function setContentEnable(content) {
 
-		disableRightContent();
+		disableLeftContent();
 
 		$scope[content] = true;
 
@@ -175,7 +175,7 @@ function LessonController($scope,
 	/**
 	 * Функция закрывает все окна
 	 */
-	function disableRightContent() {
+	function disableLeftContent() {
 
 		$scope.textContentEnable = false;	// Переключатель текстового контента урока
 		$scope.disqusEnable = false;		// Переключатель комментариев

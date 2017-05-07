@@ -160,6 +160,7 @@ function LessonController($scope,
 	function isLessonWithTable() {
 
 		return $scope.char && !lodash.isEmpty($scope.char.lessonTable);
+
 	}
 
 	/**

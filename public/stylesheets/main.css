@@ -1934,7 +1934,7 @@ fieldset, label {
 	font-size: 14px;
 	vertical-align: middle;
 	height: 40px;
-	border: 2px solid #000 !important;
+	border: 2px solid #000;
 }
 
 .table > thead > tr > th {
@@ -1946,5 +1946,5 @@ fieldset, label {
 	word-wrap: normal;
 	background-color: #152B39;
 	color: #fff;
-	border: 2px solid #000;
+	border: 2px solid #000 !important;
 }

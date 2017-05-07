@@ -29,5 +29,8 @@ function LessonTable() {
 	return directive;
 
 	function link($scope) {
+
+		// Stub
+
 	}
 }

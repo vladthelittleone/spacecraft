@@ -9,15 +9,15 @@ function TheEndOfTheLesson() {
 
 	return {
 		isRestartDisabled: true,
-		title:        'Главное двигаться вперед',
-		character:    [{
+		title:             'Главное двигаться вперед',
+		character:         [{
 
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astromen-img'
+			audio: 'audio/lesson2/1-2.mp3',
+			css:   'astromen-img'
 		}, {
 
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img'
+			audio: 'audio/lesson2/1-2.mp3',
+			css:   'astrogirl-img'
 
 		}],
 
@@ -26,15 +26,16 @@ function TheEndOfTheLesson() {
 		defaultBBot: defaultBBot,
 
 		instructions: '<ul>' +
-		'<li>Нажмите "Далее" для продолжения.</li>' +
-		'</ul>'
+					  '<li>Нажмите «Далее» для продолжения.</li>' +
+					  '</ul>'
 	};
 
 	function content() {
 
 		return '<p>Вы успешно справились с заданием, кадет. ' +
 			'Наши ученые из исследовательского центра прольют свет на эту историю. </p>' +
-			'<p>А Вам, я пожелаю удачи, впереди у вас еще много приключений. Помните - только вперед!</p>';
+			'<p>Раньше меня тоже вела дорога приключений, но потом мне прострелили ногу.</p>' +
+			'<p>Поэтому мой вам совет: пока есть возможность и силы - только вперед!</p>';
 
 	}
 

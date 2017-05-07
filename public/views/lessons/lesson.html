@@ -76,10 +76,10 @@
 	<div class="right-toolbar-button enhoyhint-play fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 uib-tooltip="{{LessonInfo.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
+		 uib-tooltip="{{CodeLauncher.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
 		 ng-show="curretSubLesson.interpreterHandler || curretSubLesson.gamePostUpdate"
 		 ng-click="toggleCodeRun()"
-		 ng-class="{'fa-stop right-toolbar-red': LessonInfo.isCodeRunning, 'fa-play right-toolbar-green' : !LessonInfo.isCodeRunning}">
+		 ng-class="{'fa-stop right-toolbar-red': CodeLauncher.isCodeRunning, 'fa-play right-toolbar-green' : !CodeLauncher.isCodeRunning}">
 	</div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"

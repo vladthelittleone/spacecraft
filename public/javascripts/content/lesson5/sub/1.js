@@ -22,8 +22,7 @@ function OperatorsAndOperands() {
 
 	function content() {
 
-		return '<p>Раньше меня тоже вела дорога приключений, а потом мне прострелили ногу.</p>' +
-			'<p>Сегодня мы поговорим об операторах и операндах.' +
+		return '<p>Сегодня мы поговорим об операторах и операндах.' +
 			'<p>В предыдущих уроках вы уже сталкивались с операторами языка <strong>JavaScript</strong>: ' +
 			'<span class="under-label"><strong>+</strong></span>, ' +
 			'<span class="under-label"><strong>=</strong></span>, ' +

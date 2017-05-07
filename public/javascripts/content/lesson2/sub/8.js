@@ -20,7 +20,7 @@ function ObjectType() {
 		defaultBBot:       defaultBBot,
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
-						   '<li>Нажмите "Далее" для продолжения.</li>' +
+						   '<li>Нажмите «Далее» для продолжения.</li>' +
 						   '<li>Хотите узнать больше о объектах? Вам сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Working_with_Objects">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{

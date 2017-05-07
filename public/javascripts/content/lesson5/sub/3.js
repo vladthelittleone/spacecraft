@@ -17,7 +17,7 @@ function OperatorAssignment () {
 		instructions: '<ul>' +
 		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
 		'<i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Еще о присваивании: ' +
+		'<li>Присвой себе больше знаний: ' +
 		'<a target="_blank" href="https://msdn.microsoft.com/ru-ru/library/1w2h1k9x(v=vs.94).aspx">клац</a>.</li>' +
 		'</ul>',
 		character: [{
@@ -53,18 +53,14 @@ function OperatorAssignment () {
 
 	function content () {
 
-		return '<p> В прошлых уроках вы уже сталкивались с оператором присваивания <span class="under-label">=</span>.' +
-			'<p>С его помощью переменной задают значение. Например, вот таким образом вы можете создать переменную ' +
-			'содержащую ответ на все вопросы.' +
-			'<pre>var allQuestionsAnswered = 42;</pre> ' +
+		return '<p>Рассмотрим оператор присваивания более подробно.' +
+			'<p>Напомню, что с  его помощью переменной задают значение. Например, вы можете создать переменную, ' +
+			'содержащую ответ на «Главный вопрос жизни, вселенной и всего такого».</p>' +
+			'<pre><strong>var</strong> ultimateQuestionAnswer = 42;</pre> ' +
 			'Переменной будет присвоено значение <class="under-label">42</span>. ' +
-			'<p>Помимо этого, одной переменной, можно присвоить значение другой переменной. Например.' +
-			'<pre>everythingAnswer = allQuestionsAnswered;</pre>' +
-			'В результате чего переменной <span class="under-label">everythingAnswer</span> будет присвоено значение 42. ' +
-			'Также, любой переменной можно присвоить результат выполнения выражения. Например, вот таким образом.' +
-			'<pre>everythingAnswer = 10 *  allQuestionsAnswered / 2 - 1</pre>' +
-			'В результате переменной <span class="under-label">everythingAnswer</span> будет присвоено значение 209.' +
-			'<p>В программировании, строки кода выполняются слева направо. ' +
+			'Любой переменной можно присвоить результат выполнения выражения. Например:' +
+			'<pre><strong>var</strong> ultimateSoloAnswer = ultimateQuestionAnswer * 322 / 21;</pre>' +
+			'В результате переменной <span class="under-label">ultimateSoloAnswer</span> будет присвоено значение <strong>644</strong>.' +
 			'Однако, в случае с оператором <span class="under-label">=</span>, сперва будет вычислено выражение справа от оператора ' +
 			'и только после этого результат вычисления будет присвоен переменной.</p>' +
 			'<p>Вы знаете почему так происходит?</p>';

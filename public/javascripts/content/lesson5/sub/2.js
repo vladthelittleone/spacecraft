@@ -17,7 +17,7 @@ function OperatorPlus() {
 		instructions:       '<ul>' +
 							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
 							'<i class="glyphicon glyphicon-play green"></i>.</li>' +
-							'<li>Еще о конкатенации: ' +
+							'<li>Хочешь узнать больше? Лови: ' +
 							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/A_re-introduction_to_JavaScript#Операторы">клац</a>.</li>' +
 							'</ul>',
 		character:          [

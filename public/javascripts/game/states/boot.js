@@ -49,7 +49,6 @@ function BootState(game) {
 
 		// Переходим в состояние предзагрузки ресурсов
 		game.state.start('preload');
-
 	}
 
 }

@@ -1,6 +1,8 @@
 'use strict';
 
-Spinner.$inject = ['$rootScope', '$http'];
+Spinner.$inject = ['$rootScope', '$timeout'];
+
+var lodash = require('lodash');
 
 module.exports = Spinner;
 
@@ -8,10 +10,18 @@ module.exports = Spinner;
  * @author iretd
  * @since 29.04.2017
  */
-function Spinner($rootScope, $http) {
+function Spinner($rootScope, $timeout) {
+
+	var visible = false;
+
+	// MILLISECONDS
+	var TIME_TILL_SPINNER_VISIBLE = 500;
 
 	var directive = {
 		templateUrl: 'views/directives/spinner.html',
+		scope: {
+			message: '='
+		},
 		link:        link,
 		restrict:    'EA'
 	};
@@ -20,37 +30,43 @@ function Spinner($rootScope, $http) {
 
 	function link(scope, element) {
 
-		// element.addClass('ng-hide');
+		if (lodash.isNil(scope.message)) {
 
-		scope.isLoading = function () {
+			scope.message = 'Загрузка';
 
-			return $http.pendingRequests.length > 0;
+		}
 
-		};
+		updateSpinnerVisibleState();
 
-		scope.$watch(scope.isLoading, function (value) {
+		$rootScope.$on('$stateChangeStart', function() {
 
-			if (value) {
+			visible = true;
+
+			$timeout(updateSpinnerVisibleState, TIME_TILL_SPINNER_VISIBLE);
+
+		});
+
+		$rootScope.$on('$stateChangeSuccess', function() {
+
+			visible = false;
+
+			$timeout(updateSpinnerVisibleState, TIME_TILL_SPINNER_VISIBLE);
+
+		});
+
+		function updateSpinnerVisibleState() {
+
+			if (visible) {
 
 				element.removeClass('ng-hide');
 
 			} else {
 
 				element.addClass('ng-hide');
-				
+
 			}
 
-		});
-
-		// $rootScope.$on('$stateChangeStart', function(event, currentRoute, previousRoute) {
-        //
-		// 	element.removeClass('ng-hide');
-        //
-		// });
-        //
-		// $rootScope.$on('$stateChangeSuccess', function() {
-		// 	element.addClass('ng-hide');
-		// });
+		}
 
 	}
 }

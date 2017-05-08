@@ -65,7 +65,7 @@ function LessonController($scope,
 	$scope.onError = onError;
 	$scope.quizAnswer = quizAnswer;
 
-	$scope.$watch('$viewContentLoaded', onContentLoaded);
+	$scope.$on('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);

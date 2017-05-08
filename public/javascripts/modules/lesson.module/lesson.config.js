@@ -20,6 +20,12 @@ function LessonConfig($stateProvider) {
 
 				return promises.getAuthenticationStatus();
 
+			}],
+
+			'game': ['promises', '$stateParams', function(promises, $stateParams) {
+
+				return promises.getGame($stateParams.id);
+
 			}]
 
 		}

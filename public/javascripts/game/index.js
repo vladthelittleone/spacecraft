@@ -20,6 +20,8 @@ module.exports = Game();
  */
 function Game() {
 
+	var preloadState;
+
 	// that / this
 	var t = {};
 
@@ -37,7 +39,7 @@ function Game() {
 	/**
 	 * Инициализация состояний
 	 */
-	function initialization(id) {
+	function initialization(id, successCallback) {
 
 		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.CANVAS, 'game-canvas');
 
@@ -48,11 +50,15 @@ function Game() {
 
 		// Игровые состояния
 		StatesManager.createBootState(t.phaser, 'boot');
-		StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
+		preloadState = StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
 		StatesManager.createWrappedPlayState(t.phaser, 'play', content.state);
 
 		// Стартуем boot состояние.
 		t.phaser.state.start('boot');
+
+		// Если из вне определили коллбэк обработки окончания загрузки игры.
+		successCallback && preloadState.setSuccessfulCallback(successCallback);
+
 	}
 
 	/**

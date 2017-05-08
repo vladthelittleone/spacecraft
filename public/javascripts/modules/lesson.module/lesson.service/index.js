@@ -1,6 +1,6 @@
 'use strict';
 
-// Зависимсоти
+// Зависимости
 var Game = require('../../../game');
 
 var CodeLauncher = Game.codeLauncher;
@@ -408,8 +408,7 @@ function LessonService(connection,
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate &&
-			!currentSubLesson().isRestartDisabled &&
-			Game.restart();
+			!currentSubLesson().isRestartDisabled && Game.restart();
 
 			initNextLesson();
 

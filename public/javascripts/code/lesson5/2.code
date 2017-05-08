@@ -1,15 +1,9 @@
-// Объявляем переменную и не устанавливаем
-// для нее первоначальное значение.
-var everythingAnswer;
-
 // Объявляем переменную и
-// устанавливаем для нее значение 42.
-var  allQuestionsAnswered = 42;
+// устанавливаем ей значение 42.
+var ultimateAnswer = 42;
 
-// Устанавливаем для переменной значение из переменной allQuestionsAnswered.
-everythingAnswer = allQuestionsAnswered;
-BBotDebug(everythingAnswer);
+// Присваиваем переменной результат
+// вычисления выражения.
+var solo = 301 + ultimateAnswer / 2;
 
-// Устанавливаем для переменной результат вычисления выражения.
-everythingAnswer = 10 *  allQuestionsAnswered / 2 - 1;
-BBotDebug(everythingAnswer);
+BBotDebug(solo);

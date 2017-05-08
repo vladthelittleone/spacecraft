@@ -20,7 +20,7 @@ function UndefinedNull() {
 		defaultBBot:       defaultBBot,
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
-						   '<li>Нажмите "Далее" для продолжения.</li>' +
+						   '<li>Нажмите «Далее» для продолжения.</li>' +
 						   '<li>Для любознательных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Булев_тип_null_и_undefined">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{

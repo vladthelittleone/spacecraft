@@ -27,7 +27,7 @@ function Sensor() {
 		content:           content,
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
-						   '<li>Нажмите "Далее" для продолжения.</li>' +
+						   '<li>Нажмите «Далее» для продолжения.</li>' +
 						   '<li>Больше информации о типах данных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures">клац</a>.</li>' +
 						   '</ul>',
 		character:         [{

@@ -58,7 +58,7 @@ function FirstContactWithVariables() {
 		defaultBBot: defaultBBot,
 
 		instructions: '<ul>' +
-					  '<li>Нажмите "Далее" для продолжения.</li>' +
+					  '<li>Нажмите «Далее» для продолжения.</li>' +
 					  '<li>Узнать больше о ключевом слове <strong>var</strong>: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/var">клик</a>.</li>' +
 					  '</ul>'
 	};

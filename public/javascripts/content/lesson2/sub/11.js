@@ -15,7 +15,7 @@ function Conclusions() {
 		content:           content,
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
-						   '<li>Нажмите "Далее" для продолжения.</li>' +
+						   '<li>Нажмите «Далее» для продолжения.</li>' +
 						   '</ul>',
 		character:         [{
 			audio: 'audio/lesson3/11-1',

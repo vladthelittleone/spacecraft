@@ -7,24 +7,23 @@ module.exports = OperatorsAndOperands();
 /**
  * Урок - 'Догнать за 64 секунды';
  */
-function OperatorsAndOperands () {
+function OperatorsAndOperands() {
 
 	return {
-		isRestartDisabled: true,
-		title: 'Нужно бооольше операторов!',
-		content: content,
+		isRestartDisabled:  true,
+		title:              'Нужно бооольше операторов!',
+		content:            content,
 		interpreterHandler: interpreterHandler,
-		instructions: '<ul>' +
-		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Больше интересной инфы: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
-		'</ul>'
+		instructions:       '<ul>' +
+							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+							'<li>Больше интересной инфы: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
+							'</ul>'
 	};
 
-	function content () {
+	function content() {
 
-		return '<p>Вольно кадет, продолжим занятия!' +
-			'<p>Сегодня мы поговорим об операторах и операндах.' +
-			'<p>В предыдущих уроках вы уже сталкивались с операторами языка JavaScript: ' +
+		return '<p>Сегодня мы поговорим об операторах и операндах.' +
+			'<p>В предыдущих уроках вы уже сталкивались с операторами языка <strong>JavaScript</strong>: ' +
 			'<span class="under-label"><strong>+</strong></span>, ' +
 			'<span class="under-label"><strong>=</strong></span>, ' +
 			'<span class="under-label"><strong>></strong></span>. ' +
@@ -39,19 +38,17 @@ function OperatorsAndOperands () {
 
 	}
 
-	function interpreterHandler (value) {
+	function interpreterHandler(value) {
 
-		var correctText;
+		var correctText = '';
 
 		if (value) {
-
-			correctText = '<p>Транслирую:</p>';
 
 			value.forEach(function (v) {
 
 				if (v) {
 
-					correctText += '<p class="bbot-output">' + v + '</p>';
+					correctText += v + '<br>';
 
 				}
 
@@ -61,12 +58,13 @@ function OperatorsAndOperands () {
 
 		var lessonResults = LessonResults({
 
-											  correct: correctText,
+			correct: '<p>Фиии, чт0 за числа! Транслирую:</p>' +
+					 '<p class="bbot-output">' + correctText + '</p>',
 
-											  unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
-											  '<p>ВАЛЛ-И отсюда злобный жук!</p>'
+			unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
+						  '<p>ВАЛЛ-И отсюда злобный жук!</p>'
 
-										  });
+		});
 
 		if (correctText) {
 

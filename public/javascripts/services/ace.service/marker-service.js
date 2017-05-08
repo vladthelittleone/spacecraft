@@ -32,7 +32,7 @@ function MarkerService(editor) {
 	function paintMarker (x1, y1, x2, y2, type) {
 
 		x1 = x1 - 1;
-		x2 = x2 || x1;
+		x2 = x2 - 1 || x1;
 
 		if (!type) {
 
@@ -41,7 +41,7 @@ function MarkerService(editor) {
 		}
 		else {
 
-			// по какимто причинам не получается выделить одну строку, нужно как миимум две.
+			// по каким-то причинам не получается выделить одну строку, нужно как минимум две.
 			return session.addMarker(new Range(x1, y1, x2, y2), 'bar', type);
 
 		}

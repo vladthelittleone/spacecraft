@@ -140,7 +140,7 @@ function LessonService(connection,
 			// Если урок с диграммой, то добавляем панель диаграммы
 			if (ch.diagram) {
 
-				scope.setContentEnable('diagramEnable');
+				scope.toggleContentEnable('diagramEnable');
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
@@ -153,7 +153,7 @@ function LessonService(connection,
 
 				scope.lessonTable = ch.lessonTable;
 
-				scope.setContentEnable('tableEnable');
+				scope.toggleContentEnable('tableEnable');
 			}
 
 			// Запуск при старте
@@ -383,6 +383,12 @@ function LessonService(connection,
 		// Установка трека в 0
 		audioWrapper.audioIndex = 0;
 
+		// Очищаем диаграмму.
+		Diagram.clearChanges();
+
+		// Убираем табличку.
+		scope.lessonTable = null;
+
 		scope.disableLeftContent();
 
 		// Работа с очками по подуроку.
@@ -398,12 +404,6 @@ function LessonService(connection,
 
 		var subLessonCountByIndex = getSubLessonCount() - 1;
 		var lessonIsNotFinished = scope.subIndex !== subLessonCountByIndex;
-
-		// Очищаем диаграмму.
-		Diagram.clearChanges();
-
-		// Убираем табличку.
-		scope.lessonTable = null;
 
 		if (lessonIsNotFinished) {
 
@@ -528,6 +528,9 @@ function LessonService(connection,
 
 		CodeLauncher.isCodeRunning = false;
 
+		// Очищаем диаграмму.
+		Diagram.clearChanges();
+
 		// В каждом случае запуска урока необходимо создавать
 		// новый объект currentLessonStatistics, в противном случае,
 		// мы будем изменять значение по ссылке, которая уже привязана
@@ -538,6 +541,9 @@ function LessonService(connection,
 
 		scope.subIndex = 0;
 		scope.getCurrentLesson = getCurrentLesson;
+
+		// Убираем табличку.
+		scope.lessonTable = null;
 
 		lessonId = args.lessonId;
 

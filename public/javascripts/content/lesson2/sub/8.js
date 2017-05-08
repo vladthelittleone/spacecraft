@@ -76,7 +76,7 @@ function ObjectType() {
 			css:   'astromen-img',
 			marker: {
 				x1: 3,
-				x2: 7,
+				x2: 8,
 				y2: Infinity
 			}
 		}]

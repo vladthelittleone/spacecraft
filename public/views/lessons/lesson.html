@@ -100,7 +100,7 @@
 		 tooltip-append-to-body="true"
 		 ng-if="!lesson.sub[subIndex].question"
 		 uib-tooltip="{{textContentEnable ? 'Скрыть текстовые инструкции' : 'Показать текстовые инструкции'}}"
-		 ng-click="setContentEnable('textContentEnable')"
+		 ng-click="toggleContentEnable('textContentEnable')"
 		 ng-class="{'fa-chevron-right' : textContentEnable}"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
@@ -115,7 +115,7 @@
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{diagramEnable ? 'Скрыть диаграмму' : 'Показать диаграмму'}}"
-		 ng-click="setContentEnable('diagramEnable')"
+		 ng-click="toggleContentEnable('diagramEnable')"
 		 ng-show="isLessonWithDiagram()"
 		 ng-class="{'fa-chevron-right' : diagramEnable, 'fa-sitemap' : !diagramEnable}"></div>
 
@@ -124,14 +124,14 @@
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{tableEnable ? 'Скрыть таблицу' : 'Таблица'}}"
 		 ng-class="{'fa-chevron-right' : tableEnable, 'fa-table' : !tableEnable}"
-		 ng-click="setContentEnable('tableEnable')"
+		 ng-click="toggleContentEnable('tableEnable')"
 		 ng-show="isLessonWithTable()"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{settingsEnable ? 'Скрыть настройки' : 'Показать настройки'}}"
-		 ng-click="setContentEnable('settingsEnable')"
+		 ng-click="toggleContentEnable('settingsEnable')"
 		 ng-class="{'fa-chevron-right' : settingsEnable, 'fa-wrench' : !settingsEnable}"></div>
 
 	<div class="right-toolbar-button fa fa-fast-backward"
@@ -160,7 +160,7 @@
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{disqusEnable ? 'Скрыть обсуждение' : 'Обсуждение'}}"
 		 ng-class="{'fa-chevron-right' : disqusEnable, 'fa-comments' : !disqusEnable}"
-		 ng-click="setContentEnable('disqusEnable')"></div>
+		 ng-click="toggleContentEnable('disqusEnable')"></div>
 
 </div>
 

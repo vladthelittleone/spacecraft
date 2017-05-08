@@ -51,7 +51,7 @@ function Comments() {
 			css:    'astromen-img',
 			marker:      {
 				x1: 3,
-				x2: 5,
+				x2: 6,
 				y2: Infinity
 			}
 		},{
@@ -62,7 +62,7 @@ function Comments() {
 			css:    'astrogirl-img',
 			marker:      {
 				x1: 8,
-				x2: 8,
+				x2: 9,
 				y2: Infinity
 			}
 		}],

@@ -60,7 +60,7 @@ function LessonController($scope,
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
 	$scope.quizAnswer = quizAnswer;
-	$scope.setContentEnable = setContentEnable;
+	$scope.toggleContentEnable = toggleContentEnable;
 	$scope.disableLeftContent = disableLeftContent;
 
 	$scope.$watch('$viewContentLoaded', onContentLoaded);
@@ -103,11 +103,13 @@ function LessonController($scope,
 	 * Обощенная функция, который открывает(делает видимым)
 	 * окно с необходимым контентом
 	 */
-	function setContentEnable(content) {
+	function toggleContentEnable(content) {
+
+		var currentState = $scope[content];
 
 		disableLeftContent();
 
-		$scope[content] = true;
+		$scope[content] = !currentState;
 
 	}
 

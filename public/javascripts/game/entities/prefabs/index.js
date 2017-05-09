@@ -12,6 +12,8 @@ var RedPlanet = require('./red-planet');
 var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
+var Carrier = require('./carrier');
+var Shuttle = require('./shuttle');
 var StaticUnit = require('./static-unit');
 
 // Экспорт
@@ -40,6 +42,8 @@ function PrefabsFactory() {
 	t.createScout = createScout;
 	t.createStaticUnit = createStaticUnit;
 	t.createResearchCenter = createResearchCenter;
+	t.createCarrier = createCarrier;
+	t.createShuttle = createShuttle;
 
 	return t;
 
@@ -90,6 +94,18 @@ function PrefabsFactory() {
 
 		return Fighter(game, x, y);
 
+	}
+
+	// Крейсер
+	function createCarrier(game, x, y) {
+
+		return Carrier(game, x, y);
+	}
+
+	// Шатл
+	function createShuttle(game, x, y) {
+
+		return Shuttle(game, x, y);
 	}
 
 	// Мина

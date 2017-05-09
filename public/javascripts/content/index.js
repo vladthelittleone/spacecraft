@@ -9,6 +9,7 @@ contentArray.push(require('./lesson2'));
 contentArray.push(require('./lesson3'));
 contentArray.push(require('./lesson4'));
 contentArray.push(require('./lesson5'));
+contentArray.push(require('./lesson6'));
 
 // Экспорт
 module.exports = ContentFactory();

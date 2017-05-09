@@ -15,6 +15,8 @@ var ResearchCenter = require('./research-center');
 var Fighter = require('./fighter');
 var Cruiser = require('./cruiser');
 var StaticUnit = require('./static-unit');
+var Carrier = require('./carrier');
+var Shuttle = require('./shuttle');
 
 var Random = require('../../utils/random');
 
@@ -48,7 +50,9 @@ function EntitiesFactory() {
 	t.createScout = createScout;
 	t.createCruiser = createCruiser;
 	t.createStaticUnit = createStaticUnit;
+	t.createCarrier = createCarrier;
 	t.getWorld = getWorld;
+	t.createShuttle = createShuttle;
 
 	return t;
 
@@ -241,12 +245,40 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать мину
+	 * Создать статический объект(Например сенсор)
 	 */
 	function createStaticUnit(game, x, y, preload, scale) {
 
 		return StaticUnit(game, x, y, preload, scale);
 
+	}
+
+	/**
+	 * Создать крейсер
+	 */
+	function createCarrier(game, x, y, player) {
+
+		var carrier = Carrier(game, x, y, player);
+
+		var id = world.pushObject(carrier);
+
+		player && world.setPlayer(id);
+
+		return carrier;
+	}
+
+	/**
+	 * Создать шатл
+	 */
+	function createShuttle(game, x, y, player) {
+
+		var shuttle = Shuttle(game, x, y, player);
+
+		var id = world.pushObject(shuttle);
+
+		player && world.setPlayer(id);
+
+		return shuttle;
 	}
 
 	/**

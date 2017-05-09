@@ -77,15 +77,15 @@ function LoginController($scope, $state, authentication) {
 
 	}
 
-	function startLoginSpinner() {
+	function startLoginSpinner(message) {
 
-		$scope.isSpinnerEnable = true;
+		$scope.$emit('startSpinnerForcibly', message);
 
 	}
 
 	function stopLoginSpinner() {
 
-		$scope.isSpinnerEnable = false;
+		$scope.$emit('stopSpinnerForcibly');
 
 	}
 
@@ -112,7 +112,7 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			startLoginSpinner();
+			startLoginSpinner('Регистрируемся...');
 
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
@@ -152,7 +152,7 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			startLoginSpinner();
+			startLoginSpinner('Авторизуемся...');
 
 			authentication.login({
 									 email:    $scope.email,

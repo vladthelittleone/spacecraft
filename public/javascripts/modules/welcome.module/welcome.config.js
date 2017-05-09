@@ -26,27 +26,37 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		controller:  'WelcomeController as ctrl',
 		resolve:     {
 			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', function (promises) {
+			'authenticationStatus': ['promises', '$rootScope', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Проверка статуса авторизации...');
 
 				return promises.getAuthenticationStatus();
 
 			}],
-			'lessonStatisticsData': ['promises', function (promises) {
+			'lessonStatisticsData': ['promises', '$rootScope', 'authenticationStatus', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Загружаем статистику по урокам...');
 
 				return promises.getLessonStatisticsData();
 
 			}],
-			'leaderBoardData':      ['promises', function (promises) {
+			'leaderBoardData':      ['promises', '$rootScope', 'lessonStatisticsData', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Загрузка таблицы лидеров...');
 
 				return promises.getLeaderBoardData();
 
 			}],
-			'userProgressData':     ['promises', function (promises) {
+			'userProgressData':     ['promises', '$rootScope', 'leaderBoardData', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Загрузка Вашего прогресса...');
 
 				return promises.getUserProgressData();
 
 			}],
-			'userInfoData':         ['promises', function (promises) {
+			'userInfoData':         ['promises', '$rootScope', 'userProgressData', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Загрузка информации о Вас...');
 
 				return promises.getUserInfoData();
 

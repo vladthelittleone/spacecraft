@@ -16,13 +16,17 @@ function LessonConfig($stateProvider) {
 		resolve:     {
 
 			// разрешаем прохождение урока ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', function (promises) {
+			'authenticationStatus': ['promises', '$rootScope', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Проверка статуса авторизации...');
 
 				return promises.getAuthenticationStatus();
 
 			}],
 
-			'game': ['promises', '$stateParams', function(promises, $stateParams) {
+			'game': ['promises', '$stateParams', '$rootScope', 'authenticationStatus', function(promises, $stateParams, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Загрузка игрового мира...');
 
 				return promises.getGame($stateParams.id);
 

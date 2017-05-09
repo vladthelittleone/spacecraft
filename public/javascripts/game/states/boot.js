@@ -22,8 +22,6 @@ function BootState(game) {
 	 */
 	function preload() {
 
-		game.load.image('preload', 'images/sprites/preload.png');
-
 	}
 
 	/**

@@ -3,6 +3,17 @@ body {
 	overflow: hidden;
 }
 
+button,
+a,
+select {
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
+}
+
+body,
+.ace_gutter {
+	cursor: url(../images/cursors/default-cursor.svg), default;
+}
+
 #game-canvas {
 	position: fixed;
 	top: 0;
@@ -281,7 +292,7 @@ pre {
 }
 
 .pages-board .container-inside {
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	color: #5b5b5b;
 	position: relative;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
@@ -323,7 +334,7 @@ pre {
 }
 
 .pages-footer-text {
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	position: fixed;
 	right: 150px;
 	bottom: 13px;
@@ -399,7 +410,7 @@ pre {
 	vertical-align: middle;
 	background: white;
 	width: 25px;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	line-height: 30px;
 }
 
@@ -505,7 +516,7 @@ pre {
 	padding: 7px;
 	color: #fff;
 	border-bottom: 1px solid rgb(21, 43, 57);
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	background-color: #0C181F;
 	margin-left: 5px;
 	margin-right: 5px;
@@ -552,7 +563,7 @@ pre {
 	top: calc(4vh - 24px);
 	position: absolute;
 	z-index: 2;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	border-radius: 50%;
 	border: none;
 	outline: none;
@@ -649,7 +660,7 @@ pre {
 	bottom: 0;
 	height: 100%;
 	width: 100%;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 .disqus {
@@ -658,7 +669,7 @@ pre {
 	bottom: 0;
 	height: 100%;
 	width: 100%;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 .disqus .content-overflow {
@@ -671,7 +682,7 @@ pre {
 	bottom: 0;
 	height: 100%;
 	width: 100%;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 .styled-list-checkbox {
@@ -683,7 +694,7 @@ pre {
 
 .styled-list ul {
 	font-style: italic;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	font-family: Georgia, Times, serif;
 	font-size: 24px;
 	color: #fff;
@@ -722,7 +733,7 @@ pre {
 	width: 110px;
 	margin-left: 50px;
 	display: inline-block;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 }
 
 .hidden {
@@ -816,7 +827,7 @@ pre {
 	height: 100%;
 	color: #C5C8C6;
 	overflow: hidden;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 	padding-left: 1px;
 }
 
@@ -856,14 +867,14 @@ pre {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background: #152B39;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 .bbot-header .quote:hover {
 	left: 60px;
 	width: auto;
 	background: #152B39;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 .bbot-header .arrow {
@@ -1052,7 +1063,7 @@ pre {
 .email-img .fa {
 	font-size: 230px;
 	color: #fff;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 }
 
 .email-img {
@@ -1241,7 +1252,7 @@ pre {
 
 .quiz {
 	color: rgb(80, 80, 80);
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -1294,7 +1305,7 @@ pre {
 	background-color: rgba(198, 31, 14, 0.54);
 	border-bottom: 1px solid rgba(29, 31, 33, 0.54);
 	padding: 10px;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 }
 
 .lesson-instructions {
@@ -1308,7 +1319,7 @@ pre {
 }
 
 .lesson-instructions ul li {
-	cursor: default !important;
+	cursor: url(../images/cursors/default-cursor.svg), default !important;
 }
 
 .lesson-instructions .lesson-content {
@@ -1323,7 +1334,7 @@ pre {
 	position: absolute;
 	color: #C0C3C1;
 	background: rgba(29, 31, 33, 0.8);
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 div.thought {
@@ -1471,7 +1482,7 @@ div.helper {
 	margin-bottom: 4px;
 	border-radius: 5px;
 	padding: 2px 8px 2px 28px;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 	max-height: 42px;
 	font-size: 14px;
 	line-height: 20px;
@@ -1559,7 +1570,7 @@ div.helper {
 	font-size: 1.0em;
 	color: white;
 	text-align: center;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 }
 
 .login-input {
@@ -1725,7 +1736,7 @@ div.helper {
 .welcome-logout {
 	color: white;
 	padding-top: 3px;
-	cursor: pointer;
+	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 	text-align: center;
 	position: absolute;
 	right: 50px;
@@ -1739,7 +1750,7 @@ div.helper {
 	color: white;
 	padding-top: 2px;
 	font-weight: bold;
-	cursor: default;
+	cursor: url(../images/cursors/default-cursor.svg), default;
 }
 
 .welcome-logout:hover {

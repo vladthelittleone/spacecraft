@@ -5,6 +5,7 @@ var PrefabsFactory = require('./prefabs');
 var BlocksFactory = require('./blocks');
 var GameAudioFactory = require('../audio');
 
+
 // Экспорт
 module.exports = CarrierUnit;
 
@@ -44,7 +45,15 @@ function CarrierUnit(game, x, y, player) {
 	t.shield = BlocksFactory.addShieldBlock({
 		game: game,
 		unit: t,
-		scale: 0.9
+		scale: 2.8
+	});
+
+	/**
+	 * Добавляем блок создания объектов
+	 */
+	t.creation = BlocksFactory.addFactoryBlock({
+		game: game,
+		unit: t,
 	});
 
 	/**

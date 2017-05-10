@@ -39,15 +39,6 @@ function ShuttleUnit(game, x, y, player) {
 	});
 
 	/**
-	 * Добавляем щиты.
-	 */
-	t.shield = BlocksFactory.addShieldBlock({
-		game: game,
-		unit: t,
-		scale: 0.9
-	});
-
-	/**
 	 * Аудио менеджер.
 	 */
 	t.audio = GameAudioFactory(game, t.sprite, player);

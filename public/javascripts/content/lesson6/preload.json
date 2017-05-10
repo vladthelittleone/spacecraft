@@ -12,4 +12,6 @@
 	"meteor6": "images/sprites/entities/meteors/meteor6.png",
 	"meteor7": "images/sprites/entities/meteors/meteor7.png",
 	"fighter": "images/sprites/entities/fighter.png",
+	"carrier": "images/sprites/entities/carrier.png",
+	"shuttle": "images/sprites/entities/shuttle.png"
 }

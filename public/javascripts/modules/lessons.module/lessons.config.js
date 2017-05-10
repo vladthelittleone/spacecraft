@@ -16,7 +16,9 @@ function LessonsConfig($stateProvider) {
 		resolve:     {
 
 			// разрешаем просмотр списка уроков ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', function (promises) {
+			'authenticationStatus': ['promises', '$rootScope', function (promises, $rootScope) {
+
+				$rootScope.$emit('setSpinnerMessage', 'Проверка статуса авторизации...');
 
 				return promises.getAuthenticationStatus();
 

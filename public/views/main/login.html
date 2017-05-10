@@ -65,7 +65,7 @@
 						</button>
 
 						<div ng-show="isEnterForm"
-							 ng-click="startLoginSpinner();"
+							 ng-click="startLoginSpinner('Заходим через ВК');"
 							 class="vk-button">
 							<a href="/vk">
 								<span>Войти через ВКонтакте</span>
@@ -106,12 +106,6 @@
                         В противном случае, пользователю уже будет показываться сообщение о проблеме с заполнением формы.-->
 					<div ng-if="loginForm.$valid">
 						{{errorMessage}}
-					</div>
-
-					<div class="spinner" ng-show="isSpinnerEnable">
-						<div class="spinner-orbit-2"></div>
-						<div class="spinner-orbit-1"></div>
-						<div class="spinner-earth"></div>
 					</div>
 
 				</div>

@@ -14,3 +14,4 @@ app.factory('connection', require('./connection.service'));
 app.factory('settings', require('./settings.service'));
 app.factory('statisticsStorage', require('./statistics.storage.service'));
 app.factory('promises', require('./helpers/promises.service'));
+app.factory('spinner', require('./helpers/spinner.service.js'));

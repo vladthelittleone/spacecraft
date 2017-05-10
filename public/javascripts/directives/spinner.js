@@ -27,8 +27,8 @@ function Spinner($rootScope, $timeout) {
 	var visible = false;
 
 	// MILLISECONDS
-	var TIME_TILL_SPINNER_VISIBLE = 500;
-	var DEFAULT_SPINNER_MESSAGE = 'Загрузка';
+	var DEFAULT_DELAY = 1000;
+	var DEFAULT_SPINNER_MESSAGE = 'Загрузка...';
 
 	var directive = {
 		templateUrl: 'views/directives/spinner.html',
@@ -40,64 +40,82 @@ function Spinner($rootScope, $timeout) {
 
 	function link(scope, element) {
 
-		$rootScope.$on('setSpinnerMessage', function(event, message) {
+		$rootScope.$on('setSpinnerMessage', function (event, message) {
 
-			setMessage(message);
+			updateSpinnerState({message: message});
 
 		});
 
 		// startSpinnerForcibly - событие, на которое в сию секунду осуществляется показ спинера.
 		// На случай, когда какой-либо код требует показ спинера.
-		$rootScope.$on('startSpinnerForcibly', function(event, message) {
+		$rootScope.$on('startSpinnerForcibly', function (event, args) {
 
-			updateSpinnerState({visible: true, message: message});
+			// Если спиннер уже отображается, то обновляем только сообщение.
+			if (visible) {
+
+				updateSpinnerState({message: args.message});
+
+			} else {
+
+				updateSpinnerState({
+									   visible: true,
+									   message: args.message,
+									   delay:   lodash.isNil(args.delay) ? DEFAULT_DELAY : args.delay
+								   });
+
+			}
 
 		});
 
 		// stopSpinnerForcibly - событие, на которое в сию секунду прекращается показ спинера.
-		$rootScope.$on('stopSpinnerForcibly', function() {
+		$rootScope.$on('stopSpinnerForcibly', function () {
 
 			updateSpinnerState({visible: false});
 
 		});
 
-		$rootScope.$on('$stateChangeStart', function() {
+		$rootScope.$on('$stateChangeStart', function () {
 
-			updateSpinnerState({visible: true, timeTillShowSpinner: TIME_TILL_SPINNER_VISIBLE});
+			updateSpinnerState({visible: true, delay: DEFAULT_DELAY});
 
 		});
 
-		$rootScope.$on('$stateChangeSuccess', function() {
+		$rootScope.$on('$stateChangeSuccess', function () {
 
 			updateSpinnerState({visible: false});
 
 		});
 
-		updateSpinnerState({visible:false});
+		updateSpinnerState({visible: false});
 
 		// Общий метод обновления состояния спиннера.
 		// Ожидает на вход объект с возможными параметрами:
 		// - visible - флаг показа спиннера;
 		// - message - сообщение, которое будет подписано под спиннером;
-		// - timeTillShowSpinner - задержка, с которой будет осуществлен показ спиннера.
+		// - delay - задержка, с которой будет осуществлен показ спиннера.
 		function updateSpinnerState(args) {
 
-			visible = args.visible;
+			setMessage(args.message);
 
-			if (visible) {
+			// Если определили свойство visible, значит хотим управлять состоянием видимости спиннера.
+			if (!lodash.isNil(args.visible)) {
 
-				setMessage(args.message);
+				visible = args.visible;
 
-				if (args.timeTillShowSpinner) {
+				if (visible) {
 
-					$timeout(updateSpinnerVisibleState, args.timeTillShowSpinner);
+					if (!lodash.isNil(args.delay)) {
 
-					return;
+						$timeout(updateSpinnerVisibleState, args.delay);
 
+						return;
+
+					}
 				}
-			}
 
-			updateSpinnerVisibleState(visible);
+				updateSpinnerVisibleState(visible);
+
+			}
 
 		}
 

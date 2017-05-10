@@ -26,37 +26,37 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		controller:  'WelcomeController as ctrl',
 		resolve:     {
 			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', '$rootScope', function (promises, $rootScope) {
+			'authenticationStatus': ['promises', 'spinner', function (promises, spinner) {
 
-				$rootScope.$emit('setSpinnerMessage', 'Проверка статуса авторизации...');
+				spinner.start({message: 'Проверка статуса авторизации...'});
 
 				return promises.getAuthenticationStatus();
 
 			}],
-			'lessonStatisticsData': ['promises', '$rootScope', 'authenticationStatus', function (promises, $rootScope) {
+			'lessonStatisticsData': ['promises', 'spinner', 'authenticationStatus', function (promises, spinner) {
 
-				$rootScope.$emit('setSpinnerMessage', 'Загружаем статистику по урокам...');
+				spinner.start({message:'Загружаем статистику по урокам...'});
 
 				return promises.getLessonStatisticsData();
 
 			}],
-			'leaderBoardData':      ['promises', '$rootScope', 'lessonStatisticsData', function (promises, $rootScope) {
+			'leaderBoardData':      ['promises', 'spinner', 'lessonStatisticsData', function (promises, spinner) {
 
-				$rootScope.$emit('setSpinnerMessage', 'Загрузка таблицы лидеров...');
+				spinner.start({message:'Загрузка таблицы лидеров...'});
 
 				return promises.getLeaderBoardData();
 
 			}],
-			'userProgressData':     ['promises', '$rootScope', 'leaderBoardData', function (promises, $rootScope) {
+			'userProgressData':     ['promises', 'spinner', 'leaderBoardData', function (promises, spinner) {
 
-				$rootScope.$emit('setSpinnerMessage', 'Загрузка Вашего прогресса...');
+				spinner.start({message:'Загрузка Вашего прогресса...'});
 
 				return promises.getUserProgressData();
 
 			}],
-			'userInfoData':         ['promises', '$rootScope', 'userProgressData', function (promises, $rootScope) {
+			'userInfoData':         ['promises', 'spinner', 'userProgressData', function (promises, spinner) {
 
-				$rootScope.$emit('setSpinnerMessage', 'Загрузка информации о Вас...');
+				spinner.start({message:'Загрузка информации о Вас...'});
 
 				return promises.getUserInfoData();
 

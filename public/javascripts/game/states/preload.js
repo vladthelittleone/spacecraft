@@ -12,7 +12,6 @@ function PreloadState(game) {
 
 	var t = {};
 
-	var preloadSprite;
 	var onSuccessful;
 
 	t.isPreloading = true;
@@ -38,20 +37,8 @@ function PreloadState(game) {
 		var centerX = game.width / 2;
 		var centerY = game.height / 2;
 
-		preloadSprite = game.add.sprite(centerX, centerY, 'preload');
-
-		preloadSprite.anchor.setTo(0.5, 0.5);
-
 		// когда все ресурсы будут загружены вызываем callback
-		game.load.onLoadComplete.addOnce(function() {
-
-			t.isPreloading = false;
-
-			onSuccessful && onSuccessful();
-
-		});
-
-		game.load.setPreloadSprite(preloadSprite);
+		game.load.onLoadComplete.addOnce(onLoadComplete);
 
 		Object.keys(t.resources).forEach(function (key) {
 
@@ -67,8 +54,6 @@ function PreloadState(game) {
 	 * Этап создания состояния.
 	 */
 	function create() {
-
-		preloadSprite.cropEnabled = false;
 
 	}
 
@@ -93,6 +78,8 @@ function PreloadState(game) {
 	function onLoadComplete() {
 
 		t.isPreloading = false;
+
+		onSuccessful && onSuccessful();
 
 	}
 

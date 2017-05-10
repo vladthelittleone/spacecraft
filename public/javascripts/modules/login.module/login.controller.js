@@ -1,6 +1,6 @@
 'use strict';
 
-LoginController.$inject = ['$scope', '$state', 'authentication'];
+LoginController.$inject = ['$scope', '$state', 'authentication', 'spinner', '$window'];
 
 module.exports = LoginController;
 
@@ -10,7 +10,7 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication) {
+function LoginController($scope, $state, authentication, spinner, $window) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;
@@ -22,6 +22,7 @@ function LoginController($scope, $state, authentication) {
 	$scope.changeSubscriptionToMailingFlag = changeSubscriptionToMailingFlag;
 	$scope.register = register;
 	$scope.login = login;
+	$scope.loginByVK = loginByVK;
 
 	$scope.startLoginSpinner = startLoginSpinner;
 	$scope.stopLoginSpinner = stopLoginSpinner;
@@ -79,13 +80,13 @@ function LoginController($scope, $state, authentication) {
 
 	function startLoginSpinner(message) {
 
-		$scope.$emit('startSpinnerForcibly', message);
+		spinner.start({message:message, delay: 0});
 
 	}
 
 	function stopLoginSpinner() {
 
-		$scope.$emit('stopSpinnerForcibly');
+		spinner.stop();
 
 	}
 
@@ -112,7 +113,7 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			startLoginSpinner('Регистрируемся...');
+			startLoginSpinner('Регистрация...');
 
 			// В случае успешной регистрации делаем вызов метода логина (авторизуемся автоматически).
 			authentication.register({
@@ -152,7 +153,7 @@ function LoginController($scope, $state, authentication) {
 		// Если взаимодействовали с формой и форма заполнена корректно.
 		if ($scope.loginForm.$dirty && $scope.loginForm.$valid) {
 
-			startLoginSpinner('Авторизуемся...');
+			startLoginSpinner('Аутентификация...');
 
 			authentication.login({
 									 email:    $scope.email,
@@ -168,6 +169,14 @@ function LoginController($scope, $state, authentication) {
 								 });
 
 		}
+
+	}
+
+	function loginByVK() {
+
+		startLoginSpinner('Заходим через ВК...');
+
+		$window.location.href = '/vk';
 
 	}
 

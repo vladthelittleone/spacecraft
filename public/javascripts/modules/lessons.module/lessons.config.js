@@ -2,6 +2,8 @@
 
 LessonsConfig.$inject = ['$stateProvider'];
 
+var spinnerMessages = require('./../../utils/json/messages/spinner.json');
+
 module.exports = LessonsConfig;
 
 /**
@@ -17,8 +19,8 @@ function LessonsConfig($stateProvider) {
 
 			// разрешаем просмотр списка уроков ТОЛЬКО при наличии факта аутентификации в сервисе.
 			'authenticationStatus': ['promises', 'spinner', function (promises, spinner) {
-				
-				spinner.start({message:'Проверка статуса авторизации...'});
+
+				spinner.start({message: spinnerMessages.authorization});
 
 				return promises.getAuthenticationStatus();
 

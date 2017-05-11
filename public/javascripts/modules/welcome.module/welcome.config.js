@@ -2,6 +2,8 @@
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
 
+var spinnerMessages = require('./../../utils/json/messages/spinner.json');
+
 module.exports = WelcomeConfig;
 
 /**
@@ -28,35 +30,35 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
 			'authenticationStatus': ['promises', 'spinner', function (promises, spinner) {
 
-				spinner.start({message: 'Проверка статуса авторизации...'});
+				spinner.start({message: spinnerMessages.authorization});
 
 				return promises.getAuthenticationStatus();
 
 			}],
 			'lessonStatisticsData': ['promises', 'spinner', 'authenticationStatus', function (promises, spinner) {
 
-				spinner.start({message:'Загружаем статистику по урокам...'});
+				spinner.start({message: spinnerMessages.lessonStatistics});
 
 				return promises.getLessonStatisticsData();
 
 			}],
 			'leaderBoardData':      ['promises', 'spinner', 'lessonStatisticsData', function (promises, spinner) {
 
-				spinner.start({message:'Загрузка таблицы лидеров...'});
+				spinner.start({message: spinnerMessages.leaderBoard});
 
 				return promises.getLeaderBoardData();
 
 			}],
 			'userProgressData':     ['promises', 'spinner', 'leaderBoardData', function (promises, spinner) {
 
-				spinner.start({message:'Загрузка Вашего прогресса...'});
+				spinner.start({message: spinnerMessages.userProgress});
 
 				return promises.getUserProgressData();
 
 			}],
 			'userInfoData':         ['promises', 'spinner', 'userProgressData', function (promises, spinner) {
 
-				spinner.start({message:'Загрузка информации о Вас...'});
+				spinner.start({message: spinnerMessages.userInfo});
 
 				return promises.getUserInfoData();
 

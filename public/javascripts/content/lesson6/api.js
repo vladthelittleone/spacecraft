@@ -12,6 +12,7 @@ function Api(player) {
 
 	api.selfDestruction = selfDestruction;
 	api.isAlive = isAlive;
+	api.log = log;
 
 	return api;
 
@@ -24,6 +25,12 @@ function Api(player) {
 	function isAlive() {
 
 		return player.sprite.alive;
+
+	}
+
+	function log() {
+
+		return 'Health:' + player.sprite.health + '/n State: OK';
 
 	}
 }

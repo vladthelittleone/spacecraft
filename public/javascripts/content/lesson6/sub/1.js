@@ -49,27 +49,27 @@ function ifOperation() {
 			correct: '<p>Где правда проступает сквозb туман,</p>' +
 			'<p>там терпит поражение 0бман....</p>' +
 			'<p>Ой, что это я. Транслирую:</p>' +
-			'<p class="bbot-output">{{ПАРАМЕТРЫ: например координаты и hp}}</p>',
+			'<p class="bbot-output">Health: 10 </br>State: OK</p>',
 
 			unknownError: '<p>Что-то не так! Не могу найти заданный выв0д!</p>' +
 			'<p>Внимательно про4итайте инструкции и попробуйте снова.</p>',
 
-			removeSystem: '<p>Создаю резервную копию.</p> + ' +
-			'<p>Уничтожение системы через 3.. 2.. 1..</p> + ' +
-			'<p>Восстанавливаю системY из резервной копии.</p> +' +
+			text: '<p>Создаю резервную копию.</p> ' +
+			'<p>Уничтожение системы через 3.. 2.. 1..</p>  ' +
+			'<p>Восстанавливаю системY из резервной копии.</p> ' +
 			'<p>Не делайте так больше. Ты разбиваешb мое металлическое сердце!</p>'
 		});
 
-		if(!shuttle.isAlive()) {
+		if(shuttle.isAlive()) {
+
+			return lessonResults.resultCorrect();
+
+		} else {
 
 			CodeLauncher.stop();
 
-			return lessonResults.removeSystem;
-
+			return lessonResults.text();
 		}
-
-		return lessonResults.resultCorrect();
-
 	}
 
 	function content() {

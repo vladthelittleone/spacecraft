@@ -1,0 +1,12 @@
+var i = 0;
+var j = 0;
+var a;
+var b;
+
+a = ++i;
+BBotDebug("a = " + a);
+BBotDebug("i = " + i);
+
+b = j++;
+BBotDebug("b = " + b);
+BBotDebug("j = " + j);

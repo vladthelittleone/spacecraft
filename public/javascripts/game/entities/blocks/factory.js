@@ -1,13 +1,13 @@
 'use strict';
 
 // Экспорт
-module.exports = CreationBlock;
+module.exports = FactoryBlock;
 
 /**
  * Created by vaimer on 09.05.2017.
  */
 
-function CreationBlock(spec) {
+function FactoryBlock(spec) {
 
 	// that / this
 	var t = {};
@@ -19,19 +19,18 @@ function CreationBlock(spec) {
 
 	return t;
 
-	function createShuttle(player, createSpacraft) {
+	function createShuttle(player, createSpaceCraft) {
 
 		var shuttle = null;
 
-		console.log(createSpacraft);
-		if(createSpacraft){
+		if(createSpaceCraft){
 
 			var x = unit.sprite.x;
 			var y = unit.sprite.y;
 
-			shuttle = createSpacraft(game, x, y, player);
+			shuttle = createSpaceCraft(game, x, y, player);
 
-			shuttle.logic = shuttle.moveToXY.bind(shuttle, x - 100, y - 100);
+			shuttle.logic = shuttle.moveToXY.bind(shuttle, x - 180, y);
 		}
 
 		return shuttle;

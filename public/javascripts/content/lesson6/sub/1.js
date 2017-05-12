@@ -2,6 +2,7 @@
 
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
+var CodeLauncher = require('../../../game/launcher');
 
 module.exports = ifOperation();
 
@@ -59,6 +60,14 @@ function ifOperation() {
 			'<p>Не делайте так больше. Ты разбиваешb мое металлическое сердце!</p>'
 		});
 
+		if(!shuttle.isAlive()) {
+
+			CodeLauncher.stop();
+
+			return lessonResults.removeSystem;
+
+		}
+
 		return lessonResults.resultCorrect();
 
 	}
@@ -69,9 +78,8 @@ function ifOperation() {
 			'необходимо выполнять определенные действия или принимать сложные решения.</p>' +
 			'<p>Для этого был создан оператор <strong class=‘under-lable’>if</strong>, ' +
 			'который позволяет определить условное выражение, возвращающее логический тип данных - <strong>boolean</strong>:</p>' +
-			'<pre> if ( условие ) ' +
-			'{ ' +
-			'		действия ' +
+			'<pre>if( условие ) {\n' +
+			'  действия \n' +
 			'}</pre>' +
 			'<p>Если <strong>условие</strong> имеет значение <strong class=’under-lable’>true</strong> - "истина", то выполнятся заданные <strong>действия</strong>.</p>' +
 			'<p>Смоделируем ситуацию: хитрый взломщик решил уничтожить корабль, изменив код модуля защиты. Ваша задача не допустить этого!</p>';

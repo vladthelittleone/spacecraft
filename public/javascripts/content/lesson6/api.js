@@ -10,5 +10,20 @@ function Api(player) {
 
 	var api = {};
 
+	api.selfDestruction = selfDestruction;
+	api.isAlive = isAlive;
+
 	return api;
+
+	function selfDestruction() {
+
+		player.sprite.kill();
+
+	}
+
+	function isAlive() {
+
+		return player.sprite.alive;
+
+	}
 }

@@ -20,8 +20,6 @@ module.exports = Game();
  */
 function Game() {
 
-	var preloadState;
-
 	// that / this
 	var t = {};
 
@@ -50,7 +48,7 @@ function Game() {
 
 		// Игровые состояния
 		StatesManager.createBootState(t.phaser, 'boot');
-		preloadState = StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
+		var preloadState = StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
 		StatesManager.createWrappedPlayState(t.phaser, 'play', content.state);
 
 		// Стартуем boot состояние.

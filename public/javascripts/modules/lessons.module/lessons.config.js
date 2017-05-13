@@ -2,7 +2,7 @@
 
 LessonsConfig.$inject = ['$stateProvider'];
 
-var spinnerMessages = require('./../../utils/json/messages/spinner.json');
+var resolves = require('./../../utils/helpers/resolves/lessons').values;
 
 module.exports = LessonsConfig;
 
@@ -15,17 +15,7 @@ function LessonsConfig($stateProvider) {
 		url:         '/lessons',
 		templateUrl: 'views/lessons/lessons.html',
 		controller:  'LessonsController as ctrl',
-		resolve:     {
-
-			// разрешаем просмотр списка уроков ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', 'spinner', function (promises, spinner) {
-
-				spinner.start({message: spinnerMessages.authorization});
-
-				return promises.getAuthenticationStatus();
-
-			}]
-		}
+		resolve:     resolves
 	});
 
 }

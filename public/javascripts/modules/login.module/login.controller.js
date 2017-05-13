@@ -1,6 +1,6 @@
 'use strict';
 
-LoginController.$inject = ['$scope', '$state', 'authentication', 'spinner', '$window'];
+LoginController.$inject = ['$scope', '$state', '$window', 'authentication', 'spinner'];
 
 module.exports = LoginController;
 
@@ -10,7 +10,7 @@ module.exports = LoginController;
  * @since 30.11.15
  * @author Skurishin Vladislav
  */
-function LoginController($scope, $state, authentication, spinner, $window) {
+function LoginController($scope, $state, $window, authentication, spinner) {
 
 	// Переменная отвечающая за отображение нужной формы
 	$scope.isEnterForm = true;

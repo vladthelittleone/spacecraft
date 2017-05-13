@@ -63,11 +63,7 @@ function Promises($q, authentication, connection, statisticsStorage) {
 
 	function getGame(id) {
 
-		return $q(function(resolve) {
-
-			Game.initialization(id, resolve);
-
-		});
+		return $q(Game.initialization.bind(null, id));
 
 	}
 

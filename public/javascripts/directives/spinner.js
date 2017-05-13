@@ -42,18 +42,13 @@ function Spinner($rootScope, $timeout) {
 	function link(scope, element) {
 
 		$rootScope.$on('setSpinnerMessage', onSetSpinnerMessage);
-
 		// startSpinnerForcibly - событие, на которое в сию секунду осуществляется показ спинера.
 		// На случай, когда какой-либо код требует показ спинера.
 		$rootScope.$on('startSpinnerForcibly', onStartSpinnerForcibly);
-
 		// stopSpinnerForcibly - событие, на которое в сию секунду прекращается показ спинера.
 		$rootScope.$on('stopSpinnerForcibly', updateSpinnerState.bind(null, {visible: false}));
-
 		$rootScope.$on('$stateChangeStart', updateSpinnerState.bind(null, {visible: true, delay: DEFAULT_DELAY}));
-
 		$rootScope.$on('$stateChangeSuccess', updateSpinnerState.bind(null, {visible: false}));
-		
 
 		updateSpinnerState({visible: false});
 

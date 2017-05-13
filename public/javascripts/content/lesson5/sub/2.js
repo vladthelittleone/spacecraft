@@ -2,70 +2,47 @@
 
 var LessonResults = require('../../lesson-results');
 
-module.exports = OperatorPlus();
+module.exports = OperatorsAndOperands();
 
 /**
  * Урок - 'Догнать за 64 секунды';
  */
-function OperatorPlus() {
+function OperatorsAndOperands() {
 
 	return {
 		isRestartDisabled:  true,
-		title:              'Познай дзен и конкатенацию',
+		title:              'Нужно бооольше операторов!',
 		content:            content,
 		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +
-							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
-							'<i class="glyphicon glyphicon-play green"></i>.</li>' +
-							'<li>Хочешь узнать больше? Лови: ' +
-							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/A_re-introduction_to_JavaScript#Операторы">клац</a>.</li>' +
-							'</ul>',
-		character:          [
-			{
-				audio:  'audio/lesson2/3-2',
-				marker: {
-					x1: 2,
-					y2: Infinity
-				}
-			}, {
-				audio:  'audio/lesson2/3-3',
-				marker: {
-					x1: 5,
-					y2: Infinity
-				}
-			}, {
-				audio:  'audio/lesson2/3-3',
-				marker: {
-					x1: 8,
-					y2: Infinity
-				}
-			}, {
-				audio:  'audio/lesson2/3-3',
-				marker: {
-					x1: 11,
-					y2: Infinity
-				}
-			}]
+							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
+							'<li>Больше интересной инфы: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
+							'</ul>'
 	};
 
 	function content() {
 
-		return '<p>Поговорим об операторе <strong class="under-label">+</strong>.' +
-			'<p>Из уроков математики вы знаете, что <strong class="under-label">+</strong> используется для сложения чисел. ' +
-			'В <strong>JavaScript</strong> оператор <strong class="under-label">+</strong> можно также использовать для объединения строк.</p>' +
-			'<p>Такая операция называется <strong>конкатенацией</strong>.</p>' +
-			'<p>Важной особенностью конкатенации является то, что если один из операндов строка, ' +
-			'то второй тоже будет приведен к строке.</p>';
+		return '<p>Сегодня мы поговорим об операторах и операндах.' +
+			'<p>В предыдущих уроках вы уже сталкивались с операторами языка <strong>JavaScript</strong>: ' +
+			'<span class="under-label"><strong>+</strong></span>, ' +
+			'<span class="under-label"><strong>=</strong></span>, ' +
+			'<span class="under-label"><strong>></strong></span>. ' +
+			'Но что такое операнд? Это сущность, к которой применяются операторы. Например:' +
+			'<p><pre>' +
+			'// Оператор сложения: +.\n' +
+			'// Операнд: число 5, число 4.\n' +
+			'<strong>5</strong> + <strong>4</strong>' +
+			'</pre>' +
+			'<p>Оператор может быть применен к одному операнду - <strong>унарный оператор</strong> ' +
+			'или к двум - <strong>бинарный оператор</strong>.';
 
 	}
 
 	function interpreterHandler(value) {
 
-		var correctText;
+		var correctText = '';
 
 		if (value) {
-
-			correctText = '';
 
 			value.forEach(function (v) {
 
@@ -80,9 +57,13 @@ function OperatorPlus() {
 		}
 
 		var lessonResults = LessonResults({
-			correct:      '<p>Плюсую-транслирую:</p>' +
-						  '<p class="bbot-output">' + correctText + '</p>',
-			unknownError: '<p>Тададам! И вновь 0шибка!</p>'
+
+			correct: '<p>Фиии, чт0 за числа! Транслирую:</p>' +
+					 '<p class="bbot-output">' + correctText + '</p>',
+
+			unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
+						  '<p>ВАЛЛ-И отсюда злобный жук!</p>'
+
 		});
 
 		if (correctText) {

@@ -2,21 +2,23 @@
 
 var LessonResults = require('../../lesson-results');
 
-module.exports = Priorities();
+module.exports = OperatorAssignment();
 
 /**
  * Урок - 'Догнать за 64 секунды';
  */
-function Priorities() {
+function OperatorAssignment() {
 
 	return {
 		isRestartDisabled:  true,
-		title:              'Кто здесь первый?',
+		title:              'В присваивании нет ничего плохого',
 		content:            content,
 		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +
 							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
 							'<i class="glyphicon glyphicon-play green"></i>.</li>' +
+							'<li>Присвой себе больше знаний: ' +
+							'<a target="_blank" href="https://msdn.microsoft.com/ru-ru/library/1w2h1k9x(v=vs.94).aspx">клац</a>.</li>' +
 							'</ul>',
 		character:          [{
 			audio:  'audio/lesson2/3-2',
@@ -24,33 +26,22 @@ function Priorities() {
 			marker: {
 				x1: 3,
 				y2: Infinity
-			},
-			lessonTable: {
-				columns: ['Обозначение', 'Наименование', 'Приоритет'],
-				rows: [
-					['*', 'умножение', '14'],
-					['/', 'деление', '14'],
-					['+', 'сложение', '13'],
-					['=', 'присваивание', '3']
-				]
 			}
 		}]
 	};
 
 	function content() {
 
-		return '<p>Каждый из операторов в JavaScript, так же как и в математике, имеет свой приоритет, ' +
-			'Приоритет определяет порядок выполнения операторов в выражении. Рассмотрим выражение в редакторе кода.</p>' +
-			'<pre>a = 10 + 12 * 3 / 2;</pre>' +
-			'<p>В данном выражении используют четыре оператора: <span class="under-label">=, +, *, /</span>.' +
-			'<p> Операторы <span class="under-label">*</span> и ' +
-			'<span class="under-label">/</span> имеют самый высокий приоритет, ' +
-			'поэтому они выполняються в первую очередь. Слева направо. </p>' +
-			'<p> Оператор <span class="under-label">=</span> имеет самый низкий приоритет. ' +
-			'Поэтому, сперва происходит вычисление всего выражения справа от оператора, ' +
-			'а уже затем, полученный результат будет присвоен переменной, как результат работы оператора.' +
-			'Узнать больше о приоритетах операторов можно ' +
-			'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">здесь</a>.</li>';
+		return '<p>Рассмотрим оператор присваивания более подробно.' +
+			'<p>Напомним, что с  его помощью переменной задают значение. Например, вы можете создать переменную, ' +
+			'содержащую ответ на «Главный вопрос жизни, вселенной и всего такого»:</p>' +
+			'<pre><strong>var</strong> ultimateAnswer = 42;</pre>' +
+			'<p>Любой переменной можно присвоить результат выполнения выражения. Например:</p>' +
+			'<pre><strong>var</strong> solo = 301 + ultimateAnswer / 2;</pre>' +
+			'<p>В результате переменной <span class="under-label">solo</span> будет присвоено значение <strong>322</strong>. ' +
+			'Заметим, что сперва будет выполнено деление, затем сложение ' +
+			'и только после этого результат вычисления будет присвоен переменной.</p>' +
+			'<p>Догадываетесь почему так происходит?</p>';
 
 	}
 

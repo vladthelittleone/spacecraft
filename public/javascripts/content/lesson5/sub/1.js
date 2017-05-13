@@ -1,77 +1,40 @@
 'use strict';
 
-var LessonResults = require('../../lesson-results');
-
-module.exports = OperatorsAndOperands();
+module.exports = Hook();
 
 /**
  * Урок - 'Догнать за 64 секунды';
  */
-function OperatorsAndOperands() {
+function Hook() {
 
 	return {
 		isRestartDisabled:  true,
-		title:              'Нужно бооольше операторов!',
+		defaultBBot:        defaultBBot,
+		title:              'Зацепка',
 		content:            content,
-		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +
-							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
-							'<li>Больше интересной инфы: <a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
-							'</ul>'
+							'<li>Нажмите «Далее» для продолжения.</li>' +
+							'</ul>',
 	};
 
 	function content() {
 
-		return '<p>Сегодня мы поговорим об операторах и операндах.' +
-			'<p>В предыдущих уроках вы уже сталкивались с операторами языка <strong>JavaScript</strong>: ' +
-			'<span class="under-label"><strong>+</strong></span>, ' +
-			'<span class="under-label"><strong>=</strong></span>, ' +
-			'<span class="under-label"><strong>></strong></span>. ' +
-			'Но что такое операнд? Это сущность, к которой применяются операторы. Например:' +
-			'<p><pre>' +
-			'// Оператор сложения: +.\n' +
-			'// Операнд: число 5, число 4.\n' +
-			'<strong>5</strong> + <strong>4</strong>' +
-			'</pre>' +
-			'<p>Оператор может быть применен к одному операнду - <strong>унарный оператор</strong> ' +
-			'или к двум - <strong>бинарный оператор</strong>.';
+		return '<p>Исследователи нашего центра нашли интересную зацепку: датчик похоже был оставлен ' +
+			'кораблем класса <strong>EBON HAWK</strong>.</p> ' +
+			'<p>Ближайший зарегистрированный нами корабль такого типа находиться в одном парсеке от ' +
+			'базы академии рядом с планетой <strong>Явавин</strong>. Возможно ' +
+			'владелец данного корабля является хакером, взломавшим наши системы. Хм...</p>' +
+			'<p>Сильное заявление, проверять я его конечно не буду! Вместо меня полетите вы и найдете ' +
+			'капитана корабля. Но перед этим вы должны подготовиться.</p>';
 
 	}
 
-	function interpreterHandler(value) {
 
-		var correctText = '';
+	function defaultBBot() {
 
-		if (value) {
+		return '<p>Зацепка? Hook!</p>' +
+			   '<p>FRESH MEAT!</p>'
 
-			value.forEach(function (v) {
-
-				if (v) {
-
-					correctText += v + '<br>';
-
-				}
-
-			});
-
-		}
-
-		var lessonResults = LessonResults({
-
-			correct: '<p>Фиии, чт0 за числа! Транслирую:</p>' +
-					 '<p class="bbot-output">' + correctText + '</p>',
-
-			unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
-						  '<p>ВАЛЛ-И отсюда злобный жук!</p>'
-
-		});
-
-		if (correctText) {
-
-			return lessonResults.resultCorrect();
-
-		}
-
-		return lessonResults.unknownError();
 	}
+
 }

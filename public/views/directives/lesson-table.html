@@ -1,17 +1,17 @@
-<div class="settings">
+<div class="settings" ng-hide="hide">
 	<div class="content-description">
 		<div class="content-overflow" ng-if="lessonTableData">
 			<table class="table table-responsive">
 				<thead>
 					<tr>
-						<th ng-repeat="column in lessonTableData.columns">
+						<th ng-repeat="column in lessonTableData.columns track by $index">
 							{{column}}
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="row in lessonTableData.rows">
-						<td ng-repeat="element in row">
+					<tr ng-repeat="row in lessonTableData.rows track by $index">
+						<td ng-repeat="element in row track by $index">
 							{{element}}
 						</td>
 					</tr>

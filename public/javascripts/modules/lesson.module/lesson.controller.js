@@ -198,7 +198,7 @@ function LessonController($scope,
 
 			lessonService.setEditorSession(editor.getSession());
 
-			aceService.initialize(editor, $scope.lesson.rules);
+			aceService.initialize(editor, $scope.lesson.defs);
 
 			markerService = aceService.getMarkerService();
 

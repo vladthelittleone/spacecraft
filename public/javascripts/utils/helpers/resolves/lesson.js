@@ -14,7 +14,6 @@
  */
 
 var otherResolves = require('./');
-var spinnerMessages = require('./../../json/messages/spinner.json');
 
 module.exports = Lesson();
 
@@ -22,15 +21,13 @@ function Lesson() {
 
 	// Имена resolve'ов.
 	var names = {
-		authentication: otherResolves.names.authentication,
-		game:           'game'
+		authentication: otherResolves.names.authentication
 	};
 
 	// Значения resolve'ов
 	var resolves = {};
 
 	resolves[names.authentication] = otherResolves.values[names.authentication];
-	resolves[names.game] = ['promises', '$stateParams', 'spinner', names.authentication, onGame];
 
 	// В качестве экспорта из модуля:
 	var t = {};
@@ -39,13 +36,4 @@ function Lesson() {
 	t.values = resolves;
 
 	return t;
-
-	function onGame(promises, $stateParams, spinner) {
-
-		spinner.start({message: spinnerMessages.game});
-
-		return promises.getGame($stateParams.id);
-
-	}
-
 }

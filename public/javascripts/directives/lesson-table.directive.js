@@ -5,18 +5,18 @@ module.exports = LessonTable;
 /**
  * Директива таблицы для инфы в уроке
  *
+ * Формат данных  для таблицы:
+ * {
+ *   columns: ['Name', 'Gender', 'Email'],
+ *   rows: [
+ *           ['Villy', 'Lory', 'Candal'],
+ *           ['Cooper', 'Lox', 'Priest']
+ *        ]
+ * }
+ *
  * Created by vaimer on 26.04.17.
  */
 function LessonTable() {
-
-	// Формат данных  для таблицы
-	// {
-	// 	columns: ['Name', 'Gender', 'Email'],
-	// 	rows: [
-	// 			['Villy', 'Lory', 'Candal'],
-	// 			['Cooper', 'Lox', 'Priest']
-	// 		]
-	// }
 	var directive = {
 		scope: {
 			lessonTableData: '=' // Данные для таблицы
@@ -30,7 +30,14 @@ function LessonTable() {
 
 	function link($scope) {
 
-		// Stub
+		$scope.hide = true;
 
+		$scope.$watch('lessonTableData', onLessonTableChange);
+
+		function onLessonTableChange(n, o) {
+
+			$scope.hide = !n;
+
+		}
 	}
 }

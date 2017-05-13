@@ -21,7 +21,6 @@
     "angular": "~1.5.0",
     "phaser": "2.6.2",
     "angular-ui-router": "~0.2.15",
-    "ace-builds": "~1.2.0",
     "angular-ui-ace": "~0.2.3",
     "angular-ui-bootstrap": "^2.2.0",
     "bootstrap": "~3.3.5",
@@ -29,6 +28,7 @@
     "angular-ui-layout": "bower",
     "angular-chart.js": "^0.8.8",
     "lodash": "^4.17.4",
-    "components-font-awesome": "4.7.0"
+    "components-font-awesome": "4.7.0",
+    "Ace.Tern": "git://github.com/sevin7676/Ace.Tern.git"
   }
 }

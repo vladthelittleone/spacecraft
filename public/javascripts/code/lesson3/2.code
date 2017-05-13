@@ -1,11 +1,15 @@
+// Определение переменной container.
 var container = 'Нога робота';
 
 // Переменная Container не инициализирована.
 var Container;
 
+// Выводим содержимое переменной Container.
+// Результат: 'undefined'.
 BBotDebug(Container);
 
 // Копирование значения одной переменной в другую.
 Container = container;
 
+// Выводим содержимое переменной Container.
 BBotDebug(Container);

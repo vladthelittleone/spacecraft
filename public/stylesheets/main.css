@@ -5,7 +5,8 @@ body {
 
 button,
 a,
-select {
+select,
+.enjoyhint_next_btn {
 	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
 }
 

@@ -54,7 +54,6 @@ function LessonController($scope,
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
-	$scope.isLessonWithTable = isLessonWithTable;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
@@ -156,12 +155,6 @@ function LessonController($scope,
 	function isLessonWithDiagram() {
 
 		return Diagram.isHaveChanges();
-
-	}
-
-	function isLessonWithTable() {
-
-		return $scope.char && !lodash.isEmpty($scope.char.lessonTable);
 
 	}
 

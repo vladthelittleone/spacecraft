@@ -17,6 +17,7 @@ var TabHandler = require('../../../emitters/tab-handler');
 
 var lodash = require('lodash');
 
+
 LessonService.$inject = ['connection',
 						 'audioManager',
 						 'aceService',
@@ -154,6 +155,7 @@ function LessonService(connection,
 				scope.lessonTable = ch.lessonTable;
 
 				scope.toggleContentEnable('tableEnable');
+
 			}
 
 			// Запуск при старте

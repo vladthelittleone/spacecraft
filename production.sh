@@ -2,6 +2,10 @@
 # This is sample deploy script
 # You can run this on server after git push or
 # locally before you put new version of website via FTP
+if [ $1 = "preinstall" ]; then
+	echo "[Preinstall] Running preinstall script"
+	npm run preinstall
+fi
 if [ $1 = "build" ]; then
 	echo "[Build] Running npm install"
 	npm install
@@ -30,11 +34,18 @@ if [ $1 = "build" ]; then
 fi
 if [ $1 = "start" ]; then
 	echo "[Start] Running server"
-	NODE_ENV=production NODE_PATH=. PORT=80 DEBUG=spacecraft forever --uid SpaceCraftServer -a start bin/www
+	pm2 start ./config/pm2.json
+fi
+if [ $1 = "start-production" ]; then
+	echo "[Start] Running server"
+	pm2 start ./config/pm2.json --env production
 fi
 if [ $1 = "stop" ]; then
 	echo "[Stop] Stop server"
- 	forever stop SpaceCraftServer
+ 	pm2 stop ./config/pm2.json
+fi
+if [ $1 = "log" ]; then
+	pm2 logs
 fi
 if [ $1 = "tools" ]; then
 	npm install forever -g

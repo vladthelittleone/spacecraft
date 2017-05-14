@@ -61,20 +61,24 @@
 				</div>
 			</a>
 		</div>
-		<a>
-			<div ng-if="userInfo.needToConfirmEmail"
-				 class="container-25">
-				<div class="container-inside">
-					<a ng-href="{{userInfo.emailProviderUrl}}">
-						<div class="pages-img email-img">
-							<div class="fa fa-envelope"></div>
-						</div>
-						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
-						<div class="pages-text email-text">Подтвердите вашу почту</div>
-					</a>
-				</div>
+		<div class="container-25"
+			 uib-carousel
+			 active="active"
+			 interval="intervalSlideChange"
+			 no-wrap="noWrapSlides">
+			<div class="container-inside"
+				 uib-slide
+				 ng-repeat="slide in slides track by slide.id"
+				 index="slide.id">
+				<!--<a ng-href="{{userInfo.emailProviderUrl}}">-->
+					<div class="pages-img"
+						 ng-class="slide.slide_img">
+					</div>
+					<div class="pages-label">{{slide.slide_label}}</div>
+					<div class="pages-text email-text">{{slide.slide_text}}</div>
+				<!--</a>-->
 			</div>
-		</a>
+		</div>
 		<div class="container-25" ui-sref="quick">
 			<div class="container-inside">
 				<div class="pages-img quick-img"></div>

@@ -1832,7 +1832,8 @@ div.helper {
 @media (max-width: 968px) {
 	.container-25,
 	.container-50,
-	.container-75 {
+	.container-75,
+	.carousel {
 		width: 100%;
 	}
 }
@@ -2029,4 +2030,12 @@ fieldset, label {
 	background-color: #152B39;
 	color: #fff;
 	border: 2px solid #152b39;
+}
+
+.carousel {
+	height: 360px;
+}
+
+.carousel-indicators {
+	visibility: hidden;
 }

@@ -12,6 +12,7 @@ WelcomeController.$inject = ['$scope',
 module.exports = WelcomeController;
 
 var lodash = require('lodash');
+var slides = require('./slides.json');
 
 /**
  * @since 30.11.15
@@ -25,6 +26,10 @@ function WelcomeController($scope,
 						   leaderBoardData,
 						   userProgressData,
 						   userInfoData) {
+
+	$scope.noWrapSlides = false;
+	$scope.intervalSlideChange = 5000;
+	$scope.slides = slides;
 
 	$scope.leaderBoard = leaderBoardData || [];	// Лидеры игры
 	$scope.vkShow = true; 	// Переключатель виджета ВК

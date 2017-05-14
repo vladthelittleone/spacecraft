@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "preinstall": "sudo npm i -g pm2 && sudo apt-get install mongodb-server && sudo npm install -g bower"
   },
   "repository": {
     "type": "git",

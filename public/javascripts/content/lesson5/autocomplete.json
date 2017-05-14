@@ -1,12 +1,3 @@
-[
-	{
-		"regExps": [
-			".+$"
-		],
-		"autocomplete": [
-			{
-				"value": "BBotDebug()"
-			}
-		]
-	}
-]
+{
+	"!name": "lesson"
+}

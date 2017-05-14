@@ -94,7 +94,6 @@ function StateWrapper(state) {
 				explosion.reset(player.sprite.x, player.sprite.y);
 				explosion.play('explosion', 30, false, true);
 
-				// player.audio.playExplosion(
 			}
 
 			setTimeout(createNewPlayer, 5000);

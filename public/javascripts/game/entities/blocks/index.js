@@ -21,56 +21,27 @@ function BlocksFactory() {
 	// that / this
 	var t = {};
 
-	t.addEngineBlock = addEngineBlock;
-	t.addShieldBlock = addShieldBlock;
-	t.addScannerBlock = addScannerBlock;
-	t.addCargoBlock = addCargoBlock;
-	t.addFactoryBlock = addFactoryBlock;
-
-	return t;
-
 	/**
 	 * Добавляем дигатель к юниту.
-     */
-	function addEngineBlock(spec) {
-
-		return EngineBlock(spec);
-
-	}
-
+	 */
+	t.addEngineBlock = EngineBlock;
 	/**
 	 * Добавляем щит к юниту.
 	 */
-	function addShieldBlock(spec) {
-
-		return ShieldBlock(spec);
-
-	}
-
+	t.addShieldBlock = ShieldBlock;
 	/**
-	 * Добавляем щит к юниту.
+	 * Добавляем сканер к юниту.
 	 */
-	function addScannerBlock(spec) {
-
-		return ScannerBlock(spec);
-
-	}
-
+	t.addScannerBlock = ScannerBlock;
 	/**
 	 * Добавляем грузовой отсек к юниту.
 	 */
-	function addCargoBlock(spec) {
-
-		return CargoBlock(spec);
-
-	}
-
+	t.addCargoBlock = CargoBlock;
 	/**
 	 * Добавляем блок создания к юниту.
 	 */
-	function addFactoryBlock(spec) {
+	t.addFactoryBlock = FactoryBlock;
 
-		return FactoryBlock(spec);
+	return t;
 
-	}
 }

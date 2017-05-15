@@ -11,7 +11,7 @@ function OperatorIncrement() {
 
 	return {
 		isRestartDisabled:  true,
-		title:              'Преуменьшая увеличивай',
+		title:              'Преуменьшая, увеличивай.',
 		content:            content,
 		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +
@@ -24,7 +24,14 @@ function OperatorIncrement() {
 			audio:  'audio/lesson2/3-2',
 			css:    'astromen-img',
 			marker: {
-				x1: 3,
+				x1: 8,
+				y2: Infinity
+			}
+		}, {
+			audio: 'audio/lesson2/3-2',
+			css: 'astromen-img',
+			marker: {
+				x1: 12,
 				y2: Infinity
 			}
 		}]
@@ -32,18 +39,18 @@ function OperatorIncrement() {
 
 	function content() {
 
-		return '<p>Очень часто, в программировании, возникает необходимость увеличивать или уменьшать значение ' +
-			'числовой переменной на 1. Поэтому, в языке программирования JavaScript существуют специальные ' +
-			'операторы <span class="under-label">++</span>(инкремент), для увеличения значения на 1 и ' +
-			'<span class="under-label">--</span>(декремент), для уменьшения значения на 1.</p>' +
-			'<p>Существуют две формы записи данных операторов: до переменной и после переменной. Обе формы выполняют ' +
-			'одно и тоже, изменяют значение переменной на 1. Однако если в выражении участвуют другие операторы, то ' +
-			'разница существует. Рассмотрим пример в редакторе кода.</p> <pre>a = ++i;</pre>' +
-			'<p>Если оператор <span class="under-label">++</span>(или <span class="under-label">--</span>) ' +
-			'стоит перед переменной, то сперва произойдет изменение переменной <strong>i</strong>, а уже ' +
-			'затем получившиеся значение будет присвоено переменной <strong>а</strong>.</p> <pre>b = j++;</pre>' +
-			'И наоборот, если оператор стоит после переменной <strong>i</strong>, то вначале ее значение будет ' +
-			'присвоено переменной <strong>а</strong>, а уже потом изменено на 1.';
+		return '<p>Часто пилоты-инженеры используют операцию изменения значения числовой переменной на ' +
+			'<strong>1</strong>. В связи с этим, в языке программирования <strong>JavaScript</strong> существуют ' +
+			'специальные операторы: <p> 1. Инкремент <strong class="under-label">++</strong> - увеличивает значение на ' +
+			'<strong>1</strong>.<p> 2. Декремент <strong class="under-label">--</strong> - уменьшает значение на ' +
+			'<strong>1</strong>. <p>Существуют две формы записи данных операторов: до переменной («префиксная» форма) ' +
+			'и после переменной («постфиксная» форма). Разница между ними видна только в том случае, когда мы хотим ' +
+			'использовать результат операции. Рассмотрим пример в редакторе кода.</p> Если оператор ' +
+			'<strong class="under-label">++</strong> или <strong class="under-label">--</strong> стоит перед ' +
+			'переменной, то сперва произойдет изменение переменной <strong>speed</strong>, а уже затем получившееся ' +
+			'значение будет присвоено переменной <strong>result</strong>. Но, если оператор стоит после переменной ' +
+			'<strong>speed</strong>, то сначала ее значение будет присвоено переменной <strong>result</strong>, ' +
+			'а уже потом изменено на <strong>1</strong>.';
 
 	}
 
@@ -69,7 +76,7 @@ function OperatorIncrement() {
 
 		var lessonResults = LessonResults({
 
-											  correct: '<p>Solo Yolo:</p>' +
+											  correct: '<p>Инкрементирую:</p>' +
 													   '<p class="bbot-output">' + correctText + '</p>',
 
 											  unknownError: '<p>И это была твоя последняя ошибка!</p>' +

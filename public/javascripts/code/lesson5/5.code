@@ -1,12 +1,14 @@
-var i = 0;
-var j = 0;
-var a;
-var b;
+// Счетчик скорости корабля.
+var speed = 0;
 
-a = ++i;
-BBotDebug("a = " + a);
-BBotDebug("i = " + i);
+// Результат выполнения инкремента.
+var result;
 
-b = j++;
-BBotDebug("b = " + b);
-BBotDebug("j = " + j);
+// В результате получим 0.
+result = ++speed;
+BBotDebug("Результат операции: " + result);
+BBotDebug("Скорость корабля: " + speed);
+
+result = speed++;
+BBotDebug("Результат операции: " + result);
+BBotDebug("Скорость корабля: " + speed);

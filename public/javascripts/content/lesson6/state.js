@@ -31,7 +31,7 @@ function StateWrapper(state) {
 		// Создать шаттл
 		player = carrier.createShuttle(true, EntitiesFactory.createShuttle);
 
-		player.sprite.rotation = -3.35 * Math.PI / 2;
+		player.sprite.rotation = carrier.sprite.rotation;
 
 		// API для урока
 		player.api = Api(player);
@@ -41,6 +41,8 @@ function StateWrapper(state) {
 
 		// Корабль на верх.
 		player.sprite.bringToTop();
+
+		carrier.sprite.bringToTop();
 
 		CodeLauncher.setArguments(player.api);
 	}

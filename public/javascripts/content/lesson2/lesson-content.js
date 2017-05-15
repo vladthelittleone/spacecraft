@@ -12,21 +12,21 @@ function Content() {
 
 	var points = {
 		// Изначальное число очков у игрока на уроке.
-		totalPoints: 450,
+		totalPoints:              450,
 		// Штрафные очки за действия на уроке.
-		exception: 50,
-		incorrectInput: 50,
+		exception:                50,
+		incorrectInput:           50,
 		showHitPenaltyPointsSize: 50
 	};
 
 	return {
-		text:  'Расследование',
-		label: 'Основы JavaScript',
-		quote: 'Все мы барахтаемся в грязи, но иные из нас глядят на звёзды',
-		rules: require('./autocomplete.json'),
-		isGameLesson: true,
-		sub:   require('./sub'),
-		points: points,
+		text:                          'Расследование',
+		label:                         'Основы JavaScript',
+		quote:                         'Все мы барахтаемся в грязи, но иные из нас глядят на звёзды',
+		defs:                          require('./autocomplete.json'),
+		isGameLesson:                  true,
+		sub:                           require('./sub'),
+		points:                        points,
 		maxAttemptLessonCountForBonus: 3
 	};
 

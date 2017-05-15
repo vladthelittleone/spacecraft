@@ -1,42 +1,8 @@
-[
-	{
-		"regExps": [
-			" *scout.$"
-		],
-		"autocomplete": [
-			{
-				"value": "moveForward()",
-				"meta": "scout"
-			},
-			{
-				"value": "rotateLeft()",
-				"meta": "scout"
-			},
-			{
-				"value": "rotateRight()",
-				"meta": "scout"
-			},
-			{
-				"value": "moveToXY()",
-				"meta": "scout"
-			},
-			{
-				"value": "scan()",
-				"meta": "scout"
-			}
-		]
-	},
-	{
-		"regExps": [
-			".+$"
-		],
-		"autocomplete": [
-			{
-				"value": "BBotDebug()"
-			},
-			{
-				"value": "scout"
-			}
-		]
+{
+	"!name": "lesson",
+	"scout": {
+		"!type": "+SpaceCraft",
+		"!doc": "Объект корабля-разведчика."
 	}
-]
+
+}

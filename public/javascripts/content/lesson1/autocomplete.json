@@ -1,38 +1,8 @@
-[
-	{
-		"regExps": [
-			" *transport.$"
-		],
-		"autocomplete": [
-			{
-				"value": "moveForward()",
-				"meta": "transport"
-			},
-			{
-				"value": "rotateLeft()",
-				"meta": "transport"
-			},
-			{
-				"value": "rotateRight()",
-				"meta": "transport"
-			},
-			{
-				"value": "moveToXY()",
-				"meta": "transport"
-			}
-		]
-	},
-	{
-		"regExps": [
-			".+$"
-		],
-		"autocomplete": [
-			{
-				"value": "BBotDebug()"
-			},
-			{
-				"value": "transport"
-			}
-		]
+{
+	"!name": "lesson",
+	"transport": {
+		"!type": "+SpaceCraft",
+		"!doc": "Объект транспортного корабля."
 	}
-]
+
+}

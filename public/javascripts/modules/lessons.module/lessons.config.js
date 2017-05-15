@@ -2,6 +2,8 @@
 
 LessonsConfig.$inject = ['$stateProvider'];
 
+var resolves = require('./lessons.resolve').values;
+
 module.exports = LessonsConfig;
 
 /**
@@ -13,15 +15,7 @@ function LessonsConfig($stateProvider) {
 		url:         '/lessons',
 		templateUrl: 'views/lessons/lessons.html',
 		controller:  'LessonsController as ctrl',
-		resolve:     {
-
-			// разрешаем просмотр списка уроков ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', function (promises) {
-
-				return promises.getAuthenticationStatus();
-
-			}]
-		}
+		resolve:     resolves
 	});
 
 }

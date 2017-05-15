@@ -54,7 +54,6 @@ function LessonController($scope,
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
-	$scope.isLessonWithTable = isLessonWithTable;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
@@ -63,7 +62,7 @@ function LessonController($scope,
 	$scope.toggleContentEnable = toggleContentEnable;
 	$scope.disableLeftContent = disableLeftContent;
 
-	$scope.$watch('$viewContentLoaded', onContentLoaded);
+	$scope.$on('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
@@ -159,12 +158,6 @@ function LessonController($scope,
 
 	}
 
-	function isLessonWithTable() {
-
-		return $scope.char && !lodash.isEmpty($scope.char.lessonTable);
-
-	}
-
 	/**
 	 * Обработчик изменения кода в Ace.
 	 */
@@ -198,7 +191,7 @@ function LessonController($scope,
 
 			lessonService.setEditorSession(editor.getSession());
 
-			aceService.initialize(editor, $scope.lesson.rules);
+			aceService.initialize(editor, $scope.lesson.defs);
 
 			markerService = aceService.getMarkerService();
 

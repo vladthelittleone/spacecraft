@@ -1,13 +1,15 @@
 'use strict';
 
+var resolvesNames = require('./welcome.resolve').names;
+
 WelcomeController.$inject = ['$scope',
 							 '$sce',
 							 'authentication',
 							 'authService',
-							 'lessonStatisticsData',
-							 'leaderBoardData',
-							 'userProgressData',
-							 'userInfoData'];
+							 resolvesNames.lessonStatistics,
+							 resolvesNames.leaderBoard,
+							 resolvesNames.userProgress,
+							 resolvesNames.userInfo];
 
 module.exports = WelcomeController;
 

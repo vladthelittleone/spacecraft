@@ -20,5 +20,6 @@ app.directive('statisticsLessonEnd', require('./statistics-lesson-end.directive'
 app.directive('disqus', require('./disqus.directive'));
 app.directive('quiz', require('./quiz.directive'));
 app.directive('lessonTable', require('./lesson-table.directive'));
+app.directive('spinner', require('./spinner'));
 
 app.directive('validateEmail', require('./validation/validate.email.directive'));

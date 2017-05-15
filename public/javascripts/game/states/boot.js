@@ -22,8 +22,6 @@ function BootState(game) {
 	 */
 	function preload() {
 
-		game.load.image('preload', 'images/sprites/preload.png');
-
 	}
 
 	/**
@@ -37,8 +35,6 @@ function BootState(game) {
 			game.renderer.clearBeforeRender = false;
 			game.renderer.roundPixels = true;
 
-			console.info("CANVAS");
-
 		}
 
 		// Плагин дебаг
@@ -51,7 +47,6 @@ function BootState(game) {
 
 		// Переходим в состояние предзагрузки ресурсов
 		game.state.start('preload');
-
 	}
 
 }

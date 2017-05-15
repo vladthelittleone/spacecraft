@@ -1,6 +1,6 @@
 'use strict';
 
-// Зависимсоти
+// Зависимости
 var Game = require('../../../game');
 
 var CodeLauncher = Game.codeLauncher;
@@ -16,6 +16,7 @@ var Diagram = require('../../../directives/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
 var lodash = require('lodash');
+
 
 LessonService.$inject = ['connection',
 						 'audioManager',
@@ -154,6 +155,7 @@ function LessonService(connection,
 				scope.lessonTable = ch.lessonTable;
 
 				scope.toggleContentEnable('tableEnable');
+
 			}
 
 			// Запуск при старте
@@ -413,8 +415,7 @@ function LessonService(connection,
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate &&
-			!currentSubLesson().isRestartDisabled &&
-			Game.restart();
+			!currentSubLesson().isRestartDisabled && Game.restart();
 
 			initNextLesson();
 

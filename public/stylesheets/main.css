@@ -53,29 +53,82 @@ pre {
 }
 
 .ace_gutter-layer {
-	z-index: 1000;
+	z-index: 1000 !important;
 }
 
 .ace_editor.ace_autocomplete {
-	background-color: #1A262F !important;
-	color: #E1E2E2;
+	background-color: #152b39 !important;
+	color: #E1E2E2 !important;
+	border: 1px solid #0a151c !important;
+}
+
+.Ace-Tern-tooltip,
+.ace_tooltip {
+	font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
+	background-color: #152b39 !important;
+	border: 1px solid #0a151c !important;
+	border-radius: 0 !important;
+	color: #C5C8C6 !important;
+	z-index: 200000 !important;
+}
+
+.Ace-Tern-tooltip > select[multiple],
+.Ace-Tern-tooltip > input {
+	width: 100% !important;
+	outline: none !important;
+	background: #0c181f !important;
+	border: 0 !important;
+}
+
+.Ace-Tern-tooltip > button {
+	background: #0c181f !important;
+	border: 0 !important;
+	width: 100% !important;
+	border-top: 1px solid #152b39 !important;
+}
+
+.Ace-Tern-type {
+	color: #b294bb !important;
+}
+
+.Ace-Tern-farg {
+	color: #de935f !important;
+}
+
+.Ace-Tern-farg-current {
+	color: #de935f !important;
+}
+
+.Ace-Tern-tooltip-boxclose:hover {
+	background-color: initial !important;
+	text-decoration: none !important;
+	color: #CB4C4C !important;
+}
+
+.Ace-Tern-tooltip-boxclose {
+	position: absolute !important;
+	top: 0 !important;
+	right: 3px !important;
+	color: #C71E14 !important;
 }
 
 .ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line,
 .ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
-	background-color: #0C181F;
-	z-index: 1;
+	background-color: #0C181F !important;
+	z-index: 1 !important;
 }
 
 .ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
-	border: 0;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #fff;
+	border: 0 !important;
 }
 
 .ace_editor.ace_autocomplete .ace_completion-highlight {
-	color: #D08A5A;
-	text-shadow: 0 0 0.01em;
+	color: #D08A5A !important;
+	text-shadow: 0 0 0.01em !important;
+}
+
+.ace_content {
+	z-index: 0 !important;
 }
 
 .ui-splitbar .glyphicon {
@@ -966,10 +1019,27 @@ pre {
 	overflow: hidden;
 }
 
+.blackout {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.8);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	padding: 17%;
+}
+
 .spinner {
 	width: 100px;
 	height: 100px;
 	margin: auto;
+}
+
+.spinner-text {
+	color: white;
+	text-align: center;
+	font-size: 1.7em;
 }
 
 .spinner div {
@@ -985,29 +1055,43 @@ pre {
 
 .spinner-earth {
 	background-image: url(../images/pages/earth-white.png);
-	-webkit-animation:spin 120s linear infinite;
-	-moz-animation:spin 120s linear infinite;
-	animation:spin 120s linear infinite;
+	-webkit-animation: spin 120s linear infinite;
+	-moz-animation: spin 120s linear infinite;
+	animation: spin 120s linear infinite;
 }
 
 .spinner-orbit-1 {
 	background-image: url(../images/pages/spacecraft-white.png);
-	-webkit-animation:spin 4s linear infinite;
-	-moz-animation:spin 4s linear infinite;
-	animation:spin 4s linear infinite;
+	-webkit-animation: spin 4s linear infinite;
+	-moz-animation: spin 4s linear infinite;
+	animation: spin 4s linear infinite;
 }
 
 .spinner-orbit-2 {
 	background-image: url(../images/pages/satilite-white.png);
-	-webkit-animation:spin 8s linear infinite;
-	-moz-animation:spin 8s linear infinite;
-	animation:spin 8s linear infinite;
+	-webkit-animation: spin 8s linear infinite;
+	-moz-animation: spin 8s linear infinite;
+	animation: spin 8s linear infinite;
 }
 
-@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+@-moz-keyframes spin {
+	100% {
+		-moz-transform: rotate(-360deg);
+	}
+}
 
+@-webkit-keyframes spin {
+	100% {
+		-webkit-transform: rotate(-360deg);
+	}
+}
+
+@keyframes spin {
+	100% {
+		-webkit-transform: rotate(-360deg);
+		transform: rotate(-360deg);
+	}
+}
 
 .bbot-img {
 	height: 125px;
@@ -1070,6 +1154,7 @@ pre {
 .email-img {
 	text-align: center;
 }
+
 .rocket-white-img {
 	background-image: url(../images/pages/rocket-white-shadow.png);
 }
@@ -1379,6 +1464,7 @@ div.thought:after {
 div.lesson-img-wrapper {
 	position: absolute;
 	bottom: 0;
+	z-index: 1000;
 }
 
 div.lesson-border-wrapper {
@@ -1942,11 +2028,12 @@ fieldset, label {
 	padding: 2px;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	background: rgba(12, 24, 31, 0.85);
 	text-align: center;
 	font-size: 14px;
 	vertical-align: middle;
 	height: 40px;
-	border: 2px solid #000;
+	border: 2px solid #152b39;
 }
 
 .table > thead > tr > th {
@@ -1958,5 +2045,5 @@ fieldset, label {
 	word-wrap: normal;
 	background-color: #152B39;
 	color: #fff;
-	border: 2px solid #000 !important;
+	border: 2px solid #152b39;
 }

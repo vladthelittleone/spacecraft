@@ -1,56 +1,35 @@
-[
-	{
-		"regExps": [
-			" *harvester.$"
-		],
-		"autocomplete": [
-			{
-				"value": "moveForward()",
-				"meta": "harvester"
-			},
-			{
-				"value": "rotateLeft()",
-				"meta": "harvester"
-			},
-			{
-				"value": "rotateRight()",
-				"meta": "harvester"
-			},
-			{
-				"value": "moveToXY()",
-				"meta": "harvester"
-			},
-			{
-				"value": "scan()",
-				"meta": "harvester"
-			},
-			{
-				"value": "cargoLoad()",
-				"meta": "harvester"
-			},
-			{
-				"value": "cargoUnload()",
-				"meta": "harvester"
-			}
-		]
-	},
-	{
-		"regExps": [
-			".+$"
-		],
-		"autocomplete": [
-			{
-				"value": "BBotDebug()"
-			},
-			{
-				"value": "researchContainer"
-			},
-			{
-				"value": "harvester"
-			},
-			{
-				"value": "container"
-			}
-		]
+{
+	"!name": "lesson",
+	"harvester": {
+		"!doc": "Корабль, добывающий минералы.",
+		"moveForward": {
+			"!type": "fn()",
+			"!doc": "Отправляет корабль вперед."
+		},
+		"rotateLeft": {
+			"!type": "fn()",
+			"!doc": "Поворот корабля налево."
+		},
+		"rotateRight": {
+			"!type": "fn()",
+			"!doc": "Поворот корабля направо."
+		},
+		"moveToXY": {
+			"!type": "fn(x: number, y: number)",
+			"!doc": "Отправляет корабль к заданным координатам."
+		},
+		"scan": {
+			"!type": "fn()",
+			"!doc": "Сканирует область вокруг корабля."
+		},
+		"cargoLoad": {
+			"!type": "fn(cargo: ?)",
+			"!doc": "Погрузка объекта на корабль."
+		},
+		"cargoUnload": {
+			"!type": "fn() -> ?",
+			"!doc": "Получаем груз корабля."
+		}
 	}
-]
+
+}

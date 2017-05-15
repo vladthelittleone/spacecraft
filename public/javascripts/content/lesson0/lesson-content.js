@@ -12,18 +12,18 @@ function Content() {
 
 	var points = {
 		// Изначальное число очков у игрока на уроке.
-		totalPoints: 300,
+		totalPoints:    300,
 		// Штрафные очки за действия на уроке.
-		exception: 50,
+		exception:      50,
 		incorrectInput: 50
 	};
 
 	return {
-		text:  'Поступление в академию',
-		label: 'Основы JavaScript',
-		quote: 'Знания свет — путь укажет нам',
-		sub:   require('./sub'),
-		points: points,
+		text:                          'Поступление в академию',
+		label:                         'Основы JavaScript',
+		quote:                         'Знания свет — путь укажет нам',
+		sub:                           require('./sub'),
+		points:                        points,
 		maxAttemptLessonCountForBonus: 3
 	};
 

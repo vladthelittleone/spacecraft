@@ -11,7 +11,7 @@ function OperatorIncrement() {
 
 	return {
 		isRestartDisabled:  true,
-		title:              'Преуменьшая, увеличивай.',
+		title:              'Преуменьшая, увеличивай!',
 		content:            content,
 		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +

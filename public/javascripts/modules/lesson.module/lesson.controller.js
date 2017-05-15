@@ -62,7 +62,7 @@ function LessonController($scope,
 	$scope.toggleContentEnable = toggleContentEnable;
 	$scope.disableLeftContent = disableLeftContent;
 
-	$scope.$watch('$viewContentLoaded', onContentLoaded);
+	$scope.$on('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);

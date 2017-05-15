@@ -5,14 +5,12 @@
  */
 var Game = require('../game');
 
-GameCanvas.$inject = ['$stateParams'];
-
 module.exports = GameCanvas;
 
 /**
  * Директива инициализации игрового контента.
  */
-function GameCanvas($stateParams) {
+function GameCanvas() {
 
 	var directive = {
 		scope:       {
@@ -26,8 +24,6 @@ function GameCanvas($stateParams) {
 	return directive;
 
 	function link($scope) {
-
-		Game.initialization($stateParams.id);
 
 		$scope.world = Game.world.getWorld();
 		$scope.fillArray = fillArray;

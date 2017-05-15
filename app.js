@@ -4,7 +4,7 @@ const express = require('express');
 
 const app = express();
 
-const resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
+const developmentFlag = app.get('env') !== 'production';
 
 const compression = require('compression');
 
@@ -38,14 +38,19 @@ app.use(require('./middlewares/send-http-error'));
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-app.use(favicon(path.join(__dirname, resourcesFolderName, 'favicon.ico')));
+// Статику подключаем только в development среде!
+// В production за выдачу статики отвечает nginx
+if (developmentFlag) {
+
+	app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+	app.use(express.static(path.join(__dirname, 'public')));
+
+}
+
 app.use(httpLogger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-
-// Подключаем статику (картинки, js скрипты, аудио и т.д.)
-app.use(express.static(path.join(__dirname, resourcesFolderName)));
 
 // Сторедж для сессии.
 const MongoStore = require('connect-mongo')(session);
@@ -76,7 +81,7 @@ require('./routes')(app);
 // Выдаем стартовую страницу ангуляра,на случай неразрешения роута (для html5 mode).
 app.use('/*', function (req, res) {
 
-	res.sendFile(path.join(__dirname, resourcesFolderName, 'index.html'));
+	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 
 });
 
@@ -101,7 +106,7 @@ app.use(function (err, req, res, next) {
 
 	}
 
-	if (app.get('env') === 'development') {
+	if (developmentFlag) {
 
 		logger.error(err);
 
@@ -112,7 +117,7 @@ app.use(function (err, req, res, next) {
 
 });
 
-if (app.get('env') === 'development') {
+if (developmentFlag) {
 
 	setInterval(function () {
 

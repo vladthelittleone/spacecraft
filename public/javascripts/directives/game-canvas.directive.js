@@ -4,16 +4,13 @@
  * Зависимости
  */
 var Game = require('../game');
-var spinnerMessages = require('./../utils/json/messages/spinner.json');
-
-GameCanvas.$inject=['$stateParams', 'spinner'];
 
 module.exports = GameCanvas;
 
 /**
  * Директива инициализации игрового контента.
  */
-function GameCanvas($stateParams, spinner) {
+function GameCanvas() {
 
 	var directive = {
 		scope:       {
@@ -28,14 +25,9 @@ function GameCanvas($stateParams, spinner) {
 
 	function link($scope) {
 
-		// Стартует спиннер, как показатель факта загрузки игры.
-		spinner.start({message: spinnerMessages.game, delay: 0});
-
-		Game.initialization($stateParams.id, afterGameInitialization);
-
+		$scope.world = Game.world.getWorld();
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
-
 
 		// ==================================================
 
@@ -62,14 +54,6 @@ function GameCanvas($stateParams, spinner) {
 		function onDestroy() {
 
 			Game.destroy(); // Очистка игры при удалении
-
-		}
-
-		function afterGameInitialization() {
-
-			spinner.stop();
-
-			$scope.world = Game.world.getWorld();
 
 		}
 

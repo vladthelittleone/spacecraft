@@ -91,21 +91,18 @@ function Spinner($rootScope, $timeout) {
 
 				visible = args.visible;
 
-				if (visible) {
+				// Если задан delay
+				if (!lodash.isNil(args.delay)) {
 
-					if (!lodash.isNil(args.delay)) {
+					$timeout(updateSpinnerVisibleState, args.delay);
 
-						$timeout(updateSpinnerVisibleState, args.delay);
+					return;
 
-						return;
-
-					}
 				}
 
 				updateSpinnerVisibleState();
 
 			}
-
 		}
 
 		// Обновление состояния видимости спиннера вынесено в отдельный метод с целью
@@ -116,9 +113,13 @@ function Spinner($rootScope, $timeout) {
 
 				element.removeClass('ng-hide');
 
+
 			} else {
 
-				element.addClass('ng-hide');
+				// Добавляем класс ТОЛЬКО в случае, если он еще НЕ имеется.
+				// Это важно, так как addClass осуществляет добавление
+				// без предварительной проверки на существование класса.
+				!element.hasClass('hasClass') && element.addClass('ng-hide');
 
 			}
 

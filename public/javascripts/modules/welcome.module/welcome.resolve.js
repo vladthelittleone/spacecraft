@@ -13,7 +13,7 @@
  * @author iretd
  */
 
-var otherResolves = require('./../../utils/helpers/resolves/index');
+var otherResolves = require('./../../utils/helpers/resolves');
 var spinnerMessages = require('./../../utils/json/messages/spinner.json');
 
 module.exports = WelcomeResolve();
@@ -75,7 +75,7 @@ function WelcomeResolve() {
 		spinner.start({message: spinnerMessages.leaderBoard});
 
 		return promises.getLeaderBoardData();
-		
+
 	}
 
 }

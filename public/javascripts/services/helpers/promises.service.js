@@ -27,6 +27,7 @@ function Promises($q, authentication, connection, statisticsStorage) {
 	t.getLeaderBoardData = getLeaderBoardData;
 	t.getUserProgressData = getUserProgressData;
 	t.getUserInfoData = getUserInfoData;
+	t.getGame = getGame;
 
 	return t;
 
@@ -57,6 +58,12 @@ function Promises($q, authentication, connection, statisticsStorage) {
 	function getUserInfoData() {
 
 		return $q(connection.getUserInfo);
+
+	}
+
+	function getGame(id) {
+
+		return $q(Game.initialization.bind(null, id));
 
 	}
 

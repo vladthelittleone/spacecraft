@@ -13,7 +13,7 @@
  * @author iretd
  */
 
-var otherResolves = require('./../../utils/helpers/resolves/index');
+var otherResolves = require('./../../utils/helpers/resolves');
 
 module.exports = LessonsResolve();
 

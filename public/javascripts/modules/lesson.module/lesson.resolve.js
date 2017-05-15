@@ -13,7 +13,8 @@
  * @author iretd
  */
 
-var otherResolves = require('./../../utils/helpers/resolves/index');
+var otherResolves = require('./../../utils/helpers/resolves');
+var spinnerMessages = require('./../../utils/json/messages/spinner.json');
 
 module.exports = LessonResolve();
 
@@ -21,13 +22,15 @@ function LessonResolve() {
 
 	// Имена resolve'ов.
 	var names = {
-		authentication: otherResolves.names.authentication
+		authentication: otherResolves.names.authentication,
+		game:           'game'
 	};
 
 	// Значения resolve'ов
 	var resolves = {};
 
 	resolves[names.authentication] = otherResolves.values[names.authentication];
+	resolves[names.game] = ['$stateParams', 'promises', 'spinner', names.authentication, onGame];
 
 	// В качестве экспорта из модуля:
 	var t = {};
@@ -36,4 +39,13 @@ function LessonResolve() {
 	t.values = resolves;
 
 	return t;
+
+	function onGame($stateParams, promises, spinner) {
+
+		spinner.start({message: spinnerMessages.game, delay: 0});
+
+		return promises.getGame($stateParams.id);
+
+	}
+
 }

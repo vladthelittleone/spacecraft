@@ -13,12 +13,12 @@
  * @author iretd
  */
 
-var otherResolves = require('./');
-var spinnerMessages = require('./../../json/messages/spinner.json');
+var otherResolves = require('./../../utils/helpers/resolves/index');
+var spinnerMessages = require('./../../utils/json/messages/spinner.json');
 
-module.exports = Welcome();
+module.exports = WelcomeResolve();
 
-function Welcome() {
+function WelcomeResolve() {
 
 	// Имена resolve'ов.
 	var names = {
@@ -75,8 +75,7 @@ function Welcome() {
 		spinner.start({message: spinnerMessages.leaderBoard});
 
 		return promises.getLeaderBoardData();
-
-
+		
 	}
 
 }

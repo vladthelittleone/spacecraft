@@ -2,7 +2,7 @@
 
 LessonConfig.$inject = ['$stateProvider'];
 
-var resolves = require('./../../utils/helpers/resolves/lesson').values;
+var resolves = require('./lesson.resolve').values;
 
 module.exports = LessonConfig;
 

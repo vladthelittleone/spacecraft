@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Модуль экспортирует имена и значения resolve'ов состояния 'lessons'.
+ * Модуль экспортирует имена и значения resolve'ов состояния 'lesson'.
  *
  * Формат экспорта модуля:
  * names - содержит ИМЕНА resolve'ов;
@@ -13,11 +13,11 @@
  * @author iretd
  */
 
-var otherResolves = require('./');
+var otherResolves = require('./../../utils/helpers/resolves/index');
 
-module.exports = Lessons();
+module.exports = LessonResolve();
 
-function Lessons() {
+function LessonResolve() {
 
 	// Имена resolve'ов.
 	var names = {
@@ -36,5 +36,4 @@ function Lessons() {
 	t.values = resolves;
 
 	return t;
-
 }

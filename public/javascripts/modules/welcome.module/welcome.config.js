@@ -2,7 +2,7 @@
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
 
-var resolves = require('./../../utils/helpers/resolves/welcome').values;
+var resolves = require('./welcome.resolve').values;
 
 module.exports = WelcomeConfig;
 

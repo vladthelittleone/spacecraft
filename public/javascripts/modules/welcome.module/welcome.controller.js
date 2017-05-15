@@ -1,6 +1,6 @@
 'use strict';
 
-var resolvesNames = require('./../../utils/helpers/resolves/welcome').names;
+var resolvesNames = require('./welcome').names;
 
 WelcomeController.$inject = ['$scope',
 							 '$sce',

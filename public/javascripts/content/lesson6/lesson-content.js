@@ -6,7 +6,6 @@ module.exports = Content();
 /**
  * Created by vaimer on 15.02.2017.
  */
-
 function Content() {
 
 	var points = {
@@ -21,7 +20,7 @@ function Content() {
 		text:  'Поиск истины или как проверить еду на яд',
 		label: 'Основы JavaScript',
 		quote: 'У истины простая речь.',
-		rules: require('./autocomplete.json'),
+		defs: require('./autocomplete.json'),
 		sub:   require('./sub'),
 		isGameLesson: true,
 		points: points,

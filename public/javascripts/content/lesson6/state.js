@@ -98,7 +98,7 @@ function StateWrapper(state) {
 
 			}
 
-			setTimeout(createNewPlayer, 5000);
+			setTimeout(createNewPlayer, 3000);
 
 		}
 	}

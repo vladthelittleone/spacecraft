@@ -102,7 +102,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать харвестер
+	 * Создать харвестер.
 	 */
 	function createHarvester(game, x, y, player) {
 
@@ -117,7 +117,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создание коробля бойца
+	 * Создание коробля бойца.
 	 */
 	function createFighter(game, x, y, player) {
 
@@ -131,7 +131,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать базу академии
+	 * Создать базу академии.
 	 */
 	function createAcademyBase(game, x, y) {
 
@@ -144,7 +144,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создание планеты
+	 * Создание планеты.
 	 */
 	function createRedPlanet(game, x, y) {
 
@@ -156,7 +156,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать метеорит
+	 * Создать метеорит.
 	 */
 	function createMeteor(game, x, y) {
 
@@ -169,7 +169,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать метеоритное поле
+	 * Создать метеоритное поле.
 	 */
 	function createMeteorField(game, x, y) {
 
@@ -188,7 +188,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать метеоритное поле округлое
+	 * Создать метеоритное поле округлое.
 	 */
 	function createMeteorFiledSphere(game, x, y) {
 
@@ -223,7 +223,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать исследовательский центр
+	 * Создать исследовательский центр.
 	 */
 	function createResearchCenter(game, x, y) {
 
@@ -236,7 +236,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать мину
+	 * Создать мину.
 	 */
 	function createMine(game, x, y, scale, group) {
 
@@ -254,7 +254,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать крейсер
+	 * Создать крейсер.
 	 */
 	function createCarrier(game, x, y, player) {
 
@@ -268,7 +268,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать шатл
+	 * Создать шатл.
 	 */
 	function createShuttle(game, x, y, player) {
 

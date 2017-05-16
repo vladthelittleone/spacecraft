@@ -34,12 +34,12 @@ function ifOperation() {
 					  '<li>Изучите комментарии к коду.</li>' +
 					  '<li>Измените условие так, чтобы корабль не был уничтожен.</li>' +
 					  '<li>Измените условие так, чтобы BBot вывел сообщение о состоянии систем корабля.</li>' +
-					  '<li>Щепотка дополнительной информации: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/if...else">клац</a>.</li>' +
+					  '<li>Немного вкусняшек: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/if...else">мням</a>.</li>' +
 					  '</ul>'
 	};
 
 	function gamePostUpdate(shuttle,
-							lesson,
+							statistics,
 							player,
 							text) {
 
@@ -48,7 +48,10 @@ function ifOperation() {
 											  correct: '<p>Где правда проступает сквозb туман,</p>' +
 													   '<p>там терпит поражение 0бман....</p>' +
 													   '<p>Ой, что это я. Транслирую:</p>' +
-													   '<p class="bbot-output">Health: 10 </br>State: OK</p>',
+													   '<p class="bbot-output">' + text + '</p>',
+
+											  noInfo: '<p>Эй! Где л0гги корабля? Хватит халявить!</p>' +
+													  '<p>Внимательно про4итайте инструкции и попробуйте снова.</p>',
 
 											  unknownError: '<p>Что-то не так! Не могу найти заданный выв0д!</p>' +
 															'<p>Внимательно про4итайте инструкции и попробуйте снова.</p>',
@@ -61,13 +64,27 @@ function ifOperation() {
 
 		if (shuttle.isAlive()) {
 
-			return lessonResults.resultCorrect();
+			if (text) {
+
+				return lessonResults.resultCorrect();
+
+			} else {
+
+				return lessonResults.resultNotCorrect('noInfo');
+
+			}
 
 		} else {
 
+			var lessonPoints = statistics.getLessonContentPoints();
+
 			CodeLauncher.stop();
 
+			// Устанавливаем штрафные очки за взрыв корабля :)
+			statistics.incPenaltyPointsForGame(lessonPoints.shuttleDestroy);
+
 			return lessonResults.text();
+
 		}
 	}
 
@@ -77,10 +94,11 @@ function ifOperation() {
 			'необходимо выполнять определенные действия или принимать сложные решения.</p>' +
 			'<p>Для этого был создан оператор <strong class=‘under-lable’>if</strong>, ' +
 			'который позволяет определить условное выражение, возвращающее логический тип данных - <strong>boolean</strong>:</p>' +
-			'<pre>if (<strong>условие</strong>) {\n' +
-			'  <strong>действия</strong> \n' +
+			'<pre>if (<strong>условие</strong>)<br>' +
+			'{<br>' +
+			'    <strong>действия</strong><br>' +
 			'}</pre>' +
-			'<p>Если <strong>условие</strong> имеет значение <strong class=’under-lable’>true</strong> - "истина", то выполнятся заданные <strong>действия</strong>.</p>' +
+			'<p>Если <strong>условие</strong> имеет значение <strong class=’under-lable’>true</strong> - «истина», то выполнятся заданные <strong>действия</strong>.</p>' +
 			'<p>Смоделируем ситуацию: хитрый взломщик решил уничтожить корабль, изменив код модуля защиты. Ваша задача не допустить этого!</p>';
 
 	}

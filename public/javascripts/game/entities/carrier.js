@@ -49,7 +49,7 @@ function CarrierUnit(game, x, y, player) {
 	});
 
 	/**
-	 * Добавляем блок создания объектов
+	 * Добавляем блок создания объектов.
 	 */
 	t.creation = BlocksFactory.addFactoryBlock({
 		game: game,

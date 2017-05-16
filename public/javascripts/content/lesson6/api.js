@@ -30,7 +30,7 @@ function Api(player) {
 
 	function log() {
 
-		return 'Health:' + player.sprite.health + '/n State: OK';
+		return 'Прочность: ' + player.sprite.health + '<br> Статус: К.О.';
 
 	}
 }

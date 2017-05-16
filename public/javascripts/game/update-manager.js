@@ -51,9 +51,9 @@ function UpdateManager() {
 
 	}
 
-	function post() {
+	function post(botText) {
 
-		return postUpdate && postUpdate(arguments);
+		return postUpdate && postUpdate(botText);
 
 	}
 

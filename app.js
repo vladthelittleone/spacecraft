@@ -19,6 +19,7 @@ const httpLogger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const csurf = require('csurf');
 
 // Наши модули
 const config = require('config');
@@ -72,6 +73,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// CSRF проверка
+app.use(csurf());
+app.use(function(req, res, next) {
+
+	res.cookie('XSRF-TOKEN', req.csrfToken());
+	return next();
+
+});
+
 passport.use('local-login', localStrategy.login);
 passport.use('vk-login', vkStrategy.login);
 
@@ -88,6 +98,16 @@ app.use('/*', function (req, res) {
 const HttpError = require('error').HttpError;
 
 app.use(function (err, req, res, next) {
+
+	// Если ошибка при валидации CSRF
+	if (err.code === 'EBADCSRFTOKEN') {
+
+		// handle CSRF token errors here
+		res.status(HttpStatus.FORBIDDEN);
+		return res.send('You cannot do that from outside of our client side ;)')
+
+	}
+
 
 	// На случай, если из какого-либо middleware выпала ошибка, отличная от числа или HttpError.
 	// Это говорит о том, что в err скрыт объект, который создала какая-либо сторонняя библиотека (к примеру, mongoose).

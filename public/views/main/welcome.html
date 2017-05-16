@@ -61,31 +61,31 @@
 				</div>
 			</a>
 		</div>
-		<div class="container-25"
-			 uib-carousel
-			 active="active"
-			 interval="intervalSlideChange"
-			 no-wrap="noWrapSlides">
+		<div class="container-50">
 			<div class="container-inside"
-				 uib-slide
-				 ng-repeat="slide in slides track by slide.id"
-				 index="slide.id">
-				<!--<a ng-href="{{userInfo.emailProviderUrl}}">-->
-					<div class="pages-img"
-						 ng-class="slide.slide_img">
-					</div>
-					<div class="pages-label">{{slide.slide_label}}</div>
-					<div class="pages-text email-text">{{slide.slide_text}}</div>
-				<!--</a>-->
+				 uib-carousel
+				 interval="intervalSlideChange"
+				 active="active"
+				 no-wrap="noWrapSlides">
+
+				<div  uib-slide ng-repeat="slide in slides" index="$index">
+
+					<div class="pages-img" ng-class="slide.image" ng-show="!slide.email"></div>
+					<div class="pages-label" ng-show="!slide.email">{{slide.label}}</div>
+					<div class="pages-text email-text" ng-show="!slide.email">{{slide.text}}</div>
+
+					<a ng-href="{{userInfo.emailProviderUrl}}" ng-show="slide.email">
+						<div class="pages-img email-img">
+							<div class="fa fa-envelope"></div>
+						</div>
+						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
+						<div class="pages-text email-text">Подтвердите вашу почту</div>
+					</a>
+				</div>
+
 			</div>
 		</div>
-		<div class="container-25" ui-sref="quick">
-			<div class="container-inside">
-				<div class="pages-img quick-img"></div>
-				<div class="pages-label">О нас</div>
-				<div class="pages-text">Начать просмотр</div>
-			</div>
-		</div>
+
 		<div class="container-25">
 			<div class="container-inside">
 				<div class="pages-leadboard-title">ЛУЧШИЕ ИГРОКИ</div>
@@ -106,6 +106,14 @@
 					</tr>
 					</tbody>
 				</table>
+			</div>
+		</div>
+
+		<div class="container-25" ui-sref="quick">
+			<div class="container-inside">
+				<div class="pages-img quick-img"></div>
+				<div class="pages-label">О нас</div>
+				<div class="pages-text">Начать просмотр</div>
 			</div>
 		</div>
 	</div>

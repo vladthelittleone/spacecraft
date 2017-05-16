@@ -12,7 +12,7 @@ WelcomeController.$inject = ['$scope',
 module.exports = WelcomeController;
 
 var lodash = require('lodash');
-var slides = require('./slides.json');
+var slides = require('./../../utils/json/slides.json');
 
 /**
  * @since 30.11.15
@@ -26,10 +26,6 @@ function WelcomeController($scope,
 						   leaderBoardData,
 						   userProgressData,
 						   userInfoData) {
-
-	$scope.noWrapSlides = false;
-	$scope.intervalSlideChange = 5000;
-	$scope.slides = slides;
 
 	$scope.leaderBoard = leaderBoardData || [];	// Лидеры игры
 	$scope.vkShow = true; 	// Переключатель виджета ВК
@@ -46,6 +42,8 @@ function WelcomeController($scope,
 	$scope.trustAsHtml = trustAsHtml;
 
 	$scope.userInfo = userInfoData;
+
+	initializeCarousel();
 
 	formDataForChart(lessonStatisticsData);
 	formDataForLineChart(userProgressData);
@@ -183,6 +181,22 @@ function WelcomeController($scope,
 
 		return $sce.trustAsHtml(s);
 
+	}
+
+	function initializeCarousel() {
+
+		$scope.noWrapSlides = false;
+		$scope.intervalSlideChange = 5000;
+		$scope.slides = slides;
+		$scope.active = 0;
+
+		if(userInfoData.needToConfirmEmail) {
+
+			$scope.slides.push({
+				email: true
+			});
+
+		}
 	}
 
 	// Изменить текущий график на следующий

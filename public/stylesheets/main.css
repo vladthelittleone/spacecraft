@@ -1519,7 +1519,11 @@ div.helper {
 }
 
 .carousel {
-	height: 100%;
+	height: 360px;
+}
+
+.carousel-indicators {
+	visibility: hidden;
 }
 
 .carousel-inner {
@@ -1832,8 +1836,7 @@ div.helper {
 @media (max-width: 968px) {
 	.container-25,
 	.container-50,
-	.container-75,
-	.carousel {
+	.container-75{
 		width: 100%;
 	}
 }
@@ -2032,10 +2035,3 @@ fieldset, label {
 	border: 2px solid #152b39;
 }
 
-.carousel {
-	height: 360px;
-}
-
-.carousel-indicators {
-	visibility: hidden;
-}

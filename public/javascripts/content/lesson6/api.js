@@ -10,13 +10,13 @@ function Api(player) {
 
 	var api = {};
 
-	api.selfDestruction = selfDestruction;
+	api.destroy = destroy;
 	api.isAlive = isAlive;
 	api.log = log;
 
 	return api;
 
-	function selfDestruction() {
+	function destroy() {
 
 		player.sprite.kill();
 

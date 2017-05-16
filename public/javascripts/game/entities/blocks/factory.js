@@ -15,6 +15,8 @@ function FactoryBlock(spec) {
 	var unit = spec.unit;
 	var game = spec.game;
 
+	var PARENT_SHIP_DISTANCE = 200;
+
 	unit.createShuttle = createShuttle;
 
 	return t;
@@ -30,9 +32,17 @@ function FactoryBlock(spec) {
 
 			shuttle = createSpaceCraft(game, x, y, player);
 
-			shuttle.logic = shuttle.moveToXY.bind(shuttle, x - 180, y);
+			shuttle.logic = function() {
+
+				if(shuttle.distanceTo(x, y) <= PARENT_SHIP_DISTANCE) {
+
+					shuttle.moveForward();
+
+				}
+			};
 		}
 
 		return shuttle;
 	}
+
 }

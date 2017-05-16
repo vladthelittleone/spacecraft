@@ -17,20 +17,22 @@ function FactoryBlock(spec) {
 
 	var PARENT_SHIP_DISTANCE = 200;
 
-	unit.createShuttle = createShuttle;
+	unit.createSpacecraft = createSpacecraft;
 
 	return t;
 
-	function createShuttle(player, createSpaceCraft) {
+	function createSpacecraft(player, createFunction) {
 
 		var shuttle = null;
 
-		if(createSpaceCraft){
+		if(createFunction) {
 
 			var x = unit.sprite.x;
 			var y = unit.sprite.y;
 
-			shuttle = createSpaceCraft(game, x, y, player);
+			shuttle = createFunction(game, x, y, player);
+
+			shuttle.sprite.rotation = unit.sprite.rotation;
 
 			shuttle.logic = function() {
 

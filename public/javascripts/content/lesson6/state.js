@@ -29,9 +29,7 @@ function StateWrapper(state) {
 		deadFlag = false;
 
 		// Создать шаттл
-		player = carrier.createShuttle(true, EntitiesFactory.createShuttle);
-
-		player.sprite.rotation = carrier.sprite.rotation;
+		player = carrier.createSpacecraft(true, EntitiesFactory.createShuttle);
 
 		// API для урока
 		player.api = Api(player);
@@ -48,7 +46,7 @@ function StateWrapper(state) {
 	}
 
 	/**
-	 * Шаблонный метод инфициализации объектов.
+	 * Шаблонный метод инициализации объектов.
 	 */
 	function entities(game) {
 
@@ -95,6 +93,8 @@ function StateWrapper(state) {
 				explosion.scale.setTo(0.5);
 				explosion.reset(player.sprite.x, player.sprite.y);
 				explosion.play('explosion', 30, false, true);
+
+				player.audio.playExplosion();
 
 			}
 

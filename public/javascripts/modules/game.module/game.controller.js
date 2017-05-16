@@ -30,6 +30,7 @@ function GameController($scope,
 
 	var markerService;
 	var soundtrack;
+	var markerId;
 
 	CodeLauncher.onError = onError;
 
@@ -38,6 +39,7 @@ function GameController($scope,
 
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
+	$scope.toggleContentEnable = toggleContentEnable;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
@@ -66,6 +68,34 @@ function GameController($scope,
 			$scope.vkWidgetEnable = false;
 
 		}
+
+	}
+
+	/**
+	 * Обощенная функция, который открывает(делает видимым)
+	 * окно с необходимым контентом
+	 */
+	function toggleContentEnable(content) {
+
+		var currentState = $scope[content];
+
+		disableLeftContent();
+
+		$scope[content] = !currentState;
+
+	}
+
+	/**
+	 * Функция закрывает все окна
+	 */
+	function disableLeftContent() {
+
+		$scope.textContentEnable = false;	// Переключатель текстового контента урока
+		$scope.disqusEnable = false;		// Переключатель комментариев
+		$scope.diagramEnable = false;		// Переключатель окна диаграммы
+		$scope.tableEnable = false;			// Переключатель таблички
+		$scope.settingsEnable = false;		// Переключатель натсроек
+		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
 
 	}
 
@@ -105,32 +135,16 @@ function GameController($scope,
 	 */
 	function aceLoaded(editor) {
 
-		// Если определен урок.
-		if ($scope.lesson) {
+		aceService.initialize(editor);
 
-			lessonService.setEditorSession(editor.getSession());
+		markerService = aceService.getMarkerService();
 
-			aceService.initialize(editor, $scope.lesson.rules);
-
-			markerService = aceService.getMarkerService();
-
-			/**
-			 * Инициализация урока.
-			 */
-			lessonService.initialize({
-				lessonId: $stateParams.id,
-				scope:    $scope
-			});
-
-		}
 	}
 
 	/**
 	 * Очистка маркеров.
 	 */
 	function clearMarker() {
-
-		var markerId = lessonService.getMarkerId();
 
 		// Удаляем старый маркер
 		markerId && markerService.deleteMarkerAndAnnotation(markerId);
@@ -149,7 +163,7 @@ function GameController($scope,
 
 		CodeLauncher.stop();
 
-		var markerId = clearMarker();
+		markerId = clearMarker();
 
 		// Выводим текст
 		$scope.textBot = error;
@@ -167,10 +181,6 @@ function GameController($scope,
 
 				// Указываем маркер
 				markerId = markerService.setMarkerAndAnnotation(errorLine, error);
-
-				// Сохраняем в сервисе.
-				// В связи с использованием указаний в уроке.
-				lessonService.setMarkerId(markerId);
 
 			}
 
@@ -253,18 +263,19 @@ function GameController($scope,
 
 		if (!CodeLauncher.isCodeRunning) {
 
-			lessonService.intiateRunByUserClick();
+			var editorSession = aceService.getSession();
+			var code = editorSession.getDocument().getValue();
+
+			CodeLauncher.run(code);
 
 			// При запуске кода
-			// выключаем окно инструкции.
-			// Оно зависит от поля showTextContent.
-			// ng-show = "showTextContent"
-			$scope.textContentEnable = false;
+			// выключаем окно настроек.
 			$scope.settingsEnable = false;
+
 		}
 		else {
 
-			lessonService.stop();
+			CodeLauncher.stop();
 
 		}
 

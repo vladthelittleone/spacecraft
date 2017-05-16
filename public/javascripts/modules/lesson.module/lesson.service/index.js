@@ -75,7 +75,7 @@ function LessonService(connection,
 
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
-	that.intiateRunByUserClick = initiateRunByUserClick;
+	that.initiateRunByUserClick = initiateRunByUserClick;
 
 	that.run = run;
 	that.stop = stop;

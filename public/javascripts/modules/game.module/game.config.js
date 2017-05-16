@@ -2,6 +2,8 @@
 
 LessonConfig.$inject = ['$stateProvider'];
 
+var resolves = require('./game.resolve').values;
+
 module.exports = LessonConfig;
 
 /**
@@ -9,21 +11,11 @@ module.exports = LessonConfig;
  */
 function LessonConfig($stateProvider) {
 
-	$stateProvider.state('lesson', {
-		url:         '/lesson/:id',
-		templateUrl: 'views/lessons/lesson.html',
-		controller:  'LessonController as ctrl',
-		resolve:     {
-
-			// разрешаем прохождение урока ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', function (promises) {
-
-				return promises.getAuthenticationStatus();
-
-			}]
-
-		}
-
+	$stateProvider.state('game', {
+		url:         '/game',
+		templateUrl: 'views/game/main.html',
+		controller:  'GameController as ctrl',
+		resolve:     resolves
 	});
 
 }

@@ -21,7 +21,6 @@ function AceService() {
 	var beautifyOptions;
 
 	var defs = [defaultDefs];
-
 	var ternOptions = {
 
 		/* http://ternjs.net/doc/manual.html#option_defs */
@@ -32,34 +31,13 @@ function AceService() {
 			doc_comment: {
 				fullDocs: true
 			}
-		},
-
-		/**
-		 * If your editor supports switching between different files (such as tabbed interface)
-		 * then tern can do this when jump to defnition of function in another file is called,
-		 * but you must tell tern what to execute in order to jump to the specified file
-		 */
-		switchToDoc: function (name, start) {
-
-			// Stub
-
-		},
-
-		/**
-		 * If passed, this function will be called once ternServer is started.
-		 * This is needed when useWorker=false because the tern source files are
-		 * loaded asynchronously before the server is started.
-		 */
-		startedCb: function () {
-
-			// Stub
-
 		}
 
 	};
 
 	that.initialize = initialize;
 	that.getMarkerService = getMarkerService;
+	that.getSession = getSession;
 	that.getBeautifyOptions = getBeautifyOptions;
 
 	return that;
@@ -169,6 +147,9 @@ function AceService() {
 
 	}
 
+	/**
+	 * Визуальные настройки.
+	 */
 	function beautify(beautify) {
 
 		editor.setOptions({
@@ -180,6 +161,15 @@ function AceService() {
 
 		// modify beautify options as needed:
 		beautifyOptions = beautify.options;
+
+	}
+
+	/**
+	 * Возвращаем сессию редактора.
+	 */
+	function getSession() {
+
+		return editor.getSession();
 
 	}
 }

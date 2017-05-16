@@ -19,7 +19,7 @@
  * @author iretd
  */
 
-var spinnerMessages = require('./../../json/messages/spinner.json');
+var spinnerMessages = require('./../json/messages/spinner.json');
 
 module.exports = function() {
 

@@ -12,4 +12,3 @@ var app = angular.module('spacecraft.game.module', []);
 
 app.config(require('./game.config'));
 app.controller('GameController', require('./game.controller'));
-app.factory('gameService', require('./game.service'));

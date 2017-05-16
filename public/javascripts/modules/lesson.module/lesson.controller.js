@@ -334,7 +334,7 @@ function LessonController($scope,
 
 		if (!CodeLauncher.isCodeRunning) {
 
-			lessonService.intiateRunByUserClick();
+			lessonService.initiateRunByUserClick();
 
 			// При запуске кода
 			// выключаем окно инструкции.

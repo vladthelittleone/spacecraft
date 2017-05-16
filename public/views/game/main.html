@@ -6,7 +6,9 @@
 		 min-size="30%"
 		 max-size="70%"
 		 size="50%">
-
+		<div disqus
+			 ng-show="disqusEnable">
+		</div>
 	</div>
 
 	<div ui-layout-container
@@ -53,20 +55,18 @@
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{CodeLauncher.isCodeRunning ? 'Остановить скрипт' : 'Запустить скрипт'}}"
-		 ng-show="curretSubLesson.interpreterHandler || curretSubLesson.gamePostUpdate"
 		 ng-click="toggleCodeRun()"
 		 ng-class="{'fa-stop right-toolbar-red': CodeLauncher.isCodeRunning, 'fa-play right-toolbar-green' : !CodeLauncher.isCodeRunning}">
 	</div>
 
-	<div class="right-toolbar-new-group right-toolbar-button fa"
+	<div class="right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
-		 ng-if="!lesson.sub[subIndex].question"
 		 uib-tooltip="{{hideEditor ? 'Показать редактор кода' : 'Убрать редактор кода'}}"
 		 ng-click="toggleEditorOpen()"
 		 ng-class="{'fa-chevron-right': !hideEditor, 'fa-chevron-left' : hideEditor}"></div>
 
-	<div class="right-toolbar-new-group right-toolbar-button fa"
+	<div class="right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{settingsEnable ? 'Скрыть настройки' : 'Показать настройки'}}"

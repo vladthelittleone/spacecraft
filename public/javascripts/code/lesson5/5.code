@@ -4,11 +4,12 @@ var speed = 0;
 // Результат выполнения инкремента.
 var result;
 
-// В результате получим 0.
+// Результат выполнения операции: 1.
 result = ++speed;
-BBotDebug("Результат операции: " + result);
-BBotDebug("Скорость корабля: " + speed);
+BBotDebug("Результат операции: " + result); // 1
+BBotDebug("Скорость корабля: " + speed);	// 1
 
+// Результат выполнения операции: 1.
 result = speed++;
-BBotDebug("Результат операции: " + result);
-BBotDebug("Скорость корабля: " + speed);
+BBotDebug("Результат операции: " + result); // 1
+BBotDebug("Скорость корабля: " + speed);    // 2

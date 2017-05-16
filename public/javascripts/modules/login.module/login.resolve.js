@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Модуль экспортирует имена и значения resolve'ов состояния 'lesson'.
+ * Модуль экспортирует имена и значения resolve'ов состояния 'login'.
  *
  * Формат экспорта модуля:
  * names - содержит ИМЕНА resolve'ов;
@@ -15,22 +15,19 @@
 
 var spinnerMessages = require('./../../utils/json/messages/spinner.json');
 
-module.exports = LessonResolve();
+module.exports = LessonsResolve();
 
-function LessonResolve() {
+function LessonsResolve() {
 
 	// Имена resolve'ов.
 	var names = {
-		authentication: 'authenticationStatus',
-		game:           'game'
-
+		authentication: 'authenticationStatus'
 	};
 
 	// Значения resolve'ов
 	var resolves = {};
 
 	resolves[names.authentication] = ['promises', 'spinner', onAuthenticationStatus];
-	resolves[names.game] = ['$stateParams', 'promises', 'spinner', names.authentication, onGame];
 
 	// В качестве экспорта из модуля:
 	var t = {};
@@ -44,15 +41,10 @@ function LessonResolve() {
 
 		spinner.start({message: spinnerMessages.authorization});
 
-		return promises.getAuthenticationStatus();
-
-	}
-
-	function onGame($stateParams, promises, spinner) {
-
-		spinner.start({message: spinnerMessages.game, delay: 0});
-
-		return promises.getGame($stateParams.id);
+		return promises.getAuthenticationStatus({
+													resolveAlways:    true,
+													ignoreAuthModule: true
+												});
 
 	}
 

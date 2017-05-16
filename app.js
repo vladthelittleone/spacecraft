@@ -28,10 +28,8 @@ const logger = require('./utils/log')(module);
 
 require('./utils/passport')();
 
-var localStrategy = require('./utils/passport/local');
-var vkStrategy = require('./utils/passport/vk');
-
-var maxHeap = 0;
+const localStrategy = require('./utils/passport/local');
+const vkStrategy = require('./utils/passport/vk');
 
 app.use(require('./middlewares/send-http-error'));
 
@@ -102,7 +100,6 @@ app.use(function (err, req, res, next) {
 	// Если ошибка при валидации CSRF
 	if (err.code === 'EBADCSRFTOKEN') {
 
-		// handle CSRF token errors here
 		res.status(HttpStatus.FORBIDDEN);
 		return res.send('You cannot do that from outside of our client side ;)')
 
@@ -138,6 +135,8 @@ app.use(function (err, req, res, next) {
 });
 
 if (developmentFlag) {
+
+	var maxHeap = 0;
 
 	setInterval(function () {
 

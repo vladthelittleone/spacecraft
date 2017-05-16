@@ -23,6 +23,7 @@ function Promises($q, authentication, connection, statisticsStorage) {
 	var t = {};
 
 	t.getAuthenticationStatus = getAuthenticationStatus;
+
 	t.getLessonStatisticsData = getLessonStatisticsData;
 	t.getLeaderBoardData = getLeaderBoardData;
 	t.getUserProgressData = getUserProgressData;
@@ -31,9 +32,28 @@ function Promises($q, authentication, connection, statisticsStorage) {
 
 	return t;
 
-	function getAuthenticationStatus() {
+	/**
+	 * Параметры позволяют управлять поведением разрешения promise'a:
+	 * - resolveAlways - promise будет ВСЕГДА разрешен (т.е. в любом случае будет вызван resolve);
+	 * - ignoreAuthModule - игнорирование angular-http-auth сервиса (он не будет отлавливать 401 код и тем самым
+	 *                      даст нам обработать ответ от сервера).
+	 */
+	function getAuthenticationStatus(args) {
 
-		return $q(authentication.getAuthenticationStatus);
+		// На случай, если параметры не определены совсем.
+		args = args || {};
+
+		if (args.resolveAlways) {
+
+			return $q(function (resolve) {
+
+				authentication.getAuthenticationStatus(args.ignoreAuthModule, resolve, resolve);
+
+			})
+
+		}
+
+		return $q(authentication.getAuthenticationStatus.bind(null, args.ignoreAuthModule));
 
 	}
 

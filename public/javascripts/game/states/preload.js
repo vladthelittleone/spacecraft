@@ -46,6 +46,12 @@ function PreloadState(game) {
 
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
 
+		game.load.audio('laser1', ['audio/spacecraft/laser1.wav']);
+		game.load.audio('explosion1', ['audio/spacecraft/explosion1.wav']);
+		game.load.audio('explosion2', ['audio/spacecraft/explosion2.wav']);
+		game.load.audio('shield1', ['audio/spacecraft/shieldvisible1.wav']);
+		game.load.audio('harvest1', ['audio/spacecraft/harvest1.wav']);
+
 	}
 
 	/**

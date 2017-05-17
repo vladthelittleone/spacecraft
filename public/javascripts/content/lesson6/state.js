@@ -15,7 +15,6 @@ function StateWrapper(state) {
 
 	var player;
 	var graphics;	// Графика
-	var deadFlag = false;
 	var carrier;
 	var explosions;	// Группа анимации взрывов
 
@@ -25,8 +24,6 @@ function StateWrapper(state) {
 	return t;
 
 	function createNewPlayer() {
-
-		deadFlag = false;
 
 		// Создать шаттл
 		player = carrier.createSpacecraft(true, EntitiesFactory.createShuttle);
@@ -41,6 +38,8 @@ function StateWrapper(state) {
 		player.sprite.bringToTop();
 
 		carrier.sprite.bringToTop();
+
+		player.sprite.events.onKilled.add(killedPlayerCallback);
 
 		CodeLauncher.setArguments(player.api);
 	}
@@ -80,26 +79,24 @@ function StateWrapper(state) {
 	}
 
 
-	function logic() {
+	function killedPlayerCallback() {
 
-		if(!player.sprite.alive && !deadFlag) {
+		var explosion = explosions.getFirstExists(false);
 
-			deadFlag = true;
+		if (explosion) {
 
-			var explosion = explosions.getFirstExists(false);
+			explosion.scale.setTo(0.5);
+			explosion.reset(player.sprite.x, player.sprite.y);
+			explosion.play('explosion', 30, false, true);
 
-			if(explosion) {
-
-				explosion.scale.setTo(0.5);
-				explosion.reset(player.sprite.x, player.sprite.y);
-				explosion.play('explosion', 30, false, true);
-
-				player.audio.playExplosion();
-
-			}
-
-			setTimeout(createNewPlayer, 3000);
+			player.audio.playExplosion();
 
 		}
+
+		setTimeout(createNewPlayer, 3000);
+	}
+
+	function logic() {
+
 	}
 }

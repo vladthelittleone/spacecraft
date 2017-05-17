@@ -13,7 +13,6 @@
  * @author iretd
  */
 
-var otherResolves = require('./../../utils/helpers/resolves');
 var spinnerMessages = require('./../../utils/json/messages/spinner.json');
 
 module.exports = WelcomeResolve();
@@ -22,7 +21,7 @@ function WelcomeResolve() {
 
 	// Имена resolve'ов.
 	var names = {
-		authentication: otherResolves.names.authentication,
+		authentication: 'authenticationStatus',
 		lessonStatistics: 'lessonStatisticsData',
 		leaderBoard: 'leaderBoardData',
 		userProgress: 'userProgressData',
@@ -32,7 +31,7 @@ function WelcomeResolve() {
 	// Значения resolve'ов
 	var resolves = {};
 
-	resolves[names.authentication] = otherResolves.values[names.authentication];
+	resolves[names.authentication] = ['promises', 'spinner', onAuthenticationStatus];
 	resolves[names.lessonStatistics] = ['promises', 'spinner', names.authentication, onLessons];
 	resolves[names.leaderBoard] = ['promises', 'spinner', names.lessonStatistics, onLeaderBoard];
 	resolves[names.userProgress] = ['promises', 'spinner', names.leaderBoard, onUserProgress];
@@ -45,6 +44,14 @@ function WelcomeResolve() {
 	t.values = resolves;
 
 	return t;
+
+	function onAuthenticationStatus(promises, spinner) {
+
+		spinner.start({message: spinnerMessages.authorization});
+
+		return promises.getAuthenticationStatus();
+
+	}
 
 	function onUserProgress(promises, spinner) {
 

@@ -4,7 +4,9 @@ const express = require('express');
 
 const app = express();
 
-const resourcesFolderName = app.get('env') === 'development' ? 'public' : 'build';
+// В коде удобней различать среды по ИМЕНИ.
+const developmentFlag = app.get('env') !== 'production';
+const productionFlag = app.get('env') === 'production';
 
 const compression = require('compression');
 
@@ -19,6 +21,7 @@ const httpLogger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const csurf = require('csurf');
 
 // Наши модули
 const config = require('config');
@@ -27,10 +30,8 @@ const logger = require('./utils/log')(module);
 
 require('./utils/passport')();
 
-var localStrategy = require('./utils/passport/local');
-var vkStrategy = require('./utils/passport/vk');
-
-var maxHeap = 0;
+const localStrategy = require('./utils/passport/local');
+const vkStrategy = require('./utils/passport/vk');
 
 app.use(require('./middlewares/send-http-error'));
 
@@ -38,14 +39,19 @@ app.use(require('./middlewares/send-http-error'));
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-app.use(favicon(path.join(__dirname, resourcesFolderName, 'favicon.ico')));
+// Статику подключаем только в development среде!
+// В production за выдачу статики отвечает nginx
+if (developmentFlag) {
+
+	app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+	app.use(express.static(path.join(__dirname, 'public')));
+
+}
+
 app.use(httpLogger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-
-// Подключаем статику (картинки, js скрипты, аудио и т.д.)
-app.use(express.static(path.join(__dirname, resourcesFolderName)));
 
 // Сторедж для сессии.
 const MongoStore = require('connect-mongo')(session);
@@ -67,6 +73,20 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// CSRF проверку делаем ТОЛЬКО в production.
+// В development не имеет смысла :)
+if (productionFlag) {
+
+	app.use(csurf());
+	app.use(function (req, res, next) {
+
+		res.cookie('XSRF-TOKEN', req.csrfToken());
+		return next();
+
+	});
+
+}
+
 passport.use('local-login', localStrategy.login);
 passport.use('vk-login', vkStrategy.login);
 
@@ -76,13 +96,22 @@ require('./routes')(app);
 // Выдаем стартовую страницу ангуляра,на случай неразрешения роута (для html5 mode).
 app.use('/*', function (req, res) {
 
-	res.sendFile(path.join(__dirname, resourcesFolderName, 'index.html'));
+	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 
 });
 
 const HttpError = require('error').HttpError;
 
 app.use(function (err, req, res, next) {
+
+	// Если ошибка при валидации CSRF
+	if (err.code === 'EBADCSRFTOKEN') {
+
+		res.status(HttpStatus.FORBIDDEN);
+		return res.send('You cannot do that from outside of our client side ;)')
+
+	}
+
 
 	// На случай, если из какого-либо middleware выпала ошибка, отличная от числа или HttpError.
 	// Это говорит о том, что в err скрыт объект, который создала какая-либо сторонняя библиотека (к примеру, mongoose).
@@ -101,7 +130,7 @@ app.use(function (err, req, res, next) {
 
 	}
 
-	if (app.get('env') === 'development') {
+	if (developmentFlag) {
 
 		logger.error(err);
 
@@ -112,7 +141,9 @@ app.use(function (err, req, res, next) {
 
 });
 
-if (app.get('env') === 'development') {
+if (developmentFlag) {
+
+	var maxHeap = 0;
 
 	setInterval(function () {
 

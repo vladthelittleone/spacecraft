@@ -13,7 +13,7 @@
  * @author iretd
  */
 
-var otherResolves = require('./../../utils/helpers/resolves');
+var spinnerMessages = require('./../../utils/json/messages/spinner.json');
 
 module.exports = LessonsResolve();
 
@@ -21,13 +21,13 @@ function LessonsResolve() {
 
 	// Имена resolve'ов.
 	var names = {
-		authentication: otherResolves.names.authentication
+		authentication: 'authenticationStatus'
 	};
 
 	// Значения resolve'ов
 	var resolves = {};
 
-	resolves[names.authentication] = otherResolves.values[names.authentication];
+	resolves[names.authentication] = ['promises', 'spinner', onAuthenticationStatus];
 
 	// В качестве экспорта из модуля:
 	var t = {};
@@ -36,5 +36,13 @@ function LessonsResolve() {
 	t.values = resolves;
 
 	return t;
+
+	function onAuthenticationStatus(promises, spinner) {
+
+		spinner.start({message: spinnerMessages.authorization});
+
+		return promises.getAuthenticationStatus();
+
+	}
 
 }

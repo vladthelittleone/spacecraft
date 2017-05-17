@@ -2,7 +2,7 @@
 
 LessonsConfig.$inject = ['$stateProvider'];
 
-var resolves = require('./lessons.resolve').values;
+var resolve = require('./lessons.resolve').values;
 
 module.exports = LessonsConfig;
 
@@ -15,7 +15,7 @@ function LessonsConfig($stateProvider) {
 		url:         '/lessons',
 		templateUrl: 'views/lessons/lessons.html',
 		controller:  'LessonsController as ctrl',
-		resolve:     resolves
+		resolve:     resolve
 	});
 
 }

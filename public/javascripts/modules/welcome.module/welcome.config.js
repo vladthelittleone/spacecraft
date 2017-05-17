@@ -2,7 +2,7 @@
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
 
-var resolves = require('./welcome.resolve').values;
+var resolve = require('./welcome.resolve').values;
 
 module.exports = WelcomeConfig;
 
@@ -26,7 +26,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		url:         '/',
 		templateUrl: 'views/main/welcome.html',
 		controller:  'WelcomeController as ctrl',
-		resolve:     resolves
+		resolve:     resolve
 	});
 
 }

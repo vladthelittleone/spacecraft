@@ -38,26 +38,19 @@ function PreloadState(game) {
 		game.load.onLoadComplete.addOnce(onLoadComplete);
 		game.load.setPreloadSprite(preloadSprite);
 
-		loadImageOrAudio(t.resources.sprites, true);
+		loadResources(t.resources.sprites, game.load.image.bind(game.load));
+
+		loadResources(t.resources.audio, game.load.audio.bind(game.load));
 
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
 
-		loadImageOrAudio(t.resources.audio);
-
 	}
 
-	function loadImageOrAudio(resources, isImage) {
+	function loadResources(resources, loadFunction) {
 
 		Object.keys(resources).forEach(function (key) {
 
-			if(isImage)
-			{
-				game.load.image(key, resources[key]);
-			}
-			else
-			{
-				game.load.audio(key, resources[key]);
-			}
+			loadFunction(key, resources[key]);
 
 		}, resources);
 	}

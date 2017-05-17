@@ -1,19 +1,24 @@
 {
-	"scout": "images/sprites/entities/scout.png",
-	"harvester": "images/sprites/entities/harvester.png",
-	"cruiser": "images/sprites/entities/cruiser.png",
-	"base": "images/sprites/entities/base.png",
-	"starField": "images/sprites/starField.png",
-	"shield": "images/sprites/entities/shared/shield.png",
-	"mine": "images/sprites/entities/shared/mine.png",
-	"meteor1": "images/sprites/entities/meteors/meteor1.png",
-	"meteor2": "images/sprites/entities/meteors/meteor2.png",
-	"meteor3": "images/sprites/entities/meteors/meteor3.png",
-	"meteor4": "images/sprites/entities/meteors/meteor4.png",
-	"meteor5": "images/sprites/entities/meteors/meteor5.png",
-	"meteor6": "images/sprites/entities/meteors/meteor6.png",
-	"meteor7": "images/sprites/entities/meteors/meteor7.png",
-	"researchCenter": "images/sprites/entities/researchCenter.png",
-	"trail": "images/sprites/entities/trail.png",
-	"sensor": "images/sprites/entities/sensor.png"
+	"sprites": {
+				"scout": "images/sprites/entities/scout.png",
+				"harvester": "images/sprites/entities/harvester.png",
+				"cruiser": "images/sprites/entities/cruiser.png",
+				"base": "images/sprites/entities/base.png",
+				"starField": "images/sprites/starField.png",
+				"shield": "images/sprites/entities/shared/shield.png",
+				"mine": "images/sprites/entities/shared/mine.png",
+				"meteor1": "images/sprites/entities/meteors/meteor1.png",
+				"meteor2": "images/sprites/entities/meteors/meteor2.png",
+				"meteor3": "images/sprites/entities/meteors/meteor3.png",
+				"meteor4": "images/sprites/entities/meteors/meteor4.png",
+				"meteor5": "images/sprites/entities/meteors/meteor5.png",
+				"meteor6": "images/sprites/entities/meteors/meteor6.png",
+				"meteor7": "images/sprites/entities/meteors/meteor7.png",
+				"researchCenter": "images/sprites/entities/researchCenter.png",
+				"trail": "images/sprites/entities/trail.png",
+				"sensor": "images/sprites/entities/sensor.png"
+	},
+	"audio": {
+
+	}
 }

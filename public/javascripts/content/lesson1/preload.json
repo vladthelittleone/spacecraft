@@ -17,10 +17,6 @@
 				 "trail": "images/sprites/entities/trail.png"
 	},
 	"audio": {
-				"laser1": ["audio/spacecraft/laser1.wav"],
-				"explosion1": ["audio/spacecraft/explosion1.wav"],
-				"explosion2": ["audio/spacecraft/explosion2.wav"],
-				"shield1": ["audio/spacecraft/shieldvisible1.wav"],
-				"harvest1": ["audio/spacecraft/harvest1.wav"]
+				"explosion": ["audio/spacecraft/explosion2.wav"],
 	}
 }

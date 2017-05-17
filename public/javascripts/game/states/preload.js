@@ -48,7 +48,7 @@ function PreloadState(game) {
 
 	function loadResources(resources, loadFunction) {
 
-		Object.keys(resources).forEach(function (key) {
+		resources && Object.keys(resources).forEach(function (key) {
 
 			loadFunction(key, resources[key]);
 

@@ -17,8 +17,5 @@
 				"fighter": "images/sprites/entities/fighter.png",
 				"sensor": "images/sprites/entities/sensor.png",
 				"cruiser": "images/sprites/entities/cruiser.png"
-	},
-	"audio": {
-
 	}
 }

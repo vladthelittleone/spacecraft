@@ -45,13 +45,13 @@ function GameAudioFactory(game, sprite, player) {
 
 	function playExplosion() {
 
-		play('explosion2', 0.05, 0.2);
+		play('explosion', 0.05, 0.2);
 
 	}
 
 	function playSmallExplosion () {
 
-		play('explosion2', 0.001, 0.005);
+		play('explosion', 0.001, 0.005);
 
 	}
 

@@ -17,8 +17,5 @@
 				"researchCenter": "images/sprites/entities/researchCenter.png",
 				"trail": "images/sprites/entities/trail.png",
 				"sensor": "images/sprites/entities/sensor.png"
-	},
-	"audio": {
-
 	}
 }

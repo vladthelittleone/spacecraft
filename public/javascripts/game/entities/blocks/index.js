@@ -5,6 +5,7 @@ var EngineBlock = require('./engine');
 var ShieldBlock = require('./shield');
 var ScannerBlock = require('./scanner');
 var CargoBlock = require('./cargo');
+var CarrierBlock = require('./carrier');
 
 // Экспорт
 module.exports = BlocksFactory();
@@ -20,44 +21,31 @@ function BlocksFactory() {
 	// that / this
 	var t = {};
 
-	t.addEngineBlock = addEngineBlock;
-	t.addShieldBlock = addShieldBlock;
-	t.addScannerBlock = addScannerBlock;
-	t.addCargoBlock = addCargoBlock;
-
-	return t;
-
 	/**
 	 * Добавляем дигатель к юниту.
-     */
-	function addEngineBlock(spec) {
-
-		return EngineBlock(spec);
-
-	}
+	 */
+	t.addEngineBlock = EngineBlock;
 
 	/**
 	 * Добавляем щит к юниту.
 	 */
-	function addShieldBlock(spec) {
-
-		return ShieldBlock(spec);
-
-	}
+	t.addShieldBlock = ShieldBlock;
 
 	/**
-	 * Добавляем щит к юниту.
+	 * Добавляем сканер к юниту.
 	 */
-	function addScannerBlock(spec) {
+	t.addScannerBlock = ScannerBlock;
 
-		return ScannerBlock(spec);
+	/**
+	 * Добавляем грузовой отсек к юниту.
+	 */
+	t.addCargoBlock = CargoBlock;
 
-	}
+	/**
+	 * Добавляем блок создания к юниту.
+	 */
+	t.addCarrierBlock = CarrierBlock;
 
-	function addCargoBlock(spec) {
-
-		return CargoBlock(spec);
-
-	}
+	return t;
 
 }

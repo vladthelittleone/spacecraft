@@ -1,28 +1,30 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
-var GameAudioFactory = require('../audio');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
+var GameAudioFactory = require('../../../audio');
 
 // Экспорт
-module.exports = FighterUnit;
+module.exports = HarvesterUnit;
 
 /**
- * Created by vaimer on 04.03.2017.
+ * Объект харвестра.
+ *
+ * @author Skurishin Vladislav
+ * @since 21.10.15
  */
-
-function FighterUnit(game, x, y, player) {
+function HarvesterUnit(game, x, y, player) {
 
 	// that / this
 	var t = {};
 
 	/**
-	 * Создаем спрайт.6
+	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createFighter(game, x, y);
-	t.sprite.health = 40;
-	t.sprite.maxHealth = 40;
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'harvester');
+	t.sprite.health = 20;
+	t.sprite.maxHealth = 20;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -42,7 +44,11 @@ function FighterUnit(game, x, y, player) {
 	t.shield = BlocksFactory.addShieldBlock({
 		game: game,
 		unit: t,
-		scale: 0.9
+		scale: 0.4
+	});
+
+	t.cargo = BlocksFactory.addCargoBlock({
+		unit: t
 	});
 
 	/**

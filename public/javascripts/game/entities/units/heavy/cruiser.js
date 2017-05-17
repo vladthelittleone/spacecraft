@@ -1,9 +1,9 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
-var GameAudioFactory = require('../audio');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
+var GameAudioFactory = require('../../../audio');
 
 // Экспорт
 module.exports = CruiserUnit;
@@ -22,7 +22,7 @@ function CruiserUnit(game, x, y, player) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCruiser(game, x, y);
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'cruiser');
 	t.sprite.health = 100;
 	t.sprite.maxHealth = 100;
 

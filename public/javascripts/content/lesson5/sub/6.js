@@ -82,8 +82,7 @@ function OperatorIncrement() {
 											  correct: '<p>Инкрементирую:</p>' +
 													   '<p class="bbot-output">' + correctText + '</p>',
 
-											  unknownError: '<p>И это была твоя последняя ошибка!</p>' +
-															'<p>Ладно, предпоследняя!</p>'
+											  unknownError: '<p>Нy скольк0 можно, кадет? Сколько можно?</p>'
 
 										  });
 

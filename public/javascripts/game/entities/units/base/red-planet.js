@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
+var PrefabsFactory = require('../../prefabs');
 
 // Экспорт
 module.exports = RedPlanet;
@@ -18,7 +18,7 @@ function RedPlanet(game, x, y) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createRedPlanet(game, x, y);
+	t.sprite = PrefabsFactory.createBase(game, x, y);
 
 	return t;
 }

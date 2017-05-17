@@ -97,7 +97,7 @@ function CodeRunner() {
 	 */
 	function botDebug(text) {
 
-		log += text + END_LN;
+		log = text + END_LN;
 
 	}
 }

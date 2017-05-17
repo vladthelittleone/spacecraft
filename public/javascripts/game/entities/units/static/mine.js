@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
+var PrefabsFactory = require('../../prefabs');
 
 // Экспорт
 module.exports = Mine;

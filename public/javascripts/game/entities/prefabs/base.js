@@ -1,16 +1,16 @@
 'use strict';
 
-module.exports = AcademyBase;
+module.exports = Base;
 
 /**
- * Prefab базы академии.
+ * Prefab базы.
  *
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function AcademyBase(game, x, y) {
+function Base(game, x, y, type) {
 
-	var t = game.add.sprite(x, y, 'base');
+	var t = game.add.sprite(x, y, type);
 
 	// Центрирование
 	t.anchor.x = 0.8;

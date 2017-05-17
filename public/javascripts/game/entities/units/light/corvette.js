@@ -1,20 +1,20 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
-var GameAudioFactory = require('../audio');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
+var GameAudioFactory = require('../../../audio');
 
 // Экспорт
-module.exports = ShuttleUnit;
+module.exports = LightCorvette;
 
 /**
- * Объект шатла
+ * Объект корвета.
  *
  * Created by vaimer on 09.05.2017.
  */
 
-function ShuttleUnit(game, x, y, player) {
+function LightCorvette(game, x, y, player) {
 
 	// that / this
 	var t = {};
@@ -22,7 +22,7 @@ function ShuttleUnit(game, x, y, player) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createShuttle(game, x, y);
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'lightCorvette');
 	t.sprite.health = 10;
 	t.sprite.maxHealth = 20;
 

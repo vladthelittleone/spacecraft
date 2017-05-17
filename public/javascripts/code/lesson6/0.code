@@ -1,20 +1,20 @@
 /**
  * Код управления шатлом.
  */
-this.run = function(shuttle)
+this.run = function(corvette)
 {
 	// ЕСЛИ условие является истинным.
 	// В данном случае (2 === 2) - истинное условие.
 	if (2 === 2)
 	{
 		// ТО взломщик уничтожит корабль.
-		shuttle.destroy();
+		corvette.destroy();
 	}
 
 	// ЕСЛИ условие является истинным.
 	if (5 < 3)
 	{
 		// ТО BBot выведет информацию о состоянии системы.
-		BBotDebug(shuttle.log());
+		BBotDebug(corvette.log());
 	}
 }

@@ -3,33 +3,30 @@
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
 
-var UpdateManager = require('../../game/update-manager');
-
 var Api = require('./api');
 
 module.exports = StateWrapper;
 
 function StateWrapper(state) {
 
+	// Дистанция до керриера
+	var PARENT_SHIP_DISTANCE = 200;
+
 	var t = state;
 
 	var player;
 	var graphics;	// Графика
-	var deadFlag = false;
-	var carrier;
+	var carrier;    // Авианосец
 	var explosions;	// Группа анимации взрывов
 
 	t.entities = entities;
-	t.logic = logic;
 
 	return t;
 
 	function createNewPlayer() {
 
-		deadFlag = false;
-
 		// Создать шаттл
-		player = carrier.createShuttle(true, EntitiesFactory.createShuttle);
+		player = carrier.create(corvetteLogic, true);
 
 		player.sprite.rotation = carrier.sprite.rotation;
 
@@ -41,8 +38,9 @@ function StateWrapper(state) {
 
 		// Корабль на верх.
 		player.sprite.bringToTop();
-
 		carrier.sprite.bringToTop();
+
+		player.sprite.events.onKilled.add(onKillCallback, this);
 
 		CodeLauncher.setArguments(player.api);
 	}
@@ -82,24 +80,42 @@ function StateWrapper(state) {
 	}
 
 
-	function logic() {
+	function onKillCallback() {
 
-		if(!player.sprite.alive && !deadFlag) {
+		var explosion = explosions.getFirstExists(false);
 
-			deadFlag = true;
+		if (explosion) {
 
-			var explosion = explosions.getFirstExists(false);
-
-			if(explosion) {
-
-				explosion.scale.setTo(0.5);
-				explosion.reset(player.sprite.x, player.sprite.y);
-				explosion.play('explosion', 30, false, true);
-
-			}
-
-			setTimeout(createNewPlayer, 5000);
+			explosion.scale.setTo(0.5);
+			explosion.reset(player.sprite.x, player.sprite.y);
+			explosion.play('explosion', 30, false, true);
 
 		}
+
+		carrier.sprite.bringToTop();
+		player.sprite.destroy();
+
+		setTimeout(createNewPlayer, 5000);
+
 	}
+
+	function corvetteLogic(c, parent) {
+
+		if (!c.sprite.alive) {
+
+			return;
+
+		}
+
+		var x = parent.sprite.x;
+		var y = parent.sprite.y;
+
+		if(c.distanceTo(x, y) <= PARENT_SHIP_DISTANCE) {
+
+			c.moveForward();
+
+		}
+
+	}
+
 }

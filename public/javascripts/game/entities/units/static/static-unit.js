@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
+var PrefabsFactory = require('../../prefabs');
 
 // Экспорт
 module.exports = StaticUnit;
@@ -26,7 +26,7 @@ function StaticUnit(game, x, y, preload, scale) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createStaticUnit(game, x, y, preload, scale);
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, preload, scale);
 
 	t.update = update;
 

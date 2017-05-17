@@ -1,9 +1,9 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
-var GameAudioFactory = require('../audio');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
+var GameAudioFactory = require('../../../audio');
 
 // Экспорт
 module.exports = ScoutUnit;
@@ -22,7 +22,7 @@ function ScoutUnit(game, x, y, player) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createScout(game, x, y);
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'scout');
 	t.sprite.health = 4;
 	t.sprite.maxHealth = 4;
 

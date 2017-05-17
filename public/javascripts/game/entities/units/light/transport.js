@@ -1,9 +1,9 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
-var GameAudioFactory = require('../audio');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
+var GameAudioFactory = require('../../../audio');
 
 // Экспорт
 module.exports = TransportUnit;
@@ -22,7 +22,7 @@ function TransportUnit(game, x, y, player) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createTransport(game, x, y);
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'transport');
 	t.sprite.health = 10;
 	t.sprite.maxHealth = 10;
 

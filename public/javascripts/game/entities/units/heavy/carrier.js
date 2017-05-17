@@ -1,9 +1,9 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
-var GameAudioFactory = require('../audio');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
+var GameAudioFactory = require('../../../audio');
 
 
 // Экспорт
@@ -15,7 +15,7 @@ module.exports = CarrierUnit;
  * Created by vaimer on 09.05.2017.
  */
 
-function CarrierUnit(game, x, y, player) {
+function CarrierUnit(game, factory, x, y, player) {
 
 	// that / this
 	var t = {};
@@ -23,7 +23,7 @@ function CarrierUnit(game, x, y, player) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCarrier(game, x, y);
+	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'carrier');
 	t.sprite.health = 200;
 	t.sprite.maxHealth = 400;
 
@@ -51,7 +51,8 @@ function CarrierUnit(game, x, y, player) {
 	/**
 	 * Добавляем блок создания объектов.
 	 */
-	t.creation = BlocksFactory.addFactoryBlock({
+	t.creation = BlocksFactory.addCarrierBlock({
+	    factory: factory,
 		game: game,
 		unit: t,
 	});

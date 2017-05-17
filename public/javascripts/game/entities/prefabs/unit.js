@@ -1,20 +1,22 @@
 'use strict';
 
-module.exports = Scout;
+module.exports = Unit;
 
 /**
- * Prefab разведчика.
+ * Prefab корабля.
  *
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function Scout(game, x, y) {
+function Unit(game, x, y, preload, scale) {
 
-	var t = game.add.sprite(x, y, 'scout');
+	var t = game.add.sprite(x, y, preload);
 
 	// Центрирование
 	t.anchor.x = 0.5;
 	t.anchor.y = 0.5;
+
+	scale && t.scale.setTo(scale);
 
 	game.physics.arcade.enableBody(t);
 

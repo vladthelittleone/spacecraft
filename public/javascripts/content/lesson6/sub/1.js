@@ -83,7 +83,7 @@ function ifOperation() {
 			// Устанавливаем штрафные очки за взрыв корабля :)
 			statistics.incPenaltyPointsForGame(lessonPoints.shuttleDestroy);
 
-			return lessonResults.text();
+			return lessonResults.text('bbot-wow');
 
 		}
 	}

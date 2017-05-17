@@ -1,8 +1,8 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var Random = require('../../utils/random');
+var PrefabsFactory = require('../../prefabs');
+var Random = require('../../../../utils/random');
 
 // Экспорт
 module.exports = Meteor;

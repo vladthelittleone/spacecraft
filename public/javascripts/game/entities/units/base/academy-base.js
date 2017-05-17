@@ -1,16 +1,19 @@
 'use strict';
 
 // Зависимости
-var PrefabsFactory = require('./prefabs');
-var BlocksFactory = require('./blocks');
+var PrefabsFactory = require('../../prefabs');
+var BlocksFactory = require('../../blocks');
 
 // Экспорт
-module.exports = ResearchCenterUnit;
-/**
- * Created by vaimer on 16.02.17.
- */
+module.exports = AcademyBaseUnit;
 
-function ResearchCenterUnit(game, x, y) {
+/**
+ * Объект базы.
+ *
+ * @author Skurishin Vladislav
+ * @since 21.10.15
+ */
+function AcademyBaseUnit(game, x, y) {
 
 	// that / this
 	var t = {};
@@ -18,7 +21,7 @@ function ResearchCenterUnit(game, x, y) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createResearchCenter(game, x, y);
+	t.sprite = PrefabsFactory.createBase(game, x, y, 'base');
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -44,4 +47,5 @@ function ResearchCenterUnit(game, x, y) {
 		t.rotateLeft();
 
 	}
+
 }

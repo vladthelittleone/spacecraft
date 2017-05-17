@@ -682,6 +682,8 @@ function LessonService(connection,
 
 		if (result && result.status) {
 
+			scope.botCss = result.css;
+
 			text(result.message, nextSubLesson);
 
 			return true;
@@ -689,6 +691,8 @@ function LessonService(connection,
 		}
 
 		if (result && result.message) {
+
+			scope.botCss = result.css;
 
 			text(result.message);
 

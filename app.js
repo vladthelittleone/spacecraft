@@ -4,7 +4,9 @@ const express = require('express');
 
 const app = express();
 
+// В коде удобней различать среды по ИМЕНИ.
 const developmentFlag = app.get('env') !== 'production';
+const productionFlag = app.get('env') === 'production';
 
 const compression = require('compression');
 
@@ -71,14 +73,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// CSRF проверка
-app.use(csurf());
-app.use(function(req, res, next) {
+// CSRF проверку делаем ТОЛЬКО в production.
+// В development не имеет смысла :)
+if (productionFlag) {
 
-	res.cookie('XSRF-TOKEN', req.csrfToken());
-	return next();
+	app.use(csurf());
+	app.use(function (req, res, next) {
 
-});
+		res.cookie('XSRF-TOKEN', req.csrfToken());
+		return next();
+
+	});
+
+}
 
 passport.use('local-login', localStrategy.login);
 passport.use('vk-login', vkStrategy.login);

@@ -19,15 +19,20 @@ function LoginConfig($stateProvider) {
 		templateUrl: 'views/main/login.html',
 		controller: 'LoginController as ctrl',
 		resolve: resolve,
-		onEnter: ['$state', resolveNames.authentication, function ($state, authenticationStatus) {
-
-			if (authenticationStatus) {
-
-				$state.go('welcome');
-
-			}
-
-		}]
+		onEnter: ['$state', resolveNames.authentication, onEnter]
 	});
+	
+	/**
+	 * Метод обработки факта попадания пользователем на состояние 'login'
+     */
+	function onEnter($state, authenticationStatus) {
+
+		if (authenticationStatus) {
+
+			$state.go('welcome');
+
+		}
+
+	}
 
 }

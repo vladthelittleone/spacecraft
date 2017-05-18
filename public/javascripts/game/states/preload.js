@@ -40,16 +40,22 @@ function PreloadState(game) {
 		// когда все ресурсы будут загружены вызываем callback
 		game.load.onLoadComplete.addOnce(onLoadComplete);
 
-		Object.keys(t.resources).forEach(function (key) {
+		loadResources(t.resources.sprites, game.load.image.bind(game.load));
 
-			game.load.image(key, t.resources[key]);
-
-		}, t.resources);
+		loadResources(t.resources.audio, game.load.audio.bind(game.load));
 
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
 
 	}
 
+	function loadResources(resources, loadFunction) {
+
+		resources && Object.keys(resources).forEach(function (key) {
+
+			loadFunction(key, resources[key]);
+
+		}, resources);
+	}
 	/**
 	 * Этап создания состояния.
 	 */

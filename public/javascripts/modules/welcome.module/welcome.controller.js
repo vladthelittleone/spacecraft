@@ -198,14 +198,7 @@ function WelcomeController($scope,
 	 */
 	function logout() {
 
-		authentication.logout({
-								  success: function () {
+		authentication.logout({success: authService.loginCancelled});
 
-									  // Оповещаем сервис аутентификации о прекращении текущего сеанса.
-									  authService.loginCancelled();
-
-								  }
-
-							  });
 	}
 }

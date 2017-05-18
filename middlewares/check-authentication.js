@@ -9,7 +9,7 @@ var HttpStatus = require('http-status-codes');
  */
 module.exports = function (req, res, next) {
 
-	if(!req.isAuthenticated()) {
+	if(req.isUnauthenticated()) {
 
 		return res.sendStatus(HttpStatus.UNAUTHORIZED);
 

@@ -25,11 +25,6 @@ function Drill() {
 
 		defaultBBot: defaultBBot,
 
-		// hint: '<ul>' +
-		// 	  '<li>Измените условие <strong>8</strong> строки на <span class="red-label">2 > 2</span>.</li>' +
-		// 	  '<li>Измените условие <strong>15</strong> строки на <span class="red-label">5 > 3</span>.</li>' +
-		// 	  '</ul>',
-
 		instructions: '<ul>' +
 					  '<li>Нажмите «Далее» для продолжения.</li>' +
 					  '</ul>'

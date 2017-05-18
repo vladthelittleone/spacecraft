@@ -999,6 +999,11 @@ pre {
 	text-indent: 1.2em;
 }
 
+.service-news-img {
+	background-image: url(https://pp.userapi.com/c837233/v837233334/3fa30/KUq-CHlOoy8.jpg);
+	background-blend-mode: luminosity;
+}
+
 .astrogirl-img {
 	height: 400px;
 	width: 140px;
@@ -1249,6 +1254,7 @@ pre {
 	font-size: 12px;
 	font-weight: 300;
 	color: #999999;
+	text-align: left;
 }
 
 .pages-text {
@@ -1257,6 +1263,7 @@ pre {
 	overflow: hidden;
 	font-size: 14px;
 	line-height: 20px;
+	text-align: left;
 }
 
 .pages-title {

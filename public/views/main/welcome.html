@@ -61,6 +61,30 @@
 				</div>
 			</a>
 		</div>
+
+		<div class="container-25">
+			<div class="container-inside">
+				<div class="pages-leadboard-title">ЛУЧШИЕ ИГРОКИ</div>
+				<table style="width: 100%">
+					<thead>
+						<tr class="table-titles">
+							<td class="table-number">№</td>
+							<td class="table-content-name">Пользователь</td>
+							<td class="table-content-score"><span class="fa fa-flag orange"></span></td>
+						</tr>
+					</thead>
+					<tbody class="leadboard-table">
+					<tr ng-repeat="u in leaderBoard"
+						ng-class="{'leadboard-mark' : u.isItMe}">
+						<td class="table-number"><span>{{$index + 1}}</span></td>
+						<td class="table-content-name">{{u.name}}</td>
+						<td class="table-content-score">{{u.totalFinalScore || 0}}</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
 		<div class="container-50">
 			<div class="container-inside"
 				 uib-carousel
@@ -83,29 +107,6 @@
 					</a>
 				</div>
 
-			</div>
-		</div>
-
-		<div class="container-25">
-			<div class="container-inside">
-				<div class="pages-leadboard-title">ЛУЧШИЕ ИГРОКИ</div>
-				<table style="width: 100%">
-					<thead>
-						<tr class="table-titles">
-							<td class="table-number">№</td>
-							<td class="table-content-name">Пользователь</td>
-							<td class="table-content-score"><span class="fa fa-flag orange"></span></td>
-						</tr>
-					</thead>
-					<tbody class="leadboard-table">
-					<tr ng-repeat="u in leaderBoard"
-						ng-class="{'leadboard-mark' : u.isItMe}">
-						<td class="table-number"><span>{{$index + 1}}</span></td>
-						<td class="table-content-name">{{u.name}}</td>
-						<td class="table-content-score">{{u.totalFinalScore || 0}}</td>
-					</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 

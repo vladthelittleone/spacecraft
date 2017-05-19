@@ -9,33 +9,46 @@
 		</div>
 		<div class="container-50">
 
-			<div class="container-inside" ng-show="chartIndex === 1" ng-click="changeChart()">
+			<div class="container-inside" >
 
-				<div class="chart-inside">
-					<canvas id="line"
-							class="chart chart-line"
-							chart-data="totalScore"
-							chart-labels="labels"
-							chart-series="seriesT">
-					</canvas>
+				<div class="container-inside"
+					 uib-carousel
+					 interval="intervalSlideChange"
+					 active="active"
+					 no-wrap="noWrapSlides">
+
+					<div uib-slide>
+						<div class="chart-inside">
+							<canvas id="line"
+									class="chart chart-line"
+									chart-data="totalScore"
+									chart-labels="labels"
+									chart-series="seriesT">
+							</canvas>
+						</div>
+
+						<div class="pages-chart-title">ГРАФИК ПОЛУЧЕННЫХ ОЧКОВ</div>
+					</div>
+
+					<div uib-slide>
+						<div class="chart-inside">
+							<canvas id="pie"
+									class="chart chart-pie"
+									chart-data="dataL"
+									chart-labels="labelsL">
+							</canvas>
+						</div>
+
+						<div class="pages-chart-title">ДИАГРАММА ИЗУЧЕННЫХ УРОКОВ</div>
+					</div>
+
+					<div  uib-slide >
+						<div class="pages-img service-news-img"></div>
+						<div class="pages-label">Новые уроки, новые приключения!</div>
+						<div class="pages-text email-text">На подходе новое обновление не пропустите.</div>
+					</div>
+
 				</div>
-
-				<div class="pages-chart-title">ГРАФИК ПОЛУЧЕННЫХ ОЧКОВ</div>
-
-			</div>
-
-			<div class="container-inside" ng-show="chartIndex === 0" ng-click="changeChart()">
-
-				<div class="chart-inside">
-					<canvas id="pie"
-							class="chart chart-pie"
-							chart-data="dataL"
-							chart-labels="labelsL">
-					</canvas>
-				</div>
-
-				<div class="pages-chart-title">ДИАГРАММА ИЗУЧЕННЫХ УРОКОВ</div>
-
 			</div>
 		</div>
 		<div class="container-25" ng-show="vkShow">
@@ -62,6 +75,29 @@
 			</a>
 		</div>
 
+		<a>
+			<div ng-if="userInfo.needToConfirmEmail"
+				 class="container-25">
+				<div class="container-inside">
+					<a ng-href="{{userInfo.emailProviderUrl}}">
+						<div class="pages-img email-img">
+							<div class="fa fa-envelope"></div>
+						</div>
+						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
+						<div class="pages-text email-text">Подтвердите вашу почту</div>
+					</a>
+				</div>
+			</div>
+		</a>
+
+		<div class="container-25" ui-sref="quick">
+			<div class="container-inside">
+				<div class="pages-img quick-img"></div>
+				<div class="pages-label">О нас</div>
+				<div class="pages-text">Начать просмотр</div>
+			</div>
+		</div>
+
 		<div class="container-25">
 			<div class="container-inside">
 				<div class="pages-leadboard-title">ЛУЧШИЕ ИГРОКИ</div>
@@ -85,38 +121,6 @@
 			</div>
 		</div>
 
-		<div class="container-50">
-			<div class="container-inside"
-				 uib-carousel
-				 interval="intervalSlideChange"
-				 active="active"
-				 no-wrap="noWrapSlides">
-
-				<div  uib-slide ng-repeat="slide in slides" index="$index">
-
-					<div class="pages-img" ng-class="slide.image" ng-show="!slide.email"></div>
-					<div class="pages-label" ng-show="!slide.email">{{slide.label}}</div>
-					<div class="pages-text email-text" ng-show="!slide.email">{{slide.text}}</div>
-
-					<a ng-href="{{userInfo.emailProviderUrl}}" ng-show="slide.email">
-						<div class="pages-img email-img">
-							<div class="fa fa-envelope"></div>
-						</div>
-						<div class="pages-label">Перейти на: {{userInfo.email}}</div>
-						<div class="pages-text email-text">Подтвердите вашу почту</div>
-					</a>
-				</div>
-
-			</div>
-		</div>
-
-		<div class="container-25" ui-sref="quick">
-			<div class="container-inside">
-				<div class="pages-img quick-img"></div>
-				<div class="pages-label">О нас</div>
-				<div class="pages-text">Начать просмотр</div>
-			</div>
-		</div>
 	</div>
 
 	<div class="rocket-white-img pages-footer-img"></div>

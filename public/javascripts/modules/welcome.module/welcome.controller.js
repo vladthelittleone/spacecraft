@@ -12,7 +12,6 @@ WelcomeController.$inject = ['$scope',
 module.exports = WelcomeController;
 
 var lodash = require('lodash');
-var slides = require('./../../utils/json/slides.json');
 
 /**
  * @since 30.11.15
@@ -187,16 +186,8 @@ function WelcomeController($scope,
 
 		$scope.noWrapSlides = false;
 		$scope.intervalSlideChange = 5000;
-		$scope.slides = slides;
 		$scope.active = 0;
 
-		if(userInfoData.needToConfirmEmail) {
-
-			$scope.slides.push({
-				email: true
-			});
-
-		}
 	}
 
 	// Изменить текущий график на следующий

@@ -4,17 +4,22 @@
 
 // Сущности
 var World = require('./world');
-var Transport = require('./transport');
-var Harvester = require('./harvester');
-var AcademyBase = require('./academy-base');
-var Meteor = require('./meteor');
-var Mine = require('./mine');
-var Scout = require('./scout');
-var RedPlanet = require('./red-planet');
-var ResearchCenter = require('./research-center');
-var Fighter = require('./fighter');
-var Cruiser = require('./cruiser');
-var StaticUnit = require('./static-unit');
+var Meteor = require('./units/static/meteor');
+var Mine = require('./units/static/mine');
+var StaticUnit = require('./units/static/static-unit');
+
+var Cruiser = require('./units/heavy/cruiser');
+var Carrier = require('./units/heavy/carrier');
+
+var Transport = require('./units/light/transport');
+var Harvester = require('./units/light/harvester');
+var Scout = require('./units/light/scout');
+var LightCorvette = require('./units/light/corvette');
+var Fighter = require('./units/light/fighter');
+
+var RedPlanet = require('./units/base/red-planet');
+var ResearchCenter = require('./units/base/research-center');
+var AcademyBase = require('./units/base/academy-base');
 
 var Random = require('../../utils/random');
 
@@ -35,137 +40,29 @@ function EntitiesFactory() {
 	var world;	// Контейнер объектов.
 
 	t.initialization = initialization;
-	t.createTransport = createTransport;
-	t.createHarvester = createHarvester;
-	t.createAcademyBase = createAcademyBase;
-	t.createRedPlanet = createRedPlanet;
-	t.createMeteor = createMeteor;
 	t.createMeteorField = createMeteorField;
 	t.createMeteorFiledSphere = createMeteorFiledSphere;
-	t.createFighter = createFighter;
-	t.createResearchCenter = createResearchCenter;
-	t.createMine = createMine;
-	t.createScout = createScout;
-	t.createCruiser = createCruiser;
-	t.createStaticUnit = createStaticUnit;
+	t.createCarrier = createCarrier;
+
+	t.createMine = Mine;
+	t.createStaticUnit = StaticUnit;
+
+	t.createMeteor = createByType(Meteor);
+	t.createTransport = createByType(Transport);
+	t.createHarvester = createByType(Harvester);
+	t.createAcademyBase = createByType(AcademyBase);
+	t.createRedPlanet = createByType(RedPlanet);
+	t.createFighter = createByType(Fighter);
+	t.createResearchCenter = createByType(ResearchCenter);
+	t.createScout = createByType(Scout);
+	t.createCruiser = createByType(Cruiser);
+	t.createCarriersShip = createByType(LightCorvette);
 	t.getWorld = getWorld;
 
 	return t;
 
 	/**
-	 * Создать разведчика.
-	 */
-	function createScout(game, x, y, player) {
-
-		var scout = Scout(game, x, y, player);
-
-		var id = world.pushObject(scout);
-
-		player && world.setPlayer(id);
-
-		return scout;
-
-	}
-
-	/**
-	 * Создать крузер.
-	 */
-	function createCruiser(game, x, y, player) {
-
-		var cruiser = Cruiser(game, x, y, player);
-
-		var id = world.pushObject(cruiser);
-
-		player && world.setPlayer(id);
-
-		return cruiser;
-
-	}
-
-	/**
-	 * Создать транспорт.
-     */
-	function createTransport(game, x, y, player) {
-
-		var transport = Transport(game, x, y, player);
-
-		var id = world.pushObject(transport);
-
-		player && world.setPlayer(id);
-
-		return transport;
-
-	}
-
-	/**
-	 * Создать харвестер
-	 */
-	function createHarvester(game, x, y, player) {
-
-		var harvester = Harvester(game, x, y, player);
-
-		var id = world.pushObject(harvester);
-
-		player && world.setPlayer(id);
-
-		return harvester;
-
-	}
-
-	/**
-	 * Создание коробля бойца
-	 */
-	function createFighter(game, x, y, player) {
-
-		var fighter = Fighter(game, x, y, player);
-
-		var id = world.pushObject(fighter);
-
-		player && world.setPlayer(id);
-
-		return fighter;
-	}
-
-	/**
-	 * Создать базу академии
-	 */
-	function createAcademyBase(game, x, y) {
-
-		var base = AcademyBase(game, x, y);
-
-		world.pushObject(base);
-
-		return base;
-
-	}
-
-	/**
-	 * Создание планеты
-	 */
-	function createRedPlanet(game, x, y) {
-
-		var planet = RedPlanet(game, x, y);
-
-		world.pushObject(planet);
-
-		return planet;
-	}
-
-	/**
-	 * Создать метеорит
-	 */
-	function createMeteor(game, x, y) {
-
-		var meteor = Meteor(game, x, y);
-
-		world.pushObject(meteor);
-
-		return meteor;
-
-	}
-
-	/**
-	 * Создать метеоритное поле
+	 * Создать метеоритное поле.
 	 */
 	function createMeteorField(game, x, y) {
 
@@ -184,7 +81,7 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать метеоритное поле округлое
+	 * Создать метеоритное поле округлое.
 	 */
 	function createMeteorFiledSphere(game, x, y) {
 
@@ -209,7 +106,7 @@ function EntitiesFactory() {
 
 			var j = Math.sqrt(radius * radius - i * i);
 
-			var m = createMeteor(game, i + Random.randomInt(0, args.randomSize), j + Random.randomInt(0, args.randomSize));
+			var m = t.createMeteor(game, i + Random.randomInt(0, args.randomSize), j + Random.randomInt(0, args.randomSize));
 
 			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
@@ -219,33 +116,50 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создать исследовательский центр
+	 * Создание несущего корабля.
 	 */
-	function createResearchCenter(game, x, y) {
+	function createCarrier(game, x, y, player) {
 
-		var center = ResearchCenter(game, x, y);
+		var unit = Carrier(game, t, x, y, player);
 
-		world.pushObject(center);
+		var id = world.pushObject(unit);
 
-		return center;
+		player && world.setPlayer(id);
+
+		return unit;
 
 	}
 
 	/**
-	 * Создать мину
+	 * Обертка вокруг метода создания.
 	 */
-	function createMine(game, x, y, scale, group) {
+	function createByType(type) {
 
-		return Mine(game, x, y, scale, group);
+		return function (game, x, y, player) {
+
+			return create(game, x, y, player, type);
+
+		}
 
 	}
 
 	/**
-	 * Создать мину
+	 * Функция создания объекта.
+	 * @param game игра
+	 * @param x координата X объекта
+	 * @param y координата Y объекта
+	 * @param player объект игрока
+	 * @param createFunction функция создания юнита
 	 */
-	function createStaticUnit(game, x, y, preload, scale) {
+	function create(game, x, y, player, createFunction) {
 
-		return StaticUnit(game, x, y, preload, scale);
+		var unit = createFunction(game, x, y, player);
+
+		var id = world.pushObject(unit);
+
+		player && world.setPlayer(id);
+
+		return unit;
 
 	}
 

@@ -72,7 +72,9 @@ function GalaxyYear() {
 
 	function content() {
 
-		return '<p>Отлично кадет ' + storage.local.getItem('userName') + ', я нашел вас в списках.</p>' +
+		var name = (storage.local.getItem('userName') || 'неизвестно').toUpperCase();
+
+		return '<p>Отлично кадет ' + name + ', я нашел вас в списках.</p>' +
 			'<p>Осталось только ввести ваш возраст в галактической единице измерения времени - <strong>GY</strong>.</p>' +
 			'<p>Высылаю вам инструкции.</p>';
 

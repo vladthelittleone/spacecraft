@@ -31,7 +31,7 @@ function OperatorIncrement() {
 			audio: 'audio/lesson2/3-2',
 			css: 'astromen-img',
 			marker: {
-				x1: 12,
+				x1: 13,
 				y2: Infinity
 			}
 		}]

@@ -2,83 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-	  <script src="../javascripts/black-hole.js"></script>
     <title>Опа, кажется, кто-то проложил неверный маршрут :(</title>
-    <style>
-		* {
-			margin:0; padding:0;
-		}
 
-		html {
-			overflow:hidden;
-		}
-
-		.bbot-container {
-			z-index: 1000;
-			position: fixed;
-			top: 75%;
-			left: 75%;
-			width: 20%;
-		}
-
-		.status-href {
-			font-size: 15px;
-			color: #fff;
-			cursor: pointer;
-		}
-
-		.speech-bubble {
-			position: fixed;
-			color: #000;
-			background:#d6dadb;
-			border-radius: .4em;
-			width: 10%;
-			height: 12%;
-			right: 10%;
-			top: 65%;
-		}
-
-		.speech-bubble:after {
-			content: '';
-			position: absolute;
-			bottom: 0;
-			left: 80%;
-			width: 0;
-			height: 0;
-			border: 28px solid transparent;
-			border-top-color: #d6dadb;
-			border-bottom: 0;
-			border-right: 0;
-			margin-left: -14px;
-			margin-bottom: -28px;
-		}
-
-		.bubble-text {
-			padding: 10px;
-		}
-
-		.bbot-sprite {
-			margin-top: 20px;
-			height: 45%;
-			width: 27%;
-			float: right;
-		}
-
-		.error-code {
-			color: #fff;
-			position: fixed;
-			right: 80%;
-			bottom: 75%;
-			font-size: 200px;
-		}
-
-		.href-container {
-			color: #fff;
-			position: fixed;
-			right: 85%;
-			bottom: 73%;
-		}
-    </style>
+	  <script src="../javascripts/black-hole.js"></script>
+	  <link rel="stylesheet" href="../stylesheets/main-error.css" type="text/css"/>
   </head>
   <body>
   	<div class="error-code">

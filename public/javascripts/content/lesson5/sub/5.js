@@ -44,7 +44,7 @@ function Priorities() {
 	function content() {
 
 		return '<p>Каждый из операторов в <strong>JavaScript</strong>, имеет свой приоритет, ' +
-			   'который определяет порядок их выполнения в выражении. Рассмотрим наглядный пример:</p>' +
+			   'который определяет порядок их выполнения. Рассмотрим наглядный пример:</p>' +
 			   '<pre>var e = 0.00028 + 2718 / 1000;</pre>' +
 			   '<p>Как вы могли заметить в этом выражении используются три изученных нами оператора: <strong class="under-label">=</strong>, ' +
 			   '<strong class="under-label">+</strong>, <strong class="under-label">/</strong>.' +

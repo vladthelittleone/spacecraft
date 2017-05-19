@@ -14,23 +14,16 @@
 				<div class="container-inside"
 					 uib-carousel
 					 interval="intervalSlideChange"
-					 active="active"
+					 active="0"
 					 no-wrap="noWrapSlides">
 
-					<div uib-slide>
-						<div class="chart-inside">
-							<canvas id="line"
-									class="chart chart-line"
-									chart-data="totalScore"
-									chart-labels="labels"
-									chart-series="seriesT">
-							</canvas>
-						</div>
-
-						<div class="pages-chart-title">ГРАФИК ПОЛУЧЕННЫХ ОЧКОВ</div>
+					<div uib-slide index="0"  class="height-100">
+						<div class="pages-img service-news-img"></div>
+						<div class="pages-label">Новые уроки, новые приключения!</div>
+						<div class="pages-text email-text">На подходе новое обновление не пропустите.</div>
 					</div>
 
-					<div uib-slide>
+					<div uib-slide index="1">
 						<div class="chart-inside">
 							<canvas id="pie"
 									class="chart chart-pie"
@@ -42,10 +35,17 @@
 						<div class="pages-chart-title">ДИАГРАММА ИЗУЧЕННЫХ УРОКОВ</div>
 					</div>
 
-					<div  uib-slide >
-						<div class="pages-img service-news-img"></div>
-						<div class="pages-label">Новые уроки, новые приключения!</div>
-						<div class="pages-text email-text">На подходе новое обновление не пропустите.</div>
+					<div uib-slide index="2">
+						<div class="chart-inside">
+							<canvas id="line"
+									class="chart chart-line"
+									chart-data="totalScore"
+									chart-labels="labels"
+									chart-series="seriesT">
+							</canvas>
+						</div>
+
+						<div class="pages-chart-title">ГРАФИК ПОЛУЧЕННЫХ ОЧКОВ</div>
 					</div>
 
 				</div>

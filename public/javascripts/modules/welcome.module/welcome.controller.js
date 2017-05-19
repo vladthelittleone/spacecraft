@@ -31,6 +31,10 @@ function WelcomeController($scope,
 	$scope.leaderBoard = leaderBoardData || [];	// Лидеры игры
 	$scope.vkShow = true; 	// Переключатель виджета ВК
 
+	// Настройка карусели
+	$scope.noWrapSlides = false;
+	$scope.intervalSlideChange = 10000;
+
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
 	$scope.showLineGraphic = false;
@@ -38,13 +42,10 @@ function WelcomeController($scope,
 	$scope.seriesT = ['Общее количество очков'];
 	$scope.labelsL = ['Изученные уроки', 'Неизученные уроки'];
 
-	$scope.changeChart = changeChart;
 	$scope.logout = logout;
 	$scope.trustAsHtml = trustAsHtml;
 
 	$scope.userInfo = userInfoData;
-
-	initializeCarousel();
 
 	formDataForChart(lessonStatisticsData);
 	formDataForLineChart(userProgressData);
@@ -118,10 +119,7 @@ function WelcomeController($scope,
 	 */
 	function formDataForLineChart(userProgress) {
 
-		// Проверяем действительно есть очки(стоит ли отображать график)
-		$scope.showLineGraphic = !lodash.isEmpty(userProgress);
-
-		if (userProgress) {
+		if (!lodash.isEmpty(userProgress)) {
 
 			// Подготовка данных для вывода графика,
 			// представление данных [[1,2,3],[3,4,5]] - 2 графика
@@ -137,8 +135,13 @@ function WelcomeController($scope,
 
 			}
 
-			$scope.seriesT = ['Последние полученные очки'];
+		} else {
+
+			$scope.totalScore = [[0]];
+			$scope.labels = [1];
 		}
+
+		$scope.seriesT = ['Последние полученные очки'];
 	}
 
 	/**
@@ -182,25 +185,6 @@ function WelcomeController($scope,
 
 		return $sce.trustAsHtml(s);
 
-	}
-
-	function initializeCarousel() {
-
-		$scope.noWrapSlides = false;
-		$scope.intervalSlideChange = 5000;
-		$scope.active = 0;
-
-	}
-
-	// Изменить текущий график на следующий
-	function changeChart() {
-
-		if ($scope.showLineGraphic) {
-
-			// Реализовать переключение графиков
-			$scope.chartIndex = ($scope.chartIndex + 1) % 2;
-
-		}
 	}
 
 	/**

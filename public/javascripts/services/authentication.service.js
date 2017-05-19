@@ -84,8 +84,6 @@ function Authentication(connection,
 			
 			processingFailedAuthorization();
 			
-			routeToSpecifiedStateWhenUnauthorized();
-			
 			reject(authenticationStatus);
 			
 		}
@@ -96,10 +94,12 @@ function Authentication(connection,
 	 * Взятие статуса аутентификации - строго асинхронная функция.
 	 * На вход она получает методы resolve и reject какого-то отложенного задания (это есть вызов $q(function)),
 	 * которое было оформлено на выполнение этого метода.
+	 * @param ignoreAuthModule флаг игнорирования angular-http-auth модуля (он не будет обрабатывать 401 код
+	 *                         при проверке сессии);
 	 * @param resolve вызывается, как факт успешного разрешения задания.
 	 * @param reject вызывается, как факт неуспешного разрешения задания.
 	 */
-	function getAuthenticationStatus(resolve, reject) {
+	function getAuthenticationStatus(ignoreAuthModule, resolve, reject) {
 		
 		// Если authenticationStatus не определен или false, значит
 		// нужно идти к серверу за состоянием активности текущей сессии.
@@ -107,8 +107,10 @@ function Authentication(connection,
 		// флаг актуальности текущей сессии.
 		if (!authenticationStatus) {
 			
-			connection.checkSession(processingSuccessfulCheckSession(resolve),
+			connection.checkSession(ignoreAuthModule,
+									processingSuccessfulCheckSession(resolve),
 									processingFailedCheckSession(reject));
+			
 			
 		} else {
 			
@@ -142,7 +144,8 @@ function Authentication(connection,
 	 */
 	function routeToSpecifiedStateWhenUnauthorized() {
 		
-		$state.go('login');
+		// Если мы уже НЕ на логине (проверка, дабы случайно не попасть на рекурсию);
+		$state.current.name !== 'login' && $state.go('login');
 		
 	}
 	

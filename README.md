@@ -4,12 +4,8 @@
 
 ## Четвертый этап
 
-* Добавить первые уроки ([Ссылка на обсуждение урока 1](https://docs.google.com/document/d/11pG8yQFYNeFR2hFFeJMdg4x_Gz9Y9tzPCQSjRbGSaH4/edit), [Ссылка на обсуждение урока 2](https://docs.google.com/document/d/1Grl8q1nznIYYuy3H9QybypjcpdUikYE0vDa1YfQD61I/edit))
-* Авторизация +
-* Логика на сервере +
-* Метрики + 
-* Автодополнение +
-* Улучшить документацию +
+* 5 - 6 урок на подходе!
+* Онлайн в разработке!
 
 ## Правила репозитория
 
@@ -21,6 +17,6 @@
 и на [этой](https://github.com/johnpapa/angular-styleguide).
 
 ## Запуск
-* Устанавливаем базу данных mongoDB.
-* Запускаем production.sh.
-* Для запуска локально используйте browserify.
+* С помощью production.sh preinstall устанавливаем все необходимые библиотекти.
+* Запускаем production.sh start. (Вы можете узнать о доп. командах в этом файле)
+* Мы используем PM2. Больше информации по [ссылке](https://github.com/Unitech/pm2).

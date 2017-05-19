@@ -1,13 +1,15 @@
 'use strict';
 
+var resolvesNames = require('./welcome.resolve').names;
+
 WelcomeController.$inject = ['$scope',
 							 '$sce',
 							 'authentication',
 							 'authService',
-							 'lessonStatisticsData',
-							 'leaderBoardData',
-							 'userProgressData',
-							 'userInfoData'];
+							 resolvesNames.lessonStatistics,
+							 resolvesNames.leaderBoard,
+							 resolvesNames.userProgress,
+							 resolvesNames.userInfo];
 
 module.exports = WelcomeController;
 
@@ -206,14 +208,7 @@ function WelcomeController($scope,
 	 */
 	function logout() {
 
-		authentication.logout({
-								  success: function () {
+		authentication.logout({success: authService.loginCancelled});
 
-									  // Оповещаем сервис аутентификации о прекращении текущего сеанса.
-									  authService.loginCancelled();
-
-								  }
-
-							  });
 	}
 }

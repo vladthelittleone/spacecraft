@@ -1024,10 +1024,27 @@ pre {
 	overflow: hidden;
 }
 
+.blackout {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.8);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	padding: 17%;
+}
+
 .spinner {
 	width: 100px;
 	height: 100px;
 	margin: auto;
+}
+
+.spinner-text {
+	color: white;
+	text-align: center;
+	font-size: 1.7em;
 }
 
 .spinner div {

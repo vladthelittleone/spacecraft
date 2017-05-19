@@ -2,6 +2,8 @@
 
 WelcomeConfig.$inject = ['$stateProvider', 'ChartJsProvider'];
 
+var resolve = require('./welcome.resolve').values;
+
 module.exports = WelcomeConfig;
 
 /**
@@ -24,34 +26,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 		url:         '/',
 		templateUrl: 'views/main/welcome.html',
 		controller:  'WelcomeController as ctrl',
-		resolve:     {
-			// разрешаем просмотр стартовой страницы ТОЛЬКО при наличии факта аутентификации в сервисе.
-			'authenticationStatus': ['promises', function (promises) {
-
-				return promises.getAuthenticationStatus();
-
-			}],
-			'lessonStatisticsData': ['promises', function (promises) {
-
-				return promises.getLessonStatisticsData();
-
-			}],
-			'leaderBoardData':      ['promises', function (promises) {
-
-				return promises.getLeaderBoardData();
-
-			}],
-			'userProgressData':     ['promises', function (promises) {
-
-				return promises.getUserProgressData();
-
-			}],
-			'userInfoData':         ['promises', function (promises) {
-
-				return promises.getUserInfoData();
-
-			}]
-		}
+		resolve:     resolve
 	});
 
 }

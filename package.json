@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "preinstall": "sudo npm i -g pm2 && sudo apt-get install mongodb-server && sudo npm install -g bower"
   },
   "repository": {
     "type": "git",
@@ -27,13 +28,14 @@
     "angular-ui-ace": "^0.2.3",
     "angular-ui-bootstrap": "^2.2.0",
     "angular-ui-layout": "^1.4.2",
-    "angular-ui-router": "^0.3.2",
+    "angular-ui-router": "^0.4.2",
     "async": "^1.5.2",
     "body-parser": "~1.13.2",
     "cheerio": "^0.22.0",
     "compression": "^1.6.2",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "~1.3.5",
+    "csurf": "^1.9.0",
     "email-existence": "^0.1.5",
     "express": "~4.13.1",
     "express-session": "^1.13.0",

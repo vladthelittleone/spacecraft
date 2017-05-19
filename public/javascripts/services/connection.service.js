@@ -53,11 +53,12 @@ function Connection($http) {
 
 	}
 
-	function checkSession(success, error) {
+	function checkSession(ignoreAuthModule, success, error) {
 
 		$http({
 				  url:    apiUrls.userSession,
-				  method: 'GET'
+				  method: 'GET',
+				  ignoreAuthModule: ignoreAuthModule
 			  }).then(success, error);
 
 	}

@@ -59,39 +59,15 @@ function OperatorIncrement() {
 
 	function interpreterHandler(value) {
 
-		var correctText;
+		var lessonResults = {
 
-		if (value) {
+			correct: '<p>Инкрементирую:</p>' +
+			         '<p class="bbot-output">{{correctText}}</p>',
 
-			correctText = '';
+			unknownError: '<p>Нy скольк0 можно, кадет? Сколько можно?</p>'
 
-			value.forEach(function (v) {
+		};
 
-				if (v) {
-
-					correctText += v + '<br>';
-
-				}
-
-			});
-
-		}
-
-		var lessonResults = LessonResults({
-
-											  correct: '<p>Инкрементирую:</p>' +
-													   '<p class="bbot-output">' + correctText + '</p>',
-
-											  unknownError: '<p>Нy скольк0 можно, кадет? Сколько можно?</p>'
-
-										  });
-
-		if (correctText) {
-
-			return lessonResults.resultCorrect();
-
-		}
-
-		return lessonResults.unknownError();
+		return LessonResults(lessonResults).resultsWrapper(value);
 	}
 }

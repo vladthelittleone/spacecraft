@@ -2,6 +2,9 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
+var UpdateManager = require('../../game/update-manager');
+
+var Random = require('../../utils/random');
 
 var Api = require('./api');
 
@@ -19,9 +22,22 @@ function StateWrapper(state) {
 	var carrier;    // Авианосец
 	var explosions;	// Группа анимации взрывов
 
+	// Координаты центра мира
+	var x;
+	var y;
+
+	var newLogic = true;
+
 	t.entities = entities;
+	t.logic = logic;
 
 	return t;
+
+	function logic() {
+
+		subThirdLessonLogic();
+
+	}
 
 	function createNewPlayer() {
 
@@ -46,12 +62,26 @@ function StateWrapper(state) {
 	}
 
 	/**
+	 * Логика в конкретном подуроке.
+	 */
+	function subThirdLessonLogic() {
+
+		// Нумерация подуроков начинается с 0
+		if(UpdateManager.getSubIndex() === 2 && newLogic) {
+
+			// В 3 подуроке создаем видемость захвата корабля Bbot'ом
+			createRandomLogicPlayerSpacecraft();
+
+		}
+	}
+
+	/**
 	 * Шаблонный метод инфициализации объектов.
 	 */
 	function entities(game) {
 
-		var x = game.world.centerX;
-		var y = game.world.centerY;
+		x = game.world.centerX;
+		y = game.world.centerY;
 
 		// Инициализация графики
 		graphics = game.add.graphics(0, 0);
@@ -65,6 +95,8 @@ function StateWrapper(state) {
 		explosions = game.add.group();
 		explosions.createMultiple(10, 'explosion');
 		explosions.forEach(initExplosion, this);
+
+		subThirdLessonLogic();
 
 	}
 
@@ -118,4 +150,45 @@ function StateWrapper(state) {
 
 	}
 
+	function generateRandomLogic() {
+
+		var randomNumber = Random.randomInt(1, 3);
+
+		switch(randomNumber) {
+			case 1:
+				return player.moveForward.bind(player);
+			case 2:
+				return player.rotateLeft.bind(player);
+			case 3:
+				return player.rotateRight.bind(player);
+		}
+	}
+
+	function createRandomLogicPlayerSpacecraft() {
+
+		carrier.sprite.bringToTop();
+		player.sprite.bringToTop();
+		// Пока пользователь не поменял капитана
+		if(!player.api.isTrueCaptain()) {
+
+			toggleToNewLogic();
+
+			// Делаем случайные траектории полета корабля
+			player.logic = generateRandomLogic();
+
+			setTimeout(toggleToNewLogic, 10000);
+
+		} else {
+
+			// Отправляем корабль пользователя к примерному месту начала урока
+			player.logic = player.moveToXY.bind(player, x, y - 300);
+
+		}
+	}
+
+	function toggleToNewLogic() {
+
+		newLogic = !newLogic;
+
+	}
 }

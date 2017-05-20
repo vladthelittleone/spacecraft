@@ -5,8 +5,6 @@ var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
 var UpdateManager = require('../../game/update-manager');
 
-var random = require('../../utils/random');
-
 var Api = require('./api');
 
 module.exports = StateWrapper;

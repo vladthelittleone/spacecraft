@@ -2,7 +2,6 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var random = require('../../utils/random');
 var UpdateManager = require('../../game/update-manager');
 
 var Api = require('./api');
@@ -75,7 +74,7 @@ function StateWrapper(state) {
 		}
 	}
 
-	function createSpaceCraftsInWorls(game) {
+	function createSpaceCraftsInWorld(game) {
 
 		var scout = EntitiesFactory.createScout(game, 2000, 2000);
 		scout.sprite.rotation = 0.5 * Math.PI / 2;
@@ -117,7 +116,7 @@ function StateWrapper(state) {
 		// Создать метеоритное поле
 		EntitiesFactory.createMeteorField(game, x, y);
 
-		createSpaceCraftsInWorls(game);
+		createSpaceCraftsInWorld(game);
 
 		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
 		sensor.sprite.visible = true;

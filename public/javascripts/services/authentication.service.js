@@ -1,10 +1,11 @@
 'use strict';
 
-Authentication.$inject = ['connection',
-						  'lessonService',
-						  '$rootScope',
+Authentication.$inject = ['$rootScope',
 						  '$state',
-						  '$timeout'];
+						  '$timeout',
+						  'connection',
+						  'lessonService',
+						  'statisticsStorage'];
 
 module.exports = Authentication;
 
@@ -18,16 +19,17 @@ var lodash = require('lodash');
  * @since 08.12.15
  * @author Skurishin Vladislav
  */
-function Authentication(connection,
-						lessonService,
-						$rootScope,
+function Authentication($rootScope,
 						$state,
-						$timeout) {
+						$timeout,
+						connection,
+						lessonService,
+						statisticsStorage) {
 	
 	// Попдписываемся на событие запроса аутентификации сервером(сервер вернул 401).
 	$rootScope.$on('event:auth-loginRequired', function () {
 		
-		processingFailedAuthorization();
+		onAuthorizationFail();
 		
 		routeToSpecifiedStateWhenUnauthorized();
 		
@@ -36,7 +38,7 @@ function Authentication(connection,
 	// Подписываемся на событие логаута пользователем.
 	$rootScope.$on('event:auth-loginCancelled', function () {
 		
-		processingFailedAuthorization();
+		onLogout();
 		
 		routeToSpecifiedStateWhenUnauthorized();
 		
@@ -67,7 +69,7 @@ function Authentication(connection,
 		
 		return function () {
 			
-			processingSuccessfulAuthorization();
+			onAuthorizationSuccess();
 			
 			resolve(authenticationStatus);
 		}
@@ -82,7 +84,7 @@ function Authentication(connection,
 		
 		return function () {
 			
-			processingFailedAuthorization();
+			onAuthorizationFail();
 			
 			reject(authenticationStatus);
 			
@@ -149,24 +151,33 @@ function Authentication(connection,
 		
 	}
 	
-	function processingSuccessfulAuthorization() {
+	function onAuthorizationSuccess() {
 		
 		authenticationStatus = true;
 		
 	}
-	
-	/**
-	 * Обработка ситуации потери пользователем права на авторизацию.
-	 */
-	function processingFailedAuthorization() {
-		
+
+	function onLogout() {
+
 		// Очищаем сервис урока, так как его состояние больше
-		// не является актуальным в момент редиректа на страницу логина.
+		// не является актуальным после логаута.
 		lessonService.clear();
-		
+
+		// Очищаем хранилище статистики для последнего пользователя.
+		statisticsStorage.clear();
+
 		// Если storage поддерживается текущей реализацией браузера.
 		// В противном случае заботиться о очистке не нужно :)
 		storage.local && storage.local.clear();
+
+		authenticationStatus = false;
+		
+	}
+
+	/**
+	 * Обработка ситуации потери пользователем права на авторизацию.
+	 */
+	function onAuthorizationFail() {
 		
 		authenticationStatus = false;
 	}

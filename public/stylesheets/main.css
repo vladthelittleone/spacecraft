@@ -5,6 +5,7 @@ body {
 
 button,
 a,
+[role=button],
 select,
 .enjoyhint_next_btn {
 	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
@@ -364,6 +365,7 @@ pre {
 	padding: 20px;
 	max-width: 600px;
 	margin: auto;
+	height: 85%;
 }
 
 .pages-board {
@@ -999,6 +1001,11 @@ pre {
 	text-indent: 1.2em;
 }
 
+.service-news-img {
+	background-image: url(../images/pages/game-news.png);
+	background-blend-mode: luminosity;
+}
+
 .astrogirl-img {
 	height: 400px;
 	width: 140px;
@@ -1211,18 +1218,16 @@ pre {
 }
 
 .pages-chart-title {
-	padding: 15px;
+	padding: 18px;
 	color: white;
 	font-weight: bold;
 	font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
 	text-align: center;
 	font-size: 11px;
-	height: 50px;
-	bottom: 0;
+	height: 15%;
 	width: 100%;
-	position: absolute;
-	overflow: hidden;
 	background-color: #152B39;
+	position: relative;
 }
 
 .pages-leadboard-title {
@@ -1266,6 +1271,7 @@ pre {
 	font-size: 12px;
 	font-weight: 300;
 	color: #999999;
+	text-align: left;
 }
 
 .pages-text {
@@ -1274,6 +1280,7 @@ pre {
 	overflow: hidden;
 	font-size: 14px;
 	line-height: 20px;
+	text-align: left;
 }
 
 .pages-title {
@@ -1536,7 +1543,17 @@ div.helper {
 }
 
 .carousel {
-	height: 100%;
+	height: inherit;
+}
+
+.carousel-indicators {
+	visibility: hidden;
+}
+
+.carousel-control
+.glyphicon-chevron-right,
+.glyphicon-chevron-left{
+	visibility: hidden;
 }
 
 .carousel-inner {
@@ -2047,3 +2064,9 @@ fieldset, label {
 	color: #fff;
 	border: 2px solid #152b39;
 }
+
+.carousel-inner > div,
+.carousel-inner > div > div {
+	height: 100%
+}
+

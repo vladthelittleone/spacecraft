@@ -62,36 +62,12 @@ function OperatorPlus() {
 
 	function interpreterHandler(value) {
 
-		var correctText;
-
-		if (value) {
-
-			correctText = '';
-
-			value.forEach(function (v) {
-
-				if (v) {
-
-					correctText += v + '<br>';
-
-				}
-
-			});
-
-		}
-
-		var lessonResults = LessonResults({
+		var lessonResults = {
 			correct:      '<p>Плюсую-транслирую:</p>' +
-						  '<p class="bbot-output">' + correctText + '</p>',
+						  '<p class="bbot-output">{{correctText}}</p>',
 			unknownError: '<p>Тададам! И вновь 0шибка!</p>'
-		});
+		};
 
-		if (correctText) {
-
-			return lessonResults.resultCorrect();
-
-		}
-
-		return lessonResults.unknownError();
+		return LessonResults(lessonResults).resultsWrapper(value);
 	}
 }

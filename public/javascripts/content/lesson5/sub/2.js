@@ -42,38 +42,16 @@ function OperatorsAndOperands() {
 
 	function interpreterHandler(value) {
 
-		var correctText = '';
-
-		if (value) {
-
-			value.forEach(function (v) {
-
-				if (v) {
-
-					correctText += v + '<br>';
-
-				}
-
-			});
-
-		}
-
-		var lessonResults = LessonResults({
+		var lessonResults = {
 
 			correct: '<p>Фиии, чт0 за числа! Транслирую:</p>' +
-					 '<p class="bbot-output">' + correctText + '</p>',
+			'<p class="bbot-output">{{correctText}}</p>',
 
 			unknownError: '<p>Упс! Неизвестная ошибка!</p>' +
-						  '<p>ВАЛЛ-И отсюда злобный жук!</p>'
+			'<p>ВАЛЛ-И отсюда злобный жук!</p>'
 
-		});
+		};
 
-		if (correctText) {
-
-			return lessonResults.resultCorrect();
-
-		}
-
-		return lessonResults.unknownError();
+		return LessonResults(lessonResults).resultsWrapper(value);
 	}
 }

@@ -58,40 +58,16 @@ function Priorities() {
 
 	function interpreterHandler(value) {
 
-		var correctText;
-
-		if (value) {
-
-			correctText = '';
-
-			value.forEach(function (v) {
-
-				if (v) {
-
-					correctText += v + '<br>';
-
-				}
-
-			});
-
-		}
-
-		var lessonResults = LessonResults({
+		var lessonResults = {
 
 			correct: '<p>У кого самый высокий приоритет?</p>' +
 					 '<p>BBot местный авторитет! Транслирую:</p>' +
-					 '<p class="bbot-output">' + correctText + '</p>',
+					 '<p class="bbot-output">{{correctText}}</p>',
 
 			unknownError: '<p>Ошибка! Ошибка! Ошиииибкааа!</p>'
 
-		});
+		};
 
-		if (correctText) {
-
-			return lessonResults.resultCorrect();
-
-		}
-
-		return lessonResults.unknownError();
+		return LessonResults(lessonResults).resultsWrapper(value);
 	}
 }

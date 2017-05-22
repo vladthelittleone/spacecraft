@@ -72,17 +72,78 @@ html {
 	bottom: 73%;
 }
 
-@media (max-width: 1268px) {
+@media (max-width: 1680px) {
 
 	.speech-bubble {
-		font-size: 10px;
-		padding: 6px;
+		font-size: 15px;
+		padding: 8px;
 		height: 15%;
+		top: 60%;
+	}
+
+	.error-code {
+		font-size: 180px;
+		right: 80%;
+	}
+}
+
+@media (max-width: 1600px) {
+
+	.speech-bubble {
+		font-size: 15px;
+		padding: 8px;
+		height: 15%;
+		top: 60%;
+	}
+
+	.error-code {
+		font-size: 170px;
+		right: 80%;
+	}
+}
+
+@media (max-width: 1440px) {
+
+	.speech-bubble {
+		font-size: 15px;
+		padding: 8px;
+		height: 20%;
+		top: 55%;
 	}
 
 	.error-code {
 		font-size: 150px;
-		right: 70%;
+		right: 80%;
+	}
+}
+
+@media (max-width: 1440px) {
+
+	.speech-bubble {
+		font-size: 12px;
+		padding: 8px;
+		height: 20%;
+		top: 55%;
+	}
+
+	.error-code {
+		font-size: 150px;
+		right: 80%;
+	}
+}
+
+
+@media (max-width: 1268px) {
+
+	.speech-bubble {
+		font-size: 12px;
+		padding: 8px;
+		height: 20%;
+	}
+
+	.error-code {
+		font-size: 120px;
+		right: 80%;
 	}
 }
 
@@ -91,12 +152,28 @@ html {
 	.speech-bubble {
 		font-size: 10px;
 		padding: 6px;
-		height: 15%;
+		height: 30%;
+		top: 40%;
 	}
 
 	.error-code {
-		font-size: 150px;
-		right: 70%;
+		font-size: 100px;
+		right: 80%;
+	}
+}
+
+@media (max-width: 800px) {
+
+	.speech-bubble {
+		font-size: 8px;
+		padding: 6px;
+		height: 35%;
+		top: 40%;
+	}
+
+	.error-code {
+		font-size: 100px;
+		right: 80%;
 	}
 }
 
@@ -105,7 +182,8 @@ html {
 	.speech-bubble {
 		font-size: 8px;
 		padding: 4px;
-		height: 20%;
+		height: 30%;
+		top: 40%;
 	}
 
 	.status-href {
@@ -114,7 +192,7 @@ html {
 
 	.error-code {
 		font-size: 80px;
-		right: 70%;
+		right: 80%;
 	}
 }
 
@@ -123,13 +201,14 @@ html {
 	.speech-bubble {
 		font-size: 5px;
 		padding: 4px;
-		height: 25%;
+		height: 40%;
+		top: 40%;
 		word-wrap: break-word;
 	}
 
 	.error-code {
 		font-size: 60px;
-		right: 65%;
+		right: 80%;
 	}
 }
 
@@ -137,13 +216,13 @@ html {
 
 	.speech-bubble {
 		font-size: 5px;
-		padding: 4px;
-		height: 25%;
+		height: 45%;
+		top: 40%;
 		word-wrap: break-word;
 	}
 
 	.error-code {
 		font-size: 60px;
-		right: 65%;
+		right: 80%;
 	}
 }

@@ -72,14 +72,78 @@ html {
 	bottom: 73%;
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1268px) {
 
+	.speech-bubble {
+		font-size: 10px;
+		padding: 6px;
+		height: 15%;
+	}
+
+	.error-code {
+		font-size: 150px;
+		right: 70%;
+	}
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1024px) {
 
+	.speech-bubble {
+		font-size: 10px;
+		padding: 6px;
+		height: 15%;
+	}
+
+	.error-code {
+		font-size: 150px;
+		right: 70%;
+	}
 }
 
-@media (max-width: 300px) {
+@media (max-width: 768px) {
 
+	.speech-bubble {
+		font-size: 8px;
+		padding: 4px;
+		height: 20%;
+	}
+
+	.status-href {
+		font-size: 10px;
+	}
+
+	.error-code {
+		font-size: 80px;
+		right: 70%;
+	}
+}
+
+@media (max-width: 480px) {
+
+	.speech-bubble {
+		font-size: 5px;
+		padding: 4px;
+		height: 25%;
+		word-wrap: break-word;
+	}
+
+	.error-code {
+		font-size: 60px;
+		right: 65%;
+	}
+}
+
+@media (max-width: 320px) {
+
+	.speech-bubble {
+		font-size: 5px;
+		padding: 4px;
+		height: 25%;
+		word-wrap: break-word;
+	}
+
+	.error-code {
+		font-size: 60px;
+		right: 65%;
+	}
 }

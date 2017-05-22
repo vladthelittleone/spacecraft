@@ -1218,7 +1218,7 @@ pre {
 }
 
 .pages-chart-title {
-	padding: 15px;
+	padding: 18px;
 	color: white;
 	font-weight: bold;
 	font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
@@ -2065,10 +2065,8 @@ fieldset, label {
 	border: 2px solid #152b39;
 }
 
-.height-100 {
+.carousel-inner > div,
+.carousel-inner > div > div {
 	height: 100%
 }
 
-.text-center {
-	height: 100%;
-}

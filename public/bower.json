@@ -29,6 +29,7 @@
     "angular-chart.js": "^0.8.8",
     "lodash": "^4.17.4",
     "components-font-awesome": "4.7.0",
-    "Ace.Tern": "git://github.com/sevin7676/Ace.Tern.git"
+    "Ace.Tern": "git://github.com/sevin7676/Ace.Tern.git",
+    "moment": "^2.18.1"
   }
 }

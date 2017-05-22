@@ -14,6 +14,7 @@ WelcomeController.$inject = ['$scope',
 module.exports = WelcomeController;
 
 var lodash = require('lodash');
+var moment = require('moment');
 
 /**
  * @since 30.11.15
@@ -28,12 +29,14 @@ function WelcomeController($scope,
 						   userProgressData,
 						   userInfoData) {
 
+	var duration = moment.duration(10, 'seconds');
+
 	$scope.leaderBoard = leaderBoardData || [];	// Лидеры игры
 	$scope.vkShow = true; 	// Переключатель виджета ВК
 
 	// Настройка карусели
-	$scope.noWrapSlides = false;
-	$scope.intervalSlideChange = 10000;
+	$scope.isNoLoopSlides = false; // Флаг указывает ациклична ли карусель
+	$scope.intervalSlideChange = duration.asMilliseconds();
 
 	$scope.chartIndex = 0;	// Номер текущего графика
 	$scope.labels = [];		// Лейблы графика
@@ -139,6 +142,7 @@ function WelcomeController($scope,
 
 			$scope.totalScore = [[0]];
 			$scope.labels = [1];
+
 		}
 
 		$scope.seriesT = ['Последние полученные очки'];

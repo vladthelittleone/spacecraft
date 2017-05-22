@@ -5,6 +5,7 @@ body {
 
 button,
 a,
+[role=button],
 select,
 .enjoyhint_next_btn {
 	cursor: url(../images/cursors/pointer-cursor.svg), pointer;
@@ -361,7 +362,7 @@ pre {
 }
 
 .pages-board .chart-inside {
-	padding: 0 20px 20px 20px;
+	padding: 20px;
 	max-width: 600px;
 	margin: auto;
 	height: 85%;

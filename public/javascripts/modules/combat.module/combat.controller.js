@@ -5,19 +5,16 @@ var CodeLauncher = require('../../game/launcher');
 
 // Подключаем TabHandler
 var TabHandler = require('../../emitters/tab-handler');
-var Diagram = require('../../directives/shared/diagram.directive/diagram');
 
 var lodash = require('lodash');
 
-LessonController.$inject = ['$scope',
-							'$stateParams',
-							'$state',
-							'lessonService',
+CombatController.$inject = ['$scope',
 							'audioManager',
 							'aceService',
+							'connection',
 							'settings'];
 
-module.exports = LessonController;
+module.exports = CombatController;
 
 /**
  * Контроллер окна урока.
@@ -25,69 +22,47 @@ module.exports = LessonController;
  * @author Skurishin Vladislav
  * @since 30.11.2015
  */
-function LessonController($scope,
-						  $stateParams,
-						  $state,
-						  lessonService,
+function CombatController($scope,
 						  audioManager,
 						  aceService,
+						  connection,
 						  settings) {
 
 	var VK_GROUP_ID = 105816682;
 
 	var markerService;
 	var soundtrack;
+	var markerId;
 
 	CodeLauncher.onError = onError;
 
-	$scope.isStarsVisible = false;		// Переключатель окна оценки урока
-	$scope.starsHide = false;		    // Переключатель окна оценки урока
 	$scope.hideEditor = false;		    // Переключатель окна урока
-	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
-
-	disableLeftContent();
-
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
-	$scope.toggleAudioPause = toggleAudioPause;
-	$scope.previousAudio = previousAudio;
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
-	$scope.isLessonWithDiagram = isLessonWithDiagram;
+	$scope.toggleContentEnable = toggleContentEnable;
 	$scope.aceChanged = aceChanged;
 	$scope.aceLoaded = aceLoaded;
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
-	$scope.quizAnswer = quizAnswer;
-	$scope.toggleContentEnable = toggleContentEnable;
-	$scope.disableLeftContent = disableLeftContent;
 
-	$scope.$on('$viewContentLoaded', onContentLoaded);
+	$scope.$watch('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
-	$scope.lesson = lessonService.lessonContent($stateParams.id);
 	initVk();
 
 	// ==================================================
 
-	// Проверка существования урока
-	if (!$scope.lesson) {
-
-		$state.go('lessons');
-
-	}
-
-	// ==================================================
-
-	function initVk () {
+	function initVk() {
 
 		try {
 
 			$scope.vkWidget = VK.Widgets.CommunityMessages("vkCommunityMessages", VK_GROUP_ID, {
-				widgetPosition: "right",
+				widgetPosition:         "right",
 				disableExpandChatSound: "1",
-				disableButtonTooltip: "1",
-				buttonType: "no_button"
+				disableButtonTooltip:   "1",
+				buttonType:             "no_button"
 			});
 
 		} catch (e) {
@@ -112,7 +87,21 @@ function LessonController($scope,
 
 	}
 
-	function toggleVkWidgetVisible () {
+	/**
+	 * Функция закрывает все окна
+	 */
+	function disableLeftContent() {
+
+		$scope.textContentEnable = false;	// Переключатель текстового контента урока
+		$scope.disqusEnable = false;		// Переключатель комментариев
+		$scope.diagramEnable = false;		// Переключатель окна диаграммы
+		$scope.tableEnable = false;			// Переключатель таблички
+		$scope.settingsEnable = false;		// Переключатель натсроек
+		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
+
+	}
+
+	function toggleVkWidgetVisible() {
 
 		if ($scope.vkWidgetEnable) {
 
@@ -128,33 +117,9 @@ function LessonController($scope,
 
 	}
 
-	function toggleAudioPause() {
-
-		lessonService.audioManager.toggleAudio($scope.audioPause);
-
-		$scope.audioPause = !$scope.audioPause;
-
-	}
-
-	function previousAudio() {
-
-		if (lessonService.audioManager.previousAudio()) {
-
-			$scope.audioPause = false;
-
-		}
-
-	}
-
 	function toggleEditorOpen() {
 
 		$scope.hideEditor = !$scope.hideEditor;
-
-	}
-
-	function isLessonWithDiagram() {
-
-		return Diagram.isHaveChanges();
 
 	}
 
@@ -168,50 +133,32 @@ function LessonController($scope,
 	}
 
 	/**
-	 * Функция закрывает все окна
-	 */
-	function disableLeftContent() {
-
-		$scope.textContentEnable = false;	// Переключатель текстового контента урока
-		$scope.disqusEnable = false;		// Переключатель комментариев
-		$scope.diagramEnable = false;		// Переключатель окна диаграммы
-		$scope.tableEnable = false;			// Переключатель таблички
-		$scope.settingsEnable = false;		// Переключатель натсроек
-		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
-
-	}
-
-	/**
 	 * Инициализация Ace.
 	 */
 	function aceLoaded(editor) {
 
-		// Если определен урок.
-		if ($scope.lesson) {
+		aceService.initialize(editor);
 
-			lessonService.setEditorSession(editor.getSession());
+		markerService = aceService.getMarkerService();
 
-			aceService.initialize(editor, $scope.lesson.defs);
+		var editorSession = aceService.getSession();
 
-			markerService = aceService.getMarkerService();
+		// Отправка запроса на получение кода следующего уркоа
+		connection.getCombatCodeFromJs('start', function (res) {
 
-			/**
-			 * Инициализация урока.
-			 */
-			lessonService.initialize({
-				lessonId: $stateParams.id,
-				scope: $scope
-			});
+			var code = res.data;
 
-		}
+			// Сохранение в Ace.
+			editorSession.setValue(code);
+
+		});
+
 	}
 
 	/**
 	 * Очистка маркеров.
 	 */
 	function clearMarker() {
-
-		var markerId = lessonService.getMarkerId();
 
 		// Удаляем старый маркер
 		markerId && markerService.deleteMarkerAndAnnotation(markerId);
@@ -230,7 +177,7 @@ function LessonController($scope,
 
 		CodeLauncher.stop();
 
-		var markerId = clearMarker();
+		markerId = clearMarker();
 
 		// Выводим текст
 		$scope.textBot = error;
@@ -248,10 +195,6 @@ function LessonController($scope,
 
 				// Указываем маркер
 				markerId = markerService.setMarkerAndAnnotation(errorLine, error);
-
-				// Сохраняем в сервисе.
-				// В связи с использованием указаний в уроке.
-				lessonService.setMarkerId(markerId);
 
 			}
 
@@ -334,32 +277,21 @@ function LessonController($scope,
 
 		if (!CodeLauncher.isCodeRunning) {
 
-			lessonService.initiateRunByUserClick();
+			var editorSession = aceService.getSession();
+			var code = editorSession.getDocument().getValue();
+
+			CodeLauncher.run(code);
 
 			// При запуске кода
-			// выключаем окно инструкции.
-			// Оно зависит от поля showTextContent.
-			// ng-show = "showTextContent"
-			$scope.textContentEnable = false;
+			// выключаем окно настроек.
 			$scope.settingsEnable = false;
+
 		}
 		else {
 
-			lessonService.stop();
+			CodeLauncher.stop();
 
 		}
-
-	}
-
-	/**
-	 * Вызывает директива quiz, при ответе на вопрос.
-	 * соответсвтенно задаем мессадж BBot'а.
-	 */
-	function quizAnswer() {
-
-		var sub = $scope.lesson.sub[$scope.subIndex];
-
-		$scope.textBot = sub.question.correctAnswerDescription;
 
 	}
 

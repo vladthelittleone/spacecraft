@@ -22,6 +22,7 @@ function Connection($http) {
 	that.getCodeFromJs = getCodeFromJs;
 
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
+	that.getCombatCodeFromJs = getCombatCodeFromJs;
 
 	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
@@ -132,6 +133,17 @@ function Connection($http) {
 	function getLessonCodeFromJs(lessonId, subLessonId, callback) {
 
 		var source = resourcesUrls.lessonCode + lessonId + '/' + subLessonId + '.code';
+
+		getCodeFromJs(source, callback)
+
+	}
+
+	/**
+	 * Получить код для сражений из .js файла.
+	 */
+	function getCombatCodeFromJs(code, callback) {
+
+		var source = resourcesUrls.combatCode + '/' + code + '.code';
 
 		getCodeFromJs(source, callback)
 

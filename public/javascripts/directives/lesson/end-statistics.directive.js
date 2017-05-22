@@ -1,13 +1,13 @@
 'use strict';
 
-module.exports = StatisticsLessonEnd;
+module.exports = EndStatistics;
 
 /**
  * Директива вывода статистики в конце урока.
  *
  * Created by iretd on 09.08.2016.
  */
-function StatisticsLessonEnd() {
+function EndStatistics() {
 
 	var directive =  {
 		scope:       {

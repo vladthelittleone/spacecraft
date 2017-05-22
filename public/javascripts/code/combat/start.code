@@ -1,0 +1,8 @@
+/**
+ * Код управления кораблем.
+ */
+this.run = function(spaceCraft)
+{
+	spaceCraft.moveForward();
+};
+

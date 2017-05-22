@@ -2,7 +2,7 @@
 
 Settings.$inject = ['settings'];
 
-var Storage = require('../../utils/storage');
+var Storage = require('../../../utils/storage');
 
 var settings = require('./settings.json');
 

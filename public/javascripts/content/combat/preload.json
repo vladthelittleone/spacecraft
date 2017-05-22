@@ -1,0 +1,8 @@
+{
+	"sprites": {
+		"starField": "images/sprites/starField2.png",
+		"combatBase": "images/sprites/entities/structures/combatBase.png",
+		"scout": "images/sprites/entities/spacecrafts/scout.png",
+		"trail": "images/sprites/entities/shared/trail.png"
+	}
+}

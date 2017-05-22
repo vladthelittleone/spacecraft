@@ -34,8 +34,8 @@ function CarrierUnit(game, factory, x, y, player) {
 		game: game,
 		unit: t,
 		drag: 300,				// Торможение корабля
-		velocity: 40,			// Скорость корабля
-		angularVelocity: 0.2,	// Скорость разворота
+		velocity: 15,			// Скорость корабля
+		angularVelocity: 0.05,	// Скорость разворота
 		trail: true				// Использование огня двигателя
 	});
 

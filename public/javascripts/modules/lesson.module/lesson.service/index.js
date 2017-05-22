@@ -12,7 +12,7 @@ var Interpreter = require('./interpreter');
 var LessonStatistics = require('../../../utils/lesson-statistics');
 var AudioWrapper = require('./audio');
 
-var Diagram = require('../../../directives/diagram.directive/diagram');
+var Diagram = require('../../../directives/shared/diagram.directive/diagram');
 var TabHandler = require('../../../emitters/tab-handler');
 
 var lodash = require('lodash');
@@ -75,7 +75,7 @@ function LessonService(connection,
 
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
-	that.intiateRunByUserClick = initiateRunByUserClick;
+	that.initiateRunByUserClick = initiateRunByUserClick;
 
 	that.run = run;
 	that.stop = stop;

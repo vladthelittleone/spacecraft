@@ -1,10 +1,10 @@
 {
 	"sprites": {
-				 "transport": "images/sprites/entities/transport.png",
-				 "harvester": "images/sprites/entities/harvester.png",
-				 "base": "images/sprites/entities/base.png",
-				 "starField": "images/sprites/starField.png",
-				 "shield": "images/sprites/entities/shared/shield.png",
-				 "trail": "images/sprites/entities/trail.png"
+		"transport": "images/sprites/entities/spacecrafts/transport.png",
+		"harvester": "images/sprites/entities/spacecrafts/harvester.png",
+		"base": "images/sprites/entities/structures/base.png",
+		"starField": "images/sprites/starField.png",
+		"shield": "images/sprites/entities/shared/shield.png",
+		"trail": "images/sprites/entities/shared/trail.png"
 	}
 }

@@ -20,6 +20,7 @@ var Fighter = require('./units/light/fighter');
 var RedPlanet = require('./units/base/red-planet');
 var ResearchCenter = require('./units/base/research-center');
 var AcademyBase = require('./units/base/academy-base');
+var Base = require('./units/base/base');
 
 var Random = require('../../utils/random');
 
@@ -47,6 +48,7 @@ function EntitiesFactory() {
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
 
+	t.createBase = createByType(Base);
 	t.createMeteor = createByType(Meteor);
 	t.createTransport = createByType(Transport);
 	t.createHarvester = createByType(Harvester);

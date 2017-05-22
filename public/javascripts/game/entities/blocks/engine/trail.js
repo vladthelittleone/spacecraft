@@ -6,7 +6,7 @@
  */
 module.exports = Trail;
 
-function Trail (game, spaceCraft, trailX, trailY, trailScale){
+function Trail (game, spaceCraft, trailX, trailY, trailScale) {
 
 	var t = {};
 

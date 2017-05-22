@@ -1,7 +1,7 @@
 'use strict';
 
 var contentArray = [];	// Хранит контент
-var gameContent = require('./game');
+var combatContent = require('./combat');
 
 // Зависимотси
 contentArray.push(require('./lesson0'));
@@ -36,7 +36,7 @@ function ContentFactory() {
 	function content(id) {
 
 		// Если id не задан, то игра.
-		return id ? contentArray[id] : gameContent;
+		return id ? contentArray[id] : combatContent;
 
 	}
 }

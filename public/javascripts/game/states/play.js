@@ -13,6 +13,14 @@ module.exports = PlayState;
  */
 function PlayState(game) {
 
+	// Стандартные границы мира.
+	var BOUNDS = {
+		x:      0,
+		y:      0,
+		width:  4000,
+		height: 4000
+	};
+
 	var t = {};
 
 	var runner;				// Объект запуска кода обработки
@@ -33,13 +41,8 @@ function PlayState(game) {
 	 */
 	function create() {
 
-		// Рамки мира
-		var bounds = {
-			x:      0,
-			y:      0,
-			width:  4000,
-			height: 4000
-		};
+		// Границы мира
+		var bounds = t.bounds || BOUNDS;
 
 		game.world.setBounds(bounds.x, bounds.y, bounds.width, bounds.width);
 
@@ -76,13 +79,14 @@ function PlayState(game) {
 		var u = [];
 
 		// Объекты игрового мира
-		var objects = EntitiesFactory.getWorld().getObjects();
+		var objects = EntitiesFactory.getWorld()
+									 .getObjects();
 
-		u = u.concat(objects).concat(t.updates);
+		u = u.concat(objects)
+			 .concat(t.updates);
 
 		// Обновление объектов
-		u.forEach(function (e)
-		{
+		u.forEach(function (e) {
 
 			e.update && e.update(e);
 
@@ -100,9 +104,8 @@ function PlayState(game) {
 
 	/**
 	 * Следует за объектом в заданном квадрате.
-     */
-	function followFor (object)
-	{
+	 */
+	function followFor(object) {
 		var view = game.camera.view;
 
 		var x = Math.max(object.width, 100);

@@ -3,7 +3,7 @@
 /**
  * Зависимости
  */
-var Game = require('../game');
+var Game = require('../../game');
 
 module.exports = GameCanvas;
 

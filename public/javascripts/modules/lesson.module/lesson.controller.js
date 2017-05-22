@@ -5,7 +5,7 @@ var CodeLauncher = require('../../game/launcher');
 
 // Подключаем TabHandler
 var TabHandler = require('../../emitters/tab-handler');
-var Diagram = require('../../directives/diagram.directive/diagram');
+var Diagram = require('../../directives/shared/diagram.directive/diagram');
 
 var lodash = require('lodash');
 

@@ -13,23 +13,22 @@
  * @author iretd
  */
 
-var otherResolves = require('./../../utils/helpers/resolves');
-var spinnerMessages = require('./../../utils/json/messages/spinner.json');
+var spinnerMessages = require('../../utils/json/messages/spinner.json');
 
-module.exports = GameResolve();
+module.exports = CombatResolve();
 
-function GameResolve() {
+function CombatResolve() {
 
 	// Имена resolve'ов.
 	var names = {
-		authentication: otherResolves.names.authentication,
+		authentication: 'authenticationStatus',
 		game:           'game'
-	};
 
+	};
 	// Значения resolve'ов
 	var resolves = {};
 
-	resolves[names.authentication] = otherResolves.values[names.authentication];
+	resolves[names.authentication] = ['promises', 'spinner', onAuthenticationStatus];
 	resolves[names.game] = ['$stateParams', 'promises', 'spinner', names.authentication, onGame];
 
 	// В качестве экспорта из модуля:
@@ -39,6 +38,14 @@ function GameResolve() {
 	t.values = resolves;
 
 	return t;
+
+	function onAuthenticationStatus(promises, spinner) {
+
+		spinner.start({message: spinnerMessages.authorization});
+
+		return promises.getAuthenticationStatus();
+
+	}
 
 	function onGame($stateParams, promises, spinner) {
 

@@ -41,7 +41,6 @@ function PreloadState(game) {
 		game.load.onLoadComplete.addOnce(onLoadComplete);
 
 		loadResources(t.resources.sprites, game.load.image.bind(game.load));
-
 		loadResources(t.resources.audio, game.load.audio.bind(game.load));
 
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
@@ -56,6 +55,7 @@ function PreloadState(game) {
 
 		}, resources);
 	}
+
 	/**
 	 * Этап создания состояния.
 	 */

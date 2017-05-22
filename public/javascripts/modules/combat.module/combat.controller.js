@@ -8,12 +8,13 @@ var TabHandler = require('../../emitters/tab-handler');
 
 var lodash = require('lodash');
 
-GameController.$inject = ['$scope',
-	'audioManager',
-	'aceService',
-	'settings'];
+CombatController.$inject = ['$scope',
+							'audioManager',
+							'aceService',
+							'connection',
+							'settings'];
 
-module.exports = GameController;
+module.exports = CombatController;
 
 /**
  * Контроллер окна урока.
@@ -21,10 +22,11 @@ module.exports = GameController;
  * @author Skurishin Vladislav
  * @since 30.11.2015
  */
-function GameController($scope,
-						audioManager,
-						aceService,
-						settings) {
+function CombatController($scope,
+						  audioManager,
+						  aceService,
+						  connection,
+						  settings) {
 
 	var VK_GROUP_ID = 105816682;
 
@@ -138,6 +140,18 @@ function GameController($scope,
 		aceService.initialize(editor);
 
 		markerService = aceService.getMarkerService();
+
+		var editorSession = aceService.getSession();
+
+		// Отправка запроса на получение кода следующего уркоа
+		connection.getCombatCodeFromJs('start', function (res) {
+
+			var code = res.data;
+
+			// Сохранение в Ace.
+			editorSession.setValue(code);
+
+		});
 
 	}
 

@@ -8,7 +8,7 @@
  */
 var angular = require('angular');
 
-var app = angular.module('spacecraft.game.module', []);
+var app = angular.module('spacecraft.combat.module', []);
 
-app.config(require('./game.config'));
-app.controller('GameController', require('./game.controller'));
+app.config(require('./combat.config'));
+app.controller('CombatController', require('./combat.controller'));

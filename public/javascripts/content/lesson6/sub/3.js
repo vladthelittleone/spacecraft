@@ -4,14 +4,14 @@
 var LessonResults = require('../../lesson-results');
 var CodeLauncher = require('../../../game/launcher');
 
-module.exports = elseOperation();
+module.exports = ElseOperation();
 
 var lodash = require('lodash');
 
 /**
  * Created by vaimer on 20.05.2017.
  */
-function elseOperation() {
+function ElseOperation() {
 
 	return {
 		isRestartDisabled: true,
@@ -31,8 +31,7 @@ function elseOperation() {
 
 		instructions: '<ul>' +
 		'<li>Изучите комментарии к коду.</li>' +
-		'<li>Изменить условие так, чтобы система не была передана под управление BBot\'у..</li>' +
-		'<li>Измените условие так, чтобы BBot вывел сообщение о состоянии систем корабля.</li>' +
+		'<li>Изменить условие так, чтобы система не была передана под управление BBot\'у.</li>' +
 		'<li>Щепотка дополнительной информации: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/if...else">клац</a>.</li>' +
 		'</ul>'
 	};
@@ -56,11 +55,11 @@ function elseOperation() {
 
 		if (corvette.isTrueCaptain()) {
 
-			return lessonResults.resultCorrect();
+			return lessonResults.resultCorrect('bbot-angry');
 
 		} else {
 
-			return lessonResults.text('bbot-wow');
+			return lessonResults.text();
 
 		}
 	}
@@ -70,14 +69,14 @@ function elseOperation() {
 		return '<p>Если условие в блоке if приняло значение «false», то выполняется код в необязательном блоке <strong>else</strong>:</p>' +
 			'<pre>if (<strong>условие</strong>)<br>' +
 			'{<br>' +
-			'	<strong>блок if</strong><br>' +
+			'    <strong>блок if</strong><br>' +
 			'}<br>' +
 			'else<br>' +
 			'{<br>' +
-			'	<strong>блок else</strong><br>' +
+			'    <strong>блок else</strong><br>' +
 			'}</pre>' +
 			'<p>Заметим, что <strong>if</strong> может существовать и без <strong>else</strong>, но не наоборот.</p>' +
-			'<p>Вам всем понятно? Тогда перейдем к заданию: нужно решить проблему с ограничением контроля <strong>BBot\'а</strong>. ' +
+			'<p>Вам все понятно? Тогда перейдем к заданию: нужно решить проблему с ограничением контроля <strong>BBot\'а</strong>. ' +
 			'Этот хитрец решил попроказничать и взять под управление наш корабль. ' +
 			'Не допустите этого!</p>';
 

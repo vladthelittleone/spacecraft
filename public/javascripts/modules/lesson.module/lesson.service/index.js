@@ -366,13 +366,15 @@ function LessonService(connection,
 	 * Задача данного метода выполнить все действия, которые присуще ситуации
 	 * окончания текущего подурока.
 	 */
-	function endLastSubLesson() {
+	function endCurrentSubLesson() {
 
 		// Увеличиваем индекс текущего подурока на следующий,
 		// так как в saveStatisticsWrapper должен передавать индекс
 		// именно следующего урока, а не текущего, который пользователь прошел.
 		// Именно этим и обусловлено расположение этого выражения здесь.
 		++scope.subIndex;
+
+		UpdateManager.setSubIndex(scope.subIndex);
 
 		// Сохраняем статистику текущего положения по уроку.
 		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
@@ -411,7 +413,7 @@ function LessonService(connection,
 
 			// Если урок еще не окончен, завершаем текущий подурок,
 			// чтобы корректно перейти к следующему.
-			endLastSubLesson();
+			endCurrentSubLesson();
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate &&
@@ -480,8 +482,6 @@ function LessonService(connection,
 
 			// Индекс подурока (% используется на случай изменений в размерах).
 			scope.subIndex = scope.subIndex % size;
-
-			UpdateManager.setSubIndex(scope.subIndex);
 
 			// Если урок был окончен, тогда в currentLessonStatistics необходимо
 			// сбросить начальные значение параметров статистики (currentScore; currentRunCount),

@@ -14,6 +14,7 @@ function StateWrapper(state) {
 
 	// Дистанция до керриера
 	var PARENT_SHIP_DISTANCE = 200;
+	var LESSON_TIMEOUT = 5000;
 
 	var t = state;
 
@@ -23,21 +24,12 @@ function StateWrapper(state) {
 	var explosions;	// Группа анимации взрывов
 
 	// Координаты центра мира
-	var x;
-	var y;
-
-	var newLogic = true;
+	var worldCenterX;
+	var worldCenterY;
 
 	t.entities = entities;
-	t.logic = logic;
 
 	return t;
-
-	function logic() {
-
-		subThirdLessonLogic();
-
-	}
 
 	function createNewPlayer() {
 
@@ -62,31 +54,17 @@ function StateWrapper(state) {
 	}
 
 	/**
-	 * Логика в конкретном подуроке.
-	 */
-	function subThirdLessonLogic() {
-
-		// Нумерация подуроков начинается с 0
-		if(UpdateManager.getSubIndex() === 2 && newLogic) {
-
-			// В 3 подуроке создаем видемость захвата корабля Bbot'ом
-			createRandomLogicPlayerSpacecraft();
-
-		}
-	}
-
-	/**
 	 * Шаблонный метод инфициализации объектов.
 	 */
 	function entities(game) {
 
-		x = game.world.centerX;
-		y = game.world.centerY;
+		worldCenterX = game.world.centerX;
+		worldCenterY = game.world.centerY;
 
 		// Инициализация графики
 		graphics = game.add.graphics(0, 0);
 
-		carrier = EntitiesFactory.createCarrier(game, x, y);
+		carrier = EntitiesFactory.createCarrier(game, worldCenterX, worldCenterY);
 		carrier.sprite.rotation = 3 * Math.PI / 2;
 
 		createNewPlayer();
@@ -96,7 +74,7 @@ function StateWrapper(state) {
 		explosions.createMultiple(10, 'explosion');
 		explosions.forEach(initExplosion, this);
 
-		subThirdLessonLogic();
+		setTimeout(createRandomLogicForSpaceCraft, LESSON_TIMEOUT);
 
 	}
 
@@ -127,7 +105,7 @@ function StateWrapper(state) {
 		carrier.sprite.bringToTop();
 		player.sprite.destroy();
 
-		setTimeout(createNewPlayer, 5000);
+		setTimeout(createNewPlayer, LESSON_TIMEOUT);
 
 	}
 
@@ -152,43 +130,44 @@ function StateWrapper(state) {
 
 	function generateRandomLogic() {
 
-		var randomNumber = Random.randomInt(1, 3);
+		var randomNumber = Random.randomInt(0, 2);
 
-		switch(randomNumber) {
-			case 1:
-				return player.moveForward.bind(player);
-			case 2:
-				return player.rotateLeft.bind(player);
-			case 3:
-				return player.rotateRight.bind(player);
-		}
+		var action = [
+			player.moveForward.bind(player),
+			player.rotateLeft.bind(player),
+			player.rotateRight.bind(player)
+		];
+
+		return action[randomNumber];
+
 	}
 
-	function createRandomLogicPlayerSpacecraft() {
+	function createRandomLogicForSpaceCraft() {
 
-		carrier.sprite.bringToTop();
-		player.sprite.bringToTop();
-		// Пока пользователь не поменял капитана
-		if(!player.api.isTrueCaptain()) {
+		if(UpdateManager.getSubIndex() === 2) {
 
-			toggleToNewLogic();
+			// Пока пользователь не поменял капитана
+			if(!player.api.isTrueCaptain()) {
 
-			// Делаем случайные траектории полета корабля
-			player.logic = generateRandomLogic();
+				// Делаем случайные траектории полета корабля
+				player.logic = generateRandomLogic();
 
-			setTimeout(toggleToNewLogic, 10000);
+				setTimeout(createRandomLogicForSpaceCraft, LESSON_TIMEOUT);
 
-		} else {
+			} else {
 
-			// Отправляем корабль пользователя к примерному месту начала урока
-			player.logic = player.moveToXY.bind(player, x, y - 300);
+				// Отправляем корабль пользователя к примерному месту начала урока
+				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 300);
+
+			}
 
 		}
-	}
 
-	function toggleToNewLogic() {
+		if(UpdateManager.getSubIndex() < 2) {
 
-		newLogic = !newLogic;
+			setTimeout(createRandomLogicForSpaceCraft, LESSON_TIMEOUT);
+
+		}
 
 	}
 }

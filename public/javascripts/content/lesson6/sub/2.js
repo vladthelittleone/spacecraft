@@ -4,14 +4,14 @@
 var LessonResults = require('../../lesson-results');
 var CodeLauncher = require('../../../game/launcher');
 
-module.exports = ifOperation();
+module.exports = IfOperation();
 
 var lodash = require('lodash');
 
 /**
  * Created by vaimer on 09.05.2017.
  */
-function ifOperation() {
+function IfOperation() {
 
 	return {
 		isRestartDisabled: true,

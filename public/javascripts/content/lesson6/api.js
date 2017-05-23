@@ -40,11 +40,8 @@ function Api(player) {
 
 	function setOwner(owner) {
 
-		if(owner === 'Кадет') {
+		trueCaptain = (owner === 'Кадет');
 
-			trueCaptain = true;
-
-		}
 	}
 
 	function isTrueCaptain() {

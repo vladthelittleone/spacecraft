@@ -23,12 +23,19 @@ function EngineBlock(spec) {
 	var velocity = spec.velocity;
 	var drag = spec.drag;
 
-	if(spec.trail){
+	var trails = [];
 
-		t.trail = Trail(game, unit, spec.trailX, spec.trailY, spec.trailScale);
+	if (spec.trails) {
+
+		spec.trails.forEach(function (t) {
+
+			var trail = Trail(game, unit, t.trailX, t.trailY, t.trailScale);
+
+			trails.push(trail);
+
+		});
 
 	}
-
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
@@ -152,11 +159,12 @@ function EngineBlock(spec) {
 
 	function useTrail(){
 
-		if(spec.trail) {
+		trails.forEach(function (trail) {
 
-			t.trail.start();
+			trail && trail.start();
 
-		}
+		});
+
 	}
 
 	/**

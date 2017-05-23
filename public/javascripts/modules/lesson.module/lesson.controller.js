@@ -45,8 +45,6 @@ function LessonController($scope,
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 
-	disableLeftContent();
-
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
 	$scope.toggleAudioPause = toggleAudioPause;
@@ -66,6 +64,9 @@ function LessonController($scope,
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
+
+	disableLeftContent();
+
 	initVk();
 
 	// ==================================================

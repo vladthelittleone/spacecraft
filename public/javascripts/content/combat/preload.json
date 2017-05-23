@@ -1,8 +1,11 @@
 {
 	"sprites": {
-		"starField": "images/sprites/starField2.png",
+		"starField": "images/sprites/starField1.png",
 		"combatBase": "images/sprites/entities/structures/combatBase.png",
-		"scout": "images/sprites/entities/spacecrafts/scout.png",
+		"combat1": "images/sprites/entities/spacecrafts/combat1.png",
+		"fighter": "images/sprites/entities/spacecrafts/fighter.png",
+		"shield": "images/sprites/entities/shared/shield.png",
+		"userShield": "images/sprites/entities/shared/userShield.png",
 		"trail": "images/sprites/entities/shared/trail.png"
 	}
 }

@@ -41,7 +41,7 @@ function StateWrapper(state) {
 		EntitiesFactory.createBase(game, 300, width - 300, 'combatBase');
 
 		// Создать транспорт
-		var player = EntitiesFactory.createScout(game, 1000, 1000, true);
+		var player = EntitiesFactory.createCombat(game, 1000, 1000, true, 'combat1');
 		var sprite = player.sprite;
 
 		sprite.rotation = -Math.PI / 2;

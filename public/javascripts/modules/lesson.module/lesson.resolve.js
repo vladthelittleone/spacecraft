@@ -1,5 +1,9 @@
 'use strict';
 
+var spinnerMessages = require('./../../utils/json/messages/spinner.json');
+
+module.exports = LessonResolve();
+
 /**
  * Модуль экспортирует имена и значения resolve'ов состояния 'lesson'.
  *
@@ -12,25 +16,21 @@
  * @since 13.05.17
  * @author iretd
  */
-
-var spinnerMessages = require('./../../utils/json/messages/spinner.json');
-
-module.exports = LessonResolve();
-
 function LessonResolve() {
 
 	// Имена resolve'ов.
 	var names = {
 		authentication: 'authenticationStatus',
+		lessonStatistics: 'lessonStatistics',
 		game:           'game'
-
 	};
 
 	// Значения resolve'ов
 	var resolves = {};
 
 	resolves[names.authentication] = ['promises', 'spinner', onAuthenticationStatus];
-	resolves[names.game] = ['$stateParams', 'promises', 'spinner', names.authentication, onGame];
+	resolves[names.lessonStatistics] = ['promises', 'spinner', names.authentication, onLessonStatistics];
+	resolves[names.game] = ['$stateParams', 'promises', 'spinner', 'lessonService', names.lessonStatistics, onGame];
 
 	// В качестве экспорта из модуля:
 	var t = {};
@@ -48,9 +48,19 @@ function LessonResolve() {
 
 	}
 
-	function onGame($stateParams, promises, spinner) {
+	function onLessonStatistics(promises, spinner) {
+
+		spinner.start({message: spinnerMessages.lessonStatistics});
+
+		return promises.getLessonStatisticsData();
+
+	}
+
+	function onGame($stateParams, promises, spinner, lessonService, lessonStatistics) {
 
 		spinner.start({message: spinnerMessages.game, delay: 0});
+
+		lessonService.onLessonStatisticsLoad(lessonStatistics);
 
 		return promises.getGame($stateParams.id);
 

@@ -76,6 +76,7 @@ function LessonService(connection,
 	that.lessonContent = lessonContent;
 	that.initialize = initialize;
 	that.initiateRunByUserClick = initiateRunByUserClick;
+	that.onLessonStatisticsLoad = onLessonStatisticsLoad;
 
 	that.run = run;
 	that.stop = stop;
@@ -372,7 +373,7 @@ function LessonService(connection,
 		// так как в saveStatisticsWrapper должен передавать индекс
 		// именно следующего урока, а не текущего, который пользователь прошел.
 		// Именно этим и обусловлено расположение этого выражения здесь.
-		++scope.subIndex;
+		UpdateManager.setSubIndex(++scope.subIndex);
 
 		// Сохраняем статистику текущего положения по уроку.
 		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
@@ -505,21 +506,17 @@ function LessonService(connection,
 	 * Метод сперва пытается выгрузить уроки из локального хранилища (local storage браузера).
 	 * Если в браузере отсутствуют данные, то осуществляется попытка выгрузки уроков с сервера.
 	 */
-	function loadLessons() {
+	function onLessonStatisticsLoad(lessonStatistics) {
 
-		// Идем в базу за статистикой по урокам в случае отсутствия в лок. хранилище
-		connection.getLessonsStatistics(function (data) {
+		if (!lessons || !lessons.length) {
 
 			// Запоминаем ссылку на данные по урокам, которые выгрузили с сервера.
-			lessons = data.lessons || [];
-			totalFinalScore = data.totalFinalScore || 0;
+			lessons = lessonStatistics.lessons || [];
+			totalFinalScore = lessonStatistics.totalFinalScore || 0;
 
-			isCurrentLessonCompleted = !lodash.isNil(data.completed);
+			isCurrentLessonCompleted = !lodash.isNil(lessonStatistics.completed);
 
-			prepareLesson(getCurrentLesson());
-
-		});
-
+		}
 	}
 
 	/**
@@ -539,35 +536,20 @@ function LessonService(connection,
 		currentLessonStatistics = LessonStatistics();
 
 		scope = args.scope;
-
-		scope.subIndex = 0;
-		scope.getCurrentLesson = getCurrentLesson;
+		lessonId = args.lessonId;
 
 		// Убираем табличку.
 		scope.lessonTable = null;
-
-		lessonId = args.lessonId;
-
 		audioWrapper.audioIndex = 0;
+		scope.subIndex = 0;
+		scope.getCurrentLesson = getCurrentLesson;
 
 		// Если статистика по урокам уже была выгружена из хранилища,
 		// то просто осуществляем подготовку данных текущего урока
 		// перед его началом.
 		// В противном случае - осуществляем выгрузку данных,
 		// которая в последующем спровоцирует их подготовку перед началом урока.
-		//------------------------------------------------------------------------
-		// TODO
-		// вынести выгрузку в resolve!!!!
-		//------------------------------------------------------------------------
-		if (lessons && lessons.length) {
-
-			prepareLesson(getCurrentLesson());
-
-		} else {
-
-			loadLessons();
-
-		}
+		prepareLesson(getCurrentLesson());
 
 	}
 

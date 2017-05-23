@@ -35,7 +35,9 @@ function LightCorvette(game, x, y, player) {
 		drag: 10,				// Торможение корабля
 		velocity: 20,			// Скорость корабля
 		angularVelocity: 0.3,	// Скорость разворота
-		trail: true				// Использование огня двигателя
+		trails: [{
+			trailScale: 0.3
+		}]
 	});
 
 	/**

@@ -10,7 +10,7 @@ module.exports = LessonResults;
  */
 function LessonResults(messagesArray) {
 
-	var t = {};
+	let t = {};
 
 	t.resultCorrect = resultCorrect;
 	t.unknownError = unknownError;
@@ -26,9 +26,9 @@ function LessonResults(messagesArray) {
 	function formResult(status, message, css) {
 
 		return {
-			status:  status,
-			message: message,
-			css:     css,
+			status,
+			message,
+			css,
 			penaltyPointsForGame: t.penaltyPointsForGame
 		};
 
@@ -100,7 +100,7 @@ function LessonResults(messagesArray) {
 	 */
 	function resultsWrapper(value) {
 
-		var correctText = value ? value.join('<br>') : '';
+		let correctText = value ? value.join('<br>') : '';
 
 		messagesArray.correct = messagesArray.correct.replace("{{correctText}}", correctText);
 

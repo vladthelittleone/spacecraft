@@ -8,7 +8,7 @@ module.exports = Api;
  */
 function Api(player) {
 
-	var api = {};
+	let api = {};
 
 	return api;
 }

@@ -1,13 +1,13 @@
 'use strict';
 
-var joint = require('jointjs');
+const joint = require('jointjs');
 
 // Экспорт
 module.exports = DiagramHelp();
 
 function DiagramHelp () {
 
-	var t = {};
+	let t = {};
 
 	t.createLink = createLink;
 	t.createBlock = createBlock;

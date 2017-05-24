@@ -5,7 +5,7 @@
  *
  * Подключение директив.
  */
-var app = require('angular').module('spacecraft');
+const app = require('angular').module('spacecraft');
 
 app.directive('bbotBoard', require('./shared/bot-board.directive'));
 app.directive('diagram', require('./shared/diagram.directive'));

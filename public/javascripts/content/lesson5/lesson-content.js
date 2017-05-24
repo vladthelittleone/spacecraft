@@ -9,7 +9,7 @@ module.exports = Content();
 
 function Content() {
 
-	var points = {
+	const points = {
 		// Изначальное число очков у игрока на уроке.
 		totalPoints:    400,
 		// Штрафные очки за действия на уроке.

@@ -6,7 +6,7 @@ module.exports = Lesson();
 function Lesson() {
 
 	// that / this
-	var t = {};
+	let t = {};
 
 	t.preload = require('./preload.json');			// Ресурсы
 	t.lessonContent = require('./lesson-content');	// Контент урока

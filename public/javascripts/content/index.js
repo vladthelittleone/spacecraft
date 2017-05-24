@@ -1,7 +1,7 @@
 'use strict';
 
-var contentArray = [];	// Хранит контент
-var combatContent = require('./combat');
+let contentArray = [];	// Хранит контент
+const combatContent = require('./combat');
 
 // Зависимотси
 contentArray.push(require('./lesson0'));
@@ -24,7 +24,7 @@ module.exports = ContentFactory();
 function ContentFactory() {
 
 	// that / this
-	var t = {};
+	let t = {};
 
 	t.content = content;		// Метод получения контента по идентификатору
 

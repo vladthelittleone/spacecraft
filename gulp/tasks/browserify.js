@@ -23,4 +23,5 @@ module.exports = function() {
         // Передаем имя файла, который получим на выходе, vinyl-source-stream
         .pipe(source('bundle.js'))
         .pipe(gulp.dest('./public/javascripts'));
+	
 };

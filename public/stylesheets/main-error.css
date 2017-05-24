@@ -7,11 +7,12 @@ html {
 }
 
 .bbot-container {
-	z-index: 1000;
 	position: fixed;
-	top: 75%;
-	left: 75%;
+	right: 0;
+	bottom: 0;
+	margin-right: 60px;
 	width: 20%;
+	height: 40%;
 }
 
 .status-href {
@@ -21,14 +22,13 @@ html {
 }
 
 .speech-bubble {
-	position: fixed;
+	position: absolute;
 	color: #000;
 	background:#d6dadb;
 	border-radius: .4em;
-	width: 10%;
-	height: 12%;
-	right: 10%;
-	top: 65%;
+	height: auto;
+	left: 0;
+	top: 0;
 }
 
 .speech-bubble:after {
@@ -51,25 +51,27 @@ html {
 }
 
 .bbot-sprite {
-	margin-top: 20px;
-	height: 45%;
-	width: 27%;
-	float: right;
+	height: 50%;
+	width: 20%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
-.error-code {
+.bbot-sprite img {
+	height: 100%;
+}
+
+.error-code-container {
+	text-align: center;
 	color: #fff;
 	position: fixed;
-	right: 80%;
-	bottom: 75%;
+	left: 0;
+	top: 0;
+}
+
+.error-code-size {
 	font-size: 200px;
-}
-
-.href-container {
-	color: #fff;
-	position: fixed;
-	right: 85%;
-	bottom: 73%;
 }
 
 @media (max-width: 1680px) {
@@ -78,12 +80,10 @@ html {
 		font-size: 15px;
 		padding: 8px;
 		height: 15%;
-		top: 60%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 180px;
-		right: 80%;
 	}
 }
 
@@ -93,12 +93,10 @@ html {
 		font-size: 15px;
 		padding: 8px;
 		height: 15%;
-		top: 60%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 170px;
-		right: 80%;
 	}
 }
 
@@ -108,12 +106,10 @@ html {
 		font-size: 15px;
 		padding: 8px;
 		height: 20%;
-		top: 55%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 150px;
-		right: 80%;
 	}
 }
 
@@ -123,12 +119,10 @@ html {
 		font-size: 12px;
 		padding: 8px;
 		height: 20%;
-		top: 55%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 150px;
-		right: 80%;
 	}
 }
 
@@ -141,9 +135,8 @@ html {
 		height: 20%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 120px;
-		right: 80%;
 	}
 }
 
@@ -153,12 +146,10 @@ html {
 		font-size: 10px;
 		padding: 6px;
 		height: 30%;
-		top: 40%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 100px;
-		right: 80%;
 	}
 }
 
@@ -168,12 +159,10 @@ html {
 		font-size: 8px;
 		padding: 6px;
 		height: 35%;
-		top: 40%;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 100px;
-		right: 80%;
 	}
 }
 
@@ -183,16 +172,14 @@ html {
 		font-size: 8px;
 		padding: 4px;
 		height: 30%;
-		top: 40%;
 	}
 
 	.status-href {
 		font-size: 10px;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 80px;
-		right: 80%;
 	}
 }
 
@@ -201,14 +188,11 @@ html {
 	.speech-bubble {
 		font-size: 5px;
 		padding: 4px;
-		height: 40%;
-		top: 40%;
 		word-wrap: break-word;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 60px;
-		right: 80%;
 	}
 }
 
@@ -216,13 +200,10 @@ html {
 
 	.speech-bubble {
 		font-size: 5px;
-		height: 45%;
-		top: 40%;
 		word-wrap: break-word;
 	}
 
-	.error-code {
+	.error-code-size {
 		font-size: 60px;
-		right: 80%;
 	}
 }

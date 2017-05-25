@@ -154,7 +154,9 @@ function LessonService(connection,
 
 				scope.lessonTable = ch.lessonTable;
 
-				scope.toggleContentEnable('tableEnable');
+				// Если таблица вырублена, то
+				// подрубаем ее
+				!scope.tableEnable && scope.toggleContentEnable('tableEnable');
 
 			}
 

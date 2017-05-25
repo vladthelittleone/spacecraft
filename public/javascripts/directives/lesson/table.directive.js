@@ -1,5 +1,7 @@
 'use strict';
 
+LessonTable.$inject = ['$sce'];
+
 module.exports = LessonTable;
 
 /**
@@ -16,7 +18,7 @@ module.exports = LessonTable;
  *
  * Created by vaimer on 26.04.17.
  */
-function LessonTable() {
+function LessonTable($sce) {
 	var directive = {
 		scope: {
 			lessonTableData: '=' // Данные для таблицы
@@ -31,6 +33,8 @@ function LessonTable() {
 	function link($scope) {
 
 		$scope.hide = true;
+		$scope.trustAsHtml = trustAsHtml;
+
 
 		$scope.$watch('lessonTableData', onLessonTableChange);
 
@@ -39,5 +43,12 @@ function LessonTable() {
 			$scope.hide = !n;
 
 		}
+	}
+
+	// Проверка мошеничества
+	function trustAsHtml(str) {
+
+		return $sce.trustAsHtml(str);
+
 	}
 }

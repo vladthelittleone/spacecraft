@@ -12,7 +12,7 @@ html {
 	bottom: 0;
 	margin-right: 60px;
 	width: 20%;
-	height: 40%;
+	height: 30%;
 }
 
 .status-href {
@@ -24,11 +24,13 @@ html {
 .speech-bubble {
 	position: absolute;
 	color: #000;
-	background:#d6dadb;
+	background: #d6dadb;
 	border-radius: .4em;
-	height: auto;
 	left: 0;
 	top: 0;
+	height: auto;
+	width: 100%;
+	word-wrap: break-word;
 }
 
 .speech-bubble:after {
@@ -51,7 +53,7 @@ html {
 }
 
 .bbot-sprite {
-	height: 50%;
+	height: 70%;
 	width: 20%;
 	position: absolute;
 	bottom: 0;
@@ -74,12 +76,30 @@ html {
 	font-size: 200px;
 }
 
+@media (max-width: 1800px) {
+
+	.speech-bubble {
+		font-size: 14px;
+		padding: 8px;
+	}
+
+	.bbot-container {
+		height: 40%;
+	}
+}
+
+@media (max-width: 1700px) {
+
+	.bbot-container {
+		height: 40%;
+	}
+}
+
 @media (max-width: 1680px) {
 
 	.speech-bubble {
-		font-size: 15px;
+		font-size: 14px;
 		padding: 8px;
-		height: 15%;
 	}
 
 	.error-code-size {
@@ -90,9 +110,12 @@ html {
 @media (max-width: 1600px) {
 
 	.speech-bubble {
-		font-size: 15px;
-		padding: 8px;
-		height: 15%;
+		font-size: 13px;
+		padding: 7px;
+	}
+
+	.bbot-container {
+		height: 40%;
 	}
 
 	.error-code-size {
@@ -100,39 +123,47 @@ html {
 	}
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1500px) {
 
 	.speech-bubble {
-		font-size: 15px;
-		padding: 8px;
-		height: 20%;
+		font-size: 11px;
+		padding: 5px;
+	}
+
+	.bbot-container {
+		height: 40%;
 	}
 
 	.error-code-size {
-		font-size: 150px;
+		font-size: 160px;
 	}
 }
 
 @media (max-width: 1440px) {
 
 	.speech-bubble {
-		font-size: 12px;
-		padding: 8px;
-		height: 20%;
+		font-size: 11px;
+		padding: 4px;
+	}
+
+	.bbot-container {
+		height: 40%;
 	}
 
 	.error-code-size {
 		font-size: 150px;
 	}
 }
-
 
 @media (max-width: 1268px) {
 
 	.speech-bubble {
-		font-size: 12px;
-		padding: 8px;
-		height: 20%;
+		font-size: 10px;
+		padding: 3px;
+	}
+
+	.bbot-container {
+		height: 45%;
 	}
 
 	.error-code-size {
@@ -140,12 +171,21 @@ html {
 	}
 }
 
+@media (max-width: 1124px) {
+
+	.speech-bubble {
+		display: none;
+	}
+
+	.error-code-size {
+		font-size: 110px;
+	}
+}
+
 @media (max-width: 1024px) {
 
 	.speech-bubble {
-		font-size: 10px;
-		padding: 6px;
-		height: 30%;
+		display: none;
 	}
 
 	.error-code-size {
@@ -156,9 +196,7 @@ html {
 @media (max-width: 800px) {
 
 	.speech-bubble {
-		font-size: 8px;
-		padding: 6px;
-		height: 35%;
+		display: none;
 	}
 
 	.error-code-size {
@@ -169,9 +207,7 @@ html {
 @media (max-width: 768px) {
 
 	.speech-bubble {
-		font-size: 8px;
-		padding: 4px;
-		height: 30%;
+		display: none;
 	}
 
 	.status-href {
@@ -186,9 +222,7 @@ html {
 @media (max-width: 480px) {
 
 	.speech-bubble {
-		font-size: 5px;
-		padding: 4px;
-		word-wrap: break-word;
+		display: none;
 	}
 
 	.error-code-size {
@@ -199,8 +233,7 @@ html {
 @media (max-width: 320px) {
 
 	.speech-bubble {
-		font-size: 5px;
-		word-wrap: break-word;
+		display: none;
 	}
 
 	.error-code-size {

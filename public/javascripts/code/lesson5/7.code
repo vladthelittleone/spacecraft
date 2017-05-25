@@ -1,0 +1,9 @@
+// Поменяйте код так, чтобы
+// все команды выводили «true».
+BBotDebug(2 === 3);
+BBotDebug(3 <= 4);
+BBotDebug(1 < 2);
+BBotDebug(4 >= 2);
+BBotDebug(1 > 5);
+BBotDebug(2 !== 2);
+BBotDebug(false);

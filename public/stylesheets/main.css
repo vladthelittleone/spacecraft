@@ -2070,3 +2070,7 @@ fieldset, label {
 	height: 100%
 }
 
+.table-hint-cell {
+	background: rgba(162, 24, 24, 0.85) !important;
+	transition: 1s;
+}

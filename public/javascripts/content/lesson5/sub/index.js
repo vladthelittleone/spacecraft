@@ -6,4 +6,5 @@ module.exports = [require('./1'),
 				  require('./4'),
 				  require('./5'),
 				  require('./6'),
-	              require('./7')];
+	              require('./7'),
+	              require('./8'),];

@@ -10,9 +10,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="row in lessonTableData.rows track by $index">
-						<td ng-repeat="element in row track by $index">
-							{{element}}
+					<tr ng-repeat="row in lessonTableData.rows track by $index"
+						ng-init="rowIndex = $index">
+						<td ng-repeat="element in row track by $index"
+							ng-init="columnIndex = $index"
+							ng-class="{'table-hint-cell' : lessonTableData.hintColumns.includes(columnIndex) &&
+														   lessonTableData.hintRows.includes(rowIndex)}"
+							ng-bind-html="trustAsHtml(element)">
 						</td>
 					</tr>
 				</tbody>

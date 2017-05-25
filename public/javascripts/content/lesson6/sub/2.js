@@ -38,7 +38,7 @@ function IfOperation() {
 					  '</ul>'
 	};
 
-	function gamePostUpdate(shuttle,
+	function gamePostUpdate(corvette,
 							statistics,
 							player,
 							text) {
@@ -62,7 +62,7 @@ function IfOperation() {
 													'<p>Не делайте так больше. Ты разбиваешb мое металлическое сердце!</p>'
 										  });
 
-		if (shuttle.isAlive()) {
+		if (corvette.isAlive()) {
 
 			if (text) {
 

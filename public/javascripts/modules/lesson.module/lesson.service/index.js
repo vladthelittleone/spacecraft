@@ -367,7 +367,7 @@ function LessonService(connection,
 	 * Задача данного метода выполнить все действия, которые присуще ситуации
 	 * окончания текущего подурока.
 	 */
-	function endLastSubLesson() {
+	function endCurrentSubLesson() {
 
 		// Увеличиваем индекс текущего подурока на следующий,
 		// так как в saveStatisticsWrapper должен передавать индекс
@@ -412,7 +412,7 @@ function LessonService(connection,
 
 			// Если урок еще не окончен, завершаем текущий подурок,
 			// чтобы корректно перейти к следующему.
-			endLastSubLesson();
+			endCurrentSubLesson();
 
 			// Обновляем игровые объекты на начальные значения или нет?
 			currentSubLesson().gamePostUpdate &&

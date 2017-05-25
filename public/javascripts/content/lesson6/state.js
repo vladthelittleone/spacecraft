@@ -2,8 +2,13 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
+var UpdateManager = require('../../game/update-manager');
+
+var Random = require('../../utils/random');
 
 var Api = require('./api');
+
+var moment = require('moment');
 
 module.exports = StateWrapper;
 
@@ -11,15 +16,17 @@ function StateWrapper(state) {
 
 	// Дистанция до керриера
 	var PARENT_SHIP_DISTANCE = 200;
+	var LESSON_TIMEOUT = 5000;
 
 	var t = state;
 
 	var player;
-	var graphics;	// Графика
 	var carrier;    // Авианосец
 	var explosions;	// Группа анимации взрывов
+	var updateTime = moment().valueOf();
 
 	t.entities = entities;
+	t.logic = logic;
 
 	return t;
 
@@ -27,8 +34,6 @@ function StateWrapper(state) {
 
 		// Создать шаттл
 		player = carrier.create(corvetteLogic, true);
-
-		player.sprite.rotation = carrier.sprite.rotation;
 
 		// API для урока
 		player.api = Api(player);
@@ -50,13 +55,10 @@ function StateWrapper(state) {
 	 */
 	function entities(game) {
 
-		var x = game.world.centerX;
-		var y = game.world.centerY;
+		var worldCenterX = game.world.centerX;
+		var worldCenterY = game.world.centerY;
 
-		// Инициализация графики
-		graphics = game.add.graphics(0, 0);
-
-		carrier = EntitiesFactory.createCarrier(game, x, y);
+		carrier = EntitiesFactory.createCarrier(game, worldCenterX, worldCenterY);
 		carrier.sprite.rotation = 3 * Math.PI / 2;
 
 		createNewPlayer();
@@ -95,7 +97,7 @@ function StateWrapper(state) {
 		carrier.sprite.bringToTop();
 		player.sprite.destroy();
 
-		setTimeout(createNewPlayer, 5000);
+		setTimeout(createNewPlayer, LESSON_TIMEOUT);
 
 	}
 
@@ -118,4 +120,46 @@ function StateWrapper(state) {
 
 	}
 
+	function generateRandomLogic() {
+
+		var action = [
+			player.moveForward.bind(player),
+			player.rotateLeft.bind(player),
+			player.rotateRight.bind(player)
+		];
+
+		return action[Random.randomInt(0, 2)];
+
+	}
+
+	function logic(game) {
+
+		if(UpdateManager.getSubIndex() === 2) {
+
+			// Пока пользователь не поменял капитана
+			if(!player.api.isTrueCaptain()) {
+
+				let delta = moment().valueOf() - updateTime;
+
+				if (delta > LESSON_TIMEOUT) {
+
+					// Делаем случайные траектории полета корабля
+					player.logic = generateRandomLogic();
+					updateTime = moment().valueOf();
+
+				}
+
+			} else {
+
+				var worldCenterX = game.world.centerX;
+				var worldCenterY = game.world.centerY;
+
+				// Отправляем корабль пользователя к примерному месту начала урока
+				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 300);
+
+			}
+
+		}
+
+	}
 }

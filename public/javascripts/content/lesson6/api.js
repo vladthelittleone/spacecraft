@@ -10,8 +10,12 @@ function Api(player) {
 
 	var api = {};
 
+	var trueCaptain = false;
+
 	api.destroy = destroy;
 	api.isAlive = isAlive;
+	api.setOwner = setOwner;
+	api.isTrueCaptain = isTrueCaptain;
 	api.log = log;
 
 	return api;
@@ -31,6 +35,18 @@ function Api(player) {
 	function log() {
 
 		return 'Прочность: ' + player.sprite.health + '<br> Статус: К.О.';
+
+	}
+
+	function setOwner(owner) {
+
+		trueCaptain = (owner === 'Кадет');
+
+	}
+
+	function isTrueCaptain() {
+
+		return trueCaptain;
 
 	}
 }

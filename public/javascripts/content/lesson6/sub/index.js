@@ -7,5 +7,6 @@
 // Зависимсоти
 var drill = require('./1');
 var ifOperation = require('./2');
+var elseOperation = require('./3');
 
-module.exports = [drill, ifOperation];
+module.exports = [drill, ifOperation, elseOperation];

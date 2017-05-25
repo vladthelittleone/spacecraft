@@ -13,18 +13,13 @@ function Api(player) {
 	var api = {};
 
 	api.isAlive = isAlive;
-	api.moveForward = moveForward;
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
+	api.fire = player.fire;
+	api.moveForward = player.moveForward;
 
 	return api;
-
-	function moveForward() {
-
-		player.moveForward();
-
-	}
 
 	function isAlive() {
 

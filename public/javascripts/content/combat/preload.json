@@ -5,6 +5,7 @@
 		"combat1": "images/sprites/entities/spacecrafts/combat1.png",
 		"fighter": "images/sprites/entities/spacecrafts/fighter.png",
 		"shield": "images/sprites/entities/shared/shield.png",
+		"beam1": "images/sprites/entities/shared/beam1.png",
 		"userShield": "images/sprites/entities/shared/userShield.png",
 		"trail": "images/sprites/entities/shared/trail.png"
 	}

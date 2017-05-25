@@ -60,6 +60,14 @@ function CombatUnit(game, x, y, player, preload) {
 	});
 
 	/**
+	 * Добавляем оружие.
+	 */
+	t.weapon = BlocksFactory.addWeaponBlock({
+		game: game,
+		unit: t
+	});
+
+	/**
 	 * Аудио менеджер.
 	 */
 	t.audio = GameAudioFactory(game, t.sprite, player);

@@ -33,7 +33,11 @@ function FighterUnit(game, x, y, player) {
 		drag: 30,				// Торможение корабля
 		velocity: 20,			// Скорость корабля
 		angularVelocity: 0.2,	// Скорость разворота
-		trail: true				// Использование огня двигателя
+		trails: [{
+			trailY: -26
+		}, {
+			trailY: 26
+		}]
 	});
 
 	/**

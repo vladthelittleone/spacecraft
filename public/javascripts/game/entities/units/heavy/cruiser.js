@@ -32,11 +32,16 @@ function CruiserUnit(game, x, y, player) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game:            game,
 		unit:            t,
-		drag:            200,					// Торможение корабля
-		velocity:        40,					// Скорость корабля
-		angularVelocity: 0.3,					// Скорость разворота
-		trail: true,							// Использование огня двигателя
-		trailX: t.sprite.width / 3 				// Трейл по X
+		drag:            10,					// Торможение корабля
+		velocity:        20,					// Скорость корабля
+		angularVelocity: 0.1,					// Скорость разворота
+		trails: [ {
+			trailY: -10,
+			trailX: 17
+		}, {
+			trailY: 10,
+			trailX: 17
+		} ]
 	});
 
 	/**

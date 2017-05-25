@@ -35,7 +35,9 @@ function TransportUnit(game, x, y, player) {
 		drag:            120,	// Торможение корабля
 		velocity:        60,	// Скорость корабля
 		angularVelocity: 0.5,	// Скорость разворота
-		trail: true				// Использование огня двигателя
+		trails: [{
+			trailScale: 0.5
+		}]		
 	});
 
 	t.cargo = BlocksFactory.addCargoBlock({

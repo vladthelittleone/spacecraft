@@ -5,7 +5,7 @@ var CodeLauncher = require('../../game/launcher');
 
 // Подключаем TabHandler
 var TabHandler = require('../../emitters/tab-handler');
-var Diagram = require('../../directives/diagram.directive/diagram');
+var Diagram = require('../../directives/shared/diagram.directive/diagram');
 
 var lodash = require('lodash');
 
@@ -45,8 +45,6 @@ function LessonController($scope,
 	$scope.hideEditor = false;		    // Переключатель окна урока
 	$scope.audioPause = false;		    // Переключатель кнопки паузы панели управления
 
-	disableLeftContent();
-
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
 	$scope.toggleAudioPause = toggleAudioPause;
@@ -66,6 +64,9 @@ function LessonController($scope,
 	$scope.$on('$destroy', onDestroy);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
+
+	disableLeftContent();
+
 	initVk();
 
 	// ==================================================
@@ -334,7 +335,7 @@ function LessonController($scope,
 
 		if (!CodeLauncher.isCodeRunning) {
 
-			lessonService.intiateRunByUserClick();
+			lessonService.initiateRunByUserClick();
 
 			// При запуске кода
 			// выключаем окно инструкции.

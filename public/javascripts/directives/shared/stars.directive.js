@@ -2,7 +2,7 @@
 
 Stars.$inject = ['connection', '$state'];
 
-var analytics = require('../utils/analytics');
+var analytics = require('../../utils/analytics');
 
 module.exports = Stars;
 

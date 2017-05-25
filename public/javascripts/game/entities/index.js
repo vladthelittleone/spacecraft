@@ -10,16 +10,18 @@ var StaticUnit = require('./units/static/static-unit');
 
 var Cruiser = require('./units/heavy/cruiser');
 var Carrier = require('./units/heavy/carrier');
+var Combat = require('./units/heavy/combat');
+var Fighter = require('./units/heavy/fighter');
 
 var Transport = require('./units/light/transport');
 var Harvester = require('./units/light/harvester');
 var Scout = require('./units/light/scout');
 var LightCorvette = require('./units/light/corvette');
-var Fighter = require('./units/light/fighter');
 
 var RedPlanet = require('./units/base/red-planet');
 var ResearchCenter = require('./units/base/research-center');
 var AcademyBase = require('./units/base/academy-base');
+var Base = require('./units/base/base');
 
 var Random = require('../../utils/random');
 
@@ -47,6 +49,7 @@ function EntitiesFactory() {
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
 
+	t.createBase = createByType(Base);
 	t.createMeteor = createByType(Meteor);
 	t.createTransport = createByType(Transport);
 	t.createHarvester = createByType(Harvester);
@@ -56,6 +59,7 @@ function EntitiesFactory() {
 	t.createResearchCenter = createByType(ResearchCenter);
 	t.createScout = createByType(Scout);
 	t.createCruiser = createByType(Cruiser);
+	t.createCombat = createByType(Combat);
 	t.createCarriersShip = createByType(LightCorvette);
 	t.getWorld = getWorld;
 
@@ -135,9 +139,9 @@ function EntitiesFactory() {
 	 */
 	function createByType(type) {
 
-		return function (game, x, y, player) {
+		return function (game, x, y, player, preload) {
 
-			return create(game, x, y, player, type);
+			return create(game, x, y, player, preload, type);
 
 		}
 
@@ -149,11 +153,12 @@ function EntitiesFactory() {
 	 * @param x координата X объекта
 	 * @param y координата Y объекта
 	 * @param player объект игрока
+	 * @param preload объект спрайта
 	 * @param createFunction функция создания юнита
 	 */
-	function create(game, x, y, player, createFunction) {
+	function create(game, x, y, player, preload, createFunction) {
 
-		var unit = createFunction(game, x, y, player);
+		var unit = createFunction(game, x, y, player, preload);
 
 		var id = world.pushObject(unit);
 

@@ -6,7 +6,7 @@
  */
 module.exports = Trail;
 
-function Trail (game, spaceCraft, trailX, trailY, trailScale){
+function Trail (game, spaceCraft, trailX, trailY, trailScale) {
 
 	var t = {};
 
@@ -19,9 +19,11 @@ function Trail (game, spaceCraft, trailX, trailY, trailScale){
 	// Привязываем трейл к кораблю
 	sprite.addChild(t.emitter);
 
+	trailX = trailX || 0;
+
 	// Устанавливаем относительные координаты
 	t.emitter.y = trailY || 0;
-	t.emitter.x = - trailX || - sprite.width / 2;
+	t.emitter.x = (-sprite.width / 2) + trailX;
 
 	t.emitter.maxParticleScale = trailScale || 1;
 
@@ -29,8 +31,8 @@ function Trail (game, spaceCraft, trailX, trailY, trailScale){
 	t.emitter.lifespan = 100;
 
 	// Скорость появления
-	t.emitter.maxParticleSpeed = new Phaser.Point(-50,25);
-	t.emitter.minParticleSpeed = new Phaser.Point(-100,-25);
+	t.emitter.maxParticleSpeed = new Phaser.Point(-50, 25);
+	t.emitter.minParticleSpeed = new Phaser.Point(-100, -25);
 
 	t.start = start;
 

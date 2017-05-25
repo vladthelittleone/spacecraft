@@ -4,7 +4,7 @@ Spinner.$inject = ['$rootScope', '$timeout'];
 
 var lodash = require('lodash');
 
-var spinnerMessages = require('./../utils/json/messages/spinner.json');
+var spinnerMessages = require('../../utils/json/messages/spinner.json');
 
 module.exports = Spinner;
 

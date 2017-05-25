@@ -36,39 +36,15 @@ function OperatorMod() {
 
 	function interpreterHandler(value) {
 
-		var correctText;
+		var lessonResults = {
 
-		if (value) {
+			correct: '<p>Кадет, еще не уснул? Тогда выполняю:</p>' +
+			         '<p class="bbot-output">{{correctText}}</p>',
 
-			correctText = '';
+			unknownError: '<p>Чт0 здесь вообще прои3ошло?</p>'
 
-			value.forEach(function (v) {
+		};
 
-				if (v) {
-
-					correctText += v + '<br>';
-
-				}
-
-			});
-
-		}
-
-		var lessonResults = LessonResults({
-
-											  correct: '<p>Кадет, еще не уснул? Тогда выполняю:</p>' +
-											  '<p class="bbot-output">' + correctText + '</p>',
-
-											  unknownError: '<p>Чт0 здесь вообще прои3ошло?</p>'
-
-										  });
-
-		if (correctText) {
-
-			return lessonResults.resultCorrect();
-
-		}
-
-		return lessonResults.unknownError();
+		return LessonResults(lessonResults).resultsWrapper(value);
 	}
 }

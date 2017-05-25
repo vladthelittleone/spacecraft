@@ -17,6 +17,7 @@ function StatisticsStorage(connection) {
 
 	that.getUserProgress = getUserProgress;
 	that.saveUserProgress = saveUserProgress;
+	that.clear = clear;
 
 	return that;
 
@@ -25,11 +26,7 @@ function StatisticsStorage(connection) {
 	 */
 	function getUserProgress(success, error) {
 
-		if (!lodash.isEmpty(userProgress)) {
-
-			success && success(userProgress);
-
-		} else {
+		if (lodash.isEmpty(userProgress)) {
 
 			connection.getUserProgress(function (result) {
 
@@ -44,6 +41,10 @@ function StatisticsStorage(connection) {
 
 									   },
 									   error);
+
+		} else {
+
+			success && success(userProgress);
 
 		}
 
@@ -65,6 +66,12 @@ function StatisticsStorage(connection) {
 			});
 
 		}
+	}
+
+	function clear() {
+
+		userProgress = [];
+
 	}
 
 }

@@ -35,8 +35,9 @@ function ScoutUnit(game, x, y, player) {
 		drag:            150,	// Торможение корабля
 		velocity:        80,	// Скорость корабля
 		angularVelocity: 0.8,	// Скорость разворота
-		trailScale:      0.05,
-		trail:           true				// Использование огня двигателя
+		trails:          [{
+			trailScale: 0.05
+		}]
 	});
 
 	t.scanner = BlocksFactory.addScannerBlock({

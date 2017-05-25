@@ -2,7 +2,7 @@
 
 Promises.$inject = ['$q', 'authentication', 'connection', 'statisticsStorage'];
 
-var Game = require('../../game');
+var Game = require('../game');
 
 module.exports = Promises;
 

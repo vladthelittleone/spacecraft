@@ -10,7 +10,7 @@ module.exports = LessonResults;
  */
 function LessonResults(messagesArray) {
 
-	var t = {};
+	let t = {};
 
 	t.resultCorrect = resultCorrect;
 	t.unknownError = unknownError;
@@ -19,15 +19,16 @@ function LessonResults(messagesArray) {
 	t.resultText = resultText;
 	t.result = result;
 	t.resultFaield = resultFailed;
+	t.resultsWrapper = resultsWrapper;
 
 	return t;
 
 	function formResult(status, message, css) {
 
 		return {
-			status:  status,
-			message: message,
-			css:     css,
+			status,
+			message,
+			css,
 			penaltyPointsForGame: t.penaltyPointsForGame
 		};
 
@@ -85,5 +86,30 @@ function LessonResults(messagesArray) {
 
 		return t.unknownError(css);
 
+	}
+
+	/**
+	 * Кастомная реализация для InterpreterHandler.
+	 * Формирует вывод для BBot'a по результату выполнения кода в подуроке.
+	 * Необходимо использовать когда в уроке должен быть вывод и нужно убедиться в его наличии,
+	 * но проверять что выхлопнуло не нужно.
+	 * @param value коллекция, которая содержит выхлоп полученный при интепритации кода в подуроке.
+	 *
+	 * Если при вызове этого в messagesArray.correct есть строка {{correctText}} она будет заменена на выхлом
+	 * полученный на объеденении данных из массива value.
+	 */
+	function resultsWrapper(value) {
+
+		let correctText = value ? value.join('<br>') : '';
+
+		messagesArray.correct = messagesArray.correct.replace("{{correctText}}", correctText);
+
+		if (correctText) {
+
+			return resultCorrect();
+
+		}
+
+		return unknownError();
 	}
 }

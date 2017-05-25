@@ -18,7 +18,7 @@ function Shield(game, x, y, scale, player) {
 	// Центрирование
 	t.anchor.x = 0.5;
 	t.anchor.y = 0.5;
-	t.alpha = 0.3;
+	t.alpha = 0.2;
 
 	scale && t.scale.setTo(scale);
 

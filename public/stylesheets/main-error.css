@@ -6,11 +6,15 @@ html {
 	overflow:hidden;
 }
 
+body {
+	font-family: Arial, sans-serif;
+}
+
 .bbot-container {
 	position: fixed;
 	right: 0;
 	bottom: 0;
-	margin-right: 60px;
+	margin-right: 20px;
 	width: 20%;
 	height: 30%;
 }
@@ -24,10 +28,11 @@ html {
 .speech-bubble {
 	position: absolute;
 	color: #000;
+	font-weight: bold;
 	background: #d6dadb;
 	border-radius: .4em;
-	left: 0;
-	top: 0;
+	right: 50px;
+	bottom: 230px;
 	height: auto;
 	width: 100%;
 	word-wrap: break-word;
@@ -53,8 +58,7 @@ html {
 }
 
 .bbot-sprite {
-	height: 70%;
-	width: 20%;
+	height: 200px;
 	position: absolute;
 	bottom: 0;
 	right: 0;
@@ -68,6 +72,7 @@ html {
 	text-align: center;
 	color: #fff;
 	position: fixed;
+	margin-left: 10px;
 	left: 0;
 	top: 0;
 }
@@ -79,7 +84,7 @@ html {
 @media (max-width: 1800px) {
 
 	.speech-bubble {
-		font-size: 14px;
+		font-size: 15px;
 		padding: 8px;
 	}
 
@@ -110,7 +115,7 @@ html {
 @media (max-width: 1600px) {
 
 	.speech-bubble {
-		font-size: 13px;
+		font-size: 14px;
 		padding: 7px;
 	}
 
@@ -126,7 +131,7 @@ html {
 @media (max-width: 1500px) {
 
 	.speech-bubble {
-		font-size: 11px;
+		font-size: 13px;
 		padding: 5px;
 	}
 
@@ -142,7 +147,7 @@ html {
 @media (max-width: 1440px) {
 
 	.speech-bubble {
-		font-size: 11px;
+		font-size: 12px;
 		padding: 4px;
 	}
 
@@ -158,7 +163,7 @@ html {
 @media (max-width: 1268px) {
 
 	.speech-bubble {
-		font-size: 10px;
+		font-size: 11px;
 		padding: 3px;
 	}
 
@@ -173,7 +178,7 @@ html {
 
 @media (max-width: 1124px) {
 
-	.speech-bubble {
+	.bbot-container {
 		display: none;
 	}
 
@@ -184,7 +189,7 @@ html {
 
 @media (max-width: 1024px) {
 
-	.speech-bubble {
+	.bbot-container {
 		display: none;
 	}
 
@@ -195,7 +200,7 @@ html {
 
 @media (max-width: 800px) {
 
-	.speech-bubble {
+	.bbot-container {
 		display: none;
 	}
 
@@ -206,7 +211,7 @@ html {
 
 @media (max-width: 768px) {
 
-	.speech-bubble {
+	.bbot-container {
 		display: none;
 	}
 
@@ -221,8 +226,12 @@ html {
 
 @media (max-width: 480px) {
 
-	.speech-bubble {
+	.bbot-container {
 		display: none;
+	}
+
+	.status-href {
+		font-size: 10px;
 	}
 
 	.error-code-size {
@@ -232,8 +241,12 @@ html {
 
 @media (max-width: 320px) {
 
-	.speech-bubble {
+	.bbot-container {
 		display: none;
+	}
+
+	.status-href {
+		font-size: 10px;
 	}
 
 	.error-code-size {

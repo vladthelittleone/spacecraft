@@ -10,16 +10,15 @@ module.exports = ConditionOperator();
 function ConditionOperator() {
 
 	var lessonTableColumns = ['Оператор', 'Описание', 'Примеры'];
-
 	var lessonTableRows = [
-			['Равно <span class="red-label">==</span>', 'Возвращает <strong>true</strong>, если операнды равны.', '3 == 3'],
-			['Не равно <span class="red-label">!=</span>', 'Возвращает <strong>true</strong>, если операнды не равны.', '3 != 4'],
-			['Строго равно <span class="red-label">===</span>', 'Возвращает <strong>true</strong>, если операнды равны и имеют одинаковый тип.', '3 === \'3\''],
-			['Строго не равно <span class="red-label">!==</span>', 'Возвращает <strong>true</strong>, если операнды не равны и/или имеют разный тип.', '3 !== "3"'],
-			['Больше <span class="red-label">></span>', 'Возвращает <strong>true</strong>, если операнд слева больше операнда справа.', '3 > 2'],
-			['Больше или равно <span class="red-label">>=</span>', 'Возвращает <strong>true</strong>, если операнд слева больше или равен операнду справа.', '5 >= 5'],
-			['Меньше <span class="red-label"><</span>', 'Возвращает <strong>true</strong>, если операнд слева меньше операнда справа.', '2 < 3'],
-			['Меньше или равно <span class="red-label"><=</span>', 'Возвращает <strong>true</strong>, если операнд слева меньше или равен операнду справа.', '3 <= 3']];
+			['<strong>==</strong>', 'Возвращает <strong>true</strong>, если операнды равны.', '3 == 3'],
+			['<strong>!=</strong>', 'Возвращает <strong>true</strong>, если операнды не равны.', '3 != 4'],
+			['<strong>===</strong>', 'Возвращает <strong>true</strong>, если операнды равны и имеют одинаковый тип.', '3 === \'3\''],
+			['<strong>!==</strong>', 'Возвращает <strong>true</strong>, если операнды не равны и/или имеют разный тип.', '3 !== "3"'],
+			['<strong>></strong>', 'Возвращает <strong>true</strong>, если операнд слева больше операнда справа.', '3 > 2'],
+			['<strong>>=</strong>', 'Возвращает <strong>true</strong>, если операнд слева больше или равен операнду справа.', '5 >= 5'],
+			['<strong><</strong>', 'Возвращает <strong>true</strong>, если операнд слева меньше операнда справа.', '2 < 3'],
+			['<strong><=</strong>', 'Возвращает <strong>true</strong>, если операнд слева меньше или равен операнду справа.', '3 <= 3']];
 
 	return {
 		isRestartDisabled:  true,
@@ -93,7 +92,13 @@ function ConditionOperator() {
 
 		var lessonResults = LessonResults({
 
-			correct: '<p>Испытание окончен0. Скушай т0ртик.</p>',
+		    correct: '<p>Испытание окончен0. Скушай т0ртик.</p>' +
+					 '<p class="bbot-output">true</p>' +
+					 '<p class="bbot-output">true</p>' +
+					 '<p class="bbot-output">true</p>' +
+					 '<p class="bbot-output">true</p>' +
+					 '<p class="bbot-output">true</p>' +
+					 '<p class="bbot-output">true</p>',
 			unknownError: '<p>Все в норме? Моей колонии р0ботов нужны умные рабы. Шучу. ' +
 			'Внимательней про4итайте инструкции и попробуйте снова.</p>'
 

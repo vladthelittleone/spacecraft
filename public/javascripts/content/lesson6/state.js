@@ -8,6 +8,8 @@ var Random = require('../../utils/random');
 
 var Api = require('./api');
 
+var moment = require('moment');
+
 module.exports = StateWrapper;
 
 function StateWrapper(state) {
@@ -19,15 +21,12 @@ function StateWrapper(state) {
 	var t = state;
 
 	var player;
-	var graphics;	// Графика
 	var carrier;    // Авианосец
 	var explosions;	// Группа анимации взрывов
-
-	// Координаты центра мира
-	var worldCenterX;
-	var worldCenterY;
+	var updateTime = moment().valueOf();
 
 	t.entities = entities;
+	t.logic = logic;
 
 	return t;
 
@@ -35,8 +34,6 @@ function StateWrapper(state) {
 
 		// Создать шаттл
 		player = carrier.create(corvetteLogic, true);
-
-		player.sprite.rotation = carrier.sprite.rotation;
 
 		// API для урока
 		player.api = Api(player);
@@ -58,11 +55,8 @@ function StateWrapper(state) {
 	 */
 	function entities(game) {
 
-		worldCenterX = game.world.centerX;
-		worldCenterY = game.world.centerY;
-
-		// Инициализация графики
-		graphics = game.add.graphics(0, 0);
+		var worldCenterX = game.world.centerX;
+		var worldCenterY = game.world.centerY;
 
 		carrier = EntitiesFactory.createCarrier(game, worldCenterX, worldCenterY);
 		carrier.sprite.rotation = 3 * Math.PI / 2;
@@ -73,8 +67,6 @@ function StateWrapper(state) {
 		explosions = game.add.group();
 		explosions.createMultiple(10, 'explosion');
 		explosions.forEach(initExplosion, this);
-
-		setTimeout(createRandomLogicForSpaceCraft, LESSON_TIMEOUT);
 
 	}
 
@@ -130,42 +122,42 @@ function StateWrapper(state) {
 
 	function generateRandomLogic() {
 
-		var randomNumber = Random.randomInt(0, 2);
-
 		var action = [
 			player.moveForward.bind(player),
 			player.rotateLeft.bind(player),
 			player.rotateRight.bind(player)
 		];
 
-		return action[randomNumber];
+		return action[Random.randomInt(0, 2)];
 
 	}
 
-	function createRandomLogicForSpaceCraft() {
+	function logic(game) {
 
 		if(UpdateManager.getSubIndex() === 2) {
 
 			// Пока пользователь не поменял капитана
 			if(!player.api.isTrueCaptain()) {
 
-				// Делаем случайные траектории полета корабля
-				player.logic = generateRandomLogic();
+				let delta = moment().valueOf() - updateTime;
 
-				setTimeout(createRandomLogicForSpaceCraft, LESSON_TIMEOUT);
+				if (delta > LESSON_TIMEOUT) {
+
+					// Делаем случайные траектории полета корабля
+					player.logic = generateRandomLogic();
+					updateTime = moment().valueOf();
+
+				}
 
 			} else {
+
+				var worldCenterX = game.world.centerX;
+				var worldCenterY = game.world.centerY;
 
 				// Отправляем корабль пользователя к примерному месту начала урока
 				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 300);
 
 			}
-
-		}
-
-		if(UpdateManager.getSubIndex() < 2) {
-
-			setTimeout(createRandomLogicForSpaceCraft, LESSON_TIMEOUT);
 
 		}
 

@@ -375,8 +375,6 @@ function LessonService(connection,
 		// Именно этим и обусловлено расположение этого выражения здесь.
 		UpdateManager.setSubIndex(++scope.subIndex);
 
-		UpdateManager.setSubIndex(scope.subIndex);
-
 		// Сохраняем статистику текущего положения по уроку.
 		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
 
@@ -483,6 +481,8 @@ function LessonService(connection,
 
 			// Индекс подурока (% используется на случай изменений в размерах).
 			scope.subIndex = scope.subIndex % size;
+
+			UpdateManager.setSubIndex(scope.subIndex);
 
 			// Если урок был окончен, тогда в currentLessonStatistics необходимо
 			// сбросить начальные значение параметров статистики (currentScore; currentRunCount),

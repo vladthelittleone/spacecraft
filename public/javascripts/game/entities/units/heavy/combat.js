@@ -14,7 +14,7 @@ module.exports = CombatUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function CombatUnit(game, x, y, player, preload) {
+function CombatUnit({game, x, y, player, preload, faction}) {
 
 	// that / this
 	var t = {};
@@ -25,8 +25,7 @@ function CombatUnit(game, x, y, player, preload) {
 	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, preload);
 	t.sprite.health = 150;
 	t.sprite.maxHealth = 150;
-
-	t.isPlayer = player;
+	t.faction = faction;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -64,7 +63,8 @@ function CombatUnit(game, x, y, player, preload) {
 	 */
 	t.weapon = BlocksFactory.addWeaponBlock({
 		game: game,
-		unit: t
+		unit: t,
+		faction: faction
 	});
 
 	/**
@@ -77,11 +77,12 @@ function CombatUnit(game, x, y, player, preload) {
 	return t;
 
 	/**
-	 * Обновление транспорта.
+	 * Обновление.
 	 */
 	function update() {
 
 		t.engine.update();
+		t.weapon.update();
 
 		t.logic && t.logic(t);
 

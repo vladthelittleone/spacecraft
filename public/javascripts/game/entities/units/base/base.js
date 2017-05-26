@@ -13,10 +13,10 @@ module.exports = BaseUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function BaseUnit(game, x, y, preload) {
+function BaseUnit({game, x, y, preload}) {
 
 	// that / this
-	var t = {};
+	let t = {};
 
 	/**
 	 * Создаем спрайт.

@@ -6,7 +6,7 @@ var Game = require('../../../game');
 var CodeLauncher = Game.codeLauncher;
 var UpdateManager = Game.updateManager;
 var ContentFactory = Game.content;
-var EntitiesFactory = Game.world;
+var World = Game.world;
 
 var Interpreter = require('./interpreter');
 var LessonStatistics = require('../../../utils/lesson-statistics');
@@ -142,7 +142,7 @@ function LessonService(connection,
 			// Если урок с диграммой, то добавляем панель диаграммы
 			if (ch.diagram) {
 
-				scope.toggleContentEnable('diagramEnable');
+				scope.setContentEnable('diagramEnable');
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
@@ -157,7 +157,7 @@ function LessonService(connection,
 
 				// Если таблица вырублена, то
 				// подрубаем ее
-				!scope.tableEnable && scope.toggleContentEnable('tableEnable');
+				scope.setContentEnable('tableEnable');
 
 			}
 
@@ -659,10 +659,9 @@ function LessonService(connection,
 	function gamePostUpdate(botText) {
 
 		var current = currentSubLesson();
-		var world = EntitiesFactory.getWorld();
-		var player = world.getPlayer();
+		var player = World.getPlayer();
 
-		var result = current.gamePostUpdate(player.api, currentLessonStatistics, world, botText);
+		var result = current.gamePostUpdate(player.api, currentLessonStatistics, botText);
 
 		if (result && result.status) {
 

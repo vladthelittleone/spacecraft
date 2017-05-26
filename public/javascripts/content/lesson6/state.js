@@ -58,7 +58,12 @@ function StateWrapper(state) {
 		var worldCenterX = game.world.centerX;
 		var worldCenterY = game.world.centerY;
 
-		carrier = EntitiesFactory.createCarrier(game, worldCenterX, worldCenterY);
+		carrier = EntitiesFactory.createCarrier({
+			game: game,
+			x: worldCenterX,
+			y: worldCenterY
+		});
+
 		carrier.sprite.rotation = 3 * Math.PI / 2;
 
 		createNewPlayer();

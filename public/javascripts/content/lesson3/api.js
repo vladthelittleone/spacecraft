@@ -20,6 +20,7 @@ function Api(player) {
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
+	api.cargoUnloadWithoutFlag = player.cargoUnload;
 	api.isCargoLoad = isCargoLoad;
 	api.cargoLoad = cargoLoad;
 	api.cargoUnload = cargoUnload;

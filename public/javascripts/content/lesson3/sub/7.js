@@ -42,7 +42,6 @@ function goToResearchCenter() {
 
 	function gamePostUpdate(harvester,
 							lesson,
-							player,
 							text) {
 
 		var lessonResults = LessonResults({

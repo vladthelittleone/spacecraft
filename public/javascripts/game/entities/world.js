@@ -1,9 +1,11 @@
 'use strict';
 
 // Зависимости
+var lodash = require('lodash');
+
 var sequence = require('../../utils/sequence');
 
-module.exports = World;
+module.exports = World();
 
 /**
  * Объект, хранящий все объекты мира.
@@ -13,11 +15,14 @@ module.exports = World;
  */
 function World() {
 
-	var t = {};
+	let t = {};
 
-	var playerId;			// Игрок
-	var objects = [];	// Массив всех объектов
+	let game;			// Игра
+	let playerId;		// Игрок
+	let objects = [];	// Массив всех объектов
+	let factions = {};
 
+	t.initialization = initialization;
 	t.pushObject = pushObject;
 	t.removeObject = removeObject;
 	t.get = get;
@@ -25,8 +30,36 @@ function World() {
 	t.update = update;
 	t.getPlayer = getPlayer;
 	t.setPlayer = setPlayer;
+	t.getFactionEnemyGroups = getFactionEnemyGroups;
 
 	return t;
+
+
+
+	/**
+	 * Добавляем объект к заданной фракции.
+	 *
+	 * @param faction фракция
+	 * @param obj объект
+	 */
+	function addToFaction(obj, faction) {
+
+		if (!factions[faction]) {
+
+			factions[faction] = {
+				objects: [],
+				group:   game.add.physicsGroup()
+			};
+
+		}
+
+		// Добавляем в пулл объектов фракции.
+		factions[faction].objects.push(obj);
+
+		// Добавляем в phaser группу
+		factions[faction].group.add(obj.sprite);
+
+	}
 
 	/**
 	 * Добавить новый объект.
@@ -34,13 +67,44 @@ function World() {
      */
 	function pushObject(obj) {
 
-		var id = sequence.next();
+		let id = sequence.next();
+		let faction = obj.faction;
 
 		obj.id = id;
 
 		objects[id] = obj;
 
+		faction && addToFaction(obj, faction);
+
 		return obj.id;
+
+	}
+
+	/**
+	 * Выполнить действия с phaser-группами врагов фракции.
+	 *
+	 * @param faction фракция
+	 * @param action действия
+	 */
+	function getFactionEnemyGroups(faction, action) {
+
+		var groups = [];
+
+		lodash.forEach(factions, (v, k) => {
+
+			if (k != faction) {
+
+				let group = v.group;
+
+				action && action(group);
+
+				groups = lodash.concat(groups, group)
+
+			}
+
+		});
+
+		return groups;
 
 	}
 
@@ -76,11 +140,7 @@ function World() {
 	 */
 	function update() {
 
-		objects.forEach(function (e) {
-
-			e.update && e.update(e);
-
-		});
+		objects.forEach(e => e.update && e.update(e));
 
 	}
 
@@ -90,6 +150,7 @@ function World() {
 	function getPlayer() {
 
 		return get(playerId);
+
 	}
 
 	/**
@@ -103,5 +164,20 @@ function World() {
 		playerId = id;
 
 	}
+
+	/**
+	 * Инициализация.
+	 */
+	function initialization(_game) {
+
+		game = _game;
+
+		objects = [];
+		factions = {};
+		playerId = null;
+
+	}
+
+
 
 }

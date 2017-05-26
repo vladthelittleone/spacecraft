@@ -22,7 +22,7 @@ function Strings() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Введите в редакторе кода строку: <span class="red-label">\'Я есть BBot!\'</span></li>' +
+							'<li>Введите в редакторе кода строку: <span class="under-label">\'Я есть BBot!\'</span></li>' +
 							'<li>Больше информации о строках: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Строки">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +

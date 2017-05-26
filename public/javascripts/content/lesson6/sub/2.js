@@ -26,8 +26,8 @@ function IfOperation() {
 		content: content,
 
 		hint: '<ul>' +
-			  '<li>Измените условие <strong>8</strong> строки на <span class="red-label">2 > 2</span>.</li>' +
-			  '<li>Измените условие <strong>15</strong> строки на <span class="red-label">5 > 3</span>.</li>' +
+			  '<li>Измените условие <strong>8</strong> строки на <span class="under-label">2 > 2</span>.</li>' +
+			  '<li>Измените условие <strong>15</strong> строки на <span class="under-label">5 > 3</span>.</li>' +
 			  '</ul>',
 
 		instructions: '<ul>' +
@@ -40,7 +40,6 @@ function IfOperation() {
 
 	function gamePostUpdate(corvette,
 							statistics,
-							player,
 							text) {
 
 		var lessonResults = LessonResults({

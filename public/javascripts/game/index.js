@@ -8,6 +8,7 @@ var ContentFactory = require('../content');
 var EntitiesFactory = require('./entities');
 var CodeLauncher = require('./launcher');
 var UpdateManager = require('./update-manager');
+var World = require('./entities/world');
 
 // Экспорт
 module.exports = Game();
@@ -24,7 +25,8 @@ function Game() {
 	var t = {};
 
 	t.content = ContentFactory;		// Фабрика контента уроков
-	t.world = EntitiesFactory;		// Фабрика мира и объектов
+	t.world = World;				// Мир
+	t.factory = EntitiesFactory;    // Фабрика мира и объектов
 	t.codeLauncher = CodeLauncher;	// Синглтон заупска кода
 	t.updateManager = UpdateManager;// Менеджер обновления
 
@@ -42,7 +44,7 @@ function Game() {
 		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.CANVAS, 'game-canvas');
 
 		// Выполняем инициализацию контейнера игровых объектов.
-		EntitiesFactory.initialization();
+		World.initialization(t.phaser);
 
 		var content = ContentFactory.content(id);
 
@@ -65,7 +67,7 @@ function Game() {
 	function restart() {
 
 		// Выполняем инициализацию контейнера игровых объектов.
-		EntitiesFactory.initialization();
+		World.initialization(t.phaser);
 
 		// Стартуем boot состояние.
 		t.phaser.state.start('boot');

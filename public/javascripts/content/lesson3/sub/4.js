@@ -32,8 +32,8 @@ function TaskWithVariables() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>На <strong>3</strong> строке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="red-label">var</span>.</li>' +
-					  '<li>Задайте переменной значение <span class="red-label">\'Ионная пушка\'</span>.</li>' +
+					  '<li>На <strong>3</strong> строке объявите переменную <span class="red-label">container</span>, с помощью ключевого слова <span class="under-label">var</span>.</li>' +
+					  '<li>Задайте переменной значение <span class="under-label">\'Ионная пушка\'</span>.</li>' +
 					  '</ul>'
 	};
 

@@ -1,7 +1,11 @@
 'use strict';
 
+// Внешние зависимости.
+var lodash = require('lodash');
+
+// Внутренние зависимости.
 var CodeLauncher = require('../launcher');
-var EntitiesFactory = require('../entities');
+var World = require('../entities/world');
 
 module.exports = PlayState;
 
@@ -76,11 +80,10 @@ function PlayState(game) {
 	 */
 	function update() {
 
-		var u = [];
+		let u = [];
 
 		// Объекты игрового мира
-		var objects = EntitiesFactory.getWorld()
-									 .getObjects();
+		let objects = World.getObjects();
 
 		u = u.concat(objects)
 			 .concat(t.updates);

@@ -22,7 +22,10 @@ module.exports = Game();
 function Game() {
 
 	// that / this
-	var t = {};
+	let t = {};
+
+	let playState;		// Состояние игры.
+	let preloadState;	// Состояние подгрузки.
 
 	t.content = ContentFactory;		// Фабрика контента уроков
 	t.world = World;				// Мир
@@ -33,6 +36,7 @@ function Game() {
 	t.destroy = destroy;
 	t.initialization = initialization;
 	t.restart = restart;
+	t.pushContextParameters = pushContextParameters;
 
 	return t;
 
@@ -41,17 +45,20 @@ function Game() {
 	 */
 	function initialization(id, successCallback) {
 
+		// Инициализация игры.
 		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.CANVAS, 'game-canvas');
 
 		// Выполняем инициализацию контейнера игровых объектов.
 		World.initialization(t.phaser);
 
-		var content = ContentFactory.content(id);
+		// Получаем контент с заданным идентификатором.
+		let content = ContentFactory.content(id);
 
-		// Игровые состояния
+		// Игровые состояния.
 		StatesManager.createBootState(t.phaser, 'boot');
-		var preloadState = StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
-		StatesManager.createWrappedPlayState(t.phaser, 'play', content.state);
+
+		preloadState = StatesManager.createPreloadState(t.phaser, 'preload', content.preload);
+		playState = StatesManager.createWrappedPlayState(t.phaser, 'play', content.state);
 
 		// Стартуем boot состояние.
 		t.phaser.state.start('boot');
@@ -71,6 +78,19 @@ function Game() {
 
 		// Стартуем boot состояние.
 		t.phaser.state.start('boot');
+
+	}
+
+	/**
+	 * Метод передает параметры из контекста ангуляра в
+	 * контекст игры. Например: индекс урока.
+	 *
+	 * @param args агрументы инициализация
+	 */
+	function pushContextParameters(args) {
+
+		// Проверяем есть ли у стейта метод onContentLoaded.
+		playState && playState.pushContextParameters(args);
 
 	}
 

@@ -2,7 +2,6 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var UpdateManager = require('../../game/update-manager');
 
 var Api = require('./api');
 
@@ -22,6 +21,7 @@ function StateWrapper(state) {
 
 	t.entities = entities;
 	t.logic = logic;
+	t.onContextLoaded = onContextLoaded;
 
 	return t;
 
@@ -30,16 +30,6 @@ function StateWrapper(state) {
 		player.sprite.x = 400;
 		player.sprite.y = 2000;
 		player.sprite.rotation = 0.5 * Math.PI / 2;
-
-	}
-
-	function createNewTransports(game) {
-
-		var t1 = EntitiesFactory.createTransport({game: game, x: 1000, y: 0});
-		var t2 = EntitiesFactory.createTransport({game: game, x: 1050, y: 0});
-
-		patrol(t1, 1000, 0, 1000, 3000);
-		t2.logic = t2.moveToXY.bind(t2, 1050, 3500);
 
 	}
 
@@ -56,18 +46,15 @@ function StateWrapper(state) {
 	/**
 	 * Логика в конкретном подуроке.
 	 */
-	function subLessonLogic(game) {
+	function onContextLoaded(game, {subIndex: index}) {
 
-		if (UpdateManager.getSubIndex() > 4) {
+		if (index > 4) {
 
 			sensor.sprite.visible = false;
 
-			createNewCruiser(game);
-
-			createNewTransports(game);
 		}
 
-		if(UpdateManager.getSubIndex() > 5) {
+		if(index > 5) {
 
 			changePlayerCoordinates();
 
@@ -139,8 +126,6 @@ function StateWrapper(state) {
 
 		// Корабль на верх.
 		player.sprite.bringToTop();
-
-		subLessonLogic(game);
 
 		CodeLauncher.setArguments(player.api);
 	}

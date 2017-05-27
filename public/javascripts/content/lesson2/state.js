@@ -3,7 +3,6 @@
 // Зависимости
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var UpdateManager = require('../../game/update-manager');
 
 var Api = require('./api');
 
@@ -24,15 +23,16 @@ function StateWrapper(state) {
 
 	t.entities = entities;
 	t.logic = logic;
+	t.onContextLoaded = onContextLoaded;
 
 	return t;
 
 	/**
 	 * Логика в конкретном подуроке.
 	 */
-	function subLessonLogic() {
+	function onContextLoaded(game, {subIndex: index}) {
 
-		if (UpdateManager.getSubIndex() > 0) {
+		if (index  > 0) {
 
 			player.sprite.x = 2000;
 			player.sprite.y = 2000;
@@ -113,8 +113,6 @@ function StateWrapper(state) {
 
 		// Фокус на на центре
 		t.followFor(sprite);
-
-		subLessonLogic();
 
 		CodeLauncher.setArguments(player.api);
 

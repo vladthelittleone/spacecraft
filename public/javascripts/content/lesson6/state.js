@@ -2,7 +2,6 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var UpdateManager = require('../../game/update-manager');
 
 var Random = require('../../utils/random');
 
@@ -26,7 +25,7 @@ function StateWrapper(state) {
 	var updateTime = moment().valueOf();
 
 	t.entities = entities;
-	t.logic = logic;
+	t.onContextLoaded = onContextLoaded;
 
 	return t;
 
@@ -137,9 +136,9 @@ function StateWrapper(state) {
 
 	}
 
-	function logic(game) {
+	function onContextLoaded(game, {subIndex: index}) {
 
-		if(UpdateManager.getSubIndex() === 2) {
+		if(index === 2) {
 
 			// Пока пользователь не поменял капитана
 			if(!player.api.isTrueCaptain()) {
@@ -163,6 +162,9 @@ function StateWrapper(state) {
 				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 300);
 
 			}
+
+			// Указываем, что необходимо повторять.
+			return true;
 
 		}
 

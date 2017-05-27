@@ -157,7 +157,7 @@ function LessonService(connection,
 
 				// Если таблица вырублена, то
 				// подрубаем ее
-				scope.setContentEnable('tableEnable');
+				!scope.tableEnable && scope.setContentEnable('tableEnable');
 
 			}
 
@@ -307,6 +307,10 @@ function LessonService(connection,
 		// Текущий подурок
 		var current = currentSubLesson();
 
+		// Передаем контекстные параметры в текущий стейт игры.
+		// Смотреть: content/state.js, метод onContextLoaded.
+		Game.pushContextParameters({subIndex: scope.subIndex});
+
 		// Отправка запроса на получение кода следующего уркоа
 		connection.getLessonCodeFromJs(lessonId, scope.subIndex, function (res) {
 
@@ -375,7 +379,7 @@ function LessonService(connection,
 		// так как в saveStatisticsWrapper должен передавать индекс
 		// именно следующего урока, а не текущего, который пользователь прошел.
 		// Именно этим и обусловлено расположение этого выражения здесь.
-		UpdateManager.setSubIndex(++scope.subIndex);
+		++scope.subIndex;
 
 		// Сохраняем статистику текущего положения по уроку.
 		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
@@ -483,8 +487,6 @@ function LessonService(connection,
 
 			// Индекс подурока (% используется на случай изменений в размерах).
 			scope.subIndex = scope.subIndex % size;
-
-			UpdateManager.setSubIndex(scope.subIndex);
 
 			// Если урок был окончен, тогда в currentLessonStatistics необходимо
 			// сбросить начальные значение параметров статистики (currentScore; currentRunCount),

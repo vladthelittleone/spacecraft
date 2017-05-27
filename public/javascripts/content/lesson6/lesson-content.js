@@ -4,28 +4,24 @@
 module.exports = Content();
 
 /**
- * Created by vaimer on 15.02.2017.
+ * @author Aleksandrov Oleg
+ * @since 26.05.17
  */
 function Content() {
 
 	var points = {
-		// Изначальное число очков у игрока на уроке.
-		totalPoints: 500,
+		totalPoints: 280,
 		// Штрафные очки за действия на уроке.
-		exception: 35,
-		incorrectInput: 25,
-		shuttleDestroy: 50
+		incorrectAnswer: 40
 	};
 
 	return {
-		text:  'Поиск истины или как проверить еду на яд',
-		label: 'Основы JavaScript',
-		quote: 'У истины простая речь.',
-		defs: require('./autocomplete.json'),
-		sub:   require('./sub'),
-		isGameLesson: true,
-		points: points,
-		maxAttemptLessonCountForBonus: 4
+		text:                          'Тестирование 2',
+		label:                         'Основы JavaScript',
+		quote:                         'Новые горизонты, новые вопросы.',
+		sub:                           require('./sub'),
+		points:                        points,
+		maxAttemptLessonCountForBonus: 3
 	};
 
 }

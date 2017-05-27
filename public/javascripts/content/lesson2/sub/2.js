@@ -20,7 +20,7 @@ function Scanning() {
 						   '<li>Не забудьте про точку с запятой.</li>' +
 						   '</ul>',
 		hint:              '<ul>' +
-						   '<li>Добавьте <span class="under-label-gray">scout.scan();</span> на <strong>8</strong> строку.</li>' +
+						   '<li>Добавьте <span class="red-label">scout.scan();</span> на <strong>8</strong> строку.</li>' +
 						   '</ul>',
 		character:         [{
 			audio: 'audio/lesson3/2-1',

@@ -12,7 +12,7 @@ module.exports = FighterUnit;
  * Created by vaimer on 04.03.2017.
  */
 
-function FighterUnit(game, x, y, player) {
+function FighterUnit({game, x, y, player}) {
 
 	// that / this
 	var t = {};

@@ -3,29 +3,42 @@
 // Экспорт
 module.exports = WeaponBlock;
 
+var world = require('../world');
+
 /**
  * Блок оружия, который может быть добавлен к кораблю.
+ *
+ * @param fireRate период одного выстрела
+ * @param game игра
+ * @param unit юнит
+ * @param bulletSpeed скорость пули
+ * @param quantity кол-во пуль в корабле
+ * @param bulletKillDistance дистанция полета пули
+ * @param offsetX офсет относительно корабля по X
+ * @param offsetY офсет относительно корабля по Y
  *
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function WeaponBlock(spec) {
+function WeaponBlock({
+	game,
+	unit,
+	fireRate = 1000,
+	bulletSpeed = 200,
+	quantity = 30,
+	bulletKillDistance = 200,
+	offsetX,
+	offsetY
+}) {
 
 	// that / this
 	let t = {};
 
-	let fireRate = spec.fireRate || 1000;
-	let bulletSpeed = spec.bulletSpeed || 200;
-	let offsetX = spec.offsetX;
-	let offsetY = spec.offsetY;
-	let quantity = spec.quantity || 30;
-	let bulletKillDistance = spec.range || 200;
-
-	let game = spec.game;
-	let unit = spec.unit;
 	let weapon = game.add.weapon(quantity, 'beam1');
 
 	unit.fire = fire;
+
+	t.update = update;
 
 	initialization();
 
@@ -55,9 +68,25 @@ function WeaponBlock(spec) {
 
 	}
 
-	function fire () {
+	function fire() {
 
+		weapon.fireAngle = unit.sprite.angle;
 		weapon.fire();
+
+	}
+
+	function update() {
+
+		var groups = world.getFactionEnemyGroups(unit.faction);
+
+		game.physics.arcade.overlap(weapon.bullets, groups, hitEnemy, null, t);
+
+	}
+
+	function hitEnemy(bullet, enemy) {
+
+		bullet.kill();
+		enemy.kill();
 
 	}
 

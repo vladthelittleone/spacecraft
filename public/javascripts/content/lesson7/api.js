@@ -12,14 +12,19 @@ function Api(player) {
 
 	var trueCaptain = false;
 
-	api.destroy = destroy;
 	api.isAlive = isAlive;
 	api.setOwner = setOwner;
 	api.isTrueCaptain = isTrueCaptain;
 	api.log = log;
-	api.destroy = player.sprite.kill;
+	api.destroy = destroy;
 
 	return api;
+
+	function destroy() {
+
+		player.sprite.kill();
+
+	}
 
 	function isAlive() {
 

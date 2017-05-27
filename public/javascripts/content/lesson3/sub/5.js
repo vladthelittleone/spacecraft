@@ -31,7 +31,7 @@ function TakingSensor() {
 		content: content,
 
 		instructions: '<ul>' +
-					  '<li>На строке <strong>13</strong> необходимо использовать команду <span class="red-label">harvester.cargoLoad(container)</span>.</li>' +
+					  '<li>На строке <strong>17</strong> необходимо использовать команду <span class="red-label">harvester.loadCargo(container)</span>.</li>' +
 					  '</ul>'
 	};
 
@@ -46,7 +46,7 @@ function TakingSensor() {
 
 		if (harvester.isCargoLoad() &&
 			harvester.isNearPoint(2170, 2080) &&
-			lodash.isEqual(harvester.cargoUnloadWithoutFlag(), 'Вражеский датчик')) {
+			lodash.isEqual(harvester.unloadCargoWithoutFlag(), 'Вражеский датчик')) {
 
 			return lessonResults.resultCorrect();
 
@@ -58,7 +58,7 @@ function TakingSensor() {
 
 		return '<p>Отлично кадет, вы прошли вводный курс, теперь можно приступать к заданию.</p>' +
 			'<p>Вам необходимо поместить датчик в грузовой отсек корабля. Это можно сделать с помощью команды:</p>' +
-			'<pre><strong>harvester</strong>.cargoLoad(container);</pre>';
+			'<pre><strong>harvester</strong>.loadCargo(container);</pre>';
 
 	}
 }

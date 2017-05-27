@@ -13,7 +13,7 @@ module.exports = AcademyBaseUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function AcademyBaseUnit(game, x, y) {
+function AcademyBaseUnit({game, x, y}) {
 
 	// that / this
 	var t = {};

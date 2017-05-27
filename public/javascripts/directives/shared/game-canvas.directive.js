@@ -25,7 +25,7 @@ function GameCanvas() {
 
 	function link($scope) {
 
-		$scope.world = Game.world.getWorld();
+		$scope.world = Game.world;
 		$scope.fillArray = fillArray;
 		$scope.$on('$destroy', onDestroy);
 

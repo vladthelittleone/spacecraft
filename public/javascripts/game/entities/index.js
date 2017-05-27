@@ -3,7 +3,6 @@
 // Зависимости
 
 // Сущности
-var World = require('./world');
 var Meteor = require('./units/static/meteor');
 var Mine = require('./units/static/mine');
 var StaticUnit = require('./units/static/static-unit');
@@ -23,6 +22,7 @@ var ResearchCenter = require('./units/base/research-center');
 var AcademyBase = require('./units/base/academy-base');
 var Base = require('./units/base/base');
 
+var World = require('./world');
 var Random = require('../../utils/random');
 
 // Экспорт
@@ -39,16 +39,13 @@ function EntitiesFactory() {
 	// that / this
 	var t = {};
 
-	var world;	// Контейнер объектов.
-
-	t.initialization = initialization;
 	t.createMeteorField = createMeteorField;
 	t.createMeteorFiledSphere = createMeteorFiledSphere;
-	t.createCarrier = createCarrier;
 
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
 
+	t.createCarrier = createByType(Carrier);
 	t.createBase = createByType(Base);
 	t.createMeteor = createByType(Meteor);
 	t.createTransport = createByType(Transport);
@@ -61,14 +58,13 @@ function EntitiesFactory() {
 	t.createCruiser = createByType(Cruiser);
 	t.createCombat = createByType(Combat);
 	t.createCarriersShip = createByType(LightCorvette);
-	t.getWorld = getWorld;
 
 	return t;
 
 	/**
 	 * Создать метеоритное поле.
 	 */
-	function createMeteorField(game, x, y) {
+	function createMeteorField({game, x, y}) {
 
 		var radius = Phaser.Point.distance(new Phaser.Point(x, y), new Phaser.Point(0, 0));
 
@@ -100,8 +96,15 @@ function EntitiesFactory() {
 		};
 
 		createMeteors(game, args);
+
 	}
 
+	/**
+	 * Создание несколько метеоритов.
+	 *
+	 * @param game объект игры
+	 * @param args параметры
+	 */
 	function createMeteors(game, args) {
 
 		var radius = args.radius;
@@ -110,7 +113,11 @@ function EntitiesFactory() {
 
 			var j = Math.sqrt(radius * radius - i * i);
 
-			var m = t.createMeteor(game, i + Random.randomInt(0, args.randomSize), j + Random.randomInt(0, args.randomSize));
+			var m = t.createMeteor({
+			   game: game,
+			   x: 	 i + Random.randomInt(0, args.randomSize),
+			   y: 	 j + Random.randomInt(0, args.randomSize)
+			});
 
 			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
 			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
@@ -120,28 +127,13 @@ function EntitiesFactory() {
 	}
 
 	/**
-	 * Создание несущего корабля.
-	 */
-	function createCarrier(game, x, y, player) {
-
-		var unit = Carrier(game, t, x, y, player);
-
-		var id = world.pushObject(unit);
-
-		player && world.setPlayer(id);
-
-		return unit;
-
-	}
-
-	/**
 	 * Обертка вокруг метода создания.
 	 */
 	function createByType(type) {
 
-		return function (game, x, y, player, preload) {
+		return function (args) {
 
-			return create(game, x, y, player, preload, type);
+			return create(args, type);
 
 		}
 
@@ -149,40 +141,30 @@ function EntitiesFactory() {
 
 	/**
 	 * Функция создания объекта.
-	 * @param game игра
-	 * @param x координата X объекта
-	 * @param y координата Y объекта
-	 * @param player объект игрока
-	 * @param preload объект спрайта
+	 *
+	 * @param args параметры
+	 * @param args.game игра
+	 * @param args.x координата X объекта
+	 * @param args.y координата Y объекта
+	 * @param args.player объект игрока
+	 * @param args.faction фракция объекта
+	 * @param args.preload объект спрайта
+	 * @param args.factory фабрика объектов
 	 * @param createFunction функция создания юнита
 	 */
-	function create(game, x, y, player, preload, createFunction) {
+	function create(args, createFunction) {
 
-		var unit = createFunction(game, x, y, player, preload);
+		// Если фабрика не задана, задаем текущую.
+		args.factory = args.factory || t;
 
-		var id = world.pushObject(unit);
+		let unit = createFunction(args);
+		let id = World.pushObject(unit);
 
-		player && world.setPlayer(id);
+		// Задаем как объект игрока, если этот корабль юзера.
+		args.player && World.setPlayer(id);
 
 		return unit;
 
 	}
 
-	/**
-	 * Возвращаем объект всех сущностей.
-     */
-	function getWorld() {
-
-		return world;
-
-	}
-
-	/**
-	 * Инициализация.
-	 */
-	function initialization() {
-
-		world = World();
-
-	}
 }

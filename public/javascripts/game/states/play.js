@@ -1,7 +1,11 @@
 'use strict';
 
+// Внешние зависимости.
+var lodash = require('lodash');
+
+// Внутренние зависимости.
 var CodeLauncher = require('../launcher');
-var EntitiesFactory = require('../entities');
+var World = require('../entities/world');
 
 module.exports = PlayState;
 
@@ -23,16 +27,18 @@ function PlayState(game) {
 
 	var t = {};
 
-	var runner;				// Объект запуска кода обработки
-	var cursors;			// Объект ввода / вывода
-	var background;			// Спрайт фона
+	var params; 		// Параметры инициализации контента.
+	var runner;			// Объект запуска кода обработки.
+	var cursors;		// Объект ввода / вывода.
+	var background;		// Спрайт фона.
 
-	t.updates = []; 		// Объекты обновления
+	t.updates = []; 	// Объекты обновления.
 
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
 	t.followFor = followFor;
+	t.pushContextParameters = pushContextParameters;
 
 	return t;
 
@@ -72,25 +78,44 @@ function PlayState(game) {
 	}
 
 	/**
+	 * 	Передаем параметры в игровой стейт.
+	 * 	По сути onContextLoaded есть шаблонный метод
+	 * 	внутри которого логика работы с передаваемыми данными.
+	 *
+	 * 	В случае если onContextLoaded вернет false,
+	 * 	то метод выполниться единожды с заданными параметрами.
+	 */
+	function pushParametersIntoState() {
+
+		var needRepeat = t.onContextLoaded(game, params);
+
+		// Если повтор задания не нужен,
+		// то убираем функцию.
+		if (!needRepeat) {
+
+			params = false;
+
+		}
+
+	}
+
+	/**
 	 * Этап обновления состояния.
 	 */
 	function update() {
 
-		var u = [];
+		if (params && t.onContextLoaded) {
+
+			pushParametersIntoState();
+
+		}
 
 		// Объекты игрового мира
-		var objects = EntitiesFactory.getWorld()
-									 .getObjects();
-
-		u = u.concat(objects)
-			 .concat(t.updates);
+		let objects = World.getObjects();
+		let u = objects.concat(t.updates);
 
 		// Обновление объектов
-		u.forEach(function (e) {
-
-			e.update && e.update(e);
-
-		});
+		u.forEach(e => e.update && e.update(e));
 
 		// Шаблонный метод,
 		// для возможности обновить
@@ -106,6 +131,7 @@ function PlayState(game) {
 	 * Следует за объектом в заданном квадрате.
 	 */
 	function followFor(object) {
+
 		var view = game.camera.view;
 
 		var x = Math.max(object.width, 100);
@@ -123,6 +149,19 @@ function PlayState(game) {
 		game.camera.follow(object);
 		game.camera.deadzone = new Phaser.Rectangle(x, y, w, h);
 		game.camera.focusOnXY(viewX - deadzoneCenterX, viewY - deadzoneCenterY);
+
+	}
+
+	/**
+	 * Метод передает параметры из контекста ангуляра в
+	 * контекст игры. Например: индекс урока.
+	 *
+	 * @param _params параметры
+	 */
+	function pushContextParameters(_params) {
+
+		params = _params
+
 	}
 
 }

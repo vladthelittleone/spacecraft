@@ -240,7 +240,7 @@ function QuickController($scope, $sce) {
 			/* create dots i slide has sub-slides */
 			if (container.find('.slider-dots').length == 0) {
 				var navigationWrapper = $('<ol class="slider-dots"></ol>').appendTo(container);
-				for (i = 0; i < slideNumber; i++) {
+				for (var i = 0; i < slideNumber; i++) {
 					var navItem = (i == 0) ? $('<li class="active"></li>') : $('<li></li>');
 					navItem.appendTo(navigationWrapper);
 				}

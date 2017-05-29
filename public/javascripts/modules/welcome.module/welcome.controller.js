@@ -4,7 +4,6 @@ var resolvesNames = require('./welcome.resolve').names;
 
 WelcomeController.$inject = ['$scope',
 							 '$sce',
-							 '$state',
 							 'authentication',
 							 'authService',
 							 resolvesNames.lessonStatistics,
@@ -23,19 +22,12 @@ var moment = require('moment');
  */
 function WelcomeController($scope,
 						   $sce,
-						   $state,
 						   authentication,
 						   authService,
 						   lessonStatisticsData,
 						   leaderBoardData,
 						   userProgressData,
 						   userInfoData) {
-
-	$(window).resize(function() {
-
-		$state.reload();
-
-	});
 
 	$scope.active = 0;
 

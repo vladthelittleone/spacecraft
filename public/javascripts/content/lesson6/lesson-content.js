@@ -16,7 +16,7 @@ function Content() {
 	};
 
 	return {
-		text:                          'Тестирование 2',
+		text:                          'В поисках истины',
 		label:                         'Основы JavaScript',
 		quote:                         'Новые горизонты, новые вопросы.',
 		sub:                           require('./sub'),

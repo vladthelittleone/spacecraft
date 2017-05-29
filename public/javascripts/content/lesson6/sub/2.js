@@ -10,7 +10,7 @@ module.exports = SpaceWok();
 function SpaceWok() {
 
 	return {
-		title:             'Космический вок.',
+		title:             'Космический вок',
 		isRestartDisabled: true,
 		question:          {
 			content: '<p>И вот вы летите, но не за лапшой. ' +
@@ -26,7 +26,7 @@ function SpaceWok() {
 							'distanсeToEnemy <= 100',
 							'distanсeToEnemy >= 100'],
 			correctAnswerNumbers:     [2],
-			correctAnswerDescription: '<p>Вок с двойным моторным маслом BBot\'у.</p>'
+			correctAnswerDescription: '<p>Дабл вок c моторным маслом BBot\'у.</p>'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',

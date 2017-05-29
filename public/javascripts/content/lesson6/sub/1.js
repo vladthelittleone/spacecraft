@@ -10,7 +10,7 @@ module.exports = Battlefield();
 function Battlefield() {
 
 	return {
-		title:             'Поле битвы.',
+		title:             'Поле битвы',
 		isRestartDisabled: true,
 		question:          {
 			content: '<p>...сложно представить место чудесней.</p>' +
@@ -19,10 +19,10 @@ function Battlefield() {
 					 'От него немного толку, но надо же с чего-то начинать. ' +
 					 'Например, можно запустить двигатель и  попробовать набрать скорость.</p>' +
 					 '<p>Какие операторы вам помогут пролететь с ветерком?</p>',
-			answerOptions: ['+, ++, *',
-							'/, --, -',
-							'+, -, --',
-							'*, -, ++'],
+			answerOptions: ['+',
+							'/',
+							'-',
+							'%'],
 			correctAnswerNumbers: [0],
 			correctAnswerDescription: '<p>Отдать швартовые, мы отчаливаем. И это точно.</p>'
 		},

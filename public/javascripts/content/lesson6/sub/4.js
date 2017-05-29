@@ -10,7 +10,7 @@ module.exports = SolveBBotProblem();
 function SolveBBotProblem() {
 
 	return {
-		title: 			'Решение проблемы с BBot\'ом.',
+		title: 			'Решение проблемы с BBot\'ом',
 		isRestartDisabled: true,
 		question: {
 			content: '<p>Несмотря на всю условность описываемых ситуаций, ' +

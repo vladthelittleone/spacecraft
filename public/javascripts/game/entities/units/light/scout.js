@@ -14,7 +14,7 @@ module.exports = ScoutUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function ScoutUnit(game, x, y, player) {
+function ScoutUnit({game, x, y, player}) {
 
 	// that / this
 	var t = {};

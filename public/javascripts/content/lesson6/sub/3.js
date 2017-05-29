@@ -26,7 +26,7 @@ function ElseOperation() {
 		content: content,
 
 		hint: '<ul>' +
-		'<li>Измените условие <strong>8</strong> строки на <span class="red-label">5 < 2</span>.</li>' +
+		'<li>Измените условие <strong>8</strong> строки на <span class="under-label">5 < 2</span>.</li>' +
 		'</ul>',
 
 		instructions: '<ul>' +
@@ -36,10 +36,7 @@ function ElseOperation() {
 		'</ul>'
 	};
 
-	function gamePostUpdate(corvette,
-							statistics,
-							player,
-							text) {
+	function gamePostUpdate(corvette) {
 
 		var lessonResults = LessonResults({
 
@@ -57,11 +54,10 @@ function ElseOperation() {
 
 			return lessonResults.resultCorrect('bbot-angry');
 
-		} else {
-
-			return lessonResults.text();
-
 		}
+
+		return lessonResults.text();
+
 	}
 
 	function content() {

@@ -21,8 +21,8 @@ function CargoBlock(spec) {
 
 	var cargoContainer;
 
-	unit.cargoLoad = cargoLoad;
-	unit.cargoUnload = cargoUnload;
+	unit.loadCargo = loadCargo;
+	unit.unloadCargo = unloadCargo;
 	unit.isEmpty = isEmpty;
 
 	initialization();
@@ -41,7 +41,7 @@ function CargoBlock(spec) {
 	/**
 	 * Положить переменную в хранилище.
 	 */
-	function cargoLoad(value) {
+	function loadCargo(value) {
 
 		cargoContainer = value;
 
@@ -50,7 +50,7 @@ function CargoBlock(spec) {
 	/**
 	 * Получить переменную из хранилища.
 	 */
-	function cargoUnload() {
+	function unloadCargo() {
 
 		return cargoContainer;
 

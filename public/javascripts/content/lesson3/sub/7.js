@@ -31,18 +31,17 @@ function goToResearchCenter() {
 		content: content,
 
 		hint: '<ul>' +
-			  '<li>Добавьте <span class="red-label">researchContainer = harvester.cargoUnload();</span> на <strong>11</strong> строку.</li>' +
+			  '<li>Добавьте <span class="red-label">researchContainer = harvester.unloadCargo();</span> на <strong>11</strong> строку.</li>' +
 			  '</ul>',
 
 		instructions: '<ul>' +
 					  '<li>На строке <strong>11</strong> необходимо присвоить переменной <span class="red-label">researchContainer</span> ' +
-					  'значение, возвращаемое командой <span class="red-label">harvester.cargoUnload()</span>.</li>' +
+					  'значение, возвращаемое командой <span class="red-label">harvester.unloadCargo()</span>.</li>' +
 					  '</ul>'
 	};
 
 	function gamePostUpdate(harvester,
 							lesson,
-							player,
 							text) {
 
 		var lessonResults = LessonResults({
@@ -71,7 +70,7 @@ function goToResearchCenter() {
 				'<p>Передайте ученым поднятый вами датчик: положите в контейнер <strong class="under-label">researchContainer</strong> ' +
 			 	'значение с грузового отсека корабля.</p>' +
 				'<p>Чтобы получить значение, хранимое в грузовом отсеке, используйте команду:</p>' +
-				'<pre><strong>harvester</strong>.cargoUnload();</pre>' +
+				'<pre><strong>harvester</strong>.unloadCargo();</pre>' +
 				'<p><strong>BBot</strong> сообщит вам об успешной погрузке.</p>';
 
 	}

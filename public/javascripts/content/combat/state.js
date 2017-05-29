@@ -37,11 +37,41 @@ function StateWrapper(state) {
 		var height = bounds.height;
 		var width = bounds.width;
 
-		EntitiesFactory.createBase(game, height - 300, 300, 'combatBase');
-		EntitiesFactory.createBase(game, 300, width - 300, 'combatBase');
+		EntitiesFactory.createBase({
+			game: game,
+			x: height - 300,
+			y: 300,
+			preload: 'combatBase',
+			faction: 1
+		});
 
-		// Создать транспорт
-		var player = EntitiesFactory.createCombat(game, 1000, 1000, true, 'combat1');
+		EntitiesFactory.createBase({
+			game: game,
+			x: 300,
+			y: width - 300,
+			preload: 'combatBase',
+			faction: 2
+		});
+
+		// Создать корабль игрока
+		var player = EntitiesFactory.createCombat({
+			game: game,
+			x: 1000,
+			y: 1000,
+			player: true,
+			faction: 1,
+			preload: 'combat1'
+		});
+
+		// Создать корабль игрока
+		EntitiesFactory.createCombat({
+			game: game,
+			x: 1000,
+			y: 900,
+			faction: 2,
+			preload: 'combat1'
+		});
+
 		var sprite = player.sprite;
 
 		sprite.rotation = -Math.PI / 2;

@@ -15,7 +15,7 @@ module.exports = CarrierUnit;
  * Created by vaimer on 09.05.2017.
  */
 
-function CarrierUnit(game, factory, x, y, player) {
+function CarrierUnit({game, factory, x, y, player}) {
 
 	// that / this
 	var t = {};
@@ -50,7 +50,7 @@ function CarrierUnit(game, factory, x, y, player) {
 	/**
 	 * Добавляем блок создания объектов.
 	 */
-	t.creation = BlocksFactory.addCarrierBlock({
+	t.carrier = BlocksFactory.addCarrierBlock({
 	    factory: factory,
 		game: game,
 		unit: t,

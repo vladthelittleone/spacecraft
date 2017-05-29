@@ -50,7 +50,7 @@ function CarrierUnit({game, factory, x, y, player}) {
 	/**
 	 * Добавляем блок создания объектов.
 	 */
-	t.creation = BlocksFactory.addCarrierBlock({
+	t.carrier = BlocksFactory.addCarrierBlock({
 	    factory: factory,
 		game: game,
 		unit: t,

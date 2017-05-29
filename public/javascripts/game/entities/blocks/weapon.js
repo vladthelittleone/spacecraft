@@ -3,7 +3,8 @@
 // Экспорт
 module.exports = WeaponBlock;
 
-var world = require('../world');
+var World = require('../world');
+var AnimationFactory = require('../../animations');
 
 /**
  * Блок оружия, который может быть добавлен к кораблю.
@@ -16,6 +17,7 @@ var world = require('../world');
  * @param bulletKillDistance дистанция полета пули
  * @param offsetX офсет относительно корабля по X
  * @param offsetY офсет относительно корабля по Y
+ * @param damage урон оружия
  *
  * @author Skurishin Vladislav
  * @since 11.06.16
@@ -25,6 +27,7 @@ function WeaponBlock({
 	unit,
 	fireRate = 1000,
 	bulletSpeed = 200,
+	damage = 10,
 	quantity = 30,
 	bulletKillDistance = 200,
 	offsetX,
@@ -77,7 +80,7 @@ function WeaponBlock({
 
 	function update() {
 
-		var groups = world.getFactionEnemyGroups(unit.faction);
+		var groups = World.getFactionEnemyGroups(unit.faction);
 
 		game.physics.arcade.overlap(weapon.bullets, groups, hitEnemy, null, t);
 
@@ -86,7 +89,13 @@ function WeaponBlock({
 	function hitEnemy(bullet, enemy) {
 
 		bullet.kill();
-		enemy.kill();
+		enemy.damage(damage);
+
+		AnimationFactory.playExplosion({
+			x: bullet.body.x,
+			y: bullet.body.y,
+			scale: 0.1
+		});
 
 	}
 

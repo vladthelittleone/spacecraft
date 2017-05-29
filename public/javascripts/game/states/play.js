@@ -6,6 +6,7 @@ var lodash = require('lodash');
 // Внутренние зависимости.
 var CodeLauncher = require('../launcher');
 var World = require('../entities/world');
+var AnimationFactory = require('../animations');
 
 module.exports = PlayState;
 
@@ -56,12 +57,15 @@ function PlayState(game) {
 		background = game.add.tileSprite(0, 0, game.width, game.height, 'starField');
 		background.fixedToCamera = true;
 
+		// Выполняем инициализацию контейнера игровых объектов.
+		World.initialization(game);
+		AnimationFactory.initialization(game);
+
 		// Запуск шаблонного метода инициализации сущностей
 		t.entities && t.entities(game);
 
 		// Объект ввода / вывода
 		cursors = game.input.keyboard.createCursorKeys();
-
 	}
 
 	/**

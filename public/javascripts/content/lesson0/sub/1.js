@@ -14,10 +14,10 @@ function WelcomeToAcademy() {
 		defaultBBot:  defaultBBot,
 		content:      content,
 		// Пример ссылке видио на youtube
-		video:	 	 {
-			url: 'https://www.youtube.com/watch?v=uIXfyDE---s',
-			title: 'Virtus.pro вперед к победе!'
-		},
+		// video:	 	 {
+		// 	url: 'https://www.youtube.com/watch?v=uIXfyDE---s',
+		// 	title: 'Virtus.pro вперед к победе!'
+		// },
 		instructions: '<ul>' +
 					  '<li>Справа находится редактор кода - это инструмент, с помощью которого вы выполняете поставленные задачи.</li>' +
 					  '<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +

@@ -4,7 +4,7 @@ var resolvesNames = require('./welcome.resolve').names;
 
 WelcomeController.$inject = ['$scope',
 							 '$sce',
-							 '$window',
+							 '$state',
 							 'authentication',
 							 'authService',
 							 resolvesNames.lessonStatistics,
@@ -23,7 +23,7 @@ var moment = require('moment');
  */
 function WelcomeController($scope,
 						   $sce,
-						   $window,
+						   $state,
 						   authentication,
 						   authService,
 						   lessonStatisticsData,
@@ -31,11 +31,13 @@ function WelcomeController($scope,
 						   userProgressData,
 						   userInfoData) {
 
-	angular.element($window).bind('resize', function() {
+	$(window).resize(function() {
 
-		$window.location.reload();
+		$state.reload();
 
 	});
+
+	$scope.active = 0;
 
 	var duration = moment.duration(10, 'seconds');
 

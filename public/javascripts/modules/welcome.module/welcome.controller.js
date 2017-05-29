@@ -31,7 +31,11 @@ function WelcomeController($scope,
 						   userProgressData,
 						   userInfoData) {
 
-	$(window).resize($state.reload);
+	$(window).resize(function() {
+
+		$state.reload();
+
+	});
 
 	$scope.active = 0;
 

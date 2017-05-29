@@ -6,6 +6,7 @@ var DiagramHelp = require('../../diagram.help');
 
 var rhombus = DiagramHelp.createRhombus;
 var block = DiagramHelp.block;
+var blockWithSize = DiagramHelp.createBlock;
 var createLink = DiagramHelp.createLinkWithSourceCoordinate;
 
 module.exports = ElseOperation();
@@ -35,21 +36,42 @@ function ElseOperation() {
 					colorStroke: '#152b39'
 				});
 
-				var act1 = block(50, 80, "setOwner('BBot')", '#152B39');
-				var act2 = block(550, 80, "setOwner('Кадет')", '#152B39');
+				var act1 = block(50, 200, 'Главный - BBot', '#152B39');
+				var act2 = block(550, 200, 'Главный - Кадет', '#152B39');
 				var link1 = createLink(310, 100, act1);
 				var link2 = createLink(410, 100, act2);
+
+				var labelBlock1 = blockWithSize({
+					x: 140,
+					y: 70,
+					width: 30,
+					height: 30,
+					text: 'Да'
+				});
+
+				var labelBlock2 = blockWithSize({
+					x: 590,
+					y: 70,
+					width: 30,
+					height: 30,
+					text: 'Нет'
+				});
 
 				graph.addCells([
 					condition,
 					act1,
-					act2
+					act2,
+					labelBlock1,
+					labelBlock2
 				]);
 
 				link1.addTo(graph);
 				link1.toBack();
 				link2.addTo(graph);
 				link2.toBack();
+
+				link1.set('vertices', [{ x: 125, y: 100 }]);
+				link2.set('vertices', [{ x: 625, y: 100 }]);
 			}
 		}],
 

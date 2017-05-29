@@ -7,6 +7,7 @@ var DiagramHelp = require('../../diagram.help');
 
 var rhombus = DiagramHelp.createRhombus;
 var block = DiagramHelp.block;
+var blockWithSize = DiagramHelp.createBlock;
 var createLink = DiagramHelp.createLinkWithSourceCoordinate;
 
 module.exports = IfOperation();
@@ -36,16 +37,27 @@ function IfOperation() {
 						colorStroke: '#152b39'
 				});
 
-				var act1 = block(50, 80, 'destroy()', '#152B39');
+				var act1 = block(50, 200, 'Уничтожить', '#152B39');
 				var link = createLink(310, 100, act1);
+
+				var labelBlock = blockWithSize({
+					x: 140,
+					y: 70,
+					width: 30,
+					height: 30,
+					text: 'Да'
+				});
 
 				graph.addCells([
 					condition,
-					act1
+					act1,
+					labelBlock
 				]);
 
 				link.addTo(graph);
 				link.toBack();
+
+				link.set('vertices', [{ x: 125, y: 100 }]);
 			}
 		}],
 

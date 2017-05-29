@@ -238,7 +238,6 @@ function LessonService(connection,
 
 		// Регистрируем текущий подурок урока в scope.
 		scope.curretSubLesson = current;
-		scope.videoUrl = current.videoUrl;
 
 		initInteractiveContent(current);
 

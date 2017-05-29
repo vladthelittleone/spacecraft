@@ -21,6 +21,5 @@ app.directive('diagramBoard', require('./lesson/diagram.directive'));
 app.directive('endStatistics', require('./lesson/end-statistics.directive'));
 app.directive('lessonTable', require('./lesson/table.directive'));
 app.directive('quiz', require('./lesson/quiz.directive'));
-app.directive('lessonVideo', require('./lesson/video.directive'));
 
 app.directive('validateEmail', require('./validation/validate.email.directive'));

@@ -1,9 +1,5 @@
 'use strict';
 
-// Зависимсоти
-var LessonResults = require('../../lesson-results');
-var CodeLauncher = require('../../../game/launcher');
-
 module.exports = Drill();
 
 var lodash = require('lodash');

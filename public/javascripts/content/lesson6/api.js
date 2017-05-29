@@ -12,7 +12,6 @@ function Api(player) {
 
 	var trueCaptain = false;
 
-	api.destroy = destroy;
 	api.isAlive = isAlive;
 	api.setOwner = setOwner;
 	api.isTrueCaptain = isTrueCaptain;

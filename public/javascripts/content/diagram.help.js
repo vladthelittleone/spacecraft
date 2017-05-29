@@ -11,9 +11,27 @@ function DiagramHelp () {
 
 	t.createLink = createLink;
 	t.createBlock = createBlock;
+	t.createRhombus = createRhombus;
+	t.createLinkWithSourceCoordinate = createLinkWithSourceCoordinate;
 	t.block = block;
 
 	return t;
+
+	function createRhombus(args) {
+
+		return new joint.shapes.erd.Relationship(createBlockOptions(args));
+
+	}
+
+	function addAdditionalOptions(myLink, graph) {
+
+		myLink.attr({
+			'.connection':    {stroke: '#fff', 'stroke-width': 4},
+			'.marker-target': {stroke: '#fff', fill: '#fff', d: 'M 10 0 L 0 5 L 10 10 z'}
+		});
+
+		return myLink.addTo(graph);
+	}
 
 	function createLink(graph, elm1, elm2) {
 
@@ -24,13 +42,24 @@ function DiagramHelp () {
 			target: {id: elm2.id}
 		});
 
+		return addAdditionalOptions(myLink, graph);
+	}
+
+	function createLinkWithSourceCoordinate(x1, y1, elm2) {
+
+		var erd = joint.shapes.erd;
+
+		var myLink = new erd.Line({
+			source: {x: x1, y: y1},
+			target: {id: elm2.id}
+		});
+
 		myLink.attr({
 			'.connection':    {stroke: '#fff', 'stroke-width': 4},
 			'.marker-target': {stroke: '#fff', fill: '#fff', d: 'M 10 0 L 0 5 L 10 10 z'}
 		});
 
-		return myLink.addTo(graph);
-
+		return myLink;
 	}
 
 	function block(x, y, text, colorFill) {
@@ -55,9 +84,13 @@ function DiagramHelp () {
 	 */
 	function createBlock(args) {
 
-		var erd = joint.shapes.erd;
+		return new joint.shapes.erd.Entity(createBlockOptions(args));
 
-		return new erd.Entity({
+	}
+
+	function createBlockOptions(args) {
+
+		return {
 			size: {
 				width: args.width || 150,
 				height: args.height || 50
@@ -74,7 +107,7 @@ function DiagramHelp () {
 					stroke: args.colorStroke || 'none'
 				}
 			}
-		});
+		}
 	}
 }
 

@@ -3,6 +3,11 @@
 // Зависимсоти
 var LessonResults = require('../../lesson-results');
 var CodeLauncher = require('../../../game/launcher');
+var DiagramHelp = require('../../diagram.help');
+
+var rhombus = DiagramHelp.createRhombus;
+var block = DiagramHelp.block;
+var createLink = DiagramHelp.createLinkWithSourceCoordinate;
 
 module.exports = IfOperation();
 
@@ -18,7 +23,30 @@ function IfOperation() {
 		title:             'Уничтожать или не уничтожать?',
 		character:         [{
 			audio: 'audio/lesson2/1-1',
-			css:   'astromen-img'
+			css:   'astromen-img',
+			diagram: function (graph) {
+
+				var condition = rhombus({
+						x:           300,
+						y:           50,
+						width:       150,
+						height:      100,
+						text:        '2===2',
+						colorFill:   '#fe854f',
+						colorStroke: '#152b39'
+				});
+
+				var act1 = block(50, 80, 'destroy()', '#152B39');
+				var link = createLink(310, 100, act1);
+
+				graph.addCells([
+					condition,
+					act1
+				]);
+
+				link.addTo(graph);
+				link.toBack();
+			}
 		}],
 
 		gamePostUpdate: gamePostUpdate,

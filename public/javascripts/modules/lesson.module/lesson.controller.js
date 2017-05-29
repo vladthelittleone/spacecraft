@@ -179,7 +179,7 @@ function LessonController($scope,
 		$scope.tableEnable = false;			// Переключатель таблички
 		$scope.settingsEnable = false;		// Переключатель натсроек
 		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
-
+		$scope.videoEnable = false;			// Переключать отображение видео урока
 	}
 
 	/**

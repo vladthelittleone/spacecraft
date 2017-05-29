@@ -2074,3 +2074,9 @@ fieldset, label {
 	background: rgba(162, 24, 24, 0.85) !important;
 	transition: 1s;
 }
+
+.video-container {
+	padding-top: 20px;
+	width: 80%;
+	margin: 0 auto;
+}

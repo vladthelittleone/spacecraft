@@ -13,6 +13,8 @@ function WelcomeToAcademy() {
 		title:        'Добро пожаловать в академию!',
 		defaultBBot:  defaultBBot,
 		content:      content,
+		// Пример ссылке видио на youtube
+		// videoUrl:	  'https://www.youtube.com/watch?v=uIXfyDE---s',
 		instructions: '<ul>' +
 					  '<li>Справа находится редактор кода - это инструмент, с помощью которого вы выполняете поставленные задачи.</li>' +
 					  '<li>Справа внизу находится робот - компаньон BBot. Он покажет ошибки и выведет всю необходимую информацию.</li>' +

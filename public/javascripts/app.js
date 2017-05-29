@@ -11,6 +11,7 @@ require('angular-cookies');
 require('angular-messages');
 require('angular-ui-bootstrap');
 require('angular-animate');
+require('angular-youtube-embed');
 
 /**
  * Подключаем изменение прототипа.
@@ -35,7 +36,8 @@ angular.module('spacecraft', [
 		'http-auth-interceptor',
 		'ngCookies',
 		'ngMessages',
-		'ngAnimate'
+		'ngAnimate',
+		'youtube-embed'
 	])
 	.config(configBlock)
 	.run(runBlock);

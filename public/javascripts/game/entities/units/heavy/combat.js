@@ -4,6 +4,9 @@
 var PrefabsFactory = require('../../prefabs');
 var BlocksFactory = require('../../blocks');
 var GameAudioFactory = require('../../../audio');
+var AnimationFactory = require('../../../animations');
+var Random = require('../../../../utils/random');
+var World = require('../../world');
 
 // Экспорт
 module.exports = CombatUnit;
@@ -26,6 +29,11 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	t.sprite.health = 150;
 	t.sprite.maxHealth = 150;
 	t.faction = faction;
+
+	/**
+	 * Коллбеки.
+	 */
+	t.sprite.events.onKilled.add(onKillCallback, this);
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -85,6 +93,32 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 		t.weapon.update();
 
 		t.logic && t.logic(t);
+
+	}
+
+	/**
+	 * Логика уничтожения корабля.
+	 */
+	function onKillCallback() {
+
+		var x = t.sprite.x;
+		var y = t.sprite.y;
+
+		AnimationFactory.playExplosions([{
+			x,
+			y,
+			scale: 0.5
+		}, {
+			x: x + Random.randomInt(10, 50),
+			y: y + Random.randomInt(10, 50),
+			scale: Math.random()
+		}, {
+			x: x + Random.randomInt(10, 50),
+			y: y + Random.randomInt(10, 50),
+			scale: Math.random()
+		}]);
+
+		World.removeObject(t);
 
 	}
 

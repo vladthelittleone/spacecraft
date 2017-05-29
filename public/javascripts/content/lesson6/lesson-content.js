@@ -18,7 +18,7 @@ function Content() {
 	};
 
 	return {
-		text:  'Поиск истины или как проверить еду на яд',
+		text:  'Учения',
 		label: 'Основы JavaScript',
 		quote: 'У истины простая речь.',
 		defs: require('./autocomplete.json'),

@@ -41,14 +41,16 @@ function StateWrapper(state) {
 			game: game,
 			x: height - 300,
 			y: 300,
-			preload: 'combatBase'
+			preload: 'combatBase',
+			faction: 1
 		});
 
 		EntitiesFactory.createBase({
 			game: game,
 			x: 300,
 			y: width - 300,
-			preload: 'combatBase'
+			preload: 'combatBase',
+			faction: 2
 		});
 
 		// Создать корабль игрока
@@ -64,8 +66,8 @@ function StateWrapper(state) {
 		// Создать корабль игрока
 		EntitiesFactory.createCombat({
 			game: game,
-			x: 1200,
-			y: 1000,
+			x: 1000,
+			y: 900,
 			faction: 2,
 			preload: 'combat1'
 		});

@@ -48,9 +48,6 @@ function Game() {
 		// Инициализация игры.
 		t.phaser = new Phaser.Game(window.screen.width, window.screen.height, Phaser.CANVAS, 'game-canvas');
 
-		// Выполняем инициализацию контейнера игровых объектов.
-		World.initialization(t.phaser);
-
 		// Получаем контент с заданным идентификатором.
 		let content = ContentFactory.content(id);
 

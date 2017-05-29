@@ -13,7 +13,7 @@ module.exports = BaseUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function BaseUnit({game, x, y, preload}) {
+function BaseUnit({game, x, y, preload, faction}) {
 
 	// that / this
 	let t = {};
@@ -22,18 +22,21 @@ function BaseUnit({game, x, y, preload}) {
 	 * Создаем спрайт.
 	 */
 	t.sprite = PrefabsFactory.createBase(game, x, y, preload);
+	t.sprite.health = 1000;
+	t.sprite.maxHealth = 1000;
+	t.faction = faction;
 
 	/**
 	 * Добавляем двигатель.
 	 */
 	t.engine = BlocksFactory.addEngineBlock({
-												game: game,
-												unit: t,
-												drag: 0,					// Торможение корабля
-												velocity: 0,				// Скорость корабля
-												angularVelocity: 0.0025,	// Скорость разворота
-												trail: false				// Использование огня двигателя
-											});
+		game: game,
+		unit: t,
+		drag: 0,					// Торможение корабля
+		velocity: 0,				// Скорость корабля
+		angularVelocity: 0.0025,	// Скорость разворота
+		trail: false				// Использование огня двигателя
+	});
 
 	t.update = update;
 

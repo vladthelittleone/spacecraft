@@ -48,7 +48,7 @@ function World() {
 
 			factions[faction] = {
 				objects: [],
-				group:   game.add.physicsGroup()
+				group:   game.add.group()
 			};
 
 		}
@@ -58,6 +58,7 @@ function World() {
 
 		// Добавляем в phaser группу
 		factions[faction].group.add(obj.sprite);
+		game.world.bringToTop(factions[faction].group);
 
 	}
 

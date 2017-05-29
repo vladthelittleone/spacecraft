@@ -29,6 +29,8 @@ function WelcomeController($scope,
 						   userProgressData,
 						   userInfoData) {
 
+	$scope.active = 0;
+
 	var duration = moment.duration(10, 'seconds');
 
 	$scope.leaderBoard = leaderBoardData || [];	// Лидеры игры

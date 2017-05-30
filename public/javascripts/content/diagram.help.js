@@ -12,54 +12,46 @@ function DiagramHelp () {
 	t.createLink = createLink;
 	t.createBlock = createBlock;
 	t.createRhombus = createRhombus;
-	t.createLinkWithSourceCoordinate = createLinkWithSourceCoordinate;
 	t.block = block;
 
 	return t;
 
 	function createRhombus(args) {
 
-		return new joint.shapes.erd.Relationship(createBlockOptions(args));
+		return new joint.shapes.erd.Relationship(createOptionsBlock(args));
 
 	}
 
-	function addAdditionalOptions(myLink, graph) {
+	function createLink(graph, source, target, sourceX, sourceY) {
+
+		var erd = joint.shapes.erd;
+
+		var myLink;
+
+		if(!sourceX && !sourceY && source) {
+
+			myLink = new erd.Line({
+				source: {id: source.id},
+				target: {id: target.id}
+			});
+
+		} else {
+
+			myLink = new erd.Line({
+				source: {x: sourceX, y: sourceY},
+				target: {id: target.id}
+			});
+
+		}
 
 		myLink.attr({
 			'.connection':    {stroke: '#fff', 'stroke-width': 4},
 			'.marker-target': {stroke: '#fff', fill: '#fff', d: 'M 10 0 L 0 5 L 10 10 z'}
 		});
 
-		return myLink.addTo(graph);
-	}
-
-	function createLink(graph, elm1, elm2) {
-
-		var erd = joint.shapes.erd;
-
-		var myLink = new erd.Line({
-			source: {id: elm1.id},
-			target: {id: elm2.id}
-		});
-
-		return addAdditionalOptions(myLink, graph);
-	}
-
-	function createLinkWithSourceCoordinate(x1, y1, elm2) {
-
-		var erd = joint.shapes.erd;
-
-		var myLink = new erd.Line({
-			source: {x: x1, y: y1},
-			target: {id: elm2.id}
-		});
-
-		myLink.attr({
-			'.connection':    {stroke: '#fff', 'stroke-width': 4},
-			'.marker-target': {stroke: '#fff', fill: '#fff', d: 'M 10 0 L 0 5 L 10 10 z'}
-		});
-
-		return myLink;
+		return !sourceX && !sourceY && source ?
+				myLink.addTo(graph) :
+				myLink;
 	}
 
 	function block(x, y, text, colorFill) {
@@ -84,11 +76,11 @@ function DiagramHelp () {
 	 */
 	function createBlock(args) {
 
-		return new joint.shapes.erd.Entity(createBlockOptions(args));
+		return new joint.shapes.erd.Entity(createOptionsBlock(args));
 
 	}
 
-	function createBlockOptions(args) {
+	function createOptionsBlock(args) {
 
 		return {
 			size: {

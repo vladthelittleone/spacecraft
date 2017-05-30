@@ -8,7 +8,7 @@ var DiagramHelp = require('../../diagram.help');
 var rhombus = DiagramHelp.createRhombus;
 var block = DiagramHelp.block;
 var blockWithSize = DiagramHelp.createBlock;
-var createLink = DiagramHelp.createLinkWithSourceCoordinate;
+var createLink = DiagramHelp.createLink;
 
 module.exports = IfOperation();
 
@@ -32,13 +32,13 @@ function IfOperation() {
 						y:           50,
 						width:       150,
 						height:      100,
-						text:        '2===2',
+						text:        '2 === 2 ?',
 						colorFill:   '#fe854f',
 						colorStroke: '#152b39'
 				});
 
 				var act1 = block(50, 200, 'Уничтожить', '#152B39');
-				var link = createLink(310, 100, act1);
+				var link = createLink(graph, null, act1, 310, 100);
 
 				var labelBlock = blockWithSize({
 					x: 140,

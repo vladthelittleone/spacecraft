@@ -7,7 +7,7 @@ var DiagramHelp = require('../../diagram.help');
 var rhombus = DiagramHelp.createRhombus;
 var block = DiagramHelp.block;
 var blockWithSize = DiagramHelp.createBlock;
-var createLink = DiagramHelp.createLinkWithSourceCoordinate;
+var createLink = DiagramHelp.createLink;
 
 module.exports = ElseOperation();
 
@@ -31,15 +31,15 @@ function ElseOperation() {
 					y:           50,
 					width:       150,
 					height:      100,
-					text:        '3<=3',
+					text:        '3 <= 3 ?',
 					colorFill:   '#fe854f',
 					colorStroke: '#152b39'
 				});
 
-				var act1 = block(50, 200, 'Главный - BBot', '#152B39');
-				var act2 = block(550, 200, 'Главный - Кадет', '#152B39');
-				var link1 = createLink(310, 100, act1);
-				var link2 = createLink(410, 100, act2);
+				var act1 = block(50, 200, 'Управляет - BBot', '#152B39');
+				var act2 = block(550, 200, 'Управляет - Кадет', '#152B39');
+				var link1 = createLink(graph, null, act1, 310, 100);
+				var link2 = createLink(graph, null, act2, 410, 100);
 
 				var labelBlock1 = blockWithSize({
 					x: 140,

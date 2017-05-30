@@ -20,7 +20,7 @@ function Content() {
 	return {
 		text:  'Учения',
 		label: 'Основы JavaScript',
-		quote: 'У истины простая речь.',
+		quote: 'У истины простая речь',
 		defs: require('./autocomplete.json'),
 		sub:   require('./sub'),
 		isGameLesson: true,

@@ -18,7 +18,7 @@ function Content() {
 	return {
 		text:                          'В поисках истины',
 		label:                         'Основы JavaScript',
-		quote:                         'Новые горизонты, новые вопросы.',
+		quote:                         'Новые горизонты, новые вопросы',
 		sub:                           require('./sub'),
 		points:                        points,
 		maxAttemptLessonCountForBonus: 3

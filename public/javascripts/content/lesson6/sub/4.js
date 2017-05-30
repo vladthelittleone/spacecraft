@@ -15,16 +15,16 @@ function SolveBBotProblem() {
 		question: {
 			content: '<p>Несмотря на всю условность описываемых ситуаций, ' +
 					 'шалости <b>BBot’a</b> могут быть вполне реальными.</p>' +
-					 'Не позволять <b>BBot’у</b> пакостить не сложная задача, ' +
+					 'Не позволять киборгу пакостить достаточно просто, ' +
 					 'но Академия предпочитает, чтобы кадеты решали эту проблему сами.</p>' +
 					 'Для начала, можно попробовать, не позволять <b>BBot’у</b> приближаться к вашему кораблю.</p>' +
 					 '<p>Для этого достаточно понять, что существо, которое пытается попасть на корабль, это <b>BBot</b>.</p>',
-			answerOptions: ['passenger != “BBot”',
-							'passenger > "BBot"',
-							'passenger',
-							'passenger == "BBot"'],
+			answerOptions: ['<strong>passenger</strong> !== \'BBot\'',
+							'<strong>passenger</strong> > \'BBot\'',
+							'<strong>passenger</strong>',
+							'<strong>passenger</strong> === \'BBot\''],
 			correctAnswerNumbers:     [3],
-			correctAnswerDescription: '<p>Этого будет мало против великого BBot\'a.</p>'
+			correctAnswerDescription: '<p>Этого будет мало против великого BBot\'a!</p>'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',

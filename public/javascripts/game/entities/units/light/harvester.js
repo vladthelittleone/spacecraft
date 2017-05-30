@@ -34,6 +34,7 @@ function HarvesterUnit(game, x, y, player) {
 		unit: t,
 		drag: 30,				// Торможение корабля
 		velocity: 20,			// Скорость корабля
+		maxVelocity: 40,
 		angularVelocity: 0.2,	// Скорость разворота
 		trails: [{
 			trailX: 3,

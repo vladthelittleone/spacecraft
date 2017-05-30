@@ -11,27 +11,27 @@ module.exports = EngineBlock;
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function EngineBlock(spec) {
+function EngineBlock({
+	game,
+	unit,
+	angularVelocity,
+	velocity,
+	maxVelocity = velocity,
+	drag,
+	trails
+}) {
 
 	// that / this
 	var t = {};
+	var trailsArray = [];
 
-	var game = spec.game;
-	var unit = spec.unit;
+	if (trails) {
 
-	var angularVelocity = spec.angularVelocity;
-	var velocity = spec.velocity;
-	var drag = spec.drag;
-
-	var trails = [];
-
-	if (spec.trails) {
-
-		spec.trails.forEach(function (t) {
+		trails.forEach(function (t) {
 
 			var trail = Trail(game, unit, t.trailX, t.trailY, t.trailScale);
 
-			trails.push(trail);
+			trailsArray.push(trail);
 
 		});
 
@@ -44,6 +44,8 @@ function EngineBlock(spec) {
 	unit.getX = getX;
 	unit.getY = getY;
 	unit.distanceTo = distanceTo;
+	unit.setVelocity = setVelocity;
+	unit.getVelocity = getVelocity;
 
 	t.update = update;
 
@@ -57,7 +59,7 @@ function EngineBlock(spec) {
 	function initialization() {
 
 		// Максимальная скорось - ограничение
-		unit.sprite.body.maxVelocity.set(velocity);
+		unit.sprite.body.maxVelocity.set(maxVelocity);
 
 		// Торможение
 		unit.sprite.body.drag.set(drag);
@@ -159,7 +161,7 @@ function EngineBlock(spec) {
 
 	function useTrail(){
 
-		trails.forEach(function (trail) {
+		trailsArray.forEach(function (trail) {
 
 			trail && trail.start();
 
@@ -196,6 +198,40 @@ function EngineBlock(spec) {
 		var deltaY = _y - unit.getY();
 
 		return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+	}
+
+	/**
+	 * Функция устанавливает скорость корабля. Если новое значение скорости больше текущей на 1
+	 * или пользователь пытался увеличить скорость выше максимально допустимой, то считаем
+	 * что двигатель перегрелся и скорость сбрасывается до maxVelocity / 2
+	 */
+	function setVelocity (_velocity) {
+
+		// Если укорость изменилась больше чем на 1 сбрасываем скорость до maxVelocity / 2
+		if (Math.abs(_velocity - velocity) > 1) {
+
+			velocity = maxVelocity / 2;
+			return;
+
+		}
+
+		// Ограничение максимальной скорости
+		if (_velocity < maxVelocity) {
+
+			velocity = _velocity;
+
+		} else {
+
+			velocity = maxVelocity / 2;
+
+		}
+
+	}
+
+	function getVelocity () {
+
+		return velocity;
 
 	}
 

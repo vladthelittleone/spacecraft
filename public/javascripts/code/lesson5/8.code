@@ -1,0 +1,16 @@
+this.run = function(transport)
+{
+	// Текущая скорость корабля.
+	var currentVelocity = transport.getVelocity();
+
+	// Расстояние до корабля противника.
+	var distanceToTheDrone = transport.getDistanceToTheDrone();
+
+	transport.setVelocity(currentVelocity);
+	BBotDebug(currentVelocity);
+
+	// Измените значение isDistanceCorrect таким образом, чтобы оно имело значение true
+	// когда дистанция до корабля противника будет меньше или равна 100.
+	var isDistanceCorrect = false;
+	transport.activateHackDevice(isDistanceCorrect);
+};

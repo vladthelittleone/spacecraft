@@ -1,3 +1,26 @@
 {
-	"!name": "lesson"
+	"!name": "lesson",
+	"transport": {
+		"!doc": "Легкий атакующий корабль.",
+		"moveForward": {
+			"!type": "fn()",
+			"!doc": "Отправляет корабль вперед."
+		},
+		"setVelocity": {
+			"!type": "fn(newVelocity: number)",
+			"!doc": "Устанавливает скорость транспорта."
+		},
+		"getVelocity": {
+			"!type": "fn() -> ?",
+			"!doc": "Возвращает скорость транспорта."
+		},
+		"getDistanceToTheDrone": {
+			"!type": "fn()",
+			"!doc": "Возвращает дистанцию до противника."
+		},
+		"activateHackDevice": {
+			"!type": "fn(x: boolean)",
+			"!doc": "Активирует устройство перехвата. Способно перехвататить только объекты ближе 100GY."
+		}
+	}
 }

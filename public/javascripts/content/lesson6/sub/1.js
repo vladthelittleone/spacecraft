@@ -24,7 +24,7 @@ function Battlefield() {
 							'<b>-</b>',
 							'<b>%</b>'],
 			correctAnswerNumbers: [0],
-			correctAnswerDescription: '<p>Отдать швартовые, мы отчаливаем. И это точно.</p>'
+			correctAnswerDescription: '<p>Отдать швартовые, мы отчаливаем.</p>'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',

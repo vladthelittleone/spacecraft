@@ -24,7 +24,7 @@ function SolveBBotProblem() {
 							'<strong>passenger</strong>',
 							'<strong>passenger</strong> === \'BBot\''],
 			correctAnswerNumbers:     [3],
-			correctAnswerDescription: '<p>Этого будет мало против великого BBot\'a!</p>'
+			correctAnswerDescription: '<p>Этого будет мало против великого BBot\'a! AZAZAZAZAZAZAZAZAZAZAZA!!!</p>'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',

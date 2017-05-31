@@ -18,7 +18,7 @@ function BBotPrankster() {
 					 'Экстренная диагностика покажет, что не так.</p>' +
 					 '<p>Кажется чьи-то шаловливые роборуки изменили значение ' +
 					 'переменной <b>isWeaponModuleReady</b>, из-за чего невозможно открыть стрельбу.</p>' +
-					 '<p>Какая строка кода поможет, временно исправить положение?</p>',
+					 '<p>Какая строка кода поможет временно исправить положение?</p>',
 			answerOptions:['<strong>isWeaponModuleReady</strong> = 100;',
 						   '<strong>isWeaponModuleReady</strong> = false;',
 						   '<strong>isWeaponModuleReady</strong> = isWeaponModuleReady;',

@@ -8,9 +8,14 @@ function Lesson() {
 	// that / this
 	var t = {};
 
-	t.preload = require('./preload.json');			// Ресурсы
-	t.lessonContent = require('./lesson-content');	// Контент урока
-	t.state = require('./state');					// Обертка вокруг игрового состояния
+	// Ресурсы
+	t.preload = require('./preload.json');
+
+	// Контент урока
+	t.lessonContent = require('./lesson-content');
+
+	// Обертка вокруг игрового состояния
+	t.state = require('./state');
 
 	return t;
 

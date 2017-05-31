@@ -14,10 +14,10 @@ function ItIsTheEnd() {
 		isRestartDisabled: true,
 		question:          {
 			content: '<p>Вы проделали неплохую работу, отвечая на все эти скучные вопросы. ' +
-			         'В прочем ваши страд... приключения только начинаются. До скорого.</p>',
+			         'Впрочем, ваши страд... приключения только начинаются. До скорого.</p>',
 			answerOptions:            ['Вперед, в далекие дали!'],
 			correctAnswerNumbers:     [0],
-			correctAnswerDescription: '<p>Если кадет забыл, выход справа.</p>'
+			correctAnswerDescription: '<p>Если кадет забыл, то выход справа.</p>'
 		},
 		character:         [{
 			audio: 'audio/lesson3/1-1',

@@ -21,7 +21,7 @@ function BBotPast() {
 			answerOptions: ['Сделаю его еще злее.',
 							'Сделаю его самым добрым существом на свете.',
 							'<strong>BBot</strong> идеален как есть.'],
-			correctAnswerNumbers:     [0, 1, 2],
+			correctAnswerNumbers:     [0],
 			correctAnswerDescription: '<p>Влодислов бэйби донт херт ми, донт херт ми, но мор.</p>'
 		},
 		character:         [{

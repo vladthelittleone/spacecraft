@@ -1,49 +1,35 @@
 'use strict';
 
-// Зависимсоти
-var LessonResults = require('../../lesson-results');
-var CodeLauncher = require('../../../game/launcher');
-
-module.exports = Drill();
-
-var lodash = require('lodash');
-
 /**
- * Created by vaimer on 18.05.17.
+ * @author Aleksandrov Oleg
+ * @since 26.05.17
  */
-function Drill() {
+
+module.exports = Battlefield();
+
+function Battlefield() {
 
 	return {
+		title:             'Поле битвы 3',
 		isRestartDisabled: true,
-		title:             'Учебная тревога.',
+		question:          {
+			content: '<p>... сложно представить место чудесней.</p>' +
+					 '<p>Выстрелы, взрывы! Искореженнные обломки кораблей заполнили собой все видимое пространство.</p>' +
+					 '<p>Если очень хорошо присмотреться, то вы сможете отыскать и свой небольшой фрегат. ' +
+					 'От него немного толку, но надо же с чего-то начинать. ' +
+					 'Например, вдавить педаль в пол, и показать, кто тут король космоса.</p>' +
+					 '<p>Какие операторы вам помогут пролететь с ветерком?</p>',
+			answerOptions: ['<b>+</b>',
+							'<b>/</b>',
+							'<b>-</b>',
+							'<b>%</b>'],
+			correctAnswerNumbers: [0],
+			correctAnswerDescription: '<p>Поднять якорь! Отдать швартовые! Отчаливаем!</p>'
+		},
 		character:         [{
-			audio: 'audio/lesson2/1-1',
+			audio: 'audio/lesson3/1-1',
 			css:   'astromen-img'
-		}],
-
-		content: content,
-
-		defaultBBot: defaultBBot,
-
-		instructions: '<ul>' +
-					  '<li>Нажмите «Далее» для продолжения.</li>' +
-					  '</ul>'
+		}]
 	};
 
-
-	function content() {
-
-		return '<p>Здравствуйте, кадет. </p>' +
-			'<p>Из-за всех этих взломов <strong>обсёрвы</strong> академии решили провести массовые ' +
-			'учения с целью: не допустить утечку информации и захват кораблей.</p>' +
-			'<p>Поэтому сегодня вы здесь. </p>';
-
-	}
-
-	function defaultBBot() {
-
-		return '<p>Обсёрвы - это людишки, кот0рые заправляют всем в академии.</p>' +
-			'<p>Вроде как очень мудры, но это не Tочно.</p>';
-
-	}
 }

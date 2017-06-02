@@ -15,6 +15,7 @@
 		"meteor6": "images/sprites/entities/meteors/meteor6.png",
 		"meteor7": "images/sprites/entities/meteors/meteor7.png",
 		"researchCenter": "images/sprites/entities/structures/researchCenter.png",
-		"fighter": "images/sprites/entities/spacecrafts/fighter.png"
+		"fighter": "images/sprites/entities/spacecrafts/fighter.png",
+		"transport": "images/sprites/entities/spacecrafts/transport.png"
 	}
 }

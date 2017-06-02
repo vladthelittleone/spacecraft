@@ -14,7 +14,7 @@ module.exports = TransportUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function TransportUnit(game, x, y, player) {
+function TransportUnit({game, x, y, player}) {
 
 	// that / this
 	var t = {};
@@ -37,7 +37,7 @@ function TransportUnit(game, x, y, player) {
 		angularVelocity: 0.5,	// Скорость разворота
 		trails: [{
 			trailScale: 0.5
-		}]		
+		}]
 	});
 
 	t.cargo = BlocksFactory.addCargoBlock({

@@ -20,14 +20,9 @@ function UpdateManager() {
 	// Коллбек выполняющийся перед обновлением.
 	var preUpdate;
 
-	// Номер подурока.
-	var subIndex = 0;
-
 	t.setPreUpdate = setPreUpdate;
 	t.setPostUpdate = setPostUpdate;
-	t.setSubIndex = setSubIndex;
 
-	t.getSubIndex = getSubIndex;
 	t.pre = pre;
 	t.post = post;
 
@@ -45,12 +40,6 @@ function UpdateManager() {
 
 	}
 
-	function setSubIndex(_subIndex) {
-
-		subIndex = _subIndex;
-
-	}
-
 	function post(botText) {
 
 		return postUpdate && postUpdate(botText);
@@ -60,12 +49,6 @@ function UpdateManager() {
 	function pre() {
 
 		return preUpdate && preUpdate(arguments);
-
-	}
-
-	function getSubIndex() {
-
-		return subIndex;
 
 	}
 

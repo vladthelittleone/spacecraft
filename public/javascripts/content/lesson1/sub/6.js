@@ -107,7 +107,7 @@ function Alert() {
 
 		}
 
-		return lessonResults.text();
+		return lessonResults.text('bbot-wow');
 
 	}
 

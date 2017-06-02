@@ -13,7 +13,7 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 
 	// Настройка всех графиков
 	ChartJsProvider.setOptions({
-								   colours:    ['#152B39', '#C5C8C6'],
+								   chartColors:    ['#152B39', '#C5C8C6'],
 								   responsive: true
 							   });
 

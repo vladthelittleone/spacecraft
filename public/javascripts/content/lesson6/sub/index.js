@@ -1,12 +1,15 @@
 'use strict';
 
 /**
- * Created by vaimer on 09.05.2017.
+ * @author Aleksandrov Oleg
+ * @since 27.05.17
  */
-
-// Зависимсоти
-var drill = require('./1');
-var ifOperation = require('./2');
-var elseOperation = require('./3');
-
-module.exports = [drill, ifOperation, elseOperation];
+module.exports = [
+	require('./1'),
+	require('./2'),
+	require('./3'),
+	require('./4'),
+	require('./5'),
+	require('./6'),
+	require('./7')
+];

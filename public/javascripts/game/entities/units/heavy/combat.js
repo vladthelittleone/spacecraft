@@ -4,6 +4,9 @@
 var PrefabsFactory = require('../../prefabs');
 var BlocksFactory = require('../../blocks');
 var GameAudioFactory = require('../../../audio');
+var AnimationFactory = require('../../../animations');
+var Random = require('../../../../utils/random');
+var World = require('../../world');
 
 // Экспорт
 module.exports = CombatUnit;
@@ -14,7 +17,7 @@ module.exports = CombatUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function CombatUnit(game, x, y, player, preload) {
+function CombatUnit({game, x, y, player, preload, faction}) {
 
 	// that / this
 	var t = {};
@@ -25,8 +28,12 @@ function CombatUnit(game, x, y, player, preload) {
 	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, preload);
 	t.sprite.health = 150;
 	t.sprite.maxHealth = 150;
+	t.faction = faction;
 
-	t.isPlayer = player;
+	/**
+	 * Коллбеки.
+	 */
+	t.sprite.events.onKilled.add(onKillCallback, this);
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -64,7 +71,8 @@ function CombatUnit(game, x, y, player, preload) {
 	 */
 	t.weapon = BlocksFactory.addWeaponBlock({
 		game: game,
-		unit: t
+		unit: t,
+		faction: faction
 	});
 
 	/**
@@ -77,13 +85,40 @@ function CombatUnit(game, x, y, player, preload) {
 	return t;
 
 	/**
-	 * Обновление транспорта.
+	 * Обновление.
 	 */
 	function update() {
 
 		t.engine.update();
+		t.weapon.update();
 
 		t.logic && t.logic(t);
+
+	}
+
+	/**
+	 * Логика уничтожения корабля.
+	 */
+	function onKillCallback() {
+
+		var x = t.sprite.x;
+		var y = t.sprite.y;
+
+		AnimationFactory.playExplosions([{
+			x,
+			y,
+			scale: 0.5
+		}, {
+			x: x + Random.randomInt(10, 50),
+			y: y + Random.randomInt(10, 50),
+			scale: Math.random()
+		}, {
+			x: x + Random.randomInt(10, 50),
+			y: y + Random.randomInt(10, 50),
+			scale: Math.random()
+		}]);
+
+		World.removeObject(t);
 
 	}
 

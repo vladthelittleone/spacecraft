@@ -14,7 +14,7 @@ module.exports = CruiserUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function CruiserUnit(game, x, y, player) {
+function CruiserUnit({game, x, y, player}) {
 
 	// that / this
 	var t = {};

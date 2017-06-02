@@ -10,7 +10,7 @@ module.exports = Sequence();
 function Sequence ()
 {
 	var that = {};
-	var i = 1;
+	var i = 0;
 
 	that.next = next;
 

@@ -4,7 +4,7 @@
 module.exports = Quiz();
 
 /**
- * Урок 0.
+ * Quiz 1
  *
  * Created by vladthelittleone on 21.10.15.
  */

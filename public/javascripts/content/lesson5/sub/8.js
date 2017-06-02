@@ -28,7 +28,7 @@ function ConditionOperator() {
 		instructions:
 		'<ul>' +
 		'<li>Поменяйте в коде операторы и числа так, чтобы команда <red-label>BBotDebug</red-lable> выводила во всех случаях ' +
-		'<span class="red-label">true</span>.</li>' +
+		'<span class="under-label">true</span>.</li>' +
 		'<li>Все еще не понятно, тогда вам сюда: ' +
 		'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators#Операторы_сравнения">клик</a>.</li></ul>',
 		hint:

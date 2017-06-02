@@ -26,7 +26,11 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
-		var base = EntitiesFactory.createAcademyBase(game, x, y);
+		var base = EntitiesFactory.createAcademyBase({
+ 			game: game,
+			x: x,
+			y: y
+		});
 
 		for (var h = 0; h < 5; h++) {
 
@@ -36,7 +40,11 @@ function StateWrapper(state) {
 			// Рандомим тип корабля
 			var type = random.random() ? EntitiesFactory.createTransport : EntitiesFactory.createHarvester;
 
-			var spacecraft = type(game, x + i1, y + i2);
+			var spacecraft = type({
+		  		game: game,
+				x: x + i1,
+		  		y: y + i2
+			});
 
 			// Рандомный угол
 			spacecraft.sprite.angle = game.rnd.angle();

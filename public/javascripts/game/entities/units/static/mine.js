@@ -12,7 +12,7 @@ module.exports = Mine;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function Mine(game, x, y, scale, group) {
+function Mine({game, x, y, scale, group}) {
 
 	// that / this
 	var t = {};

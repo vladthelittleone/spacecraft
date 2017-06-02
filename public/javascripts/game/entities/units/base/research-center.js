@@ -10,7 +10,7 @@ module.exports = ResearchCenterUnit;
  * Created by vaimer on 16.02.17.
  */
 
-function ResearchCenterUnit(game, x, y) {
+function ResearchCenterUnit({game, x, y}) {
 
 	// that / this
 	var t = {};

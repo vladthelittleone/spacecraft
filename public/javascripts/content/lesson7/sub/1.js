@@ -1,8 +1,5 @@
 'use strict';
 
-var LessonResults = require('../../lesson-results');
-var CodeLauncher = require('../../../game/launcher');
-
 module.exports = Drill();
 
 var lodash = require('lodash');
@@ -42,7 +39,7 @@ function Drill() {
 	function defaultBBot() {
 
 		return '<p>Обсёрвы - это людишки, кот0рые заправляют всем в академии.</p>' +
-			'<p>Вроде как очень мудры, но это не точно.</p>';
+			'<p>Вроде как очень мудры, но это не Tочно.</p>';
 
 	}
 }

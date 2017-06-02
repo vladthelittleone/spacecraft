@@ -13,9 +13,9 @@ function WelcomeConfig($stateProvider, ChartJsProvider) {
 
 	// Настройка всех графиков
 	ChartJsProvider.setOptions({
-								   chartColors:    ['#152B39', '#C5C8C6'],
-								   responsive: true
-							   });
+	   chartColors:    ['#152B39', '#C5C8C6'],
+	   responsive: true
+	});
 
 	// Конфигурация графиков линейных
 	ChartJsProvider.setOptions('Line', {

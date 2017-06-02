@@ -28,7 +28,7 @@ function IfOperation() {
 			diagram: function (graph) {
 
 				var condition = rhombus({
-					x:           300,
+					x:           225,
 					y:           50,
 					width:       150,
 					height:      100,
@@ -38,10 +38,10 @@ function IfOperation() {
 				});
 
 				var act1 = block(50, 200, 'Уничтожить', '#152B39');
-				var link = createLink(graph, null, act1, 310, 100);
+				var link = createLink(graph, null, act1, 300, 100);
 
 				var labelBlock = blockWithSize({
-					x: 140,
+					x: 150,
 					y: 70,
 					width: 30,
 					height: 30,
@@ -60,7 +60,6 @@ function IfOperation() {
 				link.set('vertices', [{ x: 125, y: 100 }]);
 			}
 		}],
-
 		gamePostUpdate: gamePostUpdate,
 
 		content: content,

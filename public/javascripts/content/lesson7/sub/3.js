@@ -27,7 +27,7 @@ function ElseOperation() {
 			diagram: function (graph) {
 
 				var condition = rhombus({
-					x:           200,
+					x:           225, // Центр 300
 					y:           50,
 					width:       150,
 					height:      100,
@@ -37,12 +37,12 @@ function ElseOperation() {
 				});
 
 				var act1 = block(50, 200, 'Управляет - BBot', '#152B39');
-				var act2 = block(350, 200, 'Управляет - Кадет', '#152B39');
-				var link1 = createLink(graph, null, act1, 200, 100);
-				var link2 = createLink(graph, null, act2, 200, 100);
+				var act2 = block(400, 200, 'Управляет - Кадет', '#152B39');
+				var link1 = createLink(graph, null, act1, 300, 100);
+				var link2 = createLink(graph, null, act2, 300, 100);
 
 				var labelBlock1 = blockWithSize({
-					x: 140,
+					x: 150,
 					y: 70,
 					width: 30,
 					height: 30,
@@ -50,7 +50,7 @@ function ElseOperation() {
 				});
 
 				var labelBlock2 = blockWithSize({
-					x: 375,
+					x: 410,
 					y: 70,
 					width: 30,
 					height: 30,
@@ -71,7 +71,7 @@ function ElseOperation() {
 				link2.toBack();
 
 				link1.set('vertices', [{ x: 125, y: 100 }]);
-				link2.set('vertices', [{ x: 425, y: 100 }]);
+				link2.set('vertices', [{ x: 475, y: 100 }]);
 			}
 		}],
 

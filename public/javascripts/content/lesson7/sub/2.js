@@ -80,7 +80,6 @@ function IfOperation() {
 
 	function gamePostUpdate(corvette,
 							statistics,
-							player,
 							text) {
 
 		var lessonResults = LessonResults({

@@ -2,7 +2,6 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var UpdateManager = require('../../game/update-manager');
 
 var Api = require('./api');
 
@@ -22,6 +21,7 @@ function StateWrapper(state) {
 
 	t.entities = entities;
 	t.logic = logic;
+	t.onContextLoaded = onContextLoaded;
 
 	return t;
 
@@ -33,19 +33,9 @@ function StateWrapper(state) {
 
 	}
 
-	function createNewTransports(game) {
-
-		var t1 = EntitiesFactory.createTransport(game, 1000, 0);
-		var t2 = EntitiesFactory.createTransport(game, 1050, 0);
-
-		patrol(t1, 1000, 0, 1000, 3000);
-		t2.logic = t2.moveToXY.bind(t2, 1050, 3500);
-
-	}
-
 	function createNewCruiser(game) {
 
-		var cruiser = EntitiesFactory.createCruiser(game, 1000, 2000);
+		var cruiser = EntitiesFactory.createCruiser({game: game, x: 1000, y: 2000});
 
 		cruiser.sprite.rotation = -Math.PI / 2;
 
@@ -56,18 +46,15 @@ function StateWrapper(state) {
 	/**
 	 * Логика в конкретном подуроке.
 	 */
-	function subLessonLogic(game) {
+	function onContextLoaded(game, {subIndex: index}) {
 
-		if (UpdateManager.getSubIndex() > 4) {
+		if (index > 4) {
 
 			sensor.sprite.visible = false;
 
-			createNewCruiser(game);
-
-			createNewTransports(game);
 		}
 
-		if(UpdateManager.getSubIndex() > 5) {
+		if(index > 5) {
 
 			changePlayerCoordinates();
 
@@ -76,12 +63,12 @@ function StateWrapper(state) {
 
 	function createSpaceCraftsInWorld(game) {
 
-		var scout = EntitiesFactory.createScout(game, 2000, 2000);
+		var scout = EntitiesFactory.createScout({game: game, x: 2000, y: 2000});
 		scout.sprite.rotation = 0.5 * Math.PI / 2;
 
-		var s1 = EntitiesFactory.createScout(game, 2055, 1995);
-		var s2 = EntitiesFactory.createScout(game, 2101, 1890);
-		var fighter = EntitiesFactory.createFighter(game, 400, 150);
+		var s1 = EntitiesFactory.createScout({game: game, x: 2055, y: 1995});
+		var s2 = EntitiesFactory.createScout({game: game, x: 2101, y: 1890});
+		var fighter = EntitiesFactory.createFighter({game: game, x: 400, y: 150});
 
 		s1.sprite.rotation = -3.85 * Math.PI / 2;
 		s2.sprite.rotation = -4.25 * Math.PI / 2;
@@ -102,10 +89,16 @@ function StateWrapper(state) {
 		// Инициализация графики
 		graphics = game.add.graphics(0, 0);
 
-		EntitiesFactory.createResearchCenter(game, 400, 2000);
+		EntitiesFactory.createResearchCenter({game: game, x: 400, y: 2000});
 
 		// Создать транспорт
-		player = EntitiesFactory.createHarvester(game, 1859, 2156, true);
+		player = EntitiesFactory.createHarvester({
+			game: game,
+			x: 1859,
+			y: 2156,
+			player: true
+		});
+
 		player.sprite.rotation = -3.35 * Math.PI / 2;
 
 		// API для урока
@@ -114,11 +107,17 @@ function StateWrapper(state) {
 		createNewCruiser(game);
 
 		// Создать метеоритное поле
-		EntitiesFactory.createMeteorField(game, x, y);
+		EntitiesFactory.createMeteorField({game, x, y});
 
 		createSpaceCraftsInWorld(game);
 
-		sensor = EntitiesFactory.createStaticUnit(game, 2170, 2080, 'sensor');
+		sensor = EntitiesFactory.createStaticUnit({
+			game: game,
+			x: 2170,
+			y: 2080,
+			preload: 'sensor'
+		});
+
 		sensor.sprite.visible = true;
 		sensor.sprite.bringToTop();
 
@@ -127,8 +126,6 @@ function StateWrapper(state) {
 
 		// Корабль на верх.
 		player.sprite.bringToTop();
-
-		subLessonLogic(game);
 
 		CodeLauncher.setArguments(player.api);
 	}

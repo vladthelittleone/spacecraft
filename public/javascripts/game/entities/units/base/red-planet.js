@@ -9,7 +9,7 @@ module.exports = RedPlanet;
 /**
  * Created by vaimer on 15.02.2017.
  */
-function RedPlanet(game, x, y) {
+function RedPlanet({game, x, y}) {
 
 	// that / this
 	var t = {};

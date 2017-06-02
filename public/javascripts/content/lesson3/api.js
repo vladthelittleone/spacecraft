@@ -20,20 +20,21 @@ function Api(player) {
 	api.moveToXY = player.moveToXY;
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
+	api.unloadCargoWithoutFlag = player.unloadCargo;
 	api.isCargoLoad = isCargoLoad;
-	api.cargoLoad = cargoLoad;
-	api.cargoUnload = cargoUnload;
+	api.loadCargo = loadCargo;
+	api.unloadCargo = unloadCargo;
 	api.isNearPoint = isNearPoint;
 	api.isCargoUnload = isCargoUnload;
 	api.isAlive = isAlive;
 
 	return api;
 
-	function cargoLoad(value) {
+	function loadCargo(value) {
 
 		cargoLoadFlag = true;
 
-		player.cargoLoad(value);
+		player.loadCargo(value);
 	}
 
 	function isCargoLoad() {
@@ -60,10 +61,10 @@ function Api(player) {
 
 	}
 
-	function cargoUnload() {
+	function unloadCargo() {
 
 		cargoUnloadFlag = true;
 
-		return player.cargoUnload();
+		return player.unloadCargo();
 	}
 }

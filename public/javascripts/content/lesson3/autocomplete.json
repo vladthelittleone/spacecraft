@@ -22,11 +22,11 @@
 			"!type": "fn()",
 			"!doc": "Сканирует область вокруг корабля."
 		},
-		"cargoLoad": {
+		"loadCargo": {
 			"!type": "fn(cargo: ?)",
 			"!doc": "Погрузка объекта на корабль."
 		},
-		"cargoUnload": {
+		"unloadCargo": {
 			"!type": "fn() -> ?",
 			"!doc": "Получаем груз корабля."
 		}

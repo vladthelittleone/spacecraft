@@ -17,11 +17,11 @@ function TypeOf() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Определите тип числа <span class="red-label">451</span>.</li>' +
+							'<li>Определите тип числа <span class="under-label">451</span>.</li>' +
 							'<li>Любознательны? Вам сюда: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/typeof">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +
-							'<li>Введите <span class="under-label-gray">typeof 451</span> на <strong>11</strong> строке.</li>' +
+							'<li>Введите <span class="red-label">typeof 451</span> на <strong>11</strong> строке.</li>' +
 							'</ul>',
 		character:          [{
 			audio: 'audio/lesson3/9-1',

@@ -20,7 +20,7 @@ function Investigation() {
 						   '<li>Координаты аварии (<strong>2000</strong>, <strong>2000</strong>).</li>' +
 						   '</ul>',
 		hint:              '<ul>' +
-						   '<li>Добавьте <span class="under-label-gray">scout.moveToXY(2000, 2000);</span> на <strong>8</strong> строку.</li>' +
+						   '<li>Добавьте <span class="red-label">scout.moveToXY(2000, 2000);</span> на <strong>8</strong> строку.</li>' +
 						   '</ul>',
 		character:         [{
 			audio: 'audio/lesson3/1-1',

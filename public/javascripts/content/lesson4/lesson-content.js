@@ -11,9 +11,9 @@ module.exports = Content();
 function Content() {
 
 	var points = {
-		totalPoints: 280,
+		totalPoints: 350,
 		// Штрафные очки за действия на уроке.
-		incorrectAnswer: 40
+		incorrectAnswer: 50
 	};
 
 	return {

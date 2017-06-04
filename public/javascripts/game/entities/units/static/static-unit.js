@@ -12,7 +12,7 @@ module.exports = StaticUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function StaticUnit({game, x, y, preload, scale}) {
+function StaticUnit({game, x, y, preload, scale, faction}) {
 
 	// that / this
 	var t = {};
@@ -23,6 +23,7 @@ function StaticUnit({game, x, y, preload, scale}) {
 
 	}
 
+	t.faction = faction;
 	/**
 	 * Создаем спрайт.
 	 */

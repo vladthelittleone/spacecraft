@@ -23,6 +23,7 @@ function StateWrapper(state) {
 	var carrier;    // Авианосец
 	var explosions;	// Группа анимации взрывов
 	var updateTime = moment().valueOf();
+	var sensor;
 
 	t.entities = entities;
 	t.onContextLoaded = onContextLoaded;
@@ -60,12 +61,23 @@ function StateWrapper(state) {
 		carrier = EntitiesFactory.createCarrier({
 			game: game,
 			x: worldCenterX,
-			y: worldCenterY
+			y: worldCenterY,
+			faction: 1
 		});
 
 		carrier.sprite.rotation = 3 * Math.PI / 2;
 
 		createNewPlayer();
+
+		sensor = EntitiesFactory.createStaticUnit({
+			game: game,
+			x: worldCenterX,
+			y: worldCenterY - 300,
+			preload: 'sensor'
+		});
+
+		sensor.sprite.visible = false;
+		sensor.sprite.bringToTop();
 
 		// Группа анимации взрыва
 		explosions = game.add.group();
@@ -159,12 +171,18 @@ function StateWrapper(state) {
 				var worldCenterY = game.world.centerY;
 
 				// Отправляем корабль пользователя к примерному месту начала урока
-				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 300);
+				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 200);
 
 			}
 
 			// Указываем, что необходимо повторять.
 			return true;
+
+		}
+
+		if(index === 3) {
+
+			sensor.sprite.visible = true;
 
 		}
 

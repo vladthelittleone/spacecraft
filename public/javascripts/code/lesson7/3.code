@@ -1,0 +1,19 @@
+/**
+ * Код управления.
+ */
+this.run = function(corvette)
+{
+	// Готовность первого лазерного оружия.
+	var isLaser1Ready = false;
+
+	// Готовность второго лазерного оружия.
+	var isLaser2Ready = false;
+
+	// ЕСЛИ один из лазеров готов к атаке.
+	if (isLaser1Ready || isLaser2Ready)
+	{
+		// ТО выполняем выстрел.
+		corvette.fire();
+	}
+
+}

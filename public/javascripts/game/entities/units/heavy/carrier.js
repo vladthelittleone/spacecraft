@@ -15,7 +15,7 @@ module.exports = CarrierUnit;
  * Created by vaimer on 09.05.2017.
  */
 
-function CarrierUnit({game, factory, x, y, player}) {
+function CarrierUnit({game, factory, x, y, player, faction}) {
 
 	// that / this
 	var t = {};
@@ -26,6 +26,7 @@ function CarrierUnit({game, factory, x, y, player}) {
 	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'carrier');
 	t.sprite.health = 200;
 	t.sprite.maxHealth = 400;
+	t.faction = faction;
 
 	/**
 	 * Добавляем двигатель к кораблю.

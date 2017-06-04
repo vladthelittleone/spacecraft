@@ -11,7 +11,9 @@
 		"meteor6": "images/sprites/entities/meteors/meteor6.png",
 		"meteor7": "images/sprites/entities/meteors/meteor7.png",
 		"carrier": "images/sprites/entities/spacecrafts/carrier.png",
-		"lightCorvette": "images/sprites/entities/spacecrafts/lightCorvette.png"
+		"lightCorvette": "images/sprites/entities/spacecrafts/lightCorvette.png",
+		"sensor": "images/sprites/entities/shared/sensor.png",
+		"beam1": "images/sprites/entities/shared/beam1.png"
 	},
 	"audio": {
 		"explosion": [

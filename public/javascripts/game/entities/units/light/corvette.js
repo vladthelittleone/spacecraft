@@ -14,7 +14,7 @@ module.exports = LightCorvette;
  * Created by vaimer on 09.05.2017.
  */
 
-function LightCorvette({game, x, y, player}) {
+function LightCorvette({game, x, y, player, faction}) {
 
 	// that / this
 	var t = {};
@@ -25,6 +25,7 @@ function LightCorvette({game, x, y, player}) {
 	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'lightCorvette');
 	t.sprite.health = 10;
 	t.sprite.maxHealth = 20;
+	t.faction = faction;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -38,6 +39,15 @@ function LightCorvette({game, x, y, player}) {
 		trails: [{
 			trailScale: 0.3
 		}]
+	});
+
+	/**
+	 * Добавляем оружие.
+	 */
+	t.weapon = BlocksFactory.addWeaponBlock({
+		game: game,
+		unit: t,
+		faction: faction
 	});
 
 	/**

@@ -11,12 +11,15 @@ function Api(player) {
 	var api = {};
 
 	var trueCaptain = false;
+	var useFire = false;
 
 	api.isAlive = isAlive;
 	api.setOwner = setOwner;
 	api.isTrueCaptain = isTrueCaptain;
 	api.log = log;
 	api.destroy = destroy;
+	api.fire = fire;
+	api.isUseFire = isUseFire;
 
 	return api;
 
@@ -48,5 +51,18 @@ function Api(player) {
 
 		return trueCaptain;
 
+	}
+
+	function fire() {
+
+		useFire = true;
+
+		player.fire();
+
+	}
+
+	function isUseFire() {
+
+		return useFire;
 	}
 }

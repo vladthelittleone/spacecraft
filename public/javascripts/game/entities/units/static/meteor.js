@@ -13,7 +13,7 @@ module.exports = Meteor;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function Meteor(game, x, y) {
+function Meteor({game, x, y}) {
 
 	// that / this
 	var t = {};

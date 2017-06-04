@@ -22,7 +22,7 @@ function Booleans() {
 		content:            content,
 		isRestartDisabled:  true,
 		instructions:       '<ul>' +
-							'<li>Введите логическое выражение, при котором система должна вернуть <span class="red-label">true</span>.</li>' +
+							'<li>Введите логическое выражение, при котором система должна вернуть <span class="under-label">true</span>.</li>' +
 							'<li>Для любознательных: <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Data_structures#Булев_тип_null_и_undefined">клац</a>.</li>' +
 							'</ul>',
 		hint:               '<ul>' +

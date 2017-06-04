@@ -14,7 +14,7 @@ module.exports = LightCorvette;
  * Created by vaimer on 09.05.2017.
  */
 
-function LightCorvette(game, x, y, player) {
+function LightCorvette({game, x, y, player}) {
 
 	// that / this
 	var t = {};

@@ -11,7 +11,6 @@ function RandomUtils ()
 {
 	var that = {};
 
-	that.lessonsArray = [];
 	that.randomInt = randomInt;
 	that.randomArbitrary = randomArbitrary;
 	that.random = random;
@@ -41,7 +40,7 @@ function RandomUtils ()
      */
 	function random ()
 	{
-		return this.randomInt(0, 1);
+		return randomInt(0, 1);
 	}
 
 	/**
@@ -49,7 +48,7 @@ function RandomUtils ()
      */
 	function randomOf (i1, i2)
 	{
-		return this.random() ? i1 : i2;
+		return random() ? i1 : i2;
 	}
 
 }

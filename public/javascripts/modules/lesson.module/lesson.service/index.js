@@ -6,7 +6,7 @@ var Game = require('../../../game');
 var CodeLauncher = Game.codeLauncher;
 var UpdateManager = Game.updateManager;
 var ContentFactory = Game.content;
-var EntitiesFactory = Game.world;
+var World = Game.world;
 
 var Interpreter = require('./interpreter');
 var LessonStatistics = require('../../../utils/lesson-statistics');
@@ -142,7 +142,7 @@ function LessonService(connection,
 			// Если урок с диграммой, то добавляем панель диаграммы
 			if (ch.diagram) {
 
-				scope.toggleContentEnable('diagramEnable');
+				scope.setContentEnable('diagramEnable');
 
 				// Изменяем диаграмму
 				Diagram.change(ch.diagram);
@@ -157,7 +157,7 @@ function LessonService(connection,
 
 				// Если таблица вырублена, то
 				// подрубаем ее
-				!scope.tableEnable && scope.toggleContentEnable('tableEnable');
+				!scope.tableEnable && scope.setContentEnable('tableEnable');
 
 			}
 
@@ -307,6 +307,10 @@ function LessonService(connection,
 		// Текущий подурок
 		var current = currentSubLesson();
 
+		// Передаем контекстные параметры в текущий стейт игры.
+		// Смотреть: content/state.js, метод onContextLoaded.
+		Game.pushContextParameters({subIndex: scope.subIndex});
+
 		// Отправка запроса на получение кода следующего уркоа
 		connection.getLessonCodeFromJs(lessonId, scope.subIndex, function (res) {
 
@@ -375,7 +379,7 @@ function LessonService(connection,
 		// так как в saveStatisticsWrapper должен передавать индекс
 		// именно следующего урока, а не текущего, который пользователь прошел.
 		// Именно этим и обусловлено расположение этого выражения здесь.
-		UpdateManager.setSubIndex(++scope.subIndex);
+		++scope.subIndex;
 
 		// Сохраняем статистику текущего положения по уроку.
 		saveStatisticsWrapper(scope.subIndex, isCurrentLessonCompleted);
@@ -483,8 +487,6 @@ function LessonService(connection,
 
 			// Индекс подурока (% используется на случай изменений в размерах).
 			scope.subIndex = scope.subIndex % size;
-
-			UpdateManager.setSubIndex(scope.subIndex);
 
 			// Если урок был окончен, тогда в currentLessonStatistics необходимо
 			// сбросить начальные значение параметров статистики (currentScore; currentRunCount),
@@ -659,10 +661,9 @@ function LessonService(connection,
 	function gamePostUpdate(botText) {
 
 		var current = currentSubLesson();
-		var world = EntitiesFactory.getWorld();
-		var player = world.getPlayer();
+		var player = World.getPlayer();
 
-		var result = current.gamePostUpdate(player.api, currentLessonStatistics, world, botText);
+		var result = current.gamePostUpdate(player.api, currentLessonStatistics, botText);
 
 		if (result && result.status) {
 

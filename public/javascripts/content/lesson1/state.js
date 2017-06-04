@@ -37,10 +37,20 @@ function StateWrapper(state) {
 		var x = game.world.centerX;
 		var y = game.world.centerY;
 
-		EntitiesFactory.createResearchCenter(game, 400, 2000);
+		EntitiesFactory.createResearchCenter({
+			game: game,
+			x: 400,
+			y: 2000
+		});
 
 		// Создать транспорт
-		player = EntitiesFactory.createTransport(game, x, y, true);
+		player = EntitiesFactory.createTransport({
+			game: game,
+			x: x,
+			y: y,
+			player: true
+		});
+
 		var sprite = player.sprite;
 
 		sprite.rotation = - Math.PI / 2;
@@ -49,9 +59,9 @@ function StateWrapper(state) {
 		player.api = Api(player);
 
 		// Создать метеоритное поле
-		EntitiesFactory.createMeteorField(game, x, y);
+		EntitiesFactory.createMeteorField({game, x, y});
 
-		mineField(game, x, y);
+		mineField(game);
 
 		// Корабль на верх.
 		sprite.bringToTop();
@@ -67,6 +77,7 @@ function StateWrapper(state) {
 	 * Создание минного поля.
      */
 	function mineField(game) {
+
 		// Создать минное поле
 		mineXY = new Phaser.Point(1100, 1100);
 
@@ -78,7 +89,13 @@ function StateWrapper(state) {
 			var deltaY = Random.randomOf(-1, 1) * 20 * i;
 			var deltaX = Random.randomOf(-1, 1) * 20 * i;
 
-			EntitiesFactory.createMine(game, mineXY.x + deltaX, mineXY.y - deltaY, 0.15, mines);
+			EntitiesFactory.createMine({
+				game: game,
+				x: mineXY.x + deltaX,
+				y: mineXY.y - deltaY,
+				scale: 0.15,
+				group: mines
+			});
 		}
 
 		// Группа анимации взрыва

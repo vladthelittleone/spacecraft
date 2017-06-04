@@ -57,6 +57,7 @@ function LessonController($scope,
 	$scope.toggleCodeRun = toggleCodeRun;
 	$scope.onError = onError;
 	$scope.quizAnswer = quizAnswer;
+	$scope.setContentEnable = setContentEnable;
 	$scope.toggleContentEnable = toggleContentEnable;
 	$scope.disableLeftContent = disableLeftContent;
 
@@ -102,6 +103,22 @@ function LessonController($scope,
 	/**
 	 * Обощенная функция, который открывает(делает видимым)
 	 * окно с необходимым контентом
+	 */
+	function setContentEnable(content) {
+
+		var currentState = $scope[content];
+
+		disableLeftContent();
+
+		$scope[content] = true;
+
+	}
+
+	/**
+	 * Обощенная функция, который туглит
+	 * окно с необходимым контентом
+	 *
+	 * @see setContentEnable
 	 */
 	function toggleContentEnable(content) {
 
@@ -179,7 +196,6 @@ function LessonController($scope,
 		$scope.tableEnable = false;			// Переключатель таблички
 		$scope.settingsEnable = false;		// Переключатель натсроек
 		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
-
 	}
 
 	/**

@@ -6,4 +6,5 @@ var ultimateAnswer = 42;
 // вычисления выражения.
 var solo = 301 + ultimateAnswer / 2;
 
+// Выведем результат вычисления.
 BBotDebug(solo);

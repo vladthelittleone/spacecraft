@@ -14,7 +14,7 @@ module.exports = TransportUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function TransportUnit({game, x, y, player}) {
+function TransportUnit({game, x, y, player, velocity}) {
 
 	// that / this
 	var t = {};
@@ -33,9 +33,10 @@ function TransportUnit({game, x, y, player}) {
 		game:            game,
 		unit:            t,
 		drag:            120,	// Торможение корабля
-		velocity:        60,	// Скорость корабля
+		maxVelocity:     60,	// Максимальная скорость корабля
+		velocity:        velocity || 60,
 		angularVelocity: 0.5,	// Скорость разворота
-		trails: [{
+		trails:          [{
 			trailScale: 0.5
 		}]
 	});

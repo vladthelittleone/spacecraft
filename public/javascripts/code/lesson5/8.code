@@ -1,16 +1,28 @@
+/**
+ * Функция run, внутри которой
+ * контролируется скорость корабля.
+ *
+ * @param transport транспортный корабль,
+ *					управляемый кадетом.
+ */
 this.run = function(transport)
 {
 	// Текущая скорость корабля.
-	var currentVelocity = transport.getVelocity();
+	var velocity = transport.getVelocity();
 
-	// Расстояние до корабля противника.
-	var distanceToTheDrone = transport.getDistanceToTheDrone();
+	// Выводим информацию о скорости.
+	BBotDebug(velocity);
 
-	transport.setVelocity(currentVelocity);
-	BBotDebug(currentVelocity);
+	// Расстояние до корабля противника в единицах px.
+	var distance = transport.getDistanceToEnemy();
 
-	// Измените значение isDistanceCorrect таким образом, чтобы оно имело значение true
-	// когда дистанция до корабля противника будет меньше или равна 100.
-	var isDistanceCorrect = false;
-	transport.activateHackDevice(isDistanceCorrect);
+	// Задаем скорость корабля.
+	transport.setVelocity(velocity);
+
+	// Враг в зоне поражения?
+	// false - нет.
+	var isEnemyInDefeatZone = false;
+
+	// Активировать ЭМИ, если враг в зоне поражения.
+	transport.activateEMP(isEnemyInDefeatZone);
 };

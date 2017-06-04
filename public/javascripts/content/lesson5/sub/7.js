@@ -13,13 +13,14 @@ function OperatorMod() {
 		isRestartDisabled:  true,
 		title:              'На 98% безопасней обычного деления',
 		content:            content,
+		character:          [],
 		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +
-		'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
-		'<i class="glyphicon glyphicon-play green"></i>.</li>' +
-		'<li>Крупица знаний: ' +
-		'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Остаток_от_деления_()">забрать</a>.</li>' +
-		'</ul>'
+							'<li>Для запуска кода нажмите, в правом верхнем углу, на зеленую кнопку ' +
+							'<i class="glyphicon glyphicon-play green"></i>.</li>' +
+							'<li>Крупица знаний: ' +
+							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Остаток_от_деления_()">забрать</a>.</li>' +
+							'</ul>'
 	};
 
 	function content() {
@@ -39,12 +40,13 @@ function OperatorMod() {
 		var lessonResults = {
 
 			correct: '<p>Кадет, еще не уснул? Тогда выполняю:</p>' +
-			         '<p class="bbot-output">{{correctText}}</p>',
+					 '<p class="bbot-output">{{correctText}}</p>',
 
 			unknownError: '<p>Чт0 здесь вообще прои3ошло?</p>'
 
 		};
 
-		return LessonResults(lessonResults).resultsWrapper(value);
+		return LessonResults(lessonResults)
+			.resultsWrapper(value);
 	}
 }

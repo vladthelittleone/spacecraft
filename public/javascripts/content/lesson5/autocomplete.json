@@ -1,26 +1,26 @@
 {
 	"!name": "lesson",
 	"transport": {
-		"!doc": "Легкий атакующий корабль.",
+		"!doc": "Объект транспортного корабля.",
 		"moveForward": {
 			"!type": "fn()",
 			"!doc": "Отправляет корабль вперед."
 		},
 		"setVelocity": {
-			"!type": "fn(newVelocity: number)",
-			"!doc": "Устанавливает скорость транспорта."
+			"!type": "fn(velocity: number)",
+			"!doc": "Устанавливает скорость корабля."
 		},
 		"getVelocity": {
-			"!type": "fn() -> ?",
-			"!doc": "Возвращает скорость транспорта."
+			"!type": "fn() -> number",
+			"!doc": "Возвращает скорость корабля."
 		},
-		"getDistanceToTheDrone": {
-			"!type": "fn()",
+		"getDistanceToEnemy": {
+			"!type": "fn() -> number",
 			"!doc": "Возвращает дистанцию до противника."
 		},
-		"activateHackDevice": {
+		"activateEMP": {
 			"!type": "fn(x: boolean)",
-			"!doc": "Активирует устройство перехвата. Способно перехвататить только объекты ближе 100GY."
+			"!doc": "Активирует устройство ЭМИ. Способно перехвататить объекты ближе 100 px."
 		}
 	}
 }

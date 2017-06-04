@@ -13,27 +13,27 @@ function Api(player, enemy) {
 	api.moveForward = player.moveForward;
 	api.setVelocity = player.setVelocity;
 	api.getVelocity = player.getVelocity;
-	api.getDistanceToTheDrone = getDistanceToTheDrone;
-	api.activateHackDevice = activateHackDevice;
-	api.isHackAvailable = isHackAvailable;
+	api.getDistanceToEnemy = getDistanceToEnemy;
+	api.activateEMP = activateEMP;
+	api.isEMPAvailable = isEMPAvailable;
 
 	return api;
 
-	function getDistanceToTheDrone () {
+	function getDistanceToEnemy () {
 
 		return player.distanceTo(enemy.sprite.x, enemy.sprite.y);
 
 	}
 
-	function activateHackDevice(flag) {
+	function activateEMP(flag) {
 
-		player.isHackDeviceActivated = flag;
+		player.isEMPActivated = flag;
 
 	}
 
-	function isHackAvailable () {
+	function isEMPAvailable () {
 
-		return player.distanceTo(enemy.sprite.x, enemy.sprite.y) < 100 && player.isHackDeviceActivated;
+		return player.distanceTo(enemy.sprite.x, enemy.sprite.y) < 100 && player.isEMPActivated;
 
 	}
 }

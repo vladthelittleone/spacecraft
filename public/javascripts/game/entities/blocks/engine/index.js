@@ -159,7 +159,13 @@ function EngineBlock({
 
 	}
 
-	function useTrail(){
+	function useTrail() {
+
+		if (!velocity) {
+
+			return;
+
+		}
 
 		trailsArray.forEach(function (trail) {
 
@@ -204,32 +210,23 @@ function EngineBlock({
 	/**
 	 * Функция устанавливает скорость корабля. Если новое значение скорости больше текущей на 1
 	 * или пользователь пытался увеличить скорость выше максимально допустимой, то считаем
-	 * что двигатель перегрелся и скорость сбрасывается до maxVelocity / 2
+	 * что двигатель перегрелся и скорость сбрасывается до 0.
 	 */
-	function setVelocity (_velocity) {
+	function setVelocity(_velocity) {
 
-		// Если укорость изменилась больше чем на 1 сбрасываем скорость до maxVelocity / 2
+		// Ограничение ускорения.
 		if (Math.abs(_velocity - velocity) > 1) {
 
-			velocity = maxVelocity / 2;
+			// Не выполняем изменения.
 			return;
 
 		}
 
-		// Ограничение максимальной скорости
-		if (_velocity < maxVelocity) {
-
-			velocity = _velocity;
-
-		} else {
-
-			velocity = maxVelocity / 2;
-
-		}
+		velocity = Math.min(maxVelocity, Math.max(_velocity, 0));
 
 	}
 
-	function getVelocity () {
+	function getVelocity() {
 
 		return velocity;
 

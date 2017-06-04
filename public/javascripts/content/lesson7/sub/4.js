@@ -12,12 +12,39 @@ var lodash = require('lodash');
  */
 function ComplexLogicalExpressionOr() {
 
+	var lessonTableColumns = ['||', 'true', 'false'];
+	var lessonTableRows = [
+				['<strong>true</strong>', 'true', 'true'],
+				['<strong>false</strong>', 'true', 'false']
+	];
 	return {
 		isRestartDisabled: true,
 		title:             'Две палочки',
 		character:         [{
-			audio: 'audio/lesson2/1-1',
-			css:   'astromen-img'
+			audio: 'audio/lesson6/8-1',
+			css:   'astromen-img',
+			lessonTable: {
+				columns: lessonTableColumns,
+				rows: lessonTableRows
+			}
+		}, {
+			audio: 'audio/lesson6/8-1',
+			css:   'astromen-img',
+			lessonTable: {
+				columns: lessonTableColumns,
+				rows: lessonTableRows,
+				hintColumns: [1, 2],
+				hintRows: [0]
+			}
+		}, {
+			audio: 'audio/lesson6/8-1',
+			css:   'astromen-img',
+			lessonTable: {
+				columns: lessonTableColumns,
+				rows: lessonTableRows,
+				hintColumns: [2],
+				hintRows: [1]
+			}
 		}],
 
 		gamePostUpdate: gamePostUpdate,

@@ -73,7 +73,8 @@ function StateWrapper(state) {
 			game: game,
 			x: worldCenterX,
 			y: worldCenterY - 300,
-			preload: 'sensor'
+			preload: 'sensor',
+			faction: 2
 		});
 
 		sensor.sprite.visible = false;

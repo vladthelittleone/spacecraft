@@ -65,6 +65,7 @@ function LightCorvette({game, x, y, player, faction}) {
 	function update() {
 
 		t.engine.update();
+		t.weapon.update();
 
 		t.logic && t.logic(t);
 

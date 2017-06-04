@@ -17,6 +17,10 @@ function End() {
 	return {
 		title:        'Да начнется долгий путь...',
 		defaultBBot:  defaultBBot,
+		video:	 	 {
+			url: 'https://youtu.be/G8M4zM-lbvA',
+			title: 'Кто такие программисты?'
+		},
 		content:      function () {
 
 			return '<p>Поздравляю, теперь вы официально числитесь в академии, кадет!</p>' +

@@ -43,8 +43,8 @@ function EntitiesFactory() {
 	t.createMeteorFiledSphere = createMeteorFiledSphere;
 
 	t.createMine = Mine;
-	t.createStaticUnit = StaticUnit;
 
+	t.createStaticUnit = createByType(StaticUnit);
 	t.createCarrier = createByType(Carrier);
 	t.createBase = createByType(Base);
 	t.createMeteor = createByType(Meteor);

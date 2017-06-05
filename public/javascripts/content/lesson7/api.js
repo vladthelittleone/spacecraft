@@ -55,10 +55,15 @@ function Api(player) {
 
 	function fire() {
 
-		useFire = true;
+		player.moveToXY(1500, 1500);
 
-		player.fire();
+		if(player.distanceTo(1500, 1500) <= 50) {
 
+			useFire = true;
+
+			player.fire();
+
+		}
 	}
 
 	function isUseFire() {

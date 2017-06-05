@@ -71,8 +71,8 @@ function StateWrapper(state) {
 
 		sensor = EntitiesFactory.createStaticUnit({
 			game: game,
-			x: worldCenterX,
-			y: worldCenterY - 300,
+			x: worldCenterX - 500,
+			y: worldCenterY - 500,
 			preload: 'sensor',
 			faction: 2
 		});

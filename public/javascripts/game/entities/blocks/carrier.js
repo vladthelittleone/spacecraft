@@ -33,7 +33,7 @@ function CarrierBlock(spec) {
 		var x = unit.sprite.x;
 		var y = unit.sprite.y;
 
-		var faction = unit.faction;
+		var faction = unit.sprite.faction;
 
 		// Фабричный метод. Можно передать разные фабрики, которые
 		// сами определяют тип корабля.

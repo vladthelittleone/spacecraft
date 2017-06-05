@@ -22,7 +22,13 @@ function HarvesterUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'harvester');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'harvester'
+	});
+
 	t.sprite.health = 20;
 	t.sprite.maxHealth = 20;
 

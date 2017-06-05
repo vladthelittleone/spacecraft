@@ -36,7 +36,6 @@ function WeaponBlock({
 
 	// that / this
 	let t = {};
-
 	let weapon = game.add.weapon(quantity, 'beam1');
 
 	unit.fire = fire;
@@ -80,13 +79,21 @@ function WeaponBlock({
 
 	function update() {
 
-		var groups = World.getFactionEnemyGroups(unit.faction);
+		var sprites = World.getSprites();
 
-		game.physics.arcade.overlap(weapon.bullets, groups, hitEnemy, null, t);
+		game.physics.arcade.overlap(weapon.bullets, sprites, hitEnemy, null, t);
 
 	}
 
-	function hitEnemy(bullet, enemy) {
+	function hitEnemy(enemy, bullet) {
+
+		// Если фракция врага равна фракции юнита
+		// ничего не выполняем.
+		if (enemy.faction === unit.sprite.faction) {
+
+			return;
+
+		}
 
 		bullet.kill();
 		enemy.damage(damage);

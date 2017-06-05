@@ -17,10 +17,11 @@ function World() {
 
 	let t = {};
 
-	let game;			// Игра
-	let playerId;		// Игрок
-	let objects = [];	// Массив всех объектов
-	let factions = {};
+	let game;				// Игра.
+	let playerId;			// Игрок.
+	let objects = [];		// Массив всех объектов.
+	let sprites = [];		// Массив всех спрайтов.
+	let factions = {};		// Фракции.
 
 	t.initialization = initialization;
 	t.pushObject = pushObject;
@@ -30,7 +31,7 @@ function World() {
 	t.update = update;
 	t.getPlayer = getPlayer;
 	t.setPlayer = setPlayer;
-	t.getFactionEnemyGroups = getFactionEnemyGroups;
+	t.getSprites = getSprites;
 
 	return t;
 
@@ -46,20 +47,12 @@ function World() {
 
 		if (!factions[faction]) {
 
-			factions[faction] = {
-				objects: [],
-				group:   game.add.group()
-			};
+			factions[faction] = [];
 
 		}
 
 		// Добавляем в пулл объектов фракции.
-		factions[faction].objects.push(obj);
-
-		// Добавляем в phaser группу
-		factions[faction].group.add(obj.sprite);
-		game.world.bringToTop(factions[faction].group);
-
+		factions[faction].push(obj);
 	}
 
 	/**
@@ -69,11 +62,12 @@ function World() {
 	function pushObject(obj) {
 
 		let id = sequence.next();
-		let faction = obj.faction;
+		let faction = obj.sprite.faction;
 
 		obj.id = id;
 
 		objects[id] = obj;
+		sprites[id] = obj.sprite;
 
 		faction && addToFaction(obj, faction);
 
@@ -84,28 +78,11 @@ function World() {
 	/**
 	 * Выполнить действия с phaser-группами врагов фракции.
 	 *
-	 * @param faction фракция
-	 * @param action действия
+	 * @return {Array} возвращаем группу для коллизий.
 	 */
-	function getFactionEnemyGroups(faction, action) {
+	function getSprites() {
 
-		var groups = [];
-
-		lodash.forEach(factions, (v, k) => {
-
-			if (k != faction) {
-
-				let group = v.group;
-
-				action && action(group);
-
-				groups = lodash.concat(groups, group)
-
-			}
-
-		});
-
-		return groups;
+		return sprites;
 
 	}
 
@@ -115,6 +92,7 @@ function World() {
 	function removeObject(obj) {
 
 		objects.removeElement(obj);
+		sprites.removeElement(obj.sprite);
 
 	}
 

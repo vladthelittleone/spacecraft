@@ -8,11 +8,14 @@ module.exports = Unit;
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function Unit(game, x, y, preload, scale) {
+function Unit({game, x, y, preload, scale, faction}) {
 
 	var t = game.add.sprite(x, y, preload);
 
-	// Центрирование
+	// Фракция.
+	t.faction = faction;
+
+	// Центрирование.
 	t.anchor.x = 0.5;
 	t.anchor.y = 0.5;
 

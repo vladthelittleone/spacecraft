@@ -22,7 +22,13 @@ function ScoutUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'scout');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'scout'
+	});
+
 	t.sprite.health = 4;
 	t.sprite.maxHealth = 4;
 

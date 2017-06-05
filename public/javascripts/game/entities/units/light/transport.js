@@ -22,7 +22,13 @@ function TransportUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'transport');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'transport'
+	});
+
 	t.sprite.health = 10;
 	t.sprite.maxHealth = 10;
 

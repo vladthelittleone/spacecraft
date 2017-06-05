@@ -23,10 +23,16 @@ function CarrierUnit({game, factory, x, y, player, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'carrier');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'carrier',
+		faction: faction
+	});
+
 	t.sprite.health = 200;
 	t.sprite.maxHealth = 400;
-	t.faction = faction;
 
 	/**
 	 * Добавляем двигатель к кораблю.

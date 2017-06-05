@@ -55,7 +55,7 @@ function ExplosionAnimation() {
 
 		var explosion = explosions.getFirstExists(false);
 
-		explosion.scale.setTo(scale);
+		explosion.scale.setTo(scale || 1);
 		explosion.reset(x, y);
 		explosion.play('explosion', 30, false, true);
 

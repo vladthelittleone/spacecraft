@@ -26,8 +26,7 @@ function StaticUnit({game, x, y, preload, scale, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, preload, scale);
-	t.faction = faction;
+	t.sprite = PrefabsFactory.createCustomUnit({game, x, y, preload, scale, faction});
 
 	t.update = update;
 

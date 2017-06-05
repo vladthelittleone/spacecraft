@@ -40,7 +40,7 @@ function RandomUtils ()
      */
 	function random ()
 	{
-		return this.randomInt(0, 1);
+		return randomInt(0, 1);
 	}
 
 	/**

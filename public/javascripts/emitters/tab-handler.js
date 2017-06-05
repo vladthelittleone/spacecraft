@@ -105,7 +105,7 @@ function TabHandler() {
 
 		var _prepareResult = callbackPrepareResult.none;
 
-		if ( _status == currentTabStatus ) {
+		if ( _status === currentTabStatus ) {
 
 			_callbackFunc();
 			_prepareResult = callbackPrepareResult.wasExecuted;
@@ -119,7 +119,7 @@ function TabHandler() {
 	function addCallbackToEventList( _status, _callbackFunc, _callbackType ) {
 
 		var _callbackWrapper = callbackWrapper( _callbackType, _callbackFunc);
-		(_status == status.hidden) ? hiddenList.push(_callbackWrapper):
+		(_status === status.hidden) ? hiddenList.push(_callbackWrapper):
 									 showList.push( _callbackWrapper );
 
 	}
@@ -207,7 +207,7 @@ function TabHandler() {
 				callbackWrapper.callbackFunc();
 
 				// Если обработчик ОДНОРАЗОВЫЙ - удаляем его.
-				if ( callbackWrapper.callbackType == callbackType.callOnce ) {
+				if ( callbackWrapper.callbackType === callbackType.callOnce ) {
 
 					// удаляем обертку коллбэка из списка:
 					// The splice() method changes the content of an array by removing existing elements and/or adding new elements (документация).
@@ -246,7 +246,7 @@ function TabHandler() {
 
 		updateCurrentTabStatus();
 
-		var  _callbackFuncList = (currentTabStatus == status.hidden) ? hiddenList :
+		var  _callbackFuncList = (currentTabStatus === status.hidden) ? hiddenList :
 			  														   showList;
 		prepareCallbackWrapperList(_callbackFuncList);
 

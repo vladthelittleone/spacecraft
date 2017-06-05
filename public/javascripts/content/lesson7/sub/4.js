@@ -23,28 +23,30 @@ function ComplexLogicalExpressionOr() {
 		character:         [{
 			audio: 'audio/lesson6/8-1',
 			css:   'astromen-img',
-			// lessonTable: {
-			// 	columns: lessonTableColumns,
-			// 	rows: lessonTableRows
-			// }
+			lessonTable: {
+				columns: lessonTableColumns,
+				rows: lessonTableRows
+			}
 		}, {
 			audio: 'audio/lesson6/8-1',
 			css:   'astromen-img',
-			// lessonTable: {
-			// 	columns: lessonTableColumns,
-			// 	rows: lessonTableRows,
-			// 	hintColumns: [1, 2],
-			// 	hintRows: [0]
-			// }
+			// Логический оператор || (или) возвращает «true», если один или оба операнда возвращают «true»,
+			lessonTable: {
+				columns: lessonTableColumns,
+				rows: lessonTableRows,
+				hintColumns: [1, 2],
+				hintRows: [0]
+			}
 		}, {
 			audio: 'audio/lesson6/8-1',
 			css:   'astromen-img',
-			// lessonTable: {
-			// 	columns: lessonTableColumns,
-			// 	rows: lessonTableRows,
-			// 	hintColumns: [2],
-			// 	hintRows: [1]
-			// }
+			//  иначе возвращает «false».
+			lessonTable: {
+				columns: lessonTableColumns,
+				rows: lessonTableRows,
+				hintColumns: [2],
+				hintRows: [1]
+			}
 		}],
 
 		gamePostUpdate: gamePostUpdate,

@@ -10,7 +10,7 @@ module.exports = ResearchCenterUnit;
  * Created by vaimer on 16.02.17.
  */
 
-function ResearchCenterUnit({game, x, y}) {
+function ResearchCenterUnit({game, x, y, faction}) {
 
 	// that / this
 	var t = {};
@@ -18,7 +18,13 @@ function ResearchCenterUnit({game, x, y}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createBase(game, x, y, 'researchCenter');
+	t.sprite = PrefabsFactory.createBase({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'researchCenter',
+		faction: faction
+	});
 
 	/**
 	 * Добавляем двигатель к кораблю.

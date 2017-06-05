@@ -25,10 +25,9 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, preload);
+	t.sprite = PrefabsFactory.createCustomUnit({game, x, y, preload, faction});
 	t.sprite.health = 150;
 	t.sprite.maxHealth = 150;
-	t.faction = faction;
 
 	/**
 	 * Коллбеки.
@@ -44,25 +43,25 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 		drag:            10,					// Торможение корабля
 		velocity:        15,					// Скорость корабля
 		angularVelocity: 0.15,					// Скорость разворота
-		trails: [ {
-			trailY: -3,
+		trails:          [{
+			trailY:     -3,
 			trailScale: 0.1
 		}, {
-			trailY: 3,
+			trailY:     3,
 			trailScale: 0.1
 		}, {
 			trailY: -18
 		}, {
 			trailY: 18
-		} ]
+		}]
 	});
 
 	/**
 	 * Добавляем щиты.
 	 */
 	t.shield = BlocksFactory.addShieldBlock({
-		game: game,
-		unit: t,
+		game:  game,
+		unit:  t,
 		scale: 0.7
 	});
 
@@ -70,9 +69,8 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	 * Добавляем оружие.
 	 */
 	t.weapon = BlocksFactory.addWeaponBlock({
-		game: game,
-		unit: t,
-		faction: faction
+		game:    game,
+		unit:    t
 	});
 
 	/**
@@ -105,21 +103,24 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 		var y = t.sprite.y;
 
 		AnimationFactory.playExplosions([{
-			x,
-			y,
+				   x,
+				   y,
 			scale: 0.5
 		}, {
-			x: x + Random.randomInt(10, 50),
-			y: y + Random.randomInt(10, 50),
+			x:     x + Random.randomInt(10, 50),
+			y:     y + Random.randomInt(10, 50),
 			scale: Math.random()
 		}, {
-			x: x + Random.randomInt(10, 50),
-			y: y + Random.randomInt(10, 50),
+			x:     x + Random.randomInt(10, 50),
+			y:     y + Random.randomInt(10, 50),
 			scale: Math.random()
 		}]);
 
+		// Удаляем объект из мира.
 		World.removeObject(t);
 
+		// Играем аудио взрыва.
+		t.audio.playExplosion();
 	}
 
 }

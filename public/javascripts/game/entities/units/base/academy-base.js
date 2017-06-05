@@ -13,7 +13,7 @@ module.exports = AcademyBaseUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function AcademyBaseUnit({game, x, y}) {
+function AcademyBaseUnit({game, x, y, faction}) {
 
 	// that / this
 	var t = {};
@@ -21,7 +21,13 @@ function AcademyBaseUnit({game, x, y}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createBase(game, x, y, 'base');
+	t.sprite = PrefabsFactory.createBase({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'base',
+		faction: faction
+	});
 
 	/**
 	 * Добавляем двигатель к кораблю.

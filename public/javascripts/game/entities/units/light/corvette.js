@@ -22,7 +22,13 @@ function LightCorvette({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'lightCorvette');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'lightCorvette'
+	});
+
 	t.sprite.health = 10;
 	t.sprite.maxHealth = 20;
 

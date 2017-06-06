@@ -17,7 +17,9 @@ function Api(player) {
 	api.rotateLeft = player.rotateLeft;
 	api.rotateRight = player.rotateRight;
 	api.fire = player.fire;
+	api.fireAtXY = player.fireAtXY;
 	api.moveForward = player.moveForward;
+	api.scan = player.scan;
 
 	return api;
 

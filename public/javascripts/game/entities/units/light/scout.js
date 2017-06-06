@@ -52,10 +52,6 @@ function ScoutUnit({game, x, y, player}) {
 		maxDiameter: 350
 	});
 
-	t.cargo = BlocksFactory.addCargoBlock({
-		unit: t
-	});
-
 	/**
 	 * Аудио менеджер.
 	 */

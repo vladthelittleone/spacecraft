@@ -11,7 +11,7 @@ function Api(player) {
 	var api = {};
 
 	var trueCaptain = false;
-	var useFire = false;
+	var fireAlreadyUsed = false;
 
 	api.isAlive = isAlive;
 	api.setOwner = setOwner;
@@ -19,7 +19,7 @@ function Api(player) {
 	api.log = log;
 	api.destroy = destroy;
 	api.fire = fire;
-	api.isUseFire = isUseFire;
+	api.isFireAlreadyUsed = isFireAlreadyUsed;
 
 	return api;
 
@@ -59,15 +59,16 @@ function Api(player) {
 
 		if(player.distanceTo(1500, 1500) <= 50) {
 
-			useFire = true;
+			fireAlreadyUsed = true;
 
 			player.fire();
 
 		}
 	}
 
-	function isUseFire() {
+	function isFireAlreadyUsed() {
 
-		return useFire;
+		return fireAlreadyUsed;
+
 	}
 }

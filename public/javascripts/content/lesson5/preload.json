@@ -1,7 +1,8 @@
 {
 	"sprites": {
 		"transport": "images/sprites/entities/spacecrafts/transport.png",
-		"starField": "images/sprites/starField2.png",
+		"ebonHawk": "images/sprites/entities/spacecrafts/ebonHawk.png",
+		"starField": "images/sprites/starField4.png",
 		"shield": "images/sprites/entities/shared/shield.png",
 		"trail": "images/sprites/entities/shared/trail.png",
 		"meteor1": "images/sprites/entities/meteors/meteor1.png",

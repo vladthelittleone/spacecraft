@@ -10,7 +10,6 @@ module.exports = StateWrapper;
 
 function StateWrapper(state) {
 
-	const RAD_COEF = 0.0174533; // Коеф. на который нужно домножать, что бы градусы переводить в радианы.
 	const RED_COLOR = 0xFF0000; // Красный.
 	const DETECTION_RADIUS = 100;
 
@@ -45,24 +44,24 @@ function StateWrapper(state) {
 		player = EntitiesFactory.createTransport({
 			game: game,
 			x: centerX,
-			y: centerY - 600,
+			y: centerY,
 			player: true,
 			velocity: 30
 		});
 
-		player.sprite.rotation = 90 * RAD_COEF;
+		player.sprite.angle = 0;
 		player.isEMPActivated = false;
 		player.sprite.visible = false;
 
 		// Создать транспорт противника
-		enemy = EntitiesFactory.createTransport({
+		enemy = EntitiesFactory.createEbonHawk({
 			game: game,
 			x: centerX + 50,
 			y: centerY - 200,
 			velocity: 40
 		});
 
-		enemy.sprite.rotation = 90 * RAD_COEF;
+		enemy.sprite.angle = 0;
 		enemy.logic = enemyMoving;
 
 		// API для урока
@@ -75,6 +74,7 @@ function StateWrapper(state) {
 
 	}
 
+	// Метод логики корабля пользователя для 9 подурока.
 	function moveToEnemy (obj) {
 
 		obj.sprite.visible = true;
@@ -110,12 +110,17 @@ function StateWrapper(state) {
 
 	}
 
+	// Методо лигики врага для 9 подурока.
+	// Враг просто курсирует по заданным точкам
 	function enemyMoving (obj) {
 
-		let x = [centerX, centerX + 500, centerX + 700, centerX + 800];
-		let y = [centerY, centerY + 400, centerY + 600, centerY];
+		// Дистанция при которой точка считается пройденной и необходимо лететь к следущеё точке
+		const DISTANCE_TO_ACCEPT_POINT = 50;
 
-		if (obj.distanceTo(x[pointIndex], y[pointIndex]) < 50) {
+		let x = [centerX + 500, centerX + 500,  centerX + 1500, centerX + 1500];
+		let y = [centerY - 500, centerY - 1000, centerY - 1000, centerY - 500];
+
+		if (obj.distanceTo(x[pointIndex], y[pointIndex]) < DISTANCE_TO_ACCEPT_POINT) {
 
 			if (pointIndex === x.length - 1) {
 

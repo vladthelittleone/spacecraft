@@ -25,6 +25,11 @@ function EngineBlock({
 	var t = {};
 	var trailsArray = [];
 
+	let stunTimer;
+	let engineInStun = false;
+
+	const STUN_DELAY = 5000; // 5 сек.
+
 	if (trails) {
 
 		trails.forEach(function (t) {
@@ -207,6 +212,13 @@ function EngineBlock({
 
 	}
 
+	function unstunEngine () {
+
+		engineInStun = false;
+		stunTimer.stop();
+
+	}
+
 	/**
 	 * Функция устанавливает скорость корабля. Если новое значение скорости больше текущей на 1
 	 * или пользователь пытался увеличить скорость выше максимально допустимой, то считаем
@@ -214,8 +226,26 @@ function EngineBlock({
 	 */
 	function setVelocity(_velocity) {
 
-		// Ограничение ускорения.
-		if (Math.abs(_velocity - velocity) > 1) {
+		if (engineInStun) {
+
+			// Плавное уменьшение скорости, если двигатель в стане
+			if (velocity > 1) {
+
+				velocity -= 0.3;
+
+			}
+
+			return;
+
+		}
+
+		// Ограничение ускорения и максимальной скорости.
+		if ((Math.abs(_velocity - velocity) > 1 || _velocity > maxVelocity) && engineInStun === false) {
+
+			engineInStun = true;
+			stunTimer = game.time.create(false);
+			stunTimer.add(STUN_DELAY, unstunEngine, this);
+			stunTimer.start();
 
 			// Не выполняем изменения.
 			return;

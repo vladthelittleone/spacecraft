@@ -40,7 +40,7 @@ function Pursuit() {
 
 		var lessonResults = LessonResults({
 			correct:      '<p>Не так зрелищн0, как BBot рассчитывал, но заTо все получилось.</p>',
-			unknownError: '<p></p>',
+			unknownError: '<p>Похоже что у кадета проблемы с наб0ром скорости? Проверьте код и попробуйте ещё раз.</p>',
 			text:         '<p>Скорость корабля:</p>' +
 						  '<p class="bbot-output">' + text + '</p>'
 		});

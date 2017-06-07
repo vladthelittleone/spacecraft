@@ -16,6 +16,7 @@ var Transport = require('./units/light/transport');
 var Harvester = require('./units/light/harvester');
 var Scout = require('./units/light/scout');
 var LightCorvette = require('./units/light/corvette');
+var EbonHawk = require('./units/light/ebonHawk');
 
 var RedPlanet = require('./units/base/red-planet');
 var ResearchCenter = require('./units/base/research-center');
@@ -58,6 +59,7 @@ function EntitiesFactory() {
 	t.createCruiser = createByType(Cruiser);
 	t.createCombat = createByType(Combat);
 	t.createCarriersShip = createByType(LightCorvette);
+	t.createEbonHawk = createByType(EbonHawk);
 
 	return t;
 

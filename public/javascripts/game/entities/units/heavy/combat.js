@@ -74,6 +74,15 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	});
 
 	/**
+	 * Блок сканнирования.
+	 */
+	t.scanner = BlocksFactory.addScannerBlock({
+		game:        game,
+		unit:        t,
+		maxDiameter: 700
+	});
+
+	/**
 	 * Аудио менеджер.
 	 */
 	t.audio = GameAudioFactory(game, t.sprite, player);
@@ -81,18 +90,6 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	t.update = update;
 
 	return t;
-
-	/**
-	 * Обновление.
-	 */
-	function update() {
-
-		t.engine.update();
-		t.weapon.update();
-
-		t.logic && t.logic(t);
-
-	}
 
 	/**
 	 * Логика уничтожения корабля.
@@ -121,6 +118,19 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 
 		// Играем аудио взрыва.
 		t.audio.playExplosion();
+	}
+
+	/**
+	 * Обновление.
+	 */
+	function update() {
+
+		t.engine.update();
+		t.weapon.update();
+		t.scanner.update();
+
+		t.logic && t.logic(t);
+
 	}
 
 }

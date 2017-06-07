@@ -120,7 +120,9 @@ function ElseOperation() {
 
 	function content() {
 
-		return '<p>Если условие в блоке if приняло значение «false», то выполняется код в необязательном блоке <strong>else</strong>:</p>' +
+		return '<p>Если условие в блоке <b>if</b> приняло значение <strong class="under-label">false</strong>, то выполняется код в необязательном блоке <b>else</b>:</p>' +
+			'<p>Представьте программу как железнодорожный путь, а <strong>JavaScript</strong> как поезд, ' +
+			'то условные оператор <b>if..else</b> можно представить как разветвление этого пути.</p>' +
 			'<pre>if (<strong>условие</strong>)<br>' +
 			'{<br>' +
 			'    <strong>блок if</strong><br>' +

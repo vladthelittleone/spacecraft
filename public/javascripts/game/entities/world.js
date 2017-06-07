@@ -21,7 +21,6 @@ function World() {
 	let playerId;			// Игрок.
 	let objects = [];		// Массив всех объектов.
 	let sprites = [];		// Массив всех спрайтов.
-	let factions = {};		// Фракции.
 
 	t.initialization = initialization;
 	t.pushObject = pushObject;
@@ -32,28 +31,9 @@ function World() {
 	t.getPlayer = getPlayer;
 	t.setPlayer = setPlayer;
 	t.getSprites = getSprites;
+	t.getEnemies = getEnemies;
 
 	return t;
-
-
-
-	/**
-	 * Добавляем объект к заданной фракции.
-	 *
-	 * @param faction фракция
-	 * @param obj объект
-	 */
-	function addToFaction(obj, faction) {
-
-		if (!factions[faction]) {
-
-			factions[faction] = [];
-
-		}
-
-		// Добавляем в пулл объектов фракции.
-		factions[faction].push(obj);
-	}
 
 	/**
 	 * Добавить новый объект.
@@ -62,14 +42,11 @@ function World() {
 	function pushObject(obj) {
 
 		let id = sequence.next();
-		let faction = obj.sprite.faction;
 
 		obj.id = id;
 
 		objects[id] = obj;
 		sprites[id] = obj.sprite;
-
-		faction && addToFaction(obj, faction);
 
 		return obj.id;
 
@@ -83,6 +60,17 @@ function World() {
 	function getSprites() {
 
 		return sprites;
+
+	}
+
+	/**
+	 * Возвращает врагов заданой фракции.
+	 *
+	 * @param faction
+	 */
+	function getEnemies(faction) {
+
+		return lodash.filter(getObjects(), e => e.sprite.faction !== faction)
 
 	}
 
@@ -110,7 +98,7 @@ function World() {
      */
 	function getObjects() {
 
-		return objects;
+		return lodash.without(objects, undefined);
 
 	}
 
@@ -152,7 +140,6 @@ function World() {
 		game = _game;
 
 		objects = [];
-		factions = {};
 		playerId = null;
 
 	}

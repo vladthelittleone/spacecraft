@@ -39,6 +39,7 @@ function WeaponBlock({
 	let weapon = game.add.weapon(quantity, 'beam1');
 
 	unit.fire = fire;
+	unit.fireAtXY = fireAtXY;
 
 	t.update = update;
 
@@ -70,10 +71,32 @@ function WeaponBlock({
 
 	}
 
-	function fire() {
+	/**
+	 * Выстрел в заданный объект.
+	 * Если объект не задан, стреляем впереди корабля.
+	 */
+	function fire(obj) {
 
-		weapon.fireAngle = unit.sprite.angle;
-		weapon.fire();
+		if (obj) {
+
+			fireAtXY(obj.getX(), obj.getY());
+
+		} else {
+
+			weapon.fireAngle = unit.sprite.angle;
+			weapon.fire();
+
+		}
+
+	}
+
+	/**
+	 * Выстрел по координатам x, y.
+	 */
+	function fireAtXY(x, y) {
+
+		weapon.fireAngle = game.physics.arcade.angleToXY(unit.sprite, x, y);
+		weapon.fireAtXY(x, y);
 
 	}
 

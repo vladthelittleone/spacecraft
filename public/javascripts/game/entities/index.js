@@ -45,7 +45,7 @@ function EntitiesFactory() {
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
 
-	t.createStaticUnitWithCollision = createByType(StaticUnit);
+	t.createSensor = createByType(StaticUnit);
 	t.createCarrier = createByType(Carrier);
 	t.createBase = createByType(Base);
 	t.createMeteor = createByType(Meteor);
@@ -67,24 +67,24 @@ function EntitiesFactory() {
 	 */
 	function createMeteorField({game, x, y}) {
 
-		var radius = Phaser.Point.distance(new Phaser.Point(x, y),
+		let radius = Phaser.Point.distance(new Phaser.Point(x, y),
 										   new Phaser.Point(0, 0));
 
 		let shift = 10;
 		let count = 2 * x;
 		let randomSize = 200;
 
-		for (var i = 0; i < count; i = i + shift) {
+		for (let i = 0; i < count; i = i + shift) {
 
-			var j = Math.sqrt(radius * radius - i * i);
+			let j = Math.sqrt(radius * radius - i * i);
 
-			var m = t.createMeteor({
+			let m = t.createMeteor({
 				game: game,
 				x: 	 i + Random.randomInt(0, randomSize),
 				y: 	 j + Random.randomInt(0, randomSize)
 			});
 
-			setMeteorScaleAndVelocity(m);
+			setMeteorParameters(m);
 		}
 
 	}
@@ -92,10 +92,7 @@ function EntitiesFactory() {
 	/**
 	 * Создать метеоритное поле округлое.
 	 */
-	function createMeteorFiledSphere(game, x, y) {
-
-		var radius = Phaser.Point.distance(new Phaser.Point(x, y),
-										   new Phaser.Point(x + 150, y + 150));
+	function createMeteorFiledSphere({game, x, y, radius}) {
 
 		let meteorX;
 		let meteorY;
@@ -114,14 +111,14 @@ function EntitiesFactory() {
 					y: 	 meteorY
 				});
 
-				setMeteorScaleAndVelocity(m);
+				setMeteorParameters(m);
 			}
 
 		}
 
 	}
 
-	function setMeteorScaleAndVelocity(m) {
+	function setMeteorParameters(m) {
 
 		m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
 		m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;

@@ -5,12 +5,12 @@ var PrefabsFactory = require('../../prefabs');
 var BlocksFactory = require('../../blocks');
 
 // Экспорт
-module.exports = RedPlanet;
+module.exports = Planet;
 
 /**
  * Created by vaimer on 15.02.2017.
  */
-function RedPlanet({game, x, y, preload}) {
+function Planet({game, x, y, preload}) {
 
 	// that / this
 	var t = {};

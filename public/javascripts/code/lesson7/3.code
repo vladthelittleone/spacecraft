@@ -3,6 +3,9 @@
  */
 this.run = function(corvette)
 {
+	// Передвижение к датчику
+	corvette.moveToXY(1480, 1480);
+
 	// Готовность первого лазерного оружия.
 	var isLaser1Ready = false;
 

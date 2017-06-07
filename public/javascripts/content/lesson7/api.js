@@ -56,8 +56,6 @@ function Api(player) {
 
 	function fire() {
 
-		player.moveToXY(1500, 1500);
-
 		if(player.distanceTo(1500, 1500) <= 50) {
 
 			fireAlreadyUsed = true;

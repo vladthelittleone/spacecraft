@@ -14,16 +14,16 @@ module.exports = StateWrapper;
 function StateWrapper(state) {
 
 	// Дистанция до керриера
-	var PARENT_SHIP_DISTANCE = 200;
-	var LESSON_TIMEOUT = 5000;
+	const PARENT_SHIP_DISTANCE = 200;
+	const LESSON_TIMEOUT = 5000;
 
-	var t = state;
+	let t = state;
 
-	var player;
-	var carrier;    // Авианосец
-	var explosions;	// Группа анимации взрывов
-	var updateTime = moment().valueOf();
-	var sensor;
+	let player;
+	let carrier;    // Авианосец
+	let explosions;	// Группа анимации взрывов
+	let updateTime = moment().valueOf();
+	let sensor;
 
 	t.entities = entities;
 	t.onContextLoaded = onContextLoaded;
@@ -68,9 +68,12 @@ function StateWrapper(state) {
 		planet.sprite.height = 500;
 		planet.sprite.width = 500;
 
-		EntitiesFactory.createMeteorFiledSphere(game,
-												worldCenterX - 400,
-												worldCenterY - 400);
+		EntitiesFactory.createMeteorFiledSphere({
+			game: game,
+			x: worldCenterX - 400,
+			y: worldCenterY - 400,
+			radius: 150
+		});
 
 		carrier = EntitiesFactory.createCarrier({
 			game: game,
@@ -83,7 +86,7 @@ function StateWrapper(state) {
 
 		createNewPlayer();
 
-		sensor = EntitiesFactory.createStaticUnitWithCollision({
+		sensor = EntitiesFactory.createSensor({
 			game: game,
 			x: worldCenterX - 500,
 			y: worldCenterY - 500,

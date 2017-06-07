@@ -53,7 +53,8 @@ function LightCorvette({game, x, y, player, faction}) {
 	t.weapon = BlocksFactory.addWeaponBlock({
 		game: game,
 		unit: t,
-		faction: faction
+		faction: faction,
+		bulletKillDistance: 50
 	});
 
 	/**

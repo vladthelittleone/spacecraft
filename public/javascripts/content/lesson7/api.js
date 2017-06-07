@@ -13,13 +13,14 @@ function Api(player) {
 	var trueCaptain = false;
 	var fireAlreadyUsed = false;
 
-	api.isAlive = isAlive;
 	api.moveToXY = player.moveToXY;
+	api.fire = player.fire;
+	api.isAlive = isAlive;
 	api.setOwner = setOwner;
 	api.isTrueCaptain = isTrueCaptain;
 	api.log = log;
 	api.destroy = destroy;
-	api.fire = fire;
+	api.fireAtXY = fireAtXY;
 	api.isFireAlreadyUsed = isFireAlreadyUsed;
 
 	return api;
@@ -54,15 +55,12 @@ function Api(player) {
 
 	}
 
-	function fire() {
+	function fireAtXY(x, y) {
 
-		if(player.distanceTo(1500, 1500) <= 50) {
+		fireAlreadyUsed = true;
 
-			fireAlreadyUsed = true;
+		player.fireAtXY(x, y);
 
-			player.fire();
-
-		}
 	}
 
 	function isFireAlreadyUsed() {

@@ -65,9 +65,6 @@ function StateWrapper(state) {
 			preload: 'planet'
 		});
 
-		planet.sprite.height = 500;
-		planet.sprite.width = 500;
-
 		EntitiesFactory.createMeteorFiledSphere({
 			game: game,
 			x: worldCenterX - 400,

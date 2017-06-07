@@ -18,7 +18,14 @@ function Planet({game, x, y, preload}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createBase({game, x, y, preload});
+	t.sprite = PrefabsFactory.createBase({
+		game: game,
+		x: x,
+		y: y,
+		preload: preload,
+		anchorX: 0.5,
+		scale: 0.5
+	});
 
 	/**
 	 * Добавляем двигатель.
@@ -28,7 +35,7 @@ function Planet({game, x, y, preload}) {
 		unit:            t,
 		drag:            0,
 		velocity:        0,			// Скорость корабля
-		angularVelocity: 0.003,
+		angularVelocity: 0.001,
 		trail:           false
 	});
 

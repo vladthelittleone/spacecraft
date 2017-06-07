@@ -12,7 +12,7 @@ module.exports = StaticUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function StaticUnit({game, x, y, preload, scale, faction}) {
+function StaticUnit({game, x, y, preload, scale}) {
 
 	// that / this
 	var t = {};
@@ -26,7 +26,7 @@ function StaticUnit({game, x, y, preload, scale, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({game, x, y, preload, scale, faction});
+	t.sprite = PrefabsFactory.createCustomUnit({game, x, y, preload, scale});
 
 	t.update = update;
 

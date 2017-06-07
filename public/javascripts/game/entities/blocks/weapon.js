@@ -95,6 +95,12 @@ function WeaponBlock({
 	 */
 	function fireAtXY(x, y) {
 
+		if(unit.distanceTo(x, y) > bulletKillDistance) {
+
+			return;
+
+		}
+
 		weapon.fireAngle = game.physics.arcade.angleToXY(unit.sprite, x, y);
 		weapon.fireAtXY(x, y);
 
@@ -112,7 +118,7 @@ function WeaponBlock({
 
 		// Если фракция врага равна фракции юнита
 		// ничего не выполняем.
-		if (enemy.faction === unit.sprite.faction) {
+		if (!enemy.faction || enemy.faction === unit.sprite.faction) {
 
 			return;
 

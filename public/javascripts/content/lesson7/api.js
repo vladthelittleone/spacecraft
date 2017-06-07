@@ -14,6 +14,7 @@ function Api(player) {
 	var fireAlreadyUsed = false;
 
 	api.isAlive = isAlive;
+	api.moveToXY = player.moveToXY;
 	api.setOwner = setOwner;
 	api.isTrueCaptain = isTrueCaptain;
 	api.log = log;

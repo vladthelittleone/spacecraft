@@ -58,6 +58,20 @@ function StateWrapper(state) {
 		var worldCenterX = game.world.centerX;
 		var worldCenterY = game.world.centerY;
 
+		var planet = EntitiesFactory.createPlanet({
+			game: game,
+			x: worldCenterX + 700,
+			y: worldCenterY + 200,
+			preload: 'planet'
+		});
+
+		planet.sprite.height = 500;
+		planet.sprite.width = 500;
+
+		EntitiesFactory.createMeteorFiledSphere(game,
+												worldCenterX - 400,
+												worldCenterY - 400);
+
 		carrier = EntitiesFactory.createCarrier({
 			game: game,
 			x: worldCenterX,
@@ -69,7 +83,7 @@ function StateWrapper(state) {
 
 		createNewPlayer();
 
-		sensor = EntitiesFactory.createStaticUnit({
+		sensor = EntitiesFactory.createStaticUnitWithCollision({
 			game: game,
 			x: worldCenterX - 500,
 			y: worldCenterY - 500,

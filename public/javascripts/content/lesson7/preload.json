@@ -1,6 +1,6 @@
 {
 	"sprites": {
-		"starField": "images/sprites/starField.png",
+		"starField": "images/sprites/starField3.png",
 		"shield": "images/sprites/entities/shared/shield.png",
 		"trail": "images/sprites/entities/shared/trail.png",
 		"meteor1": "images/sprites/entities/meteors/meteor1.png",
@@ -13,7 +13,8 @@
 		"carrier": "images/sprites/entities/spacecrafts/carrier.png",
 		"lightCorvette": "images/sprites/entities/spacecrafts/lightCorvette.png",
 		"sensor": "images/sprites/entities/shared/sensor.png",
-		"beam1": "images/sprites/entities/shared/beam1.png"
+		"beam1": "images/sprites/entities/shared/beam1.png",
+		"planet": "images/sprites/entities/structures/planet2.png"
 	},
 	"audio": {
 		"explosion": [

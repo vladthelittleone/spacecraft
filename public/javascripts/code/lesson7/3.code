@@ -1,0 +1,28 @@
+// Координаты датчика.
+const X_COORD = 1500;
+const Y_COORD = 1500;
+
+/**
+ * Код управления.
+ *
+ * @param {SpaceCraft} corvette управляемый корабль.
+ */
+this.run = function(corvette)
+{
+	// Передвижение к датчику.
+	corvette.moveToXY(X_COORD, Y_COORD);
+
+	// Готовность первого лазерного оружия.
+	var isLaser1Ready = false;
+
+	// Готовность второго лазерного оружия.
+	var isLaser2Ready = false;
+
+	// ЕСЛИ один из лазеров готов к атаке.
+	if (isLaser1Ready || isLaser2Ready)
+	{
+		// ТО выполняем выстрел.
+		corvette.fireAtXY(X_COORD, Y_COORD);
+	}
+
+}

@@ -8,5 +8,6 @@
 var drill = require('./1');
 var ifOperation = require('./2');
 var elseOperation = require('./3');
+var complexLogicalExpressionOr = require('./4');
 
-module.exports = [drill, ifOperation, elseOperation];
+module.exports = [drill, ifOperation, elseOperation, complexLogicalExpressionOr];

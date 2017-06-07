@@ -90,10 +90,7 @@ function ElseOperation() {
 					  '</ul>'
 	};
 
-	function gamePostUpdate(corvette,
-							statistics,
-							player,
-							text) {
+	function gamePostUpdate(corvette) {
 
 		var lessonResults = LessonResults({
 

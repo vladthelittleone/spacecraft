@@ -22,7 +22,13 @@ function CruiserUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'cruiser');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'cruiser'
+	});
+
 	t.sprite.health = 100;
 	t.sprite.maxHealth = 100;
 

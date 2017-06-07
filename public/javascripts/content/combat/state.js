@@ -78,6 +78,7 @@ function StateWrapper(state) {
 
 		// API для урока
 		player.api = Api(player);
+		player.sprite.bringToTop();
 
 		// Фокус на базе
 		t.followFor(player.sprite);

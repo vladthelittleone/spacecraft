@@ -16,14 +16,28 @@ function TakingSensor() {
 		isRestartDisabled: true,
 		title:             'Погрузка датчика',
 		character:         [{
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson4/5-1',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img',
+			audio:  'audio/lesson4/5-2',
+			css:    'astromen-img',
+			marker: {
+				x1: 17,
+				y2: Infinity
+			},
+			hint:   [{
+				'next .ace_scroller': 'Поместите датчик на корабль',
+				'nextButton':         {text: 'Далее'},
+				'showSkip':           false
+			}]
 		}, {
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson4/5-3',
 			css:   'astromen-img',
+			hint:  [{
+				'click .lesson-alt-hint': 'Нажмите для получения инструкций',
+				'nextButton':             false,
+				'showSkip':               false
+			}]
 		}],
 
 		gamePostUpdate: gamePostUpdate,

@@ -20,7 +20,13 @@ function FighterUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.6
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'fighter');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'fighter'
+	});
+
 	t.sprite.health = 40;
 	t.sprite.maxHealth = 40;
 

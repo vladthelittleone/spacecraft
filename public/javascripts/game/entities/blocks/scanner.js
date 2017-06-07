@@ -1,7 +1,11 @@
 'use strict';
 
+// Библиотеки
+var lodash = require('lodash');
+
 // Зависимости
 var PrimitivesFactory = require('../../primitives');
+var World = require('../world');
 
 // Экспорт
 module.exports = ScannerBlock;
@@ -12,15 +16,15 @@ module.exports = ScannerBlock;
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function ScannerBlock(spec) {
+function ScannerBlock({
+	game,
+	unit,
+	maxDiameter = 200, 	// Рэндж сканирования.
+	color = 0x7AACE8	// Цвет поля скариноваиня.
+}) {
 
 	// that / this
 	var t = {};
-
-	var game = spec.game;
-	var unit = spec.unit;
-	var maxDiameter = spec.maxDiameter || 200;
-	var color = spec.color || 0x7AACE8;
 
 	var currentDiameter = 0;
 	var isScanActivated = false;
@@ -43,7 +47,6 @@ function ScannerBlock(spec) {
 
 		if (isScanActivated) {
 
-
 			currentDiameter = currentDiameter > maxDiameter ? 0 : currentDiameter + 1;
 
 			primitive.draw(unit.sprite.x, unit.sprite.y, currentDiameter);
@@ -54,13 +57,47 @@ function ScannerBlock(spec) {
 
 		}
 
-		isScanActivated = false;
+		// Если нулик, то сбрасываем на false.
+		isScanActivated = currentDiameter;
 
 	}
 
-	function scan() {
+	/**
+	 * Сканирование местности.
+	 *
+	 * @param enemies нужны только враги?
+	 * @param callback коллбек, в который передаются найденные юниты.
+	 * @return {*|Array} найденные юниты.
+	 */
+	function scan(enemies, callback) {
 
 		isScanActivated = true;
+
+		let units = enemies ? World.getEnemies() : World.getObjects();
+
+		return lodash.filter(units, u => scanFilter(u, callback));
+	}
+
+	/**
+	 * Фильтрация по диапозону.
+	 *
+	 * @return {boolean}
+	 */
+	function scanFilter(u, callback) {
+
+		// Проверка на вхождение в диапозон данного юнита.
+		let isScanned = unit.distanceTo(u.sprite.x, u.sprite.y) < maxDiameter;
+
+		// Найден корабль игрока?
+		let isPlayer = u.id === unit.id;
+
+		if (isScanned && !isPlayer) {
+
+			callback && callback(u);
+
+			return true;
+
+		}
 
 	}
 

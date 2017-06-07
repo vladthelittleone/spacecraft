@@ -17,10 +17,10 @@ function World() {
 
 	let t = {};
 
-	let game;			// Игра
-	let playerId;		// Игрок
-	let objects = [];	// Массив всех объектов
-	let factions = {};
+	let game;				// Игра.
+	let playerId;			// Игрок.
+	let objects = [];		// Массив всех объектов.
+	let sprites = [];		// Массив всех спрайтов.
 
 	t.initialization = initialization;
 	t.pushObject = pushObject;
@@ -30,37 +30,10 @@ function World() {
 	t.update = update;
 	t.getPlayer = getPlayer;
 	t.setPlayer = setPlayer;
-	t.getFactionEnemyGroups = getFactionEnemyGroups;
+	t.getSprites = getSprites;
+	t.getEnemies = getEnemies;
 
 	return t;
-
-
-
-	/**
-	 * Добавляем объект к заданной фракции.
-	 *
-	 * @param faction фракция
-	 * @param obj объект
-	 */
-	function addToFaction(obj, faction) {
-
-		if (!factions[faction]) {
-
-			factions[faction] = {
-				objects: [],
-				group:   game.add.group()
-			};
-
-		}
-
-		// Добавляем в пулл объектов фракции.
-		factions[faction].objects.push(obj);
-
-		// Добавляем в phaser группу
-		factions[faction].group.add(obj.sprite);
-		game.world.bringToTop(factions[faction].group);
-
-	}
 
 	/**
 	 * Добавить новый объект.
@@ -69,13 +42,11 @@ function World() {
 	function pushObject(obj) {
 
 		let id = sequence.next();
-		let faction = obj.faction;
 
 		obj.id = id;
 
 		objects[id] = obj;
-
-		faction && addToFaction(obj, faction);
+		sprites[id] = obj.sprite;
 
 		return obj.id;
 
@@ -84,28 +55,22 @@ function World() {
 	/**
 	 * Выполнить действия с phaser-группами врагов фракции.
 	 *
-	 * @param faction фракция
-	 * @param action действия
+	 * @return {Array} возвращаем группу для коллизий.
 	 */
-	function getFactionEnemyGroups(faction, action) {
+	function getSprites() {
 
-		var groups = [];
+		return sprites;
 
-		lodash.forEach(factions, (v, k) => {
+	}
 
-			if (k != faction) {
+	/**
+	 * Возвращает врагов заданой фракции.
+	 *
+	 * @param faction
+	 */
+	function getEnemies(faction) {
 
-				let group = v.group;
-
-				action && action(group);
-
-				groups = lodash.concat(groups, group)
-
-			}
-
-		});
-
-		return groups;
+		return lodash.filter(getObjects(), e => e.sprite.faction !== faction)
 
 	}
 
@@ -115,6 +80,7 @@ function World() {
 	function removeObject(obj) {
 
 		objects.removeElement(obj);
+		sprites.removeElement(obj.sprite);
 
 	}
 
@@ -132,7 +98,7 @@ function World() {
      */
 	function getObjects() {
 
-		return objects;
+		return lodash.without(objects, undefined);
 
 	}
 
@@ -174,7 +140,6 @@ function World() {
 		game = _game;
 
 		objects = [];
-		factions = {};
 		playerId = null;
 
 	}

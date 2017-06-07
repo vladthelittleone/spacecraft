@@ -23,7 +23,13 @@ function CarrierUnit({game, factory, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'carrier');
+	t.sprite = PrefabsFactory.createCustomUnit({
+		game: game,
+		x: x,
+		y: y,
+		preload: 'carrier'
+	});
+
 	t.sprite.health = 200;
 	t.sprite.maxHealth = 400;
 

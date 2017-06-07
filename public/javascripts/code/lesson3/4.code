@@ -7,6 +7,8 @@ var y = 2080;
 
 /**
  * Погрузите датчик на корабль.
+ *
+ * @param {SpaceCraft} harvester сборщик.
  */
 this.run = function(harvester)
 {

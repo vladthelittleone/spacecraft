@@ -1,5 +1,7 @@
 /**
  * Код управления кораблем.
+ *
+ * @param {SpaceCraft} spaceCraft корабль.
  */
 this.run = function(spaceCraft)
 {

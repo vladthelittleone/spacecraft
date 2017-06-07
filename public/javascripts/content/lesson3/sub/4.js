@@ -14,17 +14,8 @@ function TaskWithVariables() {
 		isRestartDisabled: true,
 		title:             'Проверим ваши знания',
 		character:         [{
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson4/4-1',
 			css:   'astromen-img'
-		}, {
-			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img'
-		}, {
-			audio: 'audio/lesson2/1-1.mp3',
-			css:   'astromen-img'
-		}, {
-			audio: 'audio/lesson2/1-1.mp3',
-			css:   'astromen-img',
 		}],
 
 		interpreterHandler: interpreterHandler,

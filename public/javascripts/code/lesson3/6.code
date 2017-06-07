@@ -3,6 +3,8 @@ var researchContainer;
 
 /**
  * Передача датчика
+ *
+ * @param {SpaceCraft} harvester сборщик.
  */
 this.run = function(harvester)
 {

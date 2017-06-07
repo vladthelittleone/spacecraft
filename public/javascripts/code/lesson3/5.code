@@ -12,6 +12,8 @@ var blackBox = null;
 
 /**
  * Полет к исследовательскому центру.
+ *
+ * @param {SpaceCraft} harvester сборщик.
  */
 this.run = function(harvester)
 {

@@ -15,14 +15,58 @@ function goToResearchCenter() {
 		runOnStart:        true,
 		title:             'К исследовательскому центру',
 		character:         [{
-			audio: 'audio/lesson2/1-1.mp3',
+			audio: 'audio/lesson4/6-1',
 			css:   'astromen-img'
 		}, {
-			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img',
+			audio:  'audio/lesson4/6-2',
+			css:    'astromen-img',
+			marker: {
+				x1: 2,
+				x2: 3
+			}
 		}, {
-			audio: 'audio/lesson2/1-1.mp3',
+			audio:  'audio/lesson4/6-3',
+			css:    'astromen-img',
+			marker: {
+				x1:   3,
+				x2:   3,
+				y1:   0,
+				y2:   5,
+				type: 'line'
+			}
+		}, {
+			audio:  'audio/lesson4/6-4',
+			css:    'astromen-img',
+			marker: {
+				x1:   3,
+				x2:   3,
+				y1:   16,
+				y2:   20,
+				type: 'line'
+			}
+		}, {
+			audio:       'audio/lesson4/6-5',
+			css:         'astromen-img',
+			waitForHint: true,
+			hint:        [{
+				'next .ace_scroller': 'Вы еще не забыли о <b>null</b> и <b>undefined</b>?',
+				'nextButton':         {text: 'Нет!'},
+				'showSkip':           false
+			}]
+		}, {
+			audio: 'audio/lesson4/6-6',
 			css:   'astromen-img',
+			marker: {
+				x1: 7,
+				y2: Infinity
+			}
+		}, {
+			audio: 'audio/lesson4/6-7',
+			css:   'astromen-img',
+			marker: {
+				x1: 11,
+				y2: Infinity
+			}
 		}],
 
 		gamePostUpdate: gamePostUpdate,
@@ -63,7 +107,7 @@ function goToResearchCenter() {
 
 		return '<p>Проведем время в полете с пользой: поговорим о других особенностях работы с переменными.</p>' +
 			'<p>Существуют переменные, значения которых <span class="under-label">никогда</span> не меняются. ' +
-			'Пилоты называют их константами и как правило пишут имена таких переменных заглавными буквами. ' +
+			'Пилоты называют их константами и, как правило, пишут имена таких переменных заглавными буквами. ' +
 			'Константы объявляются с помощью ключевого слова <strong>const</strong>, а значение константы задается ' +
 			'<span class="under-label">сразу</span>, при ее объявлении.</p>' +
 			'<p>Вы еще не забыли о <strong class="under-label">undefined</strong> и <strong class="under-label">null</strong>?</p>' +

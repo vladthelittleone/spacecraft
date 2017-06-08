@@ -8,15 +8,27 @@ module.exports = Base;
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function Base({game, x, y, preload, faction}) {
+function Base({
+	game,
+	x,
+	y,
+	preload,
+	faction,
+	anchorX,
+	anchorY,
+	scale
+}) {
 
 	var t = game.add.sprite(x, y, preload);
 
 	t.faction = faction;
 
 	// Центрирование
-	t.anchor.x = 0.8;
-	t.anchor.y = 0.5;
+	t.anchor.x = anchorX || 0.8;
+	t.anchor.y = anchorY || 0.5;
+
+	// Масштабируем
+	scale && t.scale.setTo(scale);
 
 	game.physics.arcade.enableBody(t);
 

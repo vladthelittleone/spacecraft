@@ -14,7 +14,7 @@ module.exports = LightCorvette;
  * Created by vaimer on 09.05.2017.
  */
 
-function LightCorvette({game, x, y, player}) {
+function LightCorvette({game, x, y, player, faction}) {
 
 	// that / this
 	var t = {};
@@ -26,7 +26,8 @@ function LightCorvette({game, x, y, player}) {
 		game: game,
 		x: x,
 		y: y,
-		preload: 'lightCorvette'
+		preload: 'lightCorvette',
+		faction: faction
 	});
 
 	t.sprite.health = 10;
@@ -47,6 +48,16 @@ function LightCorvette({game, x, y, player}) {
 	});
 
 	/**
+	 * Добавляем оружие.
+	 */
+	t.weapon = BlocksFactory.addWeaponBlock({
+		game: game,
+		unit: t,
+		faction: faction,
+		bulletKillDistance: 50
+	});
+
+	/**
 	 * Аудио менеджер.
 	 */
 	t.audio = GameAudioFactory(game, t.sprite, player);
@@ -61,6 +72,7 @@ function LightCorvette({game, x, y, player}) {
 	function update() {
 
 		t.engine.update();
+		t.weapon.update();
 
 		t.logic && t.logic(t);
 

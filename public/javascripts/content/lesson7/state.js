@@ -14,15 +14,16 @@ module.exports = StateWrapper;
 function StateWrapper(state) {
 
 	// Дистанция до керриера
-	var PARENT_SHIP_DISTANCE = 200;
-	var LESSON_TIMEOUT = 5000;
+	const PARENT_SHIP_DISTANCE = 200;
+	const LESSON_TIMEOUT = 5000;
 
-	var t = state;
+	let t = state;
 
-	var player;
-	var carrier;    // Авианосец
-	var explosions;	// Группа анимации взрывов
-	var updateTime = moment().valueOf();
+	let player;
+	let carrier;    // Авианосец
+	let explosions;	// Группа анимации взрывов
+	let updateTime = moment().valueOf();
+	let sensor;
 
 	t.entities = entities;
 	t.onContextLoaded = onContextLoaded;
@@ -57,15 +58,41 @@ function StateWrapper(state) {
 		var worldCenterX = game.world.centerX;
 		var worldCenterY = game.world.centerY;
 
+		var planet = EntitiesFactory.createPlanet({
+			game: game,
+			x: worldCenterX + 700,
+			y: worldCenterY + 200,
+			preload: 'planet'
+		});
+
+		EntitiesFactory.createMeteorFiledSphere({
+			game: game,
+			x: worldCenterX - 400,
+			y: worldCenterY - 400,
+			radius: 150
+		});
+
 		carrier = EntitiesFactory.createCarrier({
 			game: game,
 			x: worldCenterX,
-			y: worldCenterY
+			y: worldCenterY,
+			faction: 1
 		});
 
 		carrier.sprite.rotation = 3 * Math.PI / 2;
 
 		createNewPlayer();
+
+		sensor = EntitiesFactory.createSensor({
+			game: game,
+			x: worldCenterX - 500,
+			y: worldCenterY - 500,
+			preload: 'sensor',
+			faction: 2
+		});
+
+		sensor.sprite.visible = false;
+		sensor.sprite.bringToTop();
 
 		// Группа анимации взрыва
 		explosions = game.add.group();
@@ -159,12 +186,18 @@ function StateWrapper(state) {
 				var worldCenterY = game.world.centerY;
 
 				// Отправляем корабль пользователя к примерному месту начала урока
-				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 300);
+				player.logic = player.moveToXY.bind(player, worldCenterX, worldCenterY - 200);
 
 			}
 
 			// Указываем, что необходимо повторять.
 			return true;
+
+		}
+
+		if(index === 3) {
+
+			sensor.sprite.visible = true;
 
 		}
 

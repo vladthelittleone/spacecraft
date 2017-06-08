@@ -18,7 +18,7 @@ var Scout = require('./units/light/scout');
 var LightCorvette = require('./units/light/corvette');
 var EbonHawk = require('./units/light/ebonHawk');
 
-var RedPlanet = require('./units/base/red-planet');
+var Planet = require('./units/base/planet');
 var ResearchCenter = require('./units/base/research-center');
 var AcademyBase = require('./units/base/academy-base');
 var Base = require('./units/base/base');
@@ -41,18 +41,19 @@ function EntitiesFactory() {
 	var t = {};
 
 	t.createMeteorField = createMeteorField;
-	t.createMeteorFiledSphere = createMeteorFiledSphere;
+	t.createMeteorFiledSphere = createMeteorFiled;
 
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
 
+	t.createSensor = createByType(StaticUnit);
 	t.createCarrier = createByType(Carrier);
 	t.createBase = createByType(Base);
 	t.createMeteor = createByType(Meteor);
 	t.createTransport = createByType(Transport);
 	t.createHarvester = createByType(Harvester);
 	t.createAcademyBase = createByType(AcademyBase);
-	t.createRedPlanet = createByType(RedPlanet);
+	t.createPlanet = createByType(Planet);
 	t.createFighter = createByType(Fighter);
 	t.createResearchCenter = createByType(ResearchCenter);
 	t.createScout = createByType(Scout);
@@ -68,63 +69,61 @@ function EntitiesFactory() {
 	 */
 	function createMeteorField({game, x, y}) {
 
-		var radius = Phaser.Point.distance(new Phaser.Point(x, y), new Phaser.Point(0, 0));
+		let radius = Phaser.Point.distance(new Phaser.Point(x, y),
+										   new Phaser.Point(0, 0));
 
-		var args = {
-					count: 2 * x,
-					start: 0,
-					shift: 10,
-					radius: radius,
-					randomSize: 200
-		};
+		let shift = 10;
+		let count = 2 * x;
+		let randomSize = 200;
 
-		createMeteors(game, args);
+		for (let i = 0; i < count; i = i + shift) {
+
+			let j = Math.sqrt(radius * radius - i * i);
+
+			let m = t.createMeteor({
+				game: game,
+				x: 	 i + Random.randomInt(0, randomSize),
+				y: 	 j + Random.randomInt(0, randomSize)
+			});
+
+			setMeteorParameters(m);
+		}
 
 	}
 
 	/**
 	 * Создать метеоритное поле округлое.
 	 */
-	function createMeteorFiledSphere(game, x, y) {
+	function createMeteorFiled({game, x, y, radius}) {
 
-		var radius = Phaser.Point.distance(new Phaser.Point(x - 50, 0), new Phaser.Point(0, y + 50));
+		let meteorX;
+		let meteorY;
 
-		var args = {
-					count: x,
-					start: 0,
-					shift: 3,
-					radius: radius,
-					randomSize: 100
-		};
+		for(let i = 0; i <= 100; i++) {
 
-		createMeteors(game, args);
+			meteorX = Random.randomInt(x - radius, x + radius);
+			meteorY = Random.randomInt(y - radius, y + radius);
+
+			// Проверяем попадают ли координаты в радуик окружности
+			if(Math.pow(meteorX - x, 2) + Math.pow(meteorY - y, 2) <= Math.pow(radius, 2)) {
+
+				let m = t.createMeteor({
+					game: game,
+					x: 	 meteorX,
+					y: 	 meteorY
+				});
+
+				setMeteorParameters(m);
+			}
+
+		}
 
 	}
 
-	/**
-	 * Создание несколько метеоритов.
-	 *
-	 * @param game объект игры
-	 * @param args параметры
-	 */
-	function createMeteors(game, args) {
+	function setMeteorParameters(m) {
 
-		var radius = args.radius;
-
-		for (var i = args.start; i < args.count; i = i + args.shift) {
-
-			var j = Math.sqrt(radius * radius - i * i);
-
-			var m = t.createMeteor({
-			   game: game,
-			   x: 	 i + Random.randomInt(0, args.randomSize),
-			   y: 	 j + Random.randomInt(0, args.randomSize)
-			});
-
-			m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
-			m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
-
-		}
+		m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
+		m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
 
 	}
 

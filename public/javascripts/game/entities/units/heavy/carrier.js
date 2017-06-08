@@ -15,7 +15,7 @@ module.exports = CarrierUnit;
  * Created by vaimer on 09.05.2017.
  */
 
-function CarrierUnit({game, factory, x, y, player}) {
+function CarrierUnit({game, factory, x, y, player, faction}) {
 
 	// that / this
 	var t = {};
@@ -27,7 +27,8 @@ function CarrierUnit({game, factory, x, y, player}) {
 		game: game,
 		x: x,
 		y: y,
-		preload: 'carrier'
+		preload: 'carrier',
+		faction: faction
 	});
 
 	t.sprite.health = 200;

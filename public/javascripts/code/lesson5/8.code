@@ -17,6 +17,8 @@ this.run = function(transport)
 	var distance = transport.getDistanceToEnemy();
 
 	// Задаем скорость корабля.
+	// Новое значение скорости не должно превышать старое больше чем на 1,
+	// иначе двигатель перегреется
 	transport.setVelocity(velocity);
 
 	// Враг в зоне поражения?

@@ -41,7 +41,7 @@ function EntitiesFactory() {
 	var t = {};
 
 	t.createMeteorField = createMeteorField;
-	t.createMeteorFiledSphere = createMeteorFiled;
+	t.createMeteorFiledSphere = createMeteorFiledSphere;
 
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
@@ -94,7 +94,7 @@ function EntitiesFactory() {
 	/**
 	 * Создать метеоритное поле округлое.
 	 */
-	function createMeteorFiled({game, x, y, radius}) {
+	function createMeteorFiledSphere({game, x, y, radius}) {
 
 		let meteorX;
 		let meteorY;

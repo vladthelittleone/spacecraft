@@ -11,6 +11,8 @@ module.exports = StateWrapper;
 
 function StateWrapper(state) {
 
+	// Дистанция при которой точка считается пройденной и необходимо лететь к следущеё точке
+	const DISTANCE_TO_ACCEPT_POINT = 50;
 	const RED_COLOR = 0xFF0000; // Красный.
 	const DETECTION_RADIUS = 100;
 
@@ -40,6 +42,14 @@ function StateWrapper(state) {
 		centerX = game.world.centerX;
 		centerY = game.world.centerY;
 
+		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 750, y: centerY + 275, radius: 500});
+		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 750, y: centerY - 1650, radius: 500});
+
+		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 1250, y: centerY - 1650, radius: 500});
+		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 1600, y: centerY + 200, radius: 500});
+
+		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 2100, y: centerY - 900, radius: 500});
+
 		// Создать транспорт игрока
 		player = EntitiesFactory.createTransport({
 													 game: game,
@@ -61,7 +71,7 @@ function StateWrapper(state) {
 			game: game,
 			x: centerX + 50,
 			y: centerY - 200,
-			velocity: 40
+			velocity: 120
 		});
 
 		enemy.sprite.angle = 220;
@@ -132,9 +142,6 @@ function StateWrapper(state) {
 	// Методо лигики врага для 9 подурока.
 	// Враг просто курсирует по заданным точкам
 	function enemyMoving (obj) {
-
-		// Дистанция при которой точка считается пройденной и необходимо лететь к следущеё точке
-		const DISTANCE_TO_ACCEPT_POINT = 50;
 
 		let x = [centerX - 500, centerX - 500,  centerX - 1500, centerX - 1500];
 		let y = [centerY - 500, centerY - 1000, centerY - 1000, centerY - 500];

@@ -240,7 +240,7 @@ function EngineBlock({
 		}
 
 		// Ограничение ускорения и максимальной скорости.
-		if ((Math.abs(_velocity - velocity) > 1 || _velocity > maxVelocity) && engineInStun === false) {
+		if ((Math.abs(_velocity - velocity) > 1) && engineInStun === false) {
 
 			engineInStun = true;
 			stunTimer = game.time.create(false);

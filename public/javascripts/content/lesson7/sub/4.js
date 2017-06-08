@@ -20,6 +20,15 @@ function ComplexLogicalExpressionOr() {
 	return {
 		isRestartDisabled: true,
 		title:             'Две палочки',
+		video:	 	 {
+			url: 'https://www.youtube.com/watch?v=2cGleL5FMZM',
+			title: 'Немного условной теории.'
+		},
+		// Для урока с циклами
+		// video:	 	 {
+		// 	url: 'https://www.youtube.com/watch?v=fkmBbWkY4xw',
+		// 	title: 'Как отправляет поздравления Марк Цукенберг?'
+		// },
 		character:         [{
 			audio: 'audio/lesson6/8-1',
 			css:   'astromen-img',

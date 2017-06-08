@@ -22,11 +22,14 @@ function IfOperation() {
 	return {
 		isRestartDisabled: true,
 		title:             'Уничтожать или не уничтожать?',
+		video: {
+			url: 'https://www.youtube.com/watch?v=kPe8Fojxh6k',
+			title: 'Что такое if?'
+		},
 		character:         [{
 			audio: 'audio/lesson2/1-1',
 			css:   'astromen-img',
 			diagram: function (graph) {
-
 				var condition = rhombus({
 					x:           225,
 					y:           50,

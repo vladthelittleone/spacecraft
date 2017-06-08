@@ -1,6 +1,7 @@
 'use strict';
 
 var Explosion = require('./explosion');
+var WarpEffectBlue = require('./warpEffectBlue');
 
 // Экспорт
 module.exports = AnimationsFactory();
@@ -20,6 +21,7 @@ function AnimationsFactory() {
 	t.initialization = initialization;
 	t.playExplosion = playExplosion;
 	t.playExplosions = playExplosions;
+	t.playWarpEffectBlue = playWarpEffectBlue;
 
 	return t;
 
@@ -34,6 +36,7 @@ function AnimationsFactory() {
 
 		// Анимации взрыва.
 		Explosion.initialization(game);
+		WarpEffectBlue.initialization(game);
 
 	}
 
@@ -52,6 +55,15 @@ function AnimationsFactory() {
 	function playExplosions(explosions) {
 
 		explosions.forEach(Explosion.play);
+
+	}
+
+	/**
+	 * Анимация синего варп эффекта
+	 */
+	function playWarpEffectBlue (args) {
+
+		WarpEffectBlue.play(args);
 
 	}
 

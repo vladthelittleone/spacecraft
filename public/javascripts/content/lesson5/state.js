@@ -3,6 +3,7 @@
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
 var PrimitivesFactory = require('../../game/primitives');
+var AnimationFactory = require('../../game/animations');
 
 var Api = require('./api');
 
@@ -24,6 +25,8 @@ function StateWrapper(state) {
 
 	let pointIndex = 0;
 
+	let warpTimer;
+
 	t.entities = entities;
 	t.onContextLoaded = onContextLoaded;
 
@@ -37,21 +40,21 @@ function StateWrapper(state) {
 		centerX = game.world.centerX;
 		centerY = game.world.centerY;
 
-		// EMI device
-		EMI = PrimitivesFactory.createScannerCircle(game, 30, RED_COLOR);
-
 		// Создать транспорт игрока
 		player = EntitiesFactory.createTransport({
-			game: game,
-			x: centerX,
-			y: centerY,
-			player: true,
-			velocity: 30
-		});
+													 game: game,
+													 x: centerX,
+													 y: centerY,
+													 player: true,
+													 velocity: 30
+												 });
 
-		player.sprite.angle = 0;
+		player.sprite.angle = 260;
 		player.isEMPActivated = false;
 		player.sprite.visible = false;
+
+		// EMI device
+		EMI = PrimitivesFactory.createScannerCircle(game, 30, RED_COLOR);
 
 		// Создать транспорт противника
 		enemy = EntitiesFactory.createEbonHawk({
@@ -61,23 +64,39 @@ function StateWrapper(state) {
 			velocity: 40
 		});
 
-		enemy.sprite.angle = 0;
+		enemy.sprite.angle = 220;
+		enemy.sprite.visible = false;
 		enemy.logic = enemyMoving;
 
 		// API для урока
 		player.api = Api(player, enemy);
 
-		// Фокус на на игроке
-		game.camera.focusOnXY(300, 300);
-
 		CodeLauncher.setArguments(player.api);
 
+	}
+
+	function spawnPlayerWithWarp () {
+
+		AnimationFactory.playWarpEffectBlue({
+												x: centerX,
+												y: centerY,
+												angle: player.sprite.angle + 90,
+												scale: 0.4
+											});
+
+		player.logic = moveToEnemy;
+		player.audio.playWarpEffect();
 	}
 
 	// Метод логики корабля пользователя для 9 подурока.
 	function moveToEnemy (obj) {
 
-		obj.sprite.visible = true;
+		// Постепенный выход из инвиза
+		if (player.sprite.alpha < 1) {
+
+			player.sprite.alpha += 0.03;
+
+		}
 
 		// Ведём камерой за нашим player'ом
 		t.followFor(player.sprite);
@@ -117,7 +136,7 @@ function StateWrapper(state) {
 		// Дистанция при которой точка считается пройденной и необходимо лететь к следущеё точке
 		const DISTANCE_TO_ACCEPT_POINT = 50;
 
-		let x = [centerX + 500, centerX + 500,  centerX + 1500, centerX + 1500];
+		let x = [centerX - 500, centerX - 500,  centerX - 1500, centerX - 1500];
 		let y = [centerY - 500, centerY - 1000, centerY - 1000, centerY - 500];
 
 		if (obj.distanceTo(x[pointIndex], y[pointIndex]) < DISTANCE_TO_ACCEPT_POINT) {
@@ -146,10 +165,14 @@ function StateWrapper(state) {
 
 		if (index === 8) {
 
-			player.logic = moveToEnemy;
-
-			// Фокус на на игроке
+			enemy.sprite.visible = true;
+			player.sprite.visible = true;
+			player.sprite.alpha = 0;
 			t.followFor(player.sprite);
+
+			warpTimer = game.time.create(false);
+			warpTimer.add(3000, spawnPlayerWithWarp, this);
+			warpTimer.start();
 
 		}
 

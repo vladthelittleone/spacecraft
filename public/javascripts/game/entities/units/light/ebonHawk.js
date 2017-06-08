@@ -6,15 +6,12 @@ var BlocksFactory = require('../../blocks');
 var GameAudioFactory = require('../../../audio');
 
 // Экспорт
-module.exports = TransportUnit;
+module.exports = EbonHawk;
 
 /**
- * Объект транспорта.
- *
- * @author Skurishin Vladislav
- * @since 21.10.15
+ * Объект EbonHawk.
  */
-function TransportUnit({game, x, y, player, velocity}) {
+function EbonHawk({game, x, y, player, velocity}) {
 
 	// that / this
 	var t = {};
@@ -22,7 +19,12 @@ function TransportUnit({game, x, y, player, velocity}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit(game, x, y, 'ebonHawk');
+	t.sprite = PrefabsFactory.createCustomUnit({
+												   game: game,
+												   x: x,
+												   y: y,
+												   preload: 'ebonHawk'
+											   });
 	t.sprite.health = 10;
 	t.sprite.maxHealth = 10;
 

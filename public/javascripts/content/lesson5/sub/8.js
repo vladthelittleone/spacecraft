@@ -22,7 +22,7 @@ function ConditionOperator() {
 
 	return {
 		video: {
-			url: 'https://www.youtube.com/watch?v=bBIz32KOULM',
+			url: 'https://www.youtube.com/watch?v=bBIz32KOULM&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r&index=3',
 			title: 'Основные операторы.'
 		},
 		isRestartDisabled:  true,

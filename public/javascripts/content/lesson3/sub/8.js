@@ -10,10 +10,6 @@ function TheEndOfTheLesson() {
 	return {
 		isRestartDisabled: true,
 		title:             'Главное двигаться вперед',
-		video: {
-			url: 'https://www.youtube.com/watch?v=rjbt2ga7Ezk&index=5&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
-			title: 'Переменные и константы.'
-		},
 		character: [{
 
 			audio: 'audio/lesson2/1-2.mp3',

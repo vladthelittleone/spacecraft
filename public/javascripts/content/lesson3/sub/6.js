@@ -14,6 +14,10 @@ function goToResearchCenter() {
 		isRestartDisabled: true,
 		runOnStart:        true,
 		title:             'К исследовательскому центру',
+		video: {
+			url: 'https://www.youtube.com/watch?v=rjbt2ga7Ezk&index=5&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
+			title: 'Переменные и константы.'
+		},
 		character:         [{
 			audio: 'audio/lesson4/6-1',
 			css:   'astromen-img'

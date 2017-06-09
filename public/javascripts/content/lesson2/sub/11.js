@@ -13,10 +13,6 @@ function Conclusions() {
 		title:             'Поспешные выводы',
 		defaultBBot:       defaultBBot,
 		content:           content,
-		video: {
-			url: 'https://www.youtube.com/watch?v=irX5I4FaSQE&index=4&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
-			title: 'О строках для любознательных.'
-		},
 		isRestartDisabled: true,
 		instructions:      '<ul>' +
 						   '<li>Нажмите «Далее» для продолжения.</li>' +

@@ -93,6 +93,7 @@ function StateWrapper(state) {
 
 		sensor.sprite.visible = false;
 		sensor.sprite.bringToTop();
+		sensor.sprite.events.onKilled.add(() => player.api.setSensorKilled(true), this);
 
 		// Группа анимации взрыва
 		explosions = game.add.group();

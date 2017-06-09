@@ -11,7 +11,7 @@ function Api(player) {
 	var api = {};
 
 	var trueCaptain = false;
-	var fireAlreadyUsed = false;
+	var sensorKilled = false;
 
 	api.moveToXY = player.moveToXY;
 	api.fire = player.fire;
@@ -21,7 +21,8 @@ function Api(player) {
 	api.log = log;
 	api.destroy = destroy;
 	api.fireAtXY = fireAtXY;
-	api.isFireAlreadyUsed = isFireAlreadyUsed;
+	api.setSensorKilled = setSensorKilled;
+	api.isSensorKilled = isSensorKilled;
 
 	return api;
 
@@ -55,17 +56,23 @@ function Api(player) {
 
 	}
 
-	function fireAtXY(x, y) {
+	// Была ли уничтожена мина
+	function isSensorKilled() {
 
-		fireAlreadyUsed = true;
+		return sensorKilled;
+
+	}
+
+	function setSensorKilled(killed) {
+
+		sensorKilled = killed;
+
+	}
+
+	function fireAtXY(x, y) {
 
 		player.fireAtXY(x, y);
 
 	}
 
-	function isFireAlreadyUsed() {
-
-		return fireAlreadyUsed;
-
-	}
 }

@@ -85,7 +85,7 @@ function ComplexLogicalExpressionOr() {
 			text: '<p>Вдарим р0к в этой дыре!</p> '
 		});
 
-		if (corvette.isFireAlreadyUsed()) {
+		if (corvette.isSensorKilled()) {
 
 			return lessonResults.resultCorrect();
 

@@ -106,8 +106,6 @@ function LessonController($scope,
 	 */
 	function setContentEnable(content) {
 
-		var currentState = $scope[content];
-
 		disableLeftContent();
 
 		$scope[content] = true;
@@ -194,7 +192,8 @@ function LessonController($scope,
 		$scope.disqusEnable = false;		// Переключатель комментариев
 		$scope.diagramEnable = false;		// Переключатель окна диаграммы
 		$scope.tableEnable = false;			// Переключатель таблички
-		$scope.settingsEnable = false;		// Переключатель натсроек
+		$scope.settingsEnable = false;		// Переключатель натстроек
+		$scope.videoEnable = false;			// Переключатель видео
 		$scope.vkWidgetEnable = false;		// Переключатель отображения виджета vk сообщений
 	}
 

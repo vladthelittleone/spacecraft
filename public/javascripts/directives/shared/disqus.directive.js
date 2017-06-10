@@ -14,7 +14,7 @@ function Disqus() {
 		scope:       {
 			lesson:      '=' // информация о уроке
 		},
-		templateUrl: 'views/directives/disqus.html',
+		templateUrl: 'views/directives/shared/disqus.html',
 		link:        link,
 		restrict:    'EA'
 	};

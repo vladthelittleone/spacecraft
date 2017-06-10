@@ -13,7 +13,7 @@ function EndStatistics() {
 		scope:       {
 			lesson:  '='
 		},
-		templateUrl: 'views/directives/statistics-lesson-end.html',
+		templateUrl: 'views/directives/lesson/end-statistics.html',
 		link:		 link,
 		restrict:    'EA'
 	};

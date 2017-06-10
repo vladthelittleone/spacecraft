@@ -23,10 +23,9 @@ function IfOperation() {
 		isRestartDisabled: true,
 		title:             'Уничтожать или не уничтожать?',
 		character:         [{
-			audio: 'audio/lesson2/1-1',
-			css:   'astromen-img',
+			audio:   'audio/lesson2/1-1',
+			css:     'astromen-img',
 			diagram: function (graph) {
-
 				var condition = rhombus({
 					x:           225,
 					y:           50,
@@ -41,11 +40,11 @@ function IfOperation() {
 				var link = createLink(graph, null, act1, 300, 100);
 
 				var labelBlock = blockWithSize({
-					x: 150,
-					y: 70,
-					width: 30,
+					x:      150,
+					y:      70,
+					width:  30,
 					height: 30,
-					text: 'Да'
+					text:   'Да'
 				});
 
 				graph.addCells([
@@ -57,10 +56,14 @@ function IfOperation() {
 				link.addTo(graph);
 				link.toBack();
 
-				link.set('vertices', [{ x: 125, y: 100 }]);
+				link.set('vertices', [{x: 125, y: 100}]);
+			},
+			video:   {
+				url:   'https://www.youtube.com/watch?v=kPe8Fojxh6k',
+				content: 'Возможно знакомое вам лицо, назовем его Билл, об операторе <b>if</b>.'
 			}
 		}],
-		gamePostUpdate: gamePostUpdate,
+		gamePostUpdate:    gamePostUpdate,
 
 		content: content,
 

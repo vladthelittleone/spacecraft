@@ -16,7 +16,7 @@ function LessonBoard($sce, lessonService) {
 		scope:       {
 			lesson:      '=' // информация о уроке
 		},
-		templateUrl: 'views/directives/lesson-board.html',
+		templateUrl: 'views/directives/lesson/board.html',
 		link:        link,
 		restrict:    'EA'
 	};

@@ -20,7 +20,7 @@ function BotBoard($sce) {
 			next:    '=', // callback следующего урока
 			css:     '='  // css бота
 		},
-		templateUrl: 'views/directives/bbot-board.html',
+		templateUrl: 'views/directives/shared/bbot-board.html',
 		link:        link,
 		restrict:    'EA'
 	};

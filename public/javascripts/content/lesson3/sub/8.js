@@ -10,10 +10,11 @@ function TheEndOfTheLesson() {
 	return {
 		isRestartDisabled: true,
 		title:             'Главное двигаться вперед',
-		character:         [{
+		character: [{
 
 			audio: 'audio/lesson2/1-2.mp3',
 			css:   'astromen-img'
+
 		}, {
 
 			audio: 'audio/lesson2/1-2.mp3',

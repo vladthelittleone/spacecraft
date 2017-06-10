@@ -18,7 +18,7 @@ function Stars(connection, $state) {
 		scope:      {
 			lessonId: '='
 		},
-		templateUrl: 'views/directives/stars.html',
+		templateUrl: 'views/directives/shared/stars.html',
 		link:        link,
 		restrict:    'EA'
 	};

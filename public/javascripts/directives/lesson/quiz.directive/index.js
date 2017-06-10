@@ -19,7 +19,7 @@ function Quiz($sce, lessonService) {
 			lesson: '=', // информация о тесте
 			answer: '='
 		},
-		templateUrl: 'views/directives/quiz.html',
+		templateUrl: 'views/directives/lesson/quiz.html',
 		link:        link,
 		restrict:    'EA'
 	};

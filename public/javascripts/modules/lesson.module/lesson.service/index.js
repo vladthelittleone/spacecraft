@@ -421,14 +421,8 @@ function LessonService(connection,
 		// Удаление маркеров
 		markers().deleteMarkerAndAnnotation(editorSession, markerId);
 
-		// Установка трека в 0
-		audioWrapper.audioIndex = 0;
-
-		// Очищаем диаграмму.
-		Diagram.clearChanges();
-
-		// Убираем табличку.
-		scope.lessonTable = null;
+		// Ресет параметров подурока.
+		resetSubLesson();
 
 		scope.disableLeftContent();
 
@@ -556,14 +550,28 @@ function LessonService(connection,
 	}
 
 	/**
-	 * Инициализация.
+	 * Ресет параметров подурока.
 	 */
-	function initialize(args) {
-
-		CodeLauncher.isCodeRunning = false;
+	function resetSubLesson() {
 
 		// Очищаем диаграмму.
 		Diagram.clearChanges();
+
+		// Убираем доски.
+		scope.lessonTable = null;
+		scope.lessonVideo = null;
+
+		// Реинициализация аудио.
+		audioWrapper.audioIndex = 0;
+
+	}
+
+	/**
+	 * Ресет параметров урока.
+	 */
+	function resetLesson({scope: _scope, lessonId: _lessonId}) {
+
+		CodeLauncher.isCodeRunning = false;
 
 		// В каждом случае запуска урока необходимо создавать
 		// новый объект currentLessonStatistics, в противном случае,
@@ -571,14 +579,23 @@ function LessonService(connection,
 		// в массиве к какому-либо уроку.
 		currentLessonStatistics = LessonStatistics();
 
-		scope = args.scope;
-		lessonId = args.lessonId;
+		scope = _scope;
+		lessonId = _lessonId;
 
-		// Убираем табличку.
-		scope.lessonTable = null;
-		audioWrapper.audioIndex = 0;
+		resetSubLesson();
+
 		scope.subIndex = 0;
 		scope.getCurrentLesson = getCurrentLesson;
+
+	}
+
+	/**
+	 * Инициализация.
+	 */
+	function initialize(args) {
+
+		// Реинициализация параметров урока.
+		resetLesson(args);
 
 		// Если статистика по урокам уже была выгружена из хранилища,
 		// то просто осуществляем подготовку данных текущего урока

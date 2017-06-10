@@ -32,7 +32,7 @@ function Spinner($rootScope, $timeout) {
 	var DEFAULT_DELAY = 1000;
 
 	var directive = {
-		templateUrl: 'views/directives/spinner.html',
+		templateUrl: 'views/directives/shared/spinner.html',
 		link:        link,
 		restrict:    'EA'
 	};

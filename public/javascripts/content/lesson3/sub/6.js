@@ -14,10 +14,6 @@ function goToResearchCenter() {
 		isRestartDisabled: true,
 		runOnStart:        true,
 		title:             'К исследовательскому центру',
-		video: {
-			url: 'https://www.youtube.com/watch?v=rjbt2ga7Ezk&index=5&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
-			title: 'Переменные и константы.'
-		},
 		character:         [{
 			audio: 'audio/lesson4/6-1',
 			css:   'astromen-img'
@@ -71,6 +67,13 @@ function goToResearchCenter() {
 				x1: 11,
 				y2: Infinity
 			}
+		}, {
+			audio: 'audio/lesson4/6-7',
+			css:   'astrogirl-img'
+			// video: {
+			// 	url: 'https://www.youtube.com/watch?v=rjbt2ga7Ezk&index=5&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
+			// 	content: 'Видео старейшин программирования - команды <strong>Хекслет</strong>, найденное BBot\'ом в архиве времени.'
+			// }
 		}],
 
 		gamePostUpdate: gamePostUpdate,

@@ -126,6 +126,55 @@ function LessonService(connection,
 	}
 
 	/**
+	 * Инициализация диаграммы.
+	 */
+	function initializeDiagram(ch) {
+
+		// Если урок с диграммой, то добавляем панель диаграммы
+		if (ch.diagram) {
+
+			// Изменяем диаграмму
+			Diagram.change(ch.diagram);
+
+			scope.setContentEnable('diagramEnable');
+
+		}
+
+	}
+
+	/**
+	 * Инициализация таблицы.
+	 */
+	function initializeTable(ch) {
+
+		// Если есть таблица в уроке,
+		// то передаем данные таблицы в директиву
+		if (ch.lessonTable) {
+
+			scope.lessonTable = ch.lessonTable;
+
+			scope.setContentEnable('tableEnable');
+
+		}
+
+	}
+
+	/**
+	 * Инициализация видео.
+	 */
+	function initializeVideo(ch) {
+
+		if (ch.video) {
+
+			scope.lessonVideo = ch.video;
+
+			scope.setContentEnable('videoEnable');
+
+		}
+
+	}
+
+	/**
 	 * Инициализация интерактивного контента: голоса, маркеров редактора, подсказок.
 	 *
 	 * @param current текущий контекст урока - подурок.
@@ -139,27 +188,10 @@ function LessonService(connection,
 			// Показываем редактор кода
 			scope.hideEditor = false;
 
-			// Если урок с диграммой, то добавляем панель диаграммы
-			if (ch.diagram) {
-
-				scope.setContentEnable('diagramEnable');
-
-				// Изменяем диаграмму
-				Diagram.change(ch.diagram);
-
-			}
-
-			// Если есть таблица в уроке,
-			// то передаем данные таблицы в директиву
-			if(ch.lessonTable) {
-
-				scope.lessonTable = ch.lessonTable;
-
-				// Если таблица вырублена, то
-				// подрубаем ее
-				!scope.tableEnable && scope.setContentEnable('tableEnable');
-
-			}
+			// Инициализация доп. контента
+			initializeDiagram(ch);
+			initializeTable(ch);
+			initializeVideo(ch);
 
 			// Запуск при старте
 			if (current.runOnStart) {
@@ -749,6 +781,9 @@ function LessonService(connection,
 		editorSession = value;
 
 	}
+
+	// GETTERS
+	//=================================
 
 	function getEditorSession() {
 

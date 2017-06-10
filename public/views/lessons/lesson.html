@@ -11,11 +11,18 @@
 			<div class="table-board"
 				 lesson-table
 				 lesson-table-data="lessonTable"
-				 ng-if="tableEnable"></div>
+				 ng-show="tableEnable"></div>
 			<div lesson-board
-				 ng-if="lesson.sub[subIndex] && !lesson.sub[subIndex].question"
 				 lesson="lesson.sub[subIndex]"
-				 ng-show="textContentEnable">
+				 ng-show="textContentEnable &&
+						  lesson.sub[subIndex] &&
+						 !lesson.sub[subIndex].question">
+			</div>
+			<div video-board
+				 ng-show="videoEnable"
+				 title="lesson.sub[subIndex].title"
+			     content="lessonVideo.content"
+				 url="lessonVideo.url">
 			</div>
 			<div settings
 				 ng-show="settingsEnable">
@@ -124,6 +131,14 @@
 		 ng-class="{'fa-chevron-right' : tableEnable, 'fa-table' : !tableEnable}"
 		 ng-click="toggleContentEnable('tableEnable')"
 		 ng-show="lessonTable"></div>
+
+	<div class="right-toolbar-button fa table-hint"
+		 tooltip-placement="left"
+		 tooltip-append-to-body="true"
+		 uib-tooltip="{{videoEnable ? 'Скрыть видео' : 'Видео'}}"
+		 ng-class="{'fa-chevron-right' : videoEnable, 'fa-video-camera' : !videoEnable}"
+		 ng-click="toggleContentEnable('videoEnable')"
+		 ng-show="lessonVideo"></div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa"
 		 tooltip-placement="left"

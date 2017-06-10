@@ -23,7 +23,7 @@ function LessonTable($sce) {
 		scope: {
 			lessonTableData: '=' // Данные для таблицы
 		},
-		templateUrl: 'views/directives/lesson-table.html',
+		templateUrl: 'views/directives/lesson/table.html',
 		link:        link,
 		restrict:    'EA'
 	};

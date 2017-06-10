@@ -21,10 +21,6 @@ function ConditionOperator() {
 			['<strong><=</strong>', 'Возвращает <strong>true</strong>, если операнд слева меньше или равен операнду справа.', '3 <= 3']];
 
 	return {
-		video: {
-			url: 'https://www.youtube.com/watch?v=bBIz32KOULM&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r&index=3',
-			title: 'Основные операторы.'
-		},
 		isRestartDisabled:  true,
 		title:              'Все мы здесь сегодня…',
 		content:            content,

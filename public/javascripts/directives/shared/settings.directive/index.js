@@ -20,7 +20,7 @@ function Settings(service) {
 
 	var directive = {
 		scope:       {},
-		templateUrl: 'views/directives/settings.html',
+		templateUrl: 'views/directives/shared/settings.html',
 		link:        link,
 		restrict:    'EA'
 	};

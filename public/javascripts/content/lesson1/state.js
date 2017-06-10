@@ -79,7 +79,7 @@ function StateWrapper(state) {
 	function mineField(game) {
 
 		// Создать минное поле
-		mineXY = new Phaser.Point(1100, 1100);
+		mineXY = new Phaser.Point(1300, 1300);
 
 		// Создаем группу из мин
 		mines = game.add.group();

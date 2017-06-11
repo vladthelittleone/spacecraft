@@ -26,7 +26,16 @@ function AcademyProgram() {
 		}, {
 			audio:  'audio/lesson2/1-2',
 			css:    'astrogirl-img'
-		}]
+		}
+		// , {
+		// 	audio:  'audio/lesson2/1-2',
+		// 	css:    'astrogirl-img',
+		// 	video: {
+		// 		url: 'https://www.youtube.com/watch?v=kvIFJNafsC4&index=6&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
+		// 		content: 'Опытные пилоты конгломерата <b>Яндекс</b> расскажут, чем они занимаются на самом деле.'
+		// 	}
+		// }
+		]
 	};
 
 	function content() {

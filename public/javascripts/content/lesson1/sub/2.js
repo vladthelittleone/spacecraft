@@ -61,7 +61,16 @@ function JavaScript() {
 					'showSkip':               false
 				}
 			]
-		}],
+		}
+		// , {
+		// 	audio:  'audio/lesson2/2-5',
+		// 	css:    'astrogirl-img',
+		// 	video: {
+		// 		url: 'https://www.youtube.com/watch?v=6jkOcZfYvZA',
+		// 		content: 'Что такое язык программирования? Расскажут мудрейшие из команды <b>Хекслет</b>.'
+		// 	}
+		// }
+		],
 		gamePostUpdate: gamePostUpdate
 	};
 

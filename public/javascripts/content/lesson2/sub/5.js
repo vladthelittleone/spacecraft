@@ -34,7 +34,8 @@ function Numbers() {
 			video: {
 				hide: true,
 				url: 'https://www.youtube.com/watch?v=hfUm8MZzN90',
-				content: 'Команда <b>Хекслет</b> поведует нам о специальных значениях в <b>Javascript</b>.'
+				content: 'Архивное видео команды <b>Хекслет</b> о специальных значениях, ' +
+						 'найденное во всемирной базе знаний.'
 			},
 			diagram: function (graph) {
 

@@ -31,6 +31,11 @@ function Numbers() {
 		character:          [{
 			audio:   'audio/lesson3/5-1',
 			css:     'astromen-img',
+			video: {
+				hide: true,
+				url: 'https://www.youtube.com/watch?v=hfUm8MZzN90',
+				content: 'Команда <b>Хекслет</b> поведует нам о специальных значениях в <b>Javascript</b>.'
+			},
 			diagram: function (graph) {
 
 				var typeMain = block(225, 50, 'Типы данных', '#152B39');

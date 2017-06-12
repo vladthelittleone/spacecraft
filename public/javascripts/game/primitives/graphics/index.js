@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимости
-var ScannerCircle = require('./scanner-circle');
+var Circle = require('./circle');
 
 // Экспорт
 module.exports = GraphicsFactory();
@@ -17,14 +17,14 @@ function GraphicsFactory() {
 	// that / this
 	var t = {};
 
-	t.createScannerCircle = createScannerCircle;
+	t.createCircle = createCircle;
 
 	return t;
 
-	// Отрисовка круга сканера
-	function createScannerCircle(game, x, y, diameter, color) {
+	// Отрисовка круга
+	function createCircle(game, x, y, diameter, color) {
 
-		return ScannerCircle(game, x, y, diameter, color);
+		return Circle(game, x, y, diameter, color);
 
 	}
 }

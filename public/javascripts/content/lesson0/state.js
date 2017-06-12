@@ -47,7 +47,7 @@ function StateWrapper(state) {
 			});
 
 			// Рандомный угол
-			spacecraft.sprite.angle = game.rnd.angle();
+			spacecraft.angle = game.rnd.angle();
 
 			// Дейстивя харвестра
 			spacecraft.logic = function (h) {
@@ -60,7 +60,7 @@ function StateWrapper(state) {
 		}
 
 		// Фокус на на центре.
-		game.camera.focusOnXY(x + (base.sprite.width / 4), y);
+		game.camera.focusOnXY(x + (base.width / 4), y);
 
 	}
 }

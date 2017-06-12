@@ -15,13 +15,9 @@ module.exports = Meteor;
  */
 function Meteor({game, x, y}) {
 
-	// that / this
-	var t = {};
-
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createMeteor(game, x, y, Random.randomInt(1, 7));
+	return PrefabsFactory.createMeteor(game, x, y, Random.randomInt(1, 7));
 
-	return t;
 }

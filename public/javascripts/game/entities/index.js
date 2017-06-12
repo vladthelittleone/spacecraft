@@ -16,6 +16,7 @@ var Transport = require('./units/light/transport');
 var Harvester = require('./units/light/harvester');
 var Scout = require('./units/light/scout');
 var LightCorvette = require('./units/light/corvette');
+var EbonHawk = require('./units/light/ebonHawk');
 
 var Planet = require('./units/base/planet');
 var ResearchCenter = require('./units/base/research-center');
@@ -40,7 +41,7 @@ function EntitiesFactory() {
 	var t = {};
 
 	t.createMeteorField = createMeteorField;
-	t.createMeteorFiledSphere = createMeteorFiled;
+	t.createMeteorSphere = createMeteorSphere;
 
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
@@ -59,6 +60,8 @@ function EntitiesFactory() {
 	t.createCruiser = createByType(Cruiser);
 	t.createCombat = createByType(Combat);
 	t.createCarriersShip = createByType(LightCorvette);
+	t.createEbonHawk = createByType(EbonHawk);
+	t.createLightCorvette = createByType(LightCorvette);
 
 	return t;
 
@@ -92,7 +95,7 @@ function EntitiesFactory() {
 	/**
 	 * Создать метеоритное поле округлое.
 	 */
-	function createMeteorFiled({game, x, y, radius}) {
+	function createMeteorSphere({game, x, y, radius}) {
 
 		let meteorX;
 		let meteorY;
@@ -120,8 +123,8 @@ function EntitiesFactory() {
 
 	function setMeteorParameters(m) {
 
-		m.sprite.scale.setTo(Random.randomInt(1, 3) * 0.1);
-		m.sprite.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
+		m.scale.setTo(Random.randomInt(1, 3) * 0.1);
+		m.body.angularVelocity = Random.randomInt(1, 10) * 0.2;
 
 	}
 

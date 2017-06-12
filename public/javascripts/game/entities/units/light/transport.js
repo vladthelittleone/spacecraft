@@ -14,7 +14,7 @@ module.exports = TransportUnit;
  * @author Skurishin Vladislav
  * @since 21.10.15
  */
-function TransportUnit({game, x, y, player}) {
+function TransportUnit({game, x, y, player, velocity}) {
 
 	// that / this
 	var t = {};
@@ -22,15 +22,15 @@ function TransportUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
-		game: game,
-		x: x,
-		y: y,
+	t = PrefabsFactory.createCustomUnit({
+		game:    game,
+		x:       x,
+		y:       y,
 		preload: 'transport'
 	});
 
-	t.sprite.health = 10;
-	t.sprite.maxHealth = 10;
+	t.health = 10;
+	t.maxHealth = 10;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -39,9 +39,10 @@ function TransportUnit({game, x, y, player}) {
 		game:            game,
 		unit:            t,
 		drag:            120,	// Торможение корабля
-		velocity:        60,	// Скорость корабля
+		maxVelocity:     45,	// Максимальная скорость корабля
+		velocity:        velocity || 45,
 		angularVelocity: 0.5,	// Скорость разворота
-		trails: [{
+		trails:          [{
 			trailScale: 0.5
 		}]
 	});
@@ -53,7 +54,7 @@ function TransportUnit({game, x, y, player}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

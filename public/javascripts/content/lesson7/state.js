@@ -39,13 +39,13 @@ function StateWrapper(state) {
 		player.api = Api(player);
 
 		// Фокус на на центре
-		t.followFor(player.sprite);
+		t.followFor(player);
 
 		// Корабль на верх.
-		player.sprite.bringToTop();
-		carrier.sprite.bringToTop();
+		player.bringToTop();
+		carrier.bringToTop();
 
-		player.sprite.events.onKilled.add(onKillCallback, this);
+		player.events.onKilled.add(onKillCallback, this);
 
 		CodeLauncher.setArguments(player.api);
 	}
@@ -65,7 +65,7 @@ function StateWrapper(state) {
 			preload: 'planet'
 		});
 
-		EntitiesFactory.createMeteorFiledSphere({
+		EntitiesFactory.createMeteorSphere({
 			game: game,
 			x: worldCenterX - 400,
 			y: worldCenterY - 400,
@@ -79,7 +79,7 @@ function StateWrapper(state) {
 			faction: 1
 		});
 
-		carrier.sprite.rotation = 3 * Math.PI / 2;
+		carrier.rotation = 3 * Math.PI / 2;
 
 		createNewPlayer();
 
@@ -91,9 +91,9 @@ function StateWrapper(state) {
 			faction: 2
 		});
 
-		sensor.sprite.visible = false;
-		sensor.sprite.bringToTop();
-		sensor.sprite.events.onKilled.add(() => player.api.setSensorKilled(true), this);
+		sensor.visible = false;
+		sensor.bringToTop();
+		sensor.events.onKilled.add(() => player.api.setSensorKilled(true), this);
 
 		// Группа анимации взрыва
 		explosions = game.add.group();
@@ -121,13 +121,13 @@ function StateWrapper(state) {
 		if (explosion) {
 
 			explosion.scale.setTo(0.5);
-			explosion.reset(player.sprite.x, player.sprite.y);
+			explosion.reset(player.x, player.y);
 			explosion.play('explosion', 30, false, true);
 
 		}
 
-		carrier.sprite.bringToTop();
-		player.sprite.destroy();
+		carrier.bringToTop();
+		player.destroy();
 
 		setTimeout(createNewPlayer, LESSON_TIMEOUT);
 
@@ -135,14 +135,14 @@ function StateWrapper(state) {
 
 	function corvetteLogic(c, parent) {
 
-		if (!c.sprite.alive) {
+		if (!c.alive) {
 
 			return;
 
 		}
 
-		var x = parent.sprite.x;
-		var y = parent.sprite.y;
+		var x = parent.x;
+		var y = parent.y;
 
 		if(c.distanceTo(x, y) <= PARENT_SHIP_DISTANCE) {
 
@@ -198,7 +198,7 @@ function StateWrapper(state) {
 
 		if(index === 3) {
 
-			sensor.sprite.visible = true;
+			sensor.visible = true;
 
 		}
 

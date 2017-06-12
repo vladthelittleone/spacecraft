@@ -1,6 +1,7 @@
 'use strict';
 
 var Explosion = require('./explosion');
+var WarpEffect = require('./warp');
 
 // Экспорт
 module.exports = AnimationsFactory();
@@ -20,6 +21,7 @@ function AnimationsFactory() {
 	t.initialization = initialization;
 	t.playExplosion = playExplosion;
 	t.playExplosions = playExplosions;
+	t.playWarpEffect = WarpEffect.play;
 
 	return t;
 
@@ -34,6 +36,7 @@ function AnimationsFactory() {
 
 		// Анимации взрыва.
 		Explosion.initialization(game);
+		WarpEffect.initialization(game);
 
 	}
 

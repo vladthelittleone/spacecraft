@@ -51,7 +51,7 @@ function Api(player) {
 
 	function isAlive() {
 
-		return player.sprite.alive;
+		return player.alive;
 
 	}
 

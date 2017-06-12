@@ -238,6 +238,7 @@ pre {
 
 .red-label {
 	background: rgba(198, 31, 14, 0.55);
+	padding: 2px;
 }
 
 .under-label {

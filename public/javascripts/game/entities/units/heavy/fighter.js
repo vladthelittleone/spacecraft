@@ -20,15 +20,15 @@ function FighterUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.6
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
+	t = PrefabsFactory.createCustomUnit({
 		game: game,
 		x: x,
 		y: y,
 		preload: 'fighter'
 	});
 
-	t.sprite.health = 40;
-	t.sprite.maxHealth = 40;
+	t.health = 40;
+	t.maxHealth = 40;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -58,7 +58,7 @@ function FighterUnit({game, x, y, player}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

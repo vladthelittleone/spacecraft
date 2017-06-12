@@ -25,14 +25,14 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({game, x, y, preload, faction});
-	t.sprite.health = 150;
-	t.sprite.maxHealth = 150;
+	t = PrefabsFactory.createCustomUnit({game, x, y, preload, faction});
+	t.health = 150;
+	t.maxHealth = 150;
 
 	/**
 	 * Коллбеки.
 	 */
-	t.sprite.events.onKilled.add(onKillCallback, this);
+	t.events.onKilled.add(onKillCallback, this);
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -85,7 +85,7 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 
@@ -96,8 +96,8 @@ function CombatUnit({game, x, y, player, preload, faction}) {
 	 */
 	function onKillCallback() {
 
-		var x = t.sprite.x;
-		var y = t.sprite.y;
+		var x = t.x;
+		var y = t.y;
 
 		AnimationFactory.playExplosions([{
 				   x,

@@ -27,9 +27,9 @@ function StateWrapper(state) {
 
 	function changePlayerCoordinates() {
 
-		player.sprite.x = 400;
-		player.sprite.y = 2000;
-		player.sprite.rotation = 0.5 * Math.PI / 2;
+		player.x = 400;
+		player.y = 2000;
+		player.rotation = 0.5 * Math.PI / 2;
 
 	}
 
@@ -37,7 +37,7 @@ function StateWrapper(state) {
 
 		var cruiser = EntitiesFactory.createCruiser({game: game, x: 1000, y: 2000});
 
-		cruiser.sprite.rotation = -Math.PI / 2;
+		cruiser.rotation = -Math.PI / 2;
 
 		cruiser.logic = cruiser.moveToXY.bind(cruiser, 3020, 3500);
 
@@ -50,7 +50,7 @@ function StateWrapper(state) {
 
 		if (index > 4) {
 
-			sensor.sprite.visible = false;
+			sensor.visible = false;
 
 		}
 
@@ -64,14 +64,14 @@ function StateWrapper(state) {
 	function createSpaceCraftsInWorld(game) {
 
 		var scout = EntitiesFactory.createScout({game: game, x: 2000, y: 2000});
-		scout.sprite.rotation = 0.5 * Math.PI / 2;
+		scout.rotation = 0.5 * Math.PI / 2;
 
 		var s1 = EntitiesFactory.createScout({game: game, x: 2055, y: 1995});
 		var s2 = EntitiesFactory.createScout({game: game, x: 2101, y: 1890});
 		var fighter = EntitiesFactory.createFighter({game: game, x: 400, y: 150});
 
-		s1.sprite.rotation = -3.85 * Math.PI / 2;
-		s2.sprite.rotation = -4.25 * Math.PI / 2;
+		s1.rotation = -3.85 * Math.PI / 2;
+		s2.rotation = -4.25 * Math.PI / 2;
 
 		patrol(s1, 2055, 1995, 2700, 1200);
 		patrol(s2, 2101, 1890, 2800, 1340);
@@ -99,7 +99,7 @@ function StateWrapper(state) {
 			player: true
 		});
 
-		player.sprite.rotation = -3.35 * Math.PI / 2;
+		player.rotation = -3.35 * Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
@@ -118,14 +118,14 @@ function StateWrapper(state) {
 			preload: 'sensor'
 		});
 
-		sensor.sprite.visible = true;
-		sensor.sprite.bringToTop();
+		sensor.visible = true;
+		sensor.bringToTop();
 
 		// Фокус на на центре
-		t.followFor(player.sprite);
+		t.followFor(player);
 
 		// Корабль на верх.
-		player.sprite.bringToTop();
+		player.bringToTop();
 
 		CodeLauncher.setArguments(player.api);
 	}
@@ -173,7 +173,7 @@ function StateWrapper(state) {
 		if (player.api.isCargoLoad() &&
 			player.api.isNearPoint(2170, 2080)) {
 
-			sensor.sprite.visible = false;
+			sensor.visible = false;
 
 		}
 

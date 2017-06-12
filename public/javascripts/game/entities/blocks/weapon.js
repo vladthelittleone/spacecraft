@@ -65,9 +65,9 @@ function WeaponBlock({
 		weapon.fireRate = fireRate;
 
 		//  Tell the Weapon to track the 'player' Sprite, offset by 14px horizontally, 0 vertically
-		weapon.trackSprite(unit.sprite, offsetX, offsetY);
+		weapon.trackSprite(unit, offsetX, offsetY);
 
-		unit.sprite.bringToTop();
+		unit.bringToTop();
 
 	}
 
@@ -83,7 +83,7 @@ function WeaponBlock({
 
 		} else {
 
-			weapon.fireAngle = unit.sprite.angle;
+			weapon.fireAngle = unit.angle;
 			weapon.fire();
 
 		}
@@ -101,14 +101,14 @@ function WeaponBlock({
 
 		}
 
-		weapon.fireAngle = game.physics.arcade.angleToXY(unit.sprite, x, y);
+		weapon.fireAngle = game.physics.arcade.angleToXY(unit, x, y);
 		weapon.fireAtXY(x, y);
 
 	}
 
 	function update() {
 
-		var sprites = World.getSprites();
+		var sprites = World.getObjects();
 
 		game.physics.arcade.overlap(weapon.bullets, sprites, hitEnemy, null, t);
 
@@ -118,7 +118,7 @@ function WeaponBlock({
 
 		// Если фракция врага равна фракции юнита
 		// ничего не выполняем.
-		if (!enemy.faction || enemy.faction === unit.sprite.faction) {
+		if (!enemy.faction || enemy.faction === unit.faction) {
 
 			return;
 

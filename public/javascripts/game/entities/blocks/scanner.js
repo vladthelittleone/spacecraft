@@ -32,7 +32,7 @@ function ScannerBlock({
 	/**
 	 * Создаем спрайт щита.
 	 */
-	var primitive = PrimitivesFactory.createScannerCircle(game, currentDiameter, color);
+	var primitive = PrimitivesFactory.createCircle(game, currentDiameter, color);
 
 	unit.scan = scan;
 
@@ -49,7 +49,7 @@ function ScannerBlock({
 
 			currentDiameter = currentDiameter > maxDiameter ? 0 : currentDiameter + 1;
 
-			primitive.draw(unit.sprite.x, unit.sprite.y, currentDiameter);
+			primitive.draw(unit.x, unit.y, currentDiameter);
 
 		} else {
 
@@ -86,7 +86,7 @@ function ScannerBlock({
 	function scanFilter(u, callback) {
 
 		// Проверка на вхождение в диапозон данного юнита.
-		let isScanned = unit.distanceTo(u.sprite.x, u.sprite.y) < maxDiameter;
+		let isScanned = unit.distanceTo(u.x, u.y) < maxDiameter;
 
 		// Найден корабль игрока?
 		let isPlayer = u.id === unit.id;

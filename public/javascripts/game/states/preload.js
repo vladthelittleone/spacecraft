@@ -34,9 +34,6 @@ function PreloadState(game) {
 	 */
 	function preload() {
 
-		var centerX = game.width / 2;
-		var centerY = game.height / 2;
-
 		// когда все ресурсы будут загружены вызываем callback
 		game.load.onLoadComplete.addOnce(onLoadComplete);
 
@@ -44,6 +41,7 @@ function PreloadState(game) {
 		loadResources(t.resources.audio, game.load.audio.bind(game.load));
 
 		game.load.spritesheet('explosion', 'images/animations/explosion.png', 128, 128);
+		game.load.spritesheet('warpEffectBlue', 'images/animations/warpEffectBlue.png', 320, 364);
 
 	}
 

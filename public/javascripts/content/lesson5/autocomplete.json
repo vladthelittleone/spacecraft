@@ -1,3 +1,22 @@
 {
-	"!name": "lesson"
+	"!name": "lesson",
+	"transport": {
+		"!doc": "Объект транспортного корабля.",
+		"setVelocity": {
+			"!type": "fn(velocity: number)",
+			"!doc": "Устанавливает скорость корабля."
+		},
+		"getVelocity": {
+			"!type": "fn() -> number",
+			"!doc": "Возвращает скорость корабля."
+		},
+		"getDistanceToEnemy": {
+			"!type": "fn() -> number",
+			"!doc": "Возвращает дистанцию до противника."
+		},
+		"emp": {
+			"!type": "fn(x: boolean)",
+			"!doc": "Активирует устройство ЭМИ. Способно перехвататить объекты ближе 100 px."
+		}
+	}
 }

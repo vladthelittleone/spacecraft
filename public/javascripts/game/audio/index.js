@@ -16,6 +16,7 @@ function GameAudioFactory(game, sprite, player) {
 	t.playDestructionShield = playDestructionShield;
 	t.playTakeBonus = playTakeBonus;
 	t.playHarvest = playHarvest;
+	t.playWarpEffect = playWarpEffect;
 
 	return t;
 
@@ -70,6 +71,12 @@ function GameAudioFactory(game, sprite, player) {
 	function playHarvest () {
 
 		play('harvest1', 0.01, 0.01);
+
+	}
+
+	function playWarpEffect () {
+
+		play('warpEffect', 0.05, 1);
 
 	}
 

@@ -28,19 +28,19 @@ function Api(player) {
 
 	function destroy() {
 
-		player.sprite.kill();
+		player.kill();
 
 	}
 
 	function isAlive() {
 
-		return player.sprite.alive;
+		return player.alive;
 
 	}
 
 	function log() {
 
-		return 'Прочность: ' + player.sprite.health + '<br> Статус: К.О.';
+		return 'Прочность: ' + player.health + '<br> Статус: К.О.';
 
 	}
 

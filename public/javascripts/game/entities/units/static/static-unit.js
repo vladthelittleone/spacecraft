@@ -17,16 +17,10 @@ function StaticUnit({game, x, y, preload, scale, faction}) {
 	// that / this
 	var t = {};
 
-	if (!preload) {
-
-		return;
-
-	}
-
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({game, x, y, preload, scale, faction});
+	t = PrefabsFactory.createCustomUnit({game, x, y, preload, scale, faction});
 
 	t.update = update;
 

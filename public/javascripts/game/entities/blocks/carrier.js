@@ -30,16 +30,16 @@ function CarrierBlock(spec) {
 	 */
 	function create(logic, player) {
 
-		var x = unit.sprite.x;
-		var y = unit.sprite.y;
+		var x = unit.x;
+		var y = unit.y;
 
-		var faction = unit.sprite.faction;
+		var faction = unit.faction;
 
 		// Фабричный метод. Можно передать разные фабрики, которые
 		// сами определяют тип корабля.
 		var spaceCraft = factory.createCarriersShip({game, x, y, player, faction});
 		spaceCraft.logic = logic.bind(spaceCraft, spaceCraft, unit);
-		spaceCraft.sprite.rotation = unit.sprite.rotation;
+		spaceCraft.rotation = unit.rotation;
 
 		return spaceCraft;
 	}

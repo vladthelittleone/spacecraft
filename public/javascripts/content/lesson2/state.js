@@ -34,9 +34,9 @@ function StateWrapper(state) {
 
 		if (index  > 0) {
 
-			player.sprite.x = 2000;
-			player.sprite.y = 2000;
-			player.sprite.rotation = 0.5 * Math.PI / 2;
+			player.x = 2000;
+			player.y = 2000;
+			player.rotation = 0.5 * Math.PI / 2;
 
 		}
 
@@ -66,9 +66,8 @@ function StateWrapper(state) {
 			y: 1000,
 			player: true
 		});
-		var sprite = player.sprite;
 
-		sprite.rotation = -Math.PI / 2;
+		player.rotation = -Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
@@ -82,7 +81,7 @@ function StateWrapper(state) {
 			y: 1740
 		});
 
-		cruiser.sprite.rotation = -Math.PI / 2;
+		cruiser.rotation = -Math.PI / 2;
 
 		// Дейстивя харвестра
 		cruiser.logic = function (h) {
@@ -93,26 +92,26 @@ function StateWrapper(state) {
 
 		var h1 = EntitiesFactory.createHarvester({game: game, x: 1859, y: 2156});
 
-		h1.sprite.rotation = -3.35 * Math.PI / 2;
+		h1.rotation = -3.35 * Math.PI / 2;
 
 		var s1 = EntitiesFactory.createScout({game: game, x: 2055, y: 1995});
 		var s2 = EntitiesFactory.createScout({game: game, x: 2101, y: 1890});
 
-		s1.sprite.rotation = -3.85 * Math.PI / 2;
-		s2.sprite.rotation = -4.25 * Math.PI / 2;
+		s1.rotation = -3.85 * Math.PI / 2;
+		s2.rotation = -4.25 * Math.PI / 2;
 
 		patrol(s1, 2055, 1995, 2700, 1200);
 		patrol(s2, 2101, 1890, 2800, 1340);
 
 		sensor = EntitiesFactory.createStaticUnit({game: game, x: 2170, y: 2080, preload: 'sensor'});
-		sensor.sprite.visible = false;
-		sensor.sprite.bringToTop();
+		sensor.visible = false;
+		sensor.bringToTop();
 
 		// Корабль на верх.
-		sprite.bringToTop();
+		player.bringToTop();
 
 		// Фокус на на центре
-		t.followFor(sprite);
+		t.followFor(player);
 
 		CodeLauncher.setArguments(player.api);
 
@@ -162,7 +161,7 @@ function StateWrapper(state) {
 		// то появляется сдатчик.
 		if (player.api.isScanningActivated()) {
 
-			sensor.sprite.visible = true;
+			sensor.visible = true;
 
 		}
 

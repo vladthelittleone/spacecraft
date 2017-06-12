@@ -66,11 +66,11 @@ function goToResearchCenter() {
 			marker: {
 				x1: 11,
 				y2: Infinity
+			},
+			video: {
+				url: 'https://www.youtube.com/watch?v=AkBJEc1BpDE',
+				content: 'Видео старейшин программирования - команды <strong>Хекслет</strong>, найденное BBot\'ом в архиве времени.'
 			}
-			// video: {
-			// 	url: 'https://www.youtube.com/watch?v=rjbt2ga7Ezk&index=5&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
-			// 	content: 'Видео старейшин программирования - команды <strong>Хекслет</strong>, найденное BBot\'ом в архиве времени.'
-			// }
 		}],
 
 		gamePostUpdate: gamePostUpdate,

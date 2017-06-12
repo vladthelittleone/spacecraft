@@ -51,6 +51,13 @@ function ComplexLogicalExpressionOr() {
 				hintColumns: [2],
 				hintRows: [1]
 			}
+		}, {
+			audio: 'audio/lesson6/8-1',
+			css:   'astromen-img',
+			video:   {
+				url:   'https://www.youtube.com/watch?v=2cGleL5FMZM&index=2&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
+				content: 'Будьте внимательны, найдено еще одно видео команды <b>Хакслет</b> из архива.'
+			}
 		}],
 
 		gamePostUpdate: gamePostUpdate,

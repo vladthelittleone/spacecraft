@@ -23,25 +23,25 @@ function CarrierUnit({game, factory, x, y, player, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
-		game: game,
-		x: x,
-		y: y,
+	t = PrefabsFactory.createCustomUnit({
+		game:    game,
+		x:       x,
+		y:       y,
 		preload: 'carrier',
 		faction: faction
 	});
 
-	t.sprite.health = 200;
-	t.sprite.maxHealth = 400;
+	t.health = 200;
+	t.maxHealth = 400;
 
 	/**
 	 * Добавляем двигатель к кораблю.
 	 */
 	t.engine = BlocksFactory.addEngineBlock({
-		game: game,
-		unit: t,
-		drag: 300,				// Торможение корабля
-		velocity: 15,			// Скорость корабля
+		game:            game,
+		unit:            t,
+		drag:            300,				// Торможение корабля
+		velocity:        15,			// Скорость корабля
 		angularVelocity: 0.05,	// Скорость разворота
 	});
 
@@ -49,8 +49,8 @@ function CarrierUnit({game, factory, x, y, player, faction}) {
 	 * Добавляем щиты.
 	 */
 	t.shield = BlocksFactory.addShieldBlock({
-		game: game,
-		unit: t,
+		game:  game,
+		unit:  t,
 		scale: 2.8
 	});
 
@@ -58,15 +58,15 @@ function CarrierUnit({game, factory, x, y, player, faction}) {
 	 * Добавляем блок создания объектов.
 	 */
 	t.carrier = BlocksFactory.addCarrierBlock({
-	    factory: factory,
-		game: game,
-		unit: t,
+		factory: factory,
+		game:    game,
+		unit:    t,
 	});
 
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

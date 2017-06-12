@@ -16,7 +16,7 @@ function GameCanvas() {
 		scope:       {
 			hideDhs: '=' // Показывать параметры
 		},
-		templateUrl: 'views/directives/game-canvas.html',
+		templateUrl: 'views/directives/shared/game-canvas.html',
 		link:        link,
 		restrict:    'EA'
 	};

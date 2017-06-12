@@ -22,27 +22,27 @@ function HarvesterUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
-		game: game,
-		x: x,
-		y: y,
+	t = PrefabsFactory.createCustomUnit({
+		game:    game,
+		x:       x,
+		y:       y,
 		preload: 'harvester'
 	});
 
-	t.sprite.health = 20;
-	t.sprite.maxHealth = 20;
+	t.health = 20;
+	t.maxHealth = 20;
 
 	/**
 	 * Добавляем двигатель к кораблю.
 	 */
 	t.engine = BlocksFactory.addEngineBlock({
-		game: game,
-		unit: t,
-		drag: 30,				// Торможение корабля
-		velocity: 20,			// Скорость корабля
+		game:            game,
+		unit:            t,
+		drag:            30,	// Торможение корабля
+		velocity:        20,	// Скорость корабля
 		angularVelocity: 0.2,	// Скорость разворота
-		trails: [{
-			trailX: 3,
+		trails:          [{
+			trailX:     3,
 			trailScale: 0.5
 		}]
 	});
@@ -51,11 +51,14 @@ function HarvesterUnit({game, x, y, player}) {
 	 * Добавляем щиты.
 	 */
 	t.shield = BlocksFactory.addShieldBlock({
-		game: game,
-		unit: t,
+		game:  game,
+		unit:  t,
 		scale: 0.4
 	});
 
+	/**
+	 * Грузовой блок.
+	 */
 	t.cargo = BlocksFactory.addCargoBlock({
 		unit: t
 	});
@@ -63,7 +66,7 @@ function HarvesterUnit({game, x, y, player}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

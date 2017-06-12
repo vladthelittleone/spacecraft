@@ -12,7 +12,6 @@ function OperatorsAndOperands() {
 	return {
 		isRestartDisabled:  true,
 		title:              'Нужно бооольше операторов!',
-		character:          [],
 		content:            content,
 		interpreterHandler: interpreterHandler,
 		instructions:       '<ul>' +
@@ -20,7 +19,15 @@ function OperatorsAndOperands() {
 							'на зеленую кнопку <i class="glyphicon glyphicon-play green"></i>.</li>' +
 							'<li>Больше интересной инфы: ' +
 							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
-							'</ul>'
+							'</ul>',
+		character:    [{
+			audio: 'audio/lesson1/3-1',
+			css:   'astromen-img'
+			// video: {
+			// 	url: 'https://www.youtube.com/watch?v=bBIz32KOULM&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r&index=3',
+			// 	content: 'Об математических операторах от гуру <b>JavaScript</b> - команды <b>Хекслет</b>. Прямиком из 2017 года!'
+			// }
+		}]
 	};
 
 	function content() {

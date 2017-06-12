@@ -14,26 +14,32 @@ function Api(player, enemy) {
 	api.setVelocity = player.setVelocity;
 	api.getVelocity = player.getVelocity;
 	api.getDistanceToEnemy = getDistanceToEnemy;
-	api.activateEMP = activateEMP;
-	api.isEMPAvailable = isEMPAvailable;
+	api.emp = emp;
+	api.isCaught = isCaught;
 
 	return api;
 
-	function getDistanceToEnemy () {
+	function getDistanceToEnemy() {
 
-		return player.distanceTo(enemy.sprite.x, enemy.sprite.y);
-
-	}
-
-	function activateEMP(flag) {
-
-		player.isEMPActivated = flag;
+		return player.distanceTo(enemy.x, enemy.y);
 
 	}
 
-	function isEMPAvailable () {
+	function emp(flag) {
 
-		return player.distanceTo(enemy.sprite.x, enemy.sprite.y) < 100 && player.isEMPActivated;
+		player.isEmpActivated = flag;
+
+		if (flag) {
+
+			player.emp();
+
+		}
+
+	}
+
+	function isCaught() {
+
+		return player.isCaught;
 
 	}
 }

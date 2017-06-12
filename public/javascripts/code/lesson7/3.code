@@ -4,8 +4,6 @@ const Y_COORD = 1500;
 
 /**
  * Код управления.
- *
- * @param {SpaceCraft} corvette управляемый корабль.
  */
 this.run = function(corvette)
 {

@@ -4,38 +4,37 @@
 var lodash = require('lodash');
 
 // Зависимости
-var PrimitivesFactory = require('../../primitives');
-var World = require('../world');
+var PrimitivesFactory = require('../../../primitives');
+var World = require('../../world');
 
 // Экспорт
-module.exports = ScannerBlock;
+module.exports = Emp;
 
 /**
- * Блок сканера, который может быть добавлен к кораблю.
+ * Электромагнитный импульс.
  *
  * @author Skurishin Vladislav
  * @since 11.06.16
  */
-function ScannerBlock({
+function Emp({
 	game,
 	unit,
 	maxDiameter = 200, 	// Рэндж сканирования.
-	color = 0x7AACE8	// Цвет поля скариноваиня.
+	color = 0xFF0000	// Цвет поля скариноваиня.
 }) {
 
 	// that / this
 	var t = {};
 
 	var currentDiameter = 0;
-	var isScanActivated = false;
+	var isEmpActivated = false;
 
 	/**
 	 * Создаем спрайт щита.
 	 */
 	var primitive = PrimitivesFactory.createCircle(game, currentDiameter, color);
 
-	unit.scan = scan;
-
+	t.start = start;
 	t.update = update;
 
 	return t;
@@ -45,7 +44,7 @@ function ScannerBlock({
 	 */
 	function update() {
 
-		if (isScanActivated) {
+		if (isEmpActivated) {
 
 			currentDiameter = currentDiameter > maxDiameter ? 0 : currentDiameter + 1;
 
@@ -58,24 +57,32 @@ function ScannerBlock({
 		}
 
 		// Если нулик, то сбрасываем на false.
-		isScanActivated = currentDiameter;
+		isEmpActivated = currentDiameter;
 
 	}
 
 	/**
 	 * Сканирование местности.
 	 *
-	 * @param enemies нужны только враги?
-	 * @param callback коллбек, в который передаются найденные юниты.
 	 * @return {*|Array} найденные юниты.
 	 */
-	function scan(enemies, callback) {
+	function start() {
 
-		isScanActivated = true;
+		isEmpActivated = true;
 
-		let units = enemies ? World.getEnemies() : World.getObjects();
+		let units = World.getEnemies();
 
-		return lodash.filter(units, u => scanFilter(u, callback));
+		lodash.forEach(units, u => {
+
+			if(empFilter(u)) {
+
+				u.stun();
+
+			}
+
+		});
+
+
 	}
 
 	/**
@@ -83,21 +90,15 @@ function ScannerBlock({
 	 *
 	 * @return {boolean}
 	 */
-	function scanFilter(u, callback) {
+	function empFilter(u) {
 
 		// Проверка на вхождение в диапозон данного юнита.
-		let isScanned = unit.distanceTo(u.x, u.y) < maxDiameter;
+		let isFiltered = unit.distanceTo(u.x, u.y) < maxDiameter;
 
 		// Найден корабль игрока?
 		let isPlayer = u.id === unit.id;
 
-		if (isScanned && !isPlayer) {
-
-			callback && callback(u);
-
-			return true;
-
-		}
+		return isFiltered && !isPlayer;
 
 	}
 

@@ -1,16 +1,16 @@
 'use strict';
 
 // Экспорт
-module.exports = WarpEffectBlueAnimation();
+module.exports = WarpEffect();
 
 /**
- * Анимация синего варп эффекта.
+ * Анимация варп эффекта.
  */
-function WarpEffectBlueAnimation() {
+function WarpEffect() {
 
 	// that / this
 	let t = {};
-	let warpEffects; // Группа анимации.
+	let warpGroup; // Группа анимации.
 	let game;		 // Игра.
 
 	t.initialization = initialization;
@@ -28,9 +28,9 @@ function WarpEffectBlueAnimation() {
 		game = _game;
 
 		// Группа анимации взрыва
-		warpEffects = game.add.group();
-		warpEffects.createMultiple(8, 'warpEffectBlue');
-		warpEffects.forEach(initializeExplosion, this);
+		warpGroup = game.add.group();
+		warpGroup.createMultiple(8, 'warpEffectBlue');
+		warpGroup.forEach(initializeExplosion, this);
 
 	}
 
@@ -50,7 +50,7 @@ function WarpEffectBlueAnimation() {
 	 */
 	function play({x, y, angle, scale}) {
 
-		let warpEffect = warpEffects.getFirstExists(false);
+		let warpEffect = warpGroup.getFirstExists(false);
 
 		warpEffect.scale.setTo(scale || 1);
 		warpEffect.angle = angle;

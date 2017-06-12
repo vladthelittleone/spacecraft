@@ -1,30 +1,25 @@
 /**
  * Функция run, внутри которой
  * контролируется скорость корабля.
- *
- * @param transport транспортный корабль,
- *					управляемый кадетом.
  */
-this.run = function(transport)
+this.run = function(corvette)
 {
 	// Текущая скорость корабля.
-	var velocity = transport.getVelocity();
+	var velocity = corvette.getVelocity();
 
 	// Выводим информацию о скорости.
 	BBotDebug(velocity);
 
 	// Расстояние до корабля противника в единицах px.
-	var distance = transport.getDistanceToEnemy();
+	var distance = corvette.getDistanceToEnemy();
 
 	// Задаем скорость корабля.
-	// Новое значение скорости не должно превышать старое больше чем на 1,
-	// иначе двигатель перегреется
-	transport.setVelocity(velocity);
+	corvette.setVelocity(velocity);
 
 	// Враг в зоне поражения?
 	// false - нет.
 	var isEnemyInDefeatZone = false;
 
 	// Активировать ЭМИ, если враг в зоне поражения.
-	transport.activateEMP(isEnemyInDefeatZone);
+	corvette.emp(isEnemyInDefeatZone);
 };

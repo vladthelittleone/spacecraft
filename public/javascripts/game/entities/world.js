@@ -20,7 +20,6 @@ function World() {
 	let game;				// Игра.
 	let playerId;			// Игрок.
 	let objects = [];		// Массив всех объектов.
-	let sprites = [];		// Массив всех спрайтов.
 
 	t.initialization = initialization;
 	t.pushObject = pushObject;
@@ -30,7 +29,6 @@ function World() {
 	t.update = update;
 	t.getPlayer = getPlayer;
 	t.setPlayer = setPlayer;
-	t.getSprites = getSprites;
 	t.getEnemies = getEnemies;
 
 	return t;
@@ -46,20 +44,8 @@ function World() {
 		obj.id = id;
 
 		objects[id] = obj;
-		sprites[id] = obj.sprite;
 
 		return obj.id;
-
-	}
-
-	/**
-	 * Выполнить действия с phaser-группами врагов фракции.
-	 *
-	 * @return {Array} возвращаем группу для коллизий.
-	 */
-	function getSprites() {
-
-		return sprites;
 
 	}
 
@@ -70,7 +56,7 @@ function World() {
 	 */
 	function getEnemies(faction) {
 
-		return lodash.filter(getObjects(), e => e.sprite.faction !== faction)
+		return lodash.filter(getObjects(), e => e.faction !== faction)
 
 	}
 
@@ -80,7 +66,6 @@ function World() {
 	function removeObject(obj) {
 
 		objects.removeElement(obj);
-		sprites.removeElement(obj.sprite);
 
 	}
 

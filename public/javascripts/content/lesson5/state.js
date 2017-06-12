@@ -2,8 +2,6 @@
 
 var EntitiesFactory = require('../../game/entities');
 var CodeLauncher = require('../../game/launcher');
-var PrimitivesFactory = require('../../game/primitives');
-var AnimationFactory = require('../../game/animations');
 
 var Api = require('./api');
 
@@ -13,21 +11,20 @@ function StateWrapper(state) {
 
 	// Дистанция при которой точка считается пройденной и необходимо лететь к следущеё точке
 	const DISTANCE_TO_ACCEPT_POINT = 50;
-	const RED_COLOR = 0xFF0000; // Красный.
 	const DETECTION_RADIUS = 100;
 
 	let t = state;
 
+	// Объекты мира.
 	let player;
 	let enemy;
-	let EMI;
 
+	// Координаты центра мира.
 	let centerX;
 	let centerY;
 
+	// Индекс точки для корабля противника.
 	let pointIndex = 0;
-
-	let warpTimer;
 
 	t.entities = entities;
 	t.onContextLoaded = onContextLoaded;
@@ -42,98 +39,71 @@ function StateWrapper(state) {
 		centerX = game.world.centerX;
 		centerY = game.world.centerY;
 
-		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 750, y: centerY + 275, radius: 500});
-		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 750, y: centerY - 1650, radius: 500});
-
-		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 1250, y: centerY - 1650, radius: 500});
-		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 1600, y: centerY + 200, radius: 500});
-
-		EntitiesFactory.createMeteorFiledSphere({game: game, x: centerX - 2100, y: centerY - 900, radius: 500});
-
-		// Создать транспорт игрока
-		player = EntitiesFactory.createTransport({
-													 game: game,
-													 x: centerX,
-													 y: centerY,
-													 player: true,
-													 velocity: 30
-												 });
-
-		player.sprite.angle = 260;
-		player.isEMPActivated = false;
-		player.sprite.visible = false;
-
-		// EMI device
-		EMI = PrimitivesFactory.createScannerCircle(game, 30, RED_COLOR);
-
 		// Создать транспорт противника
 		enemy = EntitiesFactory.createEbonHawk({
 			game: game,
 			x: centerX + 50,
 			y: centerY - 200,
-			velocity: 120
+			velocity: 30
 		});
 
-		enemy.sprite.angle = 220;
-		enemy.sprite.visible = false;
+		enemy.angle = 220;
 		enemy.logic = enemyMoving;
 
-		// API для урока
-		player.api = Api(player, enemy);
-
-		CodeLauncher.setArguments(player.api);
+		createMeteorField(game);
+		createPlayer(game);
 
 	}
 
-	function spawnPlayerWithWarp () {
+	/**
+	 * Создаем метеоритное поле по краям.
+	 * @param game
+	 */
+	function createMeteorField(game) {
 
-		AnimationFactory.playWarpEffectBlue({
-												x: centerX,
-												y: centerY,
-												angle: player.sprite.angle + 90,
-												scale: 0.4
-											});
+		EntitiesFactory.createMeteorSphere({game: game, x: centerX - 750, y: centerY + 275, radius: 500});
+		EntitiesFactory.createMeteorSphere({game: game, x: centerX - 750, y: centerY - 1650, radius: 500});
 
-		player.logic = moveToEnemy;
-		player.audio.playWarpEffect();
+		EntitiesFactory.createMeteorSphere({game: game, x: centerX - 1250, y: centerY - 1650, radius: 500});
+		EntitiesFactory.createMeteorSphere({game: game, x: centerX - 1600, y: centerY + 200, radius: 500});
+
+		EntitiesFactory.createMeteorSphere({game: game, x: centerX - 2100, y: centerY - 900, radius: 500});
+
 	}
 
 	// Метод логики корабля пользователя для 9 подурока.
 	function moveToEnemy (obj) {
 
-		// Постепенный выход из инвиза
-		if (player.sprite.alpha < 1) {
-
-			player.sprite.alpha += 0.03;
-
-		}
-
-		// Ведём камерой за нашим player'ом
-		t.followFor(player.sprite);
+		// Объект в зоне поражения EMP?
+		var inDetectionRadius = player.distanceTo(enemy.x, enemy.y) < DETECTION_RADIUS;
 
 		// Всегда следуем за enemy
-		obj.moveToXY(enemy.sprite.x, enemy.sprite.y);
+		obj.moveToXY(enemy.x, enemy.y);
 
 		// Отрисовка кружочка EMI в зависимости от включенности и расстояния до enemy
-		if (player.isEMPActivated) {
+		if (player.isEmpActivated) {
 
-			if (player.distanceTo(enemy.sprite.x, enemy.sprite.y) < DETECTION_RADIUS) {
-
-				EMI.primitive.draw(player.sprite.x, player.sprite.y, DETECTION_RADIUS * 2, RED_COLOR);
+			if (inDetectionRadius) {
 
 				// Останавливаем объекты
 				player.logic = undefined;
 				enemy.logic = undefined;
 
+				player.isCaught = true;
+
 			} else {
 
-				player.setVelocity(20);
+				player.stun();
 
 			}
 
 		} else {
 
-			EMI.primitive.clear();
+			if (inDetectionRadius) {
+
+				player.stun();
+
+			}
 
 		}
 
@@ -164,6 +134,35 @@ function StateWrapper(state) {
 
 	}
 
+	/**
+	 * Создание корабля игрока.
+	 *
+	 * @param game игровой объект.
+	 */
+	function createPlayer(game) {
+
+		// Создать транспорт игрока
+		player = EntitiesFactory.createLightCorvette({
+			game:     game,
+			x:        centerX,
+			y:        centerY,
+			player:   true,
+			velocity: 20
+		});
+
+		player.angle = 270;
+		player.alpha = 0;
+
+		player.isEmpActivated = false;
+
+		// API для урока
+		player.api = Api(player, enemy);
+
+		CodeLauncher.setArguments(player.api);
+
+		t.followFor(player);
+
+	}
 
 	/**
 	 * Логика в конкретном подуроке.
@@ -172,16 +171,19 @@ function StateWrapper(state) {
 
 		if (index === 8) {
 
-			enemy.sprite.visible = true;
-			player.sprite.visible = true;
-			player.sprite.alpha = 0;
-			t.followFor(player.sprite);
-
-			warpTimer = game.time.create(false);
-			warpTimer.add(3000, spawnPlayerWithWarp, this);
+			let warpTimer = game.time.create(true);
+			warpTimer.add(3000, onTimerSignal, this);
 			warpTimer.start();
 
 		}
 
 	}
+
+	function onTimerSignal() {
+
+		player.warp();
+		player.logic = moveToEnemy;
+
+	}
+
 }

@@ -72,16 +72,14 @@ function StateWrapper(state) {
 			preload: 'combat1'
 		});
 
-		var sprite = player.sprite;
-
-		sprite.rotation = -Math.PI / 2;
+		player.rotation = -Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
-		player.sprite.bringToTop();
+		player.bringToTop();
 
 		// Фокус на базе
-		t.followFor(player.sprite);
+		t.followFor(player);
 
 		CodeLauncher.setArguments(player.api);
 	}

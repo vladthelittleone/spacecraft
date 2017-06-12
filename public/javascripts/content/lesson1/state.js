@@ -51,9 +51,7 @@ function StateWrapper(state) {
 			player: true
 		});
 
-		var sprite = player.sprite;
-
-		sprite.rotation = - Math.PI / 2;
+		player.rotation = - Math.PI / 2;
 
 		// API для урока
 		player.api = Api(player);
@@ -64,10 +62,10 @@ function StateWrapper(state) {
 		mineField(game);
 
 		// Корабль на верх.
-		sprite.bringToTop();
+		player.bringToTop();
 
 		// Фокус на на центре
-		t.followFor(sprite);
+		t.followFor(player);
 
 		CodeLauncher.setArguments(player.api);
 
@@ -79,7 +77,7 @@ function StateWrapper(state) {
 	function mineField(game) {
 
 		// Создать минное поле
-		mineXY = new Phaser.Point(1100, 1100);
+		mineXY = new Phaser.Point(1300, 1300);
 
 		// Создаем группу из мин
 		mines = game.add.group();
@@ -123,11 +121,11 @@ function StateWrapper(state) {
 
 		// В случае близкого положения мин,
 		// летим к кораблю
-		if (Phaser.Point.distance(mineXY, player.sprite) < 100) {
+		if (Phaser.Point.distance(mineXY, player) < 100) {
 
 			mines.forEach(function (e) {
 
-				if (!player.sprite.alive) {
+				if (!player.alive) {
 
 					// Если игрок погиб, мины
 					// прекращают движение.
@@ -136,10 +134,10 @@ function StateWrapper(state) {
 
 				} else {
 
-					game.physics.arcade.moveToObject(e, player.sprite, 100);
+					game.physics.arcade.moveToObject(e, player, 100);
 
 					// При пересечении обрабатываем в overlapHandler
-					game.physics.arcade.overlap(player.sprite, e, overlapHandler);
+					game.physics.arcade.overlap(player, e, overlapHandler);
 
 				}
 

@@ -61,11 +61,13 @@ function Diagram() {
 		function diagramCellPointerClick(evt, x, y) {
 
 			// your logic here e.g. unselect the element by clicking on a blank part of the diagram
+
 		}
 
 		function linkOptions(evt, cellView, x, y) {
 
 			// your logic here: e.g. select a link by its options tool
+
 		}
 
 		function diagramWidth() {

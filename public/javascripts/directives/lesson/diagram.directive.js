@@ -14,7 +14,7 @@ module.exports = DiagramBoard;
 function DiagramBoard() {
 
 	var directive = {
-		templateUrl: 'views/directives/diagram-board.html',
+		templateUrl: 'views/directives/lesson/diagram.html',
 		controller: controller,
 		restrict:    'EA'
 	};

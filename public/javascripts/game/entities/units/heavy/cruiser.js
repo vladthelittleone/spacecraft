@@ -22,15 +22,15 @@ function CruiserUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
+	t = PrefabsFactory.createCustomUnit({
 		game: game,
 		x: x,
 		y: y,
 		preload: 'cruiser'
 	});
 
-	t.sprite.health = 100;
-	t.sprite.maxHealth = 100;
+	t.health = 100;
+	t.maxHealth = 100;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -62,7 +62,7 @@ function CruiserUnit({game, x, y, player}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

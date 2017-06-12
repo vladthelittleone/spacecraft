@@ -1,6 +1,8 @@
 'use strict';
 
 var Trail = require('./trail');
+var Stun = require('./stun');
+var Warp = require('./warp');
 
 // Экспорт
 module.exports = EngineBlock;
@@ -18,29 +20,17 @@ function EngineBlock({
 	velocity,
 	maxVelocity = velocity,
 	drag,
-	trails
+	trails,
+	stunDelay = 5000,
+	warpScale
 }) {
 
 	// that / this
-	var t = {};
-	var trailsArray = [];
+	let t = {};
+	let trailsArray = [];
 
-	let stunTimer;
-	let engineInStun = false;
-
-	const STUN_DELAY = 5000; // 5 сек.
-
-	if (trails) {
-
-		trails.forEach(function (t) {
-
-			var trail = Trail(game, unit, t.trailX, t.trailY, t.trailScale);
-
-			trailsArray.push(trail);
-
-		});
-
-	}
+	let warp = Warp({spaceCraft: unit, warpScale: warpScale});
+	let stun = Stun({game, stunDelay});
 
 	unit.moveForward = moveForward;
 	unit.rotateLeft = rotateLeft;
@@ -51,6 +41,8 @@ function EngineBlock({
 	unit.distanceTo = distanceTo;
 	unit.setVelocity = setVelocity;
 	unit.getVelocity = getVelocity;
+	unit.warp = warp.play;
+	unit.stun = stun.start;
 
 	t.update = update;
 
@@ -63,11 +55,23 @@ function EngineBlock({
 	 */
 	function initialization() {
 
+		if (trails) {
+
+			trails.forEach(t => {
+
+				let trail = Trail(game, unit, t.trailX, t.trailY, t.trailScale);
+
+				trailsArray.push(trail);
+
+			});
+
+		}
+
 		// Максимальная скорось - ограничение
-		unit.sprite.body.maxVelocity.set(maxVelocity);
+		unit.body.maxVelocity.set(maxVelocity);
 
 		// Торможение
-		unit.sprite.body.drag.set(drag);
+		unit.body.drag.set(drag);
 
 	}
 
@@ -78,7 +82,7 @@ function EngineBlock({
 
 		useTrail();
 
-		game.physics.arcade.velocityFromAngle(unit.sprite.angle, velocity, unit.sprite.body.velocity);
+		game.physics.arcade.velocityFromAngle(unit.angle, velocity, unit.body.velocity);
 
 	}
 
@@ -87,7 +91,7 @@ function EngineBlock({
 	 */
 	function moveToXY(x, y) {
 
-		var distance = game.math.distance(unit.sprite.x, unit.sprite.y, x, y);
+		var distance = game.math.distance(unit.x, unit.y, x, y);
 
 		// Если дистанция меньше 10,
 		// то ничего не выполняем.
@@ -103,15 +107,15 @@ function EngineBlock({
 		// and game.input.y are the mouse position; substitute with whatever
 		// target coordinates you need.
 		var targetAngle = game.math.angleBetween(
-			unit.sprite.x, unit.sprite.y,
+			unit.x, unit.y,
 			x, y
 		);
 
 		// Gradually (angularVelocity) aim the missile towards the target angle
-		if (unit.sprite.rotation !== targetAngle) {
+		if (unit.rotation !== targetAngle) {
 
 			// Calculate difference between the current angle and targetAngle
-			var delta = targetAngle - unit.sprite.rotation;
+			var delta = targetAngle - unit.rotation;
 
 			// Keep it in range from -180 to 180 to make the most efficient turns.
 			if (delta > Math.PI) delta -= Math.PI * 2;
@@ -120,27 +124,27 @@ function EngineBlock({
 			if (delta > 0) {
 
 				// Turn clockwise
-				unit.sprite.angle += angularVelocity;
+				unit.angle += angularVelocity;
 
 			} else {
 
 				// Turn counter-clockwise
-				unit.sprite.angle -= angularVelocity;
+				unit.angle -= angularVelocity;
 
 			}
 
 			// Just set angle to target angle if they are close
 			if (Math.abs(delta) < game.math.degToRad(angularVelocity)) {
 
-				unit.sprite.rotation = targetAngle;
+				unit.rotation = targetAngle;
 
 			}
 
 		}
 
 		// Calculate velocity vector based on rotation and velocity
-		unit.sprite.body.velocity.x = Math.cos(unit.sprite.rotation) * velocity;
-		unit.sprite.body.velocity.y = Math.sin(unit.sprite.rotation) * velocity;
+		unit.body.velocity.x = Math.cos(unit.rotation) * velocity;
+		unit.body.velocity.y = Math.sin(unit.rotation) * velocity;
 
 	}
 
@@ -150,7 +154,7 @@ function EngineBlock({
 	function rotateLeft() {
 
 		useTrail();
-		unit.sprite.angle -= angularVelocity;
+		unit.angle -= angularVelocity;
 
 	}
 
@@ -160,7 +164,7 @@ function EngineBlock({
 	function rotateRight() {
 
 		useTrail();
-		unit.sprite.angle += angularVelocity;
+		unit.angle += angularVelocity;
 
 	}
 
@@ -185,7 +189,7 @@ function EngineBlock({
 	 */
 	function getX() {
 
-		return unit.sprite.x;
+		return unit.x;
 
 	}
 
@@ -194,7 +198,7 @@ function EngineBlock({
 	 */
 	function getY() {
 
-		return unit.sprite.y;
+		return unit.y;
 
 	}
 
@@ -212,13 +216,6 @@ function EngineBlock({
 
 	}
 
-	function unstunEngine () {
-
-		engineInStun = false;
-		stunTimer.stop();
-
-	}
-
 	/**
 	 * Функция устанавливает скорость корабля. Если новое значение скорости больше текущей на 1
 	 * или пользователь пытался увеличить скорость выше максимально допустимой, то считаем
@@ -226,26 +223,10 @@ function EngineBlock({
 	 */
 	function setVelocity(_velocity) {
 
-		if (engineInStun) {
-
-			// Плавное уменьшение скорости, если двигатель в стане
-			if (velocity > 1) {
-
-				velocity -= 0.3;
-
-			}
-
-			return;
-
-		}
-
 		// Ограничение ускорения и максимальной скорости.
-		if ((Math.abs(_velocity - velocity) > 1) && engineInStun === false) {
+		if ((Math.abs(_velocity - velocity) > 1)) {
 
-			engineInStun = true;
-			stunTimer = game.time.create(false);
-			stunTimer.add(STUN_DELAY, unstunEngine, this);
-			stunTimer.start();
+			stun.start();
 
 			// Не выполняем изменения.
 			return;
@@ -266,6 +247,15 @@ function EngineBlock({
 	 * Обновление двигателя.
 	 */
 	function update() {
+
+		// Под станом?
+		if (stun.isStunned()) {
+
+			velocity = 0;
+
+		}
+
+		warp.update();
 
 	}
 }

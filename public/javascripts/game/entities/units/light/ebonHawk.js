@@ -19,14 +19,15 @@ function EbonHawk({game, x, y, player, velocity}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
-												   game: game,
-												   x: x,
-												   y: y,
-												   preload: 'ebonHawk'
-											   });
-	t.sprite.health = 10;
-	t.sprite.maxHealth = 10;
+	t = PrefabsFactory.createCustomUnit({
+		game:    game,
+		x:       x,
+		y:       y,
+		preload: 'ebonHawk'
+	});
+
+	t.health = 100;
+	t.maxHealth = 100;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -34,10 +35,10 @@ function EbonHawk({game, x, y, player, velocity}) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game:            game,
 		unit:            t,
-		drag:            120,	// Торможение корабля
-		maxVelocity:     60,	// Максимальная скорость корабля
-		velocity:        velocity || 60,
-		angularVelocity: 0.5,	// Скорость разворота
+		drag:            120,				// Торможение корабля
+		maxVelocity:     50,				// Максимальная скорость корабля
+		velocity:        velocity || 50,
+		angularVelocity: 0.5,				// Скорость разворота
 		trails:          [{
 			trailScale: 0.5
 		}]
@@ -46,7 +47,7 @@ function EbonHawk({game, x, y, player, velocity}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

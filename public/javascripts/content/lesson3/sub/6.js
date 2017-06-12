@@ -49,7 +49,7 @@ function goToResearchCenter() {
 			css:         'astromen-img',
 			waitForHint: true,
 			hint:        [{
-				'next .ace_scroller': 'Вы еще не забыли о <b>null</b> и <b>undefined</b>?',
+				'next .ace_scroller': 'Вы еще не забыли о <b>undefined</b> и <b>null</b>?',
 				'nextButton':         {text: 'Нет!'},
 				'showSkip':           false
 			}]
@@ -67,6 +67,10 @@ function goToResearchCenter() {
 				x1: 11,
 				y2: Infinity
 			}
+			// video: {
+			// 	url: 'https://www.youtube.com/watch?v=rjbt2ga7Ezk&index=5&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
+			// 	content: 'Видео старейшин программирования - команды <strong>Хекслет</strong>, найденное BBot\'ом в архиве времени.'
+			// }
 		}],
 
 		gamePostUpdate: gamePostUpdate,

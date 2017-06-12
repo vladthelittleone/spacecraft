@@ -22,15 +22,15 @@ function TransportUnit({game, x, y, player, velocity}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
-		game: game,
-		x: x,
-		y: y,
+	t = PrefabsFactory.createCustomUnit({
+		game:    game,
+		x:       x,
+		y:       y,
 		preload: 'transport'
 	});
 
-	t.sprite.health = 10;
-	t.sprite.maxHealth = 10;
+	t.health = 10;
+	t.maxHealth = 10;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -39,8 +39,8 @@ function TransportUnit({game, x, y, player, velocity}) {
 		game:            game,
 		unit:            t,
 		drag:            120,	// Торможение корабля
-		maxVelocity:     60,	// Максимальная скорость корабля
-		velocity:        velocity || 60,
+		maxVelocity:     45,	// Максимальная скорость корабля
+		velocity:        velocity || 45,
 		angularVelocity: 0.5,	// Скорость разворота
 		trails:          [{
 			trailScale: 0.5
@@ -54,7 +54,7 @@ function TransportUnit({game, x, y, player, velocity}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

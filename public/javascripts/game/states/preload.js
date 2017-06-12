@@ -34,9 +34,6 @@ function PreloadState(game) {
 	 */
 	function preload() {
 
-		var centerX = game.width / 2;
-		var centerY = game.height / 2;
-
 		// когда все ресурсы будут загружены вызываем callback
 		game.load.onLoadComplete.addOnce(onLoadComplete);
 

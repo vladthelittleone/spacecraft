@@ -1,7 +1,7 @@
 'use strict';
 
 // Примитивы
-var ScannerCircle = require('./scanner-circle');
+var Circle = require('./circle');
 
 // Экспорт
 module.exports = PrimitivesFactory();
@@ -17,16 +17,16 @@ function PrimitivesFactory() {
 	// that / this
 	var t = {};
 
-	t.createScannerCircle = createScannerCircle;
+	t.createCircle = createCircle;
 
 	return t;
 
 	/**
 	 * Создать разведчика.
 	 */
-	function createScannerCircle(game, diameter, color) {
+	function createCircle(game, diameter, color) {
 
-		return ScannerCircle(game, diameter, color);
+		return Circle(game, diameter, color);
 
 	}
 

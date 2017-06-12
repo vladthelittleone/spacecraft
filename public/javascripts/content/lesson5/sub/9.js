@@ -17,13 +17,12 @@ function Pursuit() {
 							// Доп: px - это единица измерения расстояния космического флота.
 						   '<li>Чтобы увеличить скорость корабля, измените значение переменной <span class="red-label">velocity</span>.</li>' +
 						   '<li>Скорость должна изменяться постепенно (не более чем на <b>1 px/сек</b>).</li>' +
-						   '<li>Значение скорости не должно превышать <b>60 px/сек</b>, иначе двигатель перегреется, и скорость уменьшится до <b>0</b>.</li>' +
-						   '<li>Как только вы приблизитесь на дистанцию менее <b>20 px</b> до корабля противника, активируйте ЭМИ с помощью функции <span class="red-label">activateEMP</span>.</li>' +
+						   '<li>Как только вы приблизитесь на дистанцию менее <b>100 px</b> до корабля противника, активируйте <b>ЭМИ</b> с помощью команды <span class="red-label">emp</span>.</li>' +
 						   '</ul>',
 		character:         [],
 		hint:              '<ul>' +
 						   '<li>Увеличить скорость корабля можно, используя оператор инкремент <strong class="under-label-gray">++</strong>.</li>' +
-						   '<li>Узнать, что расстояние до корабля меньше <b>20 px</b> можно, используя выражение <span class="red-label"><b>distance</b> < 20</span>.</li>' +
+						   '<li>Узнать, что расстояние до корабля меньше <b>100 px</b>, можно, используя выражение <span class="red-label"><b>distance</b> < 100</span>.</li>' +
 						   '</ul>',
 		gamePostUpdate:    gamePostUpdate,
 	};
@@ -45,7 +44,7 @@ function Pursuit() {
 						  '<p class="bbot-output">' + text + '</p>'
 		});
 
-		if (api && api.isEMPAvailable()) {
+		if (api && api.isCaught()) {
 
 			return lessonResults.resultCorrect();
 

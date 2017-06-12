@@ -18,7 +18,7 @@ function Planet({game, x, y, preload}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createBase({
+	t = PrefabsFactory.createBase({
 		game: game,
 		x: x,
 		y: y,

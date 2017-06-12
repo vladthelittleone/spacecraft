@@ -22,15 +22,15 @@ function ScoutUnit({game, x, y, player}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createCustomUnit({
-		game: game,
-		x: x,
-		y: y,
+	t = PrefabsFactory.createCustomUnit({
+		game:    game,
+		x:       x,
+		y:       y,
 		preload: 'scout'
 	});
 
-	t.sprite.health = 4;
-	t.sprite.maxHealth = 4;
+	t.health = 4;
+	t.maxHealth = 4;
 
 	/**
 	 * Добавляем двигатель к кораблю.
@@ -55,7 +55,7 @@ function ScoutUnit({game, x, y, player}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite, player);
+	t.audio = GameAudioFactory(game, t, player);
 
 	t.update = update;
 

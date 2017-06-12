@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ScannerCircle;
+module.exports = Circle;
 
 /**
  * Графика круга сканнера.
@@ -8,7 +8,7 @@ module.exports = ScannerCircle;
  * @author Skurishin Vladislav
  * @since 16.02.17
  */
-function ScannerCircle(game) {
+function Circle(game) {
 
 	var t = {};
 

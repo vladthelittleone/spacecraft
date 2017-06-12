@@ -25,14 +25,14 @@ function BaseUnit({game, x, y, preload, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createBase({game, x, y, preload, faction});
-	t.sprite.health = 1000;
-	t.sprite.maxHealth = 1000;
+	t = PrefabsFactory.createBase({game, x, y, preload, faction});
+	t.health = 1000;
+	t.maxHealth = 1000;
 
 	/**
 	 * Коллбеки.
 	 */
-	t.sprite.events.onKilled.add(onKillCallback, this);
+	t.events.onKilled.add(onKillCallback, this);
 
 	/**
 	 * Добавляем двигатель.
@@ -49,7 +49,7 @@ function BaseUnit({game, x, y, preload, faction}) {
 	/**
 	 * Аудио менеджер.
 	 */
-	t.audio = GameAudioFactory(game, t.sprite);
+	t.audio = GameAudioFactory(game, t);
 
 
 	t.update = update;
@@ -70,8 +70,8 @@ function BaseUnit({game, x, y, preload, faction}) {
 	 */
 	function onKillCallback() {
 
-		var x = t.sprite.x;
-		var y = t.sprite.y;
+		var x = t.x;
+		var y = t.y;
 
 		AnimationFactory.playExplosions([{
 			x,

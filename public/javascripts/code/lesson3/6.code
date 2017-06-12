@@ -2,9 +2,7 @@
 var researchContainer;
 
 /**
- * Передача датчика.
- *
- * @param {SpaceCraft} harvester сборщик.
+ * Передайте датчик в исследовательский центр.
  */
 this.run = function(harvester)
 {

@@ -18,7 +18,7 @@ function ResearchCenterUnit({game, x, y, faction}) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.sprite = PrefabsFactory.createBase({
+	t = PrefabsFactory.createBase({
 		game: game,
 		x: x,
 		y: y,

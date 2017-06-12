@@ -10,20 +10,18 @@ function Trail (game, spaceCraft, trailX, trailY, trailScale) {
 
 	var t = {};
 
-	var sprite = spaceCraft.sprite;
-
 	// Добавляем эммитеры
 	t.emitter = game.add.emitter(0, 0, 10);
 	t.emitter.makeParticles('trail');
 
 	// Привязываем трейл к кораблю
-	sprite.addChild(t.emitter);
+	spaceCraft.addChild(t.emitter);
 
 	trailX = trailX || 0;
 
 	// Устанавливаем относительные координаты
 	t.emitter.y = trailY || 0;
-	t.emitter.x = (-sprite.width / 2) + trailX;
+	t.emitter.x = (-spaceCraft.width / 2) + trailX;
 
 	t.emitter.maxParticleScale = trailScale || 1;
 

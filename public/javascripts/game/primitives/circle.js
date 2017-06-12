@@ -4,7 +4,7 @@
 var GraphicsFactory = require('./graphics');
 
 // Экспорт
-module.exports = ScannerCircle;
+module.exports = Circle;
 
 /**
  * Объект метеора.
@@ -12,7 +12,7 @@ module.exports = ScannerCircle;
  * @author Skurishin Vladislav
  * @since 16.02.17
  */
-function ScannerCircle(game, diameter, color) {
+function Circle(game, diameter, color) {
 
 	// that / this
 	var t = {};
@@ -21,7 +21,7 @@ function ScannerCircle(game, diameter, color) {
 	/**
 	 * Создаем спрайт.
 	 */
-	t.primitive = GraphicsFactory.createScannerCircle(game);
+	t.primitive = GraphicsFactory.createCircle(game);
 	t.draw = draw;
 	t.drawXY = drawXY;
 	t.clear = clear;

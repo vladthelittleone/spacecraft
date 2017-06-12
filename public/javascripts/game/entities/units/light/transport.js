@@ -38,10 +38,10 @@ function TransportUnit({game, x, y, player, velocity}) {
 	t.engine = BlocksFactory.addEngineBlock({
 		game:            game,
 		unit:            t,
-		drag:            120,	// Торможение корабля
-		maxVelocity:     45,	// Максимальная скорость корабля
-		velocity:        velocity || 45,
-		angularVelocity: 0.5,	// Скорость разворота
+		drag:            60,	// Торможение корабля
+		maxVelocity:     35,	// Максимальная скорость корабля
+		velocity:        velocity || 35,
+		angularVelocity: 0.3,	// Скорость разворота
 		trails:          [{
 			trailScale: 0.5
 		}]

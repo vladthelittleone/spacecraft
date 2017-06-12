@@ -17,11 +17,6 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 	t.audioIndex = 0; 	// Индекс текущиего трека
 
 	/**
-	 * Включить предыдущую дорожку.
-	 */
-	t.previousAudio = previousAudio;
-
-	/**
 	 * Переключатель аудио.
 	 */
 	t.toggleAudio = toggleAudio;
@@ -31,32 +26,9 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 	t.onEnd = onEnd;
 	t.create = create;
 	t.isEnd = isEnd;
+	t.reset = reset;
 
 	return t;
-
-	function previousAudio() {
-
-		// При определенном значение времени текущего трека
-		// не переклчюаемся на предыдущий трек,
-		// а начинаем сначала текущий.
-		if (audio.currentTime / 5 < 1) {
-
-			audio.pause();
-
-			audio.currentTime = 0;
-
-			previous();
-
-			return true;
-
-		}
-		else {
-
-			audio.currentTime = 0;
-
-		}
-
-	}
 
 	function play() {
 
@@ -150,11 +122,11 @@ function AudioWrapper(audioManager, initNextLessonContent) {
 	}
 
 	/**
-	 * Открытие предыдущего урока.
+	 * Начать урок заново.
 	 */
-	function previous() {
+	function reset() {
 
-		t.audioIndex = Math.max(t.audioIndex - 2, 0);
+		t.audioIndex = 0;
 
 		initNextLessonContent();
 

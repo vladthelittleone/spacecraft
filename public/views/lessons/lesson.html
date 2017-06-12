@@ -21,7 +21,7 @@
 			<div video-board
 				 ng-show="videoEnable"
 				 title="lesson.sub[subIndex].title"
-			     content="lessonVideo.content"
+				 content="lessonVideo.content"
 				 url="lessonVideo.url">
 			</div>
 			<div settings
@@ -147,18 +147,15 @@
 		 ng-click="toggleContentEnable('settingsEnable')"
 		 ng-class="{'fa-chevron-right' : settingsEnable, 'fa-wrench' : !settingsEnable}"></div>
 
-	<div class="right-toolbar-button fa fa-fast-backward"
-		 tooltip-placement="left"
-		 tooltip-append-to-body="true"
-		 uib-tooltip="Повторить инструкции"
-		 ng-click="previousAudio()"></div>
-
 	<div class="right-toolbar-button fa"
 		 tooltip-placement="left"
 		 tooltip-append-to-body="true"
 		 uib-tooltip="{{audioPause ? 'Запустить инструкции' : 'Остановить инструкции'}}"
 		 ng-click="toggleAudioPause()"
-		 ng-class="{'fa-play' : audioPause, 'fa-pause' : !audioPause}"></div>
+		 ng-class="{'fa-play' : audioPause && char,
+		 			'fa-pause' : !audioPause && char,
+					'fa-refresh': !char}">
+	</div>
 
 	<div class="right-toolbar-new-group right-toolbar-button fa fa-vk vk-hint"
 		 tooltip-placement="left"

@@ -48,7 +48,6 @@ function LessonController($scope,
 	$scope.CodeLauncher = CodeLauncher;	// Конфигурация кода и редактора
 
 	$scope.toggleAudioPause = toggleAudioPause;
-	$scope.previousAudio = previousAudio;
 	$scope.toggleEditorOpen = toggleEditorOpen;
 	$scope.toggleVkWidgetVisible = toggleVkWidgetVisible;
 	$scope.isLessonWithDiagram = isLessonWithDiagram;
@@ -144,21 +143,37 @@ function LessonController($scope,
 
 	}
 
+	/**
+	 * Метод работает с аудио менеджером,
+	 * который в свою очередь может остановить дорожку,
+	 * либо начать ее заново.
+	 */
 	function toggleAudioPause() {
 
-		lessonService.audioManager.toggleAudio($scope.audioPause);
+		if (!$scope.char) {
 
-		$scope.audioPause = !$scope.audioPause;
+			// Начинаем урок заново.
+			resetAudio();
+
+		} else {
+
+			// Ставим либо на паузу, либо запускаем.
+			lessonService.audioManager.toggleAudio($scope.audioPause);
+
+			$scope.audioPause = !$scope.audioPause;
+
+		}
 
 	}
 
-	function previousAudio() {
+	/**
+	 * Перезапуск подурока.
+	 */
+	function resetAudio() {
 
-		if (lessonService.audioManager.previousAudio()) {
+		lessonService.audioManager.reset();
 
-			$scope.audioPause = false;
-
-		}
+		$scope.audioPause = false;
 
 	}
 

@@ -168,7 +168,7 @@ function LessonService(connection,
 
 			scope.lessonVideo = ch.video;
 
-			scope.setContentEnable('videoEnable');
+			!ch.video.hide && scope.setContentEnable('videoEnable');
 
 		}
 

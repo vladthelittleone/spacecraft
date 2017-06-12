@@ -31,12 +31,6 @@ function Numbers() {
 		character:          [{
 			audio:   'audio/lesson3/5-1',
 			css:     'astromen-img',
-			video: {
-				hide: true,
-				url: 'https://www.youtube.com/watch?v=hfUm8MZzN90',
-				content: 'Архивное видео команды <b>Хекслет</b> о специальных значениях, ' +
-						 'найденное во всемирной базе знаний.'
-			},
 			diagram: function (graph) {
 
 				var typeMain = block(225, 50, 'Типы данных', '#152B39');
@@ -86,6 +80,11 @@ function Numbers() {
 			marker: {
 				x1: 15,
 				y2: Infinity
+			},
+			video:  {
+				url:     'https://www.youtube.com/watch?v=hfUm8MZzN90',
+				content: 'Архивное видео команды <b>Хекслет</b> о специальных значениях, ' +
+						 'найденное во всемирной базе знаний.'
 			}
 		}, {
 			audio:  'audio/lesson3/5-6',
@@ -95,9 +94,9 @@ function Numbers() {
 				y2: Infinity
 			},
 		}, {
-			audio:  'audio/lesson3/5-7',
-			css:    'astrogirl-img',
-			hint:   [
+			audio: 'audio/lesson3/5-7',
+			css:   'astrogirl-img',
+			hint:  [
 				{
 					'next .ace_scroller': 'Введите в редакторе кода число: <strong>1984</span>',
 					'nextButton':         {text: 'Далее'},

@@ -25,7 +25,12 @@ function JavaScript() {
 						'</ul>',
 		character:      [{
 			audio:  'audio/lesson2/2-1',
-			css:    'astromen-img'
+			css:    'astromen-img',
+			video: {
+				hide: true,
+				url: 'https://www.youtube.com/watch?v=6jkOcZfYvZA',
+				content: 'Что такое язык программирования? Расскажут мудрейшие из команды <b>Хекслет</b>.'
+			}
 		}, {
 			audio:  'audio/lesson2/2-2',
 			css:    'astrogirl-img',

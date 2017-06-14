@@ -24,7 +24,7 @@ function Planet({game, x, y, preload}) {
 		y: y,
 		preload: preload,
 		anchorX: 0.5,
-		scale: 0.5
+		scale: 1
 	});
 
 	/**

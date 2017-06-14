@@ -1,6 +1,10 @@
 'use strict';
 
+// Библиотеки
+var lodash = require('lodash');
+
 // Зависимости
+var Unit = require('./units/unit');
 
 // Сущности
 var Meteor = require('./units/static/meteor');
@@ -12,7 +16,7 @@ var Carrier = require('./units/heavy/carrier');
 var Combat = require('./units/heavy/combat');
 var Fighter = require('./units/heavy/fighter');
 
-var Transport = require('./units/light/transport');
+var Transport = require('./units/transport');
 var Harvester = require('./units/light/harvester');
 var Scout = require('./units/light/scout');
 var LightCorvette = require('./units/light/corvette');
@@ -43,17 +47,18 @@ function EntitiesFactory() {
 	t.createMeteorField = createMeteorField;
 	t.createMeteorSphere = createMeteorSphere;
 
+	t.createMeteor = Meteor;
+	t.createPlanet = Planet;
+
 	t.createMine = Mine;
 	t.createStaticUnit = StaticUnit;
 
 	t.createSensor = createByType(StaticUnit);
 	t.createCarrier = createByType(Carrier);
 	t.createBase = createByType(Base);
-	t.createMeteor = createByType(Meteor);
 	t.createTransport = createByType(Transport);
 	t.createHarvester = createByType(Harvester);
 	t.createAcademyBase = createByType(AcademyBase);
-	t.createPlanet = createByType(Planet);
 	t.createFighter = createByType(Fighter);
 	t.createResearchCenter = createByType(ResearchCenter);
 	t.createScout = createByType(Scout);
@@ -131,11 +136,11 @@ function EntitiesFactory() {
 	/**
 	 * Обертка вокруг метода создания.
 	 */
-	function createByType(type) {
+	function createByType(typeArgs) {
 
-		return function (args) {
+		return function (userArgs) {
 
-			return create(args, type);
+			return create(lodash.assign(typeArgs, userArgs));
 
 		}
 
@@ -143,23 +148,13 @@ function EntitiesFactory() {
 
 	/**
 	 * Функция создания объекта.
-	 *
-	 * @param args параметры
-	 * @param args.game игра
-	 * @param args.x координата X объекта
-	 * @param args.y координата Y объекта
-	 * @param args.player объект игрока
-	 * @param args.faction фракция объекта
-	 * @param args.preload объект спрайта
-	 * @param args.factory фабрика объектов
-	 * @param createFunction функция создания юнита
 	 */
-	function create(args, createFunction) {
+	function create(args) {
 
 		// Если фабрика не задана, задаем текущую.
 		args.factory = args.factory || t;
 
-		let unit = createFunction(args);
+		let unit = Unit(args);
 		let id = World.pushObject(unit);
 
 		// Задаем как объект игрока, если этот корабль юзера.

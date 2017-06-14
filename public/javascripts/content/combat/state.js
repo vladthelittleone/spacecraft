@@ -33,53 +33,66 @@ function StateWrapper(state) {
 	 */
 	function entities(game) {
 
-		var bounds = game.world.bounds;
-		var height = bounds.height;
-		var width = bounds.width;
-
-		EntitiesFactory.createBase({
-			game: game,
-			x: height - 300,
-			y: 300,
-			preload: 'combatBase',
-			faction: 1
-		});
-
-		EntitiesFactory.createBase({
-			game: game,
-			x: 300,
-			y: width - 300,
-			preload: 'combatBase',
-			faction: 2
-		});
+		// var bounds = game.world.bounds;
+		// var height = bounds.height;
+		// var width = bounds.width;
+        //
+		// EntitiesFactory.createBase({
+		// 	game: game,
+		// 	x: height - 300,
+		// 	y: 300,
+		// 	preload: 'combatBase',
+		// 	faction: 1
+		// });
+        //
+		// EntitiesFactory.createBase({
+		// 	game: game,
+		// 	x: 300,
+		// 	y: width - 300,
+		// 	preload: 'combatBase',
+		// 	faction: 2
+		// });
+        //
+		// // Создать корабль игрока
+		// var player = EntitiesFactory.createCombat({
+		// 	game: game,
+		// 	x: 1000,
+		// 	y: 1000,
+		// 	player: true,
+		// 	faction: 1,
+		// 	preload: 'combat1'
+		// });
+        //
+		// // Создать корабль игрока
+		// EntitiesFactory.createCombat({
+		// 	game: game,
+		// 	x: 1000,
+		// 	y: 900,
+		// 	faction: 2,
+		// 	preload: 'combat1'
+		// });
+        //
+		// player.rotation = -Math.PI / 2;
+        //
+		// // API для урока
+		// player.api = Api(player);
+		// player.bringToTop();
 
 		// Создать корабль игрока
-		var player = EntitiesFactory.createCombat({
+		var player = EntitiesFactory.createTransport({
 			game: game,
 			x: 1000,
 			y: 1000,
 			player: true,
-			faction: 1,
-			preload: 'combat1'
+			faction: 1
 		});
 
-		// Создать корабль игрока
-		EntitiesFactory.createCombat({
-			game: game,
-			x: 1000,
-			y: 900,
-			faction: 2,
-			preload: 'combat1'
-		});
-
-		player.rotation = -Math.PI / 2;
+		// Фокус на базе
+		t.followFor(player);
 
 		// API для урока
 		player.api = Api(player);
 		player.bringToTop();
-
-		// Фокус на базе
-		t.followFor(player);
 
 		CodeLauncher.setArguments(player.api);
 	}

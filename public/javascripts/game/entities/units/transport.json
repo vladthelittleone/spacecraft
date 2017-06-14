@@ -1,0 +1,18 @@
+{
+	"needAudio": true,
+	"preload": "transport",
+	"maxHealth": 10,
+	"blocks": [
+		{
+			"type": "engineBlock",
+			"drag": 60,
+			"maxVelocity": 35,
+			"angularVelocity": 0.3,
+			"trails": [
+				{
+					"trailScale:": 0.5
+				}
+			]
+		}
+	]
+}

@@ -16,7 +16,11 @@ function goToResearchCenter() {
 		title:             'К исследовательскому центру',
 		character:         [{
 			audio: 'audio/lesson4/6-1',
-			css:   'astromen-img'
+			css:   'astromen-img',
+			video: {
+				url: 'https://www.youtube.com/watch?v=AkBJEc1BpDE',
+				content: 'Видео старейшин программирования - команды <strong>Хекслет</strong>, найденное BBot\'ом в архиве времени.'
+			}
 		}, {
 			audio:  'audio/lesson4/6-2',
 			css:    'astromen-img',
@@ -66,10 +70,6 @@ function goToResearchCenter() {
 			marker: {
 				x1: 11,
 				y2: Infinity
-			},
-			video: {
-				url: 'https://www.youtube.com/watch?v=AkBJEc1BpDE',
-				content: 'Видео старейшин программирования - команды <strong>Хекслет</strong>, найденное BBot\'ом в архиве времени.'
 			}
 		}],
 

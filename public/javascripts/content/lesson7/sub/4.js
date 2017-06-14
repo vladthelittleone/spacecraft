@@ -20,10 +20,6 @@ function ComplexLogicalExpressionOr() {
 	return {
 		isRestartDisabled: true,
 		title:             'Две палочки',
-		// video:	 	 {
-		// 	url: 'https://www.youtube.com/watch?v=2cGleL5FMZM&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r&index=2',
-		// 	title: 'Немного условной теории.'
-		// },
 		character:         [{
 			audio: 'audio/lesson6/8-1',
 			css:   'astromen-img',
@@ -56,7 +52,7 @@ function ComplexLogicalExpressionOr() {
 			css:   'astromen-img',
 			video:   {
 				url:   'https://www.youtube.com/watch?v=2cGleL5FMZM&index=2&list=PLJOe7BmEsRtLXM3UnEhvEWDU3ZBe-Us9r',
-				content: 'Будьте внимательны, найдено еще одно видео команды <b>Хакслет</b> из архива.'
+				content: 'Внимание, внимание! Найдено видео команды <b>Хакслет</b> из архива.'
 			}
 		}],
 

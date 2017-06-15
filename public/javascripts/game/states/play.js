@@ -7,6 +7,7 @@ let lodash = require('lodash');
 let CodeLauncher = require('../launcher');
 let World = require('../entities/world');
 let AnimationFactory = require('../animations');
+let Prefabs = require('../entities/prefab');
 
 module.exports = PlayState;
 
@@ -33,18 +34,13 @@ function PlayState(game) {
 	let cursors;		// Объект ввода / вывода.
 	let background;		// Спрайт фона.
 
-	let violetDust;
-	let blueDust;
-	let yellowDust;
-	let hotNebula;
-	let coldNebula;
-
 	t.updates = []; 	// Объекты обновления.
 
 	t.create = create;
 	t.update = update;
 	t.setRunner = setRunner;
 	t.followFor = followFor;
+	t.addToBackground = addToBackground;
 	t.pushContextParameters = pushContextParameters;
 
 	return t;
@@ -64,18 +60,6 @@ function PlayState(game) {
 
 		background.fixedToCamera = true;
 
-		violetDust = game.add.sprite(0, 0, 'violetDust');
-		blueDust = game.add.sprite(0, 0, 'blueDust');
-		yellowDust = game.add.sprite(0, 0, 'yellowDust');
-		hotNebula = game.add.sprite(0, 0, 'hotNebula');
-		coldNebula = game.add.sprite(0, 0, 'coldNebula');
-
-		violetDust.fixedToCamera = true;
-		blueDust.fixedToCamera = true;
-		yellowDust.fixedToCamera = true;
-		hotNebula.fixedToCamera = true;
-		coldNebula.fixedToCamera = true;
-
 		// Выполняем инициализацию контейнера игровых объектов.
 		World.initialization(game);
 		AnimationFactory.initialization(game);
@@ -85,6 +69,15 @@ function PlayState(game) {
 
 		// Объект ввода / вывода
 		cursors = game.input.keyboard.createCursorKeys();
+	}
+
+	/**
+	 * Добавить объект на задний фон.
+	 */
+	function addToBackground({preload, cameraOffset}) {
+
+		t.updates.push(Prefabs({game, preload, cameraOffset}));
+
 	}
 
 	/**
@@ -147,12 +140,6 @@ function PlayState(game) {
 
 		// Обновление background
 		background.tilePosition.set(game.camera.x * -0.3, game.camera.y * -0.3);
-
-		violetDust.cameraOffset.set(game.camera.x * -0.31 + 500, game.camera.y * -0.31 + 500);
-		yellowDust.cameraOffset.set(game.camera.x * -0.31 - 500, game.camera.y * -0.31);
-		blueDust.cameraOffset.set(game.camera.x * -0.31 + 500, game.camera.y * -0.31);
-		hotNebula.cameraOffset.set(game.camera.x * -0.32 + 500, game.camera.y * -0.32);
-		coldNebula.cameraOffset.set(game.camera.x * -0.32 - 500, game.camera.y * -0.32 + 500);
 
 	}
 

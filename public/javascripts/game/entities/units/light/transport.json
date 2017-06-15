@@ -13,6 +13,9 @@
 					"trailScale:": 0.5
 				}
 			]
+		},
+		{
+			"type": "cargoBlock"
 		}
 	]
 }

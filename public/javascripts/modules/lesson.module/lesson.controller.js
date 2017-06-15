@@ -64,23 +64,17 @@ function LessonController($scope,
 	$scope.$on('$destroy', onDestroy);
 
 	// Управление музыкой в зависимости от видео в уроке
-	$scope.$on('youtube.player.ended', function () {
+	$scope.$on('youtube.player.ended',audioManager.resumeSoundtrack);
 
-		audioManager.resumeSoundtrack();
-
-	});
-
-	$scope.$on('youtube.player.playing', function () {
+	$scope.$on('youtube.player.playing', () => {
 
 		audioManager.pauseSoundtrack();
 
-	});
-
-	$scope.$on('youtube.player.paused', function () {
-
-		audioManager.resumeSoundtrack();
+		toggleAudioPause();
 
 	});
+
+	$scope.$on('youtube.player.paused', audioManager.resumeSoundtrack);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
 

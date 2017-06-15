@@ -63,6 +63,25 @@ function LessonController($scope,
 	$scope.$on('$viewContentLoaded', onContentLoaded);
 	$scope.$on('$destroy', onDestroy);
 
+	// Управление музыкой в зависимости от видео в уроке
+	$scope.$on('youtube.player.ended', function () {
+
+		audioManager.resumeSoundtrack();
+
+	});
+
+	$scope.$on('youtube.player.playing', function () {
+
+		audioManager.pauseSoundtrack();
+
+	});
+
+	$scope.$on('youtube.player.paused', function () {
+
+		audioManager.resumeSoundtrack();
+
+	});
+
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
 
 	disableLeftContent();

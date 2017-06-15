@@ -65,7 +65,7 @@ function LessonController($scope,
 
 	// Управление музыкой в зависимости от видео в уроке
 	$scope.$on('youtube.player.ended',audioManager.resumeSoundtrack);
-
+	$scope.$on('youtube.player.paused', audioManager.resumeSoundtrack);
 	$scope.$on('youtube.player.playing', () => {
 
 		audioManager.pauseSoundtrack();
@@ -73,8 +73,6 @@ function LessonController($scope,
 		toggleAudioPause();
 
 	});
-
-	$scope.$on('youtube.player.paused', audioManager.resumeSoundtrack);
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);
 

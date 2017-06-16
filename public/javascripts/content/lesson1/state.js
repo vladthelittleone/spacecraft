@@ -28,6 +28,7 @@ function StateWrapper(state) {
 
 	t.entities = entities;
 	t.logic = logic;
+	t.backgroundObjects = require('../backgrounds/сrash-zone');
 
 	return t;
 

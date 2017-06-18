@@ -117,7 +117,7 @@ function Unit(args) {
 		let x = t.x;
 		let y = t.y;
 
-		lodash.forEach(killOptions, o => {
+		lodash.forEach(killOptions.explosion, o => {
 
 			let offsetX = Random.randomInt(o.offsetX[0], o.offsetX[1]);
 			let offsetY = Random.randomInt(o.offsetY[0], o.offsetY[1]);

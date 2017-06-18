@@ -7,7 +7,6 @@
 
 var mongoose = require('utils/mongoose');
 var validator = require('validator');
-var async = require('async');
 
 var Schema = mongoose.Schema;
 

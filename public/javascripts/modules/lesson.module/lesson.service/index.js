@@ -334,10 +334,14 @@ function LessonService(connection,
 	/**
 	 * Инициализация код урока.
 	 */
-	function initNextLesson() {
+	function initNextLesson(prepare) {
 
 		// Текущий подурок
 		var current = currentSubLesson();
+
+		// Передаем контекстные параметры в текущий стейт игры.
+		// Смотреть: content/state.js, метод onContextLoaded.
+		Game.pushContextParameters({subIndex: scope.subIndex, prepare: prepare});
 
 		// Отправка запроса на получение кода следующего уркоа
 		connection.getLessonCodeFromJs(lessonId, scope.subIndex, function (res) {
@@ -523,11 +527,7 @@ function LessonService(connection,
 
 		}
 
-		// Передаем контекстные параметры в текущий стейт игры.
-		// Смотреть: content/state.js, метод onContextLoaded.
-		Game.pushContextParameters({subIndex: scope.subIndex});
-
-		initNextLesson();
+		initNextLesson(true);
 
 	}
 

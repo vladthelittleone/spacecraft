@@ -33,9 +33,9 @@ function StateWrapper(state) {
 	/**
 	 * Логика в конкретном подуроке.
 	 */
-	function onContextLoaded(game, {subIndex: index}) {
+	function onContextLoaded(game, {subIndex: index, prepare}) {
 
-		if (index  > 0) {
+		if (index  > 0 && prepare) {
 
 			player.x = 2000;
 			player.y = 2000;

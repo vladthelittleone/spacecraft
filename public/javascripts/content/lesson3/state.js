@@ -49,7 +49,7 @@ function StateWrapper(state) {
 	/**
 	 * Логика в конкретном подуроке.
 	 */
-	function onContextLoaded(game, {subIndex: index}) {
+	function onContextLoaded(game, {subIndex: index, prepare}) {
 
 		if (index > 4) {
 
@@ -57,7 +57,7 @@ function StateWrapper(state) {
 
 		}
 
-		if(index > 5) {
+		if(index > 5 && prepare) {
 
 			changePlayerCoordinates();
 

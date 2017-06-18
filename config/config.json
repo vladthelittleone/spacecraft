@@ -34,8 +34,8 @@
 	"serverSettings": {
 		"developmentPort": 3000,
 		"authentication": {
-			"sendingOfEmailConfirmationFlag": true,
-			"checkEmailForExistenceFlag": true
+			"sendingOfEmailConfirmationFlag": false,
+			"checkEmailForExistenceFlag": false
 		},
 		"url": {
 			"protocol": "http",

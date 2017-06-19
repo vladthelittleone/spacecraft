@@ -156,7 +156,7 @@ function Connection($http) {
 	 */
 	function getCombatCodeFromJs(code, callback) {
 
-		var source = resourcesUrls.combatCode + '/' + code + '.code';
+		var source = resourcesUrls.combatUserCode + '/' + code + '.code';
 
 		getCodeFromJs(source, callback)
 

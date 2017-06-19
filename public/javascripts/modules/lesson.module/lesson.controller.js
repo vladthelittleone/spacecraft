@@ -70,8 +70,15 @@ function LessonController($scope,
 
 		audioManager.pauseSoundtrack();
 
-		toggleAudioPause();
+		// Делаем false, чтобы независимо от действий пользователя,
+		// точно останавливать голос
+		$scope.audioPause = false;
 
+		// Ставим либо на паузу, либо запускаем.
+		lessonService.audioManager.toggleAudio($scope.audioPause);
+
+		// Делаем true, чтобы пользователь мог запустить голос
+		$scope.audioPause = true;
 	});
 
 	$scope.lesson = lessonService.lessonContent($stateParams.id);

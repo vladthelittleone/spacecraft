@@ -1,7 +1,5 @@
 'use strict';
 
-var lodash = require('lodash');
-
 // Экспорт
 module.exports = Api;
 
@@ -12,24 +10,23 @@ module.exports = Api;
  */
 function Api(player) {
 
-    const methodsToAPIFromPlayer = ['moveToXY',
-                                    'rotateLeft',
-                                    'rotateRight',
-                                    'fire',
-                                    'fireAtXY',
-                                    'moveForward',
-                                    'scan'];
+	var api = {};
 
-    var api = lodash.pick(player, methodsToAPIFromPlayer);
+	api.isAlive = isAlive;
+	api.moveToXY = player.moveToXY;
+	api.rotateLeft = player.rotateLeft;
+	api.rotateRight = player.rotateRight;
+	api.fire = player.fire;
+	api.fireAtXY = player.fireAtXY;
+	api.moveForward = player.moveForward;
+	api.scan = player.scan;
 
-    api.isAlive = isAlive;
+	return api;
 
-    return api;
+	function isAlive() {
 
-    function isAlive() {
+		return player.alive;
 
-        return player.alive;
-
-    }
+	}
 
 }

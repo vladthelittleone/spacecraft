@@ -24,6 +24,8 @@ function Connection($http) {
 	that.getLessonCodeFromJs = getLessonCodeFromJs;
 	that.getCombatCodeFromJs = getCombatCodeFromJs;
 
+	that.getCombatEnemy = getCombatEnemy;
+
 	that.saveLessonsStatistics = saveLessonsStatistics;
 	that.getLessonsStatistics = getLessonsStatistics;
 
@@ -43,6 +45,17 @@ function Connection($http) {
 	that.checkSession = checkSession;
 
 	return that;
+
+	function getCombatEnemy(idCombat, success, error) {
+
+		$http({
+				  url:    apiUrls.combatEnemy,
+				  method: 'GET',
+				  params:   { idCombat }
+			  }).then(claimHttpDataOnly(success),
+					  error);
+
+	}
 
 	function claimHttpDataOnly(callback) {
 

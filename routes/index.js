@@ -11,6 +11,8 @@ module.exports = function (app) {
 
 	app.use('/', require('./user/combat/code'));
 
+	app.use('/', require('./combat/enemy'));
+
 	app.use('/', require('./user/statistics/lessons'));
 
 	app.use('/', require('./user/statistics/progress'));

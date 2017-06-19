@@ -20,19 +20,21 @@ module.exports = CombatResolve();
 function CombatResolve() {
 
 	// Имена resolve'ов.
-	var names = {
+	const names = {
 		authentication: 'authenticationStatus',
+		combatEnemy:    'combatEnemy',
 		game:           'game'
 
 	};
 	// Значения resolve'ов
-	var resolves = {};
+	let resolves = {};
 
 	resolves[names.authentication] = ['promises', 'spinner', onAuthenticationStatus];
-	resolves[names.game] = ['$stateParams', 'promises', 'spinner', names.authentication, onGame];
+	resolves[names.combatEnemy] = ['promises', 'spinner', names.authentication, onCombatEnemy];
+	resolves[names.game] = ['$stateParams', 'promises', 'spinner', names.combatEnemy, onGame];
 
 	// В качестве экспорта из модуля:
-	var t = {};
+	let t = {};
 
 	t.names = names;
 	t.values = resolves;
@@ -44,6 +46,14 @@ function CombatResolve() {
 		spinner.start({message: spinnerMessages.authorization});
 
 		return promises.getAuthenticationStatus();
+
+	}
+
+	function onCombatEnemy(promises, spinner) {
+
+		spinner.start({message: spinnerMessages.combatEnemy});
+
+		return promises.getCombatEnemy(1);
 
 	}
 

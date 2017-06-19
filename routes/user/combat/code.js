@@ -1,5 +1,5 @@
 /**
- * @since 16.02.17
+ * @since 18.06.17
  * @author iretd
  */
 
@@ -11,6 +11,7 @@ const CombatCodeModel = require('./../../../models/combat.code');
 const lodash = require('lodash');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
+const util = require('util');
 
 const router = express.Router();
 
@@ -22,38 +23,57 @@ module.exports = router;
  * ------------------------------------------------
  */
 
-router.post('/user/combat/code', checkAuthentication, (req, res, next) => {
+router.post('/user/combat/code', checkAuthentication, (req, res) => {
 
-    let idUser = req.user._id;
-    let idCombat = req.body.idCombat;
-    let code = req.body.code;
-    
-    if (lodash.idCombat)
+	// TODO При желании, можно определять сообщение.
+	req.checkBody('idCombat').notEmpty().isInt();
+	req.checkBody('code').notEmpty();
+	
+	// TODO yield
+	req.getValidationResult().then(function(result) {
 
-    CombatCodeModel.update({idUser, idCombat},
-                           {idUser, idCombat, code},
-                           {
-                               upsert:        true,
-                               runValidators: true
-                           },
-                           (err) => {
+		if (!result.isEmpty()) {
 
-                               if (err) {
-                                   if (err.name === "ValidationError") {
+			res.sendStatus(HttpStatus.BAD_REQUEST);
 
-                                       const message = "Неверный фомат данных параметра запроса!";
+			return;
 
-                                       return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(message);
+		}
 
-                                   } else {
+		let idUser = req.user._id;
+		let idCombat = req.body.idCombat;
+		let code = req.body.code;
 
-                                       return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		CombatCodeModel.update({idUser, idCombat},
+							   {idUser, idCombat, code},
+							   {
+								   upsert:        true,
+								   runValidators: true
+							   },
+							   onUpdate);
 
-                                   }
-                               }
+	});
 
-                               return res.sendStatus(HttpStatus.ACCEPTED);
+	function onUpdate(err) {
 
-                           });
+		if (err) {
+
+			if (err.name === "ValidationError") {
+
+				const message = "Неверный фомат данных параметра запроса!";
+
+				return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(message);
+
+			} else {
+
+				return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+			}
+
+		}
+
+		return res.sendStatus(HttpStatus.ACCEPTED);
+
+	}
 
 });

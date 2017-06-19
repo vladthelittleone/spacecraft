@@ -1,4 +1,4 @@
 {
 	"lessonCode": "javascripts/code/lesson",
-	"combatCode": "javascripts/code/combat"
+	"combatEnemy": "javascripts/code/combat"
 }

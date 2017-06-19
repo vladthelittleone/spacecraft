@@ -64,18 +64,14 @@ function LessonController($scope,
 	$scope.$on('$destroy', onDestroy);
 
 	// Управление музыкой в зависимости от видео в уроке
-	$scope.$on('youtube.player.ended',audioManager.resumeSoundtrack);
+	$scope.$on('youtube.player.ended', audioManager.resumeSoundtrack);
 	$scope.$on('youtube.player.paused', audioManager.resumeSoundtrack);
 	$scope.$on('youtube.player.playing', () => {
 
 		audioManager.pauseSoundtrack();
 
-		// Делаем false, чтобы независимо от действий пользователя,
-		// точно останавливать голос
-		$scope.audioPause = false;
-
-		// Ставим либо на паузу, либо запускаем.
-		lessonService.audioManager.toggleAudio($scope.audioPause);
+		// Ставим либо на паузу
+		lessonService.audioManager.toggleAudio();
 
 		// Делаем true, чтобы пользователь мог запустить голос
 		$scope.audioPause = true;

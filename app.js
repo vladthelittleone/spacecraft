@@ -4,6 +4,8 @@ const express = require('express');
 
 const app = express();
 
+const expressValidator = require('express-validator');
+
 // В коде удобней различать среды по ИМЕНИ.
 const developmentFlag = app.get('env') !== 'production';
 const productionFlag = app.get('env') === 'production';
@@ -51,6 +53,7 @@ if (developmentFlag) {
 app.use(httpLogger('dev'));
 app.use(bodyParser.json()); // Парсер json в потоках
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(expressValidator());
 app.use(cookieParser());
 
 // Сторедж для сессии.

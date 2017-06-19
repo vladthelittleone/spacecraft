@@ -25,6 +25,7 @@ function Promises($q, authentication, connection, statisticsStorage) {
 	t.getAuthenticationStatus = getAuthenticationStatus;
 
 	t.getLessonStatisticsData = getLessonStatisticsData;
+	t.getCombatEnemy = getCombatEnemy;
 	t.getLeaderBoardData = getLeaderBoardData;
 	t.getUserProgressData = getUserProgressData;
 	t.getUserInfoData = getUserInfoData;
@@ -54,6 +55,12 @@ function Promises($q, authentication, connection, statisticsStorage) {
 		}
 
 		return $q(authentication.getAuthenticationStatus.bind(null, args.ignoreAuthModule));
+
+	}
+
+	function getCombatEnemy(idCombat) {
+
+		return $q(connection.getCombatEnemy.bind(connection, idCombat));
 
 	}
 

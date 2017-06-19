@@ -1,18 +1,18 @@
 'use strict';
 
 // Зависимости
-var CodeLauncher = require('../../game/launcher');
+const CodeLauncher = require('../../game/launcher');
+const TabHandler = require('../../emitters/tab-handler');
+const resolvesNames = require('./combat.resolve').names;
 
-// Подключаем TabHandler
-var TabHandler = require('../../emitters/tab-handler');
-
-var lodash = require('lodash');
+const lodash = require('lodash');
 
 CombatController.$inject = ['$scope',
 							'audioManager',
 							'aceService',
 							'connection',
-							'settings'];
+							'settings',
+							resolvesNames.combatEnemy];
 
 module.exports = CombatController;
 
@@ -26,7 +26,8 @@ function CombatController($scope,
 						  audioManager,
 						  aceService,
 						  connection,
-						  settings) {
+						  settings,
+						  combatEnemy) {
 
 	var VK_GROUP_ID = 105816682;
 

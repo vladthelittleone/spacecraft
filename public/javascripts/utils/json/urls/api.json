@@ -6,6 +6,8 @@
 	"userInfo": "/user",
 	"userSession": "/user/session",
 
+	"combatEnemy": "/combat/enemy",
+
 	"login": "/login",
 	"logout": "/logout",
 	"register": "/register",

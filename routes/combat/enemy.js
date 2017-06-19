@@ -53,7 +53,7 @@ router.get('/combat/enemy', checkAuthentication, (req, res) => {
 
 		if (!err) {
 
-			if (!documents) {
+			if (lodash.isEmpty(documents)) {
 
 				res.sendStatus(HttpStatus.ACCEPTED);
 

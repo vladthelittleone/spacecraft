@@ -1,6 +1,6 @@
 /**
- *
- * Created by iretd on 18.06.2017.
+ * @since 18.06.17
+ * @author iretd
  */
 
 "use strict";

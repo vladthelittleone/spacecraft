@@ -14,6 +14,7 @@ const EmailConfirmationModel = require('./../../models/email.confirmation');
 const logger = require('./../../utils/log')(module);
 
 const router = express.Router();
+
 module.exports = router;
 
 /**

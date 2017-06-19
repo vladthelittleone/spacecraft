@@ -105,7 +105,7 @@ function StateWrapper(state) {
 		// Создать транспорт
 		player = EntitiesFactory.createLouse({
 			game: game,
-			x: 1859,
+			x: 1759,
 			y: 2156,
 			player: true
 		});

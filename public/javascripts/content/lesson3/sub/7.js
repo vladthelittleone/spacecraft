@@ -16,14 +16,21 @@ function goToResearchCenter() {
 		isRestartDisabled: true,
 		title:        'Пора исследовать',
 		character:    [{
-			audio:  'audio/lesson2/1-1.mp3',
+			audio:  'audio/lesson4/7-1',
 			css:    'astromen-img'
 		}, {
-			audio:  'audio/lesson2/1-2.mp3',
-			css:    'astrogirl-img',
-		},{
-			audio:  'audio/lesson2/1-1.mp3',
+			audio:  'audio/lesson4/7-2',
 			css:    'astromen-img',
+			marker: {
+				x1:   2,
+				x2:   2,
+				y1:   4,
+				y2:   21,
+				type: 'line'
+			}
+		},{
+			audio:  'audio/lesson4/7-4',
+			css:    'astromen-img'
 		}],
 
 		gamePostUpdate: gamePostUpdate,

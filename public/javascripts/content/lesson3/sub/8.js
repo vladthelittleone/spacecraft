@@ -12,13 +12,8 @@ function TheEndOfTheLesson() {
 		title:             'Главное двигаться вперед',
 		character: [{
 
-			audio: 'audio/lesson2/1-2.mp3',
+			audio: 'audio/lesson4/8-1',
 			css:   'astromen-img'
-
-		}, {
-
-			audio: 'audio/lesson2/1-2.mp3',
-			css:   'astrogirl-img'
 
 		}],
 

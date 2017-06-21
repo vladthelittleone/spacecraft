@@ -45,7 +45,7 @@ function EntitiesFactory() {
 	 */
 	function createByType(typeArgs) {
 
-		return function (userArgs) {
+		return (userArgs) => {
 
 			return create(lodash.assign({}, typeArgs, userArgs));
 

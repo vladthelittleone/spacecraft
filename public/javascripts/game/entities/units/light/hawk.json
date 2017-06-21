@@ -19,7 +19,9 @@
 		},
 		{
 			"type": "shieldBlock",
-			"scale": 0.8
+			"scale": 0.8,
+			"health": 40,
+			"maxHealth": 40
 		}
 	]
 }

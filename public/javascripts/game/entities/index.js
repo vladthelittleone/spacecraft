@@ -35,7 +35,7 @@ function EntitiesFactory() {
 	t.createMantis = createByType(require('./units/heavy/mantis'));
 	t.createScout = createByType(require('./units/light/scout'));
 	t.createScarab = createByType(require('./units/heavy/scarab'));
-	t.createCombat = createByType(require('./units/heavy/combat'));
+	t.createCricket = createByType(require('./units/heavy/cricket'));
 	t.createHawk = createByType(require('./units/light/hawk'));
 
 	return t;

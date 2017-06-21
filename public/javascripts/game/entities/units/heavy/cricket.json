@@ -1,30 +1,21 @@
 {
 	"needAudio": true,
-	"preload": "combat1",
-	"maxHealth": 150,
+	"preload": "cricketEmpty",
+	"hullPreload": "cricketHull",
+	"maxHealth": 10,
 	"blocks": [
 		{
 			"type": "weaponBlock"
 		},
 		{
 			"type": "engineBlock",
+			"preload": "cricketJet",
 			"drag": 10,
 			"maxVelocity": 15,
-			"angularVelocity": 0.15,
+			"angularVelocity": 0.05,
 			"trails": [
 				{
-					"trailY": -3,
-					"trailScale": 0.1
-				},
-				{
-					"trailY": 3,
-					"trailScale": 0.1
-				},
-				{
-					"trailY": -18
-				},
-				{
-					"trailY": 18
+					"trailScale": 1
 				}
 			]
 		},
@@ -34,7 +25,9 @@
 		},
 		{
 			"type": "shieldBlock",
-			"scale": 0.7
+			"maxHealth": 100,
+			"health": 100,
+			"scale": 1.8
 		}
 	],
 	"killOptions": {

@@ -21,7 +21,9 @@
 		},
 		{
 			"type": "shieldBlock",
-			"scale": 0.5
+			"scale": 0.5,
+			"health": 10,
+			"maxHealth": 10
 		}
 	]
 }

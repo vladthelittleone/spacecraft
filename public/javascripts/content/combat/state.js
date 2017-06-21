@@ -54,7 +54,7 @@ function StateWrapper(state) {
 		});
 
 		// Создать корабль игрока
-		var player = EntitiesFactory.createCombat({
+		var player = EntitiesFactory.createCricket({
 			game: game,
 			x: 1000,
 			y: 1000,
@@ -64,7 +64,7 @@ function StateWrapper(state) {
 		});
 
 		// Создать корабль игрока
-		EntitiesFactory.createCombat({
+		EntitiesFactory.createCricket({
 			game: game,
 			x: 1000,
 			y: 900,

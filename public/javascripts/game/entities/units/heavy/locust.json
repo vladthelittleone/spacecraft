@@ -8,8 +8,13 @@
 			"type": "engineBlock",
 			"preload": "locustJet",
 			"drag":            300,
-			"velocity":        15,
-			"angularVelocity": 0.05
+			"maxVelocity":        15,
+			"angularVelocity": 0.05,
+			"trails": [
+				{
+					"trailScale": 1
+				}
+			]
 		},
 		{
 			"type": "carrierBlock",
@@ -17,6 +22,8 @@
 		},
 		{
 			"type": "shieldBlock",
+			"maxHealth": 100,
+			"health": 100,
 			"scale": 1.8
 		}
 	]

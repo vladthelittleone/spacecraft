@@ -1,8 +1,8 @@
 'use strict';
 
 // Зависимости
-let Prefab = require('../../prefab');
-let EMP = require('./emp');
+const Prefab = require('../../prefab');
+const EMP = require('./emp');
 
 // Экспорт
 module.exports = ShieldBlock;
@@ -18,11 +18,22 @@ function ShieldBlock({
 	unit,
 	scale = 1,
 	empMaxDiameter,
+	maxHealth = 50,
+	health = maxHealth,
+	heal = 1,
+	alpha = 0.2,
 	color
 }) {
 
 	// that / this
 	let t = {};
+
+	// Таймер восстановления щитов.
+	let timer;
+
+	// Необходимо сохранить прежний метод.
+	// Для переопределения.
+	let _damage = unit.damage;
 
 	/**
 	 * Электромагнитный импульс.
@@ -37,21 +48,26 @@ function ShieldBlock({
 	/**
 	 * Создаем спрайт щита.
 	 */
-	let shieldSprite = Prefab({
+	let sprite = Prefab({
 		game: game,
 		x: 0,
 		y: 0,
 		scale: scale,
-		alpha: 0.2,
+		alpha: alpha,
 		preload: 'shield',
 		withoutPhysics: true
 	});
 
-	t.update = update;
+	sprite.maxHealth = maxHealth;
+	sprite.health = health;
 
 	unit.emp = emp.start;
+	unit.shield = health;
+	unit.damage = damage;
 
 	initialization();
+
+	t.update = update;
 
 	return t;
 
@@ -61,7 +77,72 @@ function ShieldBlock({
 	function initialization() {
 
 		// Привязываем спрайт щита к кораблю
-		unit.addChild(shieldSprite);
+		unit.addChild(sprite);
+
+		//  Create our Timer
+		timer = game.time.create(false);
+
+		//  Set a TimerEvent to occur after 1 seconds
+		timer.loop(1000, healShield, this);
+
+		//  Start the timer running - this is important!
+		//  It won't start automatically, allowing you to hook it to button events and the like.
+		timer.start();
+
+		// TODO нужен destroy?
+
+	}
+
+	/**
+	 * Ресет щитов.
+	 */
+	function reset() {
+
+		if (unit.health === unit.maxHealth) {
+
+			// Иначе восстанавливаем спрайт щит.
+			sprite.reset(0, 0, heal);
+
+		}
+
+	}
+
+	/**
+	 * Восстановление считов.
+	 */
+	function healShield() {
+
+		// Если щиты не закончились,
+		// то восстанавливаем их.
+		if (sprite.alive) {
+
+			sprite.heal(heal);
+
+		} else {
+
+			reset();
+
+		}
+
+	}
+
+	/**
+	 * Нанесение урона.
+	 */
+	function damage(amount) {
+
+		// Если щит существует.
+		if (sprite.alive) {
+
+			// Наносим урон щиту.
+			sprite.damage(amount);
+
+		} else {
+
+			// Иначе наносим урон кораблю.
+			_damage.call(unit, amount);
+
+		}
 
 	}
 
@@ -70,6 +151,8 @@ function ShieldBlock({
 	 */
 	function update() {
 
+		sprite.alpha = (alpha / sprite.maxHealth) * sprite.health;
+		unit.shield = sprite.health;
 		emp.update();
 
 	}

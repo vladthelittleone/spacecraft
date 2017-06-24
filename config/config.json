@@ -25,7 +25,7 @@
 	"vkStrategySettings": {
 		"clientID": "5624932",
 		"clientSecret": "7SItUJV1h4mDSC0PiXkc",
-		"callbackURL": "http://localhost:3000/vk/callback",
+		"callbackURL": "http://spacecraftcode.ru/vk/callback",
 		"apiVersion": "5.17",
 		"scope": [
 			"email"

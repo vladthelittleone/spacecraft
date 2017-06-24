@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./bin/www",
-    "preinstall": "sudo npm i -g pm2 && sudo apt-get install mongodb-server && sudo npm install -g bower"
+    "preinstall": "sudo npm install -g bower"
   },
   "repository": {
     "type": "git",
@@ -70,6 +70,7 @@
     "browserify": "^12.0.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2",
     "gulp-bower": "0.0.11",
     "gulp-concat-css": "^2.2.0",
     "gulp-if": "^2.0.0",
@@ -81,7 +82,7 @@
     "gulp-rev": "^7.1.2",
     "gulp-rev-collector": "^1.0.5",
     "gulp-sass": "^2.1.0",
-    "gulp-uglify": "^1.5.1",
+    "gulp-uglify": "^1.5.4",
     "gulp-uncss": "^1.0.4",
     "gulp-useref": "^3.0.3",
     "vinyl-source-stream": "^1.1.0"

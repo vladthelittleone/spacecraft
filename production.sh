@@ -8,7 +8,7 @@ if [ $1 = "preinstall" ]; then
 fi
 if [ $1 = "build" ]; then
 	echo "[Build] Running npm install"
-	npm install
+	npm update
 	if [ $? = "0" ]; then
 	  echo "[Build] Npm install success, running Bower install"
 	  cd public

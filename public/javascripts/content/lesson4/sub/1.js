@@ -26,10 +26,10 @@ function Testing() {
 			correctAnswerDescription: '<p>Поразительно, что Вы смогли ответитb.</p>' +
 									  '<p>Кстати, шансы пройти тест - 3720 к 1.</p>'
 		},
-		character:         [{
-			audio: 'audio/lesson3/1-1',
-			css:   'astromen-img'
-		}]
+		// character:         [{
+		// 	audio: 'audio/lesson3/1-1',
+		// 	css:   'astromen-img'
+		// }]
 	};
 
 }

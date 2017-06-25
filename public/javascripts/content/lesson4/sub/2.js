@@ -29,10 +29,10 @@ function RotateLeft() {
 			correctAnswerNumbers:     [1],
 			correctAnswerDescription: '<p>Лееевоо руля!</p>'
 		},
-		character:         [{
-			audio: 'audio/lesson3/1-1',
-			css:   'astromen-img'
-		}]
+		// character:         [{
+		// 	audio: 'audio/lesson3/1-1',
+		// 	css:   'astromen-img'
+		// }]
 	};
 
 }

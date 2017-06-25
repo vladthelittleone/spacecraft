@@ -28,10 +28,10 @@ function TheTruth() {
 			correctAnswerNumbers:     [2],
 			correctAnswerDescription: '<p>А вот нечего над роботами глумитbся!</p>'
 		},
-		character:         [{
-			audio: 'audio/lesson3/1-1',
-			css:   'astromen-img'
-		}]
+		// character:         [{
+		// 	audio: 'audio/lesson3/1-1',
+		// 	css:   'astromen-img'
+		// }]
 	};
 
 }

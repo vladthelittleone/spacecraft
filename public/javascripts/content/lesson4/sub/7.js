@@ -33,10 +33,10 @@ function HHC() {
 			correctAnswerNumbers:     [2, 4],
 			correctAnswerDescription: '<p>Простите его. В конце-концов, он всего лишь кадет!</p>'
 		},
-		character:         [{
-			audio: 'audio/lesson3/1-1',
-			css:   'astromen-img'
-		}]
+		// character:         [{
+		// 	audio: 'audio/lesson3/1-1',
+		// 	css:   'astromen-img'
+		// }]
 	};
 
 }

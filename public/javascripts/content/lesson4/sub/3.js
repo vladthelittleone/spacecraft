@@ -29,10 +29,10 @@ function BadBBot() {
 			correctAnswerDescription: '<p>Транслирую:</p>' +
 									  '<p class="bbot-output">BBot плохой робот!</p>'
 		},
-		character:         [{
-			audio: 'audio/lesson3/1-1',
-			css:   'astromen-img'
-		}]
+		// character:         [{
+		// 	audio: 'audio/lesson3/1-1',
+		// 	css:   'astromen-img'
+		// }]
 	};
 
 }

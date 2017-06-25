@@ -1,6 +1,6 @@
 {
 	"database": {
-		"uri": "mongodb://localhost/spacecraft",
+		"uri": "mongodb://127.0.0.1/spacecraft",
 		"options": {
 			"server": {
 				"socketOptions": {

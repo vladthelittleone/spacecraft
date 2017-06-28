@@ -18,6 +18,7 @@
 		"saveUninitialized": false,
 		"cookie": {
 			"path": "/",
+			"secure": true,
 			"httpOnly": true,
 			"maxAge": 86400000
 		}

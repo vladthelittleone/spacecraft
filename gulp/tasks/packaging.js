@@ -15,7 +15,7 @@ module.exports = function ()
 {
     return gulp.src(['./public/index.html', './public/views/**/*.html'], {base: './public'})      
  .pipe(useref())
-        .pipe(gulpif('javascripts/bundle.js', uglify()))
+        .pipe(gulpif('*.js', uglify()))
         .pipe(gulpif('*.css', autoprefixer('last 2 versions')))
         .pipe(gulpif('*.css', minifyCss()))
 		.pipe(gulpif('*.css', rev()))

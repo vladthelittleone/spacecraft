@@ -110,6 +110,14 @@ function World() {
 	 */
 	function setPlayer(id) {
 
+		// В случае, если игрок уже был задан
+		if(objects[playerId]) {
+
+			// Объект перестает быть игроком
+			objects[playerId].isPlayer = false;
+
+		}
+
 		// Устанавливаем параметр игрока
 		objects[id].isPlayer = true;
 

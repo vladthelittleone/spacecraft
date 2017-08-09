@@ -21,12 +21,18 @@ function OperatorsAndOperands() {
 							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
 							'</ul>',
 		character:    [{
-			audio: 'audio/lesson1/3-1',
+			audio: 'audio/lesson7/2-1',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson7/2-2',
 			css:   'astromen-img',
 			video: {
 				url: 'https://youtu.be/X_QjS0EjteI',
 				content: 'Об математических операторах от гуру <b>JavaScript</b> - команды <b>Хекслет</b>. Прямиком из 2017 года!'
 			}
+		}, {
+			audio: 'audio/lesson7/2-3',
+			css:   'astromen-img'
 		}]
 	};
 

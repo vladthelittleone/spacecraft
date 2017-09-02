@@ -13,7 +13,7 @@ function Hook() {
 		title:             'Зацепка',
 		content:           content,
 		character:         [{
-			audio: 'audio/lesson7/1-1',
+			audio: 'audio/lesson6/1-1',
 			css:   'astromen-img'
 		}],
 		instructions:      '<ul>' +

@@ -1,6 +1,6 @@
 'use strict';
 
-var LessonResults = require('../../lesson-results');
+let LessonResults = require('../../lesson-results');
 
 module.exports = OperatorPlus();
 
@@ -20,32 +20,44 @@ function OperatorPlus() {
 							'<li>Хочешь узнать больше? Лови: ' +
 							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/A_re-introduction_to_JavaScript#Операторы">клац</a>.</li>' +
 							'</ul>',
-		character:          [
-			{
-				audio:  'audio/lesson2/3-2',
-				marker: {
-					x1: 2,
-					y2: Infinity
-				}
-			}, {
-				audio:  'audio/lesson2/3-3',
-				marker: {
-					x1: 5,
-					y2: Infinity
-				}
-			}, {
-				audio:  'audio/lesson2/3-3',
-				marker: {
-					x1: 8,
-					y2: Infinity
-				}
-			}, {
-				audio:  'audio/lesson2/3-3',
-				marker: {
-					x1: 11,
-					y2: Infinity
-				}
-			}]
+		character:    [{
+			audio: 'audio/lesson6/3-1',
+			css:   'astromen-img',
+			marker: {
+				x1:   2,
+				y2:   Infinity
+			}
+		}, {
+			audio: 'audio/lesson6/3-2',
+			css:   'astromen-img',
+			marker: {
+				x1:   5,
+				y2:   Infinity
+			}
+		}, {
+			audio: 'audio/lesson6/3-3',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson6/3-4',
+			css:   'astromen-img',
+			marker: {
+				x1:   8,
+				x2:   8,
+				y1:   10,
+				y2:   20,
+				type: 'line'
+			}
+		}, {
+			audio: 'audio/lesson6/3-5',
+			css:   'astromen-img',
+			marker: {
+				x1:   8,
+				x2:   8,
+				y1:   23,
+				y2:   26,
+				type: 'line'
+			}
+		}]
 	};
 
 	function content() {
@@ -62,7 +74,7 @@ function OperatorPlus() {
 
 	function interpreterHandler(value) {
 
-		var lessonResults = {
+		let lessonResults = {
 			correct:      '<p>Плюсую-транслирую:</p>' +
 						  '<p class="bbot-output">{{correctText}}</p>',
 			unknownError: '<p>Тададам! И вновь 0шибка!</p>'

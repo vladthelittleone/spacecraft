@@ -1,6 +1,6 @@
 'use strict';
 
-var LessonResults = require('../../lesson-results');
+let LessonResults = require('../../lesson-results');
 
 module.exports = OperatorAssignment();
 
@@ -21,12 +21,64 @@ function OperatorAssignment() {
 							'<a target="_blank" href="https://msdn.microsoft.com/ru-ru/library/1w2h1k9x(v=vs.94).aspx">клац</a>.</li>' +
 							'</ul>',
 		character:          [{
-			audio:  'audio/lesson2/3-2',
+			audio:  'audio/lesson6/4-1',
+			css:    'astromen-img'
+		}, {
+			audio:  'audio/lesson6/4-2',
 			css:    'astromen-img',
 			marker: {
 				x1: 3,
 				y2: Infinity
 			}
+		}, {
+			audio:  'audio/lesson6/4-3',
+			css:    'astromen-img',
+			marker: {
+				x1:   7,
+				x2:   7,
+				y1:   4,
+				y2:   8,
+				type: 'line'
+			}
+		}, {
+			audio:  'audio/lesson6/4-4',
+			css:    'astromen-img',
+			hint:   [{
+				'next .ace_scroller': 'Присвоим результат выполнения выражения переменной',
+				'nextButton':         {text: 'Далее'},
+				'showSkip':           false
+			}],
+			waitForHint: true,
+			marker: {
+				x1:   7,
+				x2:   7,
+				y1:   32,
+				y2:   33,
+				type: 'line'
+			}
+		}, {
+			audio:  'audio/lesson6/4-5',
+			css:    'astromen-img',
+			marker: {
+				x1:   7,
+				x2:   7,
+				y1:   15,
+				y2:   16,
+				type: 'line'
+			}
+		}, {
+			audio:  'audio/lesson6/4-6',
+			css:    'astromen-img',
+			marker: {
+				x1:   7,
+				x2:   7,
+				y1:   9,
+				y2:   10,
+				type: 'line'
+			}
+		}, {
+			audio:  'audio/lesson6/4-7',
+			css:    'astromen-img'
 		}]
 	};
 
@@ -47,7 +99,7 @@ function OperatorAssignment() {
 
 	function interpreterHandler(value) {
 
-		var lessonResults = {
+		let lessonResults = {
 
 			correct: '<p>Solo Yolo:</p>' +
 					 '<p class="bbot-output">{{correctText}}</p>',

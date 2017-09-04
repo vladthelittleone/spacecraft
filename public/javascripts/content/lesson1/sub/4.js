@@ -1,7 +1,7 @@
 'use strict';
 
 // Зависимсоти
-var LessonResults = require('../../lesson-results');
+let LessonResults = require('../../lesson-results');
 
 module.exports = WhatDoesBBotSay();
 
@@ -75,8 +75,8 @@ function WhatDoesBBotSay() {
 
 	function interpreterHandler(v) {
 
-		var t = '';
-		var r = false;
+		let t = '';
+		let r = false;
 
 		if (v && v.forEach) {
 
@@ -90,7 +90,7 @@ function WhatDoesBBotSay() {
 
 		}
 
-		var lessonResults = LessonResults({
+		let lessonResults = LessonResults({
 
 			correct: '<p>По вселенной бродят сишники, пхпышники...</p>' +
 					 '<p>А тебя удивляет говорящий бот?!</p> ' +

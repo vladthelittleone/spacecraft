@@ -4,10 +4,12 @@
 var moment = require('moment');
 
 // Зависимости
-var EntitiesFactory = require('../../game/entities');
-var CodeLauncher = require('../../game/launcher');
-var Random = require('../../utils/random');
-let MeteorFactory = EntitiesFactory.MeteorFactory;
+const EntitiesFactory = require('../../game/entities');
+const CodeLauncher = require('../../game/launcher');
+const Random = require('../../utils/random');
+const MeteorFactory = EntitiesFactory.MeteorFactory;
+
+const World = require('../../game/entities/world');
 
 var Api = require('./api');
 
@@ -22,10 +24,11 @@ function StateWrapper(state) {
 	let t = state;
 
 	let player;
-	let carrier;    // Авианосец
+	let locust;    // Авианосец
 	let explosions;	// Группа анимации взрывов
 	let updateTime = moment().valueOf();
-	let sensor;
+	let scoutSensor;
+	let locustSensor;
 
 	t.entities = entities;
 	t.onContextLoaded = onContextLoaded;
@@ -36,7 +39,7 @@ function StateWrapper(state) {
 	function createNewPlayer() {
 
 		// Создать шаттл
-		player = carrier.create(corvetteLogic, true);
+		player = locust.create(corvetteLogic, true);
 
 		// API для урока
 		player.api = Api(player);
@@ -46,7 +49,7 @@ function StateWrapper(state) {
 
 		// Корабль на верх.
 		player.bringToTop();
-		carrier.bringToTop();
+		locust.bringToTop();
 
 		player.events.onKilled.add(onKillCallback, this);
 
@@ -76,18 +79,21 @@ function StateWrapper(state) {
 		});
 
 
-		carrier = EntitiesFactory.createLocust({
+		locust = EntitiesFactory.createLocust({
 			game: game,
 			x: worldCenterX,
 			y: worldCenterY,
 			faction: 1
 		});
 
-		carrier.rotation = 3 * Math.PI / 2;
+		locust.rotation = 3 * Math.PI / 2;
+
+		// API для урока
+		locust.api = Api(locust);
 
 		createNewPlayer();
 
-		sensor = EntitiesFactory.create({
+		scoutSensor = EntitiesFactory.create({
 			game: game,
 			x: worldCenterX - 500,
 			y: worldCenterY - 500,
@@ -97,9 +103,24 @@ function StateWrapper(state) {
 			needAudio: true
 		});
 
-		sensor.visible = false;
-		sensor.bringToTop();
-		sensor.events.onKilled.add(() => player.api.setSensorKilled(true), this);
+		locustSensor = EntitiesFactory.create({
+			game: game,
+			x: worldCenterX,
+			y: worldCenterY - 260,
+			preload: 'sensor',
+			faction: 2,
+			maxHealth: 1,
+			needAudio: true
+		});
+
+		scoutSensor.visible = false;
+		scoutSensor.bringToTop();
+
+		locustSensor.visible = false;
+		locustSensor.bringToTop();
+
+		scoutSensor.events.onKilled.add(() => player.api.setSensorKilled(true), this);
+		locustSensor.events.onKilled.add(() => locust.api.setSensorKilled(true), this);
 
 		// Группа анимации взрыва
 		explosions = game.add.group();
@@ -132,7 +153,7 @@ function StateWrapper(state) {
 
 		}
 
-		carrier.bringToTop();
+		locust.bringToTop();
 		player.destroy();
 
 		setTimeout(createNewPlayer, LESSON_TIMEOUT);
@@ -204,11 +225,25 @@ function StateWrapper(state) {
 
 		if(index === 3) {
 
-			sensor.visible = true;
+			scoutSensor.visible = true;
 
 		}
 
-		player.logic = corvetteLogic.bind(player, player, carrier);
+		// Для 5 сабурока происходит смена корабля для управления
+		if(index === 4) {
+
+			locustSensor.visible = true;
+			player.visible = false;
+
+			World.setPlayer(locust.id);
+
+			// Фокус на на центре
+			t.followFor(locust);
+
+			CodeLauncher.setArguments(locust.api);
+		}
+
+		player.logic = corvetteLogic.bind(player, player, locust);
 
 	}
 }

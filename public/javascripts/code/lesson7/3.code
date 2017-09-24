@@ -5,10 +5,10 @@ const Y_COORD = 1500;
 /**
  * Код управления.
  */
-this.run = function(corvette)
+this.run = function(scout)
 {
 	// Передвижение к датчику.
-	corvette.moveToXY(X_COORD, Y_COORD);
+	scout.moveToXY(X_COORD, Y_COORD);
 
 	// Готовность первого лазерного оружия.
 	var isLaser1Ready = false;
@@ -20,7 +20,7 @@ this.run = function(corvette)
 	if (isLaser1Ready || isLaser2Ready)
 	{
 		// ТО выполняем выстрел.
-		corvette.fireAtXY(X_COORD, Y_COORD);
+		scout.fireAtXY(X_COORD, Y_COORD);
 	}
 
 }

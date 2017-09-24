@@ -1,6 +1,6 @@
 'use strict';
 
-var LessonResults = require('../../lesson-results');
+let LessonResults = require('../../lesson-results');
 
 module.exports = OperatorsAndOperands();
 
@@ -21,11 +21,28 @@ function OperatorsAndOperands() {
 							'<a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators">клац</a>.</li>' +
 							'</ul>',
 		character:    [{
-			audio: 'audio/lesson1/3-1',
+			audio: 'audio/lesson6/2-1',
+			css:   'astromen-img'
+		}, {
+			audio: 'audio/lesson6/2-2',
 			css:   'astromen-img',
 			video: {
 				url: 'https://youtu.be/X_QjS0EjteI',
 				content: 'Об математических операторах от гуру <b>JavaScript</b> - команды <b>Хекслет</b>. Прямиком из 2017 года!'
+			}
+		}, {
+			audio: 'audio/lesson6/2-3',
+			css:   'astromen-img',
+			marker: {
+				x1:   7,
+				y2:   Infinity
+			}
+		}, {
+			audio: 'audio/lesson6/2-4',
+			css:   'astromen-img',
+			marker: {
+				x1:   11,
+				y2:   Infinity
 			}
 		}]
 	};
@@ -50,7 +67,7 @@ function OperatorsAndOperands() {
 
 	function interpreterHandler(value) {
 
-		var lessonResults = {
+		let lessonResults = {
 
 			correct: '<p>Фиии, чт0 за числа! Транслирую:</p>' +
 					 '<p class="bbot-output">{{correctText}}</p>',

@@ -12,7 +12,10 @@ function Hook() {
 		defaultBBot:       defaultBBot,
 		title:             'Зацепка',
 		content:           content,
-		character:         [],
+		character:         [{
+			audio: 'audio/lesson6/1-1',
+			css:   'astromen-img'
+		}],
 		instructions:      '<ul>' +
 						   '<li>Нажмите «Далее» для продолжения.</li>' +
 						   '</ul>',

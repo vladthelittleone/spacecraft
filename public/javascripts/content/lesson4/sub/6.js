@@ -29,10 +29,10 @@ function Fuel() {
 			correctAnswerNumbers:     [3],
 			correctAnswerDescription: '<p>Да, я милаха!</p>'
 		},
-		// character:         [{
-		// 	audio: 'audio/lesson3/1-1',
-		// 	css:   'astromen-img'
-		// }]
+		character:         [{
+			audio: 'audio/lesson5/6',
+			css:   'wonk-img'
+		}]
 	};
 
 }

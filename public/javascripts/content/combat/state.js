@@ -5,6 +5,7 @@ const CodeLauncher = require('../../game/launcher');
 const Api = require('./api');
 
 const JSJail = require('js-jail');
+const lodash = require('lodash');
 
 module.exports = StateWrapper;
 
@@ -43,13 +44,27 @@ function StateWrapper(state) {
      */
 	function onContextLoaded(game, {combatEnemyCode}) {
 
-		const jail = JSJail.make(combatEnemyCode);
+		if (!lodash.isEmpty(combatEnemyCode)) {
 
-		enemyCombatShip.logic = () => {
+			const jail = JSJail.make(combatEnemyCode);
 
-			jail.run(enemyCombatShip.api);
+			// Если тюрьма была успешно создана.
+			if (jail) {
 
-		};
+				enemyCombatShip.logic = () => {
+
+					jail.run(enemyCombatShip.api);
+
+				};
+
+			}
+
+		} else {
+
+			// TODO Временный лог.
+			console.warn("There isn't any enemy code!");
+
+		}
 
 	}
 

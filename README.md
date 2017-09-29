@@ -20,3 +20,5 @@
 * С помощью production.sh preinstall устанавливаем все необходимые библиотекти.
 * Запускаем production.sh start. (Вы можете узнать о доп. командах в этом файле)
 * Мы используем PM2. Больше информации по [ссылке](https://github.com/Unitech/pm2).
+
+![alt tag](https://pp.userapi.com/c841223/v841223153/20185/q6qtuGeixFQ.jpg)
